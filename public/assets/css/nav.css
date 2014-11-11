@@ -1,0 +1,100 @@
+
+.nav{
+	height:63px;
+	width:100%;
+	background:url(../images/nav_bg.png);
+	position:fixed;
+	top:0px;
+	z-index:1;
+}
+.nav_main{
+	height:56px;
+}
+.nav_main p{
+	text-align:center;
+	margin:0 auto;
+	height:56px;
+	line-height:56px;
+	color:#fff;
+	font-size:14px;
+}
+.nav_main p #signIn,#signUp{
+	float:right;
+	color:#fff;
+	margin-left:3px;
+	font-weight:bold;
+}
+.nav_left{
+	position:fixed;
+	height:100%;
+	top:0;
+	background:#f7f7f7;
+	left:-60px;
+	-webkit-transition:.5s ease;
+	-o-transition:.5s ease;
+	-ms-transition:.5s ease;
+	-moz-transition:.5s ease;
+}
+.nav_left ul{
+
+}
+.nav_left ul li{
+	color:#6E6E86;
+	border-bottom:1px solid #fff;
+	height:50px;
+	width:60px;
+	overflow:hidden;
+	-webkit-transition:.1s ease;
+	-o-transition:1s ease;
+	-ms-transition:1s ease;
+	-moz-transition:1s ease;
+}
+.a{
+	line-height:50px;
+	float:left;
+	width:150px;
+	height:50px;
+	color:#6e6e86;
+	font-size:14px;
+}
+.a:hover{
+	background:#6e6e86;
+	color:#fff;
+}
+#signIn{
+	margin-right:20px;
+}
+#nav_main{
+	margin:17px 13px;
+	float:left;
+}
+.gn-icon::before {
+	display: inline-block;
+	width: 60px;
+	text-align: center;
+	text-transform: none;
+	font-weight: normal;
+	font-style: normal;
+	font-variant: normal;
+	font-family: 'FontAwesome';
+	line-height: 1;
+	font-size: 1.2em;
+	speak: none;
+	-webkit-font-smoothing: antialiased;
+}
+
+.fa-home:before {
+	content: "\f015";
+}
+.fa-users:before {
+	content: "\f0c0";
+}
+.fa-heart:before {
+	content: "\f004";
+}
+.fa-user:before {
+	content: "\f007";
+}
+.fa-download:before {
+	content: "\f019";
+}
