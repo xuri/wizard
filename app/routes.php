@@ -93,6 +93,9 @@ Route::group(array('prefix' => 'account', 'before' => 'auth'), function () {
 	Route::get('complete'        , array('as' => 'account.complete'         , 'uses' => $Account.'getComplete'));
 	Route::put('complete'        , $Account.'putComplete');
 
+	# Sent
+	Route::get('sent'        , array('as' => 'account.sent'         , 'uses' => $Account.'getSent'));
+
 });
 
 /*

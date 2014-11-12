@@ -17,7 +17,7 @@
 			<a href="{{ route('signin') }}" id="signIn">登陆</a>
 			<a href="#" id="signUp">/</a>
 			<a href="{{ route('signup') }}" id="signUp">注册</a>
-			@elseif(! Auth::user()->is_admin): ?>{{-- 普通登录用户 --}}
+			@elseif(! Auth::user()->is_admin){{-- 普通登录用户 --}}
 				@if(Auth::user()->nickname) }}
 				<a href="{{ route('account') }}" id="signIn">{{-- Auth::user()->nickname --}}</a>
 				@else

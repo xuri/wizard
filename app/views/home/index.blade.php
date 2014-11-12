@@ -40,8 +40,9 @@
 			<a href="#" class="EPS">立即体验</a>
 		</div>
 	</div>
-	<div class="footer">
-		<p>Copyright © 2013 - 2014 All rights reserved. 哈尔滨精灵科技有限公司</p>
-	</div>
+
+	@include('layout.copyright')
+	@yield('content')
+
 @include('layout.footer')
 @yield('content')
