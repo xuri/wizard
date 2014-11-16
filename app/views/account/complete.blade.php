@@ -53,22 +53,18 @@
 		<div class="vs-box clear">
 			<div class="vs-Popup-school">选择学校</div>
 			<div class="vs-search">搜索：<input type="text"/></div>
-			<div class="vs-shcoollist clear">
-				<a href="#">齐齐哈尔</a>
-				<a href="#">齐齐哈尔</a>
-				<a href="#">齐齐哈尔</a>
-				<a href="#">齐齐哈尔</a>
-				<a href="#">齐齐哈尔</a>
-				<a href="#">齐齐哈尔</a>
+			<div class="vs-shcoollist clear" id="provinces">
+				<a href="javascript:;">黑龙江</a>
+				<a href="javascript:;">黑龙江</a>
+				<a href="javascript:;">黑龙江</a>
+				<a href="javascript:;">黑龙江</a>
+				<a href="javascript:;">黑龙江</a>
+				<a href="javascript:;">黑龙江</a>
 			</div>
 			<span class="vs-line-bottom"></span>
-			<div class="vs-school clear">
-				<a href="#">哈尔滨理工大学</a>
-				<a href="#">哈尔滨理工大学</a>
-				<a href="#">哈尔滨理工大学</a>
-				<a href="#">哈尔滨理工大学</a>
-				<a href="#">哈尔滨理工大学</a>
-				<a href="#">哈尔滨理工大学</a>
+			<!--a href="javascript:;">哈尔滨理工大学</a-->
+			<div class="vs-school clear" id="school_wrap">
+
 			</div>
 		</div>
 	</div>
@@ -279,7 +275,7 @@
 			<div class="w_right">
 				<div class="clear">
 					<div class="img">
-						{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+						{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('id' => 'head_pic'))}}
 						<div id="change_photo">修改头像</div>
 					</div>
 					<div class="sgnin">
@@ -323,10 +319,16 @@
 						<span></span>{{-- Left pink section --}}
 						<p>我的资料</p>
 					</div>
-					<form action="#" method="post" id="edi_form">
+					{{ Form::open(array(
+					'id'           => 'edi_form',
+					'autocomplete' => 'off',
+					'action'       => 'AccountController@postComplete'
+					)) }}
+						<input id="province_token" name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="portait" value="" id="portait" type="hidden"/>
 						<input name="constellation" value="" id="constellation" type="hidden"/>
 						<input name="tag_str" value="1,13,17,4,2" id="tag_str" type="hidden"/>
+						<input name="school" value="" id="school_str" type="hidden"/>
 						<table>
 							<tr>
 								<td class="data_td1">昵称：</td><td class="data_td2">
@@ -336,7 +338,7 @@
 							<tr>
 								<td class="data_td1">性别：</td>
 								<td class="data_td2">
-									<select name='sex'>
+									<select name="sex">
 										<option value="M">男</option>
 										<option value="F">女</option>
 									</select>
@@ -362,7 +364,7 @@
 							<tr>
 								<td class="data_td1">入学年：</td>
 								<td class="data_td2">
-									<select name='grade'>
+									<select name="grade">
 										<option value="2011">2011</option>
 										<option value="2012">2012</option>
 										<option value="2013">2013</option>
@@ -384,34 +386,36 @@
 							</tr>
 							<tr>
 								<td class="data_td1">爱好：</td><td class="data_td2">
-									<input class="lang" type="text" placeholder="把你的爱好告诉大家吧" />
+									<input class="lang" name="hobbies" type="text" placeholder="把你的爱好告诉大家吧" />
 								</td>
 							</tr>
 							<tr>
 								<td class="data_td1 vertical_top">个人简介：</td><td class="data_td2 vertical_top">
-									<textarea rows="4" placeholder="这是推销你自己的好机会"></textarea>
+									<textarea rows="4" name="self_intro" placeholder="这是推销你自己的好机会"></textarea>
 								</td>
 							</tr>
 							<tr class="end_tr">
 								<td class="data_td1">真爱寄语：</td><td class="data_td2">
-									<input class="lang" type="text" placeholder="输入你对真爱的诠释">
+									<input class="lang" name="bio" type="text" placeholder="输入你对真爱的诠释">
 								</td>
 							</tr>
 							<tr class="love_problem">
 								<td class="data_td1 vertical_top">爱情考验：</td><td class="data_td2 vertical_top">
-									<input class="lang" type="text" placeholder="提出你的问题，去等待TA的回答吧，或许TA的答案能让你明白，你要找的就是TA">
+									<input class="lang" type="text" name="question" placeholder="提出你的问题，去等待TA的回答吧，或许TA的答案能让你明白，你要找的就是TA">
 								</td>
 							</tr>
 						</table>
-					</form>
+
 					<div class="btn_box">
-						<input type="button" value="保存"/>
+						<input type="submit" value="保存"/>
 					</div>
+					{{ Form::close() }}
 				</div>
 
 			</div>
 		</div>
 	</div>
+
 	@include('layout.copyright')
 	@yield('content')
 

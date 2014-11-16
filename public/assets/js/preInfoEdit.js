@@ -64,16 +64,7 @@
 	var global_bgcolor; // 背景色的默认地址
 
 
-	// 加油按钮
-	var clickon = getById('clickon');
-	// 能量柱
-	var pillars_auto = getById('pillars_auto');
-	// 能量底柱
-	var pillars_fixed = getById('pillars_fixed');
-	// 显示已经签到几天的数字
-	var days = pillars_auto.getElementsByTagName('span')[0];
-	// 解释说明点击加油福利的框框
-	var instr = getById('instr');
+
 	// 获取点击更换头像按钮
 	var change_photo = getById('change_photo');
 	// 获取遮罩
@@ -108,16 +99,6 @@
 		clearImgList(); // 点击关闭按钮的时候
 	};
 
-	// 点击签到按钮
-	clickon.onclick = function(){
-		pillars_auto.style.width = pillars_auto.offsetWidth + 10 + 'px';
-		days.innerHTML = parseInt(days.innerHTML) + 1;
-
-		// 如果parseInt(days.innerHTML) % 50 == 0成立，说明能量柱到头了
-		if(parseInt(days.innerHTML) % 50 == 0){
-
-		}
-	}
 
 	// 点击男孩或女孩
 	for(var gb = 1; gb < g_b_btns.length; gb++){
@@ -187,6 +168,9 @@
 		mask.style.display = pre_content.style.display = 'none';
 		clearImgList(); // 点击关闭按钮的时候
 		//alert(portait.value);
+		//
+		var head_pic = getById('head_pic');
+		head_pic.src = dataURL;
 	}
 	//alert(portait.value);
 
@@ -195,6 +179,48 @@
 	var check_school = getById('check_school');
 	// 获取选择学校弹窗
 	var vote_school = getById('vote-school');
+	// 获取包含省得容器
+	var provinces = getById('provinces');
+	// 获取省
+	var provinces_arr = provinces.getElementsByTagName('a');
+	// 获取包含大学的容器
+	var school_wrap = getById('school_wrap');
+	// 获取存储学校的隐藏表单
+	var school_str = getById('school_str');
+
+
+	// 点击省份(事件委托)
+	provinces.onclick = function(ev){
+		var ev = ev || window.event;
+		var target = ev.target || ev.srcElement;
+
+		// 获取请求学校数据时的token值
+		var to_ken= getById('province_token').value;
+		// ajax求情学校数据
+		$.post('http://localhost/~luxurioust/wizard/public/account/postuniversity',{
+			'_token' : to_ken,
+			'province' : target.innerHTML
+		},function(jdata){
+			for(var j = school_wrap.children.length - 1; j >= 0; j--){
+				school_wrap.removeChild(school_wrap.children[j]);
+			}
+			for(var i = 0; i < jdata.length; i++){
+				var a = document.createElement('a');
+				a.innerHTML = jdata[i];
+
+				a.onclick = function(){
+					check_school.innerHTML = school_str.value = this.innerHTML;
+
+					// 关闭窗口
+					mask.style.display = vote_school.style.display = 'none';
+				};
+
+				school_wrap.appendChild(a);
+			}
+		});
+	};
+	//alert(provinces_arr.length);
+
 	// 获取关闭选择学校弹窗
 	var vs_pass = getById('vs-pass');
 

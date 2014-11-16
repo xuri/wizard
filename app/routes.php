@@ -91,8 +91,10 @@ Route::group(array('prefix' => 'account', 'before' => 'auth'), function () {
 
 	# Complete
 	Route::get('complete'        , array('as' => 'account.complete'         , 'uses' => $Account.'getComplete'));
-	Route::put('complete'        , $Account.'putComplete');
-
+	Route::post('complete'        , $Account.'postComplete');
+	# Post university
+	Route::post('postuniversity', array('as' => 'postuniversity', 'uses' => $Account.'postUniversity'));
+	Route::post('postrenew', array('as' => 'postrenew', 'uses' => $Account.'postRenew'));
 	# Sent
 	Route::get('sent'        , array('as' => 'account.sent'         , 'uses' => $Account.'getSent'));
 

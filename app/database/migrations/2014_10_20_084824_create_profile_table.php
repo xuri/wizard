@@ -16,10 +16,14 @@ class CreateProfileTable extends Migration {
 		{
 	        $table->increments('id');
 			$table->integer('user_id');
-			$table->string('hobbies');
-			$table->string('tags');
-			$table->integer('grade');
+			$table->string('hobbies')->nullable();
+			$table->string('tags')->nullable();
+			$table->integer('grade')->nullable();
+			$table->tinyInteger('constellation')->nullable();
+			$table->string('tag_str')->nullable();
 			$table->text('self_intro')->nullable();
+			$table->integer('renew')->nullable();
+			$table->timestamp('renew_at')->nullable();
 			$table->timestamp('deleted_at')->nullable();
         	$table->timestamps();
 		});
