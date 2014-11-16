@@ -15,8 +15,8 @@
 		<div id="wrap" class="clear">
 			<div class="w_left">
 				<ul class="w_nav">
-					<li><a href="#" class="active a1">我的资料</a></li>
-					<li><a href="#" class="a2">我追的人</a></li>
+					<li><a href="{{ route('account') }}" class="active a1">我的资料</a></li>
+					<li><a href="{{ route('account.sent') }}" class="a2">我追的人</a></li>
 					<li><a href="#" class="a3">我的来信</a></li>
 					<li><a href="#" class="a4">我的关注</a></li>
 					<li><a href="#" class="a5">关注我们</a></li>

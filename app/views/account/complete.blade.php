@@ -5,17 +5,17 @@
 	<div id="mask"></div>
 	<div id="checkbg">
 		<a id="check_close" href="javascript:;">×</a>
-		<a class="once" href="javascript:;" id="./images/preInfoEdit/boy/">
+		<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/boy/">
 			{{ HTML::image('assets/images/preInfoEdit/bgcolor/boy.png') }}
 		</a>
-		<a class="once" href="javascript:;" id="./images/preInfoEdit/girl/">
+		<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/girl/">
 			{{ HTML::image('assets/images/preInfoEdit/bgcolor/girl.png') }}
 		</a>
 	</div>
 	{{-- Avatar --}}
 	<div id="pre_content">
 		<a id="pre_close" href="javascript:;">×</a>
-		<canvas id="pre_pic_wrap" width="180" height="220">你的狗逼浏览器不行</canvas>
+		<canvas id="pre_pic_wrap" width="180" height="220">您的浏览器不支持该功能</canvas>
 		<div id="pre_pic_list">
 		</div>
 		<div id="pre_btn_list">
@@ -79,7 +79,17 @@
 		<div class="con-Popup-pass" id="con-pass">×</div>
 		<div class="con-box clear">
 			<div class="con-Popup-school">选择星座</div>
-			<ul class="con-Constellation">
+			<ul class="con-Constellation clear">
+				<li>
+					{{ HTML::image('assets/images/preInfoEdit/constellation/shuipin.png') }}
+					<p class="con-name">水瓶座</p>
+					<p class="con-date">1.20~2.18</p>
+				</li>
+				<li>
+					{{ HTML::image('assets/images/preInfoEdit/constellation/shuangyu.png') }}
+					<p class="con-name">双鱼座</p>
+					<p class="con-date">2.19~3.20</p>
+				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/baiyang.png') }}
 					<p class="con-name">白羊座</p>
@@ -90,6 +100,8 @@
 					<p class="con-name">金牛座</p>
 					<p class="con-date">4.20~5.20</p>
 				</li>
+			</ul>
+			<ul class="con-Constellation clear">
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/shuangzi.png') }}
 					<p class="con-name">双子座</p>
@@ -110,6 +122,8 @@
 					<p class="con-name">处女座</p>
 					<p class="con-date">8.23~9.22</p>
 				</li>
+			</ul>
+			<ul class="con-Constellation clear">
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/tiancheng.png') }}
 					<p class="con-name">天秤座</p>
@@ -130,16 +144,6 @@
 					<p class="con-name">摩羯座</p>
 					<p class="con-date">12.22~1.19</p>
 				</li>
-				<li>
-					{{ HTML::image('assets/images/preInfoEdit/constellation/shuipin.png') }}
-					<p class="con-name">水瓶座</p>
-					<p class="con-date">1.20~2.18</p>
-				</li>
-				<li>
-					{{ HTML::image('assets/images/preInfoEdit/constellation/shuangyu.png') }}
-					<p class="con-name">双鱼座</p>
-					<p class="con-date">2.19~3.20</p>
-				</li>
 			</ul>
 		</div>
 	</div>
@@ -151,51 +155,99 @@
 		<div class="tag-box clear">
 			<div class="tag-Popup-school">选择标签</div>
 			<ul class="tag-list" id="tag-list-r">
-				<li class="red">吃东西
+				<li><span>憨厚</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="red">吃东西
+				<li><span>内敛</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="red">吃东西
+				<li><span>潮男</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="red">吃东西
+				<li><span>正直</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-			</ul>
-			<ul class="tag-list" id="tag-list-b">
-				<li class="blue">冷酷
+				<li><span>胖的</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="blue">冷酷
+				<li><span>靠谱</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="blue">冷酷
+				<li><span>麦霸</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="blue">冷酷
+				<li><span>静待缘分</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-			</ul>
-			<ul class="tag-list" id="tag-list-g">
-				<li class="green">T暖男
+				<li><span>有点发福</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>特别能睡</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>稳重</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>有责任心</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>学霸</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>开朗</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>诚信</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>阳光</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>执着</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>奋斗中</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>爱挑战</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>冷静</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>张扬</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
 				</li>
-				<li class="green">T暖男
+				<li><span>幽默</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
 				</li>
-				<li class="green">T暖男
+				<li><span>乐观</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
 				</li>
-				<li class="green">T暖男
+				<li><span>低调</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
 				</li>
-			</ul>
-			<ul class="tag-list" id="tag-list-y">
-				<li class="yellow">女神控
+				<li><span>独立</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>健康</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>高大</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>包容</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>完美主义</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>非诚勿扰</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>宅</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="yellow">女神控
+				<li><span>简单</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="yellow">女神控
+				<li><span>大大咧咧</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li class="yellow">女神控
+				<li><span>帅</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>孝顺</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>话唠</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>戒烟ing</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>张扬</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>有男人味</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>萌萌的</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
 			</ul>
 		</div>
-		<input type="submit" class="tag-submit" value="完成"/>
+		<input type="submit" class="tag-submit" value="完成" id="tag_end"/>
 	</div>
 	{{-- 选择标签弹窗结束 --}}
 
@@ -213,8 +265,8 @@
 		<div id="wrap" class="clear">
 			<div class="w_left">
 				<ul class="w_nav">
-					<li><a href="#" class="active a1">我的资料</a></li>
-					<li><a href="#" class="a2">我追的人</a></li>
+					<li><a href="{{ route('account') }}" class="active a1">我的资料</a></li>
+					<li><a href="{{ route('account.sent') }}" class="a2">我追的人</a></li>
 					<li><a href="#" class="a3">我的来信</a></li>
 					<li><a href="#" class="a4">我的关注</a></li>
 					<li><a href="#" class="a5">关注我们</a></li>
@@ -272,25 +324,28 @@
 						<p>我的资料</p>
 					</div>
 					<form action="#" method="post" id="edi_form">
+						<input name="portait" value="" id="portait" type="hidden"/>
+						<input name="constellation" value="" id="constellation" type="hidden"/>
+						<input name="tag_str" value="1,13,17,4,2" id="tag_str" type="hidden"/>
 						<table>
 							<tr>
 								<td class="data_td1">昵称：</td><td class="data_td2">
-									<input type="text" value="" placeholder="请输入你的昵称"/>
+									<input type="text" value="" name="nickname" placeholder="请输入你的昵称"/>
 								</td>
 							</tr>
 							<tr>
 								<td class="data_td1">性别：</td>
 								<td class="data_td2">
 									<select name='sex'>
-										<option value="0">男</option>
-										<option value="1">女</option>
+										<option value="M">男</option>
+										<option value="F">女</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
 								<td class="data_td1">出生年：</td>
 								<td class="data_td2">
-									<select name='year'>
+									<select name="born_year">
 										<option value="1990">1990</option>
 										<option value="1991">1991</option>
 										<option value="1992">1992</option>
@@ -307,7 +362,7 @@
 							<tr>
 								<td class="data_td1">入学年：</td>
 								<td class="data_td2">
-									<select name='inyear'>
+									<select name='grade'>
 										<option value="2011">2011</option>
 										<option value="2012">2012</option>
 										<option value="2013">2013</option>
@@ -317,20 +372,13 @@
 							</tr>
 							<tr>
 								<td class="data_td1">星座：</td><td class="data_td2 constellation">
-								{{ HTML::image('assets/images/preInfoEdit/constellation/baiyang.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img')) }}
+								{{ HTML::image('assets/images/preInfoEdit/constellation/baiyang.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
 								<span style="margin-left:50px;" id="check_constellation">白羊座</span></td>
 							</tr>
 							<tr>
 								<td class="data_td1 vertical_top">性格：</td>
-								<td class="data_td2 character">
-									<span>冷酷<em>×</em></span>
-									<span>冷酷<em>×</em></span>
-									<span>冷酷<em>×</em></span>
-									<span>冷酷<em>×</em></span>
-									<span>冷酷<em>×</em></span>
-									<span>冷酷<em>×</em></span>
-									<span>冷酷<em>×</em></span>
-									<span>冷酷<em>×</em></span>
+									<!--span data-num="1-冷酷">冷酷<em>×</em></span-->
+								<td class="data_td2 character" id="tag_td">
 									<span class="end" id="check_tag"><b>+</b>  标签 </span>
 								</td>
 							</tr>
@@ -364,9 +412,8 @@
 			</div>
 		</div>
 	</div>
-	<div class="footer">
-		<p>Copyright © 2013 - 2014 All rights reserved. 哈尔滨精灵科技有限公司</p>
-	</div>
+	@include('layout.copyright')
+	@yield('content')
 
 @include('account.complete-footer')
 @yield('content')

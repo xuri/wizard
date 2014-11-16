@@ -7,7 +7,7 @@
 
  // 私有(块级)作用越
 +(function (){
-	
+
 
 
 	// 定义全局图片路径
@@ -15,13 +15,13 @@
 
 
 	// 获取canvas元素
-	var pic_wrap = getById('pre_pic_wrap'); 
+	var pic_wrap = getById('pre_pic_wrap');
 
 	// 获取2d绘图环境
 	var context = pic_wrap.getContext('2d');
 
 	// 获取 陈列用户当前选择的图标 div
-	var pic_list = getById('pre_pic_list'); 
+	var pic_list = getById('pre_pic_list');
 
 	// 获取 陈列可选按钮div
 	var btn_list = getById('pre_btn_list');
@@ -30,9 +30,9 @@
 	var btns = btn_list.getElementsByTagName('div');
 
 	// 定义背景颜色数组
-	var bgcolor_arr = ['#fff', '#5d6368', '#87151c', '#cf061d', '#d94220', '#e6830a', '#f3b819', 
-					   '#d0d0d1', '#8c959c', '#b5051b', '#da5037', '#efa913', '#f0bc38', '#7b7c7e', 
-					   '#acb7be', '#b03c3a', '#e79273', '#e5816f', '#f9ce4e', '#f5ce65', '#000000', 
+	var bgcolor_arr = ['#fff', '#5d6368', '#87151c', '#cf061d', '#d94220', '#e6830a', '#f3b819',
+					   '#d0d0d1', '#8c959c', '#b5051b', '#da5037', '#efa913', '#f0bc38', '#7b7c7e',
+					   '#acb7be', '#b03c3a', '#e79273', '#e5816f', '#f9ce4e', '#f5ce65', '#000000',
 					   '#cfdce3', '#c0675c', '#f3bea1', '#f6cb73', '#f6dd91', '#ffec00', '#88b40b',
 					   '#51951b', '#1e7721', '#5ca68a', '#459da1', '#2e70b4', '#fff04a', '#b0c519',
 					   '#75a842', '#558d41', '#80b8a0', '#70b0b3', '#5c87c2', '#fff37e', '#dcde50',
@@ -88,13 +88,13 @@
 	var g_b_btns = checkbg.getElementsByTagName('a');
 	// 关闭选择男女窗的按钮
 	var check_close = getById('check_close');
-	
+
 	// 点击修改头像按钮
 	change_photo.onclick = function(){
 		mask.style.display = checkbg.style.display = 'block';
 
 		makeHeight(checkbg, 250); // 计算遮罩和弹窗高度的函数
-	
+
 	};
 
 	// 点击关闭按钮 关闭的是捏脸时候的窗口
@@ -123,8 +123,8 @@
 	for(var gb = 1; gb < g_b_btns.length; gb++){
 		g_b_btns[gb].onclick = function(){
 			// 女生初始化 main(tou, er, mei, yan, zui, bi, hair, bgcolor)
-			if(this.id == "./images/preInfoEdit/girl/"){
-				global_pic_path = "./images/preInfoEdit/girl/";
+			if(this.id == "../assets/images/preInfoEdit/girl/"){
+				global_pic_path = "../assets/images/preInfoEdit/girl/";
 				main(26, 1, 8, 11, 1, 1, 1, 0);
 				// 图片数量定义
 				head_pic_num = 28;
@@ -146,9 +146,9 @@
 				global_hair = 1; // 头发的默认地址
 				global_bgcolor = 0; // 背景色的默认地址
 			}else{ // 男生初始化
-				global_pic_path = "./images/preInfoEdit/boy/";
+				global_pic_path = "../assets/images/preInfoEdit/boy/";
 				main(1, 1, 1, 1, 1, 1, 1, 0);
-				
+
 				// 图片数量定义
 				head_pic_num = 28;
 				eyebrows_pic_num = 28;
@@ -175,6 +175,22 @@
 		};
 	}
 
+	// 点击保存头像按钮
+	var save_pic = getById('save_pic');
+	// 获取保存头像数据的隐藏表单
+	var portait = getById('portait');
+
+	save_pic.onclick = function(){
+		var dataURL = pic_wrap.toDataURL("image/png");
+		portait.value = dataURL;
+
+		mask.style.display = pre_content.style.display = 'none';
+		clearImgList(); // 点击关闭按钮的时候
+		//alert(portait.value);
+	}
+	//alert(portait.value);
+
+
 	// 获取选择学校按钮
 	var check_school = getById('check_school');
 	// 获取选择学校弹窗
@@ -197,16 +213,35 @@
 	var check_constellation = getById('check_constellation');
 	// 获取选择星座弹窗
 	var con_Popup = getById('con-Popup');
+	// 获取星座弹窗下面的li，即每个星座
+	var cons_arr = con_Popup.getElementsByTagName('li');
+	// 获取存储选择星座信息的隐藏表单
+	var constellation = getById('constellation');
 	// 获取关闭选择星座弹窗
 	var con_pass = getById('con-pass');
 
-	// 点击选择学校
+	// 点击对应星座，写入hidden表单
+	for(var i = 0; i < cons_arr.length; i++){
+		(function(i){
+			cons_arr[i].onclick = function(){
+				constellation.value = i + 1;
+
+				// 选择完后要关闭啊对不对
+				mask.style.display = con_Popup.style.display = 'none';
+
+				getById('con_img').src = this.children[0].src;
+				check_constellation.innerHTML = this.children[1].innerHTML;
+			};
+		})(i);
+	}
+
+	// 点击选择星座
 	check_constellation.onclick = function(){
 		makeHeight(con_Popup, 380);
 		mask.style.display = con_Popup.style.display = 'block';
 	};
 
-	// 点击关闭选择学校弹窗的按钮
+	// 点击关闭选择星座弹窗的按钮
 	con_pass.onclick = function(){
 		mask.style.display = con_Popup.style.display = 'none';
 	};
@@ -216,6 +251,9 @@
 	var check_tag = getById('check_tag');
 	// 获取选择标签弹窗
 	var tag_Popup = getById('tag-Popup');
+	// 获取标签（li）
+	var tag_arr = tag_Popup.getElementsByTagName('li');
+
 	// 获取关闭选择标签弹窗
 	var tag_pass = getById('tag-pass');
 
@@ -230,68 +268,14 @@
 		mask.style.display = tag_Popup.style.display = 'none';
 	};
 
+
+
 	// 标签特效
-	aR=document.getElementById('tag-list-r').getElementsByTagName('li'),
-    aG=document.getElementById('tag-list-g').getElementsByTagName('li'),
-    aB=document.getElementById('tag-list-b').getElementsByTagName('li'),
-    aY=document.getElementById('tag-list-y').getElementsByTagName('li');
-    cArr(aR);
-    cArr(aG);
-    cArr(aB);
-    cArr(aY);
-	function cArr(arr){
-		for(var i=0;i<arr.length;i++){
-			(function(k){
-				arr[k].onmousedown=function(){
-					aa=this;
-					fnDown(aa);
-					arr[k].onmouseout=function(){
-						aa=this;
-						fnUp(aa);
-					}
-				}
-				arr[k].onmouseup=function(){
-					aa=this;
-					fnUp(aa);
-				}
-				arr[k].onclick=function(){
-					aa=this;
-					fnY(aa);
-				}
-			})(i);
-		}
-	}
-	function fnY(aa){
-		var aaImg=aa.getElementsByTagName('img')[0];
-		if(aaImg.offsetWidth!=0){
-			aaImg.style.width=0;
-			aaImg.style.height=0;
-			aaImg.style.margin='14px 14px 14px 0';
-		}else{
-			aaImg.style.width='20px';
-			aaImg.style.height='20px';
-			aaImg.style.margin='4px 4px 4px 0';
-		}
-	}
-	function fnDown(aa){
-		aa.style.width='86px';
-		aa.style.height='24px';
-		aa.style.lineHeight='24px';
-		aa.style.fontSize='12px';
-		aa.style.margin='12px 2px';
-	}
-	function fnUp(aa){
-		aa.style.width='90px';
-		aa.style.height='28px';
-		aa.style.lineHeight='28px';
-		aa.style.fontSize='14px';
-		aa.style.margin='10px auto';
-	}
 
 	// 当页面滚动的时候重新计算高度
 	window.onscroll = function(){
 		makeHeight(pre_content, 530); // 计算遮罩和弹窗高度的函数
-		makeHeight(checkbg, 250); 
+		makeHeight(checkbg, 250);
 		makeHeight(vote_school, 484); // 计算选择学校遮罩和弹窗高度的函数
 		makeHeight(con_Popup, 380); // 计算选择星座遮罩和弹窗高度的函数
 		makeHeight(tag_Popup, 380); // 计算选择标签遮罩和弹窗高度的函数
@@ -306,7 +290,7 @@
 		instr.style.display = 'none';
 	}
 
-	
+
 
 	// 计算遮罩和弹窗高度的函数
 	// obj 是窗口对象
@@ -320,10 +304,10 @@
 		var end_top = Math.ceil((client_height - h) / 2) + top;
 		obj.style.top = end_top + 'px';
 	}
-	
 
 
-	
+
+
 
 	// 点击 类别按钮 事件委托
 	btn_list.onclick = function(ev){
@@ -343,7 +327,7 @@
 			// 清除节点
 			clearImgList();
 
-			
+
 			switch(target.title){
 				case 'head':
 					createImgList('head', head_pic_num);
@@ -409,50 +393,50 @@
 			switch(target_arr[0]){
 				case 'head':
 					global_tou = target_arr[1];
-					main(target_arr[1], global_er, global_mei, global_yan, global_zui, global_bi, 
+					main(target_arr[1], global_er, global_mei, global_yan, global_zui, global_bi,
 						 global_hair, global_bgcolor);
 				break;
 
 				case 'eyebrows':
 					global_mei = target_arr[1];
-					main(global_tou, global_er, target_arr[1], global_yan, global_zui, global_bi, 
+					main(global_tou, global_er, target_arr[1], global_yan, global_zui, global_bi,
 						 global_hair, global_bgcolor);
 				break;
 
 				case 'ears':
 					global_er = target_arr[1];
-					main(global_tou, target_arr[1], global_mei, global_yan, global_zui, global_bi, 
+					main(global_tou, target_arr[1], global_mei, global_yan, global_zui, global_bi,
 						 global_hair, global_bgcolor);
 				break;
 
 				case 'eyes':
 					global_yan = target_arr[1];
-					main(global_tou, global_er, global_mei, target_arr[1], global_zui, global_bi, 
+					main(global_tou, global_er, global_mei, target_arr[1], global_zui, global_bi,
 						 global_hair, global_bgcolor);
 				break;
 
 				case 'nose':
 					global_bi = target_arr[1];
-					main(global_tou, global_er, global_mei, global_yan, global_zui, target_arr[1], 
+					main(global_tou, global_er, global_mei, global_yan, global_zui, target_arr[1],
 						 global_hair, global_bgcolor);
 				break;
 
 				case 'mouth':
 					global_zui = target_arr[1];
-					main(global_tou, global_er, global_mei, global_yan, target_arr[1], global_bi, 
+					main(global_tou, global_er, global_mei, global_yan, target_arr[1], global_bi,
 						 global_hair, global_bgcolor);
 				break;
 
 				case 'hair':
 					global_hair = target_arr[1];
-					main(global_tou, global_er, global_mei, global_yan, global_zui, global_bi, 
+					main(global_tou, global_er, global_mei, global_yan, global_zui, global_bi,
 						 target_arr[1], global_bgcolor);
 				break;
 
 				case 'bgcolor':
 					global_bgcolor = target_arr[1];
-					main(global_tou, global_er, global_mei, global_yan, global_zui, global_bi, 
-						 global_hair, target_arr[1]);	
+					main(global_tou, global_er, global_mei, global_yan, global_zui, global_bi,
+						 global_hair, target_arr[1]);
 				break;
 
 				default:
@@ -467,7 +451,7 @@
 	/**
 	 * main 主函数
 	 * 思路 层的概念
-	 * 先画头 第一个参数，代表头的图片地址 
+	 * 先画头 第一个参数，代表头的图片地址
 	 * 再画耳 第二个参数，代表耳的图片地址 (男女有区别)
 	 * 再画眉 第三个参数，代表眉的图片地址
 	 * 再画眼 第四个参数，代表眼的图片地址
@@ -539,12 +523,12 @@
 								hair_img1.onload = function(){
 
 									// 画女生头发
-									if(global_pic_path == './images/preInfoEdit/girl/'){
+									if(global_pic_path == '../assets/images/preInfoEdit/girl/'){
 										context.drawImage(hair_img1, 0, 0, 178, 222);
 									}else{ // 画男生头发
 										context.drawImage(hair_img1, 0, 0, 178, 125);
 									}
-									
+
 								} // ------画头发
 
 							} // ------画鼻
@@ -576,7 +560,7 @@
 
 		if(src_str == 'bgcolor'){ // 如果是更换背景颜色
 
-			
+
 			for(var i = 0; i < bgcolor_arr.length; i++){
 				var div = document.createElement('div');
 				addClass(div, 'pic_img');
@@ -585,7 +569,7 @@
 				}
 
 				div.style.background = bgcolor_arr[i];
-				
+
 				var img = document.createElement('img');
 				img.style.width = '52px';
 				img.style.height = '51px';
@@ -613,14 +597,14 @@
 				var img = document.createElement('img');
 				img.src = global_pic_path + src_str + '/all/' + i + '.png';
 				img.title = src_str + '_' + i;
-				
+
 
 				div.appendChild(img);
 				pic_list.appendChild(div);
 			}
 		}
 
-		
+
 	}
 
 	/*
@@ -659,7 +643,7 @@
 			if(inarr(arrClassName,sClass)==-1){
 				obj.className+=(' '+sClass);
 			}
-			
+
 		}
 		function inarr(arr,str){
 			var tmp=-1;
@@ -696,9 +680,200 @@
 			return tmp;
 		}
 	}
-
-
-
-
 })();
+
+	var aLi=document.getElementById('tag-list-r').getElementsByTagName('li');
+for(var i=0;i<aLi.length;i++){
+	if(i%4==0){
+		aLi[i].className='red';
+		aLi[i].style.marginLeft='0px';
+	}else if(i%4==1){
+		aLi[i].className='yellow';
+	}else if(i%4==2){
+		aLi[i].className='green';
+	}else if(i%4==3){
+		aLi[i].className='blue';
+	}
+}
+   cArr(aLi);
+   // 获取存储标签信息的隐藏表单
+   var tag_str = getById('tag_str');
+   // 用来存目前选择的标签的数组
+   var tagArr = [];
+   var admin_tagArr = [];
+   // 点击完成按钮
+   var tag_end = getById('tag_end');
+   // 获取包含标签的td
+   var tag_td = getById('tag_td');
+
+   // 初始化的时候，读取隐藏表单的值，看看有没有选择,并付给数组tagArr  和  admin_tagArr
+   admin_tagArr = tag_str.value.split(',');
+   for(var u = 0; u < admin_tagArr.length; u++){
+   		for(var w = 0; w < aLi.length; w++){
+
+   			if(admin_tagArr[u] == w+ 1){
+   				//alert(aLi[w].children[0].innerHTML);
+   				fnY(aLi[w], w+1, aLi[w].children[0].innerHTML);
+   				var s = (w+1) + '-' + aLi[w].children[0].innerHTML;
+   				for(var j = tag_td.children.length - 2;j >= 0; j--){
+		   			tag_td.removeChild(tag_td.children[j]);
+		   		}
+		   		for(var i = 0; i < tagArr.length; i++){
+		   			// 动态创建标签
+		   			var span = document.createElement('span');
+
+		   			var ii = document.createElement('i');
+		   			ii.innerHTML = tagArr[i].split('-')[1];
+
+		   			var em = document.createElement('em');
+		   			em.innerHTML = '×';
+		   			em.onclick = function(){
+		   				for(var m = 0; m < aLi.length; m++){
+		   					var sr = this.parentNode.getAttribute('data-num');
+
+		   					if(sr == aLi[m].getAttribute('data-num')){
+
+		   						fnY(aLi[m], sr.split('-')[0], sr.split('-')[1]);
+		   						tag_td.removeChild(this.parentNode);
+
+		   						tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
+		   					}
+
+
+			   			}
+		   			}
+
+		   			span.appendChild(ii);
+		   			span.appendChild(em);
+		   			span.setAttribute("data-num", tagArr[i].toString());
+		   			tag_td.insertBefore(span, tag_td.children[0]);
+
+		   		}
+   			}
+
+		}
+   }
+
+
+   tag_end.onclick = function(){
+   		tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
+
+   		for(var j = tag_td.children.length - 2;j >= 0; j--){
+   			tag_td.removeChild(tag_td.children[j]);
+   		}
+   		for(var i = 0; i < tagArr.length; i++){
+   			// 动态创建标签
+   			var span = document.createElement('span');
+
+   			var ii = document.createElement('i');
+   			ii.innerHTML = tagArr[i].split('-')[1];
+
+   			var em = document.createElement('em');
+   			em.innerHTML = '×';
+   			em.onclick = function(){
+   				for(var m = 0; m < aLi.length; m++){
+   					var sr = this.parentNode.getAttribute('data-num');
+
+   					if(sr == aLi[m].getAttribute('data-num')){
+
+   						fnY(aLi[m], sr.split('-')[0], sr.split('-')[1],1);
+   						tag_td.removeChild(this.parentNode);
+
+   						tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
+   					}
+
+
+	   			}
+   			}
+
+   			span.appendChild(ii);
+   			span.appendChild(em);
+   			span.setAttribute("data-num", tagArr[i].toString());
+   			tag_td.insertBefore(span, tag_td.children[0]);
+
+   			// 获取选择标签弹窗
+			var tag_Popup = getById('tag-Popup');
+   			// 关闭弹窗
+   			mask.style.display = tag_Popup.style.display = 'none';
+   		}
+
+   		//alert(tagArr + '--' + admin_tagArr);
+
+   };
+
+
+
+	function cArr(arr){
+		for(var i=0;i<arr.length;i++){
+			arr[i].index = i + 1;
+			(function(k){
+				arr[k].onmousedown=function(){
+					aa=this;
+					arr[k].onmouseout=function(){
+						aa=this;
+					}
+				}
+				arr[k].onmouseup=function(){
+					aa=this;
+				}
+				arr[k].onclick=function(){
+					aa=this;
+					fnY(aa, this.index, this.children[0].innerHTML);
+				}
+			})(i);
+		}
+	}
+	function fnY(aa, num, str, b){
+		//alert(aa + '--' + num + '--' + str);
+		var aaImg=aa.getElementsByTagName('img')[0];
+		//alert(aa.getAttribute("data-num"));
+		var sss = num + '-' + str;
+		if(aa.getAttribute("data-num")){
+			aaImg.style.width=0;
+			aaImg.style.height=0;
+			aaImg.style.margin='14px 14px 14px 0';
+			aa.setAttribute("data-num", '');
+			arrRemove(admin_tagArr, num);
+			arrRemove(tagArr, sss);
+
+
+		}else{
+			aaImg.style.width='20px';
+			aaImg.style.height='20px';
+			aaImg.style.margin='4px 4px 4px 0';
+
+
+			aa.setAttribute("data-num", sss);
+
+			tagArr.push(sss);
+			if(b){
+				admin_tagArr.push(num);
+			}
+
+		}
+	}
+
+	// 删除数组中制定元素的方法
+	function arrRemove(arr, val){
+		//alert(arr);
+		//alert('1'+arr + val);
+		for (var i = 0; i < arr.length; i++) {
+	        if (arr[i] == val){
+	        	var index = arr.getArrayIndex(val);
+	        	//alert('2'+index);
+	        	arr.splice(index, 1);
+	        }
+	    }
+	}
+	Array.prototype.getArrayIndex = function ( value ) {
+		var index = -1;
+		for (var i = 0; i < this.length; i++) {
+			if (this[i] == value) {
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
+
 
