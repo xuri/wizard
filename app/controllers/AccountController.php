@@ -8,15 +8,27 @@ class AccountController extends BaseController
 	 */
 	public function getIndex()
 	{
-		return View::make('account.index');
+		$profile = Profile::where('user_id', Auth::user()->id)->first();
+		$constellationInfo = getConstellation($profile->constellation);
+		$constellationIcon = $constellationInfo['icon'];
+		$constellationName = $constellationInfo['name'];
+		return View::make('account.index')->with(compact('profile', 'constellationIcon', 'constellationName'));
 	}
 
+	/**
+	 * Account profile
+	 * @return Reponse
+	 */
 	public function getComplete()
 	{
 		$profile = Profile::where('user_id', Auth::user()->id)->first();
 		return View::make('account.complete')->with(compact('profile'));
 	}
 
+	/**
+	 * Ajax get university list
+	 * @return json $school
+	 */
 	public function postUniversity()
 	{
 		$province    = Input::get('province');
@@ -32,13 +44,17 @@ class AccountController extends BaseController
 		);
 	}
 
+	/**
+	 * Ajax daly post renew to get point
+	 * @return json success true or false
+	 */
 	public function postRenew()
 	{
-		$renew     = Input::get('renew');
-		$yesterday = Carbon::yesterday();
-		$user      = Profile::where('user_id', Auth::user()->id)->first();
+		$renew = Input::get('renew');
+		$today = Carbon::today();
+		$user  = Profile::where('user_id', Auth::user()->id)->first();
 
-		if($user->renew_at == '0000-00-00 00:00:00'){
+		if($user->renew_at == '0000-00-00 00:00:00'){ // First renew
 			$user->renew_at = Carbon::now();
 			$user->renew    = $user->renew + 1;
 			$user->save();
@@ -47,7 +63,7 @@ class AccountController extends BaseController
 					'success' => true
 				)
 			);
-		} else if ($yesterday >= $user->renew_at){
+		} else if ($today >= $user->renew_at){ // You haven't renew today
 			$user->renew_at = Carbon::now();
 			$user->renew    = $user->renew + 1;
 			$user->save();
@@ -56,7 +72,7 @@ class AccountController extends BaseController
 					'success' => true
 				)
 			);
-		} else {
+		} else { // You have renew today
 			return Response::json(
 				array(
 					'success' => false
@@ -65,10 +81,13 @@ class AccountController extends BaseController
 		}
 	}
 
+	/**
+	 * Post update profile information
+	 * @return Response
+	 */
 	public function postComplete()
 	{
 		// Get all form data
-		$info = Input::all();
 
 		$info = array(
 			'nickname'      => Input::get('nickname'),
@@ -84,7 +103,9 @@ class AccountController extends BaseController
 			'question'      => Input::get('question'),
 			'school'        => Input::get('school'),
 		);
+
 		//Create validation rules
+
 		$rules = array(
 			'nickname'      => 'required|between:1,30',
 			'constellation' => 'required',
@@ -99,7 +120,9 @@ class AccountController extends BaseController
 			'question'      => 'required',
 			'school'        => 'required',
 		);
+
 		// Custom validation message
+
 		$messages = array(
 			'nickname.required'      => '请输入昵称',
 			'nickname.between'       => '昵称长度请保持在:min到:max字之间',
@@ -116,9 +139,12 @@ class AccountController extends BaseController
 			'school.required'        => '请选择所在学校',
 
 		);
+
 		// Begin verification
+
 		$validator = Validator::make($info, $rules, $messages);
 		if ($validator->passes()) {
+
 		    // Verification success
 
 		    $portrait                = Input::get('portrait');
@@ -138,6 +164,7 @@ class AccountController extends BaseController
 			$user->bio              = Input::get('bio');
 			$user->school           = Input::get('school');
 
+			// Update profile information
 			$profile                = Profile::where('user_id', Auth::user()->id)->first();
 			$profile->tag_str       = Input::get('tag_str');
 			$profile->grade         = Input::get('grade');
@@ -164,6 +191,10 @@ class AccountController extends BaseController
 
 	}
 
+	/**
+	 * User sent messages
+	 * @return Response
+	 */
 	public function getSent()
 	{
 		return View::make('account.sent.index');

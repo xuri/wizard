@@ -29,11 +29,21 @@
 			<div class="w_right">
 				<div class="clear">
 					<div class="img">
+						@if(Auth::user()->portrait)
+						<img src="{{ route('home') }}/portrait/{{ Auth::user()->portrait }}">
+						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+						@endif
 					</div>
 					<div class="sgnin">
 						<div class="sgnin_top">
-							<div><span>昵称 : </span>敏感的阳</div>
+							<div><span>昵称 : </span>
+								@if(Auth::user()->nickname)
+									{{ Auth::user()->nickname }}
+								@else
+								欢迎来到聘爱网
+								@endif
+							</div>
 							<div><span>精灵豆 : </span><em>30</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
 						</div>
 						<div class="sgnin_con">
@@ -73,27 +83,42 @@
 					</div>
 					<table>
 						<tr>
-							<td class="data_td1">昵称：</td><td class="data_td2">敏感的阳</td>
-						</tr>
-						<tr>
-							<td class="data_td1">性别：</td><td class="data_td2">
-								{{ HTML::image('assets/images/symbol.png') }}
-								{{ HTML::image('assets/images/g.jpg') }}
+							<td class="data_td1">昵称：</td><td class="data_td2">
+								@if(Auth::user()->nickname)
+									{{ Auth::user()->nickname }}
+								@else
+									你还没有设置昵称，快去完善资料吧
+								@endif
 							</td>
 						</tr>
 						<tr>
-							<td class="data_td1">出生年：</td><td class="data_td2">1993</td>
+							<td class="data_td1">性别：</td><td class="data_td2">
+								@if(Auth::user()->sex == 'M')
+								{{ HTML::image('assets/images/symbol.png') }}
+								@elseif(Auth::user()->sex == 'F')
+								{{ HTML::image('assets/images/g.jpg') }}
+								@else
+								{{ HTML::image('assets/images/g.jpg') }}
+								@endif
+							</td>
 						</tr>
 						<tr>
-							<td class="data_td1">学校：</td><td class="data_td2">哈工大</td>
+							<td class="data_td1">出生年：</td><td class="data_td2">
+							{{ Auth::user()->born_year }}
+						</td>
 						</tr>
 						<tr>
-							<td class="data_td1">入学年：</td><td class="data_td2">2012</td>
+							<td class="data_td1">学校：</td><td class="data_td2">
+							{{ Auth::user()->school }}
+						</td>
+						</tr>
+						<tr>
+							<td class="data_td1">入学年：</td><td class="data_td2">{{ $profile->grade }}</td>
 						</tr>
 						<tr>
 							<td class="data_td1">星座：</td><td class="data_td2 constellation">
-								{{ HTML::image('assets/images/preInfoEdit/constellation/baiyang.png', '', array('width' => '30', 'height' => '30')) }}
-								<span style="margin-left:50px;">白羊座</span></td>
+								<img src="{{ route('home') }}/assets/images/preInfoEdit/constellation/{{ $constellationIcon }}" width="30" height="30">
+								<span style="margin-left:50px;">{{ $constellationName }}</span></td>
 						</tr>
 						<tr>
 							<td class="data_td1">性格：</td>
@@ -109,18 +134,20 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="data_td1 vertical_c">爱好：</td><td class="data_td2 vertical_c">打篮球，洗澡，飞</td>
+							<td class="data_td1 vertical_c">爱好：</td><td class="data_td2 vertical_c">
+								{{ $profile->hobbies }}
+							</td>
 						</tr>
 						<tr>
-							<td class="data_td1">个人简介：</td><td class="data_td2">我是很牛B的人，PHP全省第一，IOS开发全省第一，美工全省
-                 第一等。就不多说了，要低调，其实我只是为了凑字而已，高中之后很
-  		  为了写作文凑字了。这回字够了</td>
+							<td class="data_td1">个人简介：</td><td class="data_td2">
+								{{ $profile->self_intro }}
+							</td>
 						</tr>
 						<tr class="end_tr">
-							<td class="data_td1">真爱寄语：</td><td class="data_td2">真爱永恒</td>
+							<td class="data_td1">真爱寄语：</td><td class="data_td2">{{ Auth::user()->bio }}</td>
 						</tr>
 						<tr class="love_problem">
-							<td class="data_td1">爱情考验：</td><td class="data_td2">你在乎我不是一个有钱的男生么？</td>
+							<td class="data_td1">爱情考验：</td><td class="data_td2">{{ $profile->question }}</td>
 						</tr>
 					</table>
 				</div>

@@ -22,8 +22,8 @@ class AndroidController extends BaseController
 	}
 
 	/**
-	 * Action: Signin
-	 * @return Response
+	 * Main Android API
+	 * @return json
 	 */
 	public function postAndroid()
 	{
@@ -31,8 +31,10 @@ class AndroidController extends BaseController
 		$token = Input::get('token');
 		$action = Input::get('action');
 
-		if($token == 'jciy9ldJ')
+		if($token == 'jciy9ldJ') // Define token
 		{
+			// Signin
+
 			if($action == 'login')
 			{
 				// Credentials
@@ -58,7 +60,8 @@ class AndroidController extends BaseController
 						)
 					);
 				}
-			} else if($action == 'signup') {
+
+			} else if($action == 'signup') { // Signup
 				// Get all form data.
 				$data = Input::all();
 				// Create validation rules
