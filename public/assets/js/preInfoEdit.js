@@ -844,7 +844,7 @@ for(var i=0;i<aLi.length;i++){
 				}
 				arr[k].onclick=function(){
 					aa=this;
-					fnY(aa, this.index, this.children[0].innerHTML);
+					fnY(aa, this.index, this.children[0].innerHTML, 1);
 				}
 			})(i);
 		}

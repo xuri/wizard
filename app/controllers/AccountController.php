@@ -13,8 +13,8 @@ class AccountController extends BaseController
 
 	public function getComplete()
 	{
-		$datas = University::orderBy('created_at', 'desc')->get();
-		return View::make('account.complete')->with(compact('datas'));
+		$profile = Profile::where('user_id', Auth::user()->id)->first();
+		return View::make('account.complete')->with(compact('profile'));
 	}
 
 	public function postUniversity()
@@ -63,17 +63,17 @@ class AccountController extends BaseController
 				)
 			);
 		}
-
 	}
 
 	public function postComplete()
 	{
 		// Get all form data
+		$info = Input::all();
 
 		$info = array(
 			'nickname'      => Input::get('nickname'),
 			'constellation' => Input::get('constellation'),
-			'portait'       => Input::get('portait'),
+			'portrait'      => Input::get('portrait'),
 			'tag_str'       => Input::get('tag_str'),
 			'sex'           => Input::get('sex'),
 			'born_year'     => Input::get('born_year'),
@@ -81,48 +81,76 @@ class AccountController extends BaseController
 			'hobbies'       => Input::get('hobbies'),
 			'self_intro'    => Input::get('self_intro'),
 			'bio'           => Input::get('bio'),
-			'question'      => Input::get('question')
+			'question'      => Input::get('question'),
+			'school'        => Input::get('school'),
 		);
-		// $info = Input::all();
-		// Create validation rules
+		//Create validation rules
 		$rules = array(
-		    'nickname'      => 'required|between:1,30',
-		    'bio'           => 'between:1,60',
-		    'address'       => 'between:1,80',
-		    'phone'         => 'numeric',
+			'nickname'      => 'required|between:1,30',
+			'constellation' => 'required',
+			'portrait'      => 'required',
+			'tag_str'       => 'required',
+			'sex'           => 'required',
+			'born_year'     => 'required',
+			'grade'         => 'required',
+			'hobbies'       => 'required',
+			'self_intro'    => 'required',
+			'bio'           => 'required',
+			'question'      => 'required',
+			'school'        => 'required',
 		);
 		// Custom validation message
 		$messages = array(
-		    'username.between'  => '长度请保持在:min到:max字之间',
-		    'username.required' => '请填写您的姓名',
-		    'nickname.required' => '请输入昵称',
-		    'nickname.between'  => '昵称长度请保持在:min到:max字之间',
-		    'bio.between'       => '个人简介长度请保持在:min到:max字之间',
-		    'address.between'   => '长度请保持在:min到:max字之间',
-		    'phone.numeric'     => '请填写正确的手机号码',
+			'nickname.required'      => '请输入昵称',
+			'nickname.between'       => '昵称长度请保持在:min到:max字之间',
+			'constellation.required' => '请选择星座',
+			'portrait.required'      => '设置个头像吧',
+			'tag_str.required'       => '给自己贴个标签吧',
+			'sex.required'           => '请选择性别',
+			'born_year.required'     => '请选择出生年',
+			'grade.required'         => '请选择入学年',
+			'hobbies.required'       => '填写你的爱好',
+			'self_intro.required'    => '请填写个人简介',
+			'bio.required'           => '请填写你的真爱寄语',
+			'question.required'      => '记得填写爱情考验哦',
+			'school.required'        => '请选择所在学校',
+
 		);
 		// Begin verification
 		$validator = Validator::make($info, $rules, $messages);
 		if ($validator->passes()) {
 		    // Verification success
+
+		    $portrait                = Input::get('portrait');
+			$portrait                = str_replace('data:image/png;base64,', '', $portrait);
+			$portrait                = str_replace(' ', '+', $portrait);
+			$portraitData            = base64_decode($portrait);
+			$portraitPath			 = public_path('portrait/');
+			$portraitFile            = uniqid() . '.png';
+			$successPortrait         = file_put_contents($portraitPath.$portraitFile, $portraitData);
+
 		    // Update account
-		    $user                = Auth::user();
-		    $user->username      = Input::get('username');
-		    $user->nickname      = Input::get('nickname');
-		    $user->alipay        = Input::get('alipay');
-		    $user->bio           = Input::get('bio');
-		    $user->sex           = Input::get('sex');
-		    $user->born_year     = Input::get('born_year');
-		    $user->born_month    = Input::get('born_month');
-		    $user->born_day      = Input::get('born_day');
-		    $user->home_province = Input::get('province');
-		    $user->home_city     = Input::get('city');
-		    $user->home_address  = Input::get('address');
-		    $user->phone         = Input::get('phone');
-		    if ($user->save()) {
+			$user                   = Auth::user();
+			$user->nickname         = Input::get('nickname');
+			$user->portrait         = $portraitFile;
+			$user->sex              = Input::get('sex');
+			$user->born_year        = Input::get('born_year');
+			$user->bio              = Input::get('bio');
+			$user->school           = Input::get('school');
+
+			$profile                = Profile::where('user_id', Auth::user()->id)->first();
+			$profile->tag_str       = Input::get('tag_str');
+			$profile->grade         = Input::get('grade');
+			$profile->hobbies       = Input::get('hobbies');
+			$profile->constellation = Input::get('constellation');
+			$profile->self_intro    = Input::get('self_intro');
+			$profile->question      = Input::get('question');
+
+		    if ($user->save() && $profile->save()) {
 		        // Update success
-		        return Redirect::back()
+		        return Redirect::back()->withInput()
 		            ->with('success', '<strong>基本资料更新成功。</strong>');
+
 		    } else {
 		        // Update fail
 		        return Redirect::back()
@@ -133,6 +161,7 @@ class AccountController extends BaseController
 		    // Verification fail, redirect back
 		    return Redirect::back()->withInput()->withErrors($validator);
 		}
+
 	}
 
 	public function getSent()

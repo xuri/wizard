@@ -17,7 +17,7 @@ class CreateProfileTable extends Migration {
 	        $table->increments('id');
 			$table->integer('user_id');
 			$table->string('hobbies')->nullable();
-			$table->string('tags')->nullable();
+			$table->string('question')->nullable();
 			$table->integer('grade')->nullable();
 			$table->tinyInteger('constellation')->nullable();
 			$table->string('tag_str')->nullable();

@@ -275,8 +275,12 @@
 			<div class="w_right">
 				<div class="clear">
 					<div class="img">
+						@if(Auth::user()->portrait)
+						<img src="{{ route('home') }}/portrait/{{ Auth::user()->portrait }}" id="head_pic">
+						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('id' => 'head_pic'))}}
-						<div id="change_photo">修改头像</div>
+						@endif
+						<div id="change_photo">修改头像{{ $errors->first('portrait', '<strong class="error" style="color: #cc0000">:message</strong>') }}</div>
 					</div>
 					<div class="sgnin">
 						<div class="sgnin_top">
@@ -325,29 +329,30 @@
 					'action'       => 'AccountController@postComplete'
 					)) }}
 						<input id="province_token" name="_token" type="hidden" value="{{ csrf_token() }}" />
-						<input name="portait" value="" id="portait" type="hidden"/>
-						<input name="constellation" value="" id="constellation" type="hidden"/>
-						<input name="tag_str" value="1,13,17,4,2" id="tag_str" type="hidden"/>
-						<input name="school" value="" id="school_str" type="hidden"/>
+						<input name="portrait" value="{{ Input::old('portrait', $profile->portrait) }}" id="portait" type="hidden"/>
+						<input name="constellation" value="{{ Input::old('constellation', $profile->constellation) }}" id="constellation" type="hidden"/>
+						<input name="tag_str" id="tag_str" value="{{ Input::old('tag_str', $profile->tag_str) }}"  type="hidden"/>
+						<input name="school" value="{{ Input::old('school', Auth::user()->school) }}" id="school_str" type="hidden"/>
 						<table>
 							<tr>
-								<td class="data_td1">昵称：</td><td class="data_td2">
-									<input type="text" value="" name="nickname" placeholder="请输入你的昵称"/>
+								<td class="data_td1">昵称：{{ $errors->first('nickname', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
+									<input type="text" value="{{ Input::old('nickname', Auth::user()->nickname) }}" name="nickname" placeholder="请输入你的昵称"/>
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">性别：</td>
+								<td class="data_td1">性别：{{ $errors->first('sex', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
-									<select name="sex">
+									<select name="sex" id="sex_select">
+										<option value="">请选择</option>
 										<option value="M">男</option>
 										<option value="F">女</option>
 									</select>
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">出生年：</td>
+								<td class="data_td1">出生年：{{ $errors->first('born_year', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
-									<select name="born_year">
+									<select name="born_year" id="born_select">
 										<option value="1990">1990</option>
 										<option value="1991">1991</option>
 										<option value="1992">1992</option>
@@ -356,15 +361,15 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">学校：</td>
+								<td class="data_td1">学校：{{ $errors->first('school', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									<span type="text" id="check_school">请选择学校</span>
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">入学年：</td>
+								<td class="data_td1">入学年：{{ $errors->first('grade', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
-									<select name="grade">
+									<select name="grade" id="grade_select">
 										<option value="2011">2011</option>
 										<option value="2012">2012</option>
 										<option value="2013">2013</option>
@@ -373,35 +378,35 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">星座：</td><td class="data_td2 constellation">
+								<td class="data_td1">星座：{{ $errors->first('constellation', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 constellation">
 								{{ HTML::image('assets/images/preInfoEdit/constellation/baiyang.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
 								<span style="margin-left:50px;" id="check_constellation">白羊座</span></td>
 							</tr>
 							<tr>
-								<td class="data_td1 vertical_top">性格：</td>
+								<td class="data_td1 vertical_top">标签：{{ $errors->first('tag_str', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 									<!--span data-num="1-冷酷">冷酷<em>×</em></span-->
 								<td class="data_td2 character" id="tag_td">
 									<span class="end" id="check_tag"><b>+</b>  标签 </span>
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">爱好：</td><td class="data_td2">
-									<input class="lang" name="hobbies" type="text" placeholder="把你的爱好告诉大家吧" />
+								<td class="data_td1">爱好：{{ $errors->first('hobbies', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
+									<input class="lang" name="hobbies" type="text" placeholder="把你的爱好告诉大家吧" value="{{ Input::old('hobbies', $profile->hobbies) }}" />
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1 vertical_top">个人简介：</td><td class="data_td2 vertical_top">
-									<textarea rows="4" name="self_intro" placeholder="这是推销你自己的好机会"></textarea>
+								<td class="data_td1 vertical_top">个人简介：{{ $errors->first('self_intro', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 vertical_top">
+									<textarea rows="4" name="self_intro" placeholder="这是推销你自己的好机会">{{ Input::old('self_intro', $profile->self_intro) }}</textarea>
 								</td>
 							</tr>
 							<tr class="end_tr">
-								<td class="data_td1">真爱寄语：</td><td class="data_td2">
-									<input class="lang" name="bio" type="text" placeholder="输入你对真爱的诠释">
+								<td class="data_td1">真爱寄语：{{ $errors->first('bio', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
+									<input class="lang" name="bio" type="text" placeholder="输入你对真爱的诠释" value="{{ Input::old('bio', Auth::user()->bio) }}">
 								</td>
 							</tr>
 							<tr class="love_problem">
-								<td class="data_td1 vertical_top">爱情考验：</td><td class="data_td2 vertical_top">
-									<input class="lang" type="text" name="question" placeholder="提出你的问题，去等待TA的回答吧，或许TA的答案能让你明白，你要找的就是TA">
+								<td class="data_td1 vertical_top">爱情考验：{{ $errors->first('question', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 vertical_top">
+									<input class="lang" type="text" name="question" placeholder="提出你的问题，去等待TA的回答吧，或许TA的答案能让你明白，你要找的就是TA" value="{{ Input::old('question', $profile->question) }}">
 								</td>
 							</tr>
 						</table>

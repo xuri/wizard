@@ -228,7 +228,11 @@ class AuthorityController extends BaseController
 				$user           = new User;
 				$user->email    = Input::get('email');
 				$user->password = md5(Input::get('password'));
+
 				if ($user->save()) {
+					$profile = new Profile;
+					$profile->user_id = $user->id;
+					$profile->save();
 					// Add user success
 					// Generate activation code
 					$activation        = new Activation;
