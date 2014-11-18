@@ -238,6 +238,11 @@ function order_by($columnName = '', $default = null)
 	return $a;
 }
 
+/**
+ * Get user constellation
+ * @param  init $constellation User constellation code
+ * @return array               User constellation
+ */
 function getConstellation($constellation)
 {
 	if($constellation == NULL)
@@ -309,6 +314,140 @@ function getConstellation($constellation)
 		);
 		return $constellationInfo;
 	}
+}
 
-
+/**
+ * Get user tag
+ * @param  string $tag User tag in database
+ * @return string      Tag name
+ */
+function getTagName($tag)
+{
+	switch ($tag)
+	{
+		case "1":
+			$tagName = '憨厚';
+		break;
+		case "2":
+			$tagName = '内敛';
+		break;
+		case "3":
+			$tagName = '潮男';
+		break;
+		case "4":
+			$tagName = '正直';
+		break;
+		case "5":
+			$tagName = '胖的';
+		break;
+		case "6":
+			$tagName = '靠谱';
+		break;
+		case "7":
+			$tagName = '麦霸';
+		break;
+		case "8":
+			$tagName = '静待缘分';
+		break;
+		case "9":
+			$tagName = '有点发福';
+		break;
+		case "10":
+			$tagName = '特别能睡';
+		break;
+		case "11":
+			$tagName = '稳重';
+		break;
+		case "12":
+			$tagName = '有责任心';
+		break;
+		case "13":
+			$tagName = '学霸';
+		break;
+		case "14":
+			$tagName = '开朗';
+		break;
+		case "15":
+			$tagName = '诚信';
+		break;
+		case "16":
+			$tagName = '阳光';
+		break;
+		case "17":
+			$tagName = '执着';
+		break;
+		case "18":
+			$tagName = '奋斗中';
+		break;
+		case "19":
+			$tagName = '爱挑战';
+		break;
+		case "20":
+			$tagName = '冷静';
+		break;
+		case "21":
+			$tagName = '张扬';
+		break;
+		case "22":
+			$tagName = '幽默';
+		break;
+		case "23":
+			$tagName = '乐观';
+		break;
+		case "24":
+			$tagName = '低调';
+		break;
+		case "25":
+			$tagName = '独立';
+		break;
+		case "26":
+			$tagName = '健康';
+		break;
+		case "27":
+			$tagName = '高大';
+		break;
+		case "28":
+			$tagName = '包容';
+		break;
+		case "29":
+			$tagName = '完美主义';
+		break;
+		case "30":
+			$tagName = '非诚勿扰';
+		break;
+		case "31":
+			$tagName = '宅';
+		break;
+		case "32":
+			$tagName = '简单';
+		break;
+		case "33":
+			$tagName = '大大咧咧';
+		break;
+		case "34":
+			$tagName = '帅';
+		break;
+		case "35":
+			$tagName = '孝顺';
+		break;
+		case "36":
+			$tagName = '话唠';
+		break;
+		case "37":
+			$tagName = '戒烟ing';
+		break;
+		case "38":
+			$tagName = '张扬';
+		break;
+		case "39":
+			$tagName = '有男人味';
+		break;
+		case "40":
+			$tagName = '萌萌的';
+		break;
+		default:
+			$tagName = '无标签';
+		break;
+	}
+	return $tagName;
 }

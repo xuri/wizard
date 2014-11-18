@@ -36,6 +36,9 @@
 						@endif
 					</div>
 					<div class="sgnin">
+						@if ($message = Session::get('success'))
+						<div class="sgnin_top" style="margin:0 0 10px 0"><div><span><a href="javascript:;" style="color: #297fb8;">&times; {{ $message }}</span></div></div>
+						@endif
 						<div class="sgnin_top">
 							<div><span>昵称 : </span>
 								@if(Auth::user()->nickname)
@@ -76,6 +79,7 @@
 
 				{{-- Profile  --}}
 				<div id="data">
+
 					<a href="{{ route('account.complete') }}" class="editor">点击编辑</a>
 					<div class="data_top clear">
 						<span></span> {{-- Left pink section --}}
@@ -121,16 +125,11 @@
 								<span style="margin-left:50px;">{{ $constellationName }}</span></td>
 						</tr>
 						<tr>
-							<td class="data_td1">性格：</td>
+							<td class="data_td1">标签：</td>
 							<td class="data_td2 character">
-								<span>冷酷</span>
-								<span>冷酷</span>
-								<span>冷酷</span>
-								<span>冷酷</span>
-								<span>冷酷</span>
-								<span>冷酷</span>
-								<span>冷酷</span>
-								<span>冷酷</span>
+								@foreach($tag_str as $tag)
+								<span>{{ getTagName($tag) }}</span>
+								@endforeach
 							</td>
 						</tr>
 						<tr>

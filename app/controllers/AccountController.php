@@ -12,7 +12,8 @@ class AccountController extends BaseController
 		$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
 		$constellationIcon = $constellationInfo['icon'];
 		$constellationName = $constellationInfo['name'];
-		return View::make('account.index')->with(compact('profile', 'constellationIcon', 'constellationName'));
+		$tag_str           = explode(',', substr($profile->tag_str, 1));
+		return View::make('account.index')->with(compact('profile', 'constellationIcon', 'constellationName', 'tag_str'));
 	}
 
 	/**
@@ -109,7 +110,6 @@ class AccountController extends BaseController
 		$rules = array(
 			'nickname'      => 'required|between:1,30',
 			'constellation' => 'required',
-			'portrait'      => 'required',
 			'tag_str'       => 'required',
 			'sex'           => 'required',
 			'born_year'     => 'required',
@@ -127,7 +127,6 @@ class AccountController extends BaseController
 			'nickname.required'      => '请输入昵称',
 			'nickname.between'       => '昵称长度请保持在:min到:max字之间',
 			'constellation.required' => '请选择星座',
-			'portrait.required'      => '设置个头像吧',
 			'tag_str.required'       => '给自己贴个标签吧',
 			'sex.required'           => '请选择性别',
 			'born_year.required'     => '请选择出生年',
@@ -147,19 +146,27 @@ class AccountController extends BaseController
 
 		    // Verification success
 
-		    $portrait                = Input::get('portrait');
-			$portrait                = str_replace('data:image/png;base64,', '', $portrait);
-			$portrait                = str_replace(' ', '+', $portrait);
-			$portraitData            = base64_decode($portrait);
-			$portraitPath			 = public_path('portrait/');
-			$portraitFile            = uniqid() . '.png';
-			$successPortrait         = file_put_contents($portraitPath.$portraitFile, $portraitData);
+
+
 
 		    // Update account
 			$user                   = Auth::user();
 			$oldPortrait			= $user->portrait;
 			$user->nickname         = Input::get('nickname');
-			$user->portrait         = $portraitFile;
+
+			// Protrait section
+			$portrait               = Input::get('portrait');
+		    if($portrait != NULL) // User update avatar
+		    {
+		    	$portrait           = str_replace('data:image/png;base64,', '', $portrait);
+				$portrait           = str_replace(' ', '+', $portrait);
+				$portraitData       = base64_decode($portrait); // Decode string
+				$portraitPath		= public_path('portrait/');
+				$portraitFile       = uniqid() . '.png'; // Portrait file name
+				$successPortrait    = file_put_contents($portraitPath.$portraitFile, $portraitData); // Store file
+				$user->portrait     = $portraitFile; // Save file name to database
+		    }
+
 			$user->sex              = Input::get('sex');
 			$user->born_year        = Input::get('born_year');
 			$user->bio              = Input::get('bio');
@@ -176,11 +183,11 @@ class AccountController extends BaseController
 
 		    if ($user->save() && $profile->save()) {
 		        // Update success
-		        if($oldPortrait !== NULL)
+		        if($portrait != NULL) // User update avatar
 		        {
 		        	File::delete($portraitPath.$oldPortrait); // Delete old poritait
 		    	}
-		        return Redirect::back()->withInput()
+		        return Redirect::route('account')
 		            ->with('success', '<strong>基本资料更新成功。</strong>');
 
 		    } else {
