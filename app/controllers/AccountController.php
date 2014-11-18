@@ -8,8 +8,8 @@ class AccountController extends BaseController
 	 */
 	public function getIndex()
 	{
-		$profile = Profile::where('user_id', Auth::user()->id)->first();
-		$constellationInfo = getConstellation($profile->constellation);
+		$profile           = Profile::where('user_id', Auth::user()->id)->first(); // Get user's profile
+		$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
 		$constellationIcon = $constellationInfo['icon'];
 		$constellationName = $constellationInfo['name'];
 		return View::make('account.index')->with(compact('profile', 'constellationIcon', 'constellationName'));
@@ -157,6 +157,7 @@ class AccountController extends BaseController
 
 		    // Update account
 			$user                   = Auth::user();
+			$oldPortrait			= $user->portrait;
 			$user->nickname         = Input::get('nickname');
 			$user->portrait         = $portraitFile;
 			$user->sex              = Input::get('sex');
@@ -175,6 +176,10 @@ class AccountController extends BaseController
 
 		    if ($user->save() && $profile->save()) {
 		        // Update success
+		        if($oldPortrait !== NULL)
+		        {
+		        	File::delete($portraitPath.$oldPortrait); // Delete old poritait
+		    	}
 		        return Redirect::back()->withInput()
 		            ->with('success', '<strong>基本资料更新成功。</strong>');
 
