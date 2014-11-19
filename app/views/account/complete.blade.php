@@ -284,7 +284,7 @@
 					</div>
 					<div class="sgnin">
 						<div class="sgnin_top">
-							<div><span>昵称 : </span>敏感的阳</div>
+							<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
 							<div><span>精灵豆 : </span><em>30</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
 						</div>
 						<div class="sgnin_con">
