@@ -11,27 +11,29 @@ body{background: #f4e9f9;}
 #wrap{width: 1000px; background: #fbfbfb; margin: 50px auto 100px; padding: 20px;}
 #wrap .w_left{width: 140px; float: left;}
 #wrap .w_nav li a{display: block; background-color: #ef698a; color: #fff; height: 50px; font-size: 16px;
-	line-height: 50px; padding-left: 55px; background-repeat:no-repeat;
+	line-height: 50px;
+	text-align: center;
+	background-repeat:no-repeat;
 	background-position: 10px 17px; background-size: 24px 26px;
 }
 #wrap .w_nav li a:hover,#wrap .w_nav li .active{background-color: #de3861;}
-#wrap .w_nav .a1{background-image: url(../images/preInfoEdit/zl.png);}
-#wrap .w_nav .a2{background-image: url(../images/preInfoEdit/xin.png);}
-#wrap .w_nav .a3{background-image: url(../images/preInfoEdit/message.png);}
-#wrap .w_nav .a4{background-image: url(../images/preInfoEdit/scale.png);}
-#wrap .w_nav .a5{background-image: url(../images/preInfoEdit/about.png);}
+/*#wrap .w_nav .a1{background-image: url(../images/preInfoEdit/zl.png);}*/
+/*#wrap .w_nav .a2{background-image: url(../images/preInfoEdit/xin.png);}*/
+/*#wrap .w_nav .a3{background-image: url(../images/preInfoEdit/message.png);}*/
+/*#wrap .w_nav .a4{background-image: url(../images/preInfoEdit/scale.png);}*/
+/*#wrap .w_nav .a5{background-image: url(../images/preInfoEdit/about.png);}*/
 
 #download{margin-top: 44px; font-size: 14px; color: #777978; text-align: center;}
 #download img{margin-top: 26px; width: 107px; height: 107px;}
 
 #wrap .w_right{float: left; width: 830px; margin-left: 20px;}
 #wrap .img{float: left; position:relative;}
-#wrap .img img{ width: 152px; height: 150px; display: block;}
-#wrap .img div{position:absolute; bottom:0; left:0; width:152px; height:30px; line-height:30px; text-align:center;
+#wrap .img img{ width: 122px; height: 150px; display: block;}
+#wrap .img div{position:absolute; bottom:0; left:0; width:122px; height:30px; line-height:30px; text-align:center;
 	font-size:16px; background:#000; filter:alpha(opacity:50); opacity:0.5; color:#fff;
 }
 #wrap .img div:hover{text-decoration:underline; cursor:pointer;}
-#wrap .sgnin{float: right; width: 665px;}
+#wrap .sgnin{float: right; width: 695px;}
 #wrap .sgnin_top{ height: 30px; border: 1px solid #e1e1e1; background: #f1f2f2; position: relative;}
 #wrap .sgnin_top div{float: left; height: 30px; line-height: 30px; color:#626464; font-size: 16px;
 	margin-left: 20px;

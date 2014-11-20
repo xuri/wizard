@@ -35,8 +35,11 @@
 						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'lu_img')) }}
 
 						<div class="lu_userMessage">
-							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left')) }}
-
+						@if($data->sex == 'M')
+						{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left')) }}
+						@else
+						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left')) }}
+						@endif
 							<p class="lu_te lu_userMessage_name lu_left">{{ $data->nickname }}</p>
 							<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">{{ $data->school }}</p>
 							<p class="lu_userMessage_p lu_left">{{ $profile->grade }}届</p>

@@ -15,14 +15,14 @@
 		<div id="wrap" class="clear">
 			<div class="w_left">
 				<ul class="w_nav">
-					<li><a href="{{ route('account') }}" class="a1">我的资料</a></li>
-					<li><a href="{{ route('account.sent') }}" class="active a2">我追的人</a></li>
-					<li><a href="#" class="a3">我的来信</a></li>
-					<li><a href="#" class="a4">我的关注</a></li>
-					<li><a href="#" class="a5">关注我们</a></li>
+					<li><a href="{{ route('account') }}" class="a1 fa fa-tasks">&nbsp;&nbsp;&nbsp;我的资料</a></li>
+					<li><a href="{{ route('account.sent') }}" class="active a2 fa fa-heart-o">&nbsp;&nbsp;&nbsp;我追的人</a></li>
+					<li><a href="#" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;我的来信</a></li>
+					<li><a href="#" class="a4 fa fa-star-o">&nbsp;&nbsp;&nbsp;我的关注</a></li>
+					<li><a href="#" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关注我们</a></li>
 				</ul>
 				<div id="download">
-					<div>安卓APP</div>
+					<div>移动客户端下载</div>
 					{{ HTML::image('assets/images/preInfoEdit/app.png') }}
 				</div>
 			</div>

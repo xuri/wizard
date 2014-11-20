@@ -261,14 +261,14 @@
 		<div id="wrap" class="clear">
 			<div class="w_left">
 				<ul class="w_nav">
-					<li><a href="{{ route('account') }}" class="active a1">我的资料</a></li>
-					<li><a href="{{ route('account.sent') }}" class="a2">我追的人</a></li>
-					<li><a href="#" class="a3">我的来信</a></li>
-					<li><a href="#" class="a4">我的关注</a></li>
-					<li><a href="#" class="a5">关注我们</a></li>
+					<li><a href="{{ route('account') }}" class="active a1 fa fa-tasks">&nbsp;&nbsp;&nbsp;我的资料</a></li>
+					<li><a href="{{ route('account.sent') }}" class="a2 fa fa-heart-o">&nbsp;&nbsp;&nbsp;我追的人</a></li>
+					<li><a href="#" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;我的来信</a></li>
+					<li><a href="#" class="a4 fa fa-star-o">&nbsp;&nbsp;&nbsp;我的关注</a></li>
+					<li><a href="#" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关注我们</a></li>
 				</ul>
 				<div id="download">
-					<div>安卓APP</div>
+					<div>移动客户端下载</div>
 					{{ HTML::image('assets/images/preInfoEdit/app.png') }}
 				</div>
 			</div>
@@ -379,8 +379,8 @@
 							</tr>
 							<tr>
 								<td class="data_td1">星座：{{ $errors->first('constellation', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 constellation">
-								{{ HTML::image('assets/images/preInfoEdit/constellation/baiyang.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
-								<span style="margin-left:50px;" id="check_constellation">白羊座</span></td>
+								{{ HTML::image('assets/images/preInfoEdit/constellation/default.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
+								<span style="margin-left:50px;" id="check_constellation">请选择星座</span></td>
 							</tr>
 							<tr>
 								<td class="data_td1 vertical_top">标签：{{ $errors->first('tag_str', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
