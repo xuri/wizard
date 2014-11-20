@@ -159,13 +159,13 @@ body{font-size:12px; font-family:Microsoft YaHei,SimHei,Arial,Pro LiHei Pro Medi
 .footer{
 	width:100%;
 	height:20px;
-	padding:5px 0;
+	padding:15px 0;
 	background:#ef698a;
 	position:absolute;
 }
 .footer p{
 	color:#fff;
-	font-size:10px;
+	font-size:12px;
 	display:block;
 	margin:0 auto;
 	text-align:center;

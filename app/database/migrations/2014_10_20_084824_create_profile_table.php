@@ -14,7 +14,7 @@ class CreateProfileTable extends Migration {
 	{
 		Schema::create('profile', function(Blueprint $table)
 		{
-	        $table->increments('id');
+			$table->increments('id');
 			$table->integer('user_id');
 			$table->string('hobbies')->nullable();
 			$table->string('question')->nullable();
@@ -25,7 +25,7 @@ class CreateProfileTable extends Migration {
 			$table->integer('renew')->nullable();
 			$table->timestamp('renew_at')->nullable();
 			$table->timestamp('deleted_at')->nullable();
-        	$table->timestamps();
+			$table->timestamps();
 		});
 	}
 

@@ -35,9 +35,9 @@
 	</div>
 	<div class="content_5" id="5">
 		<div class="content_5_div">
-			<a class="android left" href="#">安卓客户端下载</a>
-			<a class="ios right" href="#">苹果客户端下载</a>
-			<a href="{{ route('members.index') }}" class="EPS">立即体验</a>
+			<a class="android left" href="#"><i class="fa fa-android"></i> &nbsp;安卓客户端下载</a>
+			<a class="ios right" href="#"><i class="fa fa-apple"></i> &nbsp;苹果客户端下载</a>
+			<a href="{{ route('members.index') }}" class="EPS"><i class="fa fa-smile-o"></i> &nbsp;立即体验</a>
 		</div>
 	</div>
 

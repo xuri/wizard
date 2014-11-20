@@ -1,5 +1,5 @@
 body{background: #f4e9f9;}
-#content{background: url(../images/preInfoEdit/contentbg.jpg) no-repeat; background-size: 100% 514px; 
+#content{background: url(../images/preInfoEdit/contentbg.jpg) no-repeat; background-size: 100% 514px;
 	margin:60px auto 0;
 }
 #content .con_title{height: 88px; line-height: 88px; text-align: center; font-size: 22px; color: #4c4d4d;}
@@ -10,7 +10,7 @@ body{background: #f4e9f9;}
 
 #wrap{width: 1000px; background: #fbfbfb; margin: 50px auto 100px; padding: 20px;}
 #wrap .w_left{width: 140px; float: left;}
-#wrap .w_nav li a{display: block; background-color: #ef698a; color: #fff; height: 50px; font-size: 16px; 
+#wrap .w_nav li a{display: block; background-color: #ef698a; color: #fff; height: 50px; font-size: 16px;
 	line-height: 50px; padding-left: 55px; background-repeat:no-repeat;
 	background-position: 10px 17px; background-size: 24px 26px;
 }
@@ -38,7 +38,7 @@ body{background: #f4e9f9;}
 #wrap .sgnin_con{ border: 1px solid #e1e1e1; margin-top: 10px; height: 106px; background: #f1f2f2;}
 #wrap .sgnin_con .comeon{width: 140px; height: 106px; position: relative; float: left}
 /* 加油福利解释说明框 */
-#instr{width: 400px; border: 2px solid #e2e3e3; border-radius:3px; position:absolute; 
+#instr{width: 400px; border: 2px solid #e2e3e3; border-radius:3px; position:absolute;
 	left: 34px; top: -120px; background: #fff; z-index: 1; display: none; padding: 10px;
 }
 #instr div{font-size: 14px; color: #848282; }
@@ -58,7 +58,7 @@ body{background: #f4e9f9;}
 	border: 1px solid #d3d4d4;
 }
 #pillars_fixed .num{position: absolute; width: 20px; height: 20px; text-align: center; line-height: 20px;
-	font-size: 16px; color: #939292; top:24px; 
+	font-size: 16px; color: #939292; top:24px;
 }
 #pillars_fixed span:nth-of-type(1){left: -10px;}
 #pillars_fixed span:nth-of-type(2){left: 240px;}
@@ -73,7 +73,7 @@ body{background: #f4e9f9;}
 	right: -40px; top: -32px;
 }
 #pillars_auto div span{color: #ef698a;}
- 
+
 #data{margin-top: 20px; border: 1px solid #e7e7e7; position: relative;}
 #data .editor{position: absolute; width: 90px; height: 20px; background: #de3861; color: #fff;
 	text-align: center; line-height: 20px; border-radius: 3px; right: 20px; top: 65px;
@@ -81,7 +81,7 @@ body{background: #f4e9f9;}
 #data .editor:hover{background: #e26383;}
 #data .data_top{height: 40px;}
 #data .data_top span{height: 40px; width: 18px; background: #ef698a; float: left;}
-#data .data_top p{color: #ef698a; font-size: 18px; float: left; height: 40px; line-height: 40px; 
+#data .data_top p{color: #ef698a; font-size: 18px; float: left; height: 40px; line-height: 40px;
 	margin-left: 32px;
 }
 #data table{width: 90%;  margin: 20px 0 20px 50px; font-size: 14px; color: #848282; font-size: 14px;}
@@ -99,13 +99,13 @@ body{background: #f4e9f9;}
 .footer{
 	width:100%;
 	height:20px;
-	padding:5px 0;
+	padding:15px 0;
 	background:#ef698a;
 	position:absolute;
 }
 .footer p{
 	color:#fff;
-	font-size:10px;
+	font-size:12px;
 	display:block;
 	margin:0 auto;
 	text-align:center;

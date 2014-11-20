@@ -25,6 +25,7 @@
 					<a href="#" class="lu_release lu_public">我也发个</a>
 				</div>
 				@foreach($datas as $data)
+				@if($data->portrait)
 				<?php
 					$profile = Profile::where('user_id', $data->id)->first();
 					$tag_str = explode(',', substr($profile->tag_str, 1));
@@ -57,6 +58,8 @@
 						</div>
 					</div>
 				</div>
+				@else
+				@endif
 				@endforeach
 				<div class="lu_paging">
 					<span>上一页</span>
