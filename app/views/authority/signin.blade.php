@@ -47,11 +47,11 @@
 				</div><!-- end login_main -->
 				<div id="rgs_main">
 					<a href="#" id="rgs_phone" class="login_button">
-						{{ HTML::image('assets/images/login_qq.png', '', array('class' => 'login_qq')); }}
+						<i class="fa fa-mobile"></i>
 
 						手机注册</a>
 					<a href="#" id="rgs_email" class="login_button">
-						{{ HTML::image('assets/images/login_microblog.png', '', array('class' => 'login_img')); }}
+						<i class="fa fa-envelope-o"></i>
 
 						邮箱注册</a>
 					<p style="text-align: center;">
@@ -65,7 +65,8 @@
 						'id'           => 'rgs_tab1',
 						'autocomplete' => 'off',
 						'action'       => 'AuthorityController@postSignup'
-						)); }}
+						))
+					}}
 
 						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<ul class="login_form">
@@ -93,8 +94,13 @@
 							<a class="rgs_agree" href="#">使用条款</a>
 						</div>
 						<input class="login_submit" type="submit" value="立即注册">
-					</form>
-					<form id="rgs_tab2" action="#" method="">
+					{{ Form::close() }}
+					{{ Form::open(array(
+						'id'           => 'rgs_tab2',
+						'autocomplete' => 'off',
+						'action'       => 'AuthorityController@postSignup'
+						))
+					}}
 						<ul class="login_form">
 							<li class="rgs_li">
 								<span>邮箱:</span>
@@ -115,7 +121,7 @@
 							<a class="rgs_agree" href="#">使用条款</a>
 						</div>
 						<input class="login_submit" type="submit" value="立即注册">
-					</form>
+					{{ Form::close() }}
 				</div>
 				{{-- end rgs_main --}}
 			</div>

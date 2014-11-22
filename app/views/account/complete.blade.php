@@ -342,28 +342,42 @@
 							<tr>
 								<td class="data_td1">性别：{{ $errors->first('sex', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
+									@if(Auth::user()->sex)
+									<input value="{{ Auth::user()->sex }}" type="hidden" name="sex">
+									{{ Auth::user()->sex }}
+									@else
 									<select name="sex" id="sex_select">
 										<option value="">请选择</option>
 										<option value="M">男</option>
 										<option value="F">女</option>
 									</select>
+									@endif
 								</td>
 							</tr>
 							<tr>
 								<td class="data_td1">出生年：{{ $errors->first('born_year', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
+									@if(Auth::user()->born_year)
+									{{ Auth::user()->born_year }}
+									<input value="{{ Auth::user()->born_year }}" type="hidden" name="born_year">
+									@else
 									<select name="born_year" id="born_select">
 										<option value="1990">1990</option>
 										<option value="1991">1991</option>
 										<option value="1992">1992</option>
 										<option value="1993">1993</option>
 									</select>
+									@endif
 								</td>
 							</tr>
 							<tr>
 								<td class="data_td1">学校：{{ $errors->first('school', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
+									@if(Auth::user()->school)
+									<span type="text" id="check_school">{{ Auth::user()->school }}</span>
+									@else
 									<span type="text" id="check_school">请选择学校</span>
+									@endif
 								</td>
 							</tr>
 							<tr>
@@ -379,8 +393,15 @@
 							</tr>
 							<tr>
 								<td class="data_td1">星座：{{ $errors->first('constellation', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 constellation">
+								@if($profile->constellation)
+								{{ HTML::image('assets/images/preInfoEdit/constellation/'.$constellationInfo['icon'], '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
+								<span style="margin-left:50px;" id="check_constellation">{{ $constellationInfo['name'] }}</span></td>
+								@else
 								{{ HTML::image('assets/images/preInfoEdit/constellation/default.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
 								<span style="margin-left:50px;" id="check_constellation">请选择星座</span></td>
+								@endif
+
+
 							</tr>
 							<tr>
 								<td class="data_td1 vertical_top">标签：{{ $errors->first('tag_str', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>

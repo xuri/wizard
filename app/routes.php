@@ -56,8 +56,8 @@ Route::group(array('prefix' => 'auth'), function () {
 		Route::get('forgot-password/{token}'  , array('as' => 'reset'         , 'uses' => $Authority.'getReset'         ));
 		Route::post('forgot-password/{token}' , $Authority.'postReset');
 		# SMS Verify
-		Route::post('verifycode',	 array('as'               => 'verifycode', 'uses' => $Authority.'postVerifyCode'));
-		Route::post('postsmsreset', array('as'             => 'postsmsreset', 'uses' => $Authority.'postSMSReset'));
+		Route::post('verifycode'			  , array('as' => 'verifycode'	  , 'uses' => $Authority.'postVerifyCode'	));
+		Route::post('postsmsreset'			  , array('as' => 'postsmsreset'  , 'uses' => $Authority.'postSMSReset'		));
 	});
 });
 
@@ -68,12 +68,13 @@ Route::group(array('prefix' => 'auth'), function () {
 |
 */
 
-Route::group(array('prefix' => 'members'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'auth'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
-	Route::get(            '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'   ));
-	Route::get(         '{id}', array('as' => $resource.'.show'    , 'uses' => $controller.'show'   ));
+	Route::get(            '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'	));
+	Route::get(         '{id}', array('as' => $resource.'.show'    , 'uses' => $controller.'show'	));
+	Route::post(   '{id}', $controller.'like');
 });
 
 /*
@@ -85,18 +86,17 @@ Route::group(array('prefix' => 'members'), function () {
 
 Route::group(array('prefix' => 'account', 'before' => 'auth'), function () {
 	$Account = 'AccountController@';
-
 	# Account Index
-	Route::get('/'               , array('as' => 'account'         , 'uses' => $Account.'getIndex'));
-
+	Route::get('/'				, array('as' => 'account',			'uses' => $Account.'getIndex'		));
 	# Complete
-	Route::get('complete'        , array('as' => 'account.complete'         , 'uses' => $Account.'getComplete'));
-	Route::post('complete'        , $Account.'postComplete');
+	Route::get('complete'		, array('as' => 'account.complete',	'uses' => $Account.'getComplete'	));
+	Route::post('complete'		, $Account.'postComplete');
 	# Post university
-	Route::post('postuniversity', array('as' => 'postuniversity', 'uses' => $Account.'postUniversity'));
-	Route::post('postrenew', array('as' => 'postrenew', 'uses' => $Account.'postRenew'));
+	Route::post('postuniversity', array('as' => 'postuniversity',	'uses' => $Account.'postUniversity'	));
+	Route::post('postrenew'		, array('as' => 'postrenew',		'uses' => $Account.'postRenew'		));
 	# Sent
-	Route::get('sent'        , array('as' => 'account.sent'         , 'uses' => $Account.'getSent'));
+	Route::get('sent'			, array('as' => 'account.sent',		'uses' => $Account.'getSent'		));
+
 
 });
 

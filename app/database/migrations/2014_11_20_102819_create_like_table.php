@@ -17,6 +17,8 @@ class CreateLikeTable extends Migration {
 			$table->increments('id');
 			$table->integer('sender_id');
 			$table->integer('receiver_id');
+			$table->integer('count');
+			$table->string('answer');
 			$table->tinyInteger('status')->default('0');
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();

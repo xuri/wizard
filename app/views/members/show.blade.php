@@ -16,6 +16,9 @@
 				<span class="pi_red lu_left"></span>
 				<h2 class="pi_inf lu_left" >{{ $data->nickname }}的资料</h2>
 				<div class="pi_content_center">
+					@if ($message = Session::get('success'))
+					<a href="javascript:;" style="color: #297fb8;">&times;</a> {{ $message }}
+					@endif
 					<div class="pi_center_top">
 						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
 						<h3 class="pi_person lu_left">个人简介</h3>
@@ -73,23 +76,32 @@
 							<p class="pi_trial">{{ $profile->question }}</p>
 						</li>
 					</ul>
+					{{ Form::open() }}
+					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+					<input name="like" type="hidden" value="{{ $data->id }}" />
+					{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+					<textarea name="answer"></textarea>
 					<div class="pi_center_bottom">
-						<a href="#">追 &nbsp;
-						@if($data->sex == 'M')
-						他
-						@elseif($data->sex == 'F')
-						她
+						@if(Auth::user()->id == $data->id)
+
+						@elseif(Auth::user()->portrait)
+							<button type="submit">追 &nbsp;
+							@if($data->sex == 'M')
+							他
+							@elseif($data->sex == 'F')
+							她
+							@else
+							TA
+							@endif
+							</button>
 						@else
-						TA
-						@endif</a>
-						<a href="#">
-						@if($data->sex == 'M')
-						关注他
-						@elseif($data->sex == 'F')
-						关注她
-						@else
-						关注TA
-						@endif</a>
+							<a href="{{ route('account.complete') }}">需要完善自己的信息，才能追@if($data->sex == 'M')他哦，
+							@elseif($data->sex == 'F')她哦，
+							@elseTA哦，
+							@endif
+							快去完善简历吧。</a>
+						@endif
+					{{ Form::close() }}
 					</div>
 				</div>
 			</div>

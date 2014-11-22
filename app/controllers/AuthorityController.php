@@ -29,11 +29,11 @@ class AuthorityController extends BaseController
 	{
 		// Credentials
 		$credentials = array(
-			'email' => Input::get('phone'),
+			'email' => Input::get('email'),
 			'password' => md5(Input::get('password')
 		));
 		$phone_credentials = array(
-			'phone' => Input::get('phone'),
+			'phone' => Input::get('email'),
 			'password' => md5(Input::get('password')
 		));
 		// Remember login status
@@ -130,23 +130,23 @@ class AuthorityController extends BaseController
 		$data = Input::all();
 		// Create validation rules
 		$rules = array(
-			'phone'               => 'required|digits:11|exists:users',
-			'password'            => 'required|alpha_dash|between:6,16|confirmed',
-			'password_confirmation'            => 'required',
-			'sms_code'            => 'required|digits:6',
+			'phone'                 => 'required|digits:11|exists:users',
+			'password'              => 'required|alpha_dash|between:6,16|confirmed',
+			'password_confirmation' => 'required',
+			'sms_code'              => 'required|digits:6',
 		);
 		// Custom validation message
 		$messages = array(
-			'phone.required'      => '请输入手机号码。',
-			'phone.digits'        => '请输入正确的手机号码。',
-			'phone.exists'        => '此手机号码未注册。',
-			'password.required'   => '请输入密码。',
-			'password.alpha_dash' => '密码格式不正确。',
-			'password.between'    => '密码长度请保持在:min到:max位之间。',
-			'password.confirmed'  => '两次输入的密码不一致。',
+			'phone.required'                 => '请输入手机号码。',
+			'phone.digits'                   => '请输入正确的手机号码。',
+			'phone.exists'                   => '此手机号码未注册。',
+			'password.required'              => '请输入密码。',
+			'password.alpha_dash'            => '密码格式不正确。',
+			'password.between'               => '密码长度请保持在:min到:max位之间。',
+			'password.confirmed'             => '两次输入的密码不一致。',
 			'password_confirmation.required' => '请填写确认密码',
-			'sms_code.required'   => '请填写验证码。',
-			'sms_code.digits'     => '验证码错误。',
+			'sms_code.required'              => '请填写验证码。',
+			'sms_code.digits'                => '验证码错误。',
 		);
 
 		// Begin verification

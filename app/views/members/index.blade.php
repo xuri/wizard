@@ -33,17 +33,17 @@
 				<div class="lu_resumes clear">
 					<div class="lu_resumes_user clear">
 						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'lu_img')) }}
-
 						<div class="lu_userMessage">
+						{{ HTML::image('assets/images/arrow.png', '', array('class' => 'lu_userMessage_arrow')) }}
 						@if($data->sex == 'M')
 						{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left')) }}
 						@else
 						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left')) }}
 						@endif
 							<p class="lu_te lu_userMessage_name lu_left">{{ $data->nickname }}</p>
-							<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">{{ $data->school }}</p>
+							<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">啊撒大声地啊撒大声地阿斯达阿斯达阿斯达按时d{{-- $data->school --}}</p>
 							<p class="lu_userMessage_p lu_left">{{ $profile->grade }}届</p>
-							<a class="lu_userMessage_detail lu_left" href="{{ route('members.show', $data->id) }}">详细资料</a>
+							<a class="lu_userMessage_detail lu_right" href="{{ route('members.show', $data->id) }}">详细资料</a>
 							<p class="lu_userMessage_readme lu_left">{{ $profile->self_intro }}</p>
 							<ul class="lu_userMessage_character">
 
@@ -56,8 +56,6 @@
 								<li style="background:#ffcc00;">文艺青年</li>
 								<li style="background:#a036a0;">技术宅</li> -->
 							</ul>
-							{{ HTML::image('assets/images/arrow.png', '', array('class' => 'lu_userMessage_arrow')) }}
-
 						</div>
 					</div>
 				</div>
@@ -79,7 +77,6 @@
 				<div class="lu_up">
 					<p class="lu_te lu_name lu_left">
 						{{ HTML::image('assets/images/symbol.png') }}
-
 						夏米斯丁艾合麦提·阿布都米吉提</p>
 					<p class="lu_bin lu_left">精灵豆：<a>60</a></p>
 				</div>
@@ -87,4 +84,17 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	var aColor=['#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0'];
+	function loop(classValue){
+		var aT=document.getElementsByClassName(classValue);
+		for(var i=0;i<aT.length;i++){
+			var aLi=aT[i].getElementsByTagName('li');
+			for(var a=0;a<aLi.length;a++){
+				aLi[a].style.background=aColor[a];
+			}
+		}
+	}
+	loop('lu_userMessage_character');
+</script>
 </html>

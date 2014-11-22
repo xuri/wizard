@@ -23,7 +23,8 @@ class AccountController extends BaseController
 	public function getComplete()
 	{
 		$profile = Profile::where('user_id', Auth::user()->id)->first();
-		return View::make('account.complete')->with(compact('profile'));
+		$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
+		return View::make('account.complete')->with(compact('profile', 'constellationInfo'));
 	}
 
 	/**
@@ -166,9 +167,14 @@ class AccountController extends BaseController
 				$successPortrait    = file_put_contents($portraitPath.$portraitFile, $portraitData); // Store file
 				$user->portrait     = $portraitFile; // Save file name to database
 		    }
-
-			$user->sex              = Input::get('sex');
-			$user->born_year        = Input::get('born_year');
+		    if(Auth::user()->sex == NULL)
+		    {
+				$user->sex          = Input::get('sex');
+			}
+			if(Auth::user()->born_year == NULL)
+			{
+				$user->born_year    = Input::get('born_year');
+			}
 			$user->bio              = Input::get('bio');
 			$user->school           = Input::get('school');
 

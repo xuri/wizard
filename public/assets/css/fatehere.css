@@ -6,9 +6,9 @@
 	float:right;
 }
 .lu_te{
-	white-space:nowrap; 
-	overflow:hidden; 
-	text-overflow:ellipsis; 
+	white-space:nowrap;
+	overflow:hidden;
+	text-overflow:ellipsis;
 }
 #lu_content{height: 514px; margin:60px auto 0;}
 #lu_content .lu_con_title{height: 88px; line-height: 88px; text-align: center; font-size: 22px; color: #4c4d4d;}
@@ -50,32 +50,32 @@
 	font-size:15px;
 }
 .lu_content_main_tab .lu_school{
-	width:130px; 
+	width:130px;
 	background:#ef698a;
-	margin-left:30px; 
-	letter-spacing:2px; 
+	margin-left:30px;
+	letter-spacing:2px;
 	text-indent:2px;
 }
 .lu_content_main_tab .lu_sex{
-	width:80px; 
+	width:80px;
 	background:#ef698a;
-	margin-left:20px; 
-	letter-spacing:5px; 
+	margin-left:20px;
+	letter-spacing:5px;
 	text-indent:15px;
 	border:0px;
 }
 .lu_content_main_tab .lu_search{
-	width:100px; 
+	width:100px;
 	background:#ed5565;
-	margin-left:150px; 
-	letter-spacing:5px; 
+	margin-left:150px;
+	letter-spacing:5px;
 	text-indent:5px;
 }
 .lu_content_main_tab .lu_release{
-	width:130px; 
+	width:130px;
 	background:#697fef;
-	margin-left:20px; 
-	letter-spacing:2px; 
+	margin-left:20px;
+	letter-spacing:2px;
 	text-indent:2px;
 }
 .lu_resumes_user .lu_img{
@@ -93,9 +93,9 @@
 	margin:20px 0 0 20px;
 }
 .lu_resumes_user .lu_userMessage_name{
-	width:100px; 
+	width:100px;
 	height:20px;
-	font-size:14px; 
+	font-size:14px;
 	line-height:20px;
 	margin-left:10px;
 	color:#777978;
@@ -105,10 +105,10 @@
 	font-size:14px;
 	color:#777978;
 	line-height:20px;
-	margin-left:30px;
+	margin-left:20px;
 }
 .lu_resumes_user .lu_userMessage_school{
-	width:100px;
+	width:220px;
 }
 .lu_resumes_user .lu_userMessage_detail{
 	color:#ef698a;
@@ -122,6 +122,9 @@
 	font-size:14px;
 	line-height:20px;
 	margin-top:10px;
+	width:535px;
+	text-overflow:ellipsis;
+    overflow:hidden;
 }
 .lu_resumes_user .lu_userMessage_character li{
 	width:70px;
@@ -133,12 +136,9 @@
 	line-height:21px;
 	color:#fff;
 }
-.lu_resumes_user .lu_userMessage_arrow{
-	left:-553px;
-	display:block;
-	position:relative;
-}
-.lu_paging{
+.lu_sex{
+	margin-left:-20px;
+}.lu_paging{
 	width:400px;
 	height:20px;
 	padding:10px;
@@ -184,9 +184,9 @@
 	height:75px;
 }
 .lu_content_right .lu_up .lu_name{
-	width:120px; 
+	width:120px;
 	height:20px;
-	font-size:15px; 
+	font-size:15px;
 	line-height:18px;
 	margin:10px 0 0 10px;
 	color:#777978;
@@ -210,4 +210,8 @@
 }
 .lu_bin a{
 	color:#ed5565;
+}
+.lu_userMessage_arrow{
+	float:left;
+	margin-left:-34px;
 }

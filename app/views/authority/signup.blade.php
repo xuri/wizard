@@ -43,12 +43,10 @@
 				<div id="login_main">
 
 					<a href="#" id="rgs_phone" class="login_button">
-						{{ HTML::image('assets/images/login_qq.png', '', array('class' => 'login_qq')) }}
-
+						<i class="fa fa-mobile"></i>
 						手机注册</a>
 					<a href="#" id="rgs_email" class="login_button">
-						{{ HTML::image('assets/images/login_microblog.png', '', array('class' => 'login_img')) }}
-
+						<i class="fa fa-envelope-o"></i>
 						邮箱注册</a>
 					<p style="text-align: center;">
 						<strong class="phone_error"></strong>
