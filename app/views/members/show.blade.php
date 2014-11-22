@@ -83,7 +83,8 @@
 					<textarea name="answer"></textarea>
 					<div class="pi_center_bottom">
 						@if(Auth::user()->id == $data->id)
-
+						@elseif($like)
+							<button type="submit">再追一次</button>
 						@elseif(Auth::user()->portrait)
 							<button type="submit">追 &nbsp;
 							@if($data->sex == 'M')

@@ -68,52 +68,70 @@
 				</div>
 
 
-				<!-- 资料部分 -->
+				{{-- Profile --}}
 				<div id="data">
 					<div class="data_top clear">
-						<span></span> <!--左侧粉块-->
+						<span></span> {{-- Left pink section --}}
 						<p>我追过的人</p>
 					</div>
 					<div id="courtship">
 						<ul class="clear">
+							@foreach($datas as $data)
+							<?php
+							$user = User::where('id', $data->receiver_id)->first();
+							?>
 							<li>
-								{{ HTML::image('assets/images/courtship_pic.png', '', array('width' => '152', 'height' => '186')) }}
+								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186')) }}
 								<div class="courtship_title">
+									@if($user->sex == 'M')
 									{{ HTML::image('assets/images/symbol.png') }}
-									<span>敏感的阳数据加载中</span></div>
+									@else(Auth::user()->sex == 'F')
+									{{ HTML::image('assets/images/g.jpg') }}
+									@endif
+									<span>{{ $user->nickname }}</span></div>
 								<div class="cour_bottom">
-									<span>已追 <em>6</em> 天 <em>7</em> 小时</span>
-									{{ HTML::image('assets/images/courtship_chat.png') }}
+									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> 已追<em>7</em>次</span>
+									<span style="margin: 0 15px 0px 10px; line-height: 2em;">已追<em>6</em>天</span><br />
+									<button style="display: inline-block;
+									zoom: 1;
+									line-height: normal;
+									white-space: nowrap;
+									vertical-align: baseline;
+									text-align: center;
+									cursor: pointer;
+									-webkit-user-drag: none;
+									-webkit-user-select: none;
+									font-weight: 100;
+									letter-spacing: 0.01em;
+									border: 0 rgba(0,0,0,0);
+									background-color: #de3861;
+									text-decoration: none;
+									border-radius: 2px;
+									color: #fff;
+									margin: 0 10px 0 10px;
+									">再追一次</button>
+									<button  style="display: inline-block;
+									zoom: 1;
+									line-height: normal;
+									white-space: nowrap;
+									vertical-align: baseline;
+									text-align: center;
+									cursor: pointer;
+									-webkit-user-drag: none;
+									-webkit-user-select: none;
+									font-weight: 100;
+									letter-spacing: 0.01em;
+									border: 0 rgba(0,0,0,0);
+									background-color: #888;
+									text-decoration: none;
+									border-radius: 2px;
+									color: #fff;
+									margin: 0 10px 0 10px;
+									">等待回复</button>
 								</div>
 							</li>
-							<li>
-								{{ HTML::image('assets/images/courtship_pic.png', '', array('width' => '152', 'height' => '186')) }}
-								<div class="courtship_title">
-									{{ HTML::image('assets/images/symbol.png') }}
-									<span>敏感的阳数据加载中</span></div>
-								<div class="cour_bottom">
-									<span>已追 <em>6</em> 天 <em>7</em> 小时</span>
-									{{ HTML::image('assets/images/courtship_chat.png') }}
-								</div>
-							</li><li>
-								{{ HTML::image('assets/images/courtship_pic.png', '', array('width' => '152', 'height' => '186')) }}
-								<div class="courtship_title">
-									{{ HTML::image('assets/images/symbol.png') }}
-									<span>敏感的阳数据加载中</span></div>
-								<div class="cour_bottom">
-									<span>已追 <em>6</em> 天 <em>7</em> 小时</span>
-									{{ HTML::image('assets/images/courtship_chat.png') }}
-								</div>
-							</li><li>
-								{{ HTML::image('assets/images/courtship_pic.png', '', array('width' => '152', 'height' => '186')) }}
-								<div class="courtship_title">
-									{{ HTML::image('assets/images/symbol.png') }}
-									<span>敏感的阳数据加载中</span></div>
-								<div class="cour_bottom">
-									<span>已追 <em>6</em> 天 <em>7</em> 小时</span>
-									{{ HTML::image('assets/images/courtship_chat.png') }}
-								</div>
-							</li>
+							@endforeach
+
 						</ul>
 					</div>
 				</div>

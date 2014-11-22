@@ -146,10 +146,6 @@ class AccountController extends BaseController
 		if ($validator->passes()) {
 
 		    // Verification success
-
-
-
-
 		    // Update account
 			$user                   = Auth::user();
 			$oldPortrait			= $user->portrait;
@@ -215,7 +211,8 @@ class AccountController extends BaseController
 	 */
 	public function getSent()
 	{
-		return View::make('account.sent.index');
+		$datas = Like::where('sender_id', Auth::user()->id)->get();
+		return View::make('account.sent.index')->with(compact('datas'));
 	}
 
 }

@@ -62,14 +62,7 @@
 				@else
 				@endif
 				@endforeach
-				<div class="lu_paging">
-					<span>上一页</span>
-					<a class="lu_active">1</a>
-					<a>2</a>
-					<a>3</a>
-					<a>4</a>
-					<span>下一页</span>
-				</div>
+				{{ pagination($datas->appends(Input::except('page')), 'layout.paginator') }}
 			</div>
 			<div class="lu_content_right">
 				{{ HTML::image('assets/images/user_1.png', '', array('class' => 'lu_img')) }}
