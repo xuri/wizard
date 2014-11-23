@@ -38,11 +38,11 @@
 					<ul class="pi_center_main">
 						<li>
 							<span>出生年:</span>
-							<p>{{ $data->born_year}}</p>
+							<p>{{ $data->born_year }}</p>
 						</li>
 						<li>
 							<span>学校:</span>
-							<p>{{ $data->school}}</p>
+							<p>{{ $data->school }}</p>
 						</li>
 						<li>
 							<span>入学年:</span>

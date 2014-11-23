@@ -35,9 +35,7 @@ class AndroidController extends BaseController
 
 		if($token == 'jciy9ldJ') // Define token
 		{
-			// Signin
-
-			if($action == 'login')
+			if($action == 'login') // Signin
 			{
 				// Credentials
 				$credentials = array(
@@ -62,8 +60,8 @@ class AndroidController extends BaseController
 						)
 					);
 				}
-
-			} else if($action == 'signup') { // Signup
+			} else if($action == 'signup') // Signup
+			{
 				// Get all form data.
 				$data = Input::all();
 				// Create validation rules
@@ -119,7 +117,7 @@ class AndroidController extends BaseController
 				$info = array(
 					'nickname'      => Input::get('nickname'),
 					'constellation' => Input::get('constellation'),
-					// 'portrait'      => Input::get('portrait'),
+					'portrait'      => Input::get('portrait'),
 					'tag_str'       => Input::get('tag_str'),
 					'sex'           => Input::get('sex'),
 					'born_year'     => Input::get('born_year'),
@@ -172,21 +170,16 @@ class AndroidController extends BaseController
 				    // Verification success
 				    // Update account
 					$user                   = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
-					// $oldPortrait			= $user->portrait;
+					$oldPortrait			= $user->portrait;
 					$user->nickname         = Input::get('nickname');
 
 					// Protrait section
-					// $portrait               = Input::get('portrait');
-					// if($portrait != NULL) // User update avatar
-					// {
-					// 	$portrait           = str_replace('data:image/png;base64,', '', $portrait);
-					// 	$portrait           = str_replace(' ', '+', $portrait);
-					// 	$portraitData       = base64_decode($portrait); // Decode string
-					// 	$portraitPath		= public_path('portrait/');
-					// 	$portraitFile       = uniqid() . '.png'; // Portrait file name
-					// 	$successPortrait    = file_put_contents($portraitPath.$portraitFile, $portraitData); // Store file
-					// 	$user->portrait     = $portraitFile; // Save file name to database
-					// }
+					$portrait               = Input::get('portrait');
+					if($portrait != NULL) // User update avatar
+					{
+						$portraitPath		= public_path('portrait/');
+						$user->portrait     = 'android/'.$portrait; // Save file name to database
+					}
 				    if($user->sex == NULL)
 				    {
 						$user->sex          = Input::get('sex');
@@ -209,10 +202,14 @@ class AndroidController extends BaseController
 
 				    if ($user->save() && $profile->save()) {
 						// Update success
-						// if($portrait != NULL) // User update avatar
-						// {
-						// 		File::delete($portraitPath.$oldPortrait); // Delete old poritait
-						// }
+						if($portrait != NULL) // User update avatar
+						{
+							$oldAndroidPortrait = strpos($oldPortrait, 'android');
+							if($oldAndroidPortrait === false) // Must use ===
+							{
+								File::delete($portraitPath.$oldPortrait); // Delete old poritait
+							}
+						}
 				        return Response::json(
 							array(
 								'status' 	=> 1
@@ -235,8 +232,8 @@ class AndroidController extends BaseController
 						)
 					);
 				}
-			} else if($action == 'members_index') { // Members
-
+			} else if($action == 'members_index') // Members
+			{
 				$last_id  = Input::get('lastid'); // Post last user id from Android client
 				$per_page = Input::get('perpage'); // Post count per query from Android client
 				if($last_id) // If Android have post last user id
@@ -277,6 +274,46 @@ class AndroidController extends BaseController
 							)
 						);
 					}
+				}
+			} else if($action == 'members_show') // Members show profile
+			{
+				// Get all form data
+
+				$info = array(
+					'phone'   => Input::get('senderid'),
+					'user_id' => Input::get('userid'),
+				);
+				if ($info)
+				{
+					$sender_id         = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first()->id; // Sender ID
+					$user_id           = Input::get('userid');
+					$data              = User::where('id', $user_id)->first();
+					$profile           = Profile::where('user_id', $user_id)->first();
+					$like              = Like::where('sender_id', $sender_id)->first();
+					$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
+					$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
+					return Response::json(
+						array(
+							'status'        => 1,
+							'sex'           => $data->sex,
+							'portrait'      => route('home').'/'.'portrait/'.$data->portrait,
+							'nickname'      => $data->nickname,
+							'born_year'     => $data->born_year,
+							'grade'         => $profile->grade,
+							'constellation' => $constellationInfo['name'],
+							'tag_str'       => $tag_str,
+							'hobbies'       => $profile->hobbies,
+							'bio'           => $data->bio,
+							'question'      => $profile->question,
+							'like'          => $like->count,
+						)
+					);
+				} else {
+					return Response::json(
+						array(
+							'status' 		=> 0
+						)
+					);
 				}
 			}
 		} else {
