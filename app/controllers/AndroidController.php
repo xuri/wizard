@@ -16,19 +16,21 @@ class AndroidController extends BaseController
 	 * View: Signin
 	 * @return Response
 	 */
-	public function getSignin()
+	public function getDebug()
 	{
-		return View::make('android.index');
+		$lastRecord = User::orderBy('id', 'DESC')->first()->id;
+		$users = User::whereNotNull('portrait')->orderBy('created_at', 'desc')->select('id', 'nickname', 'school', 'sex')->where('id', '<', $lastRecord)->take(5)->get()->toJson();
+		return View::make('android.index')->with(compact('users'));
 	}
 
 	/**
 	 * Main Android API
-	 * @return json
+	 * @return Json
 	 */
 	public function postAndroid()
 	{
 
-		$token = Input::get('token');
+		$token  = Input::get('token');
 		$action = Input::get('action');
 
 		if($token == 'jciy9ldJ') // Define token
@@ -109,6 +111,172 @@ class AndroidController extends BaseController
 							'status' 		=> 0
 						)
 					);
+				}
+			} else if($action == 'complete') // Complete
+			{
+				// Get all form data
+
+				$info = array(
+					'nickname'      => Input::get('nickname'),
+					'constellation' => Input::get('constellation'),
+					// 'portrait'      => Input::get('portrait'),
+					'tag_str'       => Input::get('tag_str'),
+					'sex'           => Input::get('sex'),
+					'born_year'     => Input::get('born_year'),
+					'grade'         => Input::get('grade'),
+					'hobbies'       => Input::get('hobbies'),
+					'self_intro'    => Input::get('self_intro'),
+					'bio'           => Input::get('bio'),
+					'question'      => Input::get('question'),
+					'school'        => Input::get('school'),
+				);
+
+				//Create validation rules
+
+				$rules = array(
+					'nickname'      => 'required|between:1,30',
+					'constellation' => 'required',
+					'tag_str'       => 'required',
+					'sex'           => 'required',
+					'born_year'     => 'required',
+					'grade'         => 'required',
+					'hobbies'       => 'required',
+					'self_intro'    => 'required',
+					'bio'           => 'required',
+					'question'      => 'required',
+					'school'        => 'required',
+				);
+
+				// Custom validation message
+
+				$messages = array(
+					'nickname.required'      => '请输入昵称',
+					'nickname.between'       => '昵称长度请保持在:min到:max字之间',
+					'constellation.required' => '请选择星座',
+					'tag_str.required'       => '给自己贴个标签吧',
+					'sex.required'           => '请选择性别',
+					'born_year.required'     => '请选择出生年',
+					'grade.required'         => '请选择入学年',
+					'hobbies.required'       => '填写你的爱好',
+					'self_intro.required'    => '请填写个人简介',
+					'bio.required'           => '请填写你的真爱寄语',
+					'question.required'      => '记得填写爱情考验哦',
+					'school.required'        => '请选择所在学校',
+				);
+
+				// Begin verification
+
+				$validator = Validator::make($info, $rules, $messages);
+				if ($validator->passes()) {
+
+				    // Verification success
+				    // Update account
+					$user                   = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
+					// $oldPortrait			= $user->portrait;
+					$user->nickname         = Input::get('nickname');
+
+					// Protrait section
+					// $portrait               = Input::get('portrait');
+					// if($portrait != NULL) // User update avatar
+					// {
+					// 	$portrait           = str_replace('data:image/png;base64,', '', $portrait);
+					// 	$portrait           = str_replace(' ', '+', $portrait);
+					// 	$portraitData       = base64_decode($portrait); // Decode string
+					// 	$portraitPath		= public_path('portrait/');
+					// 	$portraitFile       = uniqid() . '.png'; // Portrait file name
+					// 	$successPortrait    = file_put_contents($portraitPath.$portraitFile, $portraitData); // Store file
+					// 	$user->portrait     = $portraitFile; // Save file name to database
+					// }
+				    if($user->sex == NULL)
+				    {
+						$user->sex          = Input::get('sex');
+					}
+					if($user->born_year == NULL)
+					{
+						$user->born_year    = Input::get('born_year');
+					}
+					$user->bio              = Input::get('bio');
+					$user->school           = Input::get('school');
+
+					// Update profile information
+					$profile                = Profile::where('user_id', $user->id)->first();
+					$profile->tag_str       = Input::get('tag_str');
+					$profile->grade         = Input::get('grade');
+					$profile->hobbies       = Input::get('hobbies');
+					$profile->constellation = Input::get('constellation');
+					$profile->self_intro    = Input::get('self_intro');
+					$profile->question      = Input::get('question');
+
+				    if ($user->save() && $profile->save()) {
+						// Update success
+						// if($portrait != NULL) // User update avatar
+						// {
+						// 		File::delete($portraitPath.$oldPortrait); // Delete old poritait
+						// }
+				        return Response::json(
+							array(
+								'status' 	=> 1
+							)
+						);
+
+				    } else {
+				        // Update fail
+				        return Response::json(
+							array(
+								'status' 	=> 0
+							)
+						);
+				    }
+				} else {
+				    // Verification fail, redirect back
+				    return Response::json(
+						array(
+							'status' 		=> 0
+						)
+					);
+				}
+			} else if($action == 'members_index') { // Members
+
+				$last_id  = Input::get('lastid'); // Post last user id from Android client
+				$per_page = Input::get('perpage'); // Post count per query from Android client
+				if($last_id) // If Android have post last user id
+				{
+					$users = User::whereNotNull('portrait') // Skip none portrait user
+					->orderBy('id', 'desc')
+					->select('id', 'nickname', 'school', 'sex')
+					->where('id', '<', $last_id)
+					->take($per_page)
+					->get()
+					->toJson();
+					if($users) // If get query success
+					{
+						return '{ "status" : "1", "data" : '.$users.'}'; // Build Json format
+					} else { // Get query fail
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
+					}
+				} else { // First get data from Android client
+					$lastRecord = User::orderBy('id', 'desc')->first()->id; // Query last user id in database
+					$users      = User::whereNotNull('portrait') // Skip none portrait user
+					->orderBy('id', 'desc')
+					->select('id', 'nickname', 'school', 'sex')
+					->where('id', '<=', $lastRecord)
+					->take($per_page)
+					->get()
+					->toJson();
+					if($users)
+					{
+						return '{ "status" : "1", "data" : '.$users.'}';
+					} else {
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
+					}
 				}
 			}
 		} else {

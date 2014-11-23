@@ -94,8 +94,10 @@ Route::group(array('prefix' => 'account', 'before' => 'auth'), function () {
 	# Post university
 	Route::post('postuniversity', array('as' => 'postuniversity',	'uses' => $Account.'postUniversity'	));
 	Route::post('postrenew'		, array('as' => 'postrenew',		'uses' => $Account.'postRenew'		));
-	# Sent
+	# Like other user
 	Route::get('sent'			, array('as' => 'account.sent',		'uses' => $Account.'getSent'		));
+	# Other user like me
+	Route::get('inbox'			, array('as' => 'account.inbox',	'uses' => $Account.'getInbox'		));
 
 
 });
@@ -124,7 +126,7 @@ Route::group(array('prefix' => 'android'), function () {
 	$controller = 'AndroidController@';
 
 	# Account Index
-	Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getSignin'));
+	Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
 	Route::post('debug'              , $controller.'postAndroid');
 
 });

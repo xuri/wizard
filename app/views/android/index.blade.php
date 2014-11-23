@@ -4,3 +4,4 @@ Android Debug
 <?php
 
 echo Session::get('code_debug');
+echo $users;

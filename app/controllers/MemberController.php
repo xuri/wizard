@@ -15,7 +15,7 @@ class MemberController extends BaseController {
 
 	public function index()
 	{
-        $datas = User::orderBy('created_at', 'desc')->paginate(1);
+        $datas = User::whereNotNull('portrait')->orderBy('created_at', 'desc')->paginate(1);
 		return View::make($this->resource.'.index')->with(compact('datas'));
 	}
 

@@ -206,13 +206,23 @@ class AccountController extends BaseController
 	}
 
 	/**
-	 * User sent messages
+	 * Like other user
 	 * @return Response
 	 */
 	public function getSent()
 	{
 		$datas = Like::where('sender_id', Auth::user()->id)->get();
 		return View::make('account.sent.index')->with(compact('datas'));
+	}
+
+	/**
+	 * Other user like me
+	 * @return Response
+	 */
+	public function getInbox()
+	{
+		$datas = Like::where('receiver_id', Auth::user()->id)->get();
+		return View::make('account.inbox.index')->with(compact('datas'));
 	}
 
 }
