@@ -101,25 +101,40 @@
 						</li>
 					</ul>
 
-				{{-- User like other user ago --}}
-
 				@elseif($like)
-						<li>
-							<span class="pi_trial">
-							{{ $sex }}的爱情考验：{{ $profile->question }}</span>
-						</li>
-					</ul>
-					{{ Form::open() }}
-					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
-					<input name="status" type="hidden" value="like" />
-					{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-					<textarea name="answer"></textarea>
-					<div class="pi_center_bottom">
-						<button type="submit">再追一次</button>
-					{{ Form::close() }}
-					</div>
+
+					{{-- Receiver block user --}}
+
+					@if($like->status == 3)
+
+							<li>
+								<span class="pi_trial">
+								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+							</li>
+						</ul>
+						对方已经把你拉黑了，现在不能追{{ $sex }}。
+
+					{{-- User like other user ago --}}
+
+					@else
+							<li>
+								<span class="pi_trial">
+								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+							</li>
+						</ul>
+						{{ Form::open() }}
+						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+						<input name="status" type="hidden" value="like" />
+						{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						<textarea name="answer"></textarea>
+						<div class="pi_center_bottom">
+							<button type="submit">再追一次</button>
+						{{ Form::close() }}
+						</div>
+					@endif
 
 				{{-- Normal --}}
+
 				@else
 						<li>
 							<span class="pi_trial">{{ $sex }}的爱情考验：{{ $profile->question }}</span>
