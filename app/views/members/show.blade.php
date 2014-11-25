@@ -74,20 +74,22 @@
 				@if($like_me)
 						<li>
 							<span class="pi_trial">
-							{{ $sex }}的爱情考验
-							</span>
-							<p class="pi_trial">{{ $profile->question }}</p>
+							{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 						</li>
 					</ul>
 					我的爱情考验问题是：{{ $profile->question }}
 					<br />
 					{{ $sex }}给我的爱情考验答案 {{ $like_me->answer }}
-					{{ Form::open() }}
-					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
-					<input name="like" type="hidden" value="{{ $data->id }}" />
 					<div class="pi_center_bottom">
-						<a href="#">同意</a>
-						<a href="#">拒绝</a>
+					{{ Form::open() }}
+						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+						<input name="status" type="hidden" value="accept" />
+						<input type="submit" value="同意" />
+					{{ Form::close() }}
+					{{ Form::open() }}
+						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+						<input name="status" type="hidden" value="reject" />
+						<input type="submit" value="拒绝" />
 					{{ Form::close() }}
 					</div>
 
@@ -109,7 +111,9 @@
 					</ul>
 					{{ Form::open() }}
 					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
-					<input name="like" type="hidden" value="{{ $data->id }}" />
+					<input name="status" type="hidden" value="like" />
+					{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+					<textarea name="answer"></textarea>
 					<div class="pi_center_bottom">
 						<button type="submit">再追一次</button>
 					{{ Form::close() }}
@@ -123,7 +127,9 @@
 					</ul>
 					{{ Form::open() }}
 					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
-					<input name="like" type="hidden" value="{{ $data->id }}" />
+					<input name="status" type="hidden" value="like" />
+					{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+					<textarea name="answer"></textarea>
 					<div class="pi_center_bottom">
 						<button type="submit">追{{ $sex }}</button>
 					{{ Form::close() }}

@@ -109,48 +109,85 @@
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> 已追<em>{{ $data->count }}</em>次</span>
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;">已追<em>{{ $Days }}</em>天</span><br />
 									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #de3861;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									padding: 2px 6px 3px 6px;
-									">再追一次</a>
-									<button  style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #888;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									">
-										@if($user->sex == 'M')
-										等他回复
-										@else(Auth::user()->sex == 'F')
-										等她回复
-										@endif
-									</button>
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #de3861;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;">
+									再追一次</a>
+									@if($data->status == 0)
+									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #eea236;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;">
+									静待缘分</a>
+									@elseif($data->status == 1)
+									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #357ebd;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;
+										">开始聊天</a>
+									@elseif($data->status == 2)
+									<a href="javascript:;" style="display: inline-block;
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #888;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;
+										">已经拒绝</a>
+									@endif
 								</div>
 							</li>
 							@endforeach

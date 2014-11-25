@@ -19,7 +19,8 @@
  *
  * status = 0 User send like, pending accept
  * status = 1 Receiver accept like, add friend relationship in chat system and start chat
- * status = 2 Receiver block user, remove friend relationship in chat system
+ * status = 2 Receiver reject user, remove friend relationship in chat system
+ * status = 3 Receiver block user, remove friend relationship in chat system
  */
 
 class MemberController extends BaseController {
@@ -64,51 +65,85 @@ class MemberController extends BaseController {
 
 	public function like($id)
 	{
-		// Get all form data.
-		$data = Input::all();
-		// Create validation rules
-		$rules = array(
-			'answer'              => 'required|min:3',
-		);
-		// Custom validation message
-		$messages = array(
-			'answer.required'     => '请回答爱情考验问题。',
-			'answer.min'          => '至少要写:min个字哦。',
-		);
+		if(Input::get('status') == 'like')
+		{
+			// Get all form data.
+			$data = Input::all();
+			// Create validation rules
+			$rules = array(
+				'answer'              => 'required|min:3',
+			);
+			// Custom validation message
+			$messages = array(
+				'answer.required'     => '请回答爱情考验问题。',
+				'answer.min'          => '至少要写:min个字哦。',
+			);
 
-		// Begin verification
-		$validator   = Validator::make($data, $rules, $messages);
-		if ($validator->passes()) {
-			$have_like = Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
-			if($have_like) // This user already sent like
-			{
-				$have_like->answer      = Input::get('answer');
-				$have_like->count       = $have_like->count + 1;
-				if($have_like->save())
+			// Begin verification
+			$validator   = Validator::make($data, $rules, $messages);
+			if ($validator->passes()) {
+				$have_like = Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
+				if($have_like) // This user already sent like
 				{
-					return Redirect::route('account.sent')
-					->withInput()
-					->with('success', '发送成功，静待缘分到来吧。');
-				}
-			} else { // First like
-				$like              = new Like();
-				$like->sender_id   = Auth::user()->id;
-				$like->receiver_id = $id;
-				$like->status      = 0;
-				$like->answer      = Input::get('answer');
-				$like->count       = 1;
-				if($like->save())
-				{
-					return Redirect::route('account.sent')
+					$have_like->answer      = Input::get('answer');
+					$have_like->count       = $have_like->count + 1;
+					if($have_like->save())
+					{
+						return Redirect::route('account.sent')
 						->withInput()
 						->with('success', '发送成功，静待缘分到来吧。');
+					}
+				} else { // First like
+					$like              = new Like();
+					$like->sender_id   = Auth::user()->id;
+					$like->receiver_id = $id;
+					$like->status      = 0;
+					$like->answer      = Input::get('answer');
+					$like->count       = 1;
+					if($like->save())
+					{
+						return Redirect::route('account.sent')
+							->withInput()
+							->with('success', '发送成功，静待缘分到来吧。');
+					}
 				}
+			} else { // Validation fail
+				return Redirect::back()
+					->withInput()
+					->withErrors($validator);
 			}
-		} else { // Validation fail
-			return Redirect::back()
-				->withInput()
-				->withErrors($validator);
+		} else if(Input::get('status') == 'reject')
+		{
+			$like = Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
+			$like->status = 2; // Reject other user like
+			$like->save();
+			if($like->save())
+			{
+				return Redirect::route('account.inbox')
+					->withInput()
+					->with('success', '你已经拒绝对方邀请。');
+			} else {
+				return Redirect::route('account.inbox')
+					->withInput()
+					->with('error', '系统发生错误。');
+			}
+		} else if(Input::get('status') == 'accept')
+		{
+			$like = Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
+			$like->status = 1; // Accept other user like
+			$like->save();
+			if($like->save())
+			{
+				return Redirect::route('account.inbox')
+					->withInput()
+					->with('success', '添加好友成功！');
+			} else {
+				return Redirect::route('account.inbox')
+					->withInput()
+					->with('error', '添加好友失败，请重试！');
+			}
 		}
+
 		// if($like->save())
 		// {
 		// 	return Response::json(

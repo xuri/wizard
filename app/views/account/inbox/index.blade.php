@@ -36,6 +36,16 @@
 						@endif
 					</div>
 					<div class="sgnin">
+						@if ($message = Session::get('success'))
+						<div class="sgnin_top" style="margin:0 0 10px 0">
+							<div>
+								<span>
+									<a href="javascript:;" style="color: #297fb8;">&times;</a>
+									{{ $message }}
+								</span>
+							</div>
+						</div>
+						@endif
 						<div class="sgnin_top">
 							<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
 							<div><span>精灵豆 : </span><em>30</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
@@ -114,14 +124,53 @@
 									border-radius: 2px;
 									color: #fff;
 									margin: 0 10px 0 10px;
-									">
+									padding: 3px 6px;">
 										@if($user->sex == 'M')
 										把他拉黑
 										@else(Auth::user()->sex == 'F')
 										把她拉黑
 										@endif
 									</button>
+								@if($data->status == 0)
 									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
+									zoom: 1;
+									line-height: normal;
+									white-space: nowrap;
+									vertical-align: baseline;
+									text-align: center;
+									cursor: pointer;
+									-webkit-user-drag: none;
+									-webkit-user-select: none;
+									font-weight: 100;
+									letter-spacing: 0.01em;
+									border: 0 rgba(0,0,0,0);
+									background-color: #eea236;
+									text-decoration: none;
+									border-radius: 2px;
+									color: #fff;
+									margin: 0 10px 0 10px;
+									padding: 3px 6px;">等你回复</a>
+								@elseif($data->status == 1)
+								<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
+									zoom: 1;
+									line-height: normal;
+									white-space: nowrap;
+									vertical-align: baseline;
+									text-align: center;
+									cursor: pointer;
+									-webkit-user-drag: none;
+									-webkit-user-select: none;
+									font-weight: 100;
+									letter-spacing: 0.01em;
+									border: 0 rgba(0,0,0,0);
+									background-color: #357ebd;
+									text-decoration: none;
+									border-radius: 2px;
+									color: #fff;
+									margin: 0 10px 0 10px;
+									padding: 3px 6px;">开始聊天</a>
+								@elseif($data->status == 2)
+								<a href="javascript:;" style="display: inline-block;
 									zoom: 1;
 									line-height: normal;
 									white-space: nowrap;
@@ -138,8 +187,8 @@
 									border-radius: 2px;
 									color: #fff;
 									margin: 0 10px 0 10px;
-									padding: 2px 6px 1px 6px;
-									">等你回复</a>
+									padding: 3px 6px;">已经拒绝</a>
+								@endif
 								</div>
 							</li>
 							@endforeach
