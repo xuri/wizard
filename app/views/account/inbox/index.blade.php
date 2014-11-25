@@ -78,12 +78,12 @@
 						<ul class="clear">
 							@foreach($datas as $data)
 							<?php
-								$user = User::where('id', $data->sender_id)->first();
-								$Date_1=date("Y-m-d");
-								$Date_2=date("Y-m-d",strtotime($data->created_at));
-								$d1=strtotime($Date_1);
-								$d2=strtotime($Date_2);
-								$Days=round(($d1-$d2)/3600/24);
+								$user   = User::where('id', $data->sender_id)->first();
+								$Date_1 = date("Y-m-d");
+								$Date_2 = date("Y-m-d",strtotime($data->created_at));
+								$d1     = strtotime($Date_1);
+								$d2     = strtotime($Date_2);
+								$Days   = round(($d1-$d2)/3600/24);
 							?>
 							<li>
 								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186')) }}
@@ -114,8 +114,14 @@
 									border-radius: 2px;
 									color: #fff;
 									margin: 0 10px 0 10px;
-									">再追一次</button>
-									<button  style="display: inline-block;
+									">
+										@if($user->sex == 'M')
+										把他拉黑
+										@else(Auth::user()->sex == 'F')
+										把她拉黑
+										@endif
+									</button>
+									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
 									zoom: 1;
 									line-height: normal;
 									white-space: nowrap;
@@ -132,11 +138,11 @@
 									border-radius: 2px;
 									color: #fff;
 									margin: 0 10px 0 10px;
-									">等待回复</button>
+									padding: 2px 6px 1px 6px;
+									">等你回复</a>
 								</div>
 							</li>
 							@endforeach
-
 						</ul>
 					</div>
 				</div>

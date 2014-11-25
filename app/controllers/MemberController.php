@@ -49,10 +49,17 @@ class MemberController extends BaseController {
 	{
 		$data              = User::where('id', $id)->first();
 		$profile           = Profile::where('user_id', $id)->first();
-		$like 			   = Like::where('sender_id', Auth::user()->id)->first();
+		$like              = Like::where('sender_id', Auth::user()->id)->where('receiver_id', $data->id)->first();
+		$like_me           = Like::where('sender_id', $data->id)->where('receiver_id', Auth::user()->id)->first();
 		$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
 		$tag_str           = explode(',', substr($profile->tag_str, 1));
-		return View::make('members.show')->with(compact('data', 'like', 'profile', 'constellationInfo', 'tag_str'));
+		if($data->sex == 'M')
+		{
+			$sex = '他';
+		} else {
+			$sex = '她';
+		}
+		return View::make('members.show')->with(compact('data', 'like', 'profile', 'constellationInfo', 'tag_str', 'sex','like_me'));
 	}
 
 	public function like($id)

@@ -89,7 +89,12 @@
 						<ul class="clear">
 							@foreach($datas as $data)
 							<?php
-							$user = User::where('id', $data->receiver_id)->first();
+								$user 	= User::where('id', $data->receiver_id)->first();
+								$Date_1 = date("Y-m-d");
+								$Date_2 = date("Y-m-d",strtotime($data->created_at));
+								$d1     = strtotime($Date_1);
+								$d2     = strtotime($Date_2);
+								$Days   = round(($d1-$d2)/3600/24);
 							?>
 							<li>
 								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186')) }}
@@ -101,9 +106,9 @@
 									@endif
 									<span>{{ $user->nickname }}</span></div>
 								<div class="cour_bottom">
-									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> 已追<em>7</em>次</span>
-									<span style="margin: 0 15px 0px 10px; line-height: 2em;">已追<em>6</em>天</span><br />
-									<button style="display: inline-block;
+									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> 已追<em>{{ $data->count }}</em>次</span>
+									<span style="margin: 0 15px 0px 10px; line-height: 2em;">已追<em>{{ $Days }}</em>天</span><br />
+									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
 									zoom: 1;
 									line-height: normal;
 									white-space: nowrap;
@@ -120,7 +125,8 @@
 									border-radius: 2px;
 									color: #fff;
 									margin: 0 10px 0 10px;
-									">再追一次</button>
+									padding: 2px 6px 3px 6px;
+									">再追一次</a>
 									<button  style="display: inline-block;
 									zoom: 1;
 									line-height: normal;
@@ -138,7 +144,13 @@
 									border-radius: 2px;
 									color: #fff;
 									margin: 0 10px 0 10px;
-									">等待回复</button>
+									">
+										@if($user->sex == 'M')
+										等他回复
+										@else(Auth::user()->sex == 'F')
+										等她回复
+										@endif
+									</button>
 								</div>
 							</li>
 							@endforeach

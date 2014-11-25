@@ -30,7 +30,6 @@
 						@else
 						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'pi_sex')) }}
 						@endif
-
 						<span class="pi_name">{{ $data->nickname }}</span>
 					</div>
 					<ul class="pi_center_main">
@@ -69,42 +68,68 @@
 							<p>{{ $data->bio }}</p>
 						</li>
 						<li><div class="pi_line"></div></li>
+
+				{{-- Other user like this user --}}
+
+				@if($like_me)
 						<li>
-							<span class="pi_trial">爱情考验:</span>
+							<span class="pi_trial">
+							{{ $sex }}的爱情考验
+							</span>
 							<p class="pi_trial">{{ $profile->question }}</p>
+						</li>
+					</ul>
+					我的爱情考验问题是：{{ $profile->question }}
+					<br />
+					{{ $sex }}给我的爱情考验答案 {{ $like_me->answer }}
+					{{ Form::open() }}
+					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+					<input name="like" type="hidden" value="{{ $data->id }}" />
+					<div class="pi_center_bottom">
+						<a href="#">同意</a>
+						<a href="#">拒绝</a>
+					{{ Form::close() }}
+					</div>
+
+				{{-- User profile --}}
+
+				@elseif(Auth::user()->id == $data->id)
+						<li>
+							<span class="pi_trial">我的爱情考验：{{ $profile->question }}</span>
+						</li>
+					</ul>
+
+				{{-- User like other user ago --}}
+
+				@elseif($like)
+						<li>
+							<span class="pi_trial">
+							{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 						</li>
 					</ul>
 					{{ Form::open() }}
 					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 					<input name="like" type="hidden" value="{{ $data->id }}" />
-					{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-					<textarea name="answer"></textarea>
 					<div class="pi_center_bottom">
-						@if(Auth::user()->id == $data->id)
-						@elseif($like)
-							<button type="submit">再追一次</button>
-						@elseif(Auth::user()->portrait)
-							<button type="submit">追 &nbsp;
-							@if($data->sex == 'M')
-							他
-							@elseif($data->sex == 'F')
-							她
-							@else
-							TA
-							@endif
-							</button>
-						@else
-							<a href="{{ route('account.complete') }}">
-							@if($data->sex == 'M')需要完善自己的信息，才能追他哦，
-							@elseif($data->sex == 'F')
-							需要完善自己的信息，才能追她哦，
-							@else
-							需要完善自己的信息，才能追TA哦，
-							@endif
-							快去完善简历吧。</a>
-						@endif
+						<button type="submit">再追一次</button>
 					{{ Form::close() }}
 					</div>
+
+				{{-- Normal --}}
+				@else
+						<li>
+							<span class="pi_trial">{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+						</li>
+					</ul>
+					{{ Form::open() }}
+					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+					<input name="like" type="hidden" value="{{ $data->id }}" />
+					<div class="pi_center_bottom">
+						<button type="submit">追{{ $sex }}</button>
+					{{ Form::close() }}
+					</div>
+				@endif
+
 				</div>
 			</div>
 			<div class="lu_content_right">
