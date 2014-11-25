@@ -16,9 +16,7 @@
 				<span class="pi_red lu_left"></span>
 				<h2 class="pi_inf lu_left" >{{ $data->nickname }}的资料</h2>
 				<div class="pi_content_center">
-					@if ($message = Session::get('success'))
-					<a href="javascript:;" style="color: #297fb8;">&times;</a> {{ $message }}
-					@endif
+
 					<div class="pi_center_top">
 						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
 						<h3 class="pi_person lu_left">个人简介</h3>

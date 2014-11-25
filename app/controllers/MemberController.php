@@ -14,6 +14,14 @@
  * @version 	0.1
  */
 
+/**
+ * Status Code Explanation
+ *
+ * status = 0 User send like, pending accept
+ * status = 1 Receiver accept like, add friend relationship in chat system and start chat
+ * status = 2 Receiver block user, remove friend relationship in chat system
+ */
+
 class MemberController extends BaseController {
 
 	/**
@@ -71,22 +79,22 @@ class MemberController extends BaseController {
 				$have_like->count       = $have_like->count + 1;
 				if($have_like->save())
 				{
-					return Redirect::back()
+					return Redirect::route('account.sent')
 					->withInput()
-					->with('success', '发送成功。');
+					->with('success', '发送成功，静待缘分到来吧。');
 				}
 			} else { // First like
 				$like              = new Like();
 				$like->sender_id   = Auth::user()->id;
 				$like->receiver_id = $id;
-				$like->status      = 1;
+				$like->status      = 0;
 				$like->answer      = Input::get('answer');
 				$like->count       = 1;
 				if($like->save())
 				{
-					return Redirect::back()
+					return Redirect::route('account.sent')
 						->withInput()
-						->with('success', '发送成功。');
+						->with('success', '发送成功，静待缘分到来吧。');
 				}
 			}
 		} else { // Validation fail

@@ -35,7 +35,18 @@
 						{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
 						@endif
 					</div>
+
 					<div class="sgnin">
+						@if ($message = Session::get('success'))
+						<div class="sgnin_top" style="margin:0 0 10px 0">
+							<div>
+								<span>
+									<a href="javascript:;" style="color: #297fb8;">&times;</a>
+									{{ $message }}
+								</span>
+							</div>
+						</div>
+						@endif
 						<div class="sgnin_top">
 							<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
 							<div><span>精灵豆 : </span><em>30</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
