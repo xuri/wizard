@@ -13,7 +13,11 @@
 		<div id="login_main_3d">
 			<div id="login_main_wrap">
 				<div id="rgs_main">
-					<form id="login_in" action="#" method="">
+					{{ Form::open(array(
+							'id'     => 'login_in',
+							'action' => 'AuthorityController@postSignin'
+						))
+					}}
 						<div class="login_window">登录窗口</div>
 						<ul class="login_form">
 							<li class="login_li">
@@ -31,7 +35,7 @@
 						</div>
 						<a id="login_forget" href="#">忘记密码</a>
 						<input class="login_submit" type="submit" value="立即登录">
-					</form>
+					{{ Form::close() }}
 				</div>
 				{{-- end login_main --}}
 				<div id="login_main" style="text-align: center;">

@@ -96,9 +96,12 @@
 							@endif
 							</button>
 						@else
-							<a href="{{ route('account.complete') }}">需要完善自己的信息，才能追@if($data->sex == 'M')他哦，
-							@elseif($data->sex == 'F')她哦，
-							@elseTA哦，
+							<a href="{{ route('account.complete') }}">
+							@if($data->sex == 'M')需要完善自己的信息，才能追他哦，
+							@elseif($data->sex == 'F')
+							需要完善自己的信息，才能追她哦，
+							@else
+							需要完善自己的信息，才能追TA哦，
 							@endif
 							快去完善简历吧。</a>
 						@endif

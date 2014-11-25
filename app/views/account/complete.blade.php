@@ -343,7 +343,7 @@
 								<td class="data_td1">性别：{{ $errors->first('sex', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									@if(Auth::user()->sex)
-									<input value="{{ Auth::user()->sex }}" type="hidden" name="sex">
+									<input value="{{ Auth::user()->sex }}" type="hidden" name="sex"> （性别不能修改）
 									{{ Auth::user()->sex }}
 									@else
 									<select name="sex" id="sex_select">
@@ -351,6 +351,7 @@
 										<option value="M">男</option>
 										<option value="F">女</option>
 									</select>
+									（注意：性别设置后不能修改）
 									@endif
 								</td>
 							</tr>
@@ -358,7 +359,7 @@
 								<td class="data_td1">出生年：{{ $errors->first('born_year', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									@if(Auth::user()->born_year)
-									{{ Auth::user()->born_year }}
+									{{ Auth::user()->born_year }} （出生年不能修改了）
 									<input value="{{ Auth::user()->born_year }}" type="hidden" name="born_year">
 									@else
 									<select name="born_year" id="born_select">
@@ -367,6 +368,7 @@
 										<option value="1992">1992</option>
 										<option value="1993">1993</option>
 									</select>
+									（注意：出生年设置后不能修改）
 									@endif
 								</td>
 							</tr>
