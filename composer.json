@@ -5,8 +5,9 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework": "4.2.*",
-		"intervention/image": "dev-master"
+		"laravel/framework" : "4.2.*",
+		"intervention/image": "dev-master",
+		"anlutro/curl"      : "dev-master"
 	},
 	"autoload": {
 		"classmap": [

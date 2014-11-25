@@ -239,6 +239,20 @@ class AuthorityController extends BaseController
 					$activation->email = $user->email;
 					$activation->token = str_random(40);
 					$activation->save();
+
+					// Chat Register
+
+					// If use authorizition register need get token
+
+					// $token = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => 'YXA6M2UpUHPaEeSaYXv38dc1_w', 'client_secret' => 'YXA6x004Soel1j4pPEJndHMUYP3S_BM']);
+
+					// newRequest or newJsonRequest returns a Request object
+					$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
+						->setHeader('content-type', 'application/json')
+						->setHeader('Accept', 'json')
+						//->setHeader('Authorization', 'Bearer ',$token)
+						->setOptions([CURLOPT_VERBOSE => true])
+						->send();
 					// Send activation mail
 					$with = array('activationCode' => $activation->token);
 					Mail::later(10, 'emails.auth.activation', $with, function ($message) use ($user) {
