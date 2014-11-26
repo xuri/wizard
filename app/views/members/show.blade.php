@@ -71,31 +71,11 @@
 
 				{{-- Other user like this user --}}
 
-				@if($like_me)
-						<li>
-							<span class="pi_trial">
-							{{ $sex }}的爱情考验：{{ $profile->question }}</span>
-						</li>
-					</ul>
-					我的爱情考验问题是：{{ $profile->question }}
-					<br />
-					{{ $sex }}给我的爱情考验答案 {{ $like_me->answer }}
-					<div class="pi_center_bottom">
-					{{ Form::open() }}
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
-						<input name="status" type="hidden" value="accept" />
-						<input type="submit" value="同意" />
-					{{ Form::close() }}
-					{{ Form::open() }}
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
-						<input name="status" type="hidden" value="reject" />
-						<input type="submit" value="拒绝" />
-					{{ Form::close() }}
-					</div>
+
 
 				{{-- User profile --}}
 
-				@elseif(Auth::user()->id == $data->id)
+				@if(Auth::user()->id == $data->id)
 						<li>
 							<span class="pi_trial">我的爱情考验：{{ $profile->question }}</span>
 						</li>
@@ -113,6 +93,16 @@
 							</li>
 						</ul>
 						对方已经把你拉黑了，现在不能追{{ $sex }}。
+
+					{{-- Sender block receiver user --}}
+
+					@elseif($like->status == 4)
+						<li>
+								<span class="pi_trial">
+								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+							</li>
+						</ul>
+						你已经把对方拉黑了，考虑下是不是要恢复和{{ $sex }}的朋友关系呢？
 
 					{{-- User like other user ago --}}
 
@@ -134,6 +124,62 @@
 					@endif
 
 				{{-- Normal --}}
+
+				@elseif($like_me)
+
+					{{-- Receiver block user --}}
+
+					@if($like_me->status == 4)
+
+							<li>
+								<span class="pi_trial">
+								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+							</li>
+						</ul>
+						对方已经把你拉黑了，现在不能追{{ $sex }}。
+
+					{{-- Sender block receiver user --}}
+
+					@elseif($like_me->status == 3)
+						<li>
+								<span class="pi_trial">
+								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+							</li>
+						</ul>
+						你已经把对方拉黑了，考虑下是不是要恢复和{{ $sex }}的朋友关系呢？
+
+					{{-- Receiver accept like --}}
+
+					@elseif($like_me->status == 1)
+							<li>
+								<span class="pi_trial">
+								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+							</li>
+						</ul>
+						你已接受{{ $sex }}的邀请。
+					@else
+
+							<li>
+								<span class="pi_trial">
+								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+							</li>
+						</ul>
+						<br />
+						{{ $sex }}给我的爱情考验答案 {{ $like_me->answer }}
+						<div class="pi_center_bottom">
+						{{ Form::open() }}
+							<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+							<input name="status" type="hidden" value="accept" />
+							<input type="submit" value="同意" />
+						{{ Form::close() }}
+						{{ Form::open() }}
+							<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+							<input name="status" type="hidden" value="reject" />
+							<input type="submit" value="拒绝" />
+						{{ Form::close() }}
+						</div>
+
+					@endif
 
 				@else
 						<li>

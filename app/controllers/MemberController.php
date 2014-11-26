@@ -21,6 +21,7 @@
  * status = 1 Receiver accept like, add friend relationship in chat system and start chat
  * status = 2 Receiver reject user, remove friend relationship in chat system
  * status = 3 Receiver block user, remove friend relationship in chat system
+ * status = 4 Sender block receiver user, remove friend relationship in chat system
  */
 
 class MemberController extends BaseController {
@@ -130,8 +131,18 @@ class MemberController extends BaseController {
 				}
 			case 'accept' :
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
-				$like->status	= 1; // Receiver accept like, add friend relationship in chat system and start chat
+				$like->status	= 1; // Receiver accept like
 				$like->save();
+
+				$easemob			= getEasemob();
+				// Add friend relationship in chat system and start chat
+				$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
+						->setHeader('content-type', 'application/json')
+						->setHeader('Accept', 'json')
+						->setHeader('Authorization', 'Bearer '.$easemob->token)
+						->setOptions([CURLOPT_VERBOSE => true])
+						->send();
+
 				if($like->save())
 				{
 					return Redirect::route('account.inbox')
@@ -158,8 +169,38 @@ class MemberController extends BaseController {
 						->with('error', '拉黑失败，请重试。');
 				}
 			break;
+			case 'sender_block' :
+				$like			= Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
+				$like->status	= 4; // Sender block receiver user, remove friend relationship in chat system
+				$like->save();
+				if($like->save())
+				{
+					return Redirect::back()
+						->withInput()
+						->with('success', '拉黑成功。');
+				} else {
+					return Redirect::back()
+						->withInput()
+						->with('error', '拉黑失败，请重试。');
+				}
+			break;
 			case 'recover' :
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
+				$like->status	= 0; // User send like, pending accept
+				$like->save();
+				if($like->save())
+				{
+					return Redirect::back()
+						->withInput()
+						->with('success', '取消拉黑成功。');
+				} else {
+					return Redirect::back()
+						->withInput()
+						->with('error', '取消拉黑失败，请重试。');
+				}
+			break;
+			case 'sender_recover' :
+				$like			= Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
 				$like->status	= 0; // User send like, pending accept
 				$like->save();
 				if($like->save())

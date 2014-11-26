@@ -133,6 +133,26 @@
 									margin: 0 10px 0 10px;
 									padding: 3px 6px;" value="取消拉黑"
 									/>
+								@elseif($data->status == 4)
+									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #888;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;">
+									对方已经把你拉黑了</a>
 								@else
 									<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 									<input name="status" type="hidden" value="block" />
@@ -148,7 +168,7 @@
 									font-weight: 100;
 									letter-spacing: 0.01em;
 									border: 0 rgba(0,0,0,0);
-									background-color: #de3861;
+									background-color: #888;
 									text-decoration: none;
 									border-radius: 2px;
 									color: #fff;
@@ -174,7 +194,7 @@
 									font-weight: 100;
 									letter-spacing: 0.01em;
 									border: 0 rgba(0,0,0,0);
-									background-color: #eea236;
+									background-color: #de3861;
 									text-decoration: none;
 									border-radius: 2px;
 									color: #fff;

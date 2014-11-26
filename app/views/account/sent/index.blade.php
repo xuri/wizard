@@ -98,6 +98,10 @@
 							?>
 							<li>
 								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186')) }}
+								{{ Form::open(array(
+										'action' => array('MemberController@like', $data->receiver_id)
+									))
+								}}
 								<div class="courtship_title">
 									@if($user->sex == 'M')
 									{{ HTML::image('assets/images/symbol.png') }}
@@ -128,6 +132,55 @@
 										margin: 0 10px 0 10px;
 										padding: 3px 6px;">
 									对方已经把你拉黑了</a>
+									@elseif($data->status == 1)
+										<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+										<input name="status" type="hidden" value="sender_block" />
+										<input type="submit" style="display: inline-block;
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #888;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;"
+											@if($user->sex == 'M')
+											value="把他拉黑"
+											@else(Auth::user()->sex == 'F')
+											value="把她拉黑"
+											@endif
+										/>
+									@elseif($data->status == 4)
+										<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+										<input name="status" type="hidden" value="sender_recover" />
+										<input type="submit" style="display: inline-block;
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #de3861;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;" value="取消拉黑"
+										/>
 									@else
 									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
 										zoom: 1;
@@ -209,8 +262,29 @@
 										margin: 0 10px 0 10px;
 										padding: 3px 6px;
 										">已经拒绝</a>
+									@elseif($data->status == 4)
+									<a href="javascript:;" style="display: inline-block;
+										zoom: 1;
+										line-height: normal;
+										white-space: nowrap;
+										vertical-align: baseline;
+										text-align: center;
+										cursor: pointer;
+										-webkit-user-drag: none;
+										-webkit-user-select: none;
+										font-weight: 100;
+										letter-spacing: 0.01em;
+										border: 0 rgba(0,0,0,0);
+										background-color: #888;
+										text-decoration: none;
+										border-radius: 2px;
+										color: #fff;
+										margin: 0 10px 0 10px;
+										padding: 3px 6px;
+										">已经拉黑</a>
 									@endif
 								</div>
+								{{ Form::close() }}
 							</li>
 							@endforeach
 

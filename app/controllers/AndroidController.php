@@ -32,8 +32,6 @@ class AndroidController extends BaseController
 	 */
 	public function getDebug()
 	{
-		$lastRecord = User::orderBy('id', 'DESC')->first()->id;
-		$users = User::whereNotNull('portrait')->orderBy('created_at', 'desc')->select('id', 'nickname', 'school', 'sex')->where('id', '<', $lastRecord)->take(5)->get()->toJson();
 		return View::make('android.index')->with(compact('users'));
 	}
 
@@ -53,12 +51,12 @@ class AndroidController extends BaseController
 			{
 				// Credentials
 				$credentials = array(
-					'email' => Input::get('phone'),
-					'password' => md5(Input::get('password')
+					'email'		=> Input::get('phone'),
+					'password'	=> md5(Input::get('password')
 				));
 				$phone_credentials = array(
-					'phone' => Input::get('phone'),
-					'password' => md5(Input::get('password')
+					'phone'		=> Input::get('phone'),
+					'password'	=> md5(Input::get('password')
 				));
 				if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
 					// Signin success, redirect to the previous page that was blocked
@@ -146,34 +144,34 @@ class AndroidController extends BaseController
 				//Create validation rules
 
 				$rules = array(
-					'nickname'      => 'required|between:1,30',
-					'constellation' => 'required',
-					'tag_str'       => 'required',
-					'sex'           => 'required',
-					'born_year'     => 'required',
-					'grade'         => 'required',
-					'hobbies'       => 'required',
-					'self_intro'    => 'required',
-					'bio'           => 'required',
-					'question'      => 'required',
-					'school'        => 'required',
+					'nickname'		=> 'required|between:1,30',
+					'constellation'	=> 'required',
+					'tag_str'		=> 'required',
+					'sex'			=> 'required',
+					'born_year'		=> 'required',
+					'grade'			=> 'required',
+					'hobbies'		=> 'required',
+					'self_intro'	=> 'required',
+					'bio'			=> 'required',
+					'question'		=> 'required',
+					'school'		=> 'required',
 				);
 
 				// Custom validation message
 
 				$messages = array(
-					'nickname.required'      => '请输入昵称',
-					'nickname.between'       => '昵称长度请保持在:min到:max字之间',
-					'constellation.required' => '请选择星座',
-					'tag_str.required'       => '给自己贴个标签吧',
-					'sex.required'           => '请选择性别',
-					'born_year.required'     => '请选择出生年',
-					'grade.required'         => '请选择入学年',
-					'hobbies.required'       => '填写你的爱好',
-					'self_intro.required'    => '请填写个人简介',
-					'bio.required'           => '请填写你的真爱寄语',
-					'question.required'      => '记得填写爱情考验哦',
-					'school.required'        => '请选择所在学校',
+					'nickname.required'			=> '请输入昵称',
+					'nickname.between'			=> '昵称长度请保持在:min到:max字之间',
+					'constellation.required'	=> '请选择星座',
+					'tag_str.required'			=> '给自己贴个标签吧',
+					'sex.required'				=> '请选择性别',
+					'born_year.required'		=> '请选择出生年',
+					'grade.required'			=> '请选择入学年',
+					'hobbies.required'			=> '填写你的爱好',
+					'self_intro.required'		=> '请填写个人简介',
+					'bio.required'				=> '请填写你的真爱寄语',
+					'question.required'			=> '记得填写爱情考验哦',
+					'school.required'			=> '请选择所在学校',
 				);
 
 				// Begin verification

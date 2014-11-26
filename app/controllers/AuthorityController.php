@@ -244,27 +244,24 @@ class AuthorityController extends BaseController
 				$user->password = md5(Input::get('password'));
 
 				if ($user->save()) {
-					$profile = new Profile;
-					$profile->user_id = $user->id;
+					$profile			= new Profile;
+					$profile->user_id	= $user->id;
 					$profile->save();
 					// Add user success
 					// Generate activation code
-					$activation        = new Activation;
-					$activation->email = $user->email;
-					$activation->token = str_random(40);
+					$activation			= new Activation;
+					$activation->email	= $user->email;
+					$activation->token	= str_random(40);
 					$activation->save();
 
 					// Chat Register
 
-					// If use authorizition register need get token
-
-					// $token = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => 'YXA6M2UpUHPaEeSaYXv38dc1_w', 'client_secret' => 'YXA6x004Soel1j4pPEJndHMUYP3S_BM']);
-
+					$easemob			= getEasemob();
 					// newRequest or newJsonRequest returns a Request object
 					$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
 						->setHeader('content-type', 'application/json')
 						->setHeader('Accept', 'json')
-						//->setHeader('Authorization', 'Bearer ',$token)
+						->setHeader('Authorization', 'Bearer '.$easemob->token)
 						->setOptions([CURLOPT_VERBOSE => true])
 						->send();
 					// Send activation mail
@@ -320,6 +317,21 @@ class AuthorityController extends BaseController
 				$user->phone    = $phone;
 				$user->password = md5(Input::get('password'));
 				if ($user->save()) {
+					$profile			= new Profile;
+					$profile->user_id	= $user->id;
+					$profile->save();
+
+					// Chat Register
+
+					// If use authorizition register need get token
+					$easemob			= getEasemob();
+					// newRequest or newJsonRequest returns a Request object
+					$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
+						->setHeader('content-type', 'application/json')
+						->setHeader('Accept', 'json')
+						->setHeader('Authorization', 'Bearer '.$easemob->token)
+						->setOptions([CURLOPT_VERBOSE => true])
+						->send();
 					// Redirect to a registration page, prompts user to activate
 					return Redirect::route('home');
 				} else {

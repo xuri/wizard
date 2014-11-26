@@ -451,3 +451,25 @@ function getTagName($tag)
 	}
 	return $tagName;
 }
+
+function getEasemob()
+{
+	$easemob			= System::where('name', 'easemob')->first();
+	$nowTime			= new DateTime();
+	$easemobUpdated		= $nowTime->getTimestamp() - strtotime($easemob->updated_at);
+	// Get token
+	if($easemob->token == NULL)
+	{
+		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send();
+		$accessToken	= json_decode($accessToken->body, true);
+		$easemob->token	= $accessToken['access_token'];
+		$easemob->save();
+	} elseif($easemobUpdated < 201600) // 3 Days
+	{
+		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send();
+		$accessToken	= json_decode($accessToken->body, true);
+		$easemob->token	= $accessToken['access_token'];
+		$easemob->save();
+	}
+	return $easemob;
+}
