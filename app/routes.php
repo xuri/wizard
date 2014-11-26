@@ -53,24 +53,24 @@ Route::group(array('prefix' => 'auth'), function () {
 	# Route Group
 	Route::group(array('before' => 'guest'), function () use ($Authority) {
 		# Signin
-		Route::get('signin'                   , array('as' => 'signin'        , 'uses' => $Authority.'getSignin'        ));
-		Route::post('signin'                  , $Authority.'postSignin');
+		Route::get('signin' 					, array('as' => 'signin'		, 'uses' => $Authority.'getSignin'			));
+		Route::post('signin'					, $Authority.'postSignin');
 		# Signup
-		Route::get('signup'                   , array('as' => 'signup'        , 'uses' => $Authority.'getSignup'        ));
-		Route::post('signup'                  , $Authority.'postSignup');
+		Route::get('signup' 					, array('as' => 'signup'        , 'uses' => $Authority.'getSignup'			));
+		Route::post('signup'					, $Authority.'postSignup');
 		# Signup Success
-		Route::get('success/{email}'          , array('as' => 'signupSuccess' , 'uses' => $Authority.'getSignupSuccess' ));
+		Route::get('success/{email}'			, array('as' => 'signupSuccess' , 'uses' => $Authority.'getSignupSuccess'	));
 		# Activation Account
-		Route::get('activate/{activationCode}', array('as' => 'activate'      , 'uses' => $Authority.'getActivate'      ));
+		Route::get('activate/{activationCode}'	, array('as' => 'activate'		, 'uses' => $Authority.'getActivate'		));
 		# Forgot password
-		Route::get('forgot-password'          , array('as' => 'forgotPassword', 'uses' => $Authority.'getForgotPassword'));
-		Route::post('forgot-password'         , $Authority.'postForgotPassword');
+		Route::get('forgot-password'			, array('as' => 'forgotPassword', 'uses' => $Authority.'getForgotPassword'	));
+		Route::post('forgot-password'			, $Authority.'postForgotPassword');
 		# Reset password
-		Route::get('forgot-password/{token}'  , array('as' => 'reset'         , 'uses' => $Authority.'getReset'         ));
-		Route::post('forgot-password/{token}' , $Authority.'postReset');
+		Route::get('forgot-password/{token}'	, array('as' => 'reset'         , 'uses' => $Authority.'getReset'			));
+		Route::post('forgot-password/{token}'	, $Authority.'postReset');
 		# SMS Verify
-		Route::post('verifycode'			  , array('as' => 'verifycode'	  , 'uses' => $Authority.'postVerifyCode'	));
-		Route::post('postsmsreset'			  , array('as' => 'postsmsreset'  , 'uses' => $Authority.'postSMSReset'		));
+		Route::post('verifycode'				, array('as' => 'verifycode'	, 'uses' => $Authority.'postVerifyCode'		));
+		Route::post('postsmsreset'				, array('as' => 'postsmsreset'  , 'uses' => $Authority.'postSMSReset'		));
 	});
 });
 

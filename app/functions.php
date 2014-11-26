@@ -452,24 +452,28 @@ function getTagName($tag)
 	return $tagName;
 }
 
+/**
+ * Easemob Web IM API
+ * @return object easemob configure
+ */
 function getEasemob()
 {
-	$easemob			= System::where('name', 'easemob')->first();
-	$nowTime			= new DateTime();
-	$easemobUpdated		= $nowTime->getTimestamp() - strtotime($easemob->updated_at);
+	$easemob			= System::where('name', 'easemob')->first(); // Get easemod API config
+	$nowTime			= new DateTime(); // Now time
+	$easemobUpdated		= $nowTime->getTimestamp() - strtotime($easemob->updated_at); // Calculate last update timestamp
 	// Get token
-	if($easemob->token == NULL)
+	if($easemob->token == NULL) // First get token
 	{
-		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send();
-		$accessToken	= json_decode($accessToken->body, true);
+		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
+		$accessToken	= json_decode($accessToken->body, true); // Json decode
 		$easemob->token	= $accessToken['access_token'];
-		$easemob->save();
-	} elseif($easemobUpdated < 201600) // 3 Days
+		$easemob->save(); // Save access token
+	} elseif($easemobUpdated < 201600) // Last update timestamp 3 Days
 	{
-		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send();
-		$accessToken	= json_decode($accessToken->body, true);
+		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
+		$accessToken	= json_decode($accessToken->body, true); // Json decode
 		$easemob->token	= $accessToken['access_token'];
-		$easemob->save();
+		$easemob->save(); // Save access token
 	}
 	return $easemob;
 }
