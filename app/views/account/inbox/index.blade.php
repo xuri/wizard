@@ -201,7 +201,7 @@
 									margin: 0 10px 0 10px;
 									padding: 3px 6px;">等你回复</a>
 								@elseif($data->status == 1)
-								<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
+								<a href="#modal" class="remodal-bg" style="display: inline-block;
 									zoom: 1;
 									line-height: normal;
 									white-space: nowrap;
@@ -269,6 +269,9 @@
 			</div>
 		</div>
 	</div>
+
+	@include('account.inbox.chat')
+	@yield('content')
 
 	@include('layout.copyright')
 	@yield('content')
