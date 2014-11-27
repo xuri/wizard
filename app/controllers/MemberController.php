@@ -118,7 +118,6 @@ class MemberController extends BaseController {
 			case 'reject' :
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
 				$like->status	= 2; // Receiver reject user, remove friend relationship in chat system
-				$like->save();
 				if($like->save())
 				{
 					return Redirect::route('account.inbox')
@@ -132,11 +131,10 @@ class MemberController extends BaseController {
 			case 'accept' :
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
 				$like->status	= 1; // Receiver accept like
-				$like->save();
 
-				$easemob			= getEasemob();
+				$easemob		= getEasemob();
 				// Add friend relationship in chat system and start chat
-				$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
+				$regChat		= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
 						->setHeader('content-type', 'application/json')
 						->setHeader('Accept', 'json')
 						->setHeader('Authorization', 'Bearer '.$easemob->token)
@@ -157,7 +155,7 @@ class MemberController extends BaseController {
 			case 'block' :
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
 				$like->status	= 3; // Receiver block user, remove friend relationship in chat system
-				$like->save();
+
 				if($like->save())
 				{
 					return Redirect::back()
@@ -172,7 +170,6 @@ class MemberController extends BaseController {
 			case 'sender_block' :
 				$like			= Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
 				$like->status	= 4; // Sender block receiver user, remove friend relationship in chat system
-				$like->save();
 				if($like->save())
 				{
 					return Redirect::back()
@@ -187,7 +184,6 @@ class MemberController extends BaseController {
 			case 'recover' :
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
 				$like->status	= 0; // User send like, pending accept
-				$like->save();
 				if($like->save())
 				{
 					return Redirect::back()
@@ -202,7 +198,6 @@ class MemberController extends BaseController {
 			case 'sender_recover' :
 				$like			= Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
 				$like->status	= 0; // User send like, pending accept
-				$like->save();
 				if($like->save())
 				{
 					return Redirect::back()
