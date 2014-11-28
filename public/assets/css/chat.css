@@ -58,14 +58,14 @@
 	float: right;
 	background-color: #ef698a;
 	color: #fff;
-	margin-left: 140px;
+	margin-left: 50%;
 }
 
 .chat .text.receive{
 	float: left;
 	word-wrap: break-word;
 	background-color: #eee;
-	margin-right: 116px;
+	margin-right: 50%;
 }
 
 .chat
@@ -114,9 +114,6 @@
 	text-decoration: underline;
 }
 .chat div.title {
-	border-top: 1px solid #ef698a;
-	border-top-right-radius: 6px;
-	border-top-left-radius: 6px;
 	padding: 7px 0;
 	height: 29px;
 	margin: 0;
@@ -188,4 +185,110 @@
 
 .message a:hover{
 	color: #111;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.wl_faces_box {
+	position: absolute;
+	width: 428px;
+	height: 225px;
+	bottom: 70px;
+	right: 30px;
+	display: none;
+}
+
+.wl_faces_content {
+	background: #fff;
+	border: 1px #ccc solid;
+	width: 417px;
+	height: 216px;
+	margin: 3px 4px;
+}
+
+.wl_faces_content .title {
+	height: 40px;
+	position: relative;
+}
+
+.wl_faces_content .title ul {
+
+}
+
+.wl_faces_content .title ul li {
+	position: absolute;
+	display: block;
+}
+
+.wl_faces_content .title ul li.title_name {
+	width: 82px;
+	height: 30px;
+	bottom: 0;
+	_bottom: -2px;
+	left: 15px;
+	text-align: center;
+	font-weight: bold;
+	color: #FFF;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.wl_faces_content .title ul li.wl_faces_close {
+	right: 8px;
+	top: 15px;
+}
+
+.wl_faces_content .title ul li.wl_faces_close span {
+	background: url('../easymob-webim1.0/img/icon.png') repeat-x 0 0;
+	cursor: pointer;
+	display: block;
+	width: 15px;
+	height: 15px;
+}
+
+.wl_faces_main {
+
+}
+
+.wl_faces_main ul {
+	margin: 12px 28px;
+	overflow: hidden;
+	border-top: 1px #CCC solid;
+	border-left: 1px #CCC solid;
+	width: 360px;
+}
+
+.wl_faces_main ul li {
+	float: left;
+	border-right: 1px #CCC solid;
+	border-bottom: 1px #CCC solid;
+	height: 22px;
+	width: 26px;
+	margin: -1px 0 0 -1px;
+	padding: 4px 2px;
+	text-align: center;
+}
+
+.wl_faces_main ul li img {
+	width: 22px;
+	height: 22px;
+}
+
+.wlf_icon {
+	background: url('../easymob-webim1.0/img/layer_arrow.png') no-repeat 0 0;
+	position: absolute;
+	width: 22px;
+	height: 9px;
+	bottom: -4px;
+	_bottom: -11px;
+	right: 71px;
 }

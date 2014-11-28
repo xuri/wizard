@@ -53,7 +53,7 @@
 						<div class="sgnin_con">
 							<div class="comeon">
 								<span class="comeon_title">为爱情正能量加油</span>
-								<a id="clickon" href="javascript:;">加油</a>
+								<a id="clickon" href="javascript:void(0)">加油</a>
 								<div id="instr">
 									<div>当你加油累积<span>10</span>天后，会得到代表(活跃用户标志)的<em>橙色昵称</em></div>
 									<div>当你加油累积<span>30</span>天后，会得到代表粉丝级用户标志的<span>头像加冠</span></div>
@@ -82,7 +82,7 @@
 				<div id="data">
 					<div class="data_top clear">
 						<span></span> {{-- Left pink section --}}
-						<p>我追的人</p>
+						<p>追我的人</p>
 					</div>
 					<div id="courtship">
 						<ul class="clear">
@@ -220,7 +220,7 @@
 									margin: 0 10px 0 10px;
 									padding: 3px 6px;">开始聊天</a>
 								@elseif($data->status == 2)
-								<a href="javascript:;" style="display: inline-block;
+								<a href="javascript:void(0)" style="display: inline-block;
 									zoom: 1;
 									line-height: normal;
 									white-space: nowrap;
@@ -239,7 +239,7 @@
 									margin: 0 10px 0 10px;
 									padding: 3px 6px;">已经拒绝</a>
 								@elseif($data->status == 3)
-								<a href="javascript:;" style="display: inline-block;
+								<a href="javascript:void(0)" style="display: inline-block;
 									zoom: 1;
 									line-height: normal;
 									white-space: nowrap;
@@ -276,5 +276,5 @@
 	@include('layout.copyright')
 	@yield('content')
 
-@include('account.sent.footer')
+@include('account.inbox.footer')
 @yield('content')
