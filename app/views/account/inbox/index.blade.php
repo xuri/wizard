@@ -114,66 +114,15 @@
 								@if($data->status == 3)
 									<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 									<input name="status" type="hidden" value="recover" />
-									<input type="submit" style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #de3861;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									padding: 3px 6px;" value="取消拉黑"
+									<input type="submit" class="button-resent" value="取消拉黑"
 									/>
 								@elseif($data->status == 4)
-									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #888;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;">
+									<a href="{{ route('members.show', $user->id) }}" class="button-block">
 									对方已经把你拉黑了</a>
 								@else
 									<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 									<input name="status" type="hidden" value="block" />
-									<input type="submit" style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #888;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									padding: 3px 6px;"
+									<input type="submit" class="button-resent"
 										@if($user->sex == 'M')
 										value="把他拉黑"
 										@else(Auth::user()->sex == 'F')
@@ -182,81 +131,13 @@
 									/>
 								@endif
 								@if($data->status == 0)
-									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #de3861;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									padding: 3px 6px;">等你回复</a>
+									<a href="{{ route('members.show', $user->id) }}" class="button-wait">等你回复</a>
 								@elseif($data->status == 1)
-								<a href="#modal" class="remodal-bg" style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #357ebd;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									padding: 3px 6px;">开始聊天</a>
+								<a href="#modal" class="remodal-bg button-blue">开始聊天</a>
 								@elseif($data->status == 2)
-								<a href="javascript:void(0)" style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #888;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									padding: 3px 6px;">已经拒绝</a>
+								<a href="javascript:void(0)" class="button-block">已经拒绝</a>
 								@elseif($data->status == 3)
-								<a href="javascript:void(0)" style="display: inline-block;
-									zoom: 1;
-									line-height: normal;
-									white-space: nowrap;
-									vertical-align: baseline;
-									text-align: center;
-									cursor: pointer;
-									-webkit-user-drag: none;
-									-webkit-user-select: none;
-									font-weight: 100;
-									letter-spacing: 0.01em;
-									border: 0 rgba(0,0,0,0);
-									background-color: #888;
-									text-decoration: none;
-									border-radius: 2px;
-									color: #fff;
-									margin: 0 10px 0 10px;
-									padding: 3px 6px;">已经拉黑</a>
+								<a href="javascript:void(0)" class="button-block">已经拉黑</a>
 								@endif
 								</div>
 							</li>

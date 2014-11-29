@@ -8,6 +8,7 @@
 			</div>
 
 			<div id="conversation" class="conversation">
+				<div id="null-nouser" class="chat01_content"></div>
 				<div class="time">
 					<div class="time">
 						<p>Aug 9, 2012 3:43 AM</p>
@@ -68,7 +69,7 @@
 				</div> -->
 			</div>
 			<div class="message">
-				<input id="talkInputId" type="text" name="imessage" value="" placeholder="输入消息……">
+				<input id="talkInputId" type="text" name="imessage" value="" autocomplete="off" placeholder="输入消息……">
 				<a href="javascript:showEmotionDialog()"><i class="fa fa-smile-o"></i></a>
 				<a href=""><i class="fa fa-picture-o"></i></a>
 				<a href=""><i class="fa fa-file-audio-o"></i></a>
@@ -77,8 +78,7 @@
 						<div class="title">
 							<ul>
 								<li class="title_name">常用表情</li>
-								<li class="wl_faces_close"><span
-									onclick='turnoffFaces_box()'>&nbsp;</span></li>
+								<li class="wl_faces_close"><span onclick='turnoffFaces_box()'>&nbsp;</span></li>
 							</ul>
 						</div>
 						<div id="wl_faces_main" class="wl_faces_main">

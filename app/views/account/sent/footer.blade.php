@@ -60,6 +60,8 @@
 		var curChatUserId = null;
 		@endif
 	@endforeach
+
+	var curUserPass = '{{ Auth::user()->password }}';
 	var conn = null;
 	var curRoomId = null;
 	var msgCardDivId = "conversation";
@@ -76,6 +78,9 @@
 	var groupFlagMark = "group&-";
 	var groupQuering = false;
 	var textSending = false;
+
+	window.URL = window.URL || window.webkitURL || window.mozURL
+			|| window.msURL;
 
 	//定义消息编辑文本域的快捷键，enter和ctrl+enter为发送，alt+enter为换行
 	//控制提交频率
@@ -99,6 +104,8 @@
 
 		});
 	});
+
+
 	//easemobwebim-sdk注册回调函数列表
 	$(document).ready(function() {
 		conn = new Easemob.im.Connection();
@@ -145,9 +152,52 @@
 			}
 		});
 
-		var user = '{{ Auth::user()->id }}';
+		//发送文件的模态窗口
+		$('#fileModal').on('hidden.bs.modal', function(e) {
+			var ele = document.getElementById(fileInputId);
+			ele.value = "";
+			if (!window.addEventListener) {
+				ele.outerHTML = ele.outerHTML;
+			}
+			document.getElementById("fileSend").disabled = false;
+			document.getElementById("cancelfileSend").disabled = false;
+		});
+
+		$('#addFridentModal').on('hidden.bs.modal', function(e) {
+			var ele = document.getElementById("addfridentId");
+			ele.value = "";
+			if (!window.addEventListener) {
+				ele.outerHTML = ele.outerHTML;
+			}
+			document.getElementById("addFridend").disabled = false;
+			document.getElementById("cancelAddFridend").disabled = false;
+		});
+
+		$('#delFridentModal').on('hidden.bs.modal', function(e) {
+			var ele = document.getElementById("delfridentId");
+			ele.value = "";
+			if (!window.addEventListener) {
+				ele.outerHTML = ele.outerHTML;
+			}
+			document.getElementById("delFridend").disabled = false;
+			document.getElementById("canceldelFridend").disabled = false;
+		});
+
+		$('#confirm-block-div-modal').on('hidden.bs.modal', function(e) {
+
+		});
+
+		$('#option-room-div-modall').on('hidden.bs.modal', function(e) {
+
+		});
+
+		$('#notice-block-div').on('hidden.bs.modal', function(e) {
+
+		});
+
+		var user = curUserId;
 		//密码
-		var pass = '{{ Auth::user()->password }}';
+		var pass = curUserPass;
 		conn.open({
 			user : user,
 			pwd : pass,
@@ -164,7 +214,6 @@
 		// });
 	});
 
-
 	//处理连接时函数,主要是登录成功后对页面元素做处理
 	var handleOpen = function(conn) {
 		//从连接中获取到当前的登录人注册帐号名
@@ -173,8 +222,11 @@
 		conn.getRoster({
 			success : function(roster) {
 				// 页面处理
-				//hiddenWaitLoginedUI();
+				// hiddenWaitLoginedUI();
 				//showChatUI();
+
+				alert('已连接');
+
 				createContactlistUL();
 				var curroster;
 				for ( var i in roster) {
@@ -224,76 +276,178 @@
 		hiddenChatUI();
 		clearContactUI("contractlist", msgCardDivId);
 		unknowContact = {};
-		// showLoginUI();
+		showLoginUI();
 		groupQuering = false;
 		textSending = false;
 	};
-
-
-
-	//表情选择div的关闭方法
-	var turnoffFaces_box = function() {
-		$("#wl_faces_box").fadeOut("slow");
-	};
-	var selectEmotionImg = function(selImg) {
-		var txt = document.getElementById(talkInputId);
-		txt.value = txt.value + selImg.id;
-		txt.focus();
-	};
-	var showSendPic = function() {
-		$('#fileModal').modal('toggle');
-		$('#sendfiletype').val('pic');
-		$('#send-file-warning').html("");
-	};
-	var showSendAudio = function() {
-		$('#fileModal').modal('toggle');
-		$('#sendfiletype').val('audio');
-		$('#send-file-warning').html("");
-	};
-
-	var sendText = function() {
-		if (textSending) {
+	//easemobwebim-sdk中收到联系人订阅请求的处理方法，具体的type值所对应的值请参考xmpp协议规范
+	var handlePresence = function(e) {
+		//（发送者希望订阅接收者的出席信息），即别人申请加你为好友
+		if (e.type == 'subscribe') {
+			if (e.status) {
+				if (e.status.indexOf('resp:true') > -1) {
+					agreeAddFriend(e.from);
+					return;
+				}
+			}
+			var subscribeMessage = e.from + "请求加你为好友。\n验证消息：" + e.status;
+			showNewNotice(subscribeMessage);
+			$('#confirm-block-footer-confirmButton').click(function() {
+				//同意好友请求
+				agreeAddFriend(e.from);//e.from用户名
+				//反向添加对方好友
+				conn.subscribe({
+					to : e.from,
+					message : "[resp:true]"
+				});
+				$('#confirm-block-div-modal').modal('hide');
+			});
+			$('#confirm-block-footer-cancelButton').click(function() {
+				rejectAddFriend(e.from);//拒绝加为好友
+				$('#confirm-block-div-modal').modal('hide');
+			});
 			return;
 		}
-		textSending = true;
-
-		var msgInput = document.getElementById(talkInputId);
-		var msg = msgInput.value;
-
-		if (msg == null || msg.length == 0) {
+		//(发送者允许接收者接收他们的出席信息)，即别人同意你加他为好友
+		if (e.type == 'subscribed') {
+			toRoster.push({
+				name : e.from,
+				jid : e.fromJid,
+				subscription : "to"
+			});
 			return;
 		}
-		var to = curChatUserId;
-		if (to == null) {
+		//（发送者取消订阅另一个实体的出席信息）,即删除现有好友
+		if (e.type == 'unsubscribe') {
+			//单向删除自己的好友信息，具体使用时请结合具体业务进行处理
+			delFriend(e.from);
 			return;
 		}
-		var options = {
-			to : to,
-			msg : msg,
-			type : "chat"
-		};
-		// 群组消息和个人消息的判断分支
-		if (curChatUserId.indexOf(groupFlagMark) >= 0) {
-			options.type = 'groupchat';
-			options.to = curRoomId;
+		//（订阅者的请求被拒绝或以前的订阅被取消），即对方单向的删除了好友
+		if (e.type == 'unsubscribed') {
+			delFriend(e.from);
+			return;
 		}
-		//easemobwebim-sdk发送文本消息的方法 to为发送给谁，meg为文本消息对象
-		conn.sendTextMessage(options);
+	};
+	//easemobwebim-sdk中处理出席状态操作
+	var handleRoster = function(rosterMsg) {
+		for ( var i = 0; i < rosterMsg.length; i++) {
+			var contact = rosterMsg[i];
+			if (contact.ask && contact.ask == 'subscribe') {
+				continue;
+			}
+			if (contact.subscription == 'to') {
+				toRoster.push({
+					name : contact.name,
+					jid : contact.jid,
+					subscription : "to"
+				});
+			}
+			//app端删除好友后web端要同时判断状态from做删除对方的操作
+			if (contact.subscription == 'from') {
+				toRoster.push({
+					name : contact.name,
+					jid : contact.jid,
+					subscription : "from"
+				});
+			}
+			if (contact.subscription == 'both') {
+				var isexist = contains(bothRoster, contact);
+				if (!isexist) {
+					var newcontact = document.getElementById("contactlistUL");
+					var lielem = document.createElement("li");
+					lielem.setAttribute("id", contact.name);
+					lielem.setAttribute("class", "offline");
+					lielem.setAttribute("className", "offline");
+					lielem.onclick = function() {
+						chooseContactDivClick(this);
+					};
+					var imgelem = document.createElement("img");
+					imgelem.setAttribute("src", "img/head/contact_normal.png");
+					lielem.appendChild(imgelem);
 
-		//当前登录人发送的信息在聊天窗口中原样显示
-		var msgtext = msg.replace(/\n/g, '<br>');
-		appendMsg(curUserId, to, msgtext);
-		turnoffFaces_box();
-		msgInput.value = "";
-		msgInput.focus();
+					var spanelem = document.createElement("span");
+					spanelem.innerHTML = contact.name;
+					lielem.appendChild(spanelem);
 
-		setTimeout(function() {
-			textSending = false;
-		}, 1000);
+					newcontact.appendChild(lielem);
+					bothRoster.push(contact);
+				}
+			}
+			if (contact.subscription == 'remove') {
+				var isexist = contains(bothRoster, contact);
+				if (isexist) {
+					removeFriendDomElement(contact.name);
+				}
+			}
+		}
+	};
+	//异常情况下的处理方法
+	var handleError = function(e) {
+		if (curUserId == null) {
+			hiddenWaitLoginedUI();
+			alert(e.msg + ",请重新登录");
+			showLoginUI();
+		} else {
+			var msg = e.msg;
+			if (e.type == EASEMOB_IM_CONNCTION_SERVER_CLOSE_ERROR) {
+				if (msg == "") {
+					alert("服务器器断开连接,可能是因为在别处登录");
+				} else {
+					alert("服务器器断开连接");
+				}
+			} else {
+				alert(msg);
+			}
+		}
+	};
+	//判断要操作的联系人和当前联系人列表的关系
+	var contains = function(roster, contact) {
+		var i = roster.length;
+		while (i--) {
+			if (roster[i].name === contact.name) {
+				return true;
+			}
+		}
+		return false;
 	};
 
+	Array.prototype.indexOf = function(val) {
+		for ( var i = 0; i < this.length; i++) {
+			if (this[i].name == val.name)
+				return i;
+		}
+		return -1;
+	};
+	Array.prototype.remove = function(val) {
+		var index = this.indexOf(val);
+		if (index > -1) {
+			this.splice(index, 1);
+		}
+	};
 
-
+	//登录系统时的操作方法
+	var login = function() {
+		var user = $("#username").val();
+		var pass = $("#password").val();
+		if (user == '' || pass == '') {
+			alert("请输入用户名和密码");
+			return;
+		}
+		//hiddenLoginUI();
+		//showWaitLoginedUI();
+		//根据用户名密码登录系统
+		conn.open({
+			user : user,
+			pwd : pass,
+			//连接时提供appkey
+			appKey : 'jinglingkj#pinai'
+		});
+		return false;
+	};
+	var logout = function() {
+		conn.close();
+	};
 
 	//设置当前显示的聊天窗口div，如果有联系人则默认选中联系人中的第一个联系人，如没有联系人则当前div为null-nouser
 	var setCurrentContact = function(defaultUserId) {
@@ -302,10 +456,10 @@
 			hiddenContactChatDiv(curChatUserId);
 		} else {
 			$('#null-nouser').css({
-				"display" : "block"
+				"display" : "none"
 			});
 		}
-		curChatUserId = curChatUserId;
+		curChatUserId = defaultUserId;
 	};
 
 	var createContactlistUL = function() {
@@ -327,8 +481,7 @@
 				continue;
 			}
 			var jid = roster[i].jid;
-			//var userName = jid.substring(jid.indexOf("_") + 1).split("@")[0];
-			var userName = curChatUserId;
+			var userName = jid.substring(jid.indexOf("_") + 1).split("@")[0];
 			if (userName in cache) {
 				continue;
 			}
@@ -336,19 +489,17 @@
 			var lielem = document.createElement("li");
 			$(lielem).attr({
 				'id' : userName,
-
 				'class' : 'offline',
 				'className' : 'offline',
 				'chat' : 'chat',
 				'displayName' : userName
-
 			});
 			lielem.onclick = function() {
 				chooseContactDivClick(this);
 			};
 			var imgelem = document.createElement("img");
-			//imgelem.setAttribute("src", "img/head/contact_normal.png");
-			//lielem.appendChild(imgelem);
+			imgelem.setAttribute("src", "");
+			lielem.appendChild(imgelem);
 
 			var spanelem = document.createElement("span");
 			spanelem.innerHTML = userName;
@@ -419,7 +570,7 @@
 		newContent.setAttribute("id", msgContentDivId);
 		newContent.setAttribute("class", "chat01_content");
 		newContent.setAttribute("className", "chat01_content");
-		newContent.setAttribute("style", "display:block");
+		newContent.setAttribute("style", "display:none");
 		return newContent;
 	};
 
@@ -442,11 +593,11 @@
 			curRoomId = $(contactLi).attr('roomid');
 			$("#roomMemberImg").css('display', 'block');
 		} else {
-			dispalyTitle = "与" + chatUserId + "聊天中";
-			$("#roomMemberImg").css('display', 'block');
+			dispalyTitle = "与" + curChatUserId + "聊天中";
+			$("#roomMemberImg").css('display', 'none');
 		}
 
-		document.getElementById(talkToDivId).children[0].innerHTML = dispalyTitle;
+		// document.getElementById(talkToDivId).children[0].innerHTML = dispalyTitle;
 	};
 	//对上一个联系人的聊天窗口div做隐藏处理，并将联系人列表中选择的联系人背景色置空
 	var hiddenContactChatDiv = function(chatUserId) {
@@ -463,7 +614,7 @@
 	};
 	//切换联系人聊天窗口div
 	var chooseContactDivClick = function(li) {
-		var chatUserId = curChatUserId;
+		var chatUserId = li.id;
 		if ($(li).attr("type") == 'groupchat'
 				&& ('true' != $(li).attr("joined"))) {
 			conn.join({
@@ -473,16 +624,16 @@
 		}
 		if (chatUserId != curChatUserId) {
 			if (curChatUserId == null) {
-				//showContactChatDiv(chatUserId);
+				showContactChatDiv(chatUserId);
 			} else {
-				//showContactChatDiv(chatUserId);
-				//hiddenContactChatDiv(curChatUserId);
+				showContactChatDiv(chatUserId);
+				hiddenContactChatDiv(curChatUserId);
 			}
 			curChatUserId = chatUserId;
 		}
 		//对默认的null-nouser div进行处理,走的这里说明联系人列表肯定不为空所以对默认的聊天div进行处理
 		$('#null-nouser').css({
-			"display" : "block"
+			"display" : "none"
 		});
 	};
 
@@ -965,10 +1116,8 @@
 		}
 		var msgContentDiv = getContactChatDiv(contactDivId);
 		if (curUserId == who) {
-			//lineDiv.style.textAlign = "right";
 			lineDiv.className = "text sent";
 		} else {
-			//lineDiv.style.textAlign = "left";
 			lineDiv.className = "text receive";
 		}
 		var create = false;
@@ -983,6 +1132,249 @@
 		msgContentDiv.scrollTop = msgContentDiv.scrollHeight;
 		return lineDiv;
 
+	};
+
+	var showAddFriend = function() {
+		$('#addFridentModal').modal('toggle');
+		$('#addfridentId').val('好友账号');//输入好友账号
+		$('#add-frident-warning').html("");
+	};
+
+	//添加输入框鼠标焦点进入时清空输入框中的内容
+	var clearInputValue = function(inputId) {
+		$('#' + inputId).val('');
+	};
+
+	var showDelFriend = function() {
+		$('#delFridentModal').modal('toggle');
+		$('#delfridentId').val('好友账号');//输入好友账号
+		$('#del-frident-warning').html("");
+	};
+
+	//消息通知操作时条用的方法
+	var showNewNotice = function(message) {
+		$('#confirm-block-div-modal').modal('toggle');
+		$('#confirm-block-footer-body').html(message);
+	};
+
+	var showWarning = function(message) {
+		$('#notice-block-div').modal('toggle');
+		$('#notice-block-body').html(message);
+	};
+
+	//主动添加好友操作的实现方法
+	var startAddFriend = function() {
+		var user = $('#addfridentId').val();
+		if (user == '') {
+			$('#add-frident-warning').html(
+					"<font color='#FF0000'> 请输入好友名称</font>");
+			return;
+		}
+		if (bothRoster)
+			for ( var i = 0; i < bothRoster.length; i++) {
+				if (bothRoster[i].name == user) {
+					$('#add-frident-warning').html(
+							"<font color='#FF0000'> 已是您的好友</font>");
+					return;
+				}
+			}
+		//发送添加好友请求
+		var date = new Date().toLocaleTimeString();
+		conn.subscribe({
+			to : user,
+			message : "加个好友呗-" + date
+		});
+		$('#addFridentModal').modal('hide');
+		return;
+	};
+
+	//回调方法执行时同意添加好友操作的实现方法
+	var agreeAddFriend = function(user) {
+		conn.subscribed({
+			to : user,
+			message : "[resp:true]"
+		});
+	};
+	//拒绝添加好友的方法处理
+	var rejectAddFriend = function(user) {
+		var date = new Date().toLocaleTimeString();
+		conn.unsubscribed({
+			to : user,
+			message : date
+		});
+	};
+
+	//直接调用删除操作时的调用方法
+	var directDelFriend = function() {
+		var user = $('#delfridentId').val();
+		if (validateFriend(user, bothRoster)) {
+			conn.removeRoster({
+				to : user,
+				success : function() {
+					conn.unsubscribed({
+						to : user
+					});
+					//删除操作成功时隐藏掉dialog
+					$('#delFridentModal').modal('hide');
+				},
+				error : function() {
+					$('#del-frident-warning').html(
+							"<font color='#FF0000'>删除联系人失败!</font>");
+				}
+			});
+		} else {
+			$('#del-frident-warning').html(
+					"<font color='#FF0000'>该用户不是你的好友!</font>");
+		}
+	};
+	//判断要删除的好友是否在当前好友列表中
+	var validateFriend = function(optionuser, bothRoster) {
+		for ( var deluser in bothRoster) {
+			if (optionuser == bothRoster[deluser].name) {
+				return true;
+			}
+		}
+		return false;
+	};
+
+	//回调方法执行时删除好友操作的方法处理
+	var delFriend = function(user) {
+		conn.removeRoster({
+			to : user,
+			groups : [ 'default' ],
+			success : function() {
+				conn.unsubscribed({
+					to : user
+				});
+			}
+		});
+	};
+	var removeFriendDomElement = function(userToDel, local) {
+		var contactToDel;
+		if (bothRoster.length > 0) {
+			for ( var i = 0; i < bothRoster.length; i++) {
+				if (bothRoster[i].name == userToDel) {
+					contactToDel = bothRoster[i];
+					break;
+				}
+			}
+		}
+		if (contactToDel) {
+			bothRoster.remove(contactToDel);
+		}
+		// 隐藏删除好友窗口
+		if (local) {
+			$('#delFridentModal').modal('hide');
+		}
+		//删除通讯录
+		$('#' + userToDel).remove();
+		//删除聊天
+		var chatDivId = curUserId + "-" + userToDel;
+		var chatDiv = $('#' + chatDivId);
+		if (chatDiv) {
+			chatDiv.remove();
+		}
+		if (curChatUserId != userToDel) {
+			return;
+		} else {
+			var displayName = '';
+			//将第一个联系人作为当前聊天div
+			if (bothRoster.length > 0) {
+				curChatUserId = bothRoster[0].name;
+				$('#' + curChatUserId).css({
+					"background-color" : "blue"
+				});
+				var currentDiv = getContactChatDiv(curChatUserId)
+						|| createContactChatDiv(curChatUserId);
+				document.getElementById(msgCardDivId).appendChild(currentDiv);
+				$(currentDiv).css({
+					"display" : "block"
+				});
+				displayName = '与' + curChatUserId + '聊天中';
+			} else {
+				$('#null-nouser').css({
+					"display" : "block"
+				});
+				displayName = '';
+			}
+			$('#talkTo').html('<a href="#">' + displayName + '</a>');
+		}
+	};
+
+	//清除聊天记录
+	var clearCurrentChat = function clearCurrentChat() {
+		var currentDiv = getContactChatDiv(curChatUserId)
+				|| createContactChatDiv(curChatUserId);
+		currentDiv.innerHTML = "";
+	};
+
+	//显示成员列表
+	var showRoomMember = function showRoomMember() {
+		if (groupQuering) {
+			return;
+		}
+		groupQuering = true;
+		queryOccupants(curRoomId);
+	};
+
+	//根据roomId查询room成员列表
+	var queryOccupants = function queryOccupants(roomId) {
+		var occupants = [];
+		conn.queryRoomInfo({
+			roomId : roomId,
+			success : function(occs) {
+				if (occs) {
+					for ( var i = 0; i < occs.length; i++) {
+						occupants.push(occs[i]);
+					}
+				}
+				conn.queryRoomMember({
+					roomId : roomId,
+					success : function(members) {
+						if (members) {
+							for ( var i = 0; i < members.length; i++) {
+								occupants.push(members[i]);
+							}
+						}
+						showRoomMemberList(occupants);
+						groupQuering = false;
+					},
+					error : function() {
+						groupQuering = false;
+					}
+				});
+			},
+			error : function() {
+				groupQuering = false;
+			}
+		});
+	};
+
+	var showRoomMemberList = function showRoomMemberList(occupants) {
+		var list = $('#room-member-list')[0];
+		var childs = list.childNodes;
+		for ( var i = childs.length - 1; i >= 0; i--) {
+			list.removeChild(childs.item(i));
+		}
+		for (i = 0; i < occupants.length; i++) {
+			var jid = occupants[i].jid;
+			var userName = jid.substring(jid.indexOf("_") + 1).split("@")[0];
+			var txt = $("<p></p>").text(userName);
+			$('#room-member-list').append(txt);
+		}
+		$('#option-room-div-modal').modal('toggle');
+	};
+
+	var getObjectURL = function getObjectURL(file) {
+		var url = null;
+		if (window.createObjectURL != undefined) { // basic
+			url = window.createObjectURL(file);
+		} else if (window.URL != undefined) { // mozilla(firefox)
+			url = window.URL.createObjectURL(file);
+		} else if (window.webkitURL != undefined) { // webkit or chrome
+			url = window.webkitURL.createObjectURL(file);
+		}
+		return url;
 	};
 
 </script>

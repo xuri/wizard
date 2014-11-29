@@ -113,46 +113,11 @@
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> 已追<em>{{ $data->count }}</em>次</span>
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;">已追<em>{{ $Days }}</em>天</span><br />
 									@if($data->status == 3)
-									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #888;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;">
-									对方已经把你拉黑了</a>
+									<a href="{{ route('members.show', $user->id) }}" class="button-block">对方已经把你拉黑了</a>
 									@elseif($data->status == 1)
 										<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 										<input name="status" type="hidden" value="sender_block" />
-										<input type="submit" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #888;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;"
+										<input type="submit" class="button-resent"
 											@if($user->sex == 'M')
 											value="把他拉黑"
 											@else(Auth::user()->sex == 'F')
@@ -162,126 +127,36 @@
 									@elseif($data->status == 4)
 										<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 										<input name="status" type="hidden" value="sender_recover" />
-										<input type="submit" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #de3861;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;" value="取消拉黑"
+										<input type="submit" class="button-unclock" value="取消拉黑"
 										/>
 									@else
-									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #de3861;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;">
+									<a href="{{ route('members.show', $user->id) }}" class="button-resent">
 									再追一次</a>
 									@endif
 									@if($data->status == 0)
-									<a href="{{ route('members.show', $user->id) }}" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #eea236;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;">
+									<a href="{{ route('members.show', $user->id) }}" class="button-wait">
 									静待缘分</a>
 									@elseif($data->status == 1)
-									<a href="#modal" class="remodal-bg" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #357ebd;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;
-										">开始聊天</a>
+									<a href="#modal" class="remodal-bg button-blue">
+										<div class="sk-spinner sk-spinner-fading-circle">
+											<div class="sk-circle1 sk-circle"></div>
+											<div class="sk-circle2 sk-circle"></div>
+											<div class="sk-circle3 sk-circle"></div>
+											<div class="sk-circle4 sk-circle"></div>
+											<div class="sk-circle5 sk-circle"></div>
+											<div class="sk-circle6 sk-circle"></div>
+											<div class="sk-circle7 sk-circle"></div>
+											<div class="sk-circle8 sk-circle"></div>
+											<div class="sk-circle9 sk-circle"></div>
+											<div class="sk-circle10 sk-circle"></div>
+											<div class="sk-circle11 sk-circle"></div>
+											<div class="sk-circle12 sk-circle"></div>
+										</div>
+									</a>
 									@elseif($data->status == 2)
-									<a href="javascript:;" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #888;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;
-										">已经拒绝</a>
+									<a href="javascript:;" class="button-block">已经拒绝</a>
 									@elseif($data->status == 4)
-									<a href="javascript:;" style="display: inline-block;
-										zoom: 1;
-										line-height: normal;
-										white-space: nowrap;
-										vertical-align: baseline;
-										text-align: center;
-										cursor: pointer;
-										-webkit-user-drag: none;
-										-webkit-user-select: none;
-										font-weight: 100;
-										letter-spacing: 0.01em;
-										border: 0 rgba(0,0,0,0);
-										background-color: #888;
-										text-decoration: none;
-										border-radius: 2px;
-										color: #fff;
-										margin: 0 10px 0 10px;
-										padding: 3px 6px;
-										">已经拉黑</a>
+									<a href="javascript:;" class="button-block">已经拉黑</a>
 									@endif
 								</div>
 								{{ Form::close() }}
@@ -295,7 +170,7 @@
 			</div>
 		</div>
 	</div>
-	@include('account.inbox.chat')
+	@include('account.sent.chat')
 	@yield('content')
 
 	@include('layout.copyright')
