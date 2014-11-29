@@ -363,7 +363,7 @@
 						chooseContactDivClick(this);
 					};
 					var imgelem = document.createElement("img");
-					imgelem.setAttribute("src", "img/head/contact_normal.png");
+					imgelem.setAttribute("src", "");
 					lielem.appendChild(imgelem);
 
 					var spanelem = document.createElement("span");
@@ -459,7 +459,8 @@
 				"display" : "none"
 			});
 		}
-		curChatUserId = defaultUserId;
+		//curChatUserId = defaultUserId;
+		curChatUserId = curChatUserId;
 	};
 
 	var createContactlistUL = function() {
@@ -476,12 +477,14 @@
 	var buildContactDiv = function(contactlistDivId, roster) {
 		var uielem = document.getElementById("contactlistUL");
 		var cache = {};
-		for (i = 0; i < roster.length; i++) {
+		// for (i = 0; i < roster.length; i++) {
+		for (i = 0; i < 1; i++) {
 			if (!(roster[i].subscription == 'both' || roster[i].subscription == 'from')) {
 				continue;
 			}
 			var jid = roster[i].jid;
-			var userName = jid.substring(jid.indexOf("_") + 1).split("@")[0];
+			// var userName = jid.substring(jid.indexOf("_") + 1).split("@")[0];
+			var userName = curChatUserId;
 			if (userName in cache) {
 				continue;
 			}
@@ -570,7 +573,7 @@
 		newContent.setAttribute("id", msgContentDivId);
 		newContent.setAttribute("class", "chat01_content");
 		newContent.setAttribute("className", "chat01_content");
-		newContent.setAttribute("style", "display:none");
+		newContent.setAttribute("style", "display:block");
 		return newContent;
 	};
 
