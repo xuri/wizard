@@ -88,7 +88,7 @@
 .gen .conversation{
 	height: 360px;
 	margin: 0;
-	overflow: scroll;
+	overflow-y: scroll;
 }
 
 
@@ -164,7 +164,7 @@
 	margin: 0;
 	padding: 6px 0;
 }
-.message input[type=text] {
+.message input {
 	-moz-border-radius:5px;
 	-webkit-border-radius:5px;
 	border-radius:5px;
@@ -177,10 +177,20 @@
 	border: 1px solid rgba(150, 150, 150, 0.59);
 	word-wrap: break-word;
 	white-space: pre-wrap;
+	float: left;
+	text-align:left;
+	line-height:24px;
+	outline:none;
 }
+#i_box{
+	float: left;
+	height: 24px;
+	line-height: 24px;
+}
+
 .message a {
 	color: #777;
-	margin: 5px;
+	margin: 0 5px;
 }
 
 .message a:hover{

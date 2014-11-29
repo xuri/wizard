@@ -137,22 +137,7 @@
 									<a href="{{ route('members.show', $user->id) }}" class="button-wait">
 									静待缘分</a>
 									@elseif($data->status == 1)
-									<a href="#modal" class="remodal-bg button-blue">
-										<div class="sk-spinner sk-spinner-fading-circle">
-											<div class="sk-circle1 sk-circle"></div>
-											<div class="sk-circle2 sk-circle"></div>
-											<div class="sk-circle3 sk-circle"></div>
-											<div class="sk-circle4 sk-circle"></div>
-											<div class="sk-circle5 sk-circle"></div>
-											<div class="sk-circle6 sk-circle"></div>
-											<div class="sk-circle7 sk-circle"></div>
-											<div class="sk-circle8 sk-circle"></div>
-											<div class="sk-circle9 sk-circle"></div>
-											<div class="sk-circle10 sk-circle"></div>
-											<div class="sk-circle11 sk-circle"></div>
-											<div class="sk-circle12 sk-circle"></div>
-										</div>
-									</a>
+									<a href="javascript:;" class="remodal-bg button-blue" data-id="{{ $user->id }}" id="chat_start">开始聊天</a>
 									@elseif($data->status == 2)
 									<a href="javascript:;" class="button-block">已经拒绝</a>
 									@elseif($data->status == 4)

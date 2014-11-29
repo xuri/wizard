@@ -50,16 +50,7 @@
     //
     //
 	var curUserId = '{{ Auth::user()->id }}';
-	@foreach($datas as $data)
-		<?php
-			$user = User::where('id', $data->receiver_id)->first();
-		?>
-		@if($data)
-		var curChatUserId = '{{ $user->id }}';
-		@else
-		var curChatUserId = null;
-		@endif
-	@endforeach
+	var curChatUserId = '';
 
 	var curUserPass = '{{ Auth::user()->password }}';
 	var conn = null;
@@ -79,6 +70,8 @@
 	var groupQuering = false;
 	var textSending = false;
 
+	var startChat = false; // 标志是否连接成功
+
 	window.URL = window.URL || window.webkitURL || window.mozURL
 			|| window.msURL;
 
@@ -86,21 +79,38 @@
 	//控制提交频率
 	$(function() {
 		$("#talkInputId").keydown(function(event) {
+			var msgInput = document.getElementById(talkInputId);
+				if (event.altKey && event.keyCode == 13) {
+					if(startChat){
+						e = $(this).html();
+						$(this).html(e + '\n');
+					}else{
+						alert("尚未连接成功，等会吧 = = ");
+						msgInput.value = '';
+					}
+				} else if (event.ctrlKey && event.keyCode == 13) {
 
-			if (event.altKey && event.keyCode == 13) {
-				e = $(this).val();
-				$(this).val(e + '\n');
-			} else if (event.ctrlKey && event.keyCode == 13) {
-				//e = $(this).val();
-				//$(this).val(e + '<br>');
-				event.returnValue = false;
-				sendText();
-				return false;
-			} else if (event.keyCode == 13) {
-				event.returnValue = false;
-				sendText();
-				return false;
-			}
+					if(startChat){
+						//e = $(this).val();
+						//$(this).val(e + '<br>');
+						event.returnValue = false;
+						sendText();
+						return false;
+					}else{
+						alert("尚未连接成功，等会吧 = = ");
+						msgInput.value = '';
+					}
+				} else if (event.keyCode == 13) {
+					if(startChat){
+						event.returnValue = false;
+						sendText();
+						return false;
+					}else{
+						alert("尚未连接成功，等会吧 = = ");
+						msgInput.value = '';
+					}
+				}
+
 
 		});
 	});
@@ -225,8 +235,8 @@
 				// hiddenWaitLoginedUI();
 				//showChatUI();
 
-				alert('已连接');
-
+				//alert('已连接');
+				startChat = true;
 				createContactlistUL();
 				var curroster;
 				for ( var i in roster) {
@@ -243,8 +253,8 @@
 				if (bothRoster.length > 0) {
 					curroster = bothRoster[0];
 					buildContactDiv("contractlist", bothRoster);//联系人列表页面处理
-					if (curroster)
-						setCurrentContact(curroster.name);//页面处理将第一个联系人作为当前聊天div
+					//if (curroster)
+					//	setCurrentContact(curroster.name);//页面处理将第一个联系人作为当前聊天div
 				}
 				conn.setPresence();
 				//获取当前登录人的群组列表
@@ -607,7 +617,7 @@
 		}
 		var contentDiv = getContactChatDiv(chatUserId);
 		if (contentDiv) {
-			contentDiv.style.display = "none";
+			contentDiv.style.display = "block";
 
 		}
 
@@ -688,6 +698,7 @@
 	var selectEmotionImg = function(selImg) {
 		var txt = document.getElementById(talkInputId);
 		txt.value = txt.value + selImg.id;
+
 		txt.focus();
 	};
 	var showSendPic = function() {
@@ -713,6 +724,7 @@
 		if (msg == null || msg.length == 0) {
 			return;
 		}
+		//alert(curChatUserId);
 		var to = curChatUserId;
 		if (to == null) {
 			return;
@@ -735,6 +747,7 @@
 		appendMsg(curUserId, to, msgtext);
 		turnoffFaces_box();
 		msgInput.value = "";
+		msgInput.setAttribute('_val','')
 		msgInput.focus();
 
 		setTimeout(function() {
@@ -1129,7 +1142,9 @@
 		if (create) {
 			document.getElementById(msgCardDivId).appendChild(msgContentDiv);
 		}
-		msgContentDiv.scrollTop = msgContentDiv.scrollHeight;
+
+		//msgContentDiv.scrollTop = msgContentDiv.scrollHeight;
+		document.getElementById('conversation').scrollTop = document.getElementById('conversation').scrollHeight;
 		return lineDiv;
 
 	};
@@ -1377,5 +1392,30 @@
 		return url;
 	};
 
+
+	// 点击开始聊天按钮，如果连接成功才显示聊天窗口
+	var chat_start = document.getElementById('chat_start');
+	chat_start.onclick = startModal;
+	function startModal(){
+		chat_start.onclick = null;
+		chat_start.innerHTML = '连接中 ... ';
+		document.title = startChat;
+
+		var _this = this;
+
+		var timer = setInterval(function(){
+			if(startChat){
+
+				curChatUserId = _this.getAttribute('data-id');
+				setCurrentContact(curChatUserId);
+
+				location.hash = '#modal';
+				chat_start.onclick = startModal;
+				chat_start.innerHTML = '开始聊天';
+				clearInterval(timer);
+			}
+		}, 30);
+
+	}
 </script>
 </html>

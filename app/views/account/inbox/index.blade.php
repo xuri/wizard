@@ -133,7 +133,7 @@
 								@if($data->status == 0)
 									<a href="{{ route('members.show', $user->id) }}" class="button-wait">等你回复</a>
 								@elseif($data->status == 1)
-								<a href="#modal" class="remodal-bg button-blue">开始聊天</a>
+								<a href="javascript:;" class="remodal-bg button-blue" data-id="{{ $user->id }}" id="chat_start">开始聊天</a>
 								@elseif($data->status == 2)
 								<a href="javascript:void(0)" class="button-block">已经拒绝</a>
 								@elseif($data->status == 3)
@@ -150,6 +150,7 @@
 			</div>
 		</div>
 	</div>
+
 
 	@include('account.inbox.chat')
 	@yield('content')
