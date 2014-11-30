@@ -73,6 +73,7 @@ class AccountController extends BaseController
 		if($user->renew_at == '0000-00-00 00:00:00'){ // First renew
 			$user->renew_at = Carbon::now();
 			$user->renew    = $user->renew + 1;
+			$user->point    = $user->point + 2;
 			$user->save();
 			return Response::json(
 				array(

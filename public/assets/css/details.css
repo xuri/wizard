@@ -1,3 +1,11 @@
+body {
+	margin: 0;
+	padding: 0;
+}
+.lu_content_box {
+	padding-bottom: 80px;
+}
+
 .lu_content_main .pi_red{
 	display:block;
 	width:16px;
@@ -56,6 +64,7 @@
 }
 .pi_content_center .pi_center_main{
 	width:100%;
+	padding-bottom: 20px;
 }
 .pi_center_main li{
 	position:relative;
@@ -119,7 +128,7 @@
 	border-bottom: 1px solid #eee;
 	border-radius: 3px;
 	font-size: 14px;
-	color: #333;
+	color: #555;
 }
 textarea.answer {
 	display: block;
@@ -139,4 +148,19 @@ textarea.answer {
 	-o-transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 	transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
 	margin: 20px 0;
+}
+
+.footer{
+	width:100%;
+	height:20px;
+	padding:15px 0;
+	background:#ef698a;
+	position:fixed;
+}
+.footer p{
+	color:#fff;
+	font-size:12px;
+	display:block;
+	margin:0 auto;
+	text-align:center;
 }

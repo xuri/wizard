@@ -84,30 +84,39 @@ class MemberController extends BaseController {
 				// Begin verification
 				$validator   = Validator::make($data, $rules, $messages);
 				if ($validator->passes()) {
-					$have_like = Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
-					if($have_like) // This user already sent like
+					if(Auth::user()->points > 0)
 					{
-						$have_like->answer	= Input::get('answer');
-						$have_like->count	= $have_like->count + 1;
-						if($have_like->save())
+						$have_like = Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
+						if($have_like) // This user already sent like
 						{
-							return Redirect::route('account.sent')
-							->withInput()
-							->with('success', '发送成功，静待缘分到来吧。');
-						}
-					} else { // First like
-						$like              = new Like();
-						$like->sender_id   = Auth::user()->id;
-						$like->receiver_id = $id;
-						$like->status      = 0; // User send like, pending accept
-						$like->answer      = Input::get('answer');
-						$like->count       = 1;
-						if($like->save())
-						{
-							return Redirect::route('account.sent')
+							$have_like->answer		= Input::get('answer');
+							$have_like->count		= $have_like->count + 1;
+							Auth::user()->points	= Auth::user()->points - 1;
+							if($have_like->save() && Auth::user()->save())
+							{
+								return Redirect::route('account.sent')
 								->withInput()
 								->with('success', '发送成功，静待缘分到来吧。');
+							}
+						} else { // First like
+							$like					= new Like();
+							$like->sender_id		= Auth::user()->id;
+							$like->receiver_id		= $id;
+							$like->status			= 0; // User send like, pending accept
+							$like->answer			= Input::get('answer');
+							$like->count			= 1;
+							Auth::user()->points	= Auth::user()->points - 1;
+							if($like->save() && Auth::user()->save())
+							{
+								return Redirect::route('account.sent')
+									->withInput()
+									->with('success', '发送成功，静待缘分到来吧。');
+							}
 						}
+					} else {
+						return Redirect::back()
+						->withInput()
+						->with('error', '你的积分不足，每天签到可获取积分哦。');
 					}
 				} else { // Validation fail
 					return Redirect::back()

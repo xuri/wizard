@@ -76,6 +76,10 @@
 			</div>
 		</div>
 	</div>
+
+	@include('layout.copyright')
+	@yield('content')
+
 </body>
 <script type="text/javascript">
 	var aColor=['#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0'];

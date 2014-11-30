@@ -17,6 +17,10 @@
 				<h2 class="pi_inf lu_left" >{{ $data->nickname }}的资料</h2>
 				<div class="pi_content_center">
 
+					@if ($message = Session::get('error'))
+					<div class="callout-warning">{{ $message }}</div>
+					@endif
+
 					<div class="pi_center_top">
 						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
 						<h3 class="pi_person lu_left">个人简介</h3>
@@ -71,8 +75,6 @@
 
 				{{-- Other user like this user --}}
 
-
-
 				{{-- User profile --}}
 
 				@if(Auth::user()->id == $data->id)
@@ -115,7 +117,7 @@
 						{{ Form::open() }}
 						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="status" type="hidden" value="like" />
-						{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						{{ $errors->first('answer', '<div class="callout-warning">:message</div>') }}
 						<textarea name="answer" class="answer" rows="3" placeholder="输入你的回答"></textarea>
 						<div class="pi_center_bottom">
 							<button type="submit">再追一次</button>
@@ -188,8 +190,8 @@
 					{{ Form::open() }}
 					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 					<input name="status" type="hidden" value="like" />
-					{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-					<textarea name="answer"></textarea>
+					{{ $errors->first('answer', '<div class="callout-warning">:message</div>') }}
+					<textarea name="answer" class="answer" rows="3" placeholder="输入你的回答"></textarea>
 					<div class="pi_center_bottom">
 						<button type="submit">追{{ $sex }}</button>
 					{{ Form::close() }}
@@ -209,5 +211,6 @@
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>
