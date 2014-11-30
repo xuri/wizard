@@ -156,6 +156,16 @@ class MemberController extends BaseController {
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
 				$like->status	= 3; // Receiver block user, remove friend relationship in chat system
 
+				$easemob		= getEasemob();
+				// Remove friend relationship in chat system
+				$regChat		= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
+						->setHeader('content-type', 'application/json')
+						->setHeader('Accept', 'json')
+						->setHeader('Authorization', 'Bearer '.$easemob->token)
+						->setOptions([CURLOPT_VERBOSE => true])
+						->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
+						->send();
+
 				if($like->save())
 				{
 					return Redirect::back()
@@ -170,6 +180,17 @@ class MemberController extends BaseController {
 			case 'sender_block' :
 				$like			= Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
 				$like->status	= 4; // Sender block receiver user, remove friend relationship in chat system
+
+				$easemob		= getEasemob();
+				// Remove friend relationship in chat system
+				$regChat		= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
+						->setHeader('content-type', 'application/json')
+						->setHeader('Accept', 'json')
+						->setHeader('Authorization', 'Bearer '.$easemob->token)
+						->setOptions([CURLOPT_VERBOSE => true])
+						->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
+						->send();
+
 				if($like->save())
 				{
 					return Redirect::back()
