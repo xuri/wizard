@@ -92,7 +92,7 @@
 								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 							</li>
 						</ul>
-						对方已经把你拉黑了，现在不能追{{ $sex }}。
+						<div class="callout-warning">{{ $sex }}已经把你拉黑了。</div>
 
 					{{-- Sender block receiver user --}}
 
@@ -102,7 +102,7 @@
 								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 							</li>
 						</ul>
-						你已经把对方拉黑了，考虑下是不是要恢复和{{ $sex }}的朋友关系呢？
+						<div class="callout-warning">你已经把对方拉黑了，考虑下是不是要恢复和{{ $sex }}的朋友关系呢？</div>
 
 					{{-- User like other user ago --}}
 
@@ -116,7 +116,7 @@
 						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="status" type="hidden" value="like" />
 						{{ $errors->first('answer', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-						<textarea name="answer"></textarea>
+						<textarea name="answer" class="answer" rows="3" placeholder="输入你的回答"></textarea>
 						<div class="pi_center_bottom">
 							<button type="submit">再追一次</button>
 						{{ Form::close() }}
@@ -136,7 +136,7 @@
 								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 							</li>
 						</ul>
-						对方已经把你拉黑了，现在不能追{{ $sex }}。
+						<div class="callout-warning">{{ $sex }}已经把你拉黑了。</div>
 
 					{{-- Sender block receiver user --}}
 
@@ -146,7 +146,7 @@
 								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 							</li>
 						</ul>
-						你已经把对方拉黑了，考虑下是不是要恢复和{{ $sex }}的朋友关系呢？
+						<div class="callout-warning">你已经把对方拉黑了，考虑下是不是要恢复和{{ $sex }}的朋友关系呢？</div>
 
 					{{-- Receiver accept like --}}
 
@@ -156,7 +156,7 @@
 								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 							</li>
 						</ul>
-						你已接受{{ $sex }}的邀请。
+						<div class="callout-warning">你已接受{{ $sex }}的邀请。</div>
 					@else
 
 							<li>
@@ -164,8 +164,7 @@
 								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
 							</li>
 						</ul>
-						<br />
-						{{ $sex }}给我的爱情考验答案 {{ $like_me->answer }}
+						<div class="callout-warning">{{ $sex }}给我的爱情考验答案 {{ $like_me->answer }}</div>
 						<div class="pi_center_bottom">
 						{{ Form::open() }}
 							<input name="_token" type="hidden" value="{{ csrf_token() }}" />
