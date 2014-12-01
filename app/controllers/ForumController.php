@@ -32,4 +32,8 @@ class ForumController extends BaseController {
 		return View::make($this->resource.'.index');
 	}
 
+	public function getShow()
+	{
+		return View::make($this->resource.'.post');
+	}
 }
