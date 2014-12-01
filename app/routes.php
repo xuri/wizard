@@ -100,19 +100,34 @@ Route::group(array('prefix' => 'members', 'before' => 'auth'), function () {
 Route::group(array('prefix' => 'account', 'before' => 'auth'), function () {
 	$Account = 'AccountController@';
 	# Account Index
-	Route::get('/'				, array('as' => 'account',			'uses' => $Account.'getIndex'		));
+	Route::get('/'				, array('as' => 'account',					'uses' => $Account.'getIndex'		));
 	# Complete
-	Route::get('complete'		, array('as' => 'account.complete',	'uses' => $Account.'getComplete'	));
+	Route::get('complete'		, array('as' => 'account.complete',			'uses' => $Account.'getComplete'	));
 	Route::post('complete'		, $Account.'postComplete');
 	# Post university
-	Route::post('postuniversity', array('as' => 'postuniversity',	'uses' => $Account.'postUniversity'	));
-	Route::post('postrenew'		, array('as' => 'postrenew',		'uses' => $Account.'postRenew'		));
+	Route::post('postuniversity', array('as' => 'postuniversity',			'uses' => $Account.'postUniversity'	));
+	Route::post('postrenew'		, array('as' => 'postrenew',				'uses' => $Account.'postRenew'		));
 	# Like other user
-	Route::get('sent'			, array('as' => 'account.sent',		'uses' => $Account.'getSent'		));
+	Route::get('sent'			, array('as' => 'account.sent',				'uses' => $Account.'getSent'		));
 	# Other user like me
-	Route::get('inbox'			, array('as' => 'account.inbox',	'uses' => $Account.'getInbox'		));
+	Route::get('inbox'			, array('as' => 'account.inbox',			'uses' => $Account.'getInbox'		));
+	# Notifications center
+	Route::get('notifications'	, array('as' => 'account.notifications',	'uses' => $Account.'getNotifications'		));
 
 
+});
+
+/*
+|--------------------------------------------------------------------------
+| Forum Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::group(array('prefix' => 'forum', 'before' => 'auth'), function () {
+	$Forum = 'ForumController@';
+	# Forum Index
+	Route::get('/'				, array('as' => 'forum',					'uses' => $Forum.'getIndex'		));
 });
 
 /*

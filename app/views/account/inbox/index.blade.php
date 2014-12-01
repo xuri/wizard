@@ -5,7 +5,7 @@
 	@yield('content')
 
 	<div id="content" class="clear">
-		<div class="con_title">个人中心</div>
+		<div class="con_title">追我的人</div>
 		<div class="con_img">
 			<span class="line1"></span>
 			<span class="line2"></span>
@@ -16,9 +16,11 @@
 			<div class="w_left">
 				<ul class="w_nav">
 					<li><a href="{{ route('account') }}" class="a1 fa fa-tasks">&nbsp;&nbsp;&nbsp;我的资料</a></li>
+					<li><a href="{{ route('members.index') }}" class="a1 fa fa-users">&nbsp;&nbsp;&nbsp;缘来在这</a></li>
 					<li><a href="{{ route('account.sent') }}" class="a2 fa fa-heart-o">&nbsp;&nbsp;&nbsp;我追的人</a></li>
-					<li><a href="{{ route('account.inbox') }}" class="a2 active fa fa-star">&nbsp;&nbsp;&nbsp;追我的人</a></li>
-					<li><a href="#" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;我的来信</a></li>
+					<li><a href="{{ route('account.inbox') }}" class="active a2 fa fa-star">&nbsp;&nbsp;&nbsp;追我的人</a></li>
+					<li><a href="{{ route('account.notifications') }}" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;我的来信</a></li>
+					<li><a href="{{ route('forum') }}" class="a3 fa fa-user">&nbsp;&nbsp;&nbsp;单身公寓</a></li>
 					<li><a href="#" class="a5 fa fa-bookmark-o">&nbsp;&nbsp;&nbsp;关注我们</a></li>
 				</ul>
 				<div id="download">
@@ -48,7 +50,7 @@
 						@endif
 						<div class="sgnin_top">
 							<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
-							<div><span>精灵豆 : </span><em>30</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
+							<div><span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
 						</div>
 						<div class="sgnin_con">
 							<div class="comeon">

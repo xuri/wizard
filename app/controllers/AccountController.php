@@ -240,4 +240,9 @@ class AccountController extends BaseController
 		return View::make('account.inbox.index')->with(compact('datas'));
 	}
 
+
+	public function getNotifications()
+	{
+		return View::make('account.notifications.index');
+	}
 }
