@@ -1,0 +1,120 @@
+#bbs_content_main{ border:none; }
+.bbs_tab{
+	height:130px;
+	width:730px;
+}
+#bbs_tab_end{ margin-right:0; }
+.bbs_tab li{
+	width:238px;
+	height:120px;
+	line-height:120px;
+	background:#f0edec;
+	font-size:22px;
+	color:#297fb8;
+	margin-right:5px;
+	cursor:pointer;
+	border:1px solid #e1e1e1;
+	border-radius:4px 4px 0 0;
+}
+.bbs_tab li:hover{ background:#ffffff; }
+.bbs_tab .active{
+	height:100%;
+	background:#ffffff;
+	border-bottom:none;
+}
+.bbs_tab img{ margin:16px 0 0 10px; }
+.bbs_tab span{ margin-left:30px; }
+.bbs_main{
+	padding-bottom:30px;
+	border:1px solid #e5e5e5;
+	border-radius:0 0 8px 8px;
+}
+.bbs_main li{
+	position:relative;
+	width:566px;
+	margin-left:30px;
+	padding:14px 30px 14px 50px;
+	border-bottom:1px solid #dcdcdc;
+	font-size:14px;
+}
+.bbs_main p{
+	margin-top:9px;
+	color:#777978;
+	width:528px;
+	overflow:hidden;
+	white-space:nowrap;
+	text-overflow:ellipsis;
+}
+.bbs_main img{
+	height:88px;
+	margin-right:12px;
+}
+.bbs_main_look, .bbs_main_time{
+	position:absolute;
+	right:30px;
+}
+.bbs_main_look{
+	top:14px;
+	color:#ffffff;
+	text-align:center;
+	border-radius:5px;
+	width:32px;
+	height:18px;
+}
+.bbs_main_time{
+	top:42px;
+	font-size:10px;
+	color:#353535;
+}
+.bbs_main_boy{ background:url(../images/nan.png) 18px 16px no-repeat; }
+.bbs_main_girl{ background:url(../images/nv.png) 18px 16px no-repeat; }
+.bbs_main_boy a{ color:#73b3dd; }
+.bbs_main_girl a{ color:#d65679; }
+.bbs_main_boy .bbs_main_look{ background:#73b3dd; }
+.bbs_main_girl .bbs_main_look{ background:#d65679; }
+
+.bbs_page{ height:58px; background:#ffffds; font-size:20px; }
+.bbs_bottom{
+	width:668px;
+	padding:30px;
+	margin-bottom:40px;
+	border:1px solid #eeeeee;
+	border-radius:5px;
+}
+.bbs_bottom_new{
+	margin-top:8px;
+	height:16px;
+	line-height:16px;
+}
+.bbs_bottom_new span{
+	color:#808180;
+	font-size:14px;
+}
+.bbs_bottom_title{
+	margin-left:54px;
+	width:520px;
+	height:28px;
+	color:#b7b7b7;
+	padding-left:5px;
+	border:2px solid #c6c3c4;
+	border-radius:3px;
+}
+.bbs_bottom_text{
+	margin-top:14px;
+	width:664px;
+	height:220px;
+	border:2px solid #d6d4d5;
+	border-radius:5px;
+}
+.bbs_bottom_btn{
+	width:64px;
+	height:28px;
+	background:#ed5565;
+	margin-top:16px;
+	margin-left:600px;
+	color:#ffffff;
+	font-size:16px;
+	border:none;
+	border-radius:3px;
+}
+.bbs_bottom_btn:hover{ background:#f95a6b; }
