@@ -133,46 +133,15 @@
 					</ul>
 
 					<ul id="new_main_forum" class="new_main"><!-- 论坛消息 -->
-						<li>
-							<div class="new_main_reply"><a href="#">回复我滴:你在哪看到的帖子啊？</a></div>
-							<span class="new_main_time">11-11 06:30</span>
-							<div class="new_main_theme">
-								<span>楼楼名称:</span>
-								<a href="#">异地恋怎么办?</a>
-								<span>(爱诊所)</span>
-							</div>
-							<a href="#" class="new_main_state unread">回复</a>
-						</li>
-						<li>
-							<div class="new_main_reply"><a href="#">回复我滴:你在哪看到的帖子啊？</a></div>
-							<span class="new_main_time">11-11 06:30</span>
-							<div class="new_main_theme">
-								<span>楼楼名称:</span>
-								<a href="#">异地恋怎么办?</a>
-								<span>(爱诊所)</span>
-							</div>
-							<a href="#" class="new_main_state unread">回复</a>
-						</li>
-						<li>
-							<div class="new_main_reply"><a href="#">回复我滴:你在哪看到的帖子啊？</a></div>
-							<span class="new_main_time">11-11 06:30</span>
-							<div class="new_main_theme">
-								<span>楼楼名称:</span>
-								<a href="#">异地恋怎么办?</a>
-								<span>(爱诊所)</span>
-							</div>
-							<a href="#" class="new_main_state unread">回复</a>
-						</li>
-						<li>
-							<div class="new_main_reply"><a href="#">回复我滴:你在哪看到的帖子啊？</a></div>
-							<span class="new_main_time">11-11 06:30</span>
-							<div class="new_main_theme">
-								<span>楼楼名称:</span>
-								<a href="#">异地恋怎么办?</a>
-								<span>(爱诊所)</span>
-							</div>
-							<a href="#" class="new_main_state unread">回复</a>
-						</li>
+						<div id="courtship-mine">
+							<ul class="clear">
+								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
+								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
+								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
+								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
+								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
+							</ul>
+						</div>
 					</ul>
 
 					<ul id="new_main_system" class="new_main"><!-- 系统消息 -->
