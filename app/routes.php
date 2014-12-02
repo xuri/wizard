@@ -180,7 +180,7 @@ Route::get('migrate', array('as' => 'migrate',function()
 
 // App::missing(function($exception)
 // {
-//     return Response::view('system.missing', array(), 404);
+// 	return Response::view('system.missing', array(), 404);
 // });
 
 // App::error(function($exception)
