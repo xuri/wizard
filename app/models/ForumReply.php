@@ -7,7 +7,7 @@
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 
-class Like extends BaseModel
+class ForumReply extends BaseModel
 {
     /**
      * Soft delete

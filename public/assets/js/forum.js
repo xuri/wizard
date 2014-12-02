@@ -5,7 +5,7 @@ $(function () {
 	$('div.tabs ul.tabNavigation a').click(function () {
 		tabContainers.hide();
 		tabContainers.filter(this.hash).show();
-		$('div.tabs ul.tabNavigation a').removeClass('active');
+		$('div.tabs ul.tabNavigation a').addClass('active');
 		$(this).addClass('active');
 		return false;
 	}).filter(':first').click();

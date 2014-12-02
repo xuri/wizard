@@ -326,10 +326,11 @@
 						<p>我的资料</p>
 					</div>
 					{{ Form::open(array(
-					'id'           => 'edi_form',
-					'autocomplete' => 'off',
-					'action'       => 'AccountController@postComplete'
-					)) }}
+						'id'           => 'edi_form',
+						'autocomplete' => 'off',
+						'action'       => 'AccountController@postComplete'
+						))
+					}}
 						<input id="province_token" name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="portrait" value="{{ Input::old('portrait', $profile->portrait) }}" id="portait" type="hidden"/>
 						<input name="constellation" value="{{ Input::old('constellation', $profile->constellation) }}" id="constellation" type="hidden"/>

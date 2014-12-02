@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Forum Categories Model
+ * Forum Posts Model
  */
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 
-class ForumCategories extends BaseModel
+class ForumPost extends BaseModel
 {
     /**
      * Soft delete
@@ -20,6 +20,6 @@ class ForumCategories extends BaseModel
      * Database table (without prefix)
      * @var string
      */
-    protected $table = 'forum_categories';
+    protected $table = 'forum_posts';
 
 }

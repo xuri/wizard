@@ -12,6 +12,11 @@
 			{{ HTML::image('assets/images/preInfoEdit/hert.png') }}
 		</div>
 		<div class="lu_content_box clear">
+
+			@if ($message = Session::get('success'))
+				<div class="callout-warning">{{ $message }}</div>
+			@endif
+
 			<div id="bbs_content_main" class="tabs lu_content_main clear">
 				<ul class="tabNavigation bbs_tab">
 					<a class="" href="#first">
@@ -93,15 +98,23 @@
 						</li>
 					</ul>
 
-					<form class="bbs_bottom" action="">
+					{{ Form::open(array(
+						'class'			=> 'bbs_bottom',
+						'autocomplete' 	=> 'off',
+						'action'		=> 'ForumController@postNew'
+						))
+					}}
+						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+						<input name="category_id" type="hidden" value="1" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
 							<span>发表新帖</span>
 						</div>
-						<input class="bbs_bottom_title lu_left" type="text" placeholder="添加题目" required="required">
-						<textarea class="bbs_bottom_text" name="" id="" cols="30" rows="10"></textarea>
+						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">{{ $errors->first('title', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						{{ $errors->first('content', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						<textarea class="bbs_bottom_text" name="content" cols="30" rows="10">{{ Input::old('content') }}</textarea>
 						<input class="bbs_bottom_btn" type="submit" value="发表">
-					</form>
+					{{ Form::close() }}
 
 				</div>
 				<div style="display: none;" id="second">
@@ -165,17 +178,26 @@
 						</li>
 					</ul>
 
-					<form class="bbs_bottom" action="">
+					{{ Form::open(array(
+						'class'			=> 'bbs_bottom',
+						'autocomplete' 	=> 'off',
+						'action'		=> 'ForumController@postNew'
+						))
+					}}
+						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+						<input name="category_id" type="hidden" value="2" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
 							<span>发表新帖</span>
 						</div>
-						<input class="bbs_bottom_title lu_left" type="text" placeholder="添加题目" required="required">
-						<textarea class="bbs_bottom_text" name="" id="" cols="30" rows="10"></textarea>
+						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">{{ $errors->first('title', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						{{ $errors->first('content', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						<textarea class="bbs_bottom_text" name="content" cols="30" rows="10">{{ Input::old('content') }}</textarea>
 						<input class="bbs_bottom_btn" type="submit" value="发表">
-					</form>
+					{{ Form::close() }}
 				</div>
 				<div style="display: block;" id="third">
+
 					<ul id="bbs_main_woman" class="bbs_main">{{-- 女人窝 --}}
 						<li class="bbs_main_girl">
 							<a href="#">五个小时没保存了！！</a>
@@ -237,15 +259,23 @@
 						</li>
 					</ul>
 
-					<form class="bbs_bottom" action="">
+					{{ Form::open(array(
+						'class'			=> 'bbs_bottom',
+						'autocomplete' 	=> 'off',
+						'action'		=> 'ForumController@postNew'
+						))
+					}}
+						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
+						<input name="category_id" type="hidden" value="3" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
 							<span>发表新帖</span>
 						</div>
-						<input class="bbs_bottom_title lu_left" type="text" placeholder="添加题目" required="required">
-						<textarea class="bbs_bottom_text" name="" id="" cols="30" rows="10"></textarea>
+						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">{{ $errors->first('title', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						{{ $errors->first('content', '<strong class="error" style="color: #cc0000">:message</strong>') }}
+						<textarea class="bbs_bottom_text" name="content" cols="30" rows="10">{{ Input::old('content') }}</textarea>
 						<input class="bbs_bottom_btn" type="submit" value="发表">
-					</form>
+					{{ Form::close() }}
 
 				</div>
 			</div>
