@@ -19,23 +19,23 @@
 
 			<div id="bbs_content_main" class="tabs lu_content_main clear">
 				<ul class="tabNavigation bbs_tab">
-					<a class="#" href="#first">
-						<li class="lu_left active">
+					<a class="lu_left active" href="#first">
+
 							<span>爱诊所</span>
 							{{ HTML::image('assets/images/boys.png') }}
-						</li>
+
 					</a>
-					<a class="#" href="#second">
-						<li class="lu_left">
+					<a class="lu_left" href="#second">
+
 							<span>男人帮</span>
 							{{ HTML::image('assets/images/boys.png') }}
-						</li>
+
 					</a>
-					<a class="#" href="#third">
-						<li class="lu_left" id="bbs_tab_end">
+					<a class="lu_left" id="bbs_tab_end" href="#third">
+
 							<span>女人窝</span>
 							{{ HTML::image('assets/images/girls.png') }}
-						</li>
+
 					</a>
 				</ul>
 				<div style="display: none;" id="first">

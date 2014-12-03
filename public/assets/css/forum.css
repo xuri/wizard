@@ -4,7 +4,7 @@
 	width:730px;
 }
 #bbs_tab_end{ margin-right:0; }
-.bbs_tab li{
+.bbs_tab a.lu_left{
 	width:238px;
 	height:120px;
 	line-height:120px;
@@ -16,8 +16,8 @@
 	border:1px solid #e1e1e1;
 	border-radius:4px 4px 0 0;
 }
-.bbs_tab li:hover{ background:#ffffff; }
-.bbs_tab .active{
+.bbs_tab a.lu_left:hover{ background:#ffffff; }
+.bbs_tab a.active{
 	height:100%;
 	background:#ffffff;
 	border-bottom:none;

@@ -88,14 +88,16 @@ class ForumController extends BaseController {
 	{
 		$data	= ForumPost::where('id', $id)->first();
 		$author	= User::where('id', $data->user_id)->first();
-		return View::make($this->resource.'.post')->with(compact('data', 'author'));
+		$comments = ForumComments::where('post_id', $id)->get();
+		$floor = 2;
+		return View::make($this->resource.'.post')->with(compact('data', 'author', 'comments', 'floor'));
 	}
 
 	/**
 	 * postComment Create a comment
 	 * @return Response View
 	 */
-	public function postComment()
+	public function postComment($id)
 	{
 		// Get all form data.
 		$data = Input::all();
@@ -105,7 +107,7 @@ class ForumController extends BaseController {
 		);
 		// Custom validation message
 		$messages = array(
-			'content.required'	=> '请输入内容。',
+			'content.required'	=> '请输入评论内容。',
 		);
 
 		// Begin verification
@@ -116,6 +118,7 @@ class ForumController extends BaseController {
 			$comment->post_id	= $id;
 			$comment->content	= Input::get('content');
 			$comment->user_id	= Auth::user()->id;
+			$comment->floor		= ForumComments::where('post_id', $id)->count() + 2; // Calculate this comment in which floor
 			if($comment->save())
 			{
 				return Redirect::back()
