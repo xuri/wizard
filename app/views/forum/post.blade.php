@@ -16,13 +16,17 @@
 				<div class="message-re message-border clear">
 					<div class="re-headImg-box">
 						<div class="re-headImg">
-							{{ HTML::image('assets/images/headImg.jpg') }}
+							{{ HTML::image('portrait/'.$author->portrait) }}
 						</div>
+						@if($author->sex == 'M')
 						{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
-						<h3 class="m-h3">罗勇林</h3>
+						@else
+						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left sexImg')) }}
+						@endif
+						<a href="{{ route('members.show', $author->id) }}" class="m-h3">{{ $author->nickname }}</a>
 					</div>
-					<a href="#" class="re-title">五个小时没有保存。</a>
-					<p class="m-reply">爱情不必要专一，但要爱就要爱的一心一意。和其他朋友之间保持朋友的间的关系，学会说谢谢，不必暧昧。如果爱上其他人，可先提出分手，再去爱另外的人。提出分手的一方，如果发现爱的还是原来的人，可以再去追求原来的人。如果原来的人还爱的话，自然会等。如果等不了，失去便失去，不必在爱里计较得失。爱情不必要专一，但要爱就要爱的一心一意。和其他朋友之间保持朋友的间的关系，学会说谢谢，不必暧昧。如果爱上其他人，可先提出分手，再去爱另外的人。提出分手的一方，如果发现爱的还是原来的人，可以再去追求原来的人。如果原来的人还爱的话，自然会等。如果等不了，失去便失去，不必在爱里计较得失。	爱情不必要专一，但要爱就要爱的一心一意。和其他朋友之间保持朋友的间的关系，学会说谢谢，不必暧昧。如果爱上其他人，可先提出分手，再去爱另外的人。提出分手的一方，如果发现爱的还是原来的人，可以再去追求原来的人。如果原来的人还爱的话，自然会等。如果等不了，失去便失去，不必在爱里计较得失。</p>
+					<h3 class="re-title">{{ $data->title }}</h3>
+					<p class="m-reply">{{ $data->content }}</p>
 
 					<ul class="reply">
 						<li><a href="#" class="a-color-grey">举报</a></li>
@@ -120,8 +124,10 @@
 				<div class="g-box clear">
 					<h3 class="color">发表评论</h3>
 					<div class="g-r-box clear" class="clear">
+						{{ Form::open() }}
 						<textarea class="g-r-value"></textarea>
 						<input type="submit" value="发表" class="g-replay" id="g-replay" />
+						{{ Form::close() }}
 					</div>
 				</div>
 			</div>

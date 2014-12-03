@@ -231,7 +231,7 @@
 	margin-bottom:10px;
 }
 .re-headImg{
-	width:83px;
+	width:73px;
 	height:83px;
 	padding:3px;
 	border:1px solid #ebebeb;
@@ -243,7 +243,7 @@
 	color:#d65679;
 	float:left;
 	font-size:16px;
-	text-decoration: underline;
+	text-decoration: none;
 }
 .message-re .m-reply{
 	width:600px;
@@ -264,7 +264,7 @@
 	line-height:20px;
 }
 .re-headImg img{
-	width:83px;
+	width:73px;
 	height:83px;
 }
 .message-re .sexImg{

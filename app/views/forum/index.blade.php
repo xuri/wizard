@@ -19,19 +19,19 @@
 
 			<div id="bbs_content_main" class="tabs lu_content_main clear">
 				<ul class="tabNavigation bbs_tab">
-					<a class="" href="#first">
+					<a class="#" href="#first">
 						<li class="lu_left active">
 							<span>爱诊所</span>
 							{{ HTML::image('assets/images/boys.png') }}
 						</li>
 					</a>
-					<a class="" href="#second">
+					<a class="#" href="#second">
 						<li class="lu_left">
 							<span>男人帮</span>
 							{{ HTML::image('assets/images/boys.png') }}
 						</li>
 					</a>
-					<a class="" href="#third">
+					<a class="#" href="#third">
 						<li class="lu_left" id="bbs_tab_end">
 							<span>女人窝</span>
 							{{ HTML::image('assets/images/girls.png') }}
@@ -40,62 +40,14 @@
 				</ul>
 				<div style="display: none;" id="first">
 					<ul id="bbs_main_clinic" class="bbs_main">{{-- 爱诊所 --}}
+						@foreach($category1 as $post)
 						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我dfg</p>
-							<span class="bbs_main_look">58</span>
+							<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
+							<p>{{ $post->content }}</p>
+							<span class="bbs_main_look">sdf</span>
 							<span class="bbs_main_time">18:27</span>
 						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我123123123</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我sdfsdszd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我asdasd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我dfg</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我123123123</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我sdfsdszd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我asdasd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
+						@endforeach
 					</ul>
 
 					{{ Form::open(array(
@@ -119,63 +71,15 @@
 				</div>
 				<div style="display: none;" id="second">
 					<ul id="bbs_main_man" class="bbs_main">{{-- 男人帮 --}}
+						@foreach($category2 as $post)
 						<li class="bbs_main_boy">
-							<a href="#">五小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我dfg</p>
+							<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
+							<p>{{ $post->content }}</p>
 							<span class="bbs_main_look">58</span>
 							<span class="bbs_main_time">18:27</span>
 						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我123123123</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我sdfsdszd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我asdasd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我dfg</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我123123123</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我sdfsdszd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-						</li>
-						<li class="bbs_main_boy">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我asdasd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
+						@endforeach
+
 					</ul>
 
 					{{ Form::open(array(
@@ -199,64 +103,14 @@
 				<div style="display: block;" id="third">
 
 					<ul id="bbs_main_woman" class="bbs_main">{{-- 女人窝 --}}
+						@foreach($category3 as $post)
 						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我dfg</p>
+							<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
+							<p>{{ $post->content }}</p>
 							<span class="bbs_main_look">58</span>
 							<span class="bbs_main_time">18:27</span>
 						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我123123123</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我sdfsdszd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我asdasd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我dfg</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我123123123</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我sdfsdszd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-							{{ HTML::image('assets/images/boys.png') }}
-						</li>
-						<li class="bbs_main_girl">
-							<a href="#">五个小时没保存了！！！</a>
-							<p>我想找到值得信赖的人！为爱加油吧。继续凑字，争取凑两行继续凑字凑字好的等我asdasd</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
-						</li>
+						@endforeach
 					</ul>
 
 					{{ Form::open(array(

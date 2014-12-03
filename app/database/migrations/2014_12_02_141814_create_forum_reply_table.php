@@ -18,6 +18,7 @@ class CreateForumReplyTable extends Migration {
 			$table->integer('user_id');
 			$table->integer('comments_id');
 			$table->integer('reply_id');
+			$table->integer('floor');
 			$table->text('content');
 			$table->boolean('block')->default('0');
 			$table->timestamp('deleted_at')->nullable();

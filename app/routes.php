@@ -131,6 +131,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'auth'), function () {
 	Route::get('/'				, array('as' => $resource.'.index',					'uses' => $controller.'getIndex'	));
 	Route::post('/'				, $controller.'postNew');
 	Route::get('{id}'			, array('as' => $resource.'.show',					'uses' => $controller.'getShow'		));
+	Route::post('{id}'			, $controller.'postComment');
 });
 
 /*

@@ -29,18 +29,16 @@ class ForumController extends BaseController {
 
 	public function getIndex()
 	{
-		return View::make($this->resource.'.index');
+		$category1 = ForumPost::where('category_id', 1)->get();
+		$category2 = ForumPost::where('category_id', 2)->get();
+		$category3 = ForumPost::where('category_id', 3)->get();
+		return View::make($this->resource.'.index')->with(compact('category1', 'category2', 'category3'));
 	}
 
 	/**
-	 * [getShow description]
-	 * @return [type] [description]
+	 * postNew Create new post
+	 * @return Response Redirect back
 	 */
-	public function getShow()
-	{
-		return View::make($this->resource.'.post');
-	}
-
 	public function postNew()
 	{
 		// Get all form data.
@@ -81,4 +79,58 @@ class ForumController extends BaseController {
 				->withErrors($validator);
 		}
 	}
+
+	/**
+	 * getShow Show single post
+	 * @return Response View
+	 */
+	public function getShow($id)
+	{
+		$data	= ForumPost::where('id', $id)->first();
+		$author	= User::where('id', $data->user_id)->first();
+		return View::make($this->resource.'.post')->with(compact('data', 'author'));
+	}
+
+	/**
+	 * postComment Create a comment
+	 * @return Response View
+	 */
+	public function postComment()
+	{
+		// Get all form data.
+		$data = Input::all();
+		// Create validation rules
+		$rules = array(
+			'content'	=> 'required',
+		);
+		// Custom validation message
+		$messages = array(
+			'content.required'	=> '请输入内容。',
+		);
+
+		// Begin verification
+		$validator		= Validator::make($data, $rules, $messages);
+		if ($validator->passes())
+		{
+			$comment			= new ForumComments;
+			$comment->post_id	= $id;
+			$comment->content	= Input::get('content');
+			$comment->user_id	= Auth::user()->id;
+			if($comment->save())
+			{
+				return Redirect::back()
+					->with('success', '评论成功。');
+			} else {
+				return Redirect::back()
+					->withInput()
+					->with('error', '评论失败，请重试。');
+			}
+		} else {
+			// Validation fail
+			return Redirect::back()
+				->withInput()
+				->withErrors($validator);
+		}
+	}
+
 }

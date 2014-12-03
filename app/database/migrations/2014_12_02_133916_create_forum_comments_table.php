@@ -17,6 +17,7 @@ class CreateForumCommentsTable extends Migration {
 			$table->increments('id');
 			$table->integer('user_id');
 			$table->integer('post_id');
+			$table->integer('floor');
 			$table->text('content');
 			$table->boolean('block')->default('0');
 			$table->timestamp('deleted_at')->nullable();
