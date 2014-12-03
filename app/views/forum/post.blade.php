@@ -57,9 +57,8 @@
 							<li>2楼</li>
 							<li>2014-11-22 10:45</li>
 							<li><a href="#" class="a-color-pink">回复</a></li>
-
 						</ul>
-						<textarea class="textarea"></textarea>
+
 						<div class="message-other">
 							<div class="o-others">
 								<div>

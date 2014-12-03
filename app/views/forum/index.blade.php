@@ -128,7 +128,7 @@
 						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">{{ $errors->first('title', '<strong class="error" style="color: #cc0000">:message</strong>') }}
 						{{ $errors->first('content', '<strong class="error" style="color: #cc0000">:message</strong>') }}
 						<textarea class="bbs_bottom_text" name="content" cols="30" rows="10">{{ Input::old('content') }}</textarea>
-						<input class="bbs_bottom_btn" type="submit" value="发表">
+						<input class="bbs_bottom_btn" type="submit" value="发表" />
 					{{ Form::close() }}
 
 				</div>

@@ -77,8 +77,8 @@
 .bbs_bottom{
 	width:668px;
 	padding:30px;
-	margin-bottom:40px;
-	border:1px solid #eeeeee;
+	margin:20px 0 40px 0;
+	border:1px solid #e5e5e5;
 	border-radius:5px;
 }
 .bbs_bottom_new{
@@ -94,16 +94,17 @@
 	margin-left:54px;
 	width:520px;
 	height:28px;
-	color:#b7b7b7;
+	color:#333;
+	font-size: 14px;
 	padding-left:5px;
-	border:2px solid #c6c3c4;
+	border:1px solid #c6c3c4;
 	border-radius:3px;
 }
 .bbs_bottom_text{
 	margin-top:14px;
 	width:664px;
 	height:220px;
-	border:2px solid #d6d4d5;
+	border:1px solid #d6d4d5;
 	border-radius:5px;
 }
 .bbs_bottom_btn{
