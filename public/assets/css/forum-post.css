@@ -349,9 +349,9 @@
 	float:right;
 	margin-bottom:10px;
 	margin-right:20px;
-	color:#b7b7b7;
+	color:#333;
 }
-form.reply_comment_form {
+form.reply_comment_form, form.reply_inner_form {
 	display: none;
 }
 
@@ -366,7 +366,7 @@ textarea.reply_comment_textarea {
 	float:right;
 	margin-bottom:10px;
 	margin-right:30px;
-	color:#b7b7b7;
+	color:#333;
 }
 
 input.reply_comment_submit {

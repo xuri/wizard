@@ -37,65 +37,12 @@
 						<li><a href="#" class="a-color-grey">举报</a></li>
 						<li>1楼</li>
 						<li>2014-11-22 9:45</li>
-						<li><a href="#comment" class="a-color-pink">回复</a></li>
+						<li><a href="#create_comment" class="a-color-pink smooth">回复</a></li>
 					</ul>
 
 				</div>
 				<div class="clear guest" style="width;100%; border:1px solid #ededed; border-radius:5px;" id="g-list">
-					<div class="message-re clear">
-						<div class="re-headImg-box">
-							<div class="re-headImg">
-								{{ HTML::image('assets/images/headImg.jpg') }}
-							</div>
-							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
-							<h3 class="m-h3">罗勇林</h3>
-						</div>
-						<p class="g-reply">爱情不必要专一，但要爱就要爱的一心一意。和其他朋友之间保持朋友的间的关系，学会说谢谢，不必暧昧。</p>
 
-						<ul class="reply">
-							<li><a href="#" class="a-color-grey">举报</a></li>
-							<li>2楼</li>
-							<li>2014-11-22 10:45</li>
-							<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
-						</ul>
-
-						{{ Form::open(array(
-							'autocomplete'	=> 'off',
-							'class'			=> 'reply_comment_form',
-							))
-						}}
-						<textarea class="reply_comment_textarea">{{ Input::old('content') }}</textarea>
-						<input type="submit" value="发表" class="reply_comment_submit" />
-						{{ Form::close() }}
-
-						<div class="message-other">
-							<div class="o-others">
-								<div>
-									<span class="imgSpan">
-										{{ HTML::image('assets/images/headImg.jpg') }}
-									</span>
-									{{ HTML::image('assets/images/symbol.png', '', array('class' => 'o-sexImg')) }}
-									<h3 class="g-h3">罗勇林:</h3>
-									<p class="r-value">如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。</p>
-									<a class="replay-a">回复</a>
-									<p class="date">2014-11-22 10:45</p>
-									<span class="span-line"></span>
-								</div>
-
-								<div>
-									<span class="imgSpan">
-										{{ HTML::image('assets/images/headImg.jpg') }}
-									</span>
-									{{ HTML::image('assets/images/symbol.png', '', array('class' => 'o-sexImg')) }}
-									<h3 class="g-h3">罗勇林:</h3>
-									<p class="r-value">如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。</p>
-									<a class="replay-a">回复</a>
-									<p class="date">2014-11-22 10:45</p>
-									<span class="span-line"></span>
-								</div>
-							</div>
-						</div>
-					</div>
 					@foreach($comments as $comment)
 					<?php
 						$user = User::where('id', $comment->user_id)->first(); // Retrieve comment user profile
@@ -103,7 +50,7 @@
 					<div class="message-re clear">
 						<div class="re-headImg-box">
 							<div class="re-headImg">
-								{{ HTML::image('portrait/'.$author->portrait) }}
+								{{ HTML::image('portrait/'.$user->portrait) }}
 							</div>
 							@if($user->sex == 'M')
 							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
@@ -118,8 +65,18 @@
 							<li><a href="#" class="a-color-grey">举报</a></li>
 							<li>{{ $floor ++ }}楼</li>
 							<li>2014-11-22 10:45</li>
-							<li><a href="#" class="a-color-pink">回复</a></li>
+							<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
 						</ul>
+
+						{{ Form::open(array(
+							'autocomplete'	=> 'off',
+							'class'			=> 'reply_comment_form',
+							))
+						}}
+						<textarea class="reply_comment_textarea">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
+						<input type="submit" value="发表" class="reply_comment_submit" />
+						{{ Form::close() }}
+
 						<div class="message-other">
 							<div class="o-others">
 								<div>
@@ -129,8 +86,16 @@
 									{{ HTML::image('assets/images/symbol.png', '', array('class' => 'o-sexImg')) }}
 									<h3 class="g-h3">罗勇林:</h3>
 									<p class="r-value">如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。</p>
-									<a class="replay-a">回复</a>
+									<a class="replay-a reply_inner">回复</a>
 									<p class="date">2014-11-22 10:45</p>
+									{{ Form::open(array(
+										'autocomplete'	=> 'off',
+										'class'			=> 'reply_inner_form',
+										))
+									}}
+									<textarea class="textarea">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
+									<input value="发表" class="submit" type="submit">
+									{{ Form::close() }}
 									<span class="span-line"></span>
 								</div>
 							</div>
@@ -147,8 +112,8 @@
 					<span>下一页</span>
 				</div>
 
-				<div class="g-box clear">
-					<a class="color" name="comment">发表评论</a>
+				<div class="g-box clear" id="create_comment">
+					<a class="color">发表评论</a>
 					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					<div class="g-r-box clear" class="clear">
 						{{ Form::open(array(
