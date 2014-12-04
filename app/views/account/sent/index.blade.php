@@ -117,7 +117,6 @@
 									@if($data->status == 3)
 									<a href="{{ route('members.show', $user->id) }}" class="button-block">对方已经把你拉黑了</a>
 									@elseif($data->status == 1)
-										<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 										<input name="status" type="hidden" value="sender_block" />
 										<input type="submit" class="button-resent"
 											@if($user->sex == 'M')
@@ -127,7 +126,6 @@
 											@endif
 										/>
 									@elseif($data->status == 4)
-										<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 										<input name="status" type="hidden" value="sender_recover" />
 										<input type="submit" class="button-unclock" value="取消拉黑"
 										/>

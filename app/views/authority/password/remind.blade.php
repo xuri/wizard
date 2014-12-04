@@ -49,7 +49,6 @@
 						)) }}
 
 					<p id="push_error"></p>
-					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 					<input type="hidden" id="forgot_password" value="forgot_password" />
 					<div>
 						<p class="fp_p">手机号：</p>

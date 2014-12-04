@@ -56,7 +56,6 @@
 						'action'		=> 'ForumController@postNew'
 						))
 					}}
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="category_id" type="hidden" value="1" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
@@ -88,7 +87,6 @@
 						'action'		=> 'ForumController@postNew'
 						))
 					}}
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="category_id" type="hidden" value="2" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
@@ -119,7 +117,6 @@
 						'action'		=> 'ForumController@postNew'
 						))
 					}}
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="category_id" type="hidden" value="3" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}

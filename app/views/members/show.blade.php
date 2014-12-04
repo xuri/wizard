@@ -115,7 +115,6 @@
 							</li>
 						</ul>
 						{{ Form::open() }}
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<input name="status" type="hidden" value="like" />
 						{{ $errors->first('answer', '<div class="callout-warning">:message</div>') }}
 						<textarea name="answer" class="answer" rows="3" placeholder="输入你的回答"></textarea>
@@ -169,12 +168,10 @@
 						<div class="callout-warning">{{ $sex }}给我的爱情考验答案 {{ $like_me->answer }}</div>
 						<div class="pi_center_bottom">
 						{{ Form::open() }}
-							<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 							<input name="status" type="hidden" value="accept" />
 							<input type="submit" value="同意" />
 						{{ Form::close() }}
 						{{ Form::open() }}
-							<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 							<input name="status" type="hidden" value="reject" />
 							<input type="submit" value="拒绝" />
 						{{ Form::close() }}
@@ -188,7 +185,6 @@
 						</li>
 					</ul>
 					{{ Form::open() }}
-					<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 					<input name="status" type="hidden" value="like" />
 					{{ $errors->first('answer', '<div class="callout-warning">:message</div>') }}
 					<textarea name="answer" class="answer" rows="3" placeholder="输入你的回答"></textarea>

@@ -98,11 +98,11 @@
 								$Days   = round(($d1-$d2)/3600/24);
 							?>
 							<li>
-								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186')) }}
-								{{ Form::open(array(
-										'action' => array('MemberController@like', $user->id)
-									))
-								}}
+							{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186')) }}
+							{{ Form::open(array(
+									'action' => array('MemberController@like', $user->id)
+								))
+							}}
 								<div class="courtship_title">
 									@if($user->sex == 'M')
 									{{ HTML::image('assets/images/symbol.png') }}
@@ -114,7 +114,6 @@
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> 已追<em>{{ $data->count }}</em>次</span>
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;">已追<em>{{ $Days }}</em>天</span><br />
 								@if($data->status == 3)
-									<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 									<input name="status" type="hidden" value="recover" />
 									<input type="submit" class="button-resent" value="取消拉黑"
 									/>
@@ -122,7 +121,6 @@
 									<a href="{{ route('members.show', $user->id) }}" class="button-block">
 									对方已经把你拉黑了</a>
 								@else
-									<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 									<input name="status" type="hidden" value="block" />
 									<input type="submit" class="button-resent"
 										@if($user->sex == 'M')

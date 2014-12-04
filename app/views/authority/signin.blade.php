@@ -68,7 +68,6 @@
 						))
 					}}
 
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<ul class="login_form">
 							<li class="rgs_li">
 								<span>手机:</span>

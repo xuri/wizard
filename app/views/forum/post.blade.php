@@ -120,7 +120,6 @@
 							'autocomplete' 	=> 'off'
 							))
 						}}
-						<input name="_token" type="hidden" value="{{ csrf_token() }}" />
 						<textarea class="g-r-value" name="content">{{ Input::old('content') }}</textarea>
 						<input type="submit" value="发表" class="g-replay" id="g-replay" />
 						{{ Form::close() }}
