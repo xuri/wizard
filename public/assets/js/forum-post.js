@@ -1,3 +1,9 @@
+$(function(){
+	$(".reply_comment").click(function(){
+		$(".reply_comment_form").toggle();
+	});
+});
+
 var aO=document.getElementById('g-list');
 	var aA=[];
 	var aL=rList();

@@ -351,6 +351,37 @@
 	margin-right:20px;
 	color:#b7b7b7;
 }
+form.reply_comment_form {
+	display: none;
+}
+
+textarea.reply_comment_textarea {
+	width:500px;
+	height:40px;
+	border:1px solid #ef698a;
+	border-radius:3px;
+	padding:5px;
+	overflow-y:auto;
+	overflow-x:hidden;
+	float:right;
+	margin-bottom:10px;
+	margin-right:30px;
+	color:#b7b7b7;
+}
+
+input.reply_comment_submit {
+	float:right;
+	margin-right:30px;
+	margin-left:200px;
+	width:40px;
+	height:20px;
+	border:1px solid #ef698a;
+	border-radius:3px;
+	background:#fff;
+	cursor:pointer;
+	color:#ef698a;
+	margin-bottom:10px;
+}
 .submit{
 	float:right;
 	margin-right:20px;

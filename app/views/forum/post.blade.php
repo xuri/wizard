@@ -37,7 +37,7 @@
 						<li><a href="#" class="a-color-grey">举报</a></li>
 						<li>1楼</li>
 						<li>2014-11-22 9:45</li>
-						<li><a href="#" class="a-color-pink">回复</a></li>
+						<li><a href="#comment" class="a-color-pink">回复</a></li>
 					</ul>
 
 				</div>
@@ -56,8 +56,17 @@
 							<li><a href="#" class="a-color-grey">举报</a></li>
 							<li>2楼</li>
 							<li>2014-11-22 10:45</li>
-							<li><a href="#" class="a-color-pink">回复</a></li>
+							<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
 						</ul>
+
+						{{ Form::open(array(
+							'autocomplete'	=> 'off',
+							'class'			=> 'reply_comment_form',
+							))
+						}}
+						<textarea class="reply_comment_textarea">{{ Input::old('content') }}</textarea>
+						<input type="submit" value="发表" class="reply_comment_submit" />
+						{{ Form::close() }}
 
 						<div class="message-other">
 							<div class="o-others">
@@ -139,7 +148,7 @@
 				</div>
 
 				<div class="g-box clear">
-					<h3 class="color">发表评论</h3>
+					<a class="color" name="comment">发表评论</a>
 					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					<div class="g-r-box clear" class="clear">
 						{{ Form::open(array(
