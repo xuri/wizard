@@ -43,7 +43,7 @@ $('.reply_inner').click(function(e){
     e.preventDefault();
     e.stopPropagation();
     // hide all span
-    var $this = $(this).parent().parent().find('form');
+    var $this = $(this).parent().find('.reply_inner_form');
     $(".reply_inner_form").not($this).hide();
 
     // here is what I want to do

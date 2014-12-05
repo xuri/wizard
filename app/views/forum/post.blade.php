@@ -17,6 +17,8 @@
 				<div class="callout-warning">{{ $message }}</div>
 			@endif
 
+			{{ $errors->first('reply_content', '<div class="callout-warning">:message</div>') }}
+
 			<div class="lu_content_main clear">
 				<div class="message-re message-border clear">
 					<div class="re-headImg-box">
@@ -36,7 +38,7 @@
 					<ul class="reply">
 						<li><a href="#" class="a-color-grey">举报</a></li>
 						<li>1楼</li>
-						<li>2014-11-22 9:45</li>
+						<li>{{ date("Y-m-d H:m",strtotime($data->created_at)) }}</li>
 						<li><a href="#create_comment" class="a-color-pink smooth">回复</a></li>
 					</ul>
 
@@ -64,7 +66,7 @@
 						<ul class="reply">
 							<li><a href="#" class="a-color-grey">举报</a></li>
 							<li>{{ $floor ++ }}楼</li>
-							<li>2014-11-22 10:45</li>
+							<li>{{ date("Y-m-d H:m",strtotime($comment->created_at)) }}</li>
 							<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
 						</ul>
 
@@ -73,31 +75,49 @@
 							'class'			=> 'reply_comment_form',
 							))
 						}}
-						<textarea class="reply_comment_textarea">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
+						<input type="hidden" name="type" value="reply">
+						<input type="hidden" name="comments_id" value="{{ $comment->id }}">
+						<input type="hidden" name="reply_id" value="{{ $user->id }}">
+						<textarea class="reply_comment_textarea" name="reply_content">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
 						<input type="submit" value="发表" class="reply_comment_submit" />
 						{{ Form::close() }}
 
 						<div class="message-other">
 							<div class="o-others">
+								<?php
+									$replies = ForumReply::where('comments_id', $comment->id)->get();
+								?>
+								@foreach($replies as $reply)
+								<?php
+									$reply_user = User::where('id', $reply->user_id)->first();
+								?>
 								<div>
 									<span class="imgSpan">
-										{{ HTML::image('assets/images/headImg.jpg') }}
+										{{ HTML::image('portrait/'.$reply_user->portrait) }}
 									</span>
+									@if($reply_user->sex == 'M')
 									{{ HTML::image('assets/images/symbol.png', '', array('class' => 'o-sexImg')) }}
-									<h3 class="g-h3">罗勇林:</h3>
-									<p class="r-value">如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。如果我现在的存在，阻碍了你的生活，那么我消失在这灯光之下。</p>
+									@else
+									{{ HTML::image('assets/images/g.jpg', '', array('class' => 'o-sexImg')) }}
+									@endif
+									<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>
+									<p class="r-value">{{ $reply->content }}</p>
 									<a class="replay-a reply_inner">回复</a>
-									<p class="date">2014-11-22 10:45</p>
+									<p class="date">{{ date("Y-m-d H:m",strtotime($reply->created_at)) }}</p>
 									{{ Form::open(array(
 										'autocomplete'	=> 'off',
 										'class'			=> 'reply_inner_form',
 										))
 									}}
-									<textarea class="textarea">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
+									<input type="hidden" name="type" value="reply">
+									<input type="hidden" name="comments_id" value="{{ $comment->id }}">
+									<input type="hidden" name="reply_id" value="{{ $reply_user->id }}">
+									<textarea class="textarea" name="reply_content">{{ Input::old('content', '回复 '.$reply_user->nickname.':') }}</textarea>
 									<input value="发表" class="submit" type="submit">
 									{{ Form::close() }}
 									<span class="span-line"></span>
 								</div>
+								@endforeach
 							</div>
 						</div>
 					</div>
@@ -120,6 +140,7 @@
 							'autocomplete' 	=> 'off'
 							))
 						}}
+						<input type="hidden" name="type" value="comments">
 						<textarea class="g-r-value" name="content">{{ Input::old('content') }}</textarea>
 						<input type="submit" value="发表" class="g-replay" id="g-replay" />
 						{{ Form::close() }}

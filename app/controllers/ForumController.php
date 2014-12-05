@@ -86,10 +86,10 @@ class ForumController extends BaseController {
 	 */
 	public function getShow($id)
 	{
-		$data	= ForumPost::where('id', $id)->first();
-		$author	= User::where('id', $data->user_id)->first();
-		$comments = ForumComments::where('post_id', $id)->get();
-		$floor = 2;
+		$data		= ForumPost::where('id', $id)->first();
+		$author		= User::where('id', $data->user_id)->first();
+		$comments	= ForumComments::where('post_id', $id)->get();
+		$floor		= 2;
 		return View::make($this->resource.'.post')->with(compact('data', 'author', 'comments', 'floor'));
 	}
 
@@ -99,40 +99,84 @@ class ForumController extends BaseController {
 	 */
 	public function postComment($id)
 	{
-		// Get all form data.
-		$data = Input::all();
-		// Create validation rules
-		$rules = array(
-			'content'	=> 'required',
-		);
-		// Custom validation message
-		$messages = array(
-			'content.required'	=> '请输入评论内容。',
-		);
-
-		// Begin verification
-		$validator		= Validator::make($data, $rules, $messages);
-		if ($validator->passes())
+		// Select post type
+		if(Input::get('type') == 'comments') // Post comments
 		{
-			$comment			= new ForumComments;
-			$comment->post_id	= $id;
-			$comment->content	= Input::get('content');
-			$comment->user_id	= Auth::user()->id;
-			$comment->floor		= ForumComments::where('post_id', $id)->count() + 2; // Calculate this comment in which floor
-			if($comment->save())
+			// Get all form data.
+			$data = Input::all();
+			// Create validation rules
+			$rules = array(
+				'content'	=> 'required',
+			);
+			// Custom validation message
+			$messages = array(
+				'content.required'	=> '请输入评论内容。',
+			);
+
+			// Begin verification
+			$validator		= Validator::make($data, $rules, $messages);
+			if ($validator->passes())
 			{
-				return Redirect::back()
-					->with('success', '评论成功。');
+				$comment			= new ForumComments;
+				$comment->post_id	= $id;
+				$comment->content	= Input::get('content');
+				$comment->user_id	= Auth::user()->id;
+				$comment->floor		= ForumComments::where('post_id', $id)->count() + 2; // Calculate this comment in which floor
+				if($comment->save())
+				{
+					return Redirect::back()
+						->with('success', '评论成功。');
+				} else {
+					return Redirect::back()
+						->withInput()
+						->with('error', '评论失败，请重试。');
+				}
 			} else {
+				// Validation fail
 				return Redirect::back()
 					->withInput()
-					->with('error', '评论失败，请重试。');
+					->withErrors($validator);
 			}
-		} else {
-			// Validation fail
-			return Redirect::back()
-				->withInput()
-				->withErrors($validator);
+		} else { // Post reply
+
+			// Get all form data.
+			$data = Input::all();
+			// Create validation rules
+			$rules = array(
+				'reply_content'	=> 'required',
+				'reply_id'		=> 'required',
+				'comments_id'	=> 'required'
+			);
+			// Custom validation message
+			$messages = array(
+				'reply_content.required'	=> '请输入回复内容。',
+			);
+
+			// Begin verification
+			$validator		= Validator::make($data, $rules, $messages);
+			if($validator->passes())
+			{
+				$reply				= new ForumReply;
+				$reply->content		= Input::get('reply_content');
+				$reply->reply_id	= Input::get('reply_id');
+				$reply->comments_id	= Input::get('comments_id');
+				$reply->user_id		= Auth::user()->id;
+				$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
+				if($reply->save())
+				{
+					return Redirect::back()
+						->with('success', '回复成功。');
+				} else {
+					return Redirect::back()
+						->withInput()
+						->with('error', '回复失败，请重试。');
+				}
+			} else {
+				// Validation fail
+				return Redirect::back()
+					->withInput()
+					->withErrors($validator);
+			}
 		}
 	}
 

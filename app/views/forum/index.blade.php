@@ -44,8 +44,8 @@
 						<li class="bbs_main_boy">
 							<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
 							<p>{{ $post->content }}</p>
-							<span class="bbs_main_look">sdf</span>
-							<span class="bbs_main_time">18:27</span>
+							<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
+							<span class="bbs_main_time">{{ date("H:m",strtotime($post->created_at)) }}</span>
 						</li>
 						@endforeach
 					</ul>
@@ -74,8 +74,8 @@
 						<li class="bbs_main_boy">
 							<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
 							<p>{{ $post->content }}</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
+							<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
+							<span class="bbs_main_time">{{ date("H:m",strtotime($post->created_at)) }}</span>
 						</li>
 						@endforeach
 
@@ -105,8 +105,8 @@
 						<li class="bbs_main_girl">
 							<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
 							<p>{{ $post->content }}</p>
-							<span class="bbs_main_look">58</span>
-							<span class="bbs_main_time">18:27</span>
+							<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
+							<span class="bbs_main_time">{{ date("H:m",strtotime($post->created_at)) }}</span>
 						</li>
 						@endforeach
 					</ul>
