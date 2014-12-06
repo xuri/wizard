@@ -86,50 +86,29 @@
 						<p>我的消息</p>
 					</div>
 					<ul class="new_tab clear">
-						<li class="active">我的聊天<span>99</span></li>
+						<li class="active">好友消息<span>{{ $friendNotificationsCount }}</span></li>
 						<span></span>
-						<li>论坛消息<span>5</span></li>
+						<li>论坛消息<span>{{ $forumNotificationsCount }}</span></li>
 						<span></span>
-						<li>系统消息<span>23</span></li>
+						<li>系统消息<span>{{ $systemNotificationsCount }}</span></li>
 					</ul>
 
-					<ul id="new_main_mine" class="new_main"><!-- 我的聊天 -->
+					<ul id="new_main_mine" class="new_main">{{-- Friend request notifications --}}
+						@foreach($friendNotifications as $friendNotification)
+						<?php
+							$sender = User::where('id', $friendNotification->sender_id)->first();
+							$notifications = getNotification($friendNotification->category, $friendNotification->sender_id);
+						?>
 						<li>
-							<a href="#">{{ HTML::image('assets/images/user_1.png', '', array('class' => 'new_main_head')) }}</a>
+							<a href="{{ route('members.show', $sender->id) }}">{{ HTML::image('portrait/'.$sender->portrait, '', array('class' => 'new_main_head')) }}</a>
 							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'new_main_sex')) }}
-							<a href="#" class="new_main_name">数据加载中阿斯达是打算打算的</a>
-							<h3 class="new_main_school">黑龙江工程学院</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>干什么呢?</p>
-							<span class="new_main_state unread">查看</span>
+							<a href="{{ route('members.show', $sender->id) }}" class="new_main_name">{{ $sender->nickname }}</a>
+							<h3 class="new_main_school">{{ $sender->school }}</h6>
+							<span class="new_main_time">{{ date("m-d H:m",strtotime($friendNotification->created_at)) }}</span>
+							<p>{{ $notifications['content'] }}</p>
+							<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">查看</a>
 						</li>
-						<li>
-							<a href="#">{{ HTML::image('assets/images/user_1.png', '', array('class' => 'new_main_head')) }}</a>
-							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'new_main_sex')) }}
-							<a href="#" class="new_main_name">数据加载中阿斯达是打算打算的</a>
-							<h3 class="new_main_school">黑龙江工程学院</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>玩呢啊.</p>
-							<span class="new_main_state">已读</span>
-						</li>
-						<li>
-							<a href="#">{{ HTML::image('assets/images/user_1.png', '', array('class' => 'new_main_head')) }}</a>
-							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'new_main_sex')) }}
-							<a href="#" class="new_main_name">数据加载中阿斯达是打算打算的</a>
-							<h3 class="new_main_school">黑龙江工程学院</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>玩什么呢?</p>
-							<span class="new_main_state unread">查看</span>
-						</li>
-						<li>
-							<a href="#">{{ HTML::image('assets/images/user_1.png', '', array('class' => 'new_main_head')) }}</a>
-							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'new_main_sex')) }}
-							<a href="#" class="new_main_name">数据加载中阿斯达是打算打算的</a>
-							<h3 class="new_main_school">黑龙江工程学院</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>LOL呢啊！！！</p>
-							<span class="new_main_state">已读</span>
-						</li>
+						@endforeach
 					</ul>
 
 					<ul id="new_main_forum" class="new_main"><!-- 论坛消息 -->

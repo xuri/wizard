@@ -22,6 +22,26 @@
  * status = 2 Receiver reject user, remove friend relationship in chat system
  * status = 3 Receiver block user, remove friend relationship in chat system
  * status = 4 Sender block receiver user, remove friend relationship in chat system
+ *
+ *
+ * Notifications Code Explanation
+ *
+ * category = 1 Some user first like you
+ * category = 2 Some user re-liked you
+ * category = 3 Some user accept you like
+ * category = 4 Some user reject you like
+ * category = 5 Some user blocked you
+ * category = 6 Some user comments your post in forum
+ * category = 7 Some user reply your comments in forum
+ * category = 8 System notifications to special user
+ * category = 9 System notifacations to all users
+ * category = 10 Some user recover blocked you
+ *
+ *
+ * User Points Explanation
+ *
+ * Daily renew add 2 points
+ * Like other users minus 1 point
  */
 
 class MemberController extends BaseController {
@@ -94,6 +114,7 @@ class MemberController extends BaseController {
 							Auth::user()->points	= Auth::user()->points - 1;
 							if($have_like->save() && Auth::user()->save())
 							{
+								Notification(2, $id); // Some user re-liked you
 								return Redirect::route('account.sent')
 								->withInput()
 								->with('success', '发送成功，静待缘分到来吧。');
@@ -108,6 +129,7 @@ class MemberController extends BaseController {
 							Auth::user()->points	= Auth::user()->points - 1;
 							if($like->save() && Auth::user()->save())
 							{
+								Notification(1, $id); // Some user first like you
 								return Redirect::route('account.sent')
 									->withInput()
 									->with('success', '发送成功，静待缘分到来吧。');
@@ -129,6 +151,7 @@ class MemberController extends BaseController {
 				$like->status	= 2; // Receiver reject user, remove friend relationship in chat system
 				if($like->save())
 				{
+					Notification(4, $id); // Some user reject you like
 					return Redirect::route('account.inbox')
 						->withInput()
 						->with('success', '你已经拒绝对方邀请。');
@@ -152,6 +175,7 @@ class MemberController extends BaseController {
 
 				if($like->save())
 				{
+					Notification(3, $id); // Some user accept you like
 					return Redirect::route('account.inbox')
 						->withInput()
 						->with('success', '添加好友成功！');
@@ -177,6 +201,7 @@ class MemberController extends BaseController {
 
 				if($like->save())
 				{
+					Notification(5, $id); // Some user blocked you
 					return Redirect::back()
 						->withInput()
 						->with('success', '拉黑成功。');
@@ -202,6 +227,7 @@ class MemberController extends BaseController {
 
 				if($like->save())
 				{
+					Notification(5, $id); // Some user blocked you
 					return Redirect::back()
 						->withInput()
 						->with('success', '拉黑成功。');
@@ -216,6 +242,7 @@ class MemberController extends BaseController {
 				$like->status	= 0; // User send like, pending accept
 				if($like->save())
 				{
+					Notification(10, $id); // Some user recover blocked you
 					return Redirect::back()
 						->withInput()
 						->with('success', '取消拉黑成功。');
@@ -230,6 +257,7 @@ class MemberController extends BaseController {
 				$like->status	= 0; // User send like, pending accept
 				if($like->save())
 				{
+					Notification(10, $id); // Some user recover blocked you
 					return Redirect::back()
 						->withInput()
 						->with('success', '取消拉黑成功。');

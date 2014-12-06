@@ -477,3 +477,75 @@ function getEasemob()
 	}
 	return $easemob;
 }
+
+/**
+ * Create Notification
+ * @param Integer $category  Category code
+ * @param Integer $receiverId Receiver ID
+ */
+function Notification($category, $receiverId)
+{
+	$notification				= new Notification;
+	$notification->sender_id	= Auth::user()->id;
+	$notification->receiver_id	= $receiverId;
+	$notification->category 	= $category;
+	$notification->save();
+}
+
+/**
+ * Get Notification Content
+ * @param Integer $catrgory  Category code
+ * @param Integer $sender_id Sender ID
+ * @return Array            Notification title and content
+ */
+function getNotification($category, $sender_id)
+{
+	$sender = User::where('id', $sender_id)->first();
+	switch ($category) {
+		case '1':
+			$notificationTitle 		= '好友请求消息';
+			$notificationContent	= $sender->nickname.'追你';
+			break;
+		case '2':
+			$notificationTitle 		= '好友请求消息';
+			$notificationContent 	= $sender->nickname.'再次追你';
+			break;
+		case '3':
+			$notificationTitle 		= '好友请求消息';
+			$notificationContent	= $sender->nickname.'接受了你的邀请';
+			break;
+		case '4':
+			$notificationTitle 		= '好友请求消息';
+			$notificationContent 	= $sender->nickname.'拒绝了你的邀请';
+			break;
+		case '5':
+			$notificationTitle 		= '好友关系提醒';
+			$notificationContent 	= $sender->nickname.'将你加入了黑名单';
+			break;
+		case '6':
+			$notificationTitle 		= '论坛消息';
+			$notificationContent 	= $sender->nickname.'评论了你发布帖子，快去看看吧';
+			break;
+		case '7':
+			$notificationTitle 		= '论坛消息';
+			$notificationContent 	= $sender->nickname.'评回复了你的评论，快去看看吧';
+			break;
+		case '8':
+			$notificationTitle 		= '系统消息';
+			$notificationContent 	= '系统消息';
+			break;
+		case '9':
+			$notificationTitle 		= '系统消息';
+			$notificationContent 	= '系统消息';
+			break;
+		case '10':
+			$notificationTitle 		= '好友关系提醒';
+			$notificationContent 	= $sender->nickname.'解除了对你的拉黑';
+			break;
+	}
+	$notification = array(
+		'title'		=> $notificationTitle,
+		'content'	=> $notificationContent
+	);
+	return $notification;
+}
