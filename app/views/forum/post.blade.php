@@ -69,19 +69,19 @@
 							<li>{{ date("Y-m-d H:m",strtotime($comment->created_at)) }}</li>
 							<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
 						</ul>
-
-						{{ Form::open(array(
-							'autocomplete'	=> 'off',
-							'class'			=> 'reply_comment_form',
-							))
-						}}
-						<input type="hidden" name="type" value="reply">
-						<input type="hidden" name="comments_id" value="{{ $comment->id }}">
-						<input type="hidden" name="reply_id" value="{{ $user->id }}">
-						<textarea class="reply_comment_textarea" name="reply_content">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
-						<input type="submit" value="发表" class="reply_comment_submit" />
-						{{ Form::close() }}
-
+						<section class="form_box_first">
+							{{ Form::open(array(
+								'autocomplete'	=> 'off',
+								'class'			=> 'reply_comment_form',
+								))
+							}}
+							<input type="hidden" name="type" value="reply">
+							<input type="hidden" name="comments_id" value="{{ $comment->id }}">
+							<input type="hidden" name="reply_id" value="{{ $user->id }}">
+							<textarea class="reply_comment_textarea" name="reply_content">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
+							<input type="submit" value="发表" class="reply_comment_submit" />
+							{{ Form::close() }}
+						</section>
 						<div class="message-other">
 							<div class="o-others">
 								<?php
@@ -104,17 +104,20 @@
 									<p class="r-value">{{ $reply->content }}</p>
 									<a class="replay-a reply_inner">回复</a>
 									<p class="date">{{ date("Y-m-d H:m",strtotime($reply->created_at)) }}</p>
-									{{ Form::open(array(
-										'autocomplete'	=> 'off',
-										'class'			=> 'reply_inner_form',
-										))
-									}}
-									<input type="hidden" name="type" value="reply">
-									<input type="hidden" name="comments_id" value="{{ $comment->id }}">
-									<input type="hidden" name="reply_id" value="{{ $reply_user->id }}">
-									<textarea class="textarea" name="reply_content">{{ Input::old('content', '回复 '.$reply_user->nickname.':') }}</textarea>
-									<input value="发表" class="submit" type="submit">
-									{{ Form::close() }}
+
+									<section class="form_box_second">
+										{{ Form::open(array(
+											'autocomplete'	=> 'off',
+											'class'			=> 'reply_inner_form',
+											))
+										}}
+										<input type="hidden" name="type" value="reply">
+										<input type="hidden" name="comments_id" value="{{ $comment->id }}">
+										<input type="hidden" name="reply_id" value="{{ $reply_user->id }}">
+										<textarea class="textarea" name="reply_content">{{ Input::old('content', '回复 '.$reply_user->nickname.':') }}</textarea>
+										<input value="发表" class="submit" type="submit">
+										{{ Form::close() }}
+									</section>
 									<span class="span-line"></span>
 								</div>
 								@endforeach
