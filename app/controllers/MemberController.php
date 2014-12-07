@@ -166,13 +166,18 @@ class MemberController extends BaseController {
 
 				$easemob		= getEasemob();
 				// Add friend relationship in chat system and start chat
-				$regChat		= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
+				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
 						->setHeader('content-type', 'application/json')
 						->setHeader('Accept', 'json')
 						->setHeader('Authorization', 'Bearer '.$easemob->token)
 						->setOptions([CURLOPT_VERBOSE => true])
 						->send();
-
+				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.Auth::user()->id)
+						->setHeader('content-type', 'application/json')
+						->setHeader('Accept', 'json')
+						->setHeader('Authorization', 'Bearer '.$easemob->token)
+						->setOptions([CURLOPT_VERBOSE => true])
+						->send();
 				if($like->save())
 				{
 					Notification(3, $id); // Some user accept you like
@@ -191,14 +196,20 @@ class MemberController extends BaseController {
 
 				$easemob		= getEasemob();
 				// Remove friend relationship in chat system
-				$regChat		= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
+				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
 						->setHeader('content-type', 'application/json')
 						->setHeader('Accept', 'json')
 						->setHeader('Authorization', 'Bearer '.$easemob->token)
 						->setOptions([CURLOPT_VERBOSE => true])
 						->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
 						->send();
-
+				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.Auth::user()->id)
+						->setHeader('content-type', 'application/json')
+						->setHeader('Accept', 'json')
+						->setHeader('Authorization', 'Bearer '.$easemob->token)
+						->setOptions([CURLOPT_VERBOSE => true])
+						->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
+						->send();
 				if($like->save())
 				{
 					Notification(5, $id); // Some user blocked you

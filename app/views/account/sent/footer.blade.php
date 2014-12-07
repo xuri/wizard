@@ -72,6 +72,8 @@
 
 	var startChat = false; // 标志是否连接成功
 
+	location.hash = '#'; // 每次刷新隐藏模态框
+
 	window.URL = window.URL || window.webkitURL || window.mozURL
 			|| window.msURL;
 
@@ -94,7 +96,9 @@
 						//e = $(this).val();
 						//$(this).val(e + '<br>');
 						event.returnValue = false;
+						event.preventDefault();
 						sendText();
+
 						return false;
 					}else{
 						alert("尚未连接成功，等会吧 = = ");
@@ -103,6 +107,7 @@
 				} else if (event.keyCode == 13) {
 					if(startChat){
 						event.returnValue = false;
+						event.preventDefault();
 						sendText();
 						return false;
 					}else{
@@ -131,6 +136,7 @@
 			},
 			//收到文本消息时的回调方法
 			onTextMessage : function(message) {
+				//alert('shou');
 				handleTextMessage(message);
 			},
 			//收到表情消息时的回调方法
@@ -206,7 +212,7 @@
 		});
 
 		var user = curUserId;
-		//密码
+
 		var pass = curUserPass;
 		conn.open({
 			user : user,
@@ -214,14 +220,16 @@
 			appKey : 'jinglingkj#pinai'//开发者APPKey
 		});
 
-		// $(function() {
-		// 	$(window).bind('beforeunload', function() {
-		// 		if (conn) {
-		// 			conn.close();
-		// 		}
-		// 		return true;
-		// 	});
-		// });
+		 $(function() {
+		 	$(window).bind('beforeunload', function() {
+		 		if (conn) {
+		 			conn.close();
+
+		 		}
+
+		 		//return "看看有没有未读消息在选择是否离开吧";
+		 	});
+		 });
 	});
 
 	//处理连接时函数,主要是登录成功后对页面元素做处理
@@ -395,16 +403,16 @@
 	//异常情况下的处理方法
 	var handleError = function(e) {
 		if (curUserId == null) {
-			hiddenWaitLoginedUI();
-			alert(e.msg + ",请重新登录");
-			showLoginUI();
+			//hiddenWaitLoginedUI();
+			alert(e.msg + ",刷新页面试试重连吧");
+			//showLoginUI();
 		} else {
 			var msg = e.msg;
 			if (e.type == EASEMOB_IM_CONNCTION_SERVER_CLOSE_ERROR) {
 				if (msg == "") {
 					alert("服务器器断开连接,可能是因为在别处登录");
 				} else {
-					alert("服务器器断开连接");
+					alert("服务器器断开连接，刷新页面试试重连吧");
 				}
 			} else {
 				alert(msg);
@@ -460,8 +468,8 @@
 	};
 
 	//设置当前显示的聊天窗口div，如果有联系人则默认选中联系人中的第一个联系人，如没有联系人则当前div为null-nouser
-	var setCurrentContact = function(defaultUserId) {
-		showContactChatDiv(defaultUserId);
+	var setCurrentContact = function(defaultUserId, nickname) {
+		showContactChatDiv(defaultUserId,nickname);
 		if (curChatUserId != null) {
 			hiddenContactChatDiv(curChatUserId);
 		} else {
@@ -484,45 +492,99 @@
 
 	//构造联系人列表
 	var buildContactDiv = function(contactlistDivId, roster) {
-		var uielem = document.getElementById("contactlistUL");
+		var uielem = document.getElementById("nav_message").getElementsByClassName('nav_message_list')[0];
 		var cache = {};
 		for (i = 0; i < roster.length; i++) {
 			if (!(roster[i].subscription == 'both' || roster[i].subscription == 'from')) {
 				continue;
 			}
 			var jid = roster[i].jid;
+			//alert(jid);
 			var userName = jid.substring(jid.indexOf("_") + 1).split("@")[0];
 			if (userName in cache) {
 				continue;
 			}
 			cache[userName] = true;
 			var lielem = document.createElement("li");
+							//lielem.innerHTML = userName;
+							lielem.style.display = 'none';
+							lielem.style.cursor = 'pointer';
+							lielem.style.marginTop = '6px';
+
+							lielem.onmouseover = function(){
+								this.style.backgroundColor = '#ccc';
+							}
+							lielem.onmouseout = function(){
+								this.style.backgroundColor = '#fff';
+							}
+
 			$(lielem).attr({
 				'id' : userName,
-				'class' : 'offline',
-				'className' : 'offline',
+				//'class' : 'offline',
+				//'className' : 'offline',
 				'chat' : 'chat',
 				'displayName' : userName
 			});
 			lielem.onclick = function() {
 				chooseContactDivClick(this);
-			};
-			var imgelem = document.createElement("img");
-			imgelem.setAttribute("src", "");
-			lielem.appendChild(imgelem);
+				this.style.display = 'none';
 
-			var spanelem = document.createElement("span");
-			spanelem.innerHTML = userName;
-			lielem.appendChild(spanelem);
+				var nav_msg_list = nav_message.getElementsByClassName('nav_message_list')[0]; // 消息列表ul
+				nav_msg_list.style.display = 'none';
+
+				location.hash = '#modal';
+			};
+
+
+			// 下面这段代码是创建小头像
+			var courtship = document.getElementById('courtship'); // 包含我追的人用户列表的div
+			var preLi = courtship.getElementsByClassName('preLi'); // 通过上面那个div找到下面的li
+			//var chat_start = document.getElementById('chat_start');
+			for(var j = 0; j < preLi.length; j++){
+				var preLi_chat_start = getByClass(preLi[j],'a','chat_start'); // 获取每个li下面的点击聊天的按钮
+				if(preLi_chat_start[0].getAttribute('data-id') == userName){
+					// 获取头像
+					var headPicSrc = preLi_chat_start[0].parentNode.parentNode.parentNode.getElementsByClassName('_headPic')[0].src;
+					var newPic = document.createElement('img');
+					newPic.src = headPicSrc;
+					newPic.style.width = '40px';
+					newPic.style.height = '40px';
+					newPic.style.position = 'absolute';
+					newPic.style.top = '5px';
+					newPic.style.left = '5px';
+					newPic.onload = function(){
+						lielem.appendChild(newPic);
+					}
+
+					// 创建昵称
+					var t_p = document.createElement('p');
+					t_p.innerHTML = "昵称: " + preLi_chat_start[0].getAttribute('data-nickname');
+					t_p.style.float = 'left';
+					t_p.style.color = '#ab657d';
+					t_p.style.marginLeft = '50px';
+					lielem.appendChild(t_p);
+
+
+				}
+			}
+
+
+			//var imgelem = document.createElement("img");
+			//imgelem.setAttribute("src", "");
+			//lielem.appendChild(imgelem);
+
+			//var spanelem = document.createElement("span");
+			//spanelem.innerHTML = userName;
+			//lielem.appendChild(spanelem);
 
 			uielem.appendChild(lielem);
 		}
-		var contactlist = document.getElementById(contactlistDivId);
-		var children = contactlist.children;
-		if (children.length > 0) {
-			contactlist.removeChild(children[0]);
-		}
-		contactlist.appendChild(uielem);
+		//var contactlist = document.getElementById(contactlistDivId);
+		//var children = contactlist.children;
+		//if (children.length > 0) {
+		//	contactlist.removeChild(children[0]);
+		//}
+		//contactlist.appendChild(uielem);
 	};
 
 	//构造群组列表
@@ -585,7 +647,7 @@
 	};
 
 	//显示当前选中联系人的聊天窗口div，并将该联系人在联系人列表中背景色置为蓝色
-	var showContactChatDiv = function(chatUserId) {
+	var showContactChatDiv = function(chatUserId,nickname) {
 		var contentDiv = getContactChatDiv(chatUserId);
 		if (contentDiv == null) {
 			contentDiv = createContactChatDiv(chatUserId);
@@ -596,18 +658,18 @@
 		if (contactLi == null) {
 			return;
 		}
-		contactLi.style.backgroundColor = "blue";
+		//contactLi.style.backgroundColor = "blue";
 		var dispalyTitle = null;//聊天窗口显示当前对话人名称
 		if (chatUserId.indexOf(groupFlagMark) >= 0) {
 			dispalyTitle = "群组" + $(contactLi).attr('displayname') + "聊天中";
 			curRoomId = $(contactLi).attr('roomid');
 			$("#roomMemberImg").css('display', 'block');
 		} else {
-			dispalyTitle = "与" + curChatUserId + "聊天中";
+			dispalyTitle = "与 " + nickname + " 聊天中";
 			$("#roomMemberImg").css('display', 'none');
 		}
 
-		// document.getElementById(talkToDivId).children[0].innerHTML = dispalyTitle;
+		document.getElementById('cont_title').innerHTML = dispalyTitle;
 	};
 	//对上一个联系人的聊天窗口div做隐藏处理，并将联系人列表中选择的联系人背景色置空
 	var hiddenContactChatDiv = function(chatUserId) {
@@ -702,14 +764,20 @@
 		txt.focus();
 	};
 	var showSendPic = function() {
-		$('#fileModal').modal('toggle');
-		$('#sendfiletype').val('pic');
-		$('#send-file-warning').html("");
+		var fileModal = getById('fileModal');
+		var sendfiletype = getById('sendfiletype');
+		sendfiletype.value = 'pic';
+		timeMove(fileModal,{left: 0},800,'easeBoth');
+	};
+	var hiddenSendPic = function(){
+		var fileModal = getById('fileModal');
+		timeMove(fileModal,{left: -370},800,'easeBoth');
 	};
 	var showSendAudio = function() {
-		$('#fileModal').modal('toggle');
-		$('#sendfiletype').val('audio');
-		$('#send-file-warning').html("");
+		var fileModal = getById('fileModal');
+		var sendfiletype = getById('sendfiletype');
+		sendfiletype.value = 'audio';
+		timeMove(fileModal,{left: 0},800,'easeBoth');
 	};
 
 	var sendText = function() {
@@ -747,7 +815,6 @@
 		appendMsg(curUserId, to, msgtext);
 		turnoffFaces_box();
 		msgInput.value = "";
-		msgInput.setAttribute('_val','')
 		msgInput.focus();
 
 		setTimeout(function() {
@@ -792,12 +859,14 @@
 				fileInputId : fileInputId,
 				to : to,
 				onFileUploadError : function(error) {
-					$('#fileModal').modal('hide');
+					hiddenSendPic();
 					var messageContent = error.msg + ",发送图片文件失败:" + filename;
 					appendMsg(curUserId, to, messageContent);
+					document.getElementById("fileSend").disabled = false;
+					document.getElementById("cancelfileSend").disabled = false;
 				},
 				onFileUploadComplete : function(data) {
-					$('#fileModal').modal('hide');
+					hiddenSendPic();
 					var file = document.getElementById(fileInputId);
 					if (file && file.files) {
 						var objUrl = getObjectURL(file.files[0]);
@@ -814,6 +883,8 @@
 							data : img
 						} ]
 					});
+					document.getElementById("fileSend").disabled = false;
+					document.getElementById("cancelfileSend").disabled = false;
 				}
 			};
 
@@ -857,14 +928,18 @@
 				fileInputId : fileInputId,
 				to : to,//发给谁
 				onFileUploadError : function(error) {
-					$('#fileModal').modal('hide');
+					hiddenSendPic();
 					var messageContent = error.msg + ",发送音频失败:" + filename;
 					appendMsg(curUserId, to, messageContent);
+					document.getElementById("fileSend").disabled = false;
+					document.getElementById("cancelfileSend").disabled = false;
 				},
 				onFileUploadComplete : function(data) {
 					var messageContent = "发送音频" + filename;
-					$('#fileModal').modal('hide');
+					hiddenSendPic();
 					appendMsg(curUserId, to, messageContent);
+					document.getElementById("fileSend").disabled = false;
+					document.getElementById("cancelfileSend").disabled = false;
 				}
 			};
 			//构造完opt对象后调用easemobwebim-sdk中发送音频的方法
@@ -1048,7 +1123,9 @@
 
 	//显示聊天记录的统一处理方法
 	var appendMsg = function(who, contact, message, chattype) {
-		var contactUL = document.getElementById("contactlistUL");
+		//alert(2);
+		//var contactUL = document.getElementById("contactlistUL");
+		var contactUL = document.getElementById("nav_message").getElementsByClassName('nav_message_list')[0];
 		if (contactUL.children.length == 0) {
 			return null;
 		}
@@ -1124,8 +1201,13 @@
 				}
 			}
 		}
-		if (curChatUserId.indexOf(contact) < 0) {
-			contactLi.style.backgroundColor = "green";
+		//if (curChatUserId.indexOf(contact) < 0) {
+			//alert(contact);
+			//alert(location.hash);
+		// 只有下面这种情况下才进行消息提示
+		if(!(who != contact || (who == contact && curChatUserId==contact && location.hash=="#modal"))){
+			//contactLi.style.backgroundColor = "green";
+			contactLi.style.display = 'block';
 		}
 		var msgContentDiv = getContactChatDiv(contactDivId);
 		if (curUserId == who) {
@@ -1394,28 +1476,75 @@
 
 
 	// 点击开始聊天按钮，如果连接成功才显示聊天窗口
-	var chat_start = document.getElementById('chat_start');
-	chat_start.onclick = startModal;
+	var courtship = document.getElementById('courtship'); // 包含我追的人用户列表的div
+	var preLi = courtship.getElementsByClassName('preLi'); // 通过上面那个div找到下面的li
+	//var chat_start = document.getElementById('chat_start');
+	for(var j = 0; j < preLi.length; j++){
+		var preLi_chat_start = getByClass(preLi[j],'a','chat_start'); // 获取每个li下面的点击聊天的按钮
+		if(preLi_chat_start[0]){
+			preLi_chat_start[0].onclick = startModal;
+		}
+
+	}
+
 	function startModal(){
-		chat_start.onclick = null;
-		chat_start.innerHTML = '连接中 ... ';
-		document.title = startChat;
+		this.onclick = null;
+		this.innerHTML = '连接中 ... ';
+		//document.title = startChat;
 
 		var _this = this;
 
 		var timer = setInterval(function(){
 			if(startChat){
+				// 把之前的窗口隐藏
+				if(curChatUserId){
+					hiddenContactChatDiv(curChatUserId);
+				}
+
 
 				curChatUserId = _this.getAttribute('data-id');
-				setCurrentContact(curChatUserId);
+				var nickname = _this.getAttribute('data-nickname');
+				setCurrentContact(curChatUserId, nickname);
 
 				location.hash = '#modal';
-				chat_start.onclick = startModal;
-				chat_start.innerHTML = '开始聊天';
+				_this.onclick = startModal;
+				_this.innerHTML = '开始聊天';
 				clearInterval(timer);
+
+				// 把消息提醒也关掉
+				var uielem = document.getElementById("nav_message").getElementsByClassName('nav_message_list')[0];
+				var li_nav_msg_arr = uielem.getElementsByTagName('li');
+				for(var i = 0; i < li_nav_msg_arr.length; i++){
+					if(li_nav_msg_arr[i].id == curChatUserId){
+						li_nav_msg_arr[i].style.display = 'none';
+					}
+				}
 			}
 		}, 30);
 
 	}
+
+
+	// 检测消息
+	var c_uielem = null;
+	var c_title = '';
+	setInterval(function(){
+		c_uielem = document.getElementById("nav_message").getElementsByClassName('nav_message_list')[0];
+		c_title = document.getElementById("nav_message").getElementsByClassName('nav_message_title')[0];
+		for(var i = 0; i < c_uielem.children.length; i++){
+			//(function(i){
+				document.title = (c_uielem.children[i].style.display == 'block');
+				if(c_uielem.children[i].style.display == 'block'){
+					c_title.innerHTML = '有消息啦！';
+					addClass(c_title,'fg'); // 添加文字发光样式
+					break;
+				}else{
+					c_title.innerHTML = '暂无消息';
+					removeClass(c_title,'fg'); // 移出文字发光样式
+				}
+			//})(i);
+
+		}
+	},1000);
 </script>
 </html>

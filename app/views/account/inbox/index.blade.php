@@ -97,8 +97,8 @@
 								$d2     = strtotime($Date_2);
 								$Days   = round(($d1-$d2)/3600/24);
 							?>
-							<li>
-							{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186')) }}
+							<li class="preLi">
+							{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186', 'class' => '_headPic')) }}
 							{{ Form::open(array(
 									'action' => array('MemberController@like', $user->id)
 								))
@@ -133,7 +133,7 @@
 								@if($data->status == 0)
 									<a href="{{ route('members.show', $user->id) }}" class="button-wait">等你回复</a>
 								@elseif($data->status == 1)
-								<a href="javascript:;" class="remodal-bg button-blue" data-id="{{ $user->id }}" id="chat_start">开始聊天</a>
+								<a href="javascript:;" class="remodal-bg button-blue chat_start" data-id="{{ $user->id }}" id="chat_start" data-nickname="{{ $user->nickname }}">开始聊天</a>
 								@elseif($data->status == 2)
 								<a href="javascript:void(0)" class="button-block">已经拒绝</a>
 								@elseif($data->status == 3)

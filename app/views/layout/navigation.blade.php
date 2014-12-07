@@ -20,6 +20,15 @@
 </div>
 
 <div class="nav">
+
+	{{-- 消息提醒列表 --}}
+	<div id="nav_message">
+		<h5 class="nav_message_title">暂无消息</h5>
+		<ul class="nav_message_list">
+		{{ HTML::image('assets/images/nav_mas_j.png', '', array('class' => 'jiao_pic')) }}
+		</ul>
+	</div>
+
 	<div class="nav_main">
 		{{ HTML::image('assets/images/nav_main_bg.png', '', array('id' => 'nav_main')) }}
 
