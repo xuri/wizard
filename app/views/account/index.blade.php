@@ -56,7 +56,7 @@
 								欢迎来到聘爱网
 								@endif
 							</div>
-							<div><span>精灵豆 : </span><em>30</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
+							<div><span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
 						</div>
 						<div class="sgnin_con">
 							<div class="comeon">
