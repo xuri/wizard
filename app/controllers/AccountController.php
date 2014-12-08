@@ -9,8 +9,8 @@
  * @author 		Ri Xu http://xuri.me
  * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
- * @since  		25th Nov, 2014
- * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
+ * @since 		25th Nov, 2014
+ * @license 	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 	0.1
  */
 

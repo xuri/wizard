@@ -42,6 +42,7 @@
  *
  * Daily renew add 2 points
  * Like other users minus 1 point
+ *
  */
 
 class MemberController extends BaseController {

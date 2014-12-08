@@ -14,6 +14,16 @@
  * @version 	0.1
  */
 
+/**
+ * Status Code Explanation
+ *
+ * from = 0 (default) 	Signup from Website
+ * from = 1 			Signup from Android
+ * from = 3 			Signup from iOS Client
+ * from = 4 			Add user by administrator
+ *
+ */
+
 class AndroidController extends BaseController
 {
 	/**
@@ -47,59 +57,21 @@ class AndroidController extends BaseController
 
 		if($token == 'jciy9ldJ') // Define token
 		{
-			if($action == 'login') // Signin
-			{
-				// Credentials
-				$credentials = array(
-					'email'		=> Input::get('phone'),
-					'password'	=> md5(Input::get('password')
-				));
-				$phone_credentials = array(
-					'phone'		=> Input::get('phone'),
-					'password'	=> md5(Input::get('password')
-				));
-				if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
-					// Signin success, redirect to the previous page that was blocked
-					return Response::json(
-						array(
-							'status' 		=> 1
-						)
-					);
-				} else {
-					return Response::json(
-						array(
-							'status' 		=> 0
-						)
-					);
-				}
-			} else if($action == 'signup') // Signup
-			{
-				// Get all form data.
-				$data = Input::all();
-				// Create validation rules
-				$rules = array(
-					'phone'               => 'required|digits:11|unique:users',
-					'password'            => 'required|alpha_dash|between:6,16'
-				);
-				// Custom validation message
-				$messages = array(
-					'phone.required'      => '请输入手机号码。',
-					'phone.digits'        => '请输入正确的手机号码。',
-					'phone.unique'        => '此手机号码已被使用。',
-					'password.required'   => '请输入密码。',
-					'password.alpha_dash' => '密码格式不正确。',
-					'password.between'    => '密码长度请保持在:min到:max位之间。'
-				);
-				// Begin verification
-				$validator   = Validator::make($data, $rules, $messages);
-				$phone       = Input::get('phone');
-				if ($validator->passes()) {
-					// Verification success, add user
-					$user           = new User;
-					$user->phone    = $phone;
-					$user->password = md5(Input::get('password'));
-					if ($user->save()) {
-						// Redirect to a registration page, prompts user to activate
+			switch ($action) {
+
+				// Signin
+
+				case "login" :
+					// Credentials
+					$credentials = array(
+						'email'		=> Input::get('phone'),
+						'password'	=> md5(Input::get('password')
+					));
+					$phone_credentials = array(
+						'phone'		=> Input::get('phone'),
+						'password'	=> md5(Input::get('password')
+					));
+					if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
 						// Signin success, redirect to the previous page that was blocked
 						return Response::json(
 							array(
@@ -107,178 +79,272 @@ class AndroidController extends BaseController
 							)
 						);
 					} else {
-						// Signin success, redirect to the previous page that was blocked
 						return Response::json(
 							array(
 								'status' 		=> 0
 							)
 						);
 					}
-				} else {
-					// Add user fail
-					return Response::json(
-						array(
-							'status' 		=> 0
-						)
+				break;
+
+				// Signup
+
+				case "signup" :
+					// Get all form data.
+					$data = Input::all();
+					// Create validation rules
+					$rules = array(
+						'phone'               => 'required|digits:11|unique:users',
+						'password'            => 'required|alpha_dash|between:6,16'
 					);
-				}
-			} else if($action == 'complete') // Complete
-			{
-				// Get all form data
-
-				$info = array(
-					'nickname'      => Input::get('nickname'),
-					'constellation' => Input::get('constellation'),
-					'portrait'      => Input::get('portrait'),
-					'tag_str'       => Input::get('tag_str'),
-					'sex'           => Input::get('sex'),
-					'born_year'     => Input::get('born_year'),
-					'grade'         => Input::get('grade'),
-					'hobbies'       => Input::get('hobbies'),
-					'self_intro'    => Input::get('self_intro'),
-					'bio'           => Input::get('bio'),
-					'question'      => Input::get('question'),
-					'school'        => Input::get('school'),
-				);
-
-				//Create validation rules
-
-				$rules = array(
-					'nickname'		=> 'required|between:1,30',
-					'constellation'	=> 'required',
-					'tag_str'		=> 'required',
-					'sex'			=> 'required',
-					'born_year'		=> 'required',
-					'grade'			=> 'required',
-					'hobbies'		=> 'required',
-					'self_intro'	=> 'required',
-					'bio'			=> 'required',
-					'question'		=> 'required',
-					'school'		=> 'required',
-				);
-
-				// Custom validation message
-
-				$messages = array(
-					'nickname.required'			=> '请输入昵称',
-					'nickname.between'			=> '昵称长度请保持在:min到:max字之间',
-					'constellation.required'	=> '请选择星座',
-					'tag_str.required'			=> '给自己贴个标签吧',
-					'sex.required'				=> '请选择性别',
-					'born_year.required'		=> '请选择出生年',
-					'grade.required'			=> '请选择入学年',
-					'hobbies.required'			=> '填写你的爱好',
-					'self_intro.required'		=> '请填写个人简介',
-					'bio.required'				=> '请填写你的真爱寄语',
-					'question.required'			=> '记得填写爱情考验哦',
-					'school.required'			=> '请选择所在学校',
-				);
-
-				// Begin verification
-
-				$validator = Validator::make($info, $rules, $messages);
-				if ($validator->passes()) {
-
-				    // Verification success
-				    // Update account
-					$user                   = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
-					$oldPortrait			= $user->portrait;
-					$user->nickname         = Input::get('nickname');
-
-					// Protrait section
-					$portrait               = Input::get('portrait');
-					if($portrait != NULL) // User update avatar
-					{
-						$portraitPath		= public_path('portrait/');
-						$user->portrait     = 'android/'.$portrait; // Save file name to database
+					// Custom validation message
+					$messages = array(
+						'phone.required'      => '请输入手机号码。',
+						'phone.digits'        => '请输入正确的手机号码。',
+						'phone.unique'        => '此手机号码已被使用。',
+						'password.required'   => '请输入密码。',
+						'password.alpha_dash' => '密码格式不正确。',
+						'password.between'    => '密码长度请保持在:min到:max位之间。'
+					);
+					// Begin verification
+					$validator   = Validator::make($data, $rules, $messages);
+					$phone       = Input::get('phone');
+					if ($validator->passes()) {
+						// Verification success, add user
+						$user           = new User;
+						$user->phone    = $phone;
+						$user->from     = 1; // Signup from Android
+						$user->password = md5(Input::get('password'));
+						if ($user->save()) {
+							// Redirect to a registration page, prompts user to activate
+							// Signin success, redirect to the previous page that was blocked
+							return Response::json(
+								array(
+									'status' 		=> 1
+								)
+							);
+						} else {
+							// Signin success, redirect to the previous page that was blocked
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					} else {
+						// Add user fail
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
 					}
-				    if($user->sex == NULL)
-				    {
-						$user->sex          = Input::get('sex');
-					}
-					if($user->born_year == NULL)
-					{
-						$user->born_year    = Input::get('born_year');
-					}
-					$user->bio              = Input::get('bio');
-					$user->school           = Input::get('school');
+				break;
 
-					// Update profile information
-					$profile                = Profile::where('user_id', $user->id)->first();
-					$profile->tag_str       = Input::get('tag_str');
-					$profile->grade         = Input::get('grade');
-					$profile->hobbies       = Input::get('hobbies');
-					$profile->constellation = Input::get('constellation');
-					$profile->self_intro    = Input::get('self_intro');
-					$profile->question      = Input::get('question');
+				// Profile complete
 
-				    if ($user->save() && $profile->save()) {
-						// Update success
+				case "complete" :
+					// Get all form data
+					$info = array(
+						'nickname'      => Input::get('nickname'),
+						'constellation' => Input::get('constellation'),
+						'portrait'      => Input::get('portrait'),
+						'tag_str'       => Input::get('tag_str'),
+						'sex'           => Input::get('sex'),
+						'born_year'     => Input::get('born_year'),
+						'grade'         => Input::get('grade'),
+						'hobbies'       => Input::get('hobbies'),
+						'self_intro'    => Input::get('self_intro'),
+						'bio'           => Input::get('bio'),
+						'question'      => Input::get('question'),
+						'school'        => Input::get('school'),
+					);
+
+					// Create validation rules
+
+					$rules = array(
+						'nickname'		=> 'required|between:1,30',
+						'constellation'	=> 'required',
+						'tag_str'		=> 'required',
+						'sex'			=> 'required',
+						'born_year'		=> 'required',
+						'grade'			=> 'required',
+						'hobbies'		=> 'required',
+						'self_intro'	=> 'required',
+						'bio'			=> 'required',
+						'question'		=> 'required',
+						'school'		=> 'required',
+					);
+
+					// Custom validation message
+
+					$messages = array(
+						'nickname.required'			=> '请输入昵称',
+						'nickname.between'			=> '昵称长度请保持在:min到:max字之间',
+						'constellation.required'	=> '请选择星座',
+						'tag_str.required'			=> '给自己贴个标签吧',
+						'sex.required'				=> '请选择性别',
+						'born_year.required'		=> '请选择出生年',
+						'grade.required'			=> '请选择入学年',
+						'hobbies.required'			=> '填写你的爱好',
+						'self_intro.required'		=> '请填写个人简介',
+						'bio.required'				=> '请填写你的真爱寄语',
+						'question.required'			=> '记得填写爱情考验哦',
+						'school.required'			=> '请选择所在学校',
+					);
+
+					// Begin verification
+
+					$validator = Validator::make($info, $rules, $messages);
+					if ($validator->passes()) {
+
+					    // Verification success
+					    // Update account
+						$user                   = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
+						$oldPortrait			= $user->portrait;
+						$user->nickname         = Input::get('nickname');
+
+						// Protrait section
+						$portrait               = Input::get('portrait');
 						if($portrait != NULL) // User update avatar
 						{
-							$oldAndroidPortrait = strpos($oldPortrait, 'android');
-							if($oldAndroidPortrait === false) // Must use ===
-							{
-								File::delete($portraitPath.$oldPortrait); // Delete old poritait
-							}
+							$portraitPath		= public_path('portrait/');
+							$user->portrait     = 'android/'.$portrait; // Save file name to database
 						}
-				        return Response::json(
-							array(
-								'status' 	=> 1
-							)
-						);
+					    if($user->sex == NULL)
+					    {
+							$user->sex          = Input::get('sex');
+						}
+						if($user->born_year == NULL)
+						{
+							$user->born_year    = Input::get('born_year');
+						}
+						$user->bio              = Input::get('bio');
+						$user->school           = Input::get('school');
 
-				    } else {
-				        // Update fail
-				        return Response::json(
-							array(
-								'status' 	=> 0
-							)
-						);
-				    }
-				} else {
-				    // Verification fail, redirect back
-				    return Response::json(
-						array(
-							'status' 		=> 0
-						)
-					);
-				}
-			} else if($action == 'members_index') // Members
-			{
-				$last_id  = Input::get('lastid'); // Post last user id from Android client
-				$per_page = Input::get('perpage'); // Post count per query from Android client
-				if($last_id) // If Android have post last user id
-				{
-					$users = User::whereNotNull('portrait') // Skip none portrait user
-					->orderBy('id', 'desc')
-					->select('id', 'nickname', 'school', 'sex')
-					->where('id', '<', $last_id)
-					->take($per_page)
-					->get()
-					->toJson();
-					if($users) // If get query success
-					{
-						return '{ "status" : "1", "data" : '.$users.'}'; // Build Json format
-					} else { // Get query fail
-						return Response::json(
+						// Update profile information
+						$profile                = Profile::where('user_id', $user->id)->first();
+						$profile->tag_str       = Input::get('tag_str');
+						$profile->grade         = Input::get('grade');
+						$profile->hobbies       = Input::get('hobbies');
+						$profile->constellation = Input::get('constellation');
+						$profile->self_intro    = Input::get('self_intro');
+						$profile->question      = Input::get('question');
+
+					    if ($user->save() && $profile->save()) {
+							// Update success
+							if($portrait != NULL) // User update avatar
+							{
+								$oldAndroidPortrait = strpos($oldPortrait, 'android');
+								if($oldAndroidPortrait === false) // Must use ===
+								{
+									File::delete($portraitPath.$oldPortrait); // Delete old poritait
+								}
+							}
+					        return Response::json(
+								array(
+									'status' 	=> 1
+								)
+							);
+
+					    } else {
+					        // Update fail
+					        return Response::json(
+								array(
+									'status' 	=> 0
+								)
+							);
+					    }
+					} else {
+					    // Verification fail, redirect back
+					    return Response::json(
 							array(
 								'status' 		=> 0
 							)
 						);
 					}
-				} else { // First get data from Android client
-					$lastRecord = User::orderBy('id', 'desc')->first()->id; // Query last user id in database
-					$users      = User::whereNotNull('portrait') // Skip none portrait user
-					->orderBy('id', 'desc')
-					->select('id', 'nickname', 'school', 'sex')
-					->where('id', '<=', $lastRecord)
-					->take($per_page)
-					->get()
-					->toJson();
-					if($users)
+				break;
+
+				// Members
+
+				case "members_index" :
+					$last_id  = Input::get('lastid'); // Post last user id from Android client
+					$per_page = Input::get('perpage'); // Post count per query from Android client
+					if($last_id) // If Android have post last user id
 					{
-						return '{ "status" : "1", "data" : '.$users.'}';
+						$users = User::whereNotNull('portrait') // Skip none portrait user
+						->orderBy('id', 'desc')
+						->select('id', 'nickname', 'school', 'sex')
+						->where('id', '<', $last_id)
+						->take($per_page)
+						->get()
+						->toJson();
+						if($users) // If get query success
+						{
+							return '{ "status" : "1", "data" : '.$users.'}'; // Build Json format
+						} else { // Get query fail
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					} else { // First get data from Android client
+						$lastRecord = User::orderBy('id', 'desc')->first()->id; // Query last user id in database
+						$users      = User::whereNotNull('portrait') // Skip none portrait user
+						->orderBy('id', 'desc')
+						->select('id', 'nickname', 'school', 'sex')
+						->where('id', '<=', $lastRecord)
+						->take($per_page)
+						->get()
+						->toJson();
+						if($users)
+						{
+							return '{ "status" : "1", "data" : '.$users.'}';
+						} else {
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					}
+				break;
+
+				// Members show profile
+
+				case "members_show" :
+					// Get all form data
+
+					$info = array(
+						'phone'   => Input::get('senderid'),
+						'user_id' => Input::get('userid'),
+					);
+					if ($info)
+					{
+						$sender_id         = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first()->id; // Sender ID
+						$user_id           = Input::get('userid');
+						$data              = User::where('id', $user_id)->first();
+						$profile           = Profile::where('user_id', $user_id)->first();
+						$like              = Like::where('sender_id', $sender_id)->first();
+						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
+						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
+						return Response::json(
+							array(
+								'status'        => 1,
+								'sex'           => $data->sex,
+								'portrait'      => route('home').'/'.'portrait/'.$data->portrait,
+								'nickname'      => $data->nickname,
+								'born_year'     => $data->born_year,
+								'grade'         => $profile->grade,
+								'constellation' => $constellationInfo['name'],
+								'tag_str'       => $tag_str,
+								'hobbies'       => $profile->hobbies,
+								'bio'           => $data->bio,
+								'question'      => $profile->question,
+								'like'          => $like->count,
+							)
+						);
 					} else {
 						return Response::json(
 							array(
@@ -286,47 +352,7 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				}
-			} else if($action == 'members_show') // Members show profile
-			{
-				// Get all form data
-
-				$info = array(
-					'phone'   => Input::get('senderid'),
-					'user_id' => Input::get('userid'),
-				);
-				if ($info)
-				{
-					$sender_id         = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first()->id; // Sender ID
-					$user_id           = Input::get('userid');
-					$data              = User::where('id', $user_id)->first();
-					$profile           = Profile::where('user_id', $user_id)->first();
-					$like              = Like::where('sender_id', $sender_id)->first();
-					$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
-					$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
-					return Response::json(
-						array(
-							'status'        => 1,
-							'sex'           => $data->sex,
-							'portrait'      => route('home').'/'.'portrait/'.$data->portrait,
-							'nickname'      => $data->nickname,
-							'born_year'     => $data->born_year,
-							'grade'         => $profile->grade,
-							'constellation' => $constellationInfo['name'],
-							'tag_str'       => $tag_str,
-							'hobbies'       => $profile->hobbies,
-							'bio'           => $data->bio,
-							'question'      => $profile->question,
-							'like'          => $like->count,
-						)
-					);
-				} else {
-					return Response::json(
-						array(
-							'status' 		=> 0
-						)
-					);
-				}
+				break;
 			}
 		} else {
 			return Response::json(
