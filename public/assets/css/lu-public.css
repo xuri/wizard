@@ -1,111 +1,168 @@
+/**
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author    Ri Xu http://xuri.me
+ * @copyright   Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
+ * @link    http://www.jinglingkj.com
+ * @since     Dec 8th, 2014
+ * @license     Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
+ * @version   0.1
+ */
 
-.lu_left{
-	float:left;
+.lu_left {
+	float: left;
 }
-.lu_right{
-	float:right;
-}
-.lu_te{
-	white-space:nowrap;
-	overflow:hidden;
-	text-overflow:ellipsis;
-}
-#lu_content{height: 514px; margin:60px auto 0;}
-#lu_content .lu_con_title{height: 88px; line-height: 88px; text-align: center; font-size: 22px; color: #4c4d4d;}
-#lu_content .lu_con_img{position: relative; text-align: center; margin-top: -10px;}
-#lu_content .lu_con_img span{position: absolute; height: 1px; width: 44px; background: #000;left: 50%; top: 50%;}
-#lu_content .lu_line1{margin-left: -80px;}
-#lu_content .lu_line2{margin-left: 38px;}
 
-.lu_content_box{
-	margin:0 auto;
-	width:1015px;
-	margin-top:30px;
+.lu_right {
+	float: right;
 }
-.lu_content_main{
-	border-radius:5px;
-	border:1px solid #eee;
-	width:730px;
-	float:left;
+
+.lu_te {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-.lu_content_right{
-	width:250px;
-	border-radius:5px;
-	border:1px solid #f0f0f0;
+
+#lu_content {
+	height: 514px;
+	margin: 60px auto 0;
+}
+
+#lu_content .lu_con_title {
+	height: 88px;
+	line-height: 88px;
+	text-align: center;
+	font-size: 22px;
+	color: #4c4d4d;
+}
+
+#lu_content .lu_con_img {
+	position: relative;
+	text-align: center;
+	margin-top: -10px;
+}
+
+#lu_content .lu_con_img span {
+	position: absolute;
+	height: 1px;
+	width: 44px;
+	background: #000;
+	left: 50%;
+	top: 50%;
+}
+
+#lu_content .lu_line1 {
+	margin-left: -80px;
+}
+
+#lu_content .lu_line2 {
+	margin-left: 38px;
+}
+
+.lu_content_box {
+	margin: 0 auto;
+	width: 1015px;
+	margin-top: 30px;
+}
+
+.lu_content_main {
+	border-radius: 5px;
+	border: 1px solid #eee;
+	width: 730px;
+	float: left;
+}
+
+.lu_content_right {
+	width: 250px;
+	border-radius: 5px;
+	border: 1px solid #f0f0f0;
 	/*height:1000px;*/
-	margin-left:30px;
-	float:left;
+	margin-left: 30px;
+	float: left;
 }
-.lu_paging{
-	width:400px;
-	height:20px;
-	padding:10px;
-	margin:10px auto;
+
+.lu_paging {
+	width: 400px;
+	height: 20px;
+	padding: 10px;
+	margin: 10px auto;
 }
-.lu_paging span{
-	width:50px;
-	height:20px;
-	text-align:center;
-	color:#777978;
-	border:1px solid #e0e0e0;
-	display:block;
-	font-size:14px;
-	float:left;
-	margin-left:15px;
-	line-height:20px;
-	cursor:pointer;
-	transition:.5s ease;
+
+.lu_paging span {
+	width: 50px;
+	height: 20px;
+	text-align: center;
+	color: #777978;
+	border: 1px solid #e0e0e0;
+	display: block;
+	font-size: 14px;
+	float: left;
+	margin-left: 15px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: .5s ease;
 }
-.lu_paging span:hover{
-	border:1px solid #eb95aa;
+
+.lu_paging span:hover {
+	border: 1px solid #eb95aa;
 }
-.lu_paging .lu_active{
-	background:#ef698a;
-	color:#fff;
-	border:1px solid #eb95aa;
+
+.lu_paging .lu_active {
+	background: #ef698a;
+	color: #fff;
+	border: 1px solid #eb95aa;
 }
-.lu_paging a{
-	width:25px;
-	height:20px;
-	text-align:center;
-	color:#777978;
-	border:1px solid #f0f0f0;
-	float:left;
-	margin-left:15px;
-	line-height:20px;
-	cursor:pointer;
+
+.lu_paging a {
+	width: 25px;
+	height: 20px;
+	text-align: center;
+	color: #777978;
+	border: 1px solid #f0f0f0;
+	float: left;
+	margin-left: 15px;
+	line-height: 20px;
+	cursor: pointer;
 }
-.lu_content_right .lu_img{
-	float:left;
-	margin:15px 0 0 10px;
-	width:75px;
-	height:75px;
+
+.lu_content_right .lu_img {
+	float: left;
+	margin: 15px 0 0 10px;
+	width: 75px;
+	height: 75px;
 }
-.lu_content_right .lu_up .lu_name{
-	width:120px;
-	height:20px;
-	font-size:15px;
-	line-height:18px;
-	margin:10px 0 0 10px;
-	color:#777978;
+
+.lu_content_right .lu_up .lu_name {
+	width: 120px;
+	height: 20px;
+	font-size: 15px;
+	line-height: 18px;
+	margin: 10px 0 0 10px;
+	color: #777978;
 }
-.lu_content_right .lu_up .lu_name img{
-	margin:0 8px 0 0;
+
+.lu_content_right .lu_up .lu_name img {
+	margin: 0 8px 0 0;
 }
-.lu_content_right .lu_up{
-	width:137px;
-	height:75px;
-	border:1px solid #ebebeb;
-	background:#f7f9f9;
-	float:left;
-	margin:15px 0 0 15px;
+
+.lu_content_right .lu_up {
+	width: 137px;
+	height: 75px;
+	border: 1px solid #ebebeb;
+	background: #f7f9f9;
+	float: left;
+	margin: 15px 0 0 15px;
 }
-.lu_bin{
-	color:#297fb8;
-	font-size:16px;
-	margin-left:10px;
-	margin-top:15px;
+
+.lu_bin {
+	color: #297fb8;
+	font-size: 16px;
+	margin-left: 10px;
+	margin-top: 15px;
 }
-.lu_bin a{
-	color:#ed5565;
+
+.lu_bin a {
+	color: #ed5565;
 }

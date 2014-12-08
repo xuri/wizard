@@ -1,20 +1,69 @@
-/* jingling  */
+/**
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
+ *
+ * @author 		Ri Xu http://xuri.me
+ * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
+ * @link 		http://www.jinglingkj.com
+ * @since  		Dec 8th, 2014
+ * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
+ * @version 	0.1
+ */
+
 @charset "utf-8";
 /* reset */
 
-body,h1,h2,h3,h4,h5,h6,p,dl,dd,ul,ol,pre,form,input,textarea,th,td,select{margin:0; padding:0;}
-em{font-style:normal}
-li{list-style:none}
-a{text-decoration:none;}
-img{border:none; vertical-align:top;}
-table{border-collapse:collapse;}
-input,textarea{outline:none;}
-textarea{ resize:none; overflow:auto;}
-body{font-size:12px; font-family:Microsoft YaHei,SimHei,Arial,Pro LiHei Pro Medium;}
+body,h1,h2,h3,h4,h5,h6,p,dl,dd,ul,ol,pre,form,input,textarea,th,td,select {
+	margin: 0;
+	padding: 0;
+}
+
+em {
+	font-style: normal
+}
+
+li {
+	list-style: none
+}
+
+a {
+	text-decoration: none;
+}
+
+img {
+	border: none;
+	vertical-align: top;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+input,textarea {
+	outline: none;
+}
+
+textarea {
+	resize: none;
+	overflow: auto;
+}
+
+body {
+	font-size: 12px;
+	font-family: Microsoft YaHei,SimHei,Arial,Pro LiHei Pro Medium;
+}
 /* end reset */
 /* public */
-.clear { zoom:1; }
-.clear:after { content:''; display:block; clear:both; }
+.clear {
+	zoom: 1;
+}
+
+.clear:after {
+	content: '';
+	display: block;
+	clear: both;
+}
 /* end public */
 
 
