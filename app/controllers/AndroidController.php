@@ -360,18 +360,18 @@ class AndroidController extends BaseController
 						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
 						return Response::json(
 							array(
-								'status'        => 1,
-								'sex'           => $data->sex,
-								'portrait'      => route('home').'/'.'portrait/'.$data->portrait,
-								'nickname'      => $data->nickname,
-								'born_year'     => $data->born_year,
-								'grade'         => $profile->grade,
-								'constellation' => $constellationInfo['name'],
-								'tag_str'       => $tag_str,
-								'hobbies'       => $profile->hobbies,
-								'bio'           => $data->bio,
-								'question'      => $profile->question,
-								'like'          => $likeCount,
+								'status'		=> 1,
+								'sex'			=> $data->sex,
+								'portrait'		=> route('home').'/'.'portrait/'.$data->portrait,
+								'nickname'		=> $data->nickname,
+								'born_year'		=> $data->born_year,
+								'grade'			=> $profile->grade,
+								'constellation'	=> $constellationInfo['name'],
+								'tag_str'		=> $tag_str,
+								'hobbies'		=> $profile->hobbies,
+								'bio'			=> $data->bio,
+								'question'		=> $profile->question,
+								'like'			=> $likeCount,
 							)
 						);
 					} else {
@@ -425,6 +425,79 @@ class AndroidController extends BaseController
 					}
 				break;
 
+				// Like
+
+				case "like" :
+					// Get all form data.
+					$data = Input::all();
+					// Create validation rules
+					$rules = array(
+						'userId'		=> 'required',
+						'receiverId'	=> 'required',
+						'answer'		=> 'required|min:3',
+					);
+					// Custom validation message
+					$messages = array(
+						'answer.required'     => '请回答爱情考验问题。',
+						'answer.min'          => '至少要写:min个字哦。',
+					);
+
+					// Begin verification
+					$validator   = Validator::make($data, $rules, $messages);
+					if ($validator->passes())
+					{
+						$user			= User::where('id', Input::get('userId'))->first();
+						$receiver_id	= Input::get('receiverId');
+						if($user->points > 0)
+						{
+							$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
+							if($have_like) // This user already sent like
+							{
+								$have_like->answer	= Input::get('answer');
+								$have_like->count	= $have_like->count + 1;
+								$user->points		= $user->points - 1;
+								if($have_like->save() && $user->save())
+								{
+									Notification(2, $receiver_id); // Some user re-liked you
+									return Response::json(
+										array(
+											'status' 		=> 1
+										)
+									);
+								}
+							} else { // First like
+								$like				= new Like();
+								$like->sender_id	= $user->id
+								$like->receiver_id	= $receiver_id;
+								$like->status		= 0; // User send like, pending accept
+								$like->answer		= Input::get('answer');
+								$like->count		= 1;
+								$user->points		= $user->points - 1;
+								if($like->save() && Auth::user()->save())
+								{
+									Notification(1, $receiver_id); // Some user first like you
+									return Response::json(
+										array(
+											'status' 		=> 1
+										)
+									);
+								}
+							}
+						} else {
+							return Response::json(
+								array(
+									'status' 	=> 2 // User's point required
+								)
+							);
+						}
+					} else {
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
+					}
+				break;
 			}
 		} else {
 			return Response::json(
