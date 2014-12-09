@@ -345,11 +345,12 @@ class AndroidController extends BaseController
 					);
 					if ($info)
 					{
-						$sender_id         = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first()->id; // Sender ID
-						$user_id           = Input::get('userid');
-						$data              = User::where('id', $user_id)->first();
-						$profile           = Profile::where('user_id', $user_id)->first();
-						if($like           = Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first())
+						$sender_id	= User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first()->id; // Sender ID
+						$user_id	= Input::get('userid');
+						$data		= User::where('id', $user_id)->first();
+						$profile	= Profile::where('user_id', $user_id)->first();
+						$like		= Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first();
+						if($like)
 						{
 							$likeCount = $like->count;
 						} else {
