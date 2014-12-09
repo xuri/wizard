@@ -247,12 +247,13 @@ class AccountController extends BaseController
 
 	public function getNotifications()
 	{
-		$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(1, 2, 3, 4, 5, 10))->get();
+		$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(1, 2, 3, 4, 5, 10))->paginate(1);
 		$forumNotifications			= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(6, 7))->get();
 		$systemNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(8, 9))->get();
 		$friendNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(1, 2, 3, 4, 5, 10))->where('status', 0)->count();
 		$forumNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(6, 7))->where('status', 0)->count();
 		$systemNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(8, 9))->where('status', 0)->count();
+
 		return View::make('account.notifications.index')->with(compact('friendNotifications', 'forumNotifications', 'systemNotifications', 'friendNotificationsCount', 'forumNotificationsCount', 'systemNotificationsCount'));
 	}
 }

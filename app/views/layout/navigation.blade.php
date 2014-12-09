@@ -21,6 +21,8 @@
 
 <div class="nav">
 
+	@if(Auth::guest()){{-- Guest --}}
+	@else
 	{{-- 消息提醒列表 --}}
 	<div id="nav_message">
 		<h5 class="nav_message_title">暂无消息</h5>
@@ -28,12 +30,13 @@
 		{{ HTML::image('assets/images/nav_mas_j.png', '', array('class' => 'jiao_pic')) }}
 		</ul>
 	</div>
+	@endif
 
 	<div class="nav_main">
 		{{ HTML::image('assets/images/nav_main_bg.png', '', array('id' => 'nav_main')) }}
 
 		<p>欢迎来到聘爱网!
-			@if(Auth::guest()){{-- 游客 --}}
+			@if(Auth::guest()){{-- Guest --}}
 			<a href="{{ route('signin') }}" id="signIn">登陆</a>
 			<a href="#" id="signUp">/</a>
 			<a href="{{ route('signup') }}" id="signUp">注册</a>

@@ -57,10 +57,17 @@ class MemberController extends BaseController {
 	 * View: Members
 	 * @return Response
 	 */
-
 	public function index()
 	{
 		$datas = User::whereNotNull('portrait')->orderBy('created_at', 'desc')->paginate(1);
+
+		// AJAX Pagination with jQuery
+
+		if (Request::ajax()) {
+			return Response::json(View::make($this->resource.'.index', array('datas' => $datas))->render()
+			);
+		}
+
 		return View::make($this->resource.'.index')->with(compact('datas'));
 	}
 

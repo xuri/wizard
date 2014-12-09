@@ -60,7 +60,7 @@
 	font-size: 16px;
 }
 
-.new_main li {
+.new_main li.item {
 	position: relative;
 	width: 100%;
 	padding: 18px 0;
@@ -72,7 +72,7 @@
 }
 
 .new_main_head {
-	width: 50px;
+	width: 42px;
 	height: 50px;
 	float: left;
 }
@@ -543,6 +543,86 @@ body {
 
 #courtship-mine ul li:hover p {
 	color: #479ed7;
+}
+
+.lu_paging {
+	width: 400px;
+	height: 20px;
+	padding: 10px;
+	margin: 10px auto;
+	font-size: 12px;
+}
+
+.lu_paging span {
+	height: 20px;
+	text-align: center;
+	color: #777978;
+	border: 1px solid #e0e0e0;
+	display: block;
+	float: left;
+	margin-left: 15px;
+	line-height: 20px;
+	cursor: pointer;
+	transition: .5s ease;
+}
+
+.lu_paging li.disabled span {
+	border-radius: 3px;
+	border: solid 1px #c0c0c0;
+	padding: 3px 10px;
+	font: 12px;
+	cursor: not-allowed;
+}
+
+.lu_paging li a, .lu_paging li.active span {
+	border-radius: 3px;
+	border: solid 1px #c0c0c0;
+	padding: 3px 10px;
+	font: 12px;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+.lu_paging li.active span {
+	background: #ddd;
+	border-radius: 3px;
+	border: solid 1px #bbb;
+}
+
+.lu_paging li a:hover, .lu_paging li.active span:hover {
+	border: solid 1px #f53463;
+	border-radius: 3px;
+	background: #ef698a;
+	color: #fff;
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	-ms-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+}
+
+.lu_paging span:hover {
+	border: 1px solid #eb95aa;
+}
+
+.lu_paging .lu_active {
+	background: #ef698a;
+	color: #fff;
+	border: 1px solid #eb95aa;
+}
+
+.lu_paging a {
+	height: 20px;
+	text-align: center;
+	color: #777978;
+	border: 1px solid #f0f0f0;
+	float: left;
+	margin-left: 15px;
+	line-height: 20px;
+	cursor: pointer;
 }
 
 .footer {
