@@ -197,7 +197,8 @@
 		// 获取请求学校数据时的token值
 		var to_ken= getById('province_token').value;
 		// ajax求情学校数据
-		$.post('http://localhost/~luxurioust/wizard/public/account/postuniversity',{
+		// $.post('http://localhost/~luxurioust/wizard/public/account/postuniversity',{
+		$.post('http://dev.pinai521.com/account/postuniversity',{
 			'_token' : to_ken,
 			'province' : target.innerHTML
 		},function(jdata){
