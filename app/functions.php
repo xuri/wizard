@@ -480,13 +480,14 @@ function getEasemob()
 
 /**
  * Create Notification
- * @param Integer $category  Category code
- * @param Integer $receiverId Receiver ID
+ * @param Integer $category  	Category code
+ * @param Integer $receiverId 	Receiver ID
+ * @param Integer $senderId  	Sender ID
  */
-function Notification($category, $receiverId)
+function Notification($category, $senderId, $receiverId)
 {
 	$notification				= new Notification;
-	$notification->sender_id	= Auth::user()->id;
+	$notification->sender_id	= $senderId;
 	$notification->receiver_id	= $receiverId;
 	$notification->category 	= $category;
 	$notification->save();
@@ -494,9 +495,9 @@ function Notification($category, $receiverId)
 
 /**
  * Get Notification Content
- * @param Integer $catrgory  Category code
- * @param Integer $sender_id Sender ID
- * @return Array            Notification title and content
+ * @param Integer $catrgory  	Category code
+ * @param Integer $sender_id 	Sender ID
+ * @return Array            	Notification title and content
  */
 function getNotification($category, $sender_id)
 {

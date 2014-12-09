@@ -429,10 +429,10 @@ class AndroidController extends BaseController
 
 				case "like" :
 					// Get all form data.
-					$data = Input::all();
+					$data	= Input::all();
 					// Create validation rules
-					$rules = array(
-						'userId'		=> 'required',
+					$rules	= array(
+						'id'			=> 'required',
 						'receiverId'	=> 'required',
 						'answer'		=> 'required|min:3',
 					);
@@ -446,7 +446,7 @@ class AndroidController extends BaseController
 					$validator   = Validator::make($data, $rules, $messages);
 					if ($validator->passes())
 					{
-						$user			= User::where('id', Input::get('userId'))->first();
+						$user			= User::where('id', Input::get('id'))->first();
 						$receiver_id	= Input::get('receiverId');
 						if($user->points > 0)
 						{
@@ -458,7 +458,7 @@ class AndroidController extends BaseController
 								$user->points		= $user->points - 1;
 								if($have_like->save() && $user->save())
 								{
-									Notification(2, $receiver_id); // Some user re-liked you
+									Notification(2, $user->id, $receiver_id); // Some user re-liked you
 									return Response::json(
 										array(
 											'status' 		=> 1
@@ -467,15 +467,15 @@ class AndroidController extends BaseController
 								}
 							} else { // First like
 								$like				= new Like();
-								$like->sender_id	= $user->id
+								$like->sender_id	= $user->id;
 								$like->receiver_id	= $receiver_id;
 								$like->status		= 0; // User send like, pending accept
 								$like->answer		= Input::get('answer');
 								$like->count		= 1;
 								$user->points		= $user->points - 1;
-								if($like->save() && Auth::user()->save())
+								if($like->save() && $user->save())
 								{
-									Notification(1, $receiver_id); // Some user first like you
+									Notification(1, $user->id, $receiver_id); // Some user first like you
 									return Response::json(
 										array(
 											'status' 		=> 1
