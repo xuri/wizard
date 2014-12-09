@@ -350,6 +350,12 @@ class AndroidController extends BaseController
 						$data              = User::where('id', $user_id)->first();
 						$profile           = Profile::where('user_id', $user_id)->first();
 						$like              = Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first();
+						if($like)
+						{
+							$like->count;
+						} else {
+							$like->count == 0;
+						}
 						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
 						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
 						return Response::json(
