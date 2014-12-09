@@ -354,7 +354,7 @@ class AndroidController extends BaseController
 						{
 							$likeCount = $like->count;
 						} else {
-							$likeCount == 0;
+							$likeCount = 0;
 						}
 						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
 						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
@@ -395,10 +395,10 @@ class AndroidController extends BaseController
 					if ($info)
 					{
 						// Retrieve user
-						$user         = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
-						$profile           = Profile::where('user_id', $user->id)->first();
-						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
-						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
+						$user				= User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
+						$profile			= Profile::where('user_id', $user->id)->first();
+						$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
+						$tag_str			= explode(',', substr($profile->tag_str, 1)); // Get user's tag
 						return Response::json(
 							array(
 								'status'		=> 1,
