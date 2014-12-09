@@ -122,7 +122,10 @@ class AndroidController extends BaseController
 						$user->from     = 1; // Signup from Android
 						$user->password = md5(Input::get('password'));
 						if ($user->save()) {
-
+							$profile			= new Profile;
+							$profile->user_id	= $user->id;
+							$profile->save();
+							// Add user success
 							// Chat Register
 
 							$easemob			= getEasemob();
