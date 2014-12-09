@@ -72,10 +72,16 @@ class AndroidController extends BaseController
 						'password'	=> md5(Input::get('password')
 					));
 					if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
+
+						// Retrieve user
+						$user = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
+
 						// Signin success, redirect to the previous page that was blocked
 						return Response::json(
 							array(
-								'status' 		=> 1
+								'status'	=> 1,
+								'id'		=> $user->id,
+								'password'	=> $user->password
 							)
 						);
 					} else {
@@ -379,6 +385,7 @@ class AndroidController extends BaseController
 
 					if ($info)
 					{
+						// Retrieve user
 						$user         = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
 						$profile           = Profile::where('user_id', $user->id)->first();
 						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation

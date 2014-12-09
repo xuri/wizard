@@ -23,7 +23,7 @@
 						<ul class="login_form">
 							<li class="login_li">
 								<span>账号:</span>
-								<input type="email" name="username" autofocus placeholder="邮箱 / 手机号" required="required" >
+								<input type="text" name="username" autofocus placeholder="邮箱 / 手机号" required="required" >
 							</li>
 							<li class="login_li">
 								<span>密码:</span>
