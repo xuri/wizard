@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'pinai',
 			'username'  => 'root',
-			'password'  => 'password',
+			'password'  => 'DBA#wizard@2014.',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => 'pa_',
