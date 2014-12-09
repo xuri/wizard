@@ -132,7 +132,9 @@ class AndroidController extends BaseController
 							// Signin success, redirect to the previous page that was blocked
 							return Response::json(
 								array(
-									'status' 		=> 1
+									'status'	=> 1,
+									'id'		=> $user->id,
+									'password'	=> $user->password
 								)
 							);
 						} else {
