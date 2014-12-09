@@ -349,12 +349,11 @@ class AndroidController extends BaseController
 						$user_id           = Input::get('userid');
 						$data              = User::where('id', $user_id)->first();
 						$profile           = Profile::where('user_id', $user_id)->first();
-						$like              = Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first();
-						if($like)
+						if($like           = Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first())
 						{
-							$like->count;
+							$likeCount = $like->count;
 						} else {
-							$like->count == 0;
+							$likeCount == 0;
 						}
 						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
 						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
@@ -371,7 +370,7 @@ class AndroidController extends BaseController
 								'hobbies'       => $profile->hobbies,
 								'bio'           => $data->bio,
 								'question'      => $profile->question,
-								'like'          => $like->count,
+								'like'          => $likeCount,
 							)
 						);
 					} else {
