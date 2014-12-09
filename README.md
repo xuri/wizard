@@ -23,3 +23,16 @@ Documentation for the entire framework can be found on the [Laravel website](htt
 ### License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+
+
+Protect Personal Info
+```
+git update-index --assume-unchanged app/config/database.php
+git update-index --no-assume-unchanged app/config/database.php
+
+git update-index --assume-unchanged app/config/mail.php
+git update-index --no-assume-unchanged app/config/mail.php
+
+git update-index --assume-unchanged public/.htaccess
+git update-index --no-assume-unchanged public/.htaccess
+```
