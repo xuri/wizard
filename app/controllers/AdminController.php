@@ -22,7 +22,8 @@ class AdminController extends BaseController
      */
     public function getIndex()
     {
-        return View::make('admin.index');
+    	$totalUser = User::get()->count();
+        return View::make('admin.index')->with(compact('totalUser'));
     }
 
 
