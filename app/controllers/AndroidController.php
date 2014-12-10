@@ -26,23 +26,14 @@
 
 class AndroidController extends BaseController
 {
-	/**
-	 * Action: Signout
-	 * @return Response
-	 */
-	public function getSignout()
-	{
-		Auth::logout();
-		return Redirect::to('/');
-	}
 
 	/**
-	 * View: Signin
+	 * View: Debug
 	 * @return Response
 	 */
 	public function getDebug()
 	{
-		return View::make('android.index')->with(compact('users'));
+		return View::make('android.index')->with(compact('test'));
 	}
 
 	/**
@@ -221,8 +212,8 @@ class AndroidController extends BaseController
 					$validator = Validator::make($info, $rules, $messages);
 					if ($validator->passes()) {
 
-					    // Verification success
-					    // Update account
+						// Verification success
+						// Update account
 						$user                   = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
 						$oldPortrait			= $user->portrait;
 						$user->nickname         = Input::get('nickname');
@@ -234,8 +225,8 @@ class AndroidController extends BaseController
 							$portraitPath		= public_path('portrait/');
 							$user->portrait     = 'android/'.$portrait; // Save file name to database
 						}
-					    if($user->sex == NULL)
-					    {
+						if($user->sex == NULL)
+						{
 							$user->sex          = Input::get('sex');
 						}
 						if($user->born_year == NULL)
@@ -254,7 +245,7 @@ class AndroidController extends BaseController
 						$profile->self_intro    = Input::get('self_intro');
 						$profile->question      = Input::get('question');
 
-					    if ($user->save() && $profile->save()) {
+						if ($user->save() && $profile->save()) {
 							// Update success
 							if($portrait != NULL) // User update avatar
 							{
@@ -264,23 +255,23 @@ class AndroidController extends BaseController
 									File::delete($portraitPath.$oldPortrait); // Delete old poritait
 								}
 							}
-					        return Response::json(
+							return Response::json(
 								array(
 									'status' 	=> 1
 								)
 							);
 
-					    } else {
-					        // Update fail
-					        return Response::json(
+						} else {
+							// Update fail
+							return Response::json(
 								array(
 									'status' 	=> 0
 								)
 							);
-					    }
+						}
 					} else {
-					    // Verification fail, redirect back
-					    return Response::json(
+						// Verification fail, redirect back
+						return Response::json(
 							array(
 								'status' 		=> 0
 							)
@@ -496,6 +487,81 @@ class AndroidController extends BaseController
 								'status' 		=> 0
 							)
 						);
+					}
+				break;
+
+				// Sent
+
+				case "sent" :
+					$last_id	= Input::get('lastid'); // Post last user id from Android client
+					$per_page	= Input::get('perpage'); // Post count per query from Android client
+					$user_id	= Input::get('id'); // Get user id
+					if($last_id) // If Android have post last user id
+					{
+						$allLike    = Like::where('sender_id', $user_id) // Query all user liked users
+							->orderBy('id', 'desc')
+							->select('receiver_id', 'status', 'created_at', 'count')
+							->where('id', '<', $last_id)
+							->take($per_page)
+							->get()
+							->toArray();
+						// Replace receiver_id key name to portrait
+						foreach($allLike as $key1 => $val1){
+							foreach($val1 as $key => $val){
+								$new_key				= str_replace('receiver_id', 'portrait', $key);
+								$new_array[$new_key]	= $val;
+							}
+							$likes[] = $new_array;
+						}
+						// Replace receiver ID to receiver portrait
+						foreach($likes as $key => $field){
+							// User avatar real storage path
+							$likes[$key]['portrait'] = route('home').User::where('id', $likes[$key]['portrait'])->first()->portrait;
+						}
+						$like = json_encode($likes); // Encode likes array to json format
+						if($allLike)
+						{
+							return '{ "status" : "1", "data" : '.$like.'}';
+						} else {
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					} else { // First get data from Android client
+						$lastRecord = Like::where('sender_id', $user_id)->orderBy('id', 'desc')->first()->id; // Query last like id in database
+						$allLike    = Like::where('sender_id', $user_id) // Query all user liked users
+							->orderBy('id', 'desc')
+							->select('receiver_id', 'status', 'created_at', 'count')
+							->where('id', '<=', $lastRecord)
+							->take($per_page)
+							->get()
+							->toArray();
+						// Replace receiver_id key name to portrait
+						foreach($allLike as $key1 => $val1){
+							foreach($val1 as $key => $val){
+								$new_key				= str_replace('receiver_id', 'portrait', $key);
+								$new_array[$new_key]	= $val;
+							}
+							$likes[] = $new_array;
+						}
+						// Replace receiver ID to receiver portrait
+						foreach($likes as $key => $field){
+							// User avatar real storage path
+							$likes[$key]['portrait'] = route('home').User::where('id', $likes[$key]['portrait'])->first()->portrait;
+						}
+						$like = json_encode($likes); // Encode likes array to json format
+						if($likes)
+						{
+							return '{ "status" : "1", "data" : '.$like.'}';
+						} else {
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
 					}
 				break;
 			}
