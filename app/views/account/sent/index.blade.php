@@ -91,12 +91,12 @@
 						<ul class="clear">
 							@foreach($datas as $data)
 							<?php
-								$user 	= User::where('id', $data->receiver_id)->first();
-								$Date_1 = date("Y-m-d");
-								$Date_2 = date("Y-m-d",strtotime($data->created_at));
-								$d1     = strtotime($Date_1);
-								$d2     = strtotime($Date_2);
-								$Days   = round(($d1-$d2)/3600/24);
+								$user	= User::where('id', $data->receiver_id)->first();
+								$Date_1	= date("Y-m-d");
+								$Date_2	= date("Y-m-d",strtotime($data->created_at));
+								$d1		= strtotime($Date_1);
+								$d2		= strtotime($Date_2);
+								$Days	= round(($d1-$d2)/3600/24);
 							?>
 							<li class="preLi">
 								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186','class' => '_headPic')) }}

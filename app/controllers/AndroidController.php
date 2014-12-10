@@ -515,8 +515,17 @@ class AndroidController extends BaseController
 						}
 						// Replace receiver ID to receiver portrait
 						foreach($likes as $key => $field){
-							// User avatar real storage path
-							$likes[$key]['portrait'] = route('home').User::where('id', $likes[$key]['portrait'])->first()->portrait;
+							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
+							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
+							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
+							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+							// Convert how long liked
+							$Date_1						= date("Y-m-d"); // Current date and time
+							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+							$d1							= strtotime($Date_1);
+							$d2							= strtotime($Date_2);
+							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+							$likes[$key]['created_at']	= $Days;
 						}
 						$like = json_encode($likes); // Encode likes array to json format
 						if($allLike)
@@ -548,11 +557,113 @@ class AndroidController extends BaseController
 						}
 						// Replace receiver ID to receiver portrait
 						foreach($likes as $key => $field){
-							// User avatar real storage path
-							$likes[$key]['portrait'] = route('home').User::where('id', $likes[$key]['portrait'])->first()->portrait;
+							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
+							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
+							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
+							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+							// Convert how long liked
+							$Date_1						= date("Y-m-d"); // Current date and time
+							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+							$d1							= strtotime($Date_1);
+							$d2							= strtotime($Date_2);
+							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+							$likes[$key]['created_at']	= $Days;
 						}
 						$like = json_encode($likes); // Encode likes array to json format
-						if($likes)
+						if($allLike)
+						{
+							return '{ "status" : "1", "data" : '.$like.'}';
+						} else {
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					}
+				break;
+
+				// Inbox
+
+				case "inbox" :
+					$last_id	= Input::get('lastid'); // Post last user id from Android client
+					$per_page	= Input::get('perpage'); // Post count per query from Android client
+					$user_id	= Input::get('id'); // Get user id
+					if($last_id) // If Android have post last user id
+					{
+						$allLike	= Like::where('receiver_id', $user_id) // Query all user liked users
+							->orderBy('id', 'desc')
+							->select('sender_id', 'status', 'created_at', 'count')
+							->where('id', '<', $last_id)
+							->take($per_page)
+							->get()
+							->toArray();
+						// Replace sender_id key name to portrait
+						foreach($allLike as $key1 => $val1){
+							foreach($val1 as $key => $val){
+								$new_key				= str_replace('sender_id', 'portrait', $key);
+								$new_array[$new_key]	= $val;
+							}
+							$likes[] = $new_array;
+						}
+						// Replace receiver ID to receiver portrait
+						foreach($likes as $key => $field){
+							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
+							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
+							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
+							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+							// Convert how long liked
+							$Date_1						= date("Y-m-d"); // Current date and time
+							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+							$d1							= strtotime($Date_1);
+							$d2							= strtotime($Date_2);
+							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+							$likes[$key]['created_at']	= $Days;
+						}
+						$like = json_encode($likes); // Encode likes array to json format
+						if($allLike)
+						{
+							return '{ "status" : "1", "data" : '.$like.'}';
+						} else {
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					} else { // First get data from Android client
+						$lastRecord = Like::where('receiver_id', $user_id)->orderBy('id', 'desc')->first()->id; // Query last like id in database
+						$allLike    = Like::where('receiver_id', $user_id) // Query all user liked users
+							->orderBy('id', 'desc')
+							->select('sender_id', 'status', 'created_at', 'count')
+							->where('id', '<=', $lastRecord)
+							->take($per_page)
+							->get()
+							->toArray();
+						// Replace receiver_id key name to portrait
+						foreach($allLike as $key1 => $val1){
+							foreach($val1 as $key => $val){
+								$new_key				= str_replace('sender_id', 'portrait', $key);
+								$new_array[$new_key]	= $val;
+							}
+							$likes[] = $new_array;
+						}
+						// Replace receiver ID to receiver portrait
+						foreach($likes as $key => $field){
+							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
+							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
+							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
+							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+							// Convert how long liked
+							$Date_1						= date("Y-m-d"); // Current date and time
+							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+							$d1							= strtotime($Date_1);
+							$d2							= strtotime($Date_2);
+							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+							$likes[$key]['created_at']	= $Days;
+						}
+						$like = json_encode($likes); // Encode likes array to json format
+						if($allLike)
 						{
 							return '{ "status" : "1", "data" : '.$like.'}';
 						} else {
