@@ -89,7 +89,7 @@ class Admin_UserResource extends BaseResource
 		$query = $this->model->orderBy($orderColumn, $direction);
 		isset($is_admin) AND $query->where('is_admin', $is_admin);
 		isset($email)    AND $query->where('email', 'like', "%{$email}%");
-		$datas = $query->paginate(15);
+		$datas = $query->paginate(10);
 		return View::make($this->resourceView.'.index')->with(compact('datas'));
 	}
 }

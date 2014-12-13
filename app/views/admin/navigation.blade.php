@@ -207,12 +207,12 @@
 				<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+				<li><a href="{{ route('account') }}"><i class="fa fa-user fa-fw"></i> 个人信息</a>
 				</li>
-				<li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+				<li><a href="{{ route('admin') }}"><i class="fa fa-gear fa-fw"></i> 控制面板</a>
 				</li>
 				<li class="divider"></li>
-				<li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+				<li><a href="{{ route('signuot') }}"><i class="fa fa-sign-out fa-fw"></i> 退出登陆</a>
 				</li>
 			</ul>
 			<!-- /.dropdown-user -->

@@ -37,7 +37,19 @@
  * category = 9 System notifacations to all users
  * category = 10 Some user recover blocked you
  *
- * Easemob Push Notifications
+ * Easemob Push Notifications Code Explanation
+ *
+ * category = 1 Some user first like you
+ * category = 2 Some user re-liked you
+ * category = 3 Some user accept you like
+ * category = 4 Some user reject you like
+ * category = 5 Some user blocked you
+ * category = 6 Some user comments your post in forum
+ * category = 7 Some user reply your comments in forum
+ * category = 8 System notifications to special user
+ * category = 9 System notifacations to all users
+ * category = 10 Some user recover blocked you
+ *
  * User Points Explanation
  *
  * Daily renew add 2 points
@@ -92,6 +104,11 @@ class MemberController extends BaseController {
 		return View::make('members.show')->with(compact('data', 'like', 'profile', 'constellationInfo', 'tag_str', 'sex','like_me'));
 	}
 
+	/**
+	 * User like
+	 * @param  int $id Like ID
+	 * @return Resopnse
+	 */
 	public function like($id)
 	{
 		$status = Input::get('status');
