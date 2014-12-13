@@ -491,6 +491,8 @@ function Notification($category, $senderId, $receiverId)
 	$notification->receiver_id	= $receiverId;
 	$notification->category 	= $category;
 	$notification->save();
+
+	return $notification;
 }
 
 /**

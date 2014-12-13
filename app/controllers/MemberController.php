@@ -137,10 +137,24 @@ class MemberController extends BaseController {
 							Auth::user()->points	= Auth::user()->points - 1;
 							if($like->save() && Auth::user()->save())
 							{
-								Notification(1, Auth::user()->id, $id); // Some user first like you
+								$notification = Notification(1, Auth::user()->id, $id); // Some user first like you
 								return Redirect::route('account.sent')
 									->withInput()
 									->with('success', '发送成功，静待缘分到来吧。');
+								$easemob		= getEasemob();
+								// Add friend relationship in chat system and start chat
+								cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+										'target_type'	=> 'users',
+										'target'		=> [$id],
+										'msg'			=> ['type' => 'cmd', 'action' => '1'],
+										'from'			=> Auth::user()->id,
+										'ext'			=> ['content' => '用户'.Auth::user()->nickname.'追你了', 'id' => $notification->id]
+									])
+										->setHeader('content-type', 'application/json')
+										->setHeader('Accept', 'json')
+										->setHeader('Authorization', 'Bearer '.$easemob->token)
+										->setOptions([CURLOPT_VERBOSE => true])
+										->send();
 							}
 						}
 					} else {

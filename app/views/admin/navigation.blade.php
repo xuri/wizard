@@ -248,7 +248,7 @@
 							<a href="morris.html">Morris.js Charts</a>
 						</li>
 					</ul>
-					<!-- /.nav-second-level -->
+					{{-- /.nav-second-level --}}
 				</li>
 				<li>
 					<a href="tables.html"><i class="fa fa-table fa-fw"></i> 统计报表</a>
