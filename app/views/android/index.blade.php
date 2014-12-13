@@ -9,7 +9,7 @@ $easemob		= getEasemob();
 		'target' => ['4'],
 		'msg' => ['type' => 'cmd', 'action' => '1'],
 		'from' => 7,
-		'ext' => ['content' => '用户6追你了', 'id' => '4']
+		'ext' => ['content' => '用户6追你了', 'id' => '7']
 		])
 			->setHeader('content-type', 'application/json')
 			->setHeader('Accept', 'json')

@@ -675,6 +675,101 @@ class AndroidController extends BaseController
 						}
 					}
 				break;
+
+				// Accept
+
+				case "accept" :
+					$id				= Input::get('senderid'); // Get sender ID from client
+					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
+
+					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
+					$like->status	= 1; // Receiver accept like
+
+					$easemob		= getEasemob();
+					// Add friend relationship in chat system and start chat
+					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$receiver_id.'/contacts/users/'.$id)
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->send();
+					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.$receiver_id)
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->send();
+					if($like->save())
+					{
+						// Save notification in database for website
+						$notification	= Notification(3, $receiver_id, $id); // Some user accept you like
+						$easemob		= getEasemob();
+						// Push notifications to App client
+						cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+								'target_type'	=> 'users',
+								'target'		=> [$id],
+								'msg'			=> ['type' => 'cmd', 'action' => '3'],
+								'from'			=> $receiver_id,
+								'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'接受了你的邀请', 'id' => $notification->id]
+							])
+								->setHeader('content-type', 'application/json')
+								->setHeader('Accept', 'json')
+								->setHeader('Authorization', 'Bearer '.$easemob->token)
+								->setOptions([CURLOPT_VERBOSE => true])
+								->send();
+						return Response::json(
+								array(
+									'status' 		=> 1
+								)
+							);
+					} else {
+						return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+					}
+				break;
+
+				// Reject
+
+				case "reject" :
+					$id				= Input::get('senderid'); // Get sender ID from client
+					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
+
+					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
+					$like->status	= 2; // Receiver reject user, remove friend relationship in chat system
+					if($like->save())
+					{
+						// Save notification in database for website
+						$notification	= Notification(4, $receiver_id, $id); // Some user reject you like
+						$easemob		= getEasemob();
+						// Push notifications to App client
+						cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+								'target_type'	=> 'users',
+								'target'		=> [$id],
+								'msg'			=> ['type' => 'cmd', 'action' => '4'],
+								'from'			=> $receiver_id,
+								'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'拒绝了你的邀请', 'id' => $notification->id]
+							])
+								->setHeader('content-type', 'application/json')
+								->setHeader('Accept', 'json')
+								->setHeader('Authorization', 'Bearer '.$easemob->token)
+								->setOptions([CURLOPT_VERBOSE => true])
+								->send();
+						return Response::json(
+								array(
+									'status' 		=> 1
+								)
+							);
+					} else {
+						return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+					}
+				break;
 			}
 		} else {
 			return Response::json(

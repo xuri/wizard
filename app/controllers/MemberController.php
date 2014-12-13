@@ -37,7 +37,7 @@
  * category = 9 System notifacations to all users
  * category = 10 Some user recover blocked you
  *
- *
+ * Easemob Push Notifications
  * User Points Explanation
  *
  * Daily renew add 2 points
@@ -138,11 +138,8 @@ class MemberController extends BaseController {
 							if($like->save() && Auth::user()->save())
 							{
 								$notification = Notification(1, Auth::user()->id, $id); // Some user first like you
-								return Redirect::route('account.sent')
-									->withInput()
-									->with('success', '发送成功，静待缘分到来吧。');
 								$easemob		= getEasemob();
-								// Add friend relationship in chat system and start chat
+								// Push notifications to App client
 								cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
 										'target_type'	=> 'users',
 										'target'		=> [$id],
@@ -155,6 +152,9 @@ class MemberController extends BaseController {
 										->setHeader('Authorization', 'Bearer '.$easemob->token)
 										->setOptions([CURLOPT_VERBOSE => true])
 										->send();
+								return Redirect::route('account.sent')
+									->withInput()
+									->with('success', '发送成功，静待缘分到来吧。');
 							}
 						}
 					} else {
