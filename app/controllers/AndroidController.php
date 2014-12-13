@@ -589,7 +589,7 @@ class AndroidController extends BaseController
 					$last_id	= Input::get('lastid'); // Post last user id from Android client
 					$per_page	= Input::get('perpage'); // Post count per query from Android client
 					$user_id	= Input::get('id'); // Get user id
-					if($last_id) // If Android have post last user id
+					if($last_id != 'null') // If Android have post last user id
 					{
 						$allLike	= Like::where('receiver_id', $user_id) // Query all user liked users
 							->orderBy('id', 'desc')
