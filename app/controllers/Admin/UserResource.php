@@ -92,4 +92,18 @@ class Admin_UserResource extends BaseResource
 		$datas = $query->paginate(10);
 		return View::make($this->resourceView.'.index')->with(compact('datas'));
 	}
+
+	public function edit($id) {
+		$data		= $this->model->where('id', $id)->first();
+		$profile	= Profile::where('user_id', $id)->first();
+		return View::make($this->resourceView.'.edit')->with(compact('data', 'profile'));
+	}
+
+	public function detail($id) {
+		$data	= $this->model->where('id', $id)->first();
+		$sends	= Like::where('sender_id', $id)->get();
+		$inboxs	= Like::where('receiver_id', $id)->get();
+		$count = 1;
+		return View::make($this->resourceView.'.detail')->with(compact('data', 'sends', 'inboxs', 'count'));
+	}
 }
