@@ -288,11 +288,16 @@ class AndroidController extends BaseController
 					{
 						$users = User::whereNotNull('portrait') // Skip none portrait user
 						->orderBy('id', 'desc')
-						->select('id', 'nickname', 'school', 'sex')
+						->select('id', 'nickname', 'school', 'sex', 'portrait')
 						->where('id', '<', $last_id)
 						->take($per_page)
 						->get()
-						->toJson();
+						->toArray();
+						// Replace receiver ID to receiver portrait
+						foreach($users as $key => $field){
+							$users[$key]['portrait']	= route('home').'/'.'portrait/'.$users[$key]['portrait']; // Convert to real storage path
+						}
+						$users = json_encode($users); // Encode likes array to json format
 						if($users) // If get query success
 						{
 							return '{ "status" : "1", "data" : '.$users.'}'; // Build Json format
@@ -307,11 +312,16 @@ class AndroidController extends BaseController
 						$lastRecord = User::orderBy('id', 'desc')->first()->id; // Query last user id in database
 						$users      = User::whereNotNull('portrait') // Skip none portrait user
 						->orderBy('id', 'desc')
-						->select('id', 'nickname', 'school', 'sex')
+						->select('id', 'nickname', 'school', 'sex', 'portrait')
 						->where('id', '<=', $lastRecord)
 						->take($per_page)
 						->get()
-						->toJson();
+						->toArray();
+						// Replace receiver ID to receiver portrait
+						foreach($users as $key => $field){
+							$users[$key]['portrait']	= route('home').'/'.'portrait/'.$users[$key]['portrait']; // Convert to real storage path
+						}
+						$users = json_encode($users); // Encode likes array to json format
 						if($users)
 						{
 							return '{ "status" : "1", "data" : '.$users.'}';
@@ -768,6 +778,67 @@ class AndroidController extends BaseController
 									'status' 		=> 0
 								)
 							);
+					}
+				break;
+
+				// Block
+
+				case "block" :
+					$id				= Input::get('senderid');
+					$receiver_id	= Input::get('id');
+					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
+					$like->status	= 3; // Receiver block user, remove friend relationship in chat system
+
+					$easemob		= getEasemob();
+					$notification	= Notification(5, Auth::user()->id, $id); // Some user blocked you
+					// Push notifications to App client
+					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+							'target_type'	=> 'users',
+							'target'		=> [$id],
+							'msg'			=> ['type' => 'cmd', 'action' => '5'],
+							'from'			=> $receiver_id,
+							'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'把你加入了黑名单', 'id' => $notification->id]
+						])
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->send();
+					if($like->save())
+					{
+						return Response::json(
+							array(
+								'status' 		=> 1
+							)
+						);
+					} else {
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
+					}
+				break;
+
+				// Get Username
+
+				case "getnickname" :
+					$id = Input::get('id');
+					$nickname = User::where('id', $id)->first()->nickname;
+					if($nickname)
+					{
+						return Response::json(
+							array(
+								'status'	=> 1,
+								'nickname'	=> $nickname
+							)
+						);
+					} else {
+						return Response::json(
+							array(
+								'status' 	=> 0
+							)
+						);
 					}
 				break;
 			}

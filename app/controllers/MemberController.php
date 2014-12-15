@@ -251,7 +251,20 @@ class MemberController extends BaseController {
 						->send();
 				if($like->save())
 				{
-					Notification(5, Auth::user()->id, $id); // Some user blocked you
+					$notification = Notification(5, Auth::user()->id, $id); // Some user blocked you
+					// Push notifications to App client
+					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+							'target_type'	=> 'users',
+							'target'		=> [$id],
+							'msg'			=> ['type' => 'cmd', 'action' => '5'],
+							'from'			=> $receiver_id,
+							'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'把你加入了黑名单', 'id' => $notification->id]
+						])
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->send();
 					return Redirect::back()
 						->withInput()
 						->with('success', '拉黑成功。');
