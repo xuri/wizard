@@ -823,16 +823,20 @@ class AndroidController extends BaseController
 				// Get Username
 
 				case "getnickname" :
-					$id = Input::get('id');
-					$nickname = User::where('id', $id)->first()->nickname;
-					if($nickname)
+					$id		= Input::get('id'); // Get query ID from App client
+					$sender = Like::where('receiver_id', $id)
+								->where('status', 3)
+								->select('sender_id')
+								->get()
+								->toArray(); // Get sender user data
+					foreach($sender as $key => $field){
+							$sender[$key]['portrait']	= User::where('id', $sender[$key]['sender_id'])->first()->portrait; // Sender portrait
+							$sender[$key]['nickname']	= User::where('id', $sender[$key]['sender_id'])->first()->nickname; // Sender nickname
+						}
+					$sender = json_encode($sender); // Convert array to json format
+					if($sender) // Query successful
 					{
-						return Response::json(
-							array(
-								'status'	=> 1,
-								'nickname'	=> $nickname
-							)
-						);
+						return '{ "status" : "1", "data" : '.$sender.'}';
 					} else {
 						return Response::json(
 							array(
