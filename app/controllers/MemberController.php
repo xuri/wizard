@@ -139,7 +139,21 @@ class MemberController extends BaseController {
 							Auth::user()->points	= Auth::user()->points - 1;
 							if($have_like->save() && Auth::user()->save())
 							{
-								Notification(2, Auth::user()->id, $id); // Some user re-liked you
+								$notification	= Notification(2, Auth::user()->id, $id); // Some user re-liked you
+								$easemob		= getEasemob();
+								// Push notifications to App client
+								cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+										'target_type'	=> 'users',
+										'target'		=> [$id],
+										'msg'			=> ['type' => 'cmd', 'action' => '1'],
+										'from'			=> Auth::user()->id,
+										'ext'			=> ['content' => '用户'.Auth::user()->nickname.'追你了', 'id' => $notification->id]
+									])
+										->setHeader('content-type', 'application/json')
+										->setHeader('Accept', 'json')
+										->setHeader('Authorization', 'Bearer '.$easemob->token)
+										->setOptions([CURLOPT_VERBOSE => true])
+										->send();
 								return Redirect::route('account.sent')
 								->withInput()
 								->with('success', '发送成功，静待缘分到来吧。');
@@ -154,7 +168,7 @@ class MemberController extends BaseController {
 							Auth::user()->points	= Auth::user()->points - 1;
 							if($like->save() && Auth::user()->save())
 							{
-								$notification = Notification(1, Auth::user()->id, $id); // Some user first like you
+								$notification	= Notification(1, Auth::user()->id, $id); // Some user first like you
 								$easemob		= getEasemob();
 								// Push notifications to App client
 								cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
@@ -162,7 +176,7 @@ class MemberController extends BaseController {
 										'target'		=> [$id],
 										'msg'			=> ['type' => 'cmd', 'action' => '1'],
 										'from'			=> Auth::user()->id,
-										'ext'			=> ['content' => '用户'.Auth::user()->nickname.'追你了', 'id' => $notification->id]
+										'ext'			=> ['content' => '用户'.Auth::user()->nickname.'再次追你了', 'id' => $notification->id]
 									])
 										->setHeader('content-type', 'application/json')
 										->setHeader('Accept', 'json')

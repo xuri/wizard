@@ -44,9 +44,9 @@
 										@foreach ($datas as $data)
 										<tr class="odd gradeX">
 											<td>{{ $data->is_admin ? '管理员' : '普通用户' }}</td>
-											<td style="text-align:center;">{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '20')) }}</td>
+											<td style="text-align:center;"><a href="{{ route('members.show', $data->id) }}">{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '20')) }}</a></td>
 											@if($data->email)
-											<td>邮箱：{{ $data->email }}</td>
+											<td>邮箱：<a href="mailto:{{ $data->email }}">{{ $data->email }}<a></td>
 											@else
 											<td>手机：{{ $data->phone }}</td>
 											@endif

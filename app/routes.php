@@ -157,6 +157,13 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|admin'), function () {
 		Route::delete( 	  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'))->before('not.self');
 	});
 
+	# Data Analytics
+	Route::group(array('prefix' => 'analytics'), function () {
+		$resource   = 'analytics';
+		$controller = 'Admin_AnalyticsResource@';
+		Route::get(  	  'form', array('as' => $resource.'.form'  , 'uses' => $controller.'form'  ));
+	});
+
 });
 
 /*

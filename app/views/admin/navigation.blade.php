@@ -246,7 +246,7 @@
 					<a href="tables.html"><i class="fa  fa-bar-chart-o fa-fw"></i> 统计报表<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
-							<a href="">数据列表</a>
+							<a href="{{ route('analytics.form') }}">数据列表</a>
 						</li>
 						<li>
 							<a href="morris.html">走势图表</a>

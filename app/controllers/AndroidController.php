@@ -790,7 +790,22 @@ class AndroidController extends BaseController
 					$like->status	= 3; // Receiver block user, remove friend relationship in chat system
 
 					$easemob		= getEasemob();
-					$notification	= Notification(5, Auth::user()->id, $id); // Some user blocked you
+					$notification	= Notification(5, $id, $receiver_id); // Some user blocked you
+					// Remove friend relationship in chat system
+					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$receiver_id.'/contacts/users/'.$id)
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
+							->send();
+					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.$receiver_id)
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
+							->send();
 					// Push notifications to App client
 					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
 							'target_type'	=> 'users',
@@ -830,8 +845,8 @@ class AndroidController extends BaseController
 								->get()
 								->toArray(); // Get sender user data
 					foreach($sender as $key => $field){
-							$sender[$key]['portrait']	= User::where('id', $sender[$key]['sender_id'])->first()->portrait; // Sender portrait
-							$sender[$key]['nickname']	= route('home').'/'.'portrait/'.User::where('id', $sender[$key]['sender_id'])->first()->nickname; // Sender nickname
+							$sender[$key]['nickname']	= User::where('id', $sender[$key]['sender_id'])->first()->nickname; // Sender nickname
+							$sender[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $sender[$key]['sender_id'])->first()->portrait; // Sender portrait
 						}
 					$sender = json_encode($sender); // Convert array to json format
 					if($sender) // Query successful
