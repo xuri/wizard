@@ -174,7 +174,7 @@ class MemberController extends BaseController {
 								cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
 										'target_type'	=> 'users',
 										'target'		=> [$id],
-										'msg'			=> ['type' => 'cmd', 'action' => '1'],
+										'msg'			=> ['type' => 'cmd', 'action' => '2'],
 										'from'			=> Auth::user()->id,
 										'ext'			=> ['content' => '用户'.Auth::user()->nickname.'再次追你了', 'id' => $notification->id]
 									])
