@@ -239,19 +239,20 @@
 					<a class="active" href="{{ route('admin') }}"><i class="fa fa-dashboard fa-fw"></i> 控制面板</a>
 				</li>
 				<li>
-					<a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> 用户管理<span class="fa arrow"></span></a>
+					<a href="{{ route('users.index') }}"><i class="fa fa-table fa-fw"></i> 用户管理</a>
+
+				</li>
+				<li>
+					<a href="tables.html"><i class="fa  fa-bar-chart-o fa-fw"></i> 统计报表<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
-							<a href="{{ route('users.index') }}">用户列表</a>
+							<a href="">数据列表</a>
 						</li>
 						<li>
-							<a href="morris.html">Morris.js Charts</a>
+							<a href="morris.html">走势图表</a>
 						</li>
 					</ul>
 					{{-- /.nav-second-level --}}
-				</li>
-				<li>
-					<a href="tables.html"><i class="fa fa-table fa-fw"></i> 统计报表</a>
 				</li>
 				<li>
 					<a href="forms.html"><i class="fa fa-edit fa-fw"></i> 表单</a>
