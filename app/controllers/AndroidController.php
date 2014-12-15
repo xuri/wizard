@@ -831,7 +831,7 @@ class AndroidController extends BaseController
 								->toArray(); // Get sender user data
 					foreach($sender as $key => $field){
 							$sender[$key]['portrait']	= User::where('id', $sender[$key]['sender_id'])->first()->portrait; // Sender portrait
-							$sender[$key]['nickname']	= User::where('id', $sender[$key]['sender_id'])->first()->nickname; // Sender nickname
+							$sender[$key]['nickname']	= route('home').'/'.'portrait/'.User::where('id', $sender[$key]['sender_id'])->first()->nickname; // Sender nickname
 						}
 					$sender = json_encode($sender); // Convert array to json format
 					if($sender) // Query successful
