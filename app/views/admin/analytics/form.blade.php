@@ -40,9 +40,9 @@
 									<tbody>
 
 										<tr>
-											<td>{{ $datas->count() }}</td>
-											<td>{{ $datas->select('sex', 'M')->count() }}</td>
-											<td>asdasd</td>
+											<td></td>
+											<td>{{ $allMaleAccept }}</td>
+											<td></td>
 											<td>asdasd</td>
 											<td>asdas</td>
 										</tr>
