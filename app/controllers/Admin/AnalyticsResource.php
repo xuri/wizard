@@ -117,7 +117,7 @@ class Admin_AnalyticsResource extends BaseResource
 
 		/*
 		|--------------------------------------------------------------------------
-		| Form Analytics Stction
+		| Forum Analytics Stction
 		|--------------------------------------------------------------------------
 		|
 		*/
@@ -142,13 +142,13 @@ class Admin_AnalyticsResource extends BaseResource
 		$dailyPost					= ForumPost::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Category 1 daily posts
-		$cat1Post					= ForumPost::where('category_id', 1)->where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+		$cat1DailyPost					= ForumPost::where('category_id', 1)->where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Category 2 daily posts
-		$cat2Post					= ForumPost::where('category_id', 2)->where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+		$cat2DailyPost					= ForumPost::where('category_id', 2)->where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Category 3 daily posts
-		$cat3Post					= ForumPost::where('category_id', 3)->where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+		$cat3DailyPost					= ForumPost::where('category_id', 3)->where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Daily male posts
 		$dailyMalePostArray			= ForumPost::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->select('user_id')->get()->toArray();
@@ -262,7 +262,7 @@ class Admin_AnalyticsResource extends BaseResource
 		$allFemaleAcceptRatio	= number_format(($allFemaleAccept / $allAccept) * 100, 2);
 
 
-		// Like duration
+		// Average like duration
 		$likeDurationArray = Like::where('status', 1)->select('created_at', 'updated_at')->get()->toArray(); // Retrieve all accept like as an array
 		foreach($likeDurationArray as $key => $field){
 			$likeDurationArray[$key]['duration'] = diffBetweenTwoDays(date("Y-m-d",strtotime($likeDurationArray[$key]['updated_at'])), date("Y-m-d",strtotime($likeDurationArray[$key]['created_at']))); // Calculate duration days
