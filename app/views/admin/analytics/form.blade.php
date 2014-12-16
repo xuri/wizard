@@ -41,7 +41,7 @@
 
 										<tr>
 											<td></td>
-											<td>{{ $allMaleAccept }}</td>
+											<td><pre>{{ $averageLikeDuration }}</pre></td>
 											<td></td>
 											<td>asdasd</td>
 											<td>asdas</td>

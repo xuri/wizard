@@ -255,14 +255,20 @@ class Admin_AnalyticsResource extends BaseResource
 				$allMaleAccept = $allMaleAccept + 1;
 			}
 		}
-		$allMaleAcceptRatio = number_format(($allMaleAccept / $allAccept) * 100, 2);
+		$allMaleAcceptRatio		= number_format(($allMaleAccept / $allAccept) * 100, 2);
 
 		// Female accept ratio
-		$allFemaleAccept = $allAccept - $allMaleAccept;
-		$allFemaleAcceptRatio = number_format(($allFemaleAccept / $allAccept) * 100, 2);
+		$allFemaleAccept		= $allAccept - $allMaleAccept;
+		$allFemaleAcceptRatio	= number_format(($allFemaleAccept / $allAccept) * 100, 2);
 
 
-
-		return View::make($this->resourceView.'.form')->with(compact('allMaleAccept'));
+		// Like duration
+		$likeDurationArray = Like::where('status', 1)->select('created_at', 'updated_at')->get()->toArray(); // Retrieve all accept like as an array
+		foreach($likeDurationArray as $key => $field){
+			$likeDurationArray[$key]['duration'] = diffBetweenTwoDays(date("Y-m-d",strtotime($likeDurationArray[$key]['updated_at'])), date("Y-m-d",strtotime($likeDurationArray[$key]['created_at']))); // Calculate duration days
+			$sumLikeDurationArray[] = $likeDurationArray[$key]['duration']; // Summary like duration to a new array
+		}
+		$averageLikeDuration = number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray), 2);
+		return View::make($this->resourceView.'.form')->with(compact('averageLikeDuration'));
 	}
 }
