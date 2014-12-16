@@ -1,6 +1,7 @@
 <?php
 
 /**
+ *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
@@ -12,6 +13,7 @@
  * @since 		25th Nov, 2014
  * @license 	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 	0.1
+ *
  */
 
 class AccountController extends BaseController

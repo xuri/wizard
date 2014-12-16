@@ -553,7 +553,12 @@ function getNotification($category, $sender_id)
 	return $notification;
 }
 
-
+/**
+ * Calculate diff between two days
+ * @param  date $day1 format:Y-m-d
+ * @param  date $day2 format:Y-m-d
+ * @return int
+ */
 function diffBetweenTwoDays ($day1, $day2)
 {
     $second1 = strtotime($day1);

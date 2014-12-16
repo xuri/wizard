@@ -15,13 +15,13 @@
  */
 
 /**
- * Forum Categories Model
+ * Analytics Like
  */
 
 use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 
-class ForumCategories extends BaseModel
+class AnalyticsLike extends BaseModel
 {
     /**
      * Soft delete
@@ -34,6 +34,6 @@ class ForumCategories extends BaseModel
      * Database table (without prefix)
      * @var string
      */
-    protected $table = 'forum_categories';
+    protected $table = 'analytic_like';
 
 }
