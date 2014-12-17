@@ -14,13 +14,6 @@
  * @version 	0.1
  */
 
-use Indatus\Dispatcher\Scheduling\ScheduledCommand;
-use Indatus\Dispatcher\Scheduling\Schedulable;
-use Indatus\Dispatcher\Drivers\DateTime\Scheduler;
-
-
-
-
 class Admin_AnalyticsResource extends BaseResource
 {
 	/**
@@ -58,9 +51,22 @@ class Admin_AnalyticsResource extends BaseResource
 	 * GET         /resource
 	 * @return Response
 	 */
-	public function form()
+	public function userForm()
 	{
-		return View::make($this->resourceView.'.form')->with(compact(''));
+		$analyticsUsers = AnalyticsUser::orderby('id', 'desc')->paginate(10);
+		return View::make($this->resourceView.'.user-form')->with(compact('analyticsUsers'));
+	}
+
+	public function forumForm()
+	{
+		$analyticsForums = AnalyticsForum::orderby('id', 'desc')->paginate(10);
+		return View::make($this->resourceView.'.forum-form')->with(compact('analyticsForums'));
+	}
+
+	public function likeForm()
+	{
+		$analyticsLikes = AnalyticsLike::orderby('id', 'desc')->paginate(10);
+		return View::make($this->resourceView.'.like-form')->with(compact('analyticsLikes'));
 	}
 
 }

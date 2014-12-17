@@ -299,7 +299,7 @@ class analytics extends ScheduledCommand {
 			$likeDurationArray[$key]['duration'] = diffBetweenTwoDays(date("Y-m-d",strtotime($likeDurationArray[$key]['updated_at'])), date("Y-m-d",strtotime($likeDurationArray[$key]['created_at']))); // Calculate duration days
 			$sumLikeDurationArray[] = $likeDurationArray[$key]['duration']; // Summary like duration to a new array
 		}
-		$averageLikeDuration					= number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray), 2);
+		$averageLikeDuration					= number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray) * 100, 2);
 
 		// Store analytics data
 		$analyticsLike							= new AnalyticsLike;

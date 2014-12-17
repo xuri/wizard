@@ -840,7 +840,7 @@ class AndroidController extends BaseController
 				case "getnickname" :
 					$id		= Input::get('id'); // Get query ID from App client
 					$sender = Like::where('receiver_id', $id)
-								->where('status', 3)
+								->where('status', 1)
 								->select('sender_id')
 								->get()
 								->toArray(); // Get sender user data

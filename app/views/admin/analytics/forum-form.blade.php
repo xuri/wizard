@@ -9,43 +9,55 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">统计数据综合列表</h1>
+					<h1 class="page-header">论坛活动报表</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
 
 			<!-- /.row -->
 			<div class="row">
-				<div class="panel-heading">
-					以下是用户的好友关系列表， <a href="#">点此返回用户编辑。</a>
-				</div>
-				<div class="col-lg-6">
+				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							发出的好友邀请（追过的人）
+							网站论坛情况综合数据汇总表
 						</div>
 						<!-- /.panel-heading -->
-						<div class="panel-body">
+						<div class="panel-body" style="font-size: 12px;">
 							<div class="table-responsive">
 								<table class="table table-hover">
 									<thead>
 										<tr>
-											<th>#</th>
-											<th>用户总数</th>
-											<th>创建时间</th>
-											<th>次数</th>
-											<th>当前状态</th>
+											<th>ID</th>
+											<th>截止时间</th>
+											<th>发帖总数</th>
+											<th>分类一</th>
+											<th>分类二</th>
+											<th>分类三</th>
+											<th>日发帖</th>
+											<th>分类一日发帖</th>
+											<th>分类二日发帖</th>
+											<th>分类三日发帖</th>
+											<th>日男用户发帖</th>
+											<th>日女用户发帖</th>
 										</tr>
 									<thead>
 									<tbody>
-
+										@foreach($analyticsForums as $analyticsForum)
 										<tr>
-											<td></td>
-											<td><pre>{{ Carbon::now() }}</pre></td>
-											<td></td>
-											<td>asdasd</td>
-											<td>asdas</td>
+											<td>{{ $analyticsForum->id }}</td>
+											<td>{{ date("Y年m月d日 H:m:s",strtotime($analyticsForum->created_at)) }}</td>
+											<td>{{ $analyticsForum->all_post }}</td>
+											<td>{{ $analyticsForum->cat1_post }}</td>
+											<td>{{ $analyticsForum->cat2_post }}</td>
+											<td>{{ $analyticsForum->cat3_post }}</td>
+											<td>{{ $analyticsForum->dailypost }}</td>
+											<td>{{ $analyticsForum->cat1_daily_post }}</td>
+											<td>{{ $analyticsForum->cat2_daily_post }}</td>
+											<td>{{ $analyticsForum->cat3_daily_post }}</td>
+											<td>{{ $analyticsForum->daily_male_post }}</td>
+											<td>{{ $analyticsForum->daily_female_post }}</td>
 										</tr>
+										@endforeach
 									</tbody>
 								</table>
 							</div>
@@ -54,45 +66,9 @@
 						<!-- /.panel-body -->
 					</div>
 					<!-- /.panel -->
+					{{ pagination($analyticsForums->appends(Input::except('page')), 'admin.paginator') }}
 				</div>
-				<!-- /.col-lg-6 -->
-				<div class="col-lg-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							接受的好友邀请（追此用户的人）
-						</div>
-						<!-- /.panel-heading -->
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-hover">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>对方昵称</th>
-											<th>创建时间</th>
-											<th>次数</th>
-											<th>当前状态</th>
-										</tr>
-									</thead>
-									<tbody>
-
-										<tr>
-											<td>asdad</td>
-											<td><a href="#">asdasdas</a></td>
-											<td>asdasd</td>
-											<td>asdasd</td>
-											<td>asdas</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							<!-- /.table-responsive -->
-						</div>
-						<!-- /.panel-body -->
-					</div>
-					<!-- /.panel -->
-				</div>
-				<!-- /.col-lg-6 -->
+				<!-- /.col-lg-12 -->
 			</div>
 			<!-- /.row -->
 		</div>
