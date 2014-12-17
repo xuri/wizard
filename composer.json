@@ -8,7 +8,8 @@
 		"laravel/framework"	: "4.2.*",
 		"intervention/image": "dev-master",
 		"anlutro/curl"		: "dev-master",
-		"jenssegers/date"	: "*"
+		"jenssegers/date"	: "*",
+		"indatus/dispatcher": "1.4.*"
 	},
 	"autoload": {
 		"classmap": [
@@ -36,9 +37,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable",
-	"repositories": [
-			{"type": "composer", "url": "http://pkg.phpcomposer.com/repo/packagist/"},
-			{"packagist": false}
-		]
+	"minimum-stability": "stable"
 }

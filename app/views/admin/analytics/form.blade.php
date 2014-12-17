@@ -41,7 +41,7 @@
 
 										<tr>
 											<td></td>
-											<td><pre>{{ $averageLikeDuration }}</pre></td>
+											<td><pre>{{ Carbon::now() }}</pre></td>
 											<td></td>
 											<td>asdasd</td>
 											<td>asdas</td>

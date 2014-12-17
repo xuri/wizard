@@ -123,6 +123,7 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Intervention\Image\ImageServiceProvider',
 		'Jenssegers\Date\DateServiceProvider',
+		'Indatus\Dispatcher\ServiceProvider',
 
 	),
 
