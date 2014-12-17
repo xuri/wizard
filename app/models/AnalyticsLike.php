@@ -34,6 +34,6 @@ class AnalyticsLike extends BaseModel
      * Database table (without prefix)
      * @var string
      */
-    protected $table = 'analytic_like';
+    protected $table = 'analytics_like';
 
 }
