@@ -1,6 +1,6 @@
 //Flot Line Chart
 $(document).ready(function() {
-    console.log("document ready");
+    // console.log("document ready");
     var offset = 0;
     plot();
 
@@ -44,6 +44,52 @@ $(document).ready(function() {
             }, {
                 data: cos,
                 label: "cos(x)"
+            }],
+            options);
+    }
+});
+
+$(function() {
+    // console.log("document ready");
+    var offset = 0;
+    plot();
+
+    function plot() {
+        var sin = [[1,3], [2,6], [3,9], [4, 6]],
+            cos = [[1,12], [2,11], [3,7], [4,12]];
+        // for (var i = 0; i < 12; i += 0.2) {
+        //     sin.push([i, Math.sin(i + offset)]);
+        //     cos.push([i, Math.cos(i + offset)]);
+        // }
+
+        var options = {
+            series: {
+                lines: {
+                    show: true
+                },
+                points: {
+                    show: true
+                }
+            },
+            grid: {
+                hoverable: true //IMPORTANT! this is needed for tooltip to work
+            },
+            tooltip: true,
+            tooltipOpts: {
+                content: "%x.1 日 %s： %y.4",
+                shifts: {
+                    x: -60,
+                    y: 25
+                }
+            }
+        };
+
+        var plotObj = $.plot($("#flot-line-chart2"), [{
+                data: sin,
+                label: "男性用户"
+            }, {
+                data: cos,
+                label: "女性用户"
             }],
             options);
     }

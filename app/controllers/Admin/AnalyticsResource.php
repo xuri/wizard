@@ -47,7 +47,7 @@ class Admin_AnalyticsResource extends BaseResource
 	protected $resourceName = '统计';
 
 	/**
-	 * Resource list view
+	 * Resource Analytics user form view
 	 * GET         /resource
 	 * @return Response
 	 */
@@ -57,16 +57,35 @@ class Admin_AnalyticsResource extends BaseResource
 		return View::make($this->resourceView.'.user-form')->with(compact('analyticsUsers'));
 	}
 
+	/**
+	 * Resource Analytics forum form view
+	 * GET         /resource
+	 * @return Response
+	 */
 	public function forumForm()
 	{
 		$analyticsForums = AnalyticsForum::orderby('id', 'desc')->paginate(10);
 		return View::make($this->resourceView.'.forum-form')->with(compact('analyticsForums'));
 	}
 
+	/**
+	 * Resource Analytics likes form view
+	 * GET         /resource
+	 * @return Response
+	 */
 	public function likeForm()
 	{
 		$analyticsLikes = AnalyticsLike::orderby('id', 'desc')->paginate(10);
 		return View::make($this->resourceView.'.like-form')->with(compact('analyticsLikes'));
 	}
 
+	/**
+	 * Resource Analytics user charts view
+	 * GET         /resource
+	 * @return Response
+	 */
+	public function userCharts()
+	{
+		return View::make($this->resourceView.'.user-charts')->with(compact(''));
+	}
 }

@@ -161,9 +161,12 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|admin'), function () {
 	Route::group(array('prefix' => 'analytics'), function () {
 		$resource   = 'analytics';
 		$controller = 'Admin_AnalyticsResource@';
-		Route::get(  	   'userform', array('as'	=> $resource.'.userform'  , 'uses' => $controller.'userForm'   ));
-		Route::get(  	  'forumform', array('as'	=> $resource.'.forumform' , 'uses' => $controller.'forumForm'  ));
-		Route::get(  	   'likeform', array('as'	=> $resource.'.likeform'  , 'uses' => $controller.'likeForm'   ));
+		Route::get(  	   'userform', array('as'	=> $resource.'.userform'   , 'uses' => $controller.'userForm'   ));
+		Route::get(  	  'forumform', array('as'	=> $resource.'.forumform'  , 'uses' => $controller.'forumForm'  ));
+		Route::get(  	   'likeform', array('as'	=> $resource.'.likeform'   , 'uses' => $controller.'likeForm'   ));
+		Route::get(      'usercharts', array('as'	=> $resource.'.usercharts' , 'uses' => $controller.'userCharts' ));
+		Route::get(     'forumcharts', array('as'	=> $resource.'.forumcharts', 'uses' => $controller.'forumCharts'));
+		Route::get(      'likecharts', array('as'	=> $resource.'.likecharts' , 'uses' => $controller.'likeCharts' ));
 	});
 
 });
