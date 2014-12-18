@@ -434,7 +434,7 @@ class AndroidController extends BaseController
 					// Create validation rules
 					$rules	= array(
 						'id'			=> 'required',
-						'receiverId'	=> 'required',
+						'receiverid'	=> 'required',
 						'answer'		=> 'required|min:3',
 					);
 					// Custom validation message
@@ -448,7 +448,7 @@ class AndroidController extends BaseController
 					if ($validator->passes())
 					{
 						$user			= User::where('id', Input::get('id'))->first();
-						$receiver_id	= Input::get('receiverId');
+						$receiver_id	= Input::get('receiverid');
 						if($user->points > 0)
 						{
 							$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
@@ -460,6 +460,20 @@ class AndroidController extends BaseController
 								if($have_like->save() && $user->save())
 								{
 									Notification(2, $user->id, $receiver_id); // Some user re-liked you
+									$easemob		= getEasemob();
+									// Push notifications to App client
+									cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+											'target_type'	=> 'users',
+											'target'		=> [$receiver_id],
+											'msg'			=> ['type' => 'cmd', 'action' => '2'],
+											'from'			=> $user->id,
+											'ext'			=> ['content' => $user->id.'追你了，快去查看一下吧', 'id' => $user->id]
+										])
+											->setHeader('content-type', 'application/json')
+											->setHeader('Accept', 'json')
+											->setHeader('Authorization', 'Bearer '.$easemob->token)
+											->setOptions([CURLOPT_VERBOSE => true])
+											->send();
 									return Response::json(
 										array(
 											'status' 		=> 1
@@ -477,6 +491,20 @@ class AndroidController extends BaseController
 								if($like->save() && $user->save())
 								{
 									Notification(1, $user->id, $receiver_id); // Some user first like you
+									$easemob		= getEasemob();
+									// Push notifications to App client
+									cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+											'target_type'	=> 'users',
+											'target'		=> [$receiver_id],
+											'msg'			=> ['type' => 'cmd', 'action' => '1'],
+											'from'			=> $user->id,
+											'ext'			=> ['content' => $user->id.'追你了，快去查看一下吧', 'id' => $user->id]
+										])
+											->setHeader('content-type', 'application/json')
+											->setHeader('Accept', 'json')
+											->setHeader('Authorization', 'Bearer '.$easemob->token)
+											->setOptions([CURLOPT_VERBOSE => true])
+											->send();
 									return Response::json(
 										array(
 											'status' 		=> 1

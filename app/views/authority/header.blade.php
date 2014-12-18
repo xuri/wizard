@@ -25,6 +25,6 @@
 <link rel="apple-touch-icon-precomposed" href="{{ route('home') }}/assets/images/icons/apple-touch-icon-precomposed.png">{{-- 57×57px --}}
 {{ HTML::style('assets/css/reset.css') }}
 {{ HTML::style('assets/css/signin.css') }}
-{{ HTML::style('assets/font-awesome-4.1.0/css/font-awesome.min.css') }}
+{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
 </head>
 <body>

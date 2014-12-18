@@ -243,7 +243,7 @@
 
 				</li>
 				<li>
-					<a href="tables.html"><i class="fa  fa-bar-chart-o fa-fw"></i> 统计报表<span class="fa arrow"></span></a>
+					<a href="javascript:void();"><i class="fa  fa-bar-chart-o fa-fw"></i> 统计报表<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
 							<a href="{{ route('analytics.userform') }}">用户详细报表</a>
@@ -256,6 +256,20 @@
 						</li>
 					</ul>
 					{{-- /.nav-second-level --}}
+				</li>
+				<li>
+					<a href="javascript:void();"><i class="fa fa-line-chart"></i> 趋势统计<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="{{ route('analytics.usercharts') }}">用户详细趋势图</a>
+						</li>
+						<li>
+							<a href="{{ route('analytics.forumcharts') }}">论坛活动趋势图</a>
+						</li>
+						<li>
+							<a href="{{ route('analytics.likecharts') }}">用户互动趋势图</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a href="forms.html"><i class="fa fa-edit fa-fw"></i> 表单</a>
