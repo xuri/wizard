@@ -79,7 +79,7 @@
 				<div class="col-lg-6">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							用户交友成功率趋势图
+							用户交友成功率变化趋势图
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
@@ -94,7 +94,7 @@
 				<div class="col-lg-6">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							用户交友成功率趋势图
+							用户平均交友历经时长变化趋势图
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">

@@ -346,7 +346,7 @@ class Admin_AnalyticsResource extends BaseResource
 							'all_female_accept_ratio',
 							'average_like_duration',
 							'created_at'
-						)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
+			)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
 
 		/*
 		|--------------------------------------------------------------------------
@@ -571,6 +571,141 @@ class Admin_AnalyticsResource extends BaseResource
 	 */
 	public function forumCharts()
 	{
-		return View::make($this->resourceView.'.forum-charts')->with(compact(''));
+		$analyticsForum = AnalyticsForum::select(
+							'all_post',
+							'cat1_post',
+							'cat2_post',
+							'cat3_post',
+							'daily_post',
+							'cat1_daily_post',
+							'cat2_daily_post',
+							'cat3_daily_post',
+							'daily_male_post',
+							'daily_female_post',
+							'created_at'
+			)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
+
+		/*
+		|--------------------------------------------------------------------------
+		| Forum Posts Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$allPost = array(); // Create all posts array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$allPost[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['all_post']);
+		}
+
+		$cat1Post = array(); // Create category 1 post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$cat1Post[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['cat1_post']);
+		}
+
+		$cat2Post = array(); // Create category 2 post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$cat2Post[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['cat2_post']);
+		}
+
+		$cat3Post = array(); // Create category 3 post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$cat3Post[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['cat3_post']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$basicForumPosts = '{
+			"累计发帖量":'.preg_replace('/["]/', '' ,json_encode($allPost)).
+			', "'.ForumCategories::where('id', 1)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat1Post)).
+			', "'.ForumCategories::where('id', 2)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat2Post)).
+			', "'.ForumCategories::where('id', 3)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat3Post)).
+			'}';
+
+		/*
+		|--------------------------------------------------------------------------
+		| Daily Forum Posts Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$allDailyPost = array(); // Create all daily posts array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$allDailyPost[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_post']);
+		}
+
+		$cat1DailyPost = array(); // Create category 1 daily post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$cat1DailyPost[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['cat1_daily_post']);
+		}
+
+		$cat2DailyPost = array(); // Create category 2 daily post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$cat2DailyPost[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['cat2_daily_post']);
+		}
+
+		$cat3DailyPost = array(); // Create category 3 daily post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$cat3DailyPost[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['cat3_daily_post']);
+		}
+
+		$dailyMalePost = array(); // Create category 3 daily post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$dailyMalePost[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_male_post']);
+		}
+
+		$dailyFemalePost = array(); // Create category 3 daily post array
+		foreach($analyticsForum as $key){ // Structure array elements
+			$dailyFemalePost[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_female_post']);
+		}
+		// Build Json data (remove double quotes from Json return data)
+		$dailyForumPosts = '{
+			"累计日发帖量":'.preg_replace('/["]/', '' ,json_encode($allDailyPost)).
+			', "'.ForumCategories::where('id', 1)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat1DailyPost)).
+			', "'.ForumCategories::where('id', 2)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat2DailyPost)).
+			', "'.ForumCategories::where('id', 3)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat3DailyPost)).
+			', "男用户日发帖量":'.preg_replace('/["]/', '' ,json_encode($dailyMalePost)).
+			', "女用户日发帖量":'.preg_replace('/["]/', '' ,json_encode($dailyFemalePost)).
+			'}';
+
+		return View::make($this->resourceView.'.forum-charts')->with(compact('basicForumPosts', 'dailyForumPosts'));
 	}
 }
