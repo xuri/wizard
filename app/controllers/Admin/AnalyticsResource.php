@@ -322,4 +322,73 @@ class Admin_AnalyticsResource extends BaseResource
 
 		return View::make($this->resourceView.'.user-charts')->with(compact('userBasicAnalytics', 'dailyActiveUserAnalytics', 'weeklyActiveUserAnalytics', 'monthlyActiveUserAnalytics', 'completeProfileUserRatioAnalytics'));
 	}
+
+	/**
+	 * Resource Analytics like charts view
+	 * GET         /resource
+	 * @return Response
+	 */
+	public function likeCharts()
+	{
+		$analyticsLike = AnalyticsLike::select(
+							'daily_like',
+							'weekly_like',
+							'monthly_like',
+							'all_male_like',
+							'all_female_like',
+							'daily_male_like',
+							'daily_female_like',
+							'weekly_male_like',
+							'weekly_female_like',
+							'monthly_male_like',
+							'monthly_female_like',
+							'all_male_accept_ratio',
+							'all_female_accept_ratio',
+							'average_like_duration',
+							'created_at'
+						)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
+
+		/*
+		|--------------------------------------------------------------------------
+		| Daily Likes Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$allMaleLike = array(); // Create all male likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$allMaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['all_male_like']);
+		}
+
+		$allFemaleLike = array(); // Create monthly active female user array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$allFemaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['all_female_like']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$allLikes = '{
+			"累计男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($allMaleLike)).
+			', "累计女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($allFemaleLike)).
+			'}';
+
+		return View::make($this->resourceView.'.like-charts')->with(compact('allLikes'));
+	}
+
+	/**
+	 * Resource Analytics forum charts view
+	 * GET         /resource
+	 * @return Response
+	 */
+	public function forumCharts()
+	{
+		return View::make($this->resourceView.'.forum-charts')->with(compact(''));
+	}
 }

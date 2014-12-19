@@ -9,7 +9,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">用户详情图表</h1>
+					<h1 class="page-header">用户互动状况统计</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
@@ -18,7 +18,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							用户总数及来源趋势图
+							累计用户互动状况趋势图
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
@@ -34,7 +34,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							用户日活动状况趋势图
+							用户互动状况趋势图
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
@@ -79,7 +79,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							完善资料用户占比状况趋势图
+							用户月活动状况趋势图
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
@@ -126,7 +126,7 @@
 		plot();
 
 		function plot() {
-			var obj = {{ $userBasicAnalytics }};
+			var obj = {{ $allLikes }};
 
 			seriesData = [];
 
@@ -164,185 +164,6 @@
 		}
 	});
 
-	{{-- User Daily Active Analytics Section --}}
-
-	$(function() {
-		var offset = 0;
-		plot();
-
-		function plot() {
-			var obj = {{ $dailyActiveUserAnalytics }};
-
-			seriesData = [];
-
-			for (var prop in obj) {
-				seriesData.push({label: prop, data:$.map(obj[prop], function(i,j){
-					 return [[new Date(i[0],i[1]-1, i[2]-1).getTime(), i[3]]];
-				})});
-			}
-
-			var options = {
-				series: {
-					shadowSize: 4, {{-- Line shadow --}}
-					lines: {
-						show: true
-					},
-					points: {
-						show: true
-					}
-				},
-				grid: {
-					hoverable: true {{-- IMPORTANT! this is needed for tooltip to work --}}
-				},
-				xaxis: { mode: "time", timeformat: "%y-%m-%d" },
-				tooltip: true,
-				tooltipOpts: {
-					content: "%x.1 %s： %y.4",
-					shifts: {
-						x: -60,
-						y: 25
-					}
-				}
-			};
-
-			var plotObj = $.plot($("#flot-line-chart-2"), seriesData, options);
-		}
-	});
-
-	{{-- User Weekly Active Analytics Section --}}
-
-	$(function() {
-		var offset = 0;
-		plot();
-
-		function plot() {
-			var obj = {{ $weeklyActiveUserAnalytics }};
-
-			seriesData = [];
-
-			for (var prop in obj) {
-				seriesData.push({label: prop, data:$.map(obj[prop], function(i,j){
-					 return [[new Date(i[0],i[1]-1, i[2]-1).getTime(), i[3]]];
-				})});
-			}
-
-			var options = {
-				series: {
-					shadowSize: 4, {{-- Line shadow --}}
-					lines: {
-						show: true
-					},
-					points: {
-						show: true
-					}
-				},
-				grid: {
-					hoverable: true {{-- IMPORTANT! this is needed for tooltip to work --}}
-				},
-				xaxis: { mode: "time", timeformat: "%y-%m-%d" },
-				tooltip: true,
-				tooltipOpts: {
-					content: "%x.1 %s： %y.4",
-					shifts: {
-						x: -60,
-						y: 25
-					}
-				}
-			};
-
-			var plotObj = $.plot($("#flot-line-chart-3"), seriesData, options);
-		}
-	});
-
-	{{-- User Monthly Active Analytics Section --}}
-
-	$(function() {
-		var offset = 0;
-		plot();
-
-		function plot() {
-			var obj = {{ $monthlyActiveUserAnalytics }};
-
-			seriesData = [];
-
-			for (var prop in obj) {
-				seriesData.push({label: prop, data:$.map(obj[prop], function(i,j){
-					 return [[new Date(i[0],i[1]-1, i[2]-1).getTime(), i[3]]];
-				})});
-			}
-
-			var options = {
-				series: {
-					shadowSize: 4, {{-- Line shadow --}}
-					lines: {
-						show: true
-					},
-					points: {
-						show: true
-					}
-				},
-				grid: {
-					hoverable: true {{-- IMPORTANT! this is needed for tooltip to work --}}
-				},
-				xaxis: { mode: "time", timeformat: "%y-%m-%d" },
-				tooltip: true,
-				tooltipOpts: {
-					content: "%x.1 %s： %y.4",
-					shifts: {
-						x: -60,
-						y: 25
-					}
-				}
-			};
-
-			var plotObj = $.plot($("#flot-line-chart-4"), seriesData, options);
-		}
-	});
-
-	{{-- User Profile Complete Ratio Analytics Section --}}
-
-	$(function() {
-		var offset = 0;
-		plot();
-
-		function plot() {
-			var obj = {{ $completeProfileUserRatioAnalytics }};
-
-			seriesData = [];
-
-			for (var prop in obj) {
-				seriesData.push({label: prop, data:$.map(obj[prop], function(i,j){
-					 return [[new Date(i[0],i[1]-1, i[2]-1).getTime(), i[3]]];
-				})});
-			}
-
-			var options = {
-				series: {
-					shadowSize: 4, {{-- Line shadow --}}
-					lines: {
-						show: true
-					},
-					points: {
-						show: true
-					}
-				},
-				grid: {
-					hoverable: true {{-- IMPORTANT! this is needed for tooltip to work --}}
-				},
-				xaxis: { mode: "time", timeformat: "%y-%m-%d" },
-				tooltip: true,
-				tooltipOpts: {
-					content: "%x.1 %s： %y.4 %",
-					shifts: {
-						x: -60,
-						y: 25
-					}
-				}
-			};
-
-			var plotObj = $.plot($("#flot-line-chart-5"), seriesData, options);
-		}
-	});
 	</script>
 	{{-- Custom Theme JavaScript --}}
 	{{ HTML::script('assets/js/admin/admin.js') }}

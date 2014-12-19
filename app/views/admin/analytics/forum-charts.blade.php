@@ -79,7 +79,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							完善资料用户占比状况趋势图
+							用户月活动状况趋势图
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">

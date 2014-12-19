@@ -40,7 +40,7 @@ class analytics extends ScheduledCommand {
 	 */
 	public function schedule(Schedulable $scheduler)
 	{
-		//every day at 4:10am
+		// Every day at 4:10am
         return $scheduler->daily()->hours(4)->minutes(10);
 	}
 

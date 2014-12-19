@@ -467,7 +467,12 @@ class AndroidController extends BaseController
 											'target'		=> [$receiver_id],
 											'msg'			=> ['type' => 'cmd', 'action' => '2'],
 											'from'			=> $user->id,
-											'ext'			=> ['content' => $user->id.'追你了，快去查看一下吧', 'id' => $user->id]
+											'ext'			=> [
+																	'content'	=> $user->nickname.'追你了，快去查看一下吧',
+																	'id'		=> $user->id,
+																	'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
+																	'nickname'	=> $user->nickname
+																]
 										])
 											->setHeader('content-type', 'application/json')
 											->setHeader('Accept', 'json')
@@ -718,8 +723,9 @@ class AndroidController extends BaseController
 
 				case "accept" :
 					$id				= Input::get('senderid'); // Get sender ID from client
+					$sender 		= User::where('id', $id)->first();
 					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
-
+					$receiver		= User::where('id', $receiver_id)->first();
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
 					$like->status	= 1; // Receiver accept like
 
@@ -748,7 +754,12 @@ class AndroidController extends BaseController
 								'target'		=> [$id],
 								'msg'			=> ['type' => 'cmd', 'action' => '3'],
 								'from'			=> $receiver_id,
-								'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'接受了你的邀请', 'id' => $notification->id]
+								'ext'			=> [
+														'content'	=> $receiver->nickname.'接受了你的邀请',
+														'id'		=> $receiver_id,
+														'portrait'	=> route('home').'/'.'portrait/'.$receiver->portrait,
+														'nickname'	=> $receiver->nickname
+													]
 							])
 								->setHeader('content-type', 'application/json')
 								->setHeader('Accept', 'json')
@@ -757,7 +768,10 @@ class AndroidController extends BaseController
 								->send();
 						return Response::json(
 								array(
-									'status' 		=> 1
+									'status'	=> 1,
+									'id'		=> $id,
+									'portrait'	=> route('home').'/'.'portrait/'.$sender->portrait,
+									'nickname'	=> $sender->nickname
 								)
 							);
 					} else {
@@ -774,7 +788,7 @@ class AndroidController extends BaseController
 				case "reject" :
 					$id				= Input::get('senderid'); // Get sender ID from client
 					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
-
+					$receiver		= User::where('id', $receiver_id)->first();
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
 					$like->status	= 2; // Receiver reject user, remove friend relationship in chat system
 					if($like->save())
@@ -788,7 +802,12 @@ class AndroidController extends BaseController
 								'target'		=> [$id],
 								'msg'			=> ['type' => 'cmd', 'action' => '4'],
 								'from'			=> $receiver_id,
-								'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'拒绝了你的邀请', 'id' => $notification->id]
+								'ext'			=> [
+														'content'	=> $receiver->nickname.'拒绝了你的邀请',
+														'id'		=> $receiver_id,
+														'portrait'	=> route('home').'/'.'portrait/'.$receiver->portrait,
+														'nickname'	=> $receiver->nickname
+													]
 							])
 								->setHeader('content-type', 'application/json')
 								->setHeader('Accept', 'json')
