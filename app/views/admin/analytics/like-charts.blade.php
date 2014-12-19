@@ -120,13 +120,13 @@
 	{{-- HTML::script('assets/js/admin/plugins/flot/flot-data.js') --}}
 
 	<script>
-	{{-- User Basic Analytics Section --}}
+	{{-- Basic Likes Analytics Section --}}
 	$(function() {
 		var offset = 0;
 		plot();
 
 		function plot() {
-			var obj = {{ $allLikes }};
+			var obj = {{ $basicLikes }};
 
 			seriesData = [];
 
@@ -164,6 +164,49 @@
 		}
 	});
 
+	{{-- Daily Likes Analytics Section --}}
+	$(function() {
+		var offset = 0;
+		plot();
+
+		function plot() {
+			var obj = {{ $dailyLikes }};
+
+			seriesData = [];
+
+			for (var prop in obj) {
+				seriesData.push({label: prop, data:$.map(obj[prop], function(i,j){
+					 return [[new Date(i[0],i[1]-1, i[2]-1).getTime(), i[3]]];
+				})});
+			}
+
+			var options = {
+				series: {
+					shadowSize: 4, {{-- Line shadow --}}
+					lines: {
+						show: true
+					},
+					points: {
+						show: true
+					}
+				},
+				grid: {
+					hoverable: true {{-- IMPORTANT! this is needed for tooltip to work --}}
+				},
+				xaxis: { mode: "time", timeformat: "%y-%m-%d" },
+				tooltip: true,
+				tooltipOpts: {
+					content: "截止 %x.1 %s： %y.4",
+					shifts: {
+						x: -60,
+						y: 25
+					}
+				}
+			};
+
+			var plotObj = $.plot($("#flot-line-chart-2"), seriesData, options);
+		}
+	});
 	</script>
 	{{-- Custom Theme JavaScript --}}
 	{{ HTML::script('assets/js/admin/admin.js') }}

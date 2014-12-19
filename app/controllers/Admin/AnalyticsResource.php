@@ -350,7 +350,7 @@ class Admin_AnalyticsResource extends BaseResource
 
 		/*
 		|--------------------------------------------------------------------------
-		| Daily Likes Analytics Section
+		| Likes Analytics Section
 		|--------------------------------------------------------------------------
 		|
 		*/
@@ -364,7 +364,7 @@ class Admin_AnalyticsResource extends BaseResource
 				$key['all_male_like']);
 		}
 
-		$allFemaleLike = array(); // Create monthly active female user array
+		$allFemaleLike = array(); // Create all female likes array
 		foreach($analyticsLike as $key){ // Structure array elements
 			$allFemaleLike[] = array(
 				date('Y', strtotime($key['created_at'])),
@@ -374,12 +374,52 @@ class Admin_AnalyticsResource extends BaseResource
 		}
 
 		// Build Json data (remove double quotes from Json return data)
-		$allLikes = '{
+		$basicLikes = '{
 			"累计男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($allMaleLike)).
 			', "累计女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($allFemaleLike)).
 			'}';
 
-		return View::make($this->resourceView.'.like-charts')->with(compact('allLikes'));
+		/*
+		|--------------------------------------------------------------------------
+		| Daily Likes Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$dailyLike = array(); // Create daily likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$dailyLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_like']);
+		}
+
+		$allMaleLike = array(); // Create daily male likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$allMaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_male_like']);
+		}
+
+		$dailyFemaleLike = array(); // Create daily female likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$dailyFemaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_female_like']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$dailyLikes = '{
+			"每日用户互动次数":'.preg_replace('/["]/', '' ,json_encode($dailyLike)).
+			', "每日女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($allMaleLike)).
+			', "每日女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($dailyFemaleLike)).
+			'}';
+		return View::make($this->resourceView.'.like-charts')->with(compact('basicLikes', 'dailyLikes'));
 	}
 
 	/**
