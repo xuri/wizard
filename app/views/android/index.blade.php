@@ -40,5 +40,93 @@ Android Debug
 // 		)
 // 	);
 // }
+$analyticsLike = AnalyticsLike::select(
+							'daily_like',
+							'weekly_like',
+							'monthly_like',
+							'all_male_like',
+							'all_female_like',
+							'daily_male_like',
+							'daily_female_like',
+							'weekly_male_like',
+							'weekly_female_like',
+							'monthly_male_like',
+							'monthly_female_like',
+							'all_male_accept_ratio',
+							'all_female_accept_ratio',
+							'average_like_duration',
+							'created_at'
+						)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
 
+		/*
+		|--------------------------------------------------------------------------
+		| Likes Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$allMaleLike = array(); // Create all male likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$allMaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['all_male_like']);
+		}
+
+		$allFemaleLike = array(); // Create all female likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$allFemaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['all_female_like']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$basicLikes = '{
+			"累计男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($allMaleLike)).
+			', "累计女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($allFemaleLike)).
+			'}';
+
+		/*
+		|--------------------------------------------------------------------------
+		| Daily Likes Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$dailyLike = array(); // Create daily likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$dailyLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_like']);
+		}
+
+		$dailyMaleLike = array(); // Create daily male likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$dailyMaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_male_like']);
+		}
+
+		$dailyFemaleLike = array(); // Create daily female likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$dailyFemaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['daily_female_like']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+	echo	$dailyLikes = '{
+			"每日用户互动次数":'.preg_replace('/["]/', '' ,json_encode($dailyLike)).
+			', "每日男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($dailyMaleLike)).
+			', "每日女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($dailyFemaleLike)).
+			'}';
 ?>

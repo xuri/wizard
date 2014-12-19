@@ -395,9 +395,9 @@ class Admin_AnalyticsResource extends BaseResource
 				$key['daily_like']);
 		}
 
-		$allMaleLike = array(); // Create daily male likes array
+		$dailyMaleLike = array(); // Create daily male likes array
 		foreach($analyticsLike as $key){ // Structure array elements
-			$allMaleLike[] = array(
+			$dailyMaleLike[] = array(
 				date('Y', strtotime($key['created_at'])),
 				date('m', strtotime($key['created_at'])),
 				date('d', strtotime($key['created_at'])),
@@ -416,10 +416,152 @@ class Admin_AnalyticsResource extends BaseResource
 		// Build Json data (remove double quotes from Json return data)
 		$dailyLikes = '{
 			"每日用户互动次数":'.preg_replace('/["]/', '' ,json_encode($dailyLike)).
-			', "每日女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($allMaleLike)).
+			', "每日男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($dailyMaleLike)).
 			', "每日女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($dailyFemaleLike)).
 			'}';
-		return View::make($this->resourceView.'.like-charts')->with(compact('basicLikes', 'dailyLikes'));
+
+		/*
+		|--------------------------------------------------------------------------
+		| Weekly Likes Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$weeklyLike = array(); // Create weekly likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$weeklyLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['weekly_like']);
+		}
+
+		$weeklyMaleLike = array(); // Create weekly male likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$weeklyMaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['weekly_male_like']);
+		}
+
+		$weeklyFemaleLike = array(); // Create weekly female likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$weeklyFemaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['weekly_female_like']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$weeklyLikes = '{
+			"每周用户互动次数":'.preg_replace('/["]/', '' ,json_encode($weeklyLike)).
+			', "每周男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($weeklyMaleLike)).
+			', "每周女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($weeklyFemaleLike)).
+			'}';
+
+		/*
+		|--------------------------------------------------------------------------
+		| Monthly Likes Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$monthlyLike = array(); // Create monthly likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$monthlyLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['monthly_like']);
+		}
+
+		$monthlyMaleLike = array(); // Create monthly male likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$monthlyMaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['monthly_male_like']);
+		}
+
+		$monthlyFemaleLike = array(); // Create monthly female likes array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$monthlyFemaleLike[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['monthly_female_like']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$monthlyLikes = '{
+			"每周用户互动次数":'.preg_replace('/["]/', '' ,json_encode($monthlyLike)).
+			', "每周男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyMaleLike)).
+			', "每周女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyFemaleLike)).
+			'}';
+
+		/*
+		|--------------------------------------------------------------------------
+		| Users Accept Ratio Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$allMaleAcceptRatio = array(); // Create all male accept ratio array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$allMaleAcceptRatio[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['all_male_accept_ratio']);
+		}
+
+		$allFemaleAcceptRatio = array(); // Create all female accept ratio array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$allFemaleAcceptRatio[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['all_female_accept_ratio']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$allUsersAcceptRatio = '{
+			"男生追女生成功比率":'.preg_replace('/["]/', '' ,json_encode($allFemaleAcceptRatio)).
+			', "女生追男生成功比率":'.preg_replace('/["]/', '' ,json_encode($allMaleAcceptRatio)).
+			'}';
+
+		/*
+		|--------------------------------------------------------------------------
+		| Average Like Duration Analytics Section
+		|--------------------------------------------------------------------------
+		|
+		*/
+
+		$averageLikeDuration = array(); // Create average like duration ratio array
+		foreach($analyticsLike as $key){ // Structure array elements
+			$averageLikeDuration[] = array(
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
+				$key['average_like_duration']);
+		}
+
+		// Build Json data (remove double quotes from Json return data)
+		$averageLikeDurations = '{"平均交友历经时长":'.preg_replace('/["]/', '' ,json_encode($averageLikeDuration)).'}';
+
+
+
+		return View::make($this->resourceView.'.like-charts')->with(compact(
+			'basicLikes',
+			'dailyLikes',
+			'weeklyLikes',
+			'monthlyLikes',
+			'allUsersAcceptRatio',
+			'averageLikeDurations'
+		));
 	}
 
 	/**
