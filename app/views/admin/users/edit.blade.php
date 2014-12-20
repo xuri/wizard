@@ -16,13 +16,21 @@
 			<!-- /.row -->
 			<div class="row">
 				<div class="col-lg-12">
+					@include('layout.notification')
+				</div>
+
+				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							用户详细信息编辑
 						</div>
 						<div class="panel-body">
 							<div class="row">
-								<form role="form">
+								{{ Form::open(array(
+									'autocomplete' => 'off',
+									'action'       => 'Admin_UserResource@update',
+									))
+								}}
 									<div class="col-lg-6">
 										<div class="form-group">
 											<label>用户ID：{{ $data->id }}， 注册来源：
@@ -36,12 +44,19 @@
 											</label>
 										</div>
 										<div class="form-group">
-											<label>用户权限类型 </label>
+											@if($data->email)
+											<label>邮箱地址：{{ $data->email }}</label>
+											@else
+											<label>邮箱地址：未设置</label>
+											@endif
+										</div>
+										<div class="form-group">
+											<label>用户权限类型： </label>
 											<label class="radio-inline">
-												<input type="radio" name="optionsRadiosInline" id="optionsRadiosInline1" value="0" checked>普通用户
+												<input type="radio" name="is_admin" id="optionsRadiosInline1" value="0" checked>普通用户
 											</label>
 											<label class="radio-inline">
-												<input type="radio" name="optionsRadiosInline" id="optionsRadiosInline2" value="1">管理员
+												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1">管理员
 											</label>
 										</div>
 										<div class="form-group input-group">
@@ -63,10 +78,6 @@
 											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('nickname', $data->nickname) }}" name="nickname">
 										</div>
 										<div class="form-group input-group">
-											<span class="input-group-addon">邮箱地址</span>
-											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('email', $data->email) }}" name="email">
-										</div>
-										<div class="form-group input-group">
 											<span class="input-group-addon">手机号码</span>
 											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('phone', $data->phone) }}" name="phone">
 										</div>
@@ -85,9 +96,9 @@
 
 										<div class="form-group">
 											<label>性别</label>
-											<select class="form-control">
+											<select class="form-control" name="sex">
 												<option>男</option>
-												<option>女</option>
+												<option value="F">女</option>
 											</select>
 										</div>
 										<a href="{{ route($resource.'.detail', $data->id) }}" class="btn btn-default">查看此用户的好友关系详情</a>
@@ -116,19 +127,19 @@
 										</div>
 										<div class="form-group">
 											<label>爱情宣言</label>
-											<textarea class="form-control" rows="3">{{ Input::old('bio', $data->bio) }}</textarea>
+											<textarea class="form-control" rows="3" name="bio">{{ Input::old('bio', $data->bio) }}</textarea>
 										</div>
 										<div class="form-group">
 											<label>个人爱好</label>
-											<textarea class="form-control" rows="3">{{ Input::old('hobbies', $profile->hobbies) }}</textarea>
+											<textarea class="form-control" rows="3" name="hobbies">{{ Input::old('hobbies', $profile->hobbies) }}</textarea>
 										</div>
 										<div class="form-group">
 											<label>自我介绍</label>
-											<textarea class="form-control" rows="3">{{ Input::old('self_intro', $profile->self_intro) }}</textarea>
+											<textarea class="form-control" rows="3" name="self_intro">{{ Input::old('self_intro', $profile->self_intro) }}</textarea>
 										</div>
 										<div class="form-group">
 											<label>爱情考验问题</label>
-											<textarea class="form-control" rows="3">{{ Input::old('question', $profile->question) }}</textarea>
+											<textarea class="form-control" rows="3" name="question">{{ Input::old('question', $profile->question) }}</textarea>
 										</div>
 										<div class="form-group">
 											<label>向此用户推送系统通知</label>

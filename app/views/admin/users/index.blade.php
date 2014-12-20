@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							{{ $resourceName}}列表
+							{{ $resourceName }}列表
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">

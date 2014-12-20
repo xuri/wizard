@@ -81,7 +81,7 @@ Route::group(array('prefix' => 'auth'), function () {
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'auth.activated'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'auth|auth.activated'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -97,7 +97,7 @@ Route::group(array('prefix' => 'members', 'before' => 'auth.activated'), functio
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'auth.activated'), function () {
+Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'				, array('as' => 'account',					'uses' => $Account.'getIndex'				));
@@ -113,8 +113,6 @@ Route::group(array('prefix' => 'account', 'before' => 'auth.activated'), functio
 	Route::get('inbox'			, array('as' => 'account.inbox',			'uses' => $Account.'getInbox'				));
 	# Notifications center
 	Route::get('notifications'	, array('as' => 'account.notifications',	'uses' => $Account.'getNotifications'		));
-
-
 });
 
 /*
@@ -124,7 +122,7 @@ Route::group(array('prefix' => 'account', 'before' => 'auth.activated'), functio
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'auth.activated'), function () {
+Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Index
@@ -140,7 +138,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'auth.activated'), function 
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'auth.activated|admin'), function () {
+Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin'), function () {
 	$Admin = 'AdminController@';
 	# Admin index
 	Route::get('/'		, array('as' => 'admin', 'uses' => $Admin.'getIndex'));
@@ -153,7 +151,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth.activated|admin'), fun
 		Route::post( 	     '/', array('as' => $resource.'.store'  , 'uses' => $controller.'store'  ));
 		Route::get(	 '{id}/edit', array('as' => $resource.'.edit'   , 'uses' => $controller.'edit'   ))->before('not.self');
 		Route::get('{id}/detail', array('as' => $resource.'.detail' , 'uses' => $controller.'detail' ))->before('not.self');
-		Route::put(		  '{id}', array('as' => $resource.'.update' , 'uses' => $controller.'update' ))->before('not.self');
+		Route::post(	  '{id}', array('as' => $resource.'.update' , 'uses' => $controller.'update' ))->before('not.self');
 		Route::delete( 	  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'))->before('not.self');
 	});
 

@@ -93,12 +93,107 @@ class Admin_UserResource extends BaseResource
 		return View::make($this->resourceView.'.index')->with(compact('datas'));
 	}
 
+	/**
+	 * Edit user profile
+	 * @param  int $id USer ID
+	 * @return Response     View
+	 */
 	public function edit($id) {
 		$data		= $this->model->where('id', $id)->first();
 		$profile	= Profile::where('user_id', $id)->first();
 		return View::make($this->resourceView.'.edit')->with(compact('data', 'profile'));
 	}
 
+	/**
+	 * Resource edit action
+	 * PUT/PATCH   /resource/{id}
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function update($id)
+	{
+		// Get all form data.
+		$data	= Input::all();
+		// Create validation rules
+		$rules	= array(
+			'email'		=> 'email|'.$this->unique('email', $id),
+			'password'	=> 'alpha_dash|between:6,16|confirmed',
+			'is_admin'	=> 'in:1',
+
+		);
+		// Custom validation message
+		$messages	= $this->validatorMessages;
+		// Begin verification
+		$validator	= Validator::make($data, $rules, $messages);
+		if ($validator->passes()) {
+			// Verification success
+			// Update resource
+			$model					= $this->model->find($id);
+			$model->password		= Input::get('password');
+			$model->is_admin		= (int)Input::get('is_admin', 0);
+			$model->created_at		= Input::get('created_at');
+			$model->signin_at		= Input::get('signin_at');
+			$model->nickname		= Input::get('nickname');
+			$model->phone			= Input::get('phone');
+			$model->born_year		= Input::get('born_year');
+			$model->school			= Input::get('school');
+			$model->portrait		= Input::get('portrait');
+			$model->sex				= Input::get('sex');
+			$model->points			= Input::get('points');
+			$model->renew			= Input::get('renew');
+			$model->bio				= Input::get('bio');
+			// Update user profile
+			$profile				= Profile::where('id', $id)->first();
+			$profile->grade			= Input::get('grade');
+			$profile->constellation	= Input::get('constellation');
+			$profile->tag_str		= Input::get('tag_str');
+			$profile->hobbies		= Input::get('hobbies');
+			$profile->self_intro	= Input::get('self_intro');
+			$profile->question		= Input::get('question');
+
+			if ($model->save() && $profile->save()) {
+				// Update success
+				return Redirect::back()
+					->with('success', '<strong>'.$this->resourceName.'更新成功：</strong>您可以继续编辑'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
+			} else {
+				// Update fail
+				return Redirect::back()
+					->withInput()
+					->with('error', '<strong>'.$this->resourceName.'更新失败。</strong>');
+			}
+		} else {
+			// Verification fail
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+	}
+
+	/**
+	 * Resource destory action
+	 * DELETE      /resource/{id}
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		$data		= $this->model->find($id);
+		$profile	= Profile::where('user_id', $id)->first();
+		$portrait	= $this->model->where('id', $id)->first()->portrait;
+		if (is_null($data)) {
+			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
+		}
+		elseif ($data->delete() && $profile->delete()){
+			File::delete(public_path('portrait/'.$portrait));
+			return Redirect::back()->with('success', $this->resourceName.'删除成功。');
+		} else{
+			return Redirect::back()->with('warning', $this->resourceName.'删除失败。');
+		}
+	}
+
+	/**
+	 * User friendly relation details
+	 * @param  int $id User ID
+	 * @return Response     View
+	 */
 	public function detail($id) {
 		$data	= $this->model->where('id', $id)->first();
 		$sends	= Like::where('sender_id', $id)->get();
