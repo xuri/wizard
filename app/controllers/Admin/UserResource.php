@@ -103,7 +103,7 @@ class Admin_UserResource extends BaseResource
 		$data	= $this->model->where('id', $id)->first();
 		$sends	= Like::where('sender_id', $id)->get();
 		$inboxs	= Like::where('receiver_id', $id)->get();
-		$count = 1;
+		$count	= 1;
 		return View::make($this->resourceView.'.detail')->with(compact('data', 'sends', 'inboxs', 'count'));
 	}
 }

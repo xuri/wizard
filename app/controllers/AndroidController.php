@@ -108,10 +108,11 @@ class AndroidController extends BaseController
 					$phone       = Input::get('phone');
 					if ($validator->passes()) {
 						// Verification success, add user
-						$user           = new User;
-						$user->phone    = $phone;
-						$user->from     = 1; // Signup from Android
-						$user->password = md5(Input::get('password'));
+						$user				= new User;
+						$user->phone		= $phone;
+						$user->from			= 1; // Signup from Android
+						$user->activated_at	= date('Y-m-d H:m:s');
+						$user->password		= md5(Input::get('password'));
 						if ($user->save()) {
 							$profile			= new Profile;
 							$profile->user_id	= $user->id;

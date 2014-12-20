@@ -81,7 +81,7 @@ Route::group(array('prefix' => 'auth'), function () {
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'auth'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'auth.activated'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -97,7 +97,7 @@ Route::group(array('prefix' => 'members', 'before' => 'auth'), function () {
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'auth'), function () {
+Route::group(array('prefix' => 'account', 'before' => 'auth.activated'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'				, array('as' => 'account',					'uses' => $Account.'getIndex'				));
@@ -124,7 +124,7 @@ Route::group(array('prefix' => 'account', 'before' => 'auth'), function () {
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'auth'), function () {
+Route::group(array('prefix' => 'forum', 'before' => 'auth.activated'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Index
@@ -140,7 +140,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'auth'), function () {
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'auth|admin'), function () {
+Route::group(array('prefix' => 'admin', 'before' => 'auth.activated|admin'), function () {
 	$Admin = 'AdminController@';
 	# Admin index
 	Route::get('/'		, array('as' => 'admin', 'uses' => $Admin.'getIndex'));
