@@ -12,3 +12,4 @@ public/portrait/*
 public/uploads/*
 # Config
 app/config/database.php
+app/config/mail.php
