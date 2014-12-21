@@ -151,7 +151,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::post( 	     '/', array('as' => $resource.'.store'  , 'uses' => $controller.'store'  ));
 		Route::get(	 '{id}/edit', array('as' => $resource.'.edit'   , 'uses' => $controller.'edit'   ))->before('not.self');
 		Route::get('{id}/detail', array('as' => $resource.'.detail' , 'uses' => $controller.'detail' ))->before('not.self');
-		Route::post(	  '{id}', array('as' => $resource.'.update' , 'uses' => $controller.'update' ))->before('not.self');
+		Route::post( '{id}/edit', array('as' => $resource.'.update' , 'uses' => $controller.'update' ))->before('not.self');
 		Route::delete( 	  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'))->before('not.self');
 	});
 

@@ -59,6 +59,11 @@ class Admin_UserResource extends BaseResource
 		'password.between'		=> '密码长度请保持在:min到:max位之间。',
 		'password.confirmed'	=> '两次输入的密码不一致。',
 		'is_admin.in'			=> '非法输入。',
+		'points.numeric'		=> '积分数格式不正确',
+		'phone.numeric'			=> '手机号码格式不正确',
+		'phone.digits'			=> '手机号码必须是11位数字',
+		'renew.numeric'			=> '签到次数格式不正确',
+		'constellation.numeric'	=> '星座代码格式不正确',
 	);
 
 	/**
@@ -101,12 +106,13 @@ class Admin_UserResource extends BaseResource
 	public function edit($id) {
 		$data		= $this->model->where('id', $id)->first();
 		$profile	= Profile::where('user_id', $id)->first();
-		return View::make($this->resourceView.'.edit')->with(compact('data', 'profile'));
+		$universities = University::get();
+		return View::make($this->resourceView.'.edit')->with(compact('data', 'profile', 'universities'));
 	}
 
 	/**
 	 * Resource edit action
-	 * PUT/PATCH   /resource/{id}
+	 * POST   /resource/{id}
 	 * @param  int  $id
 	 * @return Response
 	 */
@@ -116,10 +122,12 @@ class Admin_UserResource extends BaseResource
 		$data	= Input::all();
 		// Create validation rules
 		$rules	= array(
-			'email'		=> 'email|'.$this->unique('email', $id),
-			'password'	=> 'alpha_dash|between:6,16|confirmed',
-			'is_admin'	=> 'in:1',
-
+			'born_year'		=> 'numeric|digits:4',
+			'points'		=> 'numeric',
+			'phone'			=> 'numeric|digits:11',
+			'grade'			=> 'numeric|digits:4',
+			'renew'			=> 'numeric',
+			'constellation'	=> 'numeric'
 		);
 		// Custom validation message
 		$messages	= $this->validatorMessages;
@@ -129,7 +137,6 @@ class Admin_UserResource extends BaseResource
 			// Verification success
 			// Update resource
 			$model					= $this->model->find($id);
-			$model->password		= Input::get('password');
 			$model->is_admin		= (int)Input::get('is_admin', 0);
 			$model->created_at		= Input::get('created_at');
 			$model->signin_at		= Input::get('signin_at');
@@ -140,18 +147,42 @@ class Admin_UserResource extends BaseResource
 			$model->portrait		= Input::get('portrait');
 			$model->sex				= Input::get('sex');
 			$model->points			= Input::get('points');
-			$model->renew			= Input::get('renew');
 			$model->bio				= Input::get('bio');
 			// Update user profile
-			$profile				= Profile::where('id', $id)->first();
+			$profile				= Profile::where('user_id', $id)->first();
 			$profile->grade			= Input::get('grade');
 			$profile->constellation	= Input::get('constellation');
 			$profile->tag_str		= Input::get('tag_str');
 			$profile->hobbies		= Input::get('hobbies');
 			$profile->self_intro	= Input::get('self_intro');
 			$profile->question		= Input::get('question');
+			$profile->renew			= Input::get('renew');
 
-			if ($model->save() && $profile->save()) {
+			if ($model->save() && $profile->save())
+			{
+				if(Input::get('system_notification'))
+				{
+					$notification							= Notification(8, 0, $id); // System notifications to special user
+					$notificationsContent					= new NotificationsContent;
+					$notificationsContent->notifications_id	= $notification->id;
+					$notificationsContent->content			= Input::get('system_notification');
+					$notificationsContent->save();
+
+					$easemob								= getEasemob();
+					// Push notifications to App client
+					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+							'target_type'	=> 'users',
+							'target'		=> [$id],
+							'msg'			=> ['type' => 'cmd', 'action' => '8'],
+							'from'			=> '0',
+							'ext'			=> ['content' => '系统消息：'.Input::get('system_notification'), 'id' => '0']
+						])
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->send();
+				}
 				// Update success
 				return Redirect::back()
 					->with('success', '<strong>'.$this->resourceName.'更新成功：</strong>您可以继续编辑'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
