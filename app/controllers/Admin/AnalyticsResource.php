@@ -105,7 +105,7 @@ class Admin_AnalyticsResource extends BaseResource
 							'from_android',
 							'from_ios',
 							'created_at'
-						)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
+						)->where('created_at', '>', Carbon::now()->subDays(30))->get()->toArray(); // Retrive analytics data
 
 		/*
 		|--------------------------------------------------------------------------
@@ -346,7 +346,7 @@ class Admin_AnalyticsResource extends BaseResource
 							'all_female_accept_ratio',
 							'average_like_duration',
 							'created_at'
-			)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
+			)->where('created_at', '>', Carbon::now()->subDays(30))->get()->toArray(); // Retrive analytics data
 
 		/*
 		|--------------------------------------------------------------------------
@@ -583,7 +583,7 @@ class Admin_AnalyticsResource extends BaseResource
 							'daily_male_post',
 							'daily_female_post',
 							'created_at'
-			)->orderBy('created_at')->take(31)->get()->toArray(); // Retrive analytics data
+			)->where('created_at', '>', Carbon::now()->subDays(30))->get()->toArray(); // Retrive analytics data
 
 		/*
 		|--------------------------------------------------------------------------
