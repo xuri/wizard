@@ -1,13 +1,10 @@
 # BEGIN
 <IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteBase /
+RewriteBase /~luxurioust/wizard/public/
 RewriteRule ^index\.php$ - [L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule . /index.php [L]
-# xuri.me
-RewriteCond %{HTTP_HOST} ^xuri\.me$
-RewriteRule ^(.*)$ http://www.xuri.me/$1 [L,R=301]
+RewriteRule . /~luxurioust/wizard/public/index.php [L]
 </IfModule>
 # END

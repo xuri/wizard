@@ -1,4 +1,7 @@
 </body>
-{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 {{ HTML::script('assets/js/forum-post.js') }}
+<script type="text/javascript">
+    {{-- Instantiate editor --}}
+    var um = UM.getEditor('create_comment_editor');
+</script>
 </html>

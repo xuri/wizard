@@ -5,11 +5,12 @@
 	"license": "MIT",
 	"type": "project",
 	"require": {
-		"laravel/framework"	: "4.2.*",
-		"intervention/image": "dev-master",
-		"anlutro/curl"		: "dev-master",
-		"jenssegers/date"	: "*",
-		"indatus/dispatcher": "1.4.*"
+		"laravel/framework"		: "4.2.*",
+		"intervention/image"	: "dev-master",
+		"anlutro/curl"			: "dev-master",
+		"jenssegers/date"		: "*",
+		"indatus/dispatcher"	: "1.4.*",
+		"zhuzhichao/umeditor"	: "dev-master"
 	},
 	"autoload": {
 		"classmap": [

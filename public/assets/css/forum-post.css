@@ -464,6 +464,18 @@ textarea.reply_comment_textarea {
 	color: #333;
 }
 
+div#create_comment form {
+	padding: 30px;
+}
+
+div#create_comment form div.edui-container {
+	width: 672px !important;
+}
+
+div#create_comment form div.edui-body-container {
+	width: 652px !important;
+}
+
 input.reply_comment_submit {
 	float: right;
 	margin-right: 30px;
@@ -540,7 +552,6 @@ input.reply_comment_submit {
 	width: 90%;
 	border: 1px solid #d65679;
 	border-radius: 5px;
-	margin: 20px 5% 0px;
 	height: 150px;
 	padding: 3px;
 }

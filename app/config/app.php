@@ -78,7 +78,7 @@ return array(
 	|
 	*/
 
-	'key' => 'YourSecretKey!!!',
+	'key' => 'Y2gLqXfa4AKsmCERAPNPhkKvyYsyfSC5',
 
 	'cipher' => MCRYPT_RIJNDAEL_128,
 
@@ -124,7 +124,7 @@ return array(
 		'Intervention\Image\ImageServiceProvider',
 		'Jenssegers\Date\DateServiceProvider',
 		'Indatus\Dispatcher\ServiceProvider',
-
+		'Zhuzhichao\Umeditor\UmeditorServiceProvider',
 	),
 
 	/*
@@ -191,6 +191,7 @@ return array(
 		'SSH'               => 'Illuminate\Support\Facades\SSH',
 		'Str'               => 'Illuminate\Support\Str',
 		'URL'               => 'Illuminate\Support\Facades\URL',
+		'Umeditor'    	    => 'Zhuzhichao\Umeditor\Umeditor',
 		'Validator'         => 'Illuminate\Support\Facades\Validator',
 		'View'              => 'Illuminate\Support\Facades\View',
 		'cURL' 				=> 'anlutro\cURL\Laravel\cURL',

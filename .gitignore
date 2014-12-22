@@ -9,7 +9,7 @@ composer.lock
 Thumbs.db
 public/.htaccess
 public/portrait/*
-public/uploads/*
+public/upload/*
 # Config
 app/config/database.php
 app/config/mail.php

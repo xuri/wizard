@@ -50,6 +50,8 @@
 						@endforeach
 					</ul>
 
+					{{ $errors->first('title', '<div class="callout-warning">:message</div>') }}
+					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					{{ Form::open(array(
 						'class'			=> 'bbs_bottom',
 						'autocomplete' 	=> 'off',
@@ -61,10 +63,15 @@
 							{{ HTML::image('assets/images/release.png') }}
 							<span>发表新帖</span>
 						</div>
-						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">{{ $errors->first('title', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-						{{ $errors->first('content', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-						<textarea class="bbs_bottom_text" name="content" cols="30" rows="10">{{ Input::old('content') }}</textarea>
-						<input class="bbs_bottom_btn" type="submit" value="发表">
+
+						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<br />
+						<br />
+						<br />
+						{{ Umeditor::css() }}
+						{{ Umeditor::content(Input::old('content'), ['id'=>'cat1_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
+						{{ Umeditor::js() }}
+						{{ Form::submit('发表', array('class' => 'bbs_bottom_btn')) }}
 					{{ Form::close() }}
 
 				</div>
@@ -81,6 +88,8 @@
 
 					</ul>
 
+					{{ $errors->first('title', '<div class="callout-warning">:message</div>') }}
+					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					{{ Form::open(array(
 						'class'			=> 'bbs_bottom',
 						'autocomplete' 	=> 'off',
@@ -92,10 +101,14 @@
 							{{ HTML::image('assets/images/release.png') }}
 							<span>发表新帖</span>
 						</div>
-						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">{{ $errors->first('title', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-						{{ $errors->first('content', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-						<textarea class="bbs_bottom_text" name="content" cols="30" rows="10">{{ Input::old('content') }}</textarea>
-						<input class="bbs_bottom_btn" type="submit" value="发表">
+						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<br />
+						<br />
+						<br />
+						{{ Umeditor::css() }}
+						{{ Umeditor::content(Input::old('content'), ['id'=>'cat2_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
+						{{ Umeditor::js() }}
+						{{ Form::submit('发表', array('class' => 'bbs_bottom_btn')) }}
 					{{ Form::close() }}
 				</div>
 				<div style="display: block;" id="third">
@@ -111,6 +124,8 @@
 						@endforeach
 					</ul>
 
+					{{ $errors->first('title', '<div class="callout-warning">:message</div>') }}
+					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					{{ Form::open(array(
 						'class'			=> 'bbs_bottom',
 						'autocomplete' 	=> 'off',
@@ -122,10 +137,14 @@
 							{{ HTML::image('assets/images/release.png') }}
 							<span>发表新帖</span>
 						</div>
-						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">{{ $errors->first('title', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-						{{ $errors->first('content', '<strong class="error" style="color: #cc0000">:message</strong>') }}
-						<textarea class="bbs_bottom_text" name="content" cols="30" rows="10">{{ Input::old('content') }}</textarea>
-						<input class="bbs_bottom_btn" type="submit" value="发表" />
+						<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<br />
+						<br />
+						<br />
+						{{ Umeditor::css() }}
+						{{ Umeditor::content(Input::old('content'), ['id'=>'cat3_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
+						{{ Umeditor::js() }}
+						{{ Form::submit('发表', array('class' => 'bbs_bottom_btn')) }}
 					{{ Form::close() }}
 
 				</div>

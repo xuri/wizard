@@ -108,7 +108,7 @@
 									<section class="form_box_second">
 										{{ Form::open(array(
 											'autocomplete'	=> 'off',
-											'class'			=> 'reply_inner_form',
+											'class'			=> 'reply_inner_form'
 											))
 										}}
 										<input type="hidden" name="type" value="reply">
@@ -143,9 +143,11 @@
 							'autocomplete' 	=> 'off'
 							))
 						}}
-						<input type="hidden" name="type" value="comments">
-						<textarea class="g-r-value" name="content">{{ Input::old('content') }}</textarea>
-						<input type="submit" value="发表" class="g-replay" id="g-replay" />
+							<input type="hidden" name="type" value="comments">
+							{{ Umeditor::css() }}
+							{{ Umeditor::content(Input::old('content'), ['id'=>'create_comment_editor', 'class'=>'g-r-value', 'name' => 'content', 'height' => '220']) }}
+							{{ Umeditor::js() }}
+							{{ Form::submit('发表', array('class' => 'g-replay', 'id' => 'g-replay')) }}
 						{{ Form::close() }}
 					</div>
 				</div>
