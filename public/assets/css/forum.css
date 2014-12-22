@@ -80,7 +80,7 @@
 }
 
 .bbs_main img {
-	height: 88px;
+	max-height: 300px;
 	margin-right: 12px;
 }
 
