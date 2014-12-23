@@ -75,8 +75,6 @@
 	color: #777978;
 	width: 528px;
 	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 }
 
 .bbs_main img {

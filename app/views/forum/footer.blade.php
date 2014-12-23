@@ -1,9 +1,4 @@
 </body>
+{{ HTML::script('assets/fancybox-2.1.5/jquery.fancybox.pack.js') }}
 {{ HTML::script('assets/js/forum.js') }}
-<script type="text/javascript">
-    {{-- Instantiate editor --}}
-    var um = UM.getEditor('cat1_editor');
-    var um = UM.getEditor('cat2_editor');
-    var um = UM.getEditor('cat3_editor');
-</script>
 </html>

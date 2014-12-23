@@ -1,8 +1,7 @@
 @include('forum.header')
 @yield('content')
 
-	@include('layout.navigation')
-	@yield('content')
+
 
 	<div id="lu_content">
 		<div class="lu_con_title">单身公寓</div>
