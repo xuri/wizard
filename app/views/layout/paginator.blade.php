@@ -3,7 +3,7 @@
 	$trans = $environment->getTranslator();
 	if ($paginator->getLastPage() > 1):
 		/* How many pages need to be shown before and after the current page */
-		$showBeforeAndAfter = 3;
+		$showBeforeAndAfter = 2;
 		/* Current Page */
 		$currentPage = $paginator->getCurrentPage();
 		$lastPage = $paginator->getLastPage();
