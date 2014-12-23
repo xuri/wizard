@@ -52,5 +52,7 @@ var um = UM.getEditor('cat3_editor');
 	externalLinks(); // Delete or comment this line to disable opening external links in new window
 	appendCaption(); // Delete or comment this line to disable caption
 
-	$('.fancybox').fancybox();
+	$('.fancybox').fancybox({
+		arrows : false // Disable fancybox previous and next links showing up
+	});
 })(jQuery);
