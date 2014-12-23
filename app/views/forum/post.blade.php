@@ -163,5 +163,8 @@
 		</div>
 	</div>
 
+	@include('layout.copyright')
+	@yield('content')
+
 @include('forum.post-footer')
 @yield('content')

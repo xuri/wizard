@@ -29,9 +29,14 @@ class ForumController extends BaseController {
 
 	public function getIndex()
 	{
-		$category1 = ForumPost::where('category_id', 1)->orderBy('created_at' , 'desc')->get();
-		$category2 = ForumPost::where('category_id', 2)->orderBy('created_at' , 'desc')->get();
-		$category3 = ForumPost::where('category_id', 3)->orderBy('created_at' , 'desc')->get();
+		$category1 = ForumPost::where('category_id', 1)->orderBy('created_at' , 'desc')->paginate(1);
+		$category2 = ForumPost::where('category_id', 2)->orderBy('created_at' , 'desc')->paginate(1);
+		$category3 = ForumPost::where('category_id', 3)->orderBy('created_at' , 'desc')->paginate(1);
+
+		if (Request::ajax()) {
+            return Response::json(View::make($this->resource.'.index', array('category1' => $category1, 'category2' => $category2, 'category3' => $category3))->render());
+        }
+
 		return View::make($this->resource.'.index')->with(compact('category1', 'category2', 'category3'));
 	}
 

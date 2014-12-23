@@ -590,7 +590,9 @@ a.button-blue {
 	}
 }
 
-.footer {
+div.footer {
+	text-align: center;
+	color: #FFF;
 	width: 100%;
 	height: 20px;
 	padding: 15px 0;
@@ -598,10 +600,8 @@ a.button-blue {
 	position: absolute;
 }
 
-.footer p, .footer a {
-	color: #fff;
+div.footer a {
+	color: #FFF;
 	font-size: 12px;
-	display: block;
 	margin: 0 auto;
-	text-align: center;
 }

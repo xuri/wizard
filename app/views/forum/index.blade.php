@@ -1,7 +1,8 @@
 @include('forum.header')
 @yield('content')
 
-
+	@include('layout.navigation')
+	@yield('content')
 
 	<div id="lu_content">
 		<div class="lu_con_title">单身公寓</div>
@@ -49,6 +50,9 @@
 						@endforeach
 					</ul>
 
+					<div>
+					{{ pagination($category1->appends(Input::except('page')), 'layout.paginator') }}
+					</div>
 					{{ $errors->first('title', '<div class="callout-warning">:message</div>') }}
 					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					{{ Form::open(array(
@@ -158,6 +162,9 @@
 			</div>
 		</div>
 	</div>
+
+	@include('layout.copyright')
+	@yield('content')
 
 @include('forum.footer')
 @yield('content')
