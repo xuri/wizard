@@ -1,4 +1,4 @@
-<ul id="bbs_main_clinic" class="bbs_main">
+<ul id="bbs_main_clinic" class="bbs_main bbs_main_{{ $categoryCode }}">
 	@foreach($items as $post)
 	<li class="bbs_main_boy">
 		<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
@@ -11,29 +11,44 @@
 
 {{ pagination($items->appends(Input::except('page')), 'layout.paginator') }}
 
-{{ Form::open(array(
-	'class'			=> 'bbs_bottom',
-	'autocomplete' 	=> 'off',
-	'action'		=> 'ForumController@postNew'
-	))
-}}
-	<input name="category_id" type="hidden" value="{{ $categoryCode }}" />
-	<div class="bbs_bottom_new lu_left">
-		{{ HTML::image('assets/images/release.png') }}
-		<span>发表新帖</span>
-	</div>
-	<input class="bbs_bottom_title lu_left" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
-	<br />
-	<br />
-	<br />
-	{{ Umeditor::css() }}
-	{{ Umeditor::content(Input::old('content'), ['id'=> $editorCode, 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
-	{{ Umeditor::js() }}
-	{{ Form::submit('发表', array('class' => 'bbs_bottom_btn')) }}
-{{ Form::close() }}
+<script>
+	$(function(){
+	// Open external links in new window
+		var externalLinks = function(){
+			var host = location.host;
 
-{{ HTML::script('assets/js/forum.js') }}
-<script type="text/javascript">
-	// Instantiate editor
-	var um = UM.getEditor('{{ $editorCode }}');
+			$('body').on('click', 'a', function(e){
+				var href = this.href,
+					link = href.replace(/https?:\/\/([^\/]+)(.*)/, '$1');
+
+				if (link != '' && link != host && !$(this).hasClass('fancybox')){
+					window.open(href);
+					e.preventDefault();
+				}
+			});
+		};
+
+		// Append caption after pictures
+		var appendCaption = function(){
+			$('.bbs_main_boy p').each(function(i){
+				var _i = i;
+				$(this).find('img').each(function(){
+					var alt = this.alt;
+
+					if (alt != ''){
+						$(this).after('<span class="caption">'+alt+'</span>');
+					}
+
+					$(this).wrap('<a href="'+this.src+'" title="'+alt+'" class="fancybox" rel="gallery'+_i+'" />');
+				});
+			});
+		};
+
+		externalLinks(); // Delete or comment this line to disable opening external links in new window
+		appendCaption(); // Delete or comment this line to disable caption
+
+		$('.fancybox').fancybox({
+			arrows : false // Disable fancybox previous and next links showing up
+		});
+	});
 </script>

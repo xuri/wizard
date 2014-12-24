@@ -13,9 +13,7 @@
 		</div>
 		<div class="lu_content_box clear">
 
-			@if ($message = Session::get('success'))
-				<div class="callout-warning">{{ $message }}</div>
-			@endif
+			<div id="if_success"></div>
 
 			{{ $errors->first('title', '<div class="callout-warning">:message</div>') }}
 			{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
@@ -41,9 +39,85 @@
 
 					</a>
 				</ul>
-				<div style="display: none;" id="first"></div>
-				<div style="display: none;" id="second"></div>
-				<div style="display: none;" id="third"></div>
+				<div style="display: none;" id="first">
+					<div id="first_inner"></div>
+					<div class="if_error_1"></div>
+
+					{{ Form::open(array(
+						'class'			=> 'bbs_bottom',
+						'autocomplete' 	=> 'off',
+						'action'		=> 'ForumController@postNew'
+						))
+					}}
+						<input name="category_id" type="hidden" value="1" />
+						<div class="bbs_bottom_new lu_left">
+							{{ HTML::image('assets/images/release.png') }}
+							<span>发表新帖</span>
+						</div>
+						<input class="bbs_bottom_title lu_left bbs_bottom_title_1" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<br />
+						<br />
+						<br />
+						{{ Umeditor::css() }}
+						{{ Umeditor::content(Input::old('content'), ['id'=> 'cat1_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
+						{{ Umeditor::js() }}
+						{{ Form::button('发表', array('class' => 'bbs_bottom_btn bbs_bottom_btn_1', 'data-action-id' => '1')) }}
+					{{ Form::close() }}
+
+					{{ HTML::script('assets/js/forum.js') }}
+				</div>
+				<div style="display: none;" id="second">
+					<div id="second_inner"></div>
+					<div class="if_error_2"></div>
+
+					{{ Form::open(array(
+						'class'			=> 'bbs_bottom',
+						'autocomplete' 	=> 'off',
+						'action'		=> 'ForumController@postNew'
+						))
+					}}
+						<input name="category_id" type="hidden" value="2" />
+						<div class="bbs_bottom_new lu_left">
+							{{ HTML::image('assets/images/release.png') }}
+							<span>发表新帖</span>
+						</div>
+						<input class="bbs_bottom_title lu_left bbs_bottom_title_2" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<br />
+						<br />
+						<br />
+						{{ Umeditor::css() }}
+						{{ Umeditor::content(Input::old('content'), ['id'=> 'cat2_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
+						{{ Umeditor::js() }}
+						{{ Form::button('发表', array('class' => 'bbs_bottom_btn bbs_bottom_btn_2', 'data-action-id' => '2')) }}
+					{{ Form::close() }}
+
+				</div>
+				<div style="display: none;" id="third">
+					<div id="third_inner"></div>
+					<div class="if_error_3"></div>
+
+					{{ Form::open(array(
+						'class'			=> 'bbs_bottom',
+						'autocomplete' 	=> 'off',
+						'action'		=> 'ForumController@postNew'
+						))
+					}}
+						<input name="category_id" type="hidden" value="3" />
+						<div class="bbs_bottom_new lu_left">
+							{{ HTML::image('assets/images/release.png') }}
+							<span>发表新帖</span>
+						</div>
+						<input class="bbs_bottom_title lu_left bbs_bottom_title_3" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<br />
+						<br />
+						<br />
+						{{ Umeditor::css() }}
+						{{ Umeditor::content(Input::old('content'), ['id'=> 'cat3_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
+						{{ Umeditor::js() }}
+						{{ Form::button('发表', array('class' => 'bbs_bottom_btn', 'data-action-id' => '3')) }}
+					{{ Form::close() }}
+
+				</div>
 			</div>
 
 			<div class="lu_content_right">

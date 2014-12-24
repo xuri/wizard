@@ -90,18 +90,29 @@ class ForumController extends BaseController {
 			$post->content		= Input::get('content');
 			if($post->save())
 			{
-				return Redirect::back()
-					->with('success', '发帖成功。');
+				return Response::json(
+					array(
+						'success'		=> true,
+						'success_info'	=> '发帖成功！',
+						'post_content'	=> Input::get('content'),
+						'post_id'		=> $post->id,
+						'post_title'	=> Input::get('title'),
+						'post_comments'	=> ForumComments::where('post_id', $post->id)->count(),
+						'post_created'	=> date("H:m",strtotime($post->created_at))
+					)
+				);
 			} else {
 				return Redirect::back()
 					->withInput()
 					->with('error', '发帖失败，请重试。');
 			}
 		} else {
-			// Validation fail
-			return Redirect::back()
-				->withInput()
-				->withErrors($validator);
+			return Response::json(
+					array(
+						'fail'      => true,
+						'errors'    => $validator->getMessageBag()->toArray()
+					)
+				);
 		}
 	}
 
