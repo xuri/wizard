@@ -12,7 +12,7 @@
 {{ pagination($items->appends(Input::except('page')), 'layout.paginator') }}
 
 <script>
-	$(function(){
+	(function(){
 	// Open external links in new window
 		var externalLinks = function(){
 			var host = location.host;

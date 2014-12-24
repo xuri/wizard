@@ -90,8 +90,8 @@ $(function(){
 
 	// 3.
 	$('#first_inner').load(firstAjaxURL + '?page=1');
-	$('#second_inner').load(firstAjaxURL + '?page=1');
-	$('#third_inner').load(firstAjaxURL + '?page=1');
+	$('#second_inner').load(secondAjaxURL + '?page=1');
+	$('#third_inner').load(thirdAjaxURL + '?page=1');
 
 
 	// Ajax post section
