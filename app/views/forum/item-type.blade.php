@@ -34,6 +34,7 @@
 	{{ Form::submit('发表', array('class' => 'bbs_bottom_btn')) }}
 {{ Form::close() }}
 
+{{ HTML::script('assets/js/forum.js') }}
 <script type="text/javascript">
 	// Instantiate editor
 	var um = UM.getEditor('{{ $editorCode }}');
