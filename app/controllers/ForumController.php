@@ -29,15 +29,35 @@ class ForumController extends BaseController {
 
 	public function getIndex()
 	{
-		$category1 = ForumPost::where('category_id', 1)->orderBy('created_at' , 'desc')->paginate(1);
-		$category2 = ForumPost::where('category_id', 2)->orderBy('created_at' , 'desc')->paginate(1);
-		$category3 = ForumPost::where('category_id', 3)->orderBy('created_at' , 'desc')->paginate(1);
+		return View::make($this->resource.'.index');
+	}
 
-		if (Request::ajax()) {
-            return Response::json(View::make($this->resource.'.index', array('category1' => $category1, 'category2' => $category2, 'category3' => $category3))->render());
-        }
+	/**
+	 * getForumType Multi Pagination in a Single Page
+	 * @param  string $type Category kind
+	 * @return Return       Ajax
+	 */
+	public function getForumType($type)
+	{
+		$items_per_page = Input::get('per_pg', 10);
 
-		return View::make($this->resource.'.index')->with(compact('category1', 'category2', 'category3'));
+		if ($type == 'first') {
+			$items = ForumPost::where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$categoryCode = 1;
+			$editorCode = 'cat1_editor';
+		} else if ($type == 'second'){
+			$items = ForumPost::where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$categoryCode = 2;
+			$editorCode = 'cat2_editor';
+		} else {
+			$items = ForumPost::where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$categoryCode = 3;
+			$editorCode = 'cat3_editor';
+		}
+
+		$view = View::make($this->resource.'.item-type')->with(compact('categoryCode', 'items', 'editorCode'));
+		return $view;
+		exit;
 	}
 
 	/**

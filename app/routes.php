@@ -130,6 +130,8 @@ Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated'), func
 	Route::post('/'				, $controller.'postNew');
 	Route::get('{id}'			, array('as' => $resource.'.show',					'uses' => $controller.'getShow'		));
 	Route::post('{id}'			, $controller.'postComment');
+	# Forum Type
+	Route::get('/ajax/{type}'	, array('as' => $resource.'.type',					'uses' => $controller.'getForumType' ))->where('type', 'first|second|third');
 });
 
 /*
