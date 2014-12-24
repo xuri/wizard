@@ -14,20 +14,20 @@
  *
  */
 
-// Forum top tab control
+	// Forum top tab control
 
-(function($){
-	// Tab
-	var tabContainers = $('div.tabs > div');
-	tabContainers.hide().filter(':first').show();
+	(function($){
+		// Tab
+		var tabContainers = $('div.tabs > div');
+		tabContainers.hide().filter(':first').show();
 
-	$('div.tabs ul.tabNavigation a').click(function () {
-		tabContainers.hide();
-		tabContainers.filter(this.hash).show();
-		$('div.tabs ul.tabNavigation a').removeClass('active');
-		$(this).addClass('active');
-		return false;
-	}).filter(':first').click();
+		$('div.tabs ul.tabNavigation a').click(function () {
+			tabContainers.hide();
+			tabContainers.filter(this.hash).show();
+			$('div.tabs ul.tabNavigation a').removeClass('active');
+			$(this).addClass('active');
+			return false;
+		}).filter(':first').click();
 
 	// Open external links in new window
 	var externalLinks = function(){

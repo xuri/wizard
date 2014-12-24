@@ -17,6 +17,9 @@
 				<div class="callout-warning">{{ $message }}</div>
 			@endif
 
+			{{ $errors->first('title', '<div class="callout-warning">:message</div>') }}
+			{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
+
 			<div id="bbs_content_main" class="tabs lu_content_main clear">
 				<ul class="tabNavigation bbs_tab">
 					<a class="lu_left active" href="#first">

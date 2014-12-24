@@ -11,8 +11,6 @@
 
 {{ pagination($items->appends(Input::except('page')), 'layout.paginator') }}
 
-{{ $errors->first('title', '<div class="callout-warning">:message</div>') }}
-{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 {{ Form::open(array(
 	'class'			=> 'bbs_bottom',
 	'autocomplete' 	=> 'off',
