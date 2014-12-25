@@ -12,7 +12,10 @@
 	var firstAjaxURL 					= '{{ route("forum.type", "first") }}';
 	var secondAjaxURL 					= '{{ route("forum.type", "second") }}';
 	var thirdAjaxURL 					= '{{ route("forum.type", "third") }}';
-
+	// Fancybox
+	$('.fancybox').fancybox({
+		arrows : false // Disable fancybox previous and next links showing up
+	});
 </script>
 {{ HTML::script('assets/js/forum.js') }}
 </html>

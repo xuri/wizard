@@ -14,10 +14,9 @@
  *
  */
 
-// Forum top tab control
-
 $(function(){
-	// Tab
+
+	// Forum top tab control
 	var tabContainers = $('div.tabs > div');
 	tabContainers.hide().filter(':first').show();
 
@@ -30,7 +29,6 @@ $(function(){
 	}).filter(':first').click();
 
 	// jQuery Ajax Multi Pagination
-
 
 	// 1.
 	function getPaginationSelectedPage(url) {
