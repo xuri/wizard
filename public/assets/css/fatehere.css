@@ -332,7 +332,9 @@ div.footer {
 	height: 20px;
 	padding: 15px 0;
 	background: #ef698a;
-	position: absolute;
+	float: left;
+	margin: 5em 0 0 0;
+	display: inline;
 }
 
 div.footer a {
