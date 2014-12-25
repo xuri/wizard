@@ -18,17 +18,17 @@
 
 	$('.bbs_bottom_btn').click(function(){ // Post submit onclick event
 		var categoryId = $(this).data('action-id'); // Get category ID attribute
-
-		if(categoryId == 1) { // Get umeditor content HTML
+		// Get umeditor content HTML
+		if(categoryId == 1) {
 			umContent	= um1.getContent();
 		} else if (categoryId == 2) {
 			umContent	= um2.getContent();
 		} else if (categoryId == 3) {
 			umContent	= um3.getContent();
 		}
-		alert(umContent);
-		stop();
-		var formData = { // Ajax post data
+
+		// Ajax post data
+		var formData = {
 			title 		: $('input.bbs_bottom_title_' + categoryId).val(), // Get post title
 			content 	: umContent, // Get post content
 			category_id : categoryId, // Get post category
