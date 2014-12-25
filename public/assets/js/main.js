@@ -94,11 +94,11 @@ window.onload=function(){
 	 *
 	 */
 
-    function scrollFunc(e){ 
+    function scrollFunc(e){
         var direct=0;
         e=e || window.event;
-        getPaper(); 
-        if(e.wheelDelta){//IE/Opera/Chrome 
+        getPaper();
+        if(e.wheelDelta){//IE/Opera/Chrome
             moveNum=e.wheelDelta;
             if(moveNum>0){
             	if(paperNum!=6){
@@ -115,15 +115,15 @@ window.onload=function(){
             }else{
             	if(paperNum!=5){
 	            	scroll(paperNum+1);
-	            	if(paperNum<3){	
+	            	if(paperNum<3){
 	            		aFn[paperNum]();
 	            	}else{}
 	            	toStop(paperNum+1);
 	            	return false;
             	}
             }
-        }else if(e.detail){//Firefox 
-            moveNum=e.detail; 
+        }else if(e.detail){//Firefox
+            moveNum=e.detail;
             if(moveNum<0){
             	if(paperNum!=6){
             		scroll(paperNum-1);
@@ -136,26 +136,26 @@ window.onload=function(){
             }else{
             	if(paperNum!=5){
 	            	scroll(paperNum+1);
-	            	if(paperNum<3){	
+	            	if(paperNum<3){
 	            		aFn[paperNum]();
 	            	}
 	            	toStop(paperNum+1);
 	            	e.preventDefault();
             	}
             }
-        } 
-    } 
-
-
-
-
-    /*注册事件*/ 
-    if(document.addEventListener){ 
-        document.addEventListener('DOMMouseScroll',scrollFunc,false); 
+        }
     }
-    document.onmousewheel=scrollFunc;//IE/Opera/Chrome/Safari 
 
-    
+
+
+
+    /*注册事件*/
+    if(document.addEventListener){
+        document.addEventListener('DOMMouseScroll',scrollFunc,false);
+    }
+    document.onmousewheel=scrollFunc;//IE/Opera/Chrome/Safari
+
+
     getPaper();
     if(paperNum<4){
     	aFn[paperNum-1]();
@@ -165,7 +165,7 @@ window.onload=function(){
 	function stopDefault(e) {
 	    var event = e||window.event;
 	    if (event.preventDefault) {
-	        event.preventDefault(); 
+	        event.preventDefault();
 	    } else {
 	        event.returnValue = false;
 	    }
@@ -174,10 +174,10 @@ window.onload=function(){
     /**
 	 *阻止鼠标滚动事件。
      */
-	var stop=function(e){ 
+	var stop=function(e){
 	    e=e || window.event;
 	    e.preventDefault();
-	    return false; 
+	    return false;
 	}
     function toStop(num){
     	var oTimer=null;
@@ -193,19 +193,19 @@ window.onload=function(){
 	    			oTop=document.body.scrollTop;
 	    		}
 		      	if(oTop==obj.offsetTop){
-	      		    if(document.addEventListener){ 
+	      		    if(document.addEventListener){
 	      		    	document.removeEventListener('DOMMouseScroll',stop,false);
-	   					document.addEventListener('DOMMouseScroll',scrollFunc,false); 
+	   					document.addEventListener('DOMMouseScroll',scrollFunc,false);
 					}
 					document.onmousewheel=scrollFunc;
 					clearInterval(oTimer);
 	    		}else{
 	      		    if(document.addEventListener){
-	   					document.removeEventListener('DOMMouseScroll',scrollFunc,false); 
+	   					document.removeEventListener('DOMMouseScroll',scrollFunc,false);
 	   					document.addEventListener('DOMMouseScroll',stop,false);
 					}
-					document.onmousewheel=stop;	
-		    	}		
+					document.onmousewheel=stop;
+		    	}
 	    	},1)
     	}
     }

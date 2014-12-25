@@ -24,7 +24,7 @@
 			<p>聘则为妻，妻者，夫之爱也</p>
 			<p>爱，生活也</p>
 		</div>
-		{{ HTML::image('assets/images/girl.png', 'alt content', array('id' => 'girl')); }}
+		{{ HTML::image('assets/images/girl.png', 'alt content', array('id' => 'girl')) }}
 	</div>
 	<div class="content_4" id="4">
 		{{ HTML::image('assets/images/love.png'); }}
@@ -34,15 +34,16 @@
 		</div>
 	</div>
 	<div class="content_5" id="5">
+
 		<div class="content_5_div">
+			<center style="margin: 5em 0;">{{ HTML::image('assets/images/app_download.png') }}</center>
 			<a class="android left" href="#"><i class="fa fa-android"></i> &nbsp;安卓客户端下载</a>
 			<a class="ios right" href="#"><i class="fa fa-apple"></i> &nbsp;苹果客户端下载</a>
 			<a href="{{ route('members.index') }}" class="EPS"><i class="fa fa-smile-o"></i> &nbsp;立即体验</a>
 		</div>
+
+		@include('layout.copyright')
+		@yield('content')
 	</div>
-
-	@include('layout.copyright')
-	@yield('content')
-
 @include('layout.footer')
 @yield('content')

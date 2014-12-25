@@ -71,7 +71,7 @@ class MemberController extends BaseController {
 	 */
 	public function index()
 	{
-		$datas = User::whereNotNull('portrait')->orderBy('created_at', 'desc')->paginate(1);
+		$datas = User::whereNotNull('portrait')->orderBy('created_at', 'desc')->paginate(10);
 
 		// AJAX Pagination with jQuery
 
