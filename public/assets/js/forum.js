@@ -14,9 +14,80 @@
  *
  */
 
-// Forum top tab control
+	// Ajax post section
 
-$(function(){
+	$('.bbs_bottom_btn').click(function(){ // Post submit onclick event
+		var categoryId = $(this).data('action-id'); // Get category ID attribute
+
+		if(categoryId == 1) { // Get umeditor content HTML
+			umContent	= um1.getContent();
+		} else if (categoryId == 2) {
+			umContent	= um2.getContent();
+		} else if (categoryId == 3) {
+			umContent	= um3.getContent();
+		}
+		alert(umContent);
+		stop();
+		var formData = { // Ajax post data
+			title 		: $('input.bbs_bottom_title_' + categoryId).val(), // Get post title
+			content 	: umContent, // Get post content
+			category_id : categoryId, // Get post category
+			_token 		: csrfToken, // CSRF token
+		};
+
+		// Process ajax request
+		$.ajax({
+			url 	: forumControllerPostNewAction, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData, // our data object
+		}).done(function(data) {
+
+			// here we will handle errors and validation messages
+			if ( ! data.success) {
+
+				// Handle errors
+				if (data.errors) {
+					if (data.errors.title) {
+						var title_error =  data.errors.title; // This error exist
+					} else {
+						var title_error = ""; // This error not exist
+					}
+					if (data.errors.content) {
+						var content_error =  data.errors.content; // This error exist
+					} else {
+						var content_error = ""; // This error not exist
+					}
+					$('.if_error_' + categoryId).html('<div class="callout-warning">' + title_error + content_error + '</div>'); // Add the actual error message under our input
+				}
+
+			} else { // Ajax success
+				// Ajax prepend new post in current tab
+				$('ul.bbs_main_' + categoryId).prepend('<li class="bbs_main_boy"><a href="' + forumShowRoute + data.post_id + '" target="_blank">' + data.post_title + '</a><p>' + data.post_content + '</p><span class="bbs_main_look">' + data.post_comments + '</span><span class="bbs_main_time">' + data.post_created + '</span></li>');
+				// Flush old error messages
+				if($('.callout-warning')) {
+					$('.callout-warning').remove();
+				}
+				// Handle suucess message
+				$('#if_success').html('<div class="callout-warning">' + data.success_info + '</div>');
+				// Scroll top after post success
+				$('html, body').animate({ scrollTop: 0 }, 600);
+				// Remove post title input tag value
+				$('input.bbs_bottom_title_' + categoryId).val("");
+				// Remove post editor content
+				if(categoryId == 1) {
+					umset		= um1.setContent('');
+				} else if (categoryId == 2) {
+					umset		= um2.setContent('');
+				} else if (categoryId == 3) {
+					umset		= um3.setContent('');
+				}
+			}
+
+		});
+	});
+
+	// Forum top tab control
+
 	// Tab
 	var tabContainers = $('div.tabs > div');
 	tabContainers.hide().filter(':first').show();
@@ -88,81 +159,9 @@ $(function(){
 		});
 	});
 
-	// 3.
-	$('#first_inner').load(firstAjaxURL + '?page=1');
-	$('#second_inner').load(secondAjaxURL + '?page=1');
-	$('#third_inner').load(thirdAjaxURL + '?page=1');
-
-
-	// Ajax post section
-
-	$('.bbs_bottom_btn').click(function(){ // Post submit onclick event
-		var categoryId = $(this).data('action-id'); // Get category ID attribute
-
-		if(categoryId == 1) { // Get umeditor content HTML
-			umContent	= um1.getContent();
-		} else if (categoryId == 2) {
-			umContent	= um2.getContent();
-		} else if (categoryId == 3) {
-			umContent	= um3.getContent();
-		}
-
-		var formData = { // Ajax post data
-			title 		: $('input.bbs_bottom_title_' + categoryId).val(), // Get post title
-			content 	: umContent, // Get post content
-			category_id : categoryId, // Get post category
-			_token 		: csrfToken, // CSRF token
-		};
-
-		// Process ajax request
-		$.ajax({
-			url 	: forumControllerPostNewAction, // the url where we want to POST
-			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
-			data 	: formData, // our data object
-		}).done(function(data) {
-
-			// here we will handle errors and validation messages
-			if ( ! data.success) {
-
-				// Handle errors
-				if (data.errors) {
-					if (data.errors.title) {
-						var title_error =  data.errors.title; // This error exist
-					} else {
-						var title_error = ""; // This error not exist
-					}
-					if (data.errors.content) {
-						var content_error =  data.errors.content; // This error exist
-					} else {
-						var content_error = ""; // This error not exist
-					}
-					$('.if_error_' + categoryId).html('<div class="callout-warning">' + title_error + content_error + '</div>'); // Add the actual error message under our input
-				}
-
-			} else { // Ajax success
-				// Ajax prepend new post in current tab
-				$('ul.bbs_main_' + categoryId).prepend('<li class="bbs_main_boy"><a href="' + forumShowRoute + data.post_id + '" target="_blank">' + data.post_title + '</a><p>' + data.post_content + '</p><span class="bbs_main_look">' + data.post_comments + '</span><span class="bbs_main_time">' + data.post_created + '</span></li>');
-				// Flush old error messages
-				if($('.callout-warning')) {
-					$('.callout-warning').remove();
-				}
-				// Handle suucess message
-				$('#if_success').html('<div class="callout-warning">' + data.success_info + '</div>');
-				// Scroll top after post success
-				$('html, body').animate({ scrollTop: 0 }, 600);
-				// Remove post title input tag value
-				$('input.bbs_bottom_title_' + categoryId).val("");
-				// Remove post editor content
-				if(categoryId == 1) {
-					umset		= um1.setContent('');
-				} else if (categoryId == 2) {
-					umset		= um2.setContent('');
-				} else if (categoryId == 3) {
-					umset		= um3.setContent('');
-				}
-			}
-
-		});
+	$(function(){
+		// 3.
+		$('#first_inner').load(firstAjaxURL + '?page=1');
+		$('#second_inner').load(secondAjaxURL + '?page=1');
+		$('#third_inner').load(thirdAjaxURL + '?page=1');
 	});
-
-});

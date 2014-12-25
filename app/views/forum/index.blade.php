@@ -64,7 +64,6 @@
 						{{ Form::button('发表', array('class' => 'bbs_bottom_btn bbs_bottom_btn_1', 'data-action-id' => '1')) }}
 					{{ Form::close() }}
 
-					{{ HTML::script('assets/js/forum.js') }}
 				</div>
 				<div style="display: none;" id="second">
 					<div id="second_inner"></div>
@@ -114,7 +113,7 @@
 						{{ Umeditor::css() }}
 						{{ Umeditor::content(Input::old('content'), ['id'=> 'cat3_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
 						{{ Umeditor::js() }}
-						{{ Form::button('发表', array('class' => 'bbs_bottom_btn', 'data-action-id' => '3')) }}
+						{{ Form::button('发表', array('class' => 'bbs_bottom_btn bbs_bottom_btn_3', 'data-action-id' => '3')) }}
 					{{ Form::close() }}
 
 				</div>
