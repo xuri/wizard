@@ -10,8 +10,10 @@
 </ul>
 
 {{ pagination($items->appends(Input::except('page')), 'layout.paginator') }}
-{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
+
 <script>
+	// Fancybox
+
 	// Open external links in new window
 	var externalLinks = function(){
 		var host = location.host;
@@ -45,4 +47,7 @@
 
 	externalLinks(); // Delete or comment this line to disable opening external links in new window
 	appendCaption(); // Delete or comment this line to disable caption
+	$('.fancybox').fancybox({
+		arrows : false // Disable fancybox previous and next links showing up
+	});
 </script>
