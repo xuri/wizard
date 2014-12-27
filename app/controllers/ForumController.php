@@ -42,17 +42,17 @@ class ForumController extends BaseController {
 		$items_per_page = Input::get('per_pg', 10);
 
 		if ($type == 'first') {
-			$items = ForumPost::where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
-			$categoryCode = 1;
-			$editorCode = 'cat1_editor';
+			$items			= ForumPost::where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$categoryCode	= 1;
+			$editorCode		= 'cat1_editor';
 		} else if ($type == 'second'){
-			$items = ForumPost::where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
-			$categoryCode = 2;
-			$editorCode = 'cat2_editor';
+			$items			= ForumPost::where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$categoryCode	= 2;
+			$editorCode		= 'cat2_editor';
 		} else {
-			$items = ForumPost::where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
-			$categoryCode = 3;
-			$editorCode = 'cat3_editor';
+			$items			= ForumPost::where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$categoryCode	= 3;
+			$editorCode		= 'cat3_editor';
 		}
 
 		$view = View::make($this->resource.'.item-type')->with(compact('categoryCode', 'items', 'editorCode'));
@@ -124,7 +124,7 @@ class ForumController extends BaseController {
 	{
 		$data		= ForumPost::where('id', $id)->first();
 		$author		= User::where('id', $data->user_id)->first();
-		$comments	= ForumComments::where('post_id', $id)->paginate(1);
+		$comments	= ForumComments::where('post_id', $id)->orderBy('created_at' , 'desc')->paginate(10);
 		$floor		= 2;
 
 		if (Request::ajax()) {
@@ -165,18 +165,27 @@ class ForumController extends BaseController {
 				$comment->floor		= ForumComments::where('post_id', $id)->count() + 2; // Calculate this comment in which floor
 				if($comment->save())
 				{
-					return Redirect::back()
-						->with('success', '评论成功。');
+					return Response::json(
+						array(
+							'success'		=> true,
+							'success_info'	=> '评论成功'
+						)
+					);
 				} else {
-					return Redirect::back()
-						->withInput()
-						->with('error', '评论失败，请重试。');
+					return Response::json(
+						array(
+							'fail'      => true
+						)
+					);
 				}
 			} else {
 				// Validation fail
-				return Redirect::back()
-					->withInput()
-					->withErrors($validator);
+				return Response::json(
+					array(
+						'fail'      => true,
+						'errors'    => $validator->getMessageBag()->toArray()
+					)
+				);
 			}
 		} else { // Post reply
 

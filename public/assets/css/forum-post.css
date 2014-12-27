@@ -318,7 +318,14 @@
 	width: 732px;
 	margin-bottom: 20px;
 }
-
+.message-re p {
+	margin-top: 9px;
+	color: #777978;
+	width: 528px;
+	font-size: 14px;
+	line-height: 2em;
+	overflow: hidden;
+}
 .guest .g-d {
 	border-bottom: 1px solid #ededed;
 }
@@ -374,6 +381,59 @@
 	font-size: 14px;
 	color: #777978;
 	line-height: 20px;
+}
+button.bbs_bottom {
+	width: 668px;
+	padding: 30px;
+	margin: 20px 0 40px 0;
+	border: 1px solid #e5e5e5;
+	border-radius: 5px;
+}
+
+.bbs_bottom_new {
+	margin-top: 8px;
+	height: 16px;
+	line-height: 16px;
+}
+
+.bbs_bottom_new span {
+	color: #808180;
+	font-size: 14px;
+}
+
+.bbs_bottom_title {
+	margin-left: 54px;
+	width: 520px;
+	height: 28px;
+	color: #333;
+	font-size: 14px;
+	padding-left: 5px;
+	border: 1px solid #c6c3c4;
+	border-radius: 3px;
+}
+
+.bbs_bottom_text {
+	margin-top: 14px;
+	width: 664px;
+	height: 220px;
+	border: 1px solid #d6d4d5;
+	border-radius: 5px;
+}
+
+.bbs_bottom_btn {
+	width: 64px;
+	height: 28px;
+	background: #ed5565;
+	margin-top: 16px;
+	margin-left: 600px;
+	color: #ffffff;
+	font-size: 16px;
+	border: none;
+	border-radius: 3px;
+}
+
+.bbs_bottom_btn:hover {
+	background: #f95a6b;
 }
 
 .re-headImg img {
@@ -566,21 +626,6 @@ input.reply_comment_submit {
 	float: left;
 	line-height: 19px;
 	width: 380px;
-}
-
-.g-replay {
-	width: 40px;
-	height: 20px;
-	color: #fff;
-	text-align: center;
-	line-height: 20px;
-	background: #ed5565;
-	border: 1px solid #ed5565;
-	border-radius: 3px;
-	float: right;
-	margin: 10px 5% 10px 0;
-	cursor: pointer;
-	box-shadow: 1px 1px 0 #c2c2c2;
 }
 
 .g-r-value {

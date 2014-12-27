@@ -1,34 +1,25 @@
 // By luxurioust use jQuery
 
-$(window).on('hashchange', function() {
-        if (window.location.hash) {
-            var page = window.location.hash.replace('#', '');
-            if (page == Number.NaN || page <= 0) {
-                return false;
-            } else {
-                getPosts(page);
-            }
-        }
-    });
 
-    $(document).ready(function() {
-        $(document).on('click', '.lu_paging a', function (e) {
-            getPosts($(this).attr('href').split('page=')[1]);
-            e.preventDefault();
-        });
-    });
+// Ajax pagination
 
-    function getPosts(page) {
-        $.ajax({
-            url : '?page=' + page,
-            dataType: 'json',
-        }).done(function (data) {
-            $('#post-ajax').html(data);
-            location.hash = page;
-        }).fail(function () {
-            alert('Posts could not be loaded.');
-        });
-    }
+$(function() {
+	$('#post-ajax').on('click', '.lu_paging a', function (e) {
+		getPosts($(this).attr('href').split('page=')[1]);
+		e.preventDefault();
+	});
+});
+
+function getPosts(page) {
+	$.ajax({
+		url : '?page=' + page,
+		dataType: 'json',
+	}).done(function (data) {
+		$('#post-ajax').html(data);
+	}).fail(function () {
+		alert('Posts could not be loaded.');
+	});
+}
 
 // Leave comment for this post href jump
 
@@ -125,9 +116,9 @@ var um = UM.getEditor('create_comment_editor');
 			$(this).find('img').each(function(){
 				var alt = this.alt;
 
-				if (alt != ''){
-					$(this).after('<span class="caption">'+alt+'</span>');
-				}
+				// if (alt != ''){
+				// 	$(this).after('<span class="caption">'+alt+'</span>');
+				// }
 
 				$(this).wrap('<a href="'+this.src+'" title="'+alt+'" class="fancybox" rel="gallery'+_i+'" />');
 			});
@@ -140,4 +131,53 @@ var um = UM.getEditor('create_comment_editor');
 	$('.fancybox').fancybox({
 		arrows : false // Disable fancybox previous and next links showing up
 	});
+
+
+	$('.g-replay').click(function(){ // Post submit onclick event
+
+		// Ajax post data
+		var formData = {
+			content 	: um.getContent(), // Get post content
+			_token 		: csrfToken, // CSRF token
+			type : 'comments'
+		};
+		// Process ajax request
+		$.ajax({
+			url 	: forumControllerPostCommentAction, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData, // our data object
+		}).done(function(data) {
+
+			// Here we will handle errors and validation messages
+			if ( ! data.success) {
+
+				// Handle errors
+				if (data.errors.content) {
+					$('.if_error').html('<div class="callout-warning">' + data.errors.content + '</div>'); // Add the actual error message under our input
+				}
+
+			} else { // Ajax success
+
+				// Flush old error messages
+				if($('.callout-warning')) {
+					$('.callout-warning').remove();
+				}
+				// Handle suucess message
+				$('#if_success').html('<div class="callout-warning">' + data.success_info + '</div>');
+				// Scroll top after post success
+				$('html, body').animate({ scrollTop: 0 }, 600);
+				// Remove post editor content
+				um.setContent('');
+				// Ajax reload new post in current tab
+				location.reload();
+			}
+
+		});
+	});
+
 })(jQuery);
+
+
+
+
+

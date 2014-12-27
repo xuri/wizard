@@ -13,6 +13,8 @@
 		</div>
 		<div class="lu_content_box clear">
 
+			<div id="if_success"></div>
+
 			@if ($message = Session::get('success'))
 				<div class="callout-warning">{{ $message }}</div>
 			@endif
@@ -130,6 +132,9 @@
 
 				{{ pagination($comments->appends(Input::except('page')), 'layout.paginator') }}
 				</div>
+
+				<div class="if_error"></div>
+
 				<div class="g-box clear" id="create_comment">
 					<a class="color">发表评论</a>
 					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
@@ -142,7 +147,7 @@
 							{{ Umeditor::css() }}
 							{{ Umeditor::content(Input::old('content'), ['id'=>'create_comment_editor', 'class'=>'g-r-value', 'name' => 'content', 'height' => '220']) }}
 							{{ Umeditor::js() }}
-							{{ Form::submit('发表', array('class' => 'g-replay', 'id' => 'g-replay')) }}
+							{{ Form::button('发表', array('class' => 'g-replay bbs_bottom_btn bbs_bottom_btn', 'id' => 'g-replay')) }}
 						{{ Form::close() }}
 					</div>
 				</div>
