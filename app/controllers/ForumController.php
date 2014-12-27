@@ -98,7 +98,7 @@ class ForumController extends BaseController {
 						'post_id'		=> $post->id,
 						'post_title'	=> Input::get('title'),
 						'post_comments'	=> ForumComments::where('post_id', $post->id)->count(),
-						'post_created'	=> date("H:m",strtotime($post->created_at))
+						'post_created'	=> date("m-d H:m",strtotime($post->created_at))
 					)
 				);
 			} else {
@@ -124,8 +124,13 @@ class ForumController extends BaseController {
 	{
 		$data		= ForumPost::where('id', $id)->first();
 		$author		= User::where('id', $data->user_id)->first();
-		$comments	= ForumComments::where('post_id', $id)->get();
+		$comments	= ForumComments::where('post_id', $id)->paginate(1);
 		$floor		= 2;
+
+		if (Request::ajax()) {
+            return Response::json(View::make($this->resource.'.post-ajax')->with(compact('data', 'author', 'comments', 'floor'))->render());
+        }
+
 		return View::make($this->resource.'.post')->with(compact('data', 'author', 'comments', 'floor'));
 	}
 

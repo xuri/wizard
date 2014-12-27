@@ -4,7 +4,7 @@
 		<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
 		<p>{{ $post->content }}</p>
 		<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
-		<span class="bbs_main_time">{{ date("H:m",strtotime($post->created_at)) }}</span>
+		<span class="bbs_main_time">{{ date("m-d H:m",strtotime($post->created_at)) }}</span>
 	</li>
 	@endforeach
 </ul>
@@ -36,9 +36,9 @@
 			$(this).find('img').each(function(){
 				var alt = this.alt;
 
-				if (alt != ''){
-					$(this).after('<span class="caption">'+alt+'</span>');
-				}
+				// if (alt != ''){
+				// 	$(this).after('<span class="caption">'+alt+'</span>');
+				// }
 
 				$(this).wrap('<a href="'+this.src+'" title="'+alt+'" class="fancybox" rel="gallery'+_i+'" />');
 			});

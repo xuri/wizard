@@ -42,7 +42,7 @@
 			data 	: formData, // our data object
 		}).done(function(data) {
 
-			// here we will handle errors and validation messages
+			// Here we will handle errors and validation messages
 			if ( ! data.success) {
 
 				// Handle errors

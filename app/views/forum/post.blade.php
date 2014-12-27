@@ -43,6 +43,7 @@
 					</ul>
 
 				</div>
+				<div id="post-ajax">
 				<div class="clear guest" style="width;100%; border:1px solid #ededed; border-radius:5px;" id="g-list">
 
 					@foreach($comments as $comment)
@@ -126,15 +127,9 @@
 					</div>
 					@endforeach
 				</div>
-				<div class="lu_paging">
-					<span>上一页</span>
-					<a class="lu_active">1</a>
-					<a>2</a>
-					<a>3</a>
-					<a>4</a>
-					<span>下一页</span>
-				</div>
 
+				{{ pagination($comments->appends(Input::except('page')), 'layout.paginator') }}
+				</div>
 				<div class="g-box clear" id="create_comment">
 					<a class="color">发表评论</a>
 					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
