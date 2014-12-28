@@ -132,14 +132,21 @@ var um = UM.getEditor('create_comment_editor');
 		arrows : false // Disable fancybox previous and next links showing up
 	});
 
+	// Ajax comments
 
-	$('.g-replay').click(function(){ // Post submit onclick event
+	$('.reply_comment_submit').click(function(){ // Post submit onclick event
+		var commentId		= $(this).data('comment-id');
+		var replyId			= $(this).data('reply-id');
+		var dataNickname	= $(this).data('nickname');
+		var replyContent	= $('textarea#reply_id_' + commentId).val()
 
 		// Ajax post data
 		var formData = {
-			content 	: um.getContent(), // Get post content
-			_token 		: csrfToken, // CSRF token
-			type : 'comments'
+			comments_id 	: commentId,
+			reply_id 		: replyId,
+			reply_content 	: replyContent, // Get post content
+			_token 			: csrfToken, // CSRF token
+			data_nickname 	: dataNickname
 		};
 		// Process ajax request
 		$.ajax({
@@ -150,24 +157,10 @@ var um = UM.getEditor('create_comment_editor');
 
 			// Here we will handle errors and validation messages
 			if ( ! data.success) {
-
 				// Handle errors
-				if (data.errors.content) {
-					$('.if_error').html('<div class="callout-warning">' + data.errors.content + '</div>'); // Add the actual error message under our input
-				}
-
+				alert(data.error_info);
 			} else { // Ajax success
-
-				// Flush old error messages
-				if($('.callout-warning')) {
-					$('.callout-warning').remove();
-				}
-				// Handle suucess message
-				$('#if_success').html('<div class="callout-warning">' + data.success_info + '</div>');
-				// Scroll top after post success
-				$('html, body').animate({ scrollTop: 0 }, 600);
 				// Remove post editor content
-				um.setContent('');
 				// Ajax reload new post in current tab
 				location.reload();
 			}
@@ -175,9 +168,6 @@ var um = UM.getEditor('create_comment_editor');
 		});
 	});
 
+	// Ajax replay
+
 })(jQuery);
-
-
-
-
-

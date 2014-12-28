@@ -201,31 +201,54 @@ class ForumController extends BaseController {
 			$messages = array(
 				'reply_content.required'	=> '请输入回复内容。',
 			);
-
 			// Begin verification
 			$validator		= Validator::make($data, $rules, $messages);
+			$reply_content	= str_replace('回复 '.Input::get('data_nickname').':', '', Input::get('reply_content'));
+
 			if($validator->passes())
 			{
-				$reply				= new ForumReply;
-				$reply->content		= Input::get('reply_content');
-				$reply->reply_id	= Input::get('reply_id');
-				$reply->comments_id	= Input::get('comments_id');
-				$reply->user_id		= Auth::user()->id;
-				$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
-				if($reply->save())
+				if($reply_content != '') // Verify again
 				{
-					return Redirect::back()
-						->with('success', '回复成功。');
+					$reply				= new ForumReply;
+					$reply->content		= Input::get('reply_content');
+					$reply->reply_id	= Input::get('reply_id');
+					$reply->comments_id	= Input::get('comments_id');
+					$reply->user_id		= Auth::user()->id;
+					$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
+					if($reply->save())
+					{
+						return Response::json(
+							array(
+								'success'		=> true,
+								'success_info'	=> '回复成功'
+							)
+						);
+					} else {
+						return Response::json(
+							array(
+								'error'			=> true,
+								'error_info'	=> '回复失败，请重试！'
+							)
+						);
+					}
 				} else {
-					return Redirect::back()
-						->withInput()
-						->with('error', '回复失败，请重试。');
+					return Response::json(
+						array(
+							'error'			=> true,
+							'error_info'	=> '请输入回复内容。'
+						)
+					);
 				}
+
+
 			} else {
 				// Validation fail
-				return Redirect::back()
-					->withInput()
-					->withErrors($validator);
+				return Response::json(
+					array(
+						'fail'      => true,
+						'errors'    => $validator->getMessageBag()->toArray()
+					)
+				);
 			}
 		}
 	}

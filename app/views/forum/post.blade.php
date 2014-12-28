@@ -78,11 +78,8 @@
 								'class'			=> 'reply_comment_form',
 								))
 							}}
-							<input type="hidden" name="type" value="reply">
-							<input type="hidden" name="comments_id" value="{{ $comment->id }}">
-							<input type="hidden" name="reply_id" value="{{ $user->id }}">
-							<textarea class="reply_comment_textarea" name="reply_content">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
-							<input type="submit" value="发表" class="reply_comment_submit" />
+							<textarea class="reply_comment_textarea" id="reply_id_{{ $comment->id }}" name="reply_content">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
+							{{ Form::button('发表', array('class' => 'reply_comment_submit', 'data-nickname' => $user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $user->id)) }}
 							{{ Form::close() }}
 						</section>
 						<div class="message-other">
@@ -103,10 +100,10 @@
 									@else
 									{{ HTML::image('assets/images/g.jpg', '', array('class' => 'o-sexImg')) }}
 									@endif
-									<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>
+									<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }} {{ date("Y-m-d H:m",strtotime($reply->created_at)) }}:</a>
 									<p class="r-value">{{ $reply->content }}</p>
 									<a class="replay-a reply_inner">回复</a>
-									<p class="date">{{ date("Y-m-d H:m",strtotime($reply->created_at)) }}</p>
+
 
 									<section class="form_box_second">
 										{{ Form::open(array(

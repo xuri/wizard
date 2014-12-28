@@ -498,13 +498,13 @@ button.bbs_bottom {
 }
 
 .message-other .o-others span img {
-	width: 38px;
+	width: 32px;
 	height: 38px;
 	margin: 2px;
 }
 
 .message-other .o-others .imgSpan {
-	width: 42px;
+	width: 36px;
 	height: 42px;
 	display: block;
 	margin: 8px;
@@ -571,7 +571,7 @@ div#create_comment form div.edui-body-container {
 	width: 652px !important;
 }
 
-input.reply_comment_submit {
+button.reply_comment_submit {
 	float: right;
 	margin-right: 30px;
 	margin-left: 200px;
@@ -622,7 +622,7 @@ input.reply_comment_submit {
 }
 
 .r-value {
-	margin: 18px 0 0 5px;
+	margin: 18px 0 0 15px;
 	float: left;
 	line-height: 19px;
 	width: 380px;

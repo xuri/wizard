@@ -2,12 +2,12 @@
 <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
 	<div class="navbar-header">
 		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-			<span class="sr-only">Toggle navigation</span>
+			<span class="sr-only">导航菜单</span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="index.html">聘爱网 管理中心</a>
+		<a class="navbar-brand" href="{{ route('admin') }}">聘爱网 管理中心</a>
 	</div>
 	<!-- /.navbar-header -->
 
