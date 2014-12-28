@@ -132,13 +132,57 @@ var um = UM.getEditor('create_comment_editor');
 		arrows : false // Disable fancybox previous and next links showing up
 	});
 
-	// Ajax comments
+	// Ajax comments section
+
+	$('.g-replay').click(function(){ // Post submit onclick event
+
+		// Ajax post data
+		var formData = {
+			content 	: um.getContent(), // Get post content
+			_token 		: csrfToken, // CSRF token
+			type : 'comments'
+		};
+		// Process ajax request
+		$.ajax({
+			url 	: forumControllerPostCommentAction, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData, // our data object
+		}).done(function(data) {
+
+			// Here we will handle errors and validation messages
+			if ( ! data.success) {
+
+				// Handle errors
+				if (data.errors.content) {
+					$('.if_error').html('<div class="callout-warning">' + data.errors.content + '</div>'); // Add the actual error message under our input
+				}
+
+			} else { // Ajax success
+
+				// Flush old error messages
+				if($('.callout-warning')) {
+					$('.callout-warning').remove();
+				}
+				// Handle suucess message
+				$('#if_success').html('<div class="callout-warning">' + data.success_info + '</div>');
+				// Scroll top after post success
+				$('html, body').animate({ scrollTop: 0 }, 600);
+				// Remove post editor content
+				um.setContent('');
+				// Ajax reload new post in current tab
+				location.reload();
+			}
+
+		});
+	});
+
+	// Ajax replay section
 
 	$('.reply_comment_submit').click(function(){ // Post submit onclick event
-		var commentId		= $(this).data('comment-id');
-		var replyId			= $(this).data('reply-id');
-		var dataNickname	= $(this).data('nickname');
-		var replyContent	= $('textarea#reply_id_' + commentId).val()
+		var commentId		= $(this).data('comment-id'); // Get comments ID
+		var replyId			= $(this).data('reply-id'); // Get reply ID
+		var dataNickname	= $(this).data('nickname'); // Get post user nickname
+		var replyContent	= $('textarea#reply_id_' + commentId).val() // Get reply conetnt
 
 		// Ajax post data
 		var formData = {
@@ -161,13 +205,10 @@ var um = UM.getEditor('create_comment_editor');
 				alert(data.error_info);
 			} else { // Ajax success
 				// Remove post editor content
-				// Ajax reload new post in current tab
+				// Ajax reload
 				location.reload();
 			}
-
 		});
 	});
-
-	// Ajax replay
 
 })(jQuery);

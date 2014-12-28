@@ -203,13 +203,14 @@ class ForumController extends BaseController {
 			);
 			// Begin verification
 			$validator		= Validator::make($data, $rules, $messages);
+			// Remove default string on reply textarea
 			$reply_content	= str_replace('回复 '.Input::get('data_nickname').':', '', Input::get('reply_content'));
 
 			if($validator->passes())
 			{
 				if($reply_content != '') // Verify again
 				{
-					$reply				= new ForumReply;
+					$reply				= new ForumReply; // Create comments reply
 					$reply->content		= Input::get('reply_content');
 					$reply->reply_id	= Input::get('reply_id');
 					$reply->comments_id	= Input::get('comments_id');
@@ -217,40 +218,41 @@ class ForumController extends BaseController {
 					$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
 					if($reply->save())
 					{
+						// Reply success
 						return Response::json(
 							array(
 								'success'		=> true,
-								'success_info'	=> '回复成功'
+								'success_info'	=> '回复成功' // Success information
 							)
 						);
 					} else {
+						// Reply fail
 						return Response::json(
 							array(
 								'error'			=> true,
-								'error_info'	=> '回复失败，请重试！'
+								'error_info'	=> '回复失败，请重试！' // Error infrmation
 							)
 						);
 					}
 				} else {
 					return Response::json(
+						// Reply fail
 						array(
 							'error'			=> true,
-							'error_info'	=> '请输入回复内容。'
+							'error_info'	=> '请输入回复内容。' // Error infrmation
 						)
 					);
 				}
-
-
 			} else {
 				// Validation fail
 				return Response::json(
 					array(
 						'fail'      => true,
-						'errors'    => $validator->getMessageBag()->toArray()
+						'errors'    => $validator->getMessageBag()->toArray() // Error infrmation to array
 					)
 				);
-			}
-		}
-	}
+			} // End of post reply
+		} // End of select post type
+	} // End of postComments
 
 }
