@@ -10,5 +10,4 @@
     {{ HTML::script('assets/js/plugins/morris/morris-data.js') }}
 
 </body>
-
 </html>

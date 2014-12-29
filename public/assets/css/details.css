@@ -17,7 +17,10 @@ body {
 }
 
 .lu_content_box {
-	padding-bottom: 80px;
+	padding: 1em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .lu_content_main .pi_red {

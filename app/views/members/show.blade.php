@@ -208,5 +208,8 @@
 		</div>
 	</div>
 
+	@include('layout.copyright')
+	@yield('content')
+
 </body>
 </html>

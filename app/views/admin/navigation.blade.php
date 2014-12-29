@@ -97,6 +97,9 @@
 							<a href="{{ route('forum.index') }}">单身公寓</a>
 						</li>
 						<li>
+							<a href="{{ route('account.posts') }}">我的帖子</a>
+						</li>
+						<li>
 							<a href="{{ route('signout') }}">退出登录</a>
 						</li>
 					</ul>

@@ -21,7 +21,8 @@
 					<li><a href="{{ route('account.inbox') }}" class="active a2 fa fa-star">&nbsp;&nbsp;&nbsp;追我的人</a></li>
 					<li><a href="{{ route('account.notifications') }}" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;我的来信</a></li>
 					<li><a href="{{ route('forum.index') }}" class="a3 fa fa-user">&nbsp;&nbsp;&nbsp;单身公寓</a></li>
-					<li><a href="#" class="a5 fa fa-bookmark-o">&nbsp;&nbsp;&nbsp;关注我们</a></li>
+					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o">&nbsp;&nbsp;&nbsp;我的帖子</a></li>
+					<li><a href="{{ route('home') }}" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关于我们</a></li>
 				</ul>
 				<div id="download">
 					<div>移动客户端下载</div>

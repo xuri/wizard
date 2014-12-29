@@ -246,7 +246,20 @@ class AccountController extends BaseController
 		return View::make('account.inbox.index')->with(compact('datas'));
 	}
 
+	/**
+	 * getPosts all posts in forum
+	 * @return Response View
+	 */
+	public function getPosts()
+	{
+		$posts = ForumPost::where('user_id', Auth::user()->id)->paginate(10);
+		return View::make('account.posts.index')->with(compact('posts'));
+	}
 
+	/**
+	 * getNotifications User notifications list
+	 * @return Response View
+	 */
 	public function getNotifications()
 	{
 		$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(1, 2, 3, 4, 5, 10))->paginate(1);

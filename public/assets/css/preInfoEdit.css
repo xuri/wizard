@@ -12,12 +12,12 @@
  */
 
 body {
-	background: #f4e9f9;
+	/*background: #f4e9f9;*/
 }
 
 #content {
-	background: url(../images/preInfoEdit/contentbg.jpg) no-repeat;
-	background-size: 100% 514px;
+	/*background: url(../images/preInfoEdit/contentbg.jpg) no-repeat;
+	background-size: 100% 514px;*/
 	margin: 60px auto 0;
 }
 

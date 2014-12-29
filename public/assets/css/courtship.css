@@ -11,12 +11,12 @@
  * @version 	0.1
  */
 body {
-	background: #f4e9f9;
+	/*background: #f4e9f9;*/
 }
 
 #content {
-	background: url(../images/preInfoEdit/contentbg.jpg) no-repeat;
-	background-size: 100% 514px;
+	/*background: url(../images/preInfoEdit/contentbg.jpg) no-repeat;
+	background-size: 100% 514px;*/
 	margin: 60px auto 0;
 }
 
@@ -55,7 +55,10 @@ body {
 	width: 1000px;
 	background: #fbfbfb;
 	margin: 50px auto 100px;
-	padding: 20px;
+	padding: 1.5em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 #wrap .w_left {

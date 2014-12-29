@@ -8,5 +8,7 @@
 	{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
 	{{ HTML::style('assets/css/lu-public.css') }}
 	{{ HTML::style('assets/css/details.css') }}
+	@include('layout.theme')
+	@yield('content')
 </head>
 <body>

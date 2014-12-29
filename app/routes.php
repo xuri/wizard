@@ -113,6 +113,8 @@ Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated'), fu
 	Route::get('inbox'			, array('as' => 'account.inbox',			'uses' => $Account.'getInbox'				));
 	# Notifications center
 	Route::get('notifications'	, array('as' => 'account.notifications',	'uses' => $Account.'getNotifications'		));
+	# Posts in forum
+	Route::get('posts'			, array('as' => 'account.posts',			'uses' => $Account.'getPosts'				));
 });
 
 /*

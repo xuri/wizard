@@ -128,8 +128,8 @@ class ForumController extends BaseController {
 		$floor		= 2;
 
 		if (Request::ajax()) {
-            return Response::json(View::make($this->resource.'.post-ajax')->with(compact('data', 'author', 'comments', 'floor'))->render());
-        }
+			return Response::json(View::make($this->resource.'.post-ajax')->with(compact('data', 'author', 'comments', 'floor'))->render());
+		}
 
 		return View::make($this->resource.'.post')->with(compact('data', 'author', 'comments', 'floor'));
 	}

@@ -61,8 +61,13 @@
 }
 
 .lu_content_box {
+	background-color: #FFF;
 	margin: 30px auto;
 	width: 1015px;
+	padding: 1em;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .lu_content_main {

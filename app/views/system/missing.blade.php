@@ -1,16 +1,11 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<!-- saved from url=(0046)http://www.kiss.com/ildfjglkdjg/ksdjfhsdj.html -->
+<!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<meta charset="utf-8">
 	<title>找不到页面 | 聘爱网</title>
-	<!-- Uncomment to make IE8 render like IE7 -->
-	<!-- <meta http-equiv="X-UA-Compatible" content="IE=7" /> -->
-	<!-- Set the viewport width to device width for mobile -->
-	<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
 	<meta content="20; {{ route('home') }}" http-equiv="refresh">
-	<!-- Included CSS Files -->
+	@include('layout.meta')
+	@yield('content')
+	{{-- Included CSS Files --}}
 	{{ HTML::style('assets/css/404.css') }}
 </head>
 <body class="" screen_capture_injected="true" cz-shortcut-listen="true">

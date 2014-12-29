@@ -67,13 +67,13 @@ body {
 /* end public */
 
 body {
-	background: #f4e9f9;
+	/*background: #f4e9f9;*/
 }
 
 #content {
 	height: 514px;
-	background: url(../images/contentbg.jpg);
-	background-size: 100% 100%;
+	/*background: url(../images/contentbg.jpg);
+	background-size: 100% 100%;*/
 	margin: 60px auto 0;
 }
 
