@@ -111,11 +111,8 @@
 											'class'			=> 'reply_inner_form'
 											))
 										}}
-										<input type="hidden" name="type" value="reply">
-										<input type="hidden" name="comments_id" value="{{ $comment->id }}">
-										<input type="hidden" name="reply_id" value="{{ $reply_user->id }}">
-										<textarea class="textarea" name="reply_content">{{ Input::old('content', '回复 '.$reply_user->nickname.':') }}</textarea>
-										<input value="发表" class="submit" type="submit">
+										<textarea class="textarea" name="reply_content" id="reply_id_{{ $reply->id }}">{{ Input::old('content', '回复 '.$reply_user->nickname.':') }}</textarea>
+										{{ Form::button('回复', array('class' => 'submit', 'data-nickname' => $reply_user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $reply->id)) }}
 										{{ Form::close() }}
 									</section>
 									<span class="span-line"></span>

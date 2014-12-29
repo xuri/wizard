@@ -211,4 +211,38 @@ var um = UM.getEditor('create_comment_editor');
 		});
 	});
 
+	// Ajax reply comments section (tiny different with ajax replay section)
+	$('.submit').click(function(){ // Post submit onclick event
+		var commentId		= $(this).data('comment-id'); // Get comments ID
+		var replyId			= $(this).data('reply-id'); // Get reply ID
+		var dataNickname	= $(this).data('nickname'); // Get post user nickname
+		var replyContent	= $('textarea#reply_id_' + replyId).val() // Get reply conetnt
+
+		// Ajax post data
+		var formData = {
+			comments_id 	: commentId, // Get comment ID
+			reply_id 		: replyId, // Get reply ID
+			reply_content 	: replyContent, // Get post content
+			_token 			: csrfToken, // CSRF token
+			data_nickname 	: dataNickname
+		};
+		// Process ajax request
+		$.ajax({
+			url 	: forumControllerPostCommentAction, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData, // our data object
+		}).done(function(data) {
+
+			// Here we will handle errors and validation messages
+			if ( ! data.success) {
+				// Handle errors
+				alert(data.error_info);
+			} else { // Ajax success
+				// Remove post editor content
+				// Ajax reload
+				location.reload();
+			}
+		});
+	});
+
 })(jQuery);
