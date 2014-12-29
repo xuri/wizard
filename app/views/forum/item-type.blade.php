@@ -2,7 +2,8 @@
 	@foreach($items as $post)
 	<li class="bbs_main_boy">
 		<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
-		<p>{{ $post->content }}</p>
+
+		<p>{{ close_tags(Str::limit($post->content, 500)) }}</p>
 		<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
 		<span class="bbs_main_time">{{ date("m-d H:m",strtotime($post->created_at)) }}</span>
 	</li>
