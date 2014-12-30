@@ -68,6 +68,7 @@ body {
 
 .content_1,.content_3 {
 	width: 100%;
+	background-image: url('../images/themes/background_1.png');
 }
 
 .content_1 p {
@@ -179,6 +180,10 @@ body {
 	margin: 10px auto;
 }
 
+.content_5 {
+	background-image: url('../images/themes/background_1.png');
+}
+
 .content_4 div {
 	width: 500px;
 	float: left;
@@ -233,7 +238,6 @@ div.footer {
 	padding: 15px 0;
 	background: #ef698a;
 	float: left;
-	margin: 5em 0 0 0;
 }
 
 div.footer a {

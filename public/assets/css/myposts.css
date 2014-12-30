@@ -494,7 +494,9 @@ body {
 }
 
 #courtship-mine ul li span {
-	border-radius: 15px/18px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
 	background: #d65679;
 	padding: 0 10px;
 	height: 18px;
