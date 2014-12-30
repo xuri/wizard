@@ -9,46 +9,46 @@
 {{ HTML::script('assets/easymob-webim1.0/json2.js') }}
 {{ HTML::script('assets/easymob-webim1.0/easemob.im-1.0.0.js') }}
 <script>
-    $(document).on('open', '.remodal', function() {
-        // console.log('open');
-    });
+	$(document).on('open', '.remodal', function() {
+		// console.log('open');
+	});
 
-    $(document).on('opened', '.remodal', function() {
-        // console.log('opened');
-    });
+	$(document).on('opened', '.remodal', function() {
+		// console.log('opened');
+	});
 
-    $(document).on('close', '.remodal', function() {
-        // console.log('close');
-    });
+	$(document).on('close', '.remodal', function() {
+		// console.log('close');
+	});
 
-    $(document).on('closed', '.remodal', function() {
-        // console.log('closed');
-    });
+	$(document).on('closed', '.remodal', function() {
+		// console.log('closed');
+	});
 
-    $(document).on('confirm', '.remodal', function() {
-        // console.log('confirm');
-    });
+	$(document).on('confirm', '.remodal', function() {
+		// console.log('confirm');
+	});
 
-    $(document).on('cancel', '.remodal', function() {
-        // console.log('cancel');
-    });
+	$(document).on('cancel', '.remodal', function() {
+		// console.log('cancel');
+	});
 
-    // You can open or close it like this:
-    // $(function () {
-    //     var inst = $.remodal.lookup[$('[data-remodal-id=modal]').data('remodal')];
-    //     inst.open();
-    //     inst.close();
-    // });
+	// You can open or close it like this:
+	// $(function () {
+	//     var inst = $.remodal.lookup[$('[data-remodal-id=modal]').data('remodal')];
+	//     inst.open();
+	//     inst.close();
+	// });
 
-    //  Or init in this way:
-    var inst = $('[data-remodal-id=modal2]').remodal();
-    //  inst.open();
-    //
-    //
-    //
-    // Easemob Section
-    //
-    //
+	//  Or init in this way:
+	var inst = $('[data-remodal-id=modal2]').remodal();
+	//  inst.open();
+	//
+	//
+	//
+	// Easemob Section
+	//
+	//
 	var curUserId = '{{ Auth::user()->id }}';
 	var curChatUserId = '';
 
@@ -221,14 +221,14 @@
 		});
 
 		 $(function() {
-		 	$(window).bind('beforeunload', function() {
-		 		if (conn) {
-		 			conn.close();
+			$(window).bind('beforeunload', function() {
+				if (conn) {
+					conn.close();
 
-		 		}
+				}
 
-		 		//return "看看有没有未读消息在选择是否离开吧";
-		 	});
+				//return "看看有没有未读消息在选择是否离开吧";
+			});
 		 });
 	});
 

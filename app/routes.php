@@ -115,6 +115,7 @@ Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated'), fu
 	Route::get('notifications'	, array('as' => 'account.notifications',	'uses' => $Account.'getNotifications'		));
 	# Posts in forum
 	Route::get('posts'			, array('as' => 'account.posts',			'uses' => $Account.'getPosts'				));
+	Route::post('posts'			, $Account.'postDeleteForumPost');
 });
 
 /*
@@ -196,11 +197,11 @@ Route::group(array('prefix' => 'android'), function () {
 |
 */
 
-Route::get('migrate', array('as' => 'migrate',function()
+// Route::get('migrate', array('as' => 'migrate',function()
 // Route::get('migrate', array('as' => 'migrate', 'before' => 'auth|admin', function()
-{
-	 return View::make('tools.migrate');
-}));
+// {
+// 	 return View::make('tools.migrate');
+// }));
 
 // Route::get('browser_not_support', array('as' => 'browser_not_support', function()
 // {

@@ -67,7 +67,7 @@
 				if($('.callout-warning')) {
 					$('.callout-warning').remove();
 				}
-				// Handle suucess message
+				// Handle success message
 				$('#if_success').html('<div class="callout-warning">' + data.success_info + '</div>');
 				// Scroll top after post success
 				$('html, body').animate({ scrollTop: 0 }, 600);

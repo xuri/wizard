@@ -166,26 +166,26 @@ class AccountController extends BaseController
 		$validator = Validator::make($info, $rules, $messages);
 		if ($validator->passes()) {
 
-		    // Verification success
-		    // Update account
+			// Verification success
+			// Update account
 			$user                   = Auth::user();
 			$oldPortrait			= $user->portrait;
 			$user->nickname         = Input::get('nickname');
 
 			// Protrait section
 			$portrait               = Input::get('portrait');
-		    if($portrait != NULL) // User update avatar
-		    {
-		    	$portrait           = str_replace('data:image/png;base64,', '', $portrait);
+			if($portrait != NULL) // User update avatar
+			{
+				$portrait           = str_replace('data:image/png;base64,', '', $portrait);
 				$portrait           = str_replace(' ', '+', $portrait);
 				$portraitData       = base64_decode($portrait); // Decode string
 				$portraitPath		= public_path('portrait/');
 				$portraitFile       = uniqid() . '.png'; // Portrait file name
 				$successPortrait    = file_put_contents($portraitPath.$portraitFile, $portraitData); // Store file
 				$user->portrait     = $portraitFile; // Save file name to database
-		    }
-		    if(Auth::user()->sex == NULL)
-		    {
+			}
+			if(Auth::user()->sex == NULL)
+			{
 				$user->sex          = Input::get('sex');
 			}
 			if(Auth::user()->born_year == NULL)
@@ -204,24 +204,24 @@ class AccountController extends BaseController
 			$profile->self_intro    = Input::get('self_intro');
 			$profile->question      = Input::get('question');
 
-		    if ($user->save() && $profile->save()) {
-		        // Update success
-		        if($portrait != NULL) // User update avatar
-		        {
-		        	File::delete($portraitPath.$oldPortrait); // Delete old poritait
-		    	}
-		        return Redirect::route('account')
-		            ->with('success', '<strong>基本资料更新成功。</strong>');
+			if ($user->save() && $profile->save()) {
+				// Update success
+				if($portrait != NULL) // User update avatar
+				{
+					File::delete($portraitPath.$oldPortrait); // Delete old poritait
+				}
+				return Redirect::route('account')
+					->with('success', '<strong>基本资料更新成功。</strong>');
 
-		    } else {
-		        // Update fail
-		        return Redirect::back()
-		            ->withInput()
-		            ->with('error', '<strong>基本资料更新失败。</strong>');
-		    }
+			} else {
+				// Update fail
+				return Redirect::back()
+					->withInput()
+					->with('error', '<strong>基本资料更新失败。</strong>');
+			}
 		} else {
-		    // Verification fail, redirect back
-		    return Redirect::back()->withInput()->withErrors($validator);
+			// Verification fail, redirect back
+			return Redirect::back()->withInput()->withErrors($validator);
 		}
 
 	}
@@ -252,7 +252,7 @@ class AccountController extends BaseController
 	 */
 	public function getPosts()
 	{
-		$posts = ForumPost::where('user_id', Auth::user()->id)->paginate(10);
+		$posts = ForumPost::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
 		return View::make('account.posts.index')->with(compact('posts'));
 	}
 
@@ -270,5 +270,39 @@ class AccountController extends BaseController
 		$systemNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(8, 9))->where('status', 0)->count();
 
 		return View::make('account.notifications.index')->with(compact('friendNotifications', 'forumNotifications', 'systemNotifications', 'friendNotificationsCount', 'forumNotificationsCount', 'systemNotificationsCount'));
+	}
+
+	public function postDeleteForumPost()
+	{
+		// Get post ID in forum for delete
+		$postId		= Input::get('post_id');
+		// Retrieve post
+		$forumPost	= ForumPost::where('id', $postId)->first();
+		// Using expression get all picture attachments (Only with pictures stored on this server.)
+		preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $forumPost->content, $match );
+		// Construct picture attachments list
+		$srcArray 	= array_pop($match);
+		if(!empty( $srcArray )) // This post have picture attachments
+		{
+			// Foreach picture attachments list array
+			foreach($srcArray as $key => $field){
+				$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]); // Convert to correct real storage path
+				File::delete(public_path($srcArray[$key])); // Destory upload picture attachments in this post
+			}
+			$forumPost->delete(); // Delete post in forum
+			return Response::json(
+				array(
+					'success'		=> true,
+					'success_info'	=> '帖子删除成功！'
+				)
+			);
+		} else {
+			return Response::json(
+				array(
+					'fail'		=> true,
+					'fail_info'	=> '帖子删除失败！'
+				)
+			);
+		}
 	}
 }
