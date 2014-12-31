@@ -253,6 +253,9 @@ class AccountController extends BaseController
 	public function getPosts()
 	{
 		$posts = ForumPost::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+		if (Request::ajax()) {
+			return Response::json(View::make('account.posts.load-ajax')->with(compact('posts'))->render());
+		}
 		return View::make('account.posts.index')->with(compact('posts'));
 	}
 
