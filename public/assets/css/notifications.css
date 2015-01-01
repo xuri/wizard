@@ -109,9 +109,13 @@
 }
 
 .new_main_state {
-	position: absolute;
 	left: 684px;
 	top: 48px;
+}
+
+#new_main_system li {
+	border-bottom: 1px solid #ddd;
+	margin: 0.5em auto;
 }
 
 .new_main p, .new_main_state {

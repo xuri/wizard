@@ -319,6 +319,7 @@ class AuthorityController extends BaseController
 				if ($user->save()) {
 					$profile			= new Profile;
 					$profile->user_id	= $user->id;
+					$user->activated_at	= date('Y-m-d H:m:s');
 					$profile->save();
 
 					// Chat Register
