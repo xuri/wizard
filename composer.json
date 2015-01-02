@@ -10,7 +10,8 @@
 		"anlutro/curl"			: "dev-master",
 		"jenssegers/date"		: "*",
 		"indatus/dispatcher"	: "1.4.*",
-		"zhuzhichao/umeditor"	: "dev-master"
+		"zhuzhichao/umeditor"	: "dev-master",
+		"jenssegers/agent"		: "*"
 	},
 	"autoload": {
 		"classmap": [

@@ -125,6 +125,7 @@ return array(
 		'Jenssegers\Date\DateServiceProvider',
 		'Indatus\Dispatcher\ServiceProvider',
 		'Zhuzhichao\Umeditor\UmeditorServiceProvider',
+		'Jenssegers\Agent\AgentServiceProvider',
 	),
 
 	/*
@@ -196,6 +197,7 @@ return array(
 		'View'              => 'Illuminate\Support\Facades\View',
 		'cURL' 				=> 'anlutro\cURL\Laravel\cURL',
 		'Date'				=> 'Jenssegers\Date\Date',
+		'Agent'				=> 'Jenssegers\Agent\Facades\Agent',
 
 	),
 

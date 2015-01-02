@@ -31,7 +31,11 @@ class HomeController extends BaseController {
 
 	public function getIndex()
 	{
-		return View::make('home.index');
+		if (Agent::isDesktop()) {
+			return View::make('home.index');
+		} else {
+			return View::make('home.mobile');
+		}
 	}
 
 }
