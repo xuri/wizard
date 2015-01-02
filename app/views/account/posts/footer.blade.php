@@ -1,4 +1,3 @@
-</body>
 <script>
 	var csrfToken						= '{{ csrf_token() }}';
 	var accountDeleteForumPostAction	= "{{ action('AccountController@postDeleteForumPost') }}";
@@ -8,4 +7,5 @@
 {{ HTML::script('assets/js/color.js') }}
 {{ HTML::script('assets/js/preInfo.js') }}
 {{ HTML::script('assets/js/account-posts.js') }}
+</body>
 </html>

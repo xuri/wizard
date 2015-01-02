@@ -1,4 +1,3 @@
-</body>
 {{ HTML::script('assets/fancybox-2.1.5/jquery.fancybox.pack.js') }}
 <script>
 	// Instantiate editor
@@ -14,4 +13,5 @@
 	var thirdAjaxURL 					= '{{ route("forum.type", "third") }}';
 </script>
 {{ HTML::script('assets/js/forum.js') }}
+</body>
 </html>

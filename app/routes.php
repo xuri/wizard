@@ -100,22 +100,23 @@ Route::group(array('prefix' => 'members', 'before' => 'auth|auth.activated'), fu
 Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated'), function () {
 	$Account = 'AccountController@';
 	# Account Index
-	Route::get('/'				, array('as' => 'account',					'uses' => $Account.'getIndex'				));
+	Route::get('/'							, array('as' => 'account',						'uses' => $Account.'getIndex'				));
 	# Complete
-	Route::get('complete'		, array('as' => 'account.complete',			'uses' => $Account.'getComplete'			));
-	Route::post('complete'		, $Account.'postComplete');
+	Route::get('complete'					, array('as' => 'account.complete',				'uses' => $Account.'getComplete'			));
+	Route::post('complete'					, $Account.'postComplete');
 	# Post university
-	Route::post('postuniversity', array('as' => 'postuniversity',			'uses' => $Account.'postUniversity'			));
-	Route::post('postrenew'		, array('as' => 'postrenew',				'uses' => $Account.'postRenew'				));
+	Route::post('postuniversity'			, array('as' => 'postuniversity',				'uses' => $Account.'postUniversity'			));
+	Route::post('postrenew'					, array('as' => 'postrenew',					'uses' => $Account.'postRenew'				));
 	# Like other user
-	Route::get('sent'			, array('as' => 'account.sent',				'uses' => $Account.'getSent'				));
+	Route::get('sent'						, array('as' => 'account.sent',					'uses' => $Account.'getSent'				));
 	# Other user like me
-	Route::get('inbox'			, array('as' => 'account.inbox',			'uses' => $Account.'getInbox'				));
+	Route::get('inbox'						, array('as' => 'account.inbox',				'uses' => $Account.'getInbox'				));
 	# Notifications center
-	Route::get('notifications'	, array('as' => 'account.notifications',	'uses' => $Account.'getNotifications'		));
+	Route::get('notifications'				, array('as' => 'account.notifications',		'uses' => $Account.'getNotifications'		));
+	Route::get('notifications/ajax/{type}'	, array('as' => 'account.notifications.type',	'uses' => $Account.'getNotificationsType'	))->where('type', 'first|second|third');
 	# Posts in forum
-	Route::get('posts'			, array('as' => 'account.posts',			'uses' => $Account.'getPosts'				));
-	Route::post('posts'			, $Account.'postDeleteForumPost');
+	Route::get('posts'						, array('as' => 'account.posts',				'uses' => $Account.'getPosts'				));
+	Route::post('posts'						, $Account.'postDeleteForumPost');
 });
 
 /*

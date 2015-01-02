@@ -96,75 +96,18 @@
 
 					<ul id="new_main_mine" class="new_main">
 						{{-- Friend request notifications --}}
-						@foreach($friendNotifications as $friendNotification)
-						<?php
-							$sender			= User::where('id', $friendNotification->sender_id)->first();
-							$notifications	= getNotification($friendNotification->category, $friendNotification->sender_id);
-						?>
-						<li class="item">
-							<a href="{{ route('members.show', $sender->id) }}">{{ HTML::image('portrait/'.$sender->portrait, '', array('class' => 'new_main_head')) }}</a>
-							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'new_main_sex')) }}
-							<a href="{{ route('members.show', $sender->id) }}" class="new_main_name">{{ $sender->nickname }}</a>
-							<h3 class="new_main_school">{{ $sender->school }}</h6>
-							<span class="new_main_time">{{ date("m-d H:m",strtotime($friendNotification->created_at)) }}</span>
-							<p>{{ $notifications['content'] }}</p>
-							<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">查看</a>
-						</li>
-						@endforeach
-						{{ pagination($friendNotifications->appends(Input::except('page')), 'layout.paginator') }}
+						<div id="first_inner"></div>
+
 					</ul>
 
 					<ul id="new_main_forum" class="new_main">
 						{{-- Forum notofications --}}
-						<div id="courtship-mine">
-							<ul class="clear">
-								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
-								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
-								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
-								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
-								<li class="clear"><span>39</span><p>这个里面是内容绝对的内容</p><a class="date">2012-12-01 10:45</a><i class="fa fa-trash-o"></i></li>
-							</ul>
-						</div>
+						<div id="second_inner"></div>
 					</ul>
 
 					<ul id="new_main_system" class="new_main">
 						{{-- System notifications --}}
-						<li>
-							{{ HTML::image('assets/images/logo3.jpg', '', array('class' => 'new_main_head')) }}
-							{{ HTML::image('assets/images/login_bg.png', '', array('class' => 'new_main_sex')) }}
-							<span class="new_main_name">管理员</span>
-							<h6 class="new_main_school">聘爱网总部</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>您的消息未通过审核</p>
-							<span class="new_main_state unread">查看</span>
-						</li>
-						<li>
-							{{ HTML::image('assets/images/logo3.jpg', '', array('class' => 'new_main_head')) }}
-							{{ HTML::image('assets/images/login_bg.png', '', array('class' => 'new_main_sex')) }}
-							<span class="new_main_name">管理员</span>
-							<h6 class="new_main_school">聘爱网总部</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>您的消息未通过审核</p>
-							<span class="new_main_state">已读</span>
-						</li>
-						<li>
-							{{ HTML::image('assets/images/logo3.jpg', '', array('class' => 'new_main_head')) }}
-							{{ HTML::image('assets/images/login_bg.png', '', array('class' => 'new_main_sex')) }}
-							<span class="new_main_name">管理员</span>
-							<h6 class="new_main_school">聘爱网总部</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>您的消息未通过审核</p>
-							<span class="new_main_state unread">查看</span>
-						</li>
-						<li>
-							{{ HTML::image('assets/images/logo3.jpg', '', array('class' => 'new_main_head')) }}
-							{{ HTML::image('assets/images/login_bg.png', '', array('class' => 'new_main_sex')) }}
-							<span class="new_main_name">管理员</span>
-							<h6 class="new_main_school">聘爱网总部</h6>
-							<span class="new_main_time">11-11 06:30</span>
-							<p>您的消息未通过审核</p>
-							<span class="new_main_state">已读</span>
-						</li>
+						<div id="third_inner"></div>
 					</ul>
 
 				</div>

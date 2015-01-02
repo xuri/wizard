@@ -8,6 +8,5 @@
     {{ HTML::script('assets/js/plugins/morris/raphael.min.js') }}
     {{ HTML::script('assets/js/plugins/morris/morris.min.js') }}
     {{ HTML::script('assets/js/plugins/morris/morris-data.js') }}
-
 </body>
 </html>
