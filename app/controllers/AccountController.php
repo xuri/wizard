@@ -265,12 +265,14 @@ class AccountController extends BaseController
 	 */
 	public function getNotifications()
 	{
-		$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(1, 2, 3, 4, 5, 10))->paginate(1);
-		$forumNotifications			= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(6, 7))->get();
-		$systemNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(8, 9))->get();
-		$friendNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(1, 2, 3, 4, 5, 10))->where('status', 0)->count();
-		$forumNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(6, 7))->where('status', 0)->count();
-		$systemNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(8, 9))->where('status', 0)->count();
+		$items_per_page = Input::get('per_pg', 5);
+
+		$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(1, 2, 3, 4, 5, 10))->paginate($items_per_page);
+		$forumNotifications			= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(6, 7))->paginate($items_per_page);
+		$systemNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(8, 9))->paginate($items_per_page);
+		$friendNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(1, 2, 3, 4, 5, 10))->where('status', 0)->count();
+		$forumNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(6, 7))->where('status', 0)->count();
+		$systemNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(8, 9))->where('status', 0)->count();
 
 		return View::make('account.notifications.index')->with(compact('friendNotifications', 'forumNotifications', 'systemNotifications', 'friendNotificationsCount', 'forumNotificationsCount', 'systemNotificationsCount'));
 	}
@@ -282,20 +284,20 @@ class AccountController extends BaseController
 	 */
 	public function getNotificationsType($type)
 	{
-		$items_per_page = Input::get('per_pg', 1);
+		$items_per_page = Input::get('per_pg', 5);
 
 		if ($type == 'first') {
-			$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(1, 2, 3, 4, 5, 10))->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(1, 2, 3, 4, 5, 10))->orderBy('created_at' , 'desc')->paginate($items_per_page);
 			$view = View::make('account.notifications.first-ajax')->with(compact('friendNotifications'));
 			return $view;
 			exit;
 		} else if ($type == 'second'){
-			$forumNotifications			= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(6, 7))->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$forumNotifications			= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(6, 7))->orderBy('created_at' , 'desc')->paginate($items_per_page);
 			$view = View::make('account.notifications.second-ajax')->with(compact('forumNotifications'));
 			return $view;
 			exit;
 		} else {
-			$systemNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('id', array(8, 9))->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$systemNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(8, 9))->orderBy('created_at' , 'desc')->paginate($items_per_page);
 			$view = View::make('account.notifications.third-ajax')->with(compact('systemNotifications'));
 			return $view;
 			exit;
@@ -310,12 +312,16 @@ class AccountController extends BaseController
 	{
 		// Get post ID in forum for delete
 		$postId		= Input::get('post_id');
+
 		// Retrieve post
 		$forumPost	= ForumPost::where('id', $postId)->first();
+
 		// Using expression get all picture attachments (Only with pictures stored on this server.)
 		preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $forumPost->content, $match );
+
 		// Construct picture attachments list
 		$srcArray 	= array_pop($match);
+
 		if(!empty( $srcArray )) // This post have picture attachments
 		{
 			// Foreach picture attachments list array

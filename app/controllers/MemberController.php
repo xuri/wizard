@@ -76,8 +76,7 @@ class MemberController extends BaseController {
 		// AJAX Pagination with jQuery
 
 		if (Request::ajax()) {
-			return Response::json(View::make($this->resource.'.index', array('datas' => $datas))->render()
-			);
+			return Response::json(View::make($this->resource.'.load-ajax')->with(compact('datas'))->render());
 		}
 
 		return View::make($this->resource.'.index')->with(compact('datas'));
