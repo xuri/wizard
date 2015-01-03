@@ -103,7 +103,8 @@ body {
 }
 
 #login_main_3d {
-	opacity: 0.92;
+	filter:alpha(opacity=92); /*IE*/
+	-moz-opacity:0.92; /*MOZ , FF*/
 	position: absolute;
 	width: 524px;
 	height: 410px;
@@ -118,6 +119,8 @@ body {
 	-ms-perspective: 800px;
 	-ms-transform-style: preserve-3d;
 }
+
+
 
 #login_main_wrap {
 	transition: 2s;
@@ -145,6 +148,9 @@ body {
 
 #login_main {
 	z-index: 2;
+	box-shadow: 0 0px 20px #ddd;
+	-moz-box-shadow: 0 0px 20px #ddd;
+	-webkit-box-shadow: 0 0px 20px #ddd;
 }
 
 #rgs_main {
@@ -153,6 +159,9 @@ body {
 	-moz-transform: rotateY(180deg);
 	-ms-transform: rotateY(180deg);
 	transform: rotateY(180deg);
+	box-shadow: 0 0px 20px #ddd;
+	-moz-box-shadow: 0 0px 20px #ddd;
+	-webkit-box-shadow: 0 0px 20px #ddd;
 }
 
 .login_button {
