@@ -129,13 +129,14 @@ Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated'), fu
 Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
+	# Forum Type
+	Route::get('/ajax/{type}'	, array('as' => $resource.'.type',					'uses' => $controller.'getForumType' ))->where('type', 'first|second|third');
 	# Forum Index
 	Route::get('/'				, array('as' => $resource.'.index',					'uses' => $controller.'getIndex'	));
 	Route::post('/'				, $controller.'postNew');
 	Route::get('{id}'			, array('as' => $resource.'.show',					'uses' => $controller.'getShow'		));
 	Route::post('{id}'			, $controller.'postComment');
-	# Forum Type
-	Route::get('/ajax/{type}'	, array('as' => $resource.'.type',					'uses' => $controller.'getForumType' ))->where('type', 'first|second|third');
+
 });
 
 /*
