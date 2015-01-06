@@ -221,8 +221,10 @@ class AndroidController extends BaseController
 
 						// Protrait section
 						$portrait               = Input::get('portrait');
-						if($portrait != NULL) // User update avatar
+						if($portrait = 'null')
 						{
+							$user->portrait 	= $oldPortrait;  // User not update avatar
+						} else{  // User update avatar
 							$portraitPath		= public_path('portrait/');
 							$user->portrait     = 'android/'.$portrait; // Save file name to database
 						}
@@ -248,7 +250,7 @@ class AndroidController extends BaseController
 
 						if ($user->save() && $profile->save()) {
 							// Update success
-							if($portrait != NULL) // User update avatar
+							if($portrait != 'null') // User update avatar
 							{
 								$oldAndroidPortrait = strpos($oldPortrait, 'android');
 								if($oldAndroidPortrait === false) // Must use ===
@@ -878,6 +880,56 @@ class AndroidController extends BaseController
 						return Response::json(
 							array(
 								'status' 		=> 0
+							)
+						);
+					}
+				break;
+
+				// Renew
+
+				case "renew" :
+					if (Input::get('dorenew') != 'null') {
+						$renew	= Input::get('renew');
+						$today	= Carbon::today();
+						$user	= Profile::where('user_id', Input::get('id'))->first();
+						$points	= User::where('id', Input::get('id'))->first();
+
+						if($user->renew_at == '0000-00-00 00:00:00'){ // First renew
+							$user->renew_at	= Carbon::now();
+							$user->renew	= $user->renew + 1;
+							$points->points	= $points->points + 2;
+							$user->save();
+							$points->save();
+							return Response::json(
+								array(
+									'status' 		=> 1,
+									'renewdays' 	=> $user->renew
+								)
+							);
+						} else if ($today >= $user->renew_at){ // You haven't renew today
+							$user->renew_at	= Carbon::now();
+							$user->renew	= $user->renew + 1;
+							$points->points	= $points->points + 2;
+							$user->save();
+							$points->save();
+							return Response::json(
+								array(
+									'status' 		=> 1,
+									'renewdays' 	=> $user->renew
+								)
+							);
+						} else { // You have renew today
+							return Response::json(
+								array(
+									'status' 		=> 2
+								)
+							);
+						}
+					} else {
+						return Response::json(
+							array(
+								'status'	=> 1,
+								'renewdays'	=> Profile::where('user_id', Input::get('id'))->first()->renew
 							)
 						);
 					}

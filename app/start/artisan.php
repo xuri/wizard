@@ -12,3 +12,4 @@
 */
 
 Artisan::add(new analytics);
+Artisan::add(new chatrecord);
