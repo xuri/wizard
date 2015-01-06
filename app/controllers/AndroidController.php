@@ -215,7 +215,7 @@ class AndroidController extends BaseController
 
 						// Verification success
 						// Update account
-						$user                   = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
+						$user                   = User::where('id', Input::get('id'))->first();
 						$oldPortrait			= $user->portrait;
 						$user->nickname         = Input::get('nickname');
 
@@ -391,13 +391,13 @@ class AndroidController extends BaseController
 					// Get all form data
 
 					$info = array(
-						'phone'   => Input::get('phone'),
+						'id'   => Input::get('id'),
 					);
 
 					if ($info)
 					{
 						// Retrieve user
-						$user				= User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
+						$user				= User::where('id', Input::get('id'))->first();
 						$profile			= Profile::where('user_id', $user->id)->first();
 						$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
 						$tag_str			= explode(',', substr($profile->tag_str, 1)); // Get user's tag
