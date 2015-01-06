@@ -52,7 +52,7 @@ class AndroidController extends BaseController
 
 				// Signin
 
-				case "login" :
+				case 'login' :
 					// Credentials
 					$credentials = array(
 						'email'		=> Input::get('phone'),
@@ -86,7 +86,7 @@ class AndroidController extends BaseController
 
 				// Signup
 
-				case "signup" :
+				case 'signup' :
 					// Get all form data.
 					$data = Input::all();
 					// Create validation rules
@@ -158,7 +158,7 @@ class AndroidController extends BaseController
 
 				// Profile complete
 
-				case "complete" :
+				case 'complete' :
 					// Get all form data
 					$info = array(
 						'nickname'      => Input::get('nickname'),
@@ -284,7 +284,7 @@ class AndroidController extends BaseController
 
 				// Members
 
-				case "members_index" :
+				case 'members_index' :
 					$last_id  = Input::get('lastid'); // Post last user id from Android client
 					$per_page = Input::get('perpage'); // Post count per query from Android client
 					if($last_id) // If Android have post last user id
@@ -340,7 +340,7 @@ class AndroidController extends BaseController
 
 				// Members show profile
 
-				case "members_show" :
+				case 'members_show' :
 					// Get all form data
 
 					$info = array(
@@ -389,7 +389,7 @@ class AndroidController extends BaseController
 
 				// Profile
 
-				case "account" :
+				case 'account' :
 					// Get all form data
 
 					$info = array(
@@ -431,7 +431,7 @@ class AndroidController extends BaseController
 
 				// Like
 
-				case "like" :
+				case 'like' :
 					// Get all form data.
 					$data	= Input::all();
 					// Create validation rules
@@ -538,7 +538,7 @@ class AndroidController extends BaseController
 
 				// Sent
 
-				case "sent" :
+				case 'sent' :
 					$last_id	= Input::get('lastid'); // Post last user id from Android client
 					$per_page	= Input::get('perpage'); // Post count per query from Android client
 					$user_id	= Input::get('id'); // Get user id
@@ -631,7 +631,7 @@ class AndroidController extends BaseController
 
 				// Inbox
 
-				case "inbox" :
+				case 'inbox' :
 					$last_id	= Input::get('lastid'); // Post last user id from Android client
 					$per_page	= Input::get('perpage'); // Post count per query from Android client
 					$user_id	= Input::get('id'); // Get user id
@@ -724,7 +724,7 @@ class AndroidController extends BaseController
 
 				// Accept
 
-				case "accept" :
+				case 'accept' :
 					$id				= Input::get('senderid'); // Get sender ID from client
 					$sender 		= User::where('id', $id)->first();
 					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
@@ -788,7 +788,7 @@ class AndroidController extends BaseController
 
 				// Reject
 
-				case "reject" :
+				case 'reject' :
 					$id				= Input::get('senderid'); // Get sender ID from client
 					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
 					$receiver		= User::where('id', $receiver_id)->first();
@@ -833,7 +833,7 @@ class AndroidController extends BaseController
 
 				// Block
 
-				case "block" :
+				case 'block' :
 					$id				= Input::get('senderid');
 					$receiver_id	= Input::get('id');
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
@@ -887,7 +887,7 @@ class AndroidController extends BaseController
 
 				// Renew
 
-				case "renew" :
+				case 'renew' :
 					if (Input::get('dorenew') != 'null') {
 						$renew	= Input::get('renew');
 						$today	= Carbon::today();
@@ -937,7 +937,7 @@ class AndroidController extends BaseController
 
 				// Get Username
 
-				case "getnickname" :
+				case 'getnickname' :
 					$id		= Input::get('id'); // Get query ID from App client
 					$sender = Like::where('receiver_id', $id)
 								->where('status', 1)
