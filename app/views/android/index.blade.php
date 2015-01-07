@@ -19,30 +19,91 @@ Android Debug
 // 	echo $test->body;
 
 
-$lastRecord = ForumPost::orderBy('id', 'desc')->first()->id; // Query last user id in database
-$items	= ForumPost::where('category_id', 1)
-			->orderBy('created_at' , 'desc')
-			->where('id', '<=', $lastRecord)
-			->select('id', 'user_id', 'title', 'content', 'created_at')
-			->take('10')
-			->get()
-			->toArray();
-// Replace receiver ID to receiver portrait
-foreach($items as $key => $field){
-	$post_user = User::where('id', $items[$key]['user_id'])->first();
-	$items[$key]['portrait']	= route('home').'/'.'portrait/'.$post_user->portrait; // Get post user portrait real storage path
-	$items[$key]['sex']	= $post_user->sex; // Get post user sex (M, F or null)
-	$items[$key]['comments_count'] = ForumComments::where('post_id', $items[$key]['id'])->count();
-	$items[$key]['nickname'] = $post_user->nickname;
-	$items[$key]['content'] = getplaintextintrofromhtml($items[$key]['content'], Input::get('numchars'));
-	// Using expression get all picture attachments (Only with pictures stored on this server.)
-	preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
-	// Construct picture attachments list
-	$items[$key]['thumbnails'] = array_pop($match);
+
+
+$postid		= 80;
+
+
+$perpage	= 10;
+
+// If Android have post last user id
+// Retrive post data
+$post		= ForumPost::where('id', $postid)->first();
+
+// Retrive user data of this post
+$author		= User::where('id', $post->user_id)->first();
+
+// Get last record from database
+$lastRecord	= ForumComments::orderBy('id', 'desc')->first()->id;
+
+// Query all comments of this post
+$comments	= ForumComments::where('post_id', $postid)
+					->orderBy('created_at' , 'desc')
+					->where('id', '<=', $lastRecord)
+					->select('id', 'user_id', 'content', 'created_at')
+					->take($perpage)
+					->get()
+					->toArray();
+// Build comments array and include reply information
+foreach($comments as $key => $field) {
+
+	// Retrive comments user
+	$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
+
+	// Comments user ID
+	$comments[$key]['user_id']			= $comments_user->id;
+
+	// Comments user portrait
+	$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
+
+	// Comments user sex
+	$comments[$key]['user_sex']			= $comments_user->sex;
+
+	// Query all replies of this post
+	$replies = ForumReply::where('comments_id', $comments[$key]['id'])
+				->select('id', 'user_id', 'content', 'created_at')
+				->orderBy('created_at' , 'desc')
+				->take(3)
+				->get()
+				->toArray();
+
+	// Calculate total replies of this post
+	$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+
+	// Build reply array
+	foreach($replies as $key => $field) {
+
+		// Retrive reply user
+		$reply_user					= User::where('id', $replies[$key]['user_id'])->first();
+
+		// Reply user sex
+		$replies[$key]['sex']		= $reply_user->sex;
+
+		// Reply user portrait
+		$replies[$key]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
+
+	}
+
+	// Add comments replies array to post comments_reply array
+	$comments[$key]['comment_reply'] = $replies;
+
 }
 
-echo '<pre>';
-//print_r($items);
+// Build Data Array
+$data = array(
+	'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
+	'sex'			=> $author->sex, // Post user sex
+	'nickname'		=> $author->nickname, // Post user nickname
+	'user_id'		=> $author->id, // Post user ID
+	'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
+	'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
+	'content'		=> $post->content, // Post content
+	'comments'		=> $comments // Post comments (array format and include reply)
 
-echo json_encode($items);
+);
+
+// Build Json format
+echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+
+
 ?>

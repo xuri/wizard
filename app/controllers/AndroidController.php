@@ -1079,14 +1079,14 @@ class AndroidController extends BaseController
 							// Get post user portrait and add portrait key to array
 							$items[$key]['nickname']		= $post_user->nickname;
 
-							// Get plain text from post content HTML code and replace to content value in array
-							$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
-
 							// Using expression get all picture attachments (Only with pictures stored on this server.)
-							preg_match_all( '@_src			="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
+							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 							// Construct picture attachments list and add thumbnails (array format) to array
-							$items[$key]['thumbnails']		= array_pop($match);
+							$items[$key]['thumbnails']		= join(',', array_pop($match));
+
+							// Get plain text from post content HTML code and replace to content value in array
+							$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
 						}
 
 						// Build Json format
@@ -1123,18 +1123,185 @@ class AndroidController extends BaseController
 							// Get post user portrait and add portrait key to array
 							$items[$key]['nickname']		= $post_user->nickname;
 
-							// Get plain text from post content HTML code and replace to content value in array
-							$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
-
 							// Using expression get all picture attachments (Only with pictures stored on this server.)
-							preg_match_all( '@_src			="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
+							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 							// Construct picture attachments list and add thumbnails (array format) to array
-							$items[$key]['thumbnails']		= array_pop($match);
+							$items[$key]['thumbnails']		= join(',', array_pop($match));
+
+							// Get plain text from post content HTML code and replace to content value in array
+							$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
 						}
 
 						// Build Json format
 						return '{ "status" : "1", "data" : ' . json_encode($items) . '}';
+					}
+
+				break;
+
+				// Forum Get to Show Post
+				case 'forum_getpost' :
+					$postid		= Input::get('postid');
+
+					$lastid		= Input::get('lastid');
+
+					$perpage	= Input::get('perpage', 10);
+
+					// If Android have post last user id
+					if($lastid != 'null') {
+						// Retrive post data
+						$post		= ForumPost::where('id', $postid)->first();
+
+						// Retrive user data of this post
+						$author		= User::where('id', $post->user_id)->first();
+
+						// Query all comments of this post
+						$comments	= ForumComments::where('post_id', $postid)
+											->orderBy('created_at' , 'desc')
+											->where('id', '<', $lastid)
+											->select('id', 'user_id', 'content', 'created_at')
+											->take($perpage)
+											->get()
+											->toArray();
+						// Build comments array and include reply information
+						foreach($comments as $key => $field) {
+
+							// Retrive comments user
+							$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
+
+							// Comments user ID
+							$comments[$key]['user_id']			= $comments_user->id;
+
+							// Comments user portrait
+							$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
+
+							// Comments user sex
+							$comments[$key]['user_sex']			= $comments_user->sex;
+
+							// Query all replies of this post
+							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
+										->select('id', 'user_id', 'content', 'created_at')
+										->orderBy('created_at' , 'desc')
+										->take(3)
+										->get()
+										->toArray();
+
+							// Calculate total replies of this post
+							$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+
+							// Build reply array
+							foreach($replies as $key => $field) {
+
+								// Retrive reply user
+								$reply_user					= User::where('id', $replies[$key]['user_id'])->first();
+
+								// Reply user sex
+								$replies[$key]['sex']		= $reply_user->sex;
+
+								// Reply user portrait
+								$replies[$key]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
+
+							}
+
+							// Add comments replies array to post comments_reply array
+							$comments[$key]['comment_reply'] = $replies;
+
+						}
+
+						// Build Data Array
+						$data = array(
+							'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
+							'sex'			=> $author->sex, // Post user sex
+							'nickname'		=> $author->nickname, // Post user nickname
+							'user_id'		=> $author->id, // Post user ID
+							'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
+							'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
+							'content'		=> $post->content, // Post content
+							'comments'		=> $comments // Post comments (array format and include reply)
+
+						);
+
+						// Build Json format
+						return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+					} else { // First get data from Android client
+
+						// Retrive post data
+						$post		= ForumPost::where('id', $postid)->first();
+
+						// Retrive user data of this post
+						$author		= User::where('id', $post->user_id)->first();
+
+						// Get last record from database
+						$lastRecord	= ForumComments::orderBy('id', 'desc')->first()->id;
+
+						// Query all comments of this post
+						$comments	= ForumComments::where('post_id', $postid)
+											->orderBy('created_at' , 'desc')
+											->where('id', '<=', $lastRecord)
+											->select('id', 'user_id', 'content', 'created_at')
+											->take($perpage)
+											->get()
+											->toArray();
+						// Build comments array and include reply information
+						foreach($comments as $key => $field) {
+
+							// Retrive comments user
+							$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
+
+							// Comments user ID
+							$comments[$key]['user_id']			= $comments_user->id;
+
+							// Comments user portrait
+							$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
+
+							// Comments user sex
+							$comments[$key]['user_sex']			= $comments_user->sex;
+
+							// Query all replies of this post
+							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
+										->select('id', 'user_id', 'content', 'created_at')
+										->orderBy('created_at' , 'desc')
+										->take(3)
+										->get()
+										->toArray();
+
+							// Calculate total replies of this post
+							$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+
+							// Build reply array
+							foreach($replies as $key => $field) {
+
+								// Retrive reply user
+								$reply_user					= User::where('id', $replies[$key]['user_id'])->first();
+
+								// Reply user sex
+								$replies[$key]['sex']		= $reply_user->sex;
+
+								// Reply user portrait
+								$replies[$key]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
+
+							}
+
+							// Add comments replies array to post comments_reply array
+							$comments[$key]['comment_reply'] = $replies;
+
+						}
+
+						// Build Data Array
+						$data = array(
+							'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
+							'sex'			=> $author->sex, // Post user sex
+							'nickname'		=> $author->nickname, // Post user nickname
+							'user_id'		=> $author->id, // Post user ID
+							'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
+							'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
+							'content'		=> $post->content, // Post content
+							'comments'		=> $comments // Post comments (array format and include reply)
+
+						);
+
+						// Build Json format
+						return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 					}
 
 				break;
