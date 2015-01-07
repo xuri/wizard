@@ -1,12 +1,11 @@
 @include('authority.header')
 @yield('content')
 
-	<div id="login_wrap">
-		<h2 id="login_title_1">让爱从心开始</h2>
-		<h2 id="login_title_2">爱情起航</h2>
-		{{ HTML::image('assets/images/login_heart.png', '', array('id' => 'login_heart')) }}
+	@include('layout.navigation')
+	@yield('content')
 
-		{{ HTML::image('assets/images/login_ship.png', '', array('id' => 'login_ship')) }}
+	<div id="login_wrap">
+		<h2 id="login_title_2">让爱情起航，从心开始</h2>
 
 		<a id="login_index" href="{{ route('home') }}">回到首页</a>
 		<a id="login_tab" href="javascript:;">登陆</a>
@@ -43,6 +42,9 @@
 		</div>
 		{{-- login_main_3d --}}
 	</div>
+
+	@include('layout.copyright')
+	@yield('content')
 
 @include('authority.footer')
 @yield('content')

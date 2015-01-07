@@ -128,7 +128,8 @@ class AndroidController extends BaseController
 								->setHeader('Authorization', 'Bearer '.$easemob->token)
 								->setOptions([CURLOPT_VERBOSE => true])
 								->send();
-
+							// Create floder to store chat record
+							File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 							// Redirect to a registration page, prompts user to activate
 							// Signin success, redirect to the previous page that was blocked
 							return Response::json(
@@ -960,6 +961,65 @@ class AndroidController extends BaseController
 						);
 					}
 				break;
+
+				// Set avatar
+
+				case 'setportrait' :
+
+					// Retrive user
+					$user			= User::where('id', Input::get('id'))->first();
+					// Old portrait
+					$oldPortrait	= $user->portrait;
+					// Get user portrait name
+					$portrait		= Input::get('portrait');
+
+					// User not update portrait
+					if($portrait == $oldPortrait)
+					{
+						// Direct return success
+						return Response::json(
+							array(
+								'status' 		=> 1
+							)
+						);
+					} else{
+
+						// User update avatar
+						$portraitPath		= public_path('portrait/');
+
+						// Save file name to database
+						$user->portrait     = 'android/'.$portrait;
+
+						if ($user->save()) {
+							// Update success
+							$oldAndroidPortrait = strpos($oldPortrait, 'android');
+							if($oldAndroidPortrait === false) // Must use ===
+							{
+								File::delete($portraitPath.$oldPortrait); // Delete old poritait
+									return Response::json(
+									array(
+										'status' 	=> 1
+									)
+								);
+							} else {
+								// Update fail
+								return Response::json(
+									array(
+										'status' 	=> 0
+									)
+								);
+							}
+						} else {
+							// Update fail
+							return Response::json(
+								array(
+									'status' 	=> 0
+								)
+							);
+						}
+					}
+				break;
+
 			}
 		} else {
 			return Response::json(

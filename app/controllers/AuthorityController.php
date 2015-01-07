@@ -264,6 +264,8 @@ class AuthorityController extends BaseController
 						->setHeader('Authorization', 'Bearer '.$easemob->token)
 						->setOptions([CURLOPT_VERBOSE => true])
 						->send();
+					// Create floder to store chat record
+					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 					// Send activation mail
 					$with = array('activationCode' => $activation->token);
 					Mail::later(10, 'emails.auth.activation', $with, function ($message) use ($user) {

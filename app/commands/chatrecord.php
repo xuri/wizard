@@ -69,12 +69,12 @@ class chatrecord extends ScheduledCommand {
 				->send();
 
 			// Determining If a File Exists
-			if (File::exists(app_path('chatrecord/' . $user->id . '.log'))) {
+			if (File::exists(app_path('chatrecord/user_' . $user->id . '/' . date('Ymd') . '.log'))) {
 				// Appending to a File
-			    File::append(app_path('chatrecord/' . $user->id . '.log'), $chat_record->body);
+			    File::append(app_path('chatrecord/user_' . $user->id . '/' . date('Ymd') . '.log'), $chat_record->body);
 			} else {
 				// Writing the Contents of a File (create or replace a file's contents)
-			    File::append(app_path('chatrecord/' . $user->id . '.log'), $chat_record->body);
+			    File::append(app_path('chatrecord/user_' . $user->id . '/' . date('Ymd') . '.log'), $chat_record->body);
 			}
 
 		}
