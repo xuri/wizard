@@ -3,6 +3,7 @@
 	// Define variable use in forum-post.js
 	var csrfToken							= '{{ csrf_token() }}';
 	var forumControllerPostCommentAction	= "{{ action('ForumController@postComment', $data->id) }}";
+	var homeuri								= "{{ route('home') }}";
 </script>
 {{ HTML::script('assets/js/forum-post.js') }}
 </body>

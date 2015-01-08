@@ -946,20 +946,33 @@ class AndroidController extends BaseController
 				// Get Username
 
 				case 'getnickname' :
-					$id		= Input::get('id'); // Get query ID from App client
+
+					// Get query ID from App client
+					$id		= Input::get('id');
+
+					// Get sender user data
 					$sender = Like::where('receiver_id', $id)
 								->where('status', 1)
 								->select('sender_id')
 								->get()
-								->toArray(); // Get sender user data
+								->toArray();
+
 					foreach($sender as $key => $field){
-							$sender[$key]['nickname']	= User::where('id', $sender[$key]['sender_id'])->first()->nickname; // Sender nickname
-							$sender[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $sender[$key]['sender_id'])->first()->portrait; // Sender portrait
+
+							// Sender nickname
+							$sender[$key]['nickname']	= User::where('id', $sender[$key]['sender_id'])->first()->nickname;
+
+							// Sender portrait
+							$sender[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $sender[$key]['sender_id'])->first()->portrait;
 						}
-					$sender = json_encode($sender); // Convert array to json format
-					if($sender) // Query successful
+
+					// Convert array to json format
+					$sender = json_encode($sender);
+
+					// Query successful
+					if($sender)
 					{
-						return '{ "status" : "1", "data" : '.$sender.'}';
+						return '{ "status" : "1", "data" : ' . $sender . '}';
 					} else {
 						return Response::json(
 							array(
@@ -1181,6 +1194,8 @@ class AndroidController extends BaseController
 							// Comments user nickname
 							$comments[$key]['user_nickname']	= $comments_user->nickname;
 
+							// Removing contents html tags except image and text string
+							$comments[$key]['content']			= strip_tags($comments[$key]['content'], '<img>');
 							// Query all replies of this post
 							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 										->select('id', 'user_id', 'content', 'created_at')
@@ -1219,7 +1234,7 @@ class AndroidController extends BaseController
 							'user_id'		=> $author->id, // Post user ID
 							'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 							'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-							'content'		=> $post->content, // Post content
+							'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
 							'comments'		=> $comments // Post comments (array format and include reply)
 
 						);
@@ -1254,6 +1269,8 @@ class AndroidController extends BaseController
 							// Comments user ID
 							$comments[$key]['user_id']			= $comments_user->id;
 
+							// Removing contents html tags except image and text string
+							$comments[$key]['content']			= strip_tags($comments[$key]['content'], '<img>');
 							// Comments user portrait
 							$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
@@ -1301,7 +1318,7 @@ class AndroidController extends BaseController
 							'user_id'		=> $author->id, // Post user ID
 							'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 							'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-							'content'		=> $post->content, // Post content
+							'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
 							'comments'		=> $comments // Post comments (array format and include reply)
 
 						);
@@ -1345,9 +1362,9 @@ class AndroidController extends BaseController
 						$reply				= new ForumReply;
 						$reply->content		= $content;
 						$reply->reply_id	= Input::get('replyid');
-						$reply->comments_id	= Input::get('commentsid');
+						$reply->comments_id	= Input::get('commentid');
 						$reply->user_id		= $user_id;
-						$reply->floor		= ForumReply::where('comments_id', Input::get('commentsid'))->count() + 1; // Calculate this reply in which floor
+						$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1; // Calculate this reply in which floor
 						if($reply->save())
 						{
 							// Reply success
