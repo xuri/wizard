@@ -124,7 +124,7 @@ class ForumController extends BaseController {
 	{
 		$data		= ForumPost::where('id', $id)->first();
 		$author		= User::where('id', $data->user_id)->first();
-		$comments	= ForumComments::where('post_id', $id)->orderBy('created_at' , 'desc')->paginate(10);
+		$comments	= ForumComments::where('post_id', $id)->orderBy('created_at' , 'asc')->paginate(10);
 		$floor		= 2;
 
 		if (Request::ajax()) {

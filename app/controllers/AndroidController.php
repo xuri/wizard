@@ -1178,6 +1178,9 @@ class AndroidController extends BaseController
 							// Comments user sex
 							$comments[$key]['user_sex']			= $comments_user->sex;
 
+							// Comments user nickname
+							$comments[$key]['user_nickname']	= $comments_user->nickname;
+
 							// Query all replies of this post
 							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 										->select('id', 'user_id', 'content', 'created_at')
@@ -1236,7 +1239,7 @@ class AndroidController extends BaseController
 
 						// Query all comments of this post
 						$comments	= ForumComments::where('post_id', $postid)
-											->orderBy('created_at' , 'desc')
+											->orderBy('created_at' , 'asc')
 											->where('id', '<=', $lastRecord)
 											->select('id', 'user_id', 'content', 'created_at')
 											->take($perpage)
@@ -1257,10 +1260,13 @@ class AndroidController extends BaseController
 							// Comments user sex
 							$comments[$key]['user_sex']			= $comments_user->sex;
 
+							// Comments user nickname
+							$comments[$key]['user_nickname']	= $comments_user->nickname;
+
 							// Query all replies of this post
 							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 										->select('id', 'user_id', 'content', 'created_at')
-										->orderBy('created_at' , 'desc')
+										->orderBy('created_at' , 'asc')
 										->take(3)
 										->get()
 										->toArray();
@@ -1303,6 +1309,67 @@ class AndroidController extends BaseController
 						// Build Json format
 						return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 					}
+
+				break;
+
+				// Forum Post Comments
+				case 'forum_postcomment' :
+					$user_id = Input::get('userid');
+					$post_id = Input::get('postid');
+					$content = Input::get('content');
+					// Select post type
+					if(Input::get('type') == 'comments') // Post comments
+					{
+						$comment			= new ForumComments;
+						$comment->post_id	= $post_id;
+						$comment->content	= $content;
+						$comment->user_id	= $user_id;
+						$comment->floor		= ForumComments::where('post_id', $post_id)->count() + 2; // Calculate this comment in which floor
+						if($comment->save())
+						{
+							return Response::json(
+								array(
+									'status'	=> 1
+								)
+							);
+						} else {
+							return Response::json(
+								array(
+									'status'	=> 0
+								)
+							);
+						}
+					} else { // Post reply
+
+						// Create comments reply
+						$reply				= new ForumReply;
+						$reply->content		= $content;
+						$reply->reply_id	= Input::get('replyid');
+						$reply->comments_id	= Input::get('commentsid');
+						$reply->user_id		= $user_id;
+						$reply->floor		= ForumReply::where('comments_id', Input::get('commentsid'))->count() + 1; // Calculate this reply in which floor
+						if($reply->save())
+						{
+							// Reply success
+							return Response::json(
+								array(
+									'status'	=> 1
+								)
+							);
+						} else {
+							// Reply fail
+							return Response::json(
+								array(
+									'status'	=> 0
+								)
+							);
+						}
+
+					} // End of select post type
+				break;
+
+				// Upload Images
+				case 'uploadimages' :
 
 				break;
 			}

@@ -289,36 +289,12 @@
 							<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
 							<div><span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
 						</div>
-						<div class="sgnin_con">
-							<div class="comeon">
-								<span class="comeon_title">为爱情正能量加油</span>
-								<a id="clickon" href="javascript:;">加油</a>
-								<div id="instr">
-									<div>当你加油累积<span>10</span>天后，会得到代表(活跃用户标志)的<em>橙色昵称</em></div>
-									<div>当你加油累积<span>30</span>天后，会得到代表粉丝级用户标志的<span>头像加冠</span></div>
-									<div>当你加油累积<span>50</span>天后，会得到价值<span>120</span>元的公仔一个</div>
-									<div>如果你加油累积到<span>50天以后</span>呢？只要你相信真爱，就会惊喜不断，让我们一起为真爱加油助威吧</div>
-									<div><strong>注意：如果断签一天会扣除2天的能量值</strong></div>
-								</div>
-							</div>
-							<div class="pillars">
-								<div id="pillars_fixed">
-									<div id="pillars_auto" style=" width: 0px;">
-										{{ HTML::image('assets/images/preInfoEdit/hert.png') }}
-										<div>已加油<span>0</span>天</div>
-									</div>
-									<span class="num num1">0</span>
-									<span class="num num2">25</span>
-									<span class="num num3">50</span>
-								</div>
-							</div>
-						</div>
+						@include('account.points')
+						@yield('content')
 					</div>
 				</div>
 
-
-
-				{{-- 资料部分 --}}
+				{{-- Profile Section --}}
 				<div id="data">
 					<a href="{{ route('account') }}" class="editor">取消</a>
 					<div class="data_top clear">
