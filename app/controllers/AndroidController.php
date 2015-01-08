@@ -1208,16 +1208,16 @@ class AndroidController extends BaseController
 							$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
 
 							// Build reply array
-							foreach($replies as $key => $field) {
+							foreach($replies as $keys => $field) {
 
 								// Retrive reply user
-								$reply_user					= User::where('id', $replies[$key]['user_id'])->first();
+								$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
 
 								// Reply user sex
-								$replies[$key]['sex']		= $reply_user->sex;
+								$replies[$keys]['sex']		= $reply_user->sex;
 
 								// Reply user portrait
-								$replies[$key]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
+								$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
 
 							}
 
@@ -1292,16 +1292,16 @@ class AndroidController extends BaseController
 							$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
 
 							// Build reply array
-							foreach($replies as $key => $field) {
+							foreach($replies as $keys => $field) {
 
 								// Retrive reply user
-								$reply_user					= User::where('id', $replies[$key]['user_id'])->first();
+								$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
 
 								// Reply user sex
-								$replies[$key]['sex']		= $reply_user->sex;
+								$replies[$keys]['sex']		= $reply_user->sex;
 
 								// Reply user portrait
-								$replies[$key]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
+								$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
 
 							}
 
@@ -1383,6 +1383,34 @@ class AndroidController extends BaseController
 						}
 
 					} // End of select post type
+				break;
+
+				// Forum Post New
+
+				case 'forum_postnew' :
+
+					// Create new post
+					$post				= new ForumPost;
+					$post->category_id	= Input::get('catid');
+					$post->title		= Input::get('title');
+					$post->user_id		= Input::get('userid');
+					$post->content		= Input::get('content');
+					if($post->save()) {
+						// Create successful
+						return Response::json(
+							array(
+								'status' 		=> 1
+							)
+						);
+					} else {
+						// Create fail
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
+					}
+
 				break;
 
 				// Upload Images
