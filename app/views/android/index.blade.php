@@ -18,4 +18,17 @@ Android Debug
 // 		->send();
 // 	echo $test->body;
 
+$obj = json_decode('{
+    "image1": ["jpg", "www.baidu.com"],
+    "image2": ["png", "www.tecent.com"],
+    "image3": ["jpg", "www.taobao.com"]
+}');
+
+$path = array();
+foreach($obj as $key => $item) {
+	echo $item['0'];
+	$path[$key] = $item['1'].$item['0'];
+}
+
+print_r($path);
 ?>

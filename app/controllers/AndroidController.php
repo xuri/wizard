@@ -357,7 +357,7 @@ class AndroidController extends BaseController
 					);
 					if ($info)
 					{
-						$sender_id	= User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first()->id; // Sender ID
+						$sender_id	= User::where('phone', Input::get('senderid'))->orWhere('email', Input::get('senderid'))->first()->id; // Sender ID
 						$user_id	= Input::get('userid');
 						$data		= User::where('id', $user_id)->first();
 						$profile	= Profile::where('user_id', $user_id)->first();
@@ -1414,8 +1414,34 @@ class AndroidController extends BaseController
 				break;
 
 				// Upload Images
-				case 'uploadimages' :
+				case 'uploadimage' :
+					// Get all json format data from Android client and json decode data
+					$items	= json_decode(Input::get('data'));
 
+					// Create an empty array to store path of upload image
+					$path	= array();
+
+					// Foreach upload data
+					foreach($items as $key => $item) {
+						$image			= str_replace('data:image/' . $item[$key]['1'] . ';base64,', '', $item[$key]['1']);
+						$image			= str_replace(' ', '+', $image);
+
+						// Decode string
+						$imageData		= base64_decode($image);
+
+						// Define upload path
+						$imagePath		= public_path('upload/');
+						$imageFile		= uniqid() . '.' . $item[$key]['0']; // Portrait file name
+						$successUpload	= file_put_contents($imagePath . $imageFile, $imageData); // Store file
+						$path[$key]		= $imagePath . $imageFile;
+					}
+					// Create success
+					return Response::json(
+						array(
+							'status'	=> 1,
+							'path'		=> $path
+						)
+					);
 				break;
 			}
 		} else {

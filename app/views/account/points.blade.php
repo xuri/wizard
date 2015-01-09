@@ -10,9 +10,9 @@
 	</div>
 	<div class="pillars">
 		<div id="pillars_fixed">
-			<div id="pillars_auto" style=" width: 0px;">
+			<div id="pillars_auto" style="width: {{ Auth::user()->points }}0px;">
 				{{ HTML::image('assets/images/preInfoEdit/hert.png') }}
-				<div>已加油<span>0</span>天</div>
+				<div>已加油<span>{{ $profile->renew }}</span>天</div>
 			</div>
 			<span class="num num1">0</span>
 			<span class="num num2">25</span>
