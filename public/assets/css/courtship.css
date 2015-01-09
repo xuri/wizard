@@ -283,6 +283,7 @@ body {
 	background: #12d5ec;
 	top: 0px;
 	left: 0px;
+	max-width: 500px;
 }
 
 #pillars_auto img {

@@ -38,8 +38,8 @@ class AccountController extends BaseController
 	 */
 	public function getComplete()
 	{
-		$profile = Profile::where('user_id', Auth::user()->id)->first();
-		$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
+		$profile			= Profile::where('user_id', Auth::user()->id)->first();
+		$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
 		return View::make('account.complete')->with(compact('profile', 'constellationInfo'));
 	}
 
@@ -232,8 +232,11 @@ class AccountController extends BaseController
 	 */
 	public function getSent()
 	{
-		$datas = Like::where('sender_id', Auth::user()->id)->get();
-		return View::make('account.sent.index')->with(compact('datas'));
+		$datas		= Like::where('sender_id', Auth::user()->id)->get();
+
+		// Get user's profile
+		$profile	= Profile::where('user_id', Auth::user()->id)->first();
+		return View::make('account.sent.index')->with(compact('datas', 'profile'));
 	}
 
 	/**
@@ -242,8 +245,11 @@ class AccountController extends BaseController
 	 */
 	public function getInbox()
 	{
-		$datas = Like::where('receiver_id', Auth::user()->id)->get();
-		return View::make('account.inbox.index')->with(compact('datas'));
+		$datas		= Like::where('receiver_id', Auth::user()->id)->get();
+
+		// Get user's profile
+		$profile	= Profile::where('user_id', Auth::user()->id)->first();
+		return View::make('account.inbox.index')->with(compact('datas', 'profile'));
 	}
 
 	/**
@@ -253,10 +259,14 @@ class AccountController extends BaseController
 	public function getPosts()
 	{
 		$posts = ForumPost::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+
+		// Get user's profile
+		$profile	= Profile::where('user_id', Auth::user()->id)->first();
+
 		if (Request::ajax()) {
 			return Response::json(View::make('account.posts.load-ajax')->with(compact('posts'))->render());
 		}
-		return View::make('account.posts.index')->with(compact('posts'));
+		return View::make('account.posts.index')->with(compact('posts', 'profile'));
 	}
 
 	/**
@@ -265,6 +275,9 @@ class AccountController extends BaseController
 	 */
 	public function getNotifications()
 	{
+		// Get user's profile
+		$profile	= Profile::where('user_id', Auth::user()->id)->first();
+
 		$items_per_page = Input::get('per_pg', 5);
 
 		$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(1, 2, 3, 4, 5, 10))->paginate($items_per_page);
@@ -274,7 +287,7 @@ class AccountController extends BaseController
 		$forumNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(6, 7))->where('status', 0)->count();
 		$systemNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(8, 9))->where('status', 0)->count();
 
-		return View::make('account.notifications.index')->with(compact('friendNotifications', 'forumNotifications', 'systemNotifications', 'friendNotificationsCount', 'forumNotificationsCount', 'systemNotificationsCount'));
+		return View::make('account.notifications.index')->with(compact('friendNotifications', 'forumNotifications', 'systemNotifications', 'friendNotificationsCount', 'forumNotificationsCount', 'systemNotificationsCount', 'profile'));
 	}
 
 	/**
