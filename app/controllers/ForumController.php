@@ -42,15 +42,15 @@ class ForumController extends BaseController {
 		$items_per_page = Input::get('per_pg', 10);
 
 		if ($type == 'first') {
-			$items			= ForumPost::where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
 			$categoryCode	= 1;
 			$editorCode		= 'cat1_editor';
 		} else if ($type == 'second'){
-			$items			= ForumPost::where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$items			= ForumPost::where('block', false)->where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
 			$categoryCode	= 2;
 			$editorCode		= 'cat2_editor';
 		} else {
-			$items			= ForumPost::where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$items			= ForumPost::where('block', false)->where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
 			$categoryCode	= 3;
 			$editorCode		= 'cat3_editor';
 		}

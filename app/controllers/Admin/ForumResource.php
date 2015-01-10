@@ -79,8 +79,8 @@ class Admin_ForumResource extends BaseResource
 	}
 
 	/**
-	 * Block forum post
-	 * POST /{id}/block
+	 * Unclock forum post
+	 * GET /{id}/block
 	 * @return Response     View
 	 */
 	public function unclock($id)
@@ -88,7 +88,7 @@ class Admin_ForumResource extends BaseResource
 		// Retrieve post
 		$data			= $this->model->find($id);
 
-		// Set block ot unblock post in forum
+		// Set block to unblock post in forum
 		$data->block	= false;
 
 		if (is_null($data)) {
@@ -103,7 +103,7 @@ class Admin_ForumResource extends BaseResource
 
 	/**
 	 * Block forum post
-	 * POST /{id}/block
+	 * GET /{id}/block
 	 * @return Response     View
 	 */
 	public function block($id)
@@ -111,7 +111,7 @@ class Admin_ForumResource extends BaseResource
 		// Retrieve post
 		$data			= $this->model->find($id);
 
-		// Set block ot unblock post in forum
+		// Set block of post in forum
 		$data->block	= true;
 
 		if (is_null($data)) {
@@ -126,7 +126,7 @@ class Admin_ForumResource extends BaseResource
 
 	/**
 	 * Block forum post
-	 * POST /{id}/block
+	 * GET /{id}/block
 	 * @return Response     View
 	 */
 	public function top($id)
@@ -134,7 +134,7 @@ class Admin_ForumResource extends BaseResource
 		// Retrieve post
 		$data			= $this->model->find($id);
 
-		// Set block ot unblock post in forum
+		// Set fix top of post in forum
 		$data->top	= true;
 
 		if (is_null($data)) {
@@ -148,7 +148,7 @@ class Admin_ForumResource extends BaseResource
 	}
 
 	/**
-	 * Untop forum post
+	 * GET forum post
 	 * POST /{id}/block
 	 * @return Response     View
 	 */
@@ -157,7 +157,7 @@ class Admin_ForumResource extends BaseResource
 		// Retrieve post
 		$data			= $this->model->find($id);
 
-		// Set block ot unblock post in forum
+		// Unset fix top of post in forum
 		$data->top	= false;
 
 		if (is_null($data)) {
@@ -203,4 +203,5 @@ class Admin_ForumResource extends BaseResource
 		$count	= 1;
 		return View::make($this->resourceView.'.detail')->with(compact('data', 'sends', 'inboxs', 'count'));
 	}
+
 }

@@ -377,15 +377,17 @@ class AndroidController extends BaseController
 							array(
 								'status'		=> 1,
 								'sex'			=> $data->sex,
-								'portrait'		=> route('home').'/'.'portrait/'.$data->portrait,
+								'bio'			=> $data->bio,
 								'nickname'		=> $data->nickname,
 								'born_year'		=> $data->born_year,
-								'grade'			=> $profile->grade,
+								'school'		=> $data->school,
+								'portrait'		=> route('home').'/'.'portrait/'.$data->portrait,
 								'constellation'	=> $constellationInfo['name'],
 								'tag_str'		=> $tag_str,
 								'hobbies'		=> $profile->hobbies,
-								'bio'			=> $data->bio,
+								'grade'			=> $profile->grade,
 								'question'		=> $profile->question,
+								'self_intro'	=> $profile->self_intro,
 								'like'			=> $likeCount,
 							)
 						);
