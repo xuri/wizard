@@ -150,14 +150,27 @@ class Admin_UserResource extends BaseResource
 			$model->bio				= Input::get('bio');
 			// Update user profile
 			$profile				= Profile::where('user_id', $id)->first();
-			$profile->grade			= Input::get('grade');
-			$profile->constellation	= Input::get('constellation');
-			$profile->tag_str		= Input::get('tag_str');
-			$profile->hobbies		= Input::get('hobbies');
-			$profile->self_intro	= Input::get('self_intro');
-			$profile->question		= Input::get('question');
-			$profile->renew			= Input::get('renew');
-
+			if(Input::get('grade') != null) {
+				$profile->grade			= Input::get('grade');
+			}
+			if(Input::get('constellation') != null) {
+				$profile->constellation	= Input::get('constellation');
+			}
+			if(Input::get('tag_str') != null) {
+				$profile->tag_str		= Input::get('tag_str');
+			}
+			if(Input::get('hobbies') != null) {
+				$profile->hobbies		= Input::get('hobbies');
+			}
+			if(Input::get('self_intro') != null) {
+				$profile->self_intro	= Input::get('self_intro');
+			}
+			if(Input::get('question') != null) {
+				$profile->question		= Input::get('question');
+			}
+			if(Input::get('renew') != null) {
+				$profile->renew			= Input::get('renew');
+			}
 			if ($model->save() && $profile->save())
 			{
 				if(Input::get('system_notification'))
@@ -196,6 +209,59 @@ class Admin_UserResource extends BaseResource
 			// Verification fail
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
+	}
+
+	/**
+	 * Push notifications to user
+	 * GET /{id}/notify
+	 * @param  int $id USer ID
+	 * @return Response     View
+	 */
+	public function notify($id)
+	{
+		$data		= $this->model->where('id', $id)->first();
+		return View::make($this->resourceView.'.notify')->with(compact('data', 'sends', 'inboxs', 'count'));
+	}
+
+	/**
+	 * Push notifications to user
+	 * POST /{id}/notify
+	 * @param  int $id USer ID
+	 * @return Response     View
+	 */
+	public function postNotify($id)
+	{
+		if(Input::get('system_notification') != null)
+		{
+			$notification							= Notification(8, 0, $id); // System notifications to special user
+			$notificationsContent					= new NotificationsContent;
+			$notificationsContent->notifications_id	= $notification->id;
+			$notificationsContent->content			= Input::get('system_notification');
+			$notificationsContent->save();
+
+			$easemob								= getEasemob();
+			// Push notifications to App client
+			cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+					'target_type'	=> 'users',
+					'target'		=> [$id],
+					'msg'			=> ['type' => 'cmd', 'action' => '8'],
+					'from'			=> '0',
+					'ext'			=> ['content' => '系统消息：'.Input::get('system_notification'), 'id' => '0']
+				])
+					->setHeader('content-type', 'application/json')
+					->setHeader('Accept', 'json')
+					->setHeader('Authorization', 'Bearer '.$easemob->token)
+					->setOptions([CURLOPT_VERBOSE => true])
+					->send();
+			// Update success
+			return Redirect::back()
+				->with('success', '<strong>'.$this->resourceName.'系统消息推送成功：</strong>您可以继续推送'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
+		} else {
+			// Update fail
+			return Redirect::back()
+				->with('warning', '<strong>'.$this->resourceName.'推送失败，请输入要推送的系统消息内容。</strong>');
+		}
+
 	}
 
 	/**

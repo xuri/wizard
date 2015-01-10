@@ -153,13 +153,15 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 	Route::group(array('prefix' => 'users'), function () {
 		$resource   = 'users';
 		$controller = 'Admin_UserResource@';
-		Route::get(  	     '/', array('as' => $resource.'.index'  , 'uses' => $controller.'index'  ));
-		Route::get(		'create', array('as' => $resource.'.create' , 'uses' => $controller.'create' ));
-		Route::post( 	     '/', array('as' => $resource.'.store'  , 'uses' => $controller.'store'  ));
-		Route::get(	 '{id}/edit', array('as' => $resource.'.edit'   , 'uses' => $controller.'edit'   ))->before('not.self');
-		Route::get('{id}/detail', array('as' => $resource.'.detail' , 'uses' => $controller.'detail' ))->before('not.self');
-		Route::post( '{id}/edit', array('as' => $resource.'.update' , 'uses' => $controller.'update' ))->before('not.self');
-		Route::delete( 	  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'))->before('not.self');
+		Route::get(  		     '/', array('as' => $resource.'.index'  , 'uses' => $controller.'index'  ));
+		Route::get(			'create', array('as' => $resource.'.create' , 'uses' => $controller.'create' ));
+		Route::post( 		     '/', array('as' => $resource.'.store'  , 'uses' => $controller.'store'  ));
+		Route::get(		 '{id}/edit', array('as' => $resource.'.edit'   , 'uses' => $controller.'edit'   ))->before('not.self');
+		Route::get(	   '{id}/detail', array('as' => $resource.'.detail' , 'uses' => $controller.'detail' ))->before('not.self');
+		Route::post(	 '{id}/edit', array('as' => $resource.'.update' , 'uses' => $controller.'update' ))->before('not.self');
+		Route::get(    '{id}/notify', array('as' => $resource.'.notify' , 'uses' => $controller.'notify' ))->before('not.self');
+		Route::post(   '{id}/notify', $controller.'postNotify' )->before('not.self');
+		Route::delete(		  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'))->before('not.self');
 	});
 
 	# Data Analytics

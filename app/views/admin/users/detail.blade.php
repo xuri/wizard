@@ -17,7 +17,11 @@
 			<!-- /.row -->
 			<div class="row">
 				<div class="panel-heading">
+					@if($data->nickname)
 					以下是用户"{{ $data->nickname }}"的好友关系列表， <a href="{{ route('users.edit', $data->id) }}">点此返回用户编辑。</a>
+					@else
+					以下是此用户的好友关系列表， <a href="{{ route('users.edit', $data->id) }}">点此返回用户编辑。</a>
+					@endif
 				</div>
 				<div class="col-lg-6">
 					<div class="panel panel-default">

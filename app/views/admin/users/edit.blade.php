@@ -77,6 +77,7 @@
 										<div class="form-group">
 											<label>性别</label>
 											<select class="form-control" id="sex" name="sex" onchange="setsex();" rel="{{ $data->sex }}">
+												<option value="">未选择性别</option>
 												<option value="M">男</option>
 												<option value="F">女</option>
 											</select>
@@ -138,22 +139,20 @@
 												<option value="12">摩羯座</option>
 											</select>
 										</div>
-										<div class="form-group">
-											<label>向此用户推送系统通知</label>
-											<textarea class="form-control" rows="3" name="system_notification">{{ Input::old('notification') }}</textarea>
-										</div>
-										<a href="{{ route($resource.'.detail', $data->id) }}" class="btn btn-default">查看此用户的好友关系详情</a>
-									</div>
-									{{-- /.col-lg-6 (nested) --}}
-									<div class="col-lg-6">
 										<div class="form-group input-group">
 											<span class="input-group-addon">注册时间</span>
 											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('created_at', $data->created_at) }}" name="created_at">
 										</div>
 										<div class="form-group input-group">
 											<span class="input-group-addon">最后登录</span>
-											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('signin_at', $data->signin_at) }}" name="signin_at">
+											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('signin_at', $data->updated_at) }}" name="updated_at">
 										</div>
+										<a href="{{ route($resource.'.detail', $data->id) }}" class="btn btn-default">查看此用户的好友关系详情</a>
+										<a href="{{ route($resource.'.notify', $data->id) }}" class="btn btn-default">向此用户推送系统通知</a>
+									</div>
+									{{-- /.col-lg-6 (nested) --}}
+									<div class="col-lg-6">
+
 										<div class="form-group input-group">
 											<span class="input-group-addon">用户昵称</span>
 											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('nickname', $data->nickname) }}" name="nickname">
