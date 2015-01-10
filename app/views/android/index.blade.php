@@ -3,11 +3,11 @@ Android Debug
 
 <?php
 // $easemob		= getEasemob();
-// // Androit Push notifications debug
+// // Android Push notifications debug
 // $test = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
 // 	'target_type' => 'users',
 // 	'target' => ['4'],
-// 	'msg' => ['type' => 'cmd', 'action' => '2'],
+// 	'msg' => ['type' => 'cmd', 'action' => '6'],
 // 	'from' => 7,
 // 	'ext' => ['content' => '用户6追你了', 'id' => '7']
 // 	])
@@ -17,5 +17,7 @@ Android Debug
 // 		->setOptions([CURLOPT_VERBOSE => true])
 // 		->send();
 // 	echo $test->body;
+// Post number chars of items summary from Android client
+//
 
 ?>

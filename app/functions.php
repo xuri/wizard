@@ -496,6 +496,35 @@ function Notification($category, $senderId, $receiverId)
 }
 
 /**
+ * Create Notification
+ * @param Integer $category  	Category code
+ * @param Integer $receiverId 	Receiver ID
+ * @param Integer $senderId  	Sender ID
+ */
+function Notifications($category, $senderId, $receiverId, $category_id, $post_id, $comment_id, $reply_id)
+{
+	$notification				= new Notification;
+	$notification->sender_id	= $senderId;
+	$notification->receiver_id	= $receiverId;
+	$notification->category 	= $category;
+	if($category_id){
+		$notification->category_id 	= $category_id;
+	}
+	if($post_id){
+		$notification->post_id 		= $post_id;
+	}
+	if($comment_id){
+		$notification->comment_id 	= $comment_id;
+	}
+	if($reply_id){
+		$notification->reply_id 	= $reply_id;
+	}
+	$notification->save();
+
+	return $notification;
+}
+
+/**
  * Get Notification Content
  * @param Integer $catrgory  	Category code
  * @param Integer $sender_id 	Sender ID

@@ -140,6 +140,8 @@ class ForumController extends BaseController {
 	 */
 	public function postComment($id)
 	{
+		$forum_post = ForumPost::where('id', $id)->first();
+
 		// Select post type
 		if(Input::get('type') == 'comments') // Post comments
 		{
@@ -158,13 +160,18 @@ class ForumController extends BaseController {
 			$validator		= Validator::make($data, $rules, $messages);
 			if ($validator->passes())
 			{
+
 				$comment			= new ForumComments;
 				$comment->post_id	= $id;
 				$comment->content	= Input::get('content');
 				$comment->user_id	= Auth::user()->id;
 				$comment->floor		= ForumComments::where('post_id', $id)->count() + 2; // Calculate this comment in which floor
+
+
 				if($comment->save())
 				{
+					// Create notifications
+					Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
 					return Response::json(
 						array(
 							'success'		=> true,
@@ -208,7 +215,7 @@ class ForumController extends BaseController {
 
 			if($validator->passes())
 			{
-				if($reply_content != '') // Verify again
+				if($reply_content != null) // Verify again
 				{
 					$reply				= new ForumReply; // Create comments reply
 					$reply->content		= Input::get('reply_content');
@@ -218,6 +225,8 @@ class ForumController extends BaseController {
 					$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
 					if($reply->save())
 					{
+						// Create notifications
+						Notifications(7, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, Input::get('comments_id'), Input::get('reply_id'));
 						// Reply success
 						return Response::json(
 							array(

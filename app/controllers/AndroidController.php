@@ -998,7 +998,7 @@ class AndroidController extends BaseController
 
 				case 'setportrait' :
 
-					// Retrive user
+					// Retrieve user
 					$user			= User::where('id', Input::get('id'))->first();
 					// Old portrait
 					$oldPortrait	= $user->portrait;
@@ -1089,7 +1089,7 @@ class AndroidController extends BaseController
 						// Replace receiver ID to receiver portrait
 						foreach($items as $key => $field){
 
-							// Retrive user
+							// Retrieve user
 							$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
 							// Get post user portrait real storage path and user porirait key to array
@@ -1133,7 +1133,7 @@ class AndroidController extends BaseController
 						// Replace receiver ID to receiver portrait
 						foreach($items as $key => $field){
 
-							// Retrive user
+							// Retrieve user
 							$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
 							// Get post user portrait real storage path and user porirait key to array
@@ -1177,10 +1177,10 @@ class AndroidController extends BaseController
 
 						// First get data from Android client
 
-						// Retrive post data
+						// Retrieve post data
 						$post		= ForumPost::where('id', $postid)->first();
 
-						// Retrive user data of this post
+						// Retrieve user data of this post
 						$author		= User::where('id', $post->user_id)->first();
 
 						// Get last record from database
@@ -1197,7 +1197,7 @@ class AndroidController extends BaseController
 						// Build comments array and include reply information
 						foreach($comments as $key => $field) {
 
-							// Retrive comments user
+							// Retrieve comments user
 							$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
 
 							// Comments user ID
@@ -1228,7 +1228,7 @@ class AndroidController extends BaseController
 							// Build reply array
 							foreach($replies as $keys => $field) {
 
-								// Retrive reply user
+								// Retrieve reply user
 								$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
 
 								// Reply user sex
@@ -1253,7 +1253,8 @@ class AndroidController extends BaseController
 							'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 							'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
 							'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
-							'comments'		=> $comments // Post comments (array format and include reply)
+							'comments'		=> $comments, // Post comments (array format and include reply)
+							'title'			=> $post->title // Post title
 
 						);
 
@@ -1262,10 +1263,10 @@ class AndroidController extends BaseController
 
 					} else {
 
-						// Retrive post data
+						// Retrieve post data
 						$post		= ForumPost::where('id', $postid)->first();
 
-						// Retrive user data of this post
+						// Retrieve user data of this post
 						$author		= User::where('id', $post->user_id)->first();
 
 						// Query all comments of this post
@@ -1279,7 +1280,7 @@ class AndroidController extends BaseController
 						// Build comments array and include reply information
 						foreach($comments as $key => $field) {
 
-							// Retrive comments user
+							// Retrieve comments user
 							$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
 
 							// Comments user ID
@@ -1310,7 +1311,7 @@ class AndroidController extends BaseController
 							// Build reply array
 							foreach($replies as $keys => $field) {
 
-								// Retrive reply user
+								// Retrieve reply user
 								$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
 
 								// Reply user sex
@@ -1347,9 +1348,10 @@ class AndroidController extends BaseController
 
 				// Forum Post Comments
 				case 'forum_postcomment' :
-					$user_id = Input::get('userid');
-					$post_id = Input::get('postid');
-					$content = Input::get('content');
+					$user_id	= Input::get('userid');
+					$post_id	= Input::get('postid');
+					$content	= Input::get('content');
+					$forum_post	= ForumPost::where('id', $post_id)->first();
 					// Select post type
 					if(Input::get('type') == 'comments') // Post comments
 					{
@@ -1360,6 +1362,40 @@ class AndroidController extends BaseController
 						$comment->floor		= ForumComments::where('post_id', $post_id)->count() + 2; // Calculate this comment in which floor
 						if($comment->save())
 						{
+							// Retrieve author of post
+							$post_author				= ForumPost::where('id', $post_id)->first();
+							// Retrieve forum notifications of post author
+							$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->get();
+
+							$easemob		= getEasemob();
+							// Android Push notifications
+							$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
+										[
+											// Push notification to single user
+											'target_type'	=> 'users',
+											// Receiver user ID (in easemob)
+											'target'		=> [$post_author->user_id],
+											// category = 6 Some user comments your post in forum (Get more info from app/controllers/MemberController.php)
+											'msg'			=> ['type' => 'cmd', 'action' => '6'],
+											// Sender user ID (in easemob)
+											'from'			=> $user_id,
+											// Notification body
+											'ext'			=> [
+																	// Sender user ID
+																	'id'		=> $user_id,
+																	// Notification content
+																	'content'	=> '有人评论了你的帖子，快去看看吧',
+																	// Count unread notofications of receiver user
+																	'unread'	=> $post_author_notifications->count()
+																]
+										])
+									->setHeader('content-type', 'application/json')
+									->setHeader('Accept', 'json')
+									->setHeader('Authorization', 'Bearer '.$easemob->token)
+									->setOptions([CURLOPT_VERBOSE => true])
+									->send();
+							// Create notifications
+							Notifications(6, $user_id, $forum_post->user_id, $forum_post->category_id, $post_id, $comment->id, null);
 							return Response::json(
 								array(
 									'status'	=> 1
@@ -1373,16 +1409,54 @@ class AndroidController extends BaseController
 							);
 						}
 					} else { // Post reply
-
+						$reply_id			= Input::get('replyid');
+						$comments_id		= Input::get('commentid');
 						// Create comments reply
 						$reply				= new ForumReply;
 						$reply->content		= $content;
-						$reply->reply_id	= Input::get('replyid');
-						$reply->comments_id	= Input::get('commentid');
+						$reply->reply_id	= $reply_id;
+						$reply->comments_id	= $comments_id;
 						$reply->user_id		= $user_id;
 						$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1; // Calculate this reply in which floor
 						if($reply->save())
 						{
+							// Retrieve comments
+							$comment						= ForumComments::where('id', $comments_id)->first();
+							// Retrieve author of comment
+							$comment_author					= User::where('id', $comment->user_id)->first();
+							// Retrieve forum notifications of comment author
+							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+							$easemob						= getEasemob();
+							// Android Push notifications
+							$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
+										[
+											// Push notification to single user
+											'target_type'	=> 'users',
+											// Receiver user ID (in easemob)
+											'target'		=> [$comment_author->id],
+											// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+											'msg'			=> ['type' => 'cmd', 'action' => '7'],
+											// Sender user ID (in easemob)
+											'from'			=> $user_id,
+											// Notification body
+											'ext'			=> [
+																	// Sender user ID
+																	'id'		=> $user_id,
+																	// Notification content
+																	'content'	=> '有人回复了你的评论，快去看看吧',
+																	// Count unread notofications of receiver user
+																	'unread'	=> $comment_author_notifications->count()
+																]
+										])
+									->setHeader('content-type', 'application/json')
+									->setHeader('Accept', 'json')
+									->setHeader('Authorization', 'Bearer '.$easemob->token)
+									->setOptions([CURLOPT_VERBOSE => true])
+									->send();
+
+							// Create notifications
+							Notifications(7, $user_id, $comment_author->id, $forum_post->category_id, $post_id, $comment->id, $reply->id);
+
 							// Reply success
 							return Response::json(
 								array(
@@ -1411,6 +1485,7 @@ class AndroidController extends BaseController
 					$post->title		= Input::get('title');
 					$post->user_id		= Input::get('userid');
 					$post->content		= Input::get('content');
+
 					if($post->save()) {
 						// Create successful
 						return Response::json(
@@ -1462,6 +1537,74 @@ class AndroidController extends BaseController
 							'path'		=> $path
 						)
 					);
+				break;
+
+				// Get Notifications
+				case 'get_notifications' :
+
+					// Post number chars of items summary from Android client
+					$numchars			= Input::get('numchars');
+					// Post number chars of original items summary from Android client
+					$original_numchars	= Input::get('original_numchars');
+					// Get user ID from Android client
+					$id					= Input::get('id');
+
+					// Retrieve all user's notifications
+					$notifications = Notification::where('receiver_id', $id)
+										->select('id', 'category', 'sender_id', 'receiver_id', 'category_id', 'post_id', 'comment_id', 'reply_id', 'created_at')
+										->orderBy('created_at' , 'desc')
+										->get()
+										->toArray();
+
+					// Build format
+					foreach ($notifications as $key => $notification) {
+
+						// Retrieve sender
+						$sender						= User::where('id', $notifications[$key]['sender_id'])->first();
+
+						// Determine user set portrait
+						if($sender->portrait){
+
+							// Get user portrait
+							$notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender->portrait;
+						} else {
+
+							// Return null
+							$notifications[$key]['portrait']	= null;
+						}
+
+						// Determine category
+						if($notifications[$key]['category'] == 6) {
+
+							// Comment
+							$post										= ForumPost::where('id', $notifications[$key]['post_id'])->first();
+
+							// Retrieve comment
+							$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
+
+							// Add comment content summary to content key
+							$notifications[$key]['content']				= getplaintextintrofromhtml($comment->content, $numchars);
+
+							// Add post content summary to original_content key
+							$notifications[$key]['original_content']	= getplaintextintrofromhtml($post->content, $numchars);
+						} else {
+
+							// Reply
+							$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
+
+							// Retrieve reply
+							$reply										= ForumReply::where('id', $notifications[$key]['reply_id'])->first();
+
+							// Add reply content summary to content key
+							$notifications[$key]['content']				= getplaintextintrofromhtml($reply->content, $numchars);
+
+							// Add post content summary to original_content key
+							$notifications[$key]['original_content']	= getplaintextintrofromhtml($comment->content, $original_numchars);
+						}
+					}
+
+					// Build Json format
+					return '{ "status" : "1", "data" : ' . json_encode($notifications) . '}';
 				break;
 			}
 		} else {

@@ -18,6 +18,10 @@ class CreateNotificationsTable extends Migration {
 			$table->integer('sender_id');
 			$table->integer('receiver_id');
 			$table->integer('category');
+			$table->integer('category_id')->nullable();
+			$table->integer('post_id')->nullable();
+			$table->integer('comment_id')->nullable();
+			$table->integer('reply_id')->nullable();
 			$table->boolean('status')->default('0'); // Read flag
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();
