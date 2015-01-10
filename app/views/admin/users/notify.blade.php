@@ -32,7 +32,7 @@
 							<div class="row">
 								{{ Form::open(array(
 									'autocomplete'	=> 'off',
-									'action'		=> 'Admin_UserResource@postNotify'
+									'post'		=> 'Admin_UserResource@postNotify'
 									))
 								}}
 									<div class="col-lg-12">

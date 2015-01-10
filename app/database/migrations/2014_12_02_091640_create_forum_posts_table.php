@@ -20,6 +20,7 @@ class CreateForumPostsTable extends Migration {
 			$table->string('title');
 			$table->text('content');
 			$table->boolean('block')->default('0');
+			$table->boolean('top')->default('0');
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();
 		});

@@ -161,6 +161,8 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::post(	 '{id}/edit', array('as' => $resource.'.update' , 'uses' => $controller.'update' ))->before('not.self');
 		Route::get(    '{id}/notify', array('as' => $resource.'.notify' , 'uses' => $controller.'notify' ))->before('not.self');
 		Route::post(   '{id}/notify', $controller.'postNotify' )->before('not.self');
+		Route::post(   	 	'/block', $controller.'block' )->before('not.self');
+		Route::post(   	  '/unclock', $controller.'unclock' )->before('not.self');
 		Route::delete(		  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'))->before('not.self');
 	});
 
@@ -176,6 +178,16 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::get(      'likecharts', array('as'	=> $resource.'.likecharts' , 'uses' => $controller.'likeCharts' ));
 	});
 
+	# Forum Management
+	Route::group(array('prefix' => 'forum'), function () {
+		$resource   = 'admin.forum';
+		$controller = 'Admin_ForumResource@';
+		Route::get(  		     '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'   	 ));
+		Route::get(    '/block/{id}', array('as' => $resource.'.block'   , 'uses' => $controller.'block'	 ));
+		Route::get(  '/unclock/{id}', array('as' => $resource.'.unclock' , 'uses' => $controller.'unclock' 	 ));
+		Route::get(	     '/top/{id}', array('as' => $resource.'.top' 	 , 'uses' => $controller.'top' ));
+		Route::get(	   '/untop/{id}', array('as' => $resource.'.untop' 	 , 'uses' => $controller.'untop' ));
+	});
 });
 
 /*

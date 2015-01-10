@@ -7,7 +7,7 @@ Android Debug
 // $test = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
 // 	'target_type' => 'users',
 // 	'target' => ['4'],
-// 	'msg' => ['type' => 'cmd', 'action' => '1'],
+// 	'msg' => ['type' => 'cmd', 'action' => '2'],
 // 	'from' => 7,
 // 	'ext' => ['content' => '用户6追你了', 'id' => '7']
 // 	])

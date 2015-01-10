@@ -360,7 +360,7 @@ class AndroidController extends BaseController
 					);
 					if ($info)
 					{
-						$sender_id	= User::where('phone', Input::get('senderid'))->orWhere('email', Input::get('senderid'))->first()->id; // Sender ID
+						$sender_id	= Input::get('senderid'); // Sender user ID
 						$user_id	= Input::get('userid');
 						$data		= User::where('id', $user_id)->first();
 						$profile	= Profile::where('user_id', $user_id)->first();
@@ -482,10 +482,11 @@ class AndroidController extends BaseController
 											'msg'			=> ['type' => 'cmd', 'action' => '2'],
 											'from'			=> $user->id,
 											'ext'			=> [
-																	'content'	=> $user->nickname.'追你了，快去查看一下吧',
-																	'id'		=> $user->id,
+																	'content'	=> $user->nickname.'又追你了，快去查看一下吧',
+																	'id'		=> Input::get('id'),
 																	'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
-																	'nickname'	=> $user->nickname
+																	'nickname'	=> $user->nickname,
+																	'answer'	=> Input::get('answer')
 																]
 										])
 											->setHeader('content-type', 'application/json')
@@ -517,7 +518,13 @@ class AndroidController extends BaseController
 											'target'		=> [$receiver_id],
 											'msg'			=> ['type' => 'cmd', 'action' => '1'],
 											'from'			=> $user->id,
-											'ext'			=> ['content' => $user->id.'追你了，快去查看一下吧', 'id' => $user->id]
+											'ext'			=> [
+																	'content'	=> $user->nickname.'追你了，快去查看一下吧',
+																	'id'		=> Input::get('id'),
+																	'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
+																	'nickname'	=> $user->nickname,
+																	'answer'	=> Input::get('answer')
+																]
 										])
 											->setHeader('content-type', 'application/json')
 											->setHeader('Accept', 'json')

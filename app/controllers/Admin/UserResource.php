@@ -173,29 +173,6 @@ class Admin_UserResource extends BaseResource
 			}
 			if ($model->save() && $profile->save())
 			{
-				if(Input::get('system_notification'))
-				{
-					$notification							= Notification(8, 0, $id); // System notifications to special user
-					$notificationsContent					= new NotificationsContent;
-					$notificationsContent->notifications_id	= $notification->id;
-					$notificationsContent->content			= Input::get('system_notification');
-					$notificationsContent->save();
-
-					$easemob								= getEasemob();
-					// Push notifications to App client
-					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-							'target_type'	=> 'users',
-							'target'		=> [$id],
-							'msg'			=> ['type' => 'cmd', 'action' => '8'],
-							'from'			=> '0',
-							'ext'			=> ['content' => '系统消息：'.Input::get('system_notification'), 'id' => '0']
-						])
-							->setHeader('content-type', 'application/json')
-							->setHeader('Accept', 'json')
-							->setHeader('Authorization', 'Bearer '.$easemob->token)
-							->setOptions([CURLOPT_VERBOSE => true])
-							->send();
-				}
 				// Update success
 				return Redirect::back()
 					->with('success', '<strong>'.$this->resourceName.'更新成功：</strong>您可以继续编辑'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
@@ -262,6 +239,46 @@ class Admin_UserResource extends BaseResource
 				->with('warning', '<strong>'.$this->resourceName.'推送失败，请输入要推送的系统消息内容。</strong>');
 		}
 
+	}
+
+	/**
+	 * Block user
+	 * POST /{id}/block
+	 * @return Response     View
+	 */
+	public function block()
+	{
+		// Retrieve user
+		$data			= $this->model->find(Input::get('id'));
+		$data->block	= 1;
+		if (is_null($data)) {
+			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
+		}
+		elseif ($data->save()){
+			return Redirect::back()->with('success', $this->resourceName.'锁定成功。');
+		} else{
+			return Redirect::back()->with('warning', $this->resourceName.'锁定失败。');
+		}
+	}
+
+	/**
+	 * Unclock user
+	 * POST /{id}/unclock
+	 * @return Response     View
+	 */
+	public function unclock()
+	{
+		// Retrieve user
+		$data			= $this->model->find(Input::get('id'));
+		$data->block	= 0;
+		if (is_null($data)) {
+			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
+		}
+		elseif ($data->save()){
+			return Redirect::back()->with('success', $this->resourceName.'解锁成功。');
+		} else{
+			return Redirect::back()->with('warning', $this->resourceName.'解锁失败。');
+		}
 	}
 
 	/**

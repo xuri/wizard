@@ -53,6 +53,15 @@
 
 				</li>
 				<li>
+					<a href="javascript:void();"><i class="fa fa-tags"></i> 论坛管理<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="{{ route('admin.forum.index') }}">帖子管理</a>
+						</li>
+					</ul>
+					{{-- /.nav-second-level --}}
+				</li>
+				<li>
 					<a href="javascript:void();"><i class="fa  fa-bar-chart-o fa-fw"></i> 统计报表<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
