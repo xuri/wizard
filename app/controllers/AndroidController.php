@@ -1362,40 +1362,44 @@ class AndroidController extends BaseController
 						$comment->floor		= ForumComments::where('post_id', $post_id)->count() + 2; // Calculate this comment in which floor
 						if($comment->save())
 						{
-							// Retrieve author of post
-							$post_author				= ForumPost::where('id', $post_id)->first();
-							// Retrieve forum notifications of post author
-							$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->get();
+							// Determine sender and receiver
+							if($user_id != $forum_post->user_id) {
+								// Retrieve author of post
+								$post_author				= ForumPost::where('id', $post_id)->first();
+								// Retrieve forum notifications of post author
+								$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->get();
 
-							$easemob		= getEasemob();
-							// Android Push notifications
-							$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
-										[
-											// Push notification to single user
-											'target_type'	=> 'users',
-											// Receiver user ID (in easemob)
-											'target'		=> [$post_author->user_id],
-											// category = 6 Some user comments your post in forum (Get more info from app/controllers/MemberController.php)
-											'msg'			=> ['type' => 'cmd', 'action' => '6'],
-											// Sender user ID (in easemob)
-											'from'			=> $user_id,
-											// Notification body
-											'ext'			=> [
-																	// Sender user ID
-																	'id'		=> $user_id,
-																	// Notification content
-																	'content'	=> '有人评论了你的帖子，快去看看吧',
-																	// Count unread notofications of receiver user
-																	'unread'	=> $post_author_notifications->count()
-																]
-										])
-									->setHeader('content-type', 'application/json')
-									->setHeader('Accept', 'json')
-									->setHeader('Authorization', 'Bearer '.$easemob->token)
-									->setOptions([CURLOPT_VERBOSE => true])
-									->send();
-							// Create notifications
-							Notifications(6, $user_id, $forum_post->user_id, $forum_post->category_id, $post_id, $comment->id, null);
+								$easemob		= getEasemob();
+								// Android Push notifications
+								$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
+											[
+												// Push notification to single user
+												'target_type'	=> 'users',
+												// Receiver user ID (in easemob)
+												'target'		=> [$post_author->user_id],
+												// category = 6 Some user comments your post in forum (Get more info from app/controllers/MemberController.php)
+												'msg'			=> ['type' => 'cmd', 'action' => '6'],
+												// Sender user ID (in easemob)
+												'from'			=> $user_id,
+												// Notification body
+												'ext'			=> [
+																		// Sender user ID
+																		'id'		=> $user_id,
+																		// Notification content
+																		'content'	=> '有人评论了你的帖子，快去看看吧',
+																		// Count unread notofications of receiver user
+																		'unread'	=> $post_author_notifications->count()
+																	]
+											])
+										->setHeader('content-type', 'application/json')
+										->setHeader('Accept', 'json')
+										->setHeader('Authorization', 'Bearer '.$easemob->token)
+										->setOptions([CURLOPT_VERBOSE => true])
+										->send();
+
+								// Create notifications
+								Notifications(6, $user_id, $forum_post->user_id, $forum_post->category_id, $post_id, $comment->id, null);
+							}
 							return Response::json(
 								array(
 									'status'	=> 1
@@ -1420,42 +1424,45 @@ class AndroidController extends BaseController
 						$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1; // Calculate this reply in which floor
 						if($reply->save())
 						{
-							// Retrieve comments
-							$comment						= ForumComments::where('id', $comments_id)->first();
-							// Retrieve author of comment
-							$comment_author					= User::where('id', $comment->user_id)->first();
-							// Retrieve forum notifications of comment author
-							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
-							$easemob						= getEasemob();
-							// Android Push notifications
-							$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
-										[
-											// Push notification to single user
-											'target_type'	=> 'users',
-											// Receiver user ID (in easemob)
-											'target'		=> [$comment_author->id],
-											// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
-											'msg'			=> ['type' => 'cmd', 'action' => '7'],
-											// Sender user ID (in easemob)
-											'from'			=> $user_id,
-											// Notification body
-											'ext'			=> [
-																	// Sender user ID
-																	'id'		=> $user_id,
-																	// Notification content
-																	'content'	=> '有人回复了你的评论，快去看看吧',
-																	// Count unread notofications of receiver user
-																	'unread'	=> $comment_author_notifications->count()
-																]
-										])
-									->setHeader('content-type', 'application/json')
-									->setHeader('Accept', 'json')
-									->setHeader('Authorization', 'Bearer '.$easemob->token)
-									->setOptions([CURLOPT_VERBOSE => true])
-									->send();
+							// Determine sender and receiver
+							if($user_id != $comment_author->id) {
+								// Retrieve comments
+								$comment						= ForumComments::where('id', $comments_id)->first();
+								// Retrieve author of comment
+								$comment_author					= User::where('id', $comment->user_id)->first();
+								// Retrieve forum notifications of comment author
+								$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+								$easemob						= getEasemob();
+								// Android Push notifications
+								$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
+											[
+												// Push notification to single user
+												'target_type'	=> 'users',
+												// Receiver user ID (in easemob)
+												'target'		=> [$comment_author->id],
+												// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+												'msg'			=> ['type' => 'cmd', 'action' => '7'],
+												// Sender user ID (in easemob)
+												'from'			=> $user_id,
+												// Notification body
+												'ext'			=> [
+																		// Sender user ID
+																		'id'		=> $user_id,
+																		// Notification content
+																		'content'	=> '有人回复了你的评论，快去看看吧',
+																		// Count unread notofications of receiver user
+																		'unread'	=> $comment_author_notifications->count()
+																	]
+											])
+										->setHeader('content-type', 'application/json')
+										->setHeader('Accept', 'json')
+										->setHeader('Authorization', 'Bearer '.$easemob->token)
+										->setOptions([CURLOPT_VERBOSE => true])
+										->send();
 
-							// Create notifications
-							Notifications(7, $user_id, $comment_author->id, $forum_post->category_id, $post_id, $comment->id, $reply->id);
+								// Create notifications
+								Notifications(7, $user_id, $comment_author->id, $forum_post->category_id, $post_id, $comment->id, $reply->id);
+							}
 
 							// Reply success
 							return Response::json(
@@ -1571,6 +1578,17 @@ class AndroidController extends BaseController
 
 							// Return null
 							$notifications[$key]['portrait']	= null;
+						}
+
+						// Determine user set nuckname
+						if($sender->nickname) {
+
+							// Get user nickname
+							$notifications[$key]['nickname'] 	= $sender->nickname;
+						} else {
+
+							// Return null
+							$notifications[$key]['nickname'] 	= null;
 						}
 
 						// Determine category

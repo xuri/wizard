@@ -170,8 +170,12 @@ class ForumController extends BaseController {
 
 				if($comment->save())
 				{
-					// Create notifications
-					Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
+					// Determine sender and receiver
+					if(Auth::user()->id != $forum_post->user_id) {
+						// Create notifications
+						Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
+					}
+
 					return Response::json(
 						array(
 							'success'		=> true,
@@ -225,8 +229,12 @@ class ForumController extends BaseController {
 					$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
 					if($reply->save())
 					{
-						// Create notifications
-						Notifications(7, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, Input::get('comments_id'), Input::get('reply_id'));
+						// Determine sender and receiver
+						if(Auth::user()->id != $forum_post->user_id) {
+							// Create notifications
+							Notifications(7, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, Input::get('comments_id'), Input::get('reply_id'));
+						}
+
 						// Reply success
 						return Response::json(
 							array(

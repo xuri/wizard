@@ -496,7 +496,7 @@ function Notification($category, $senderId, $receiverId)
 }
 
 /**
- * Create Notification
+ * Create Notifications
  * @param Integer $category  	Category code
  * @param Integer $receiverId 	Receiver ID
  * @param Integer $senderId  	Sender ID
