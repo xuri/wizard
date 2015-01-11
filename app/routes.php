@@ -92,6 +92,21 @@ Route::group(array('prefix' => 'members', 'before' => 'auth|auth.activated'), fu
 
 /*
 |--------------------------------------------------------------------------
+| Support Routes
+|--------------------------------------------------------------------------
+|
+*/
+
+Route::group(array('prefix' => 'support', 'before' => 'auth|auth.activated'), function () {
+	$resource   = 'support';
+	$controller = 'SupportController@';
+	# Get index
+	Route::get(            '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'	));
+	Route::post(           '/', array('as' => $resource.'.create'  , 'uses' => $controller.'create' ));
+});
+
+/*
+|--------------------------------------------------------------------------
 | User Routes
 |--------------------------------------------------------------------------
 |
@@ -187,6 +202,16 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::get(  '/unclock/{id}', array('as' => $resource.'.unclock' , 'uses' => $controller.'unclock' 	 ));
 		Route::get(	     '/top/{id}', array('as' => $resource.'.top' 	 , 'uses' => $controller.'top' 		 ));
 		Route::get(	   '/untop/{id}', array('as' => $resource.'.untop' 	 , 'uses' => $controller.'untop'	 ));
+	});
+
+	# Support Management
+	Route::group(array('prefix' => 'support'), function () {
+		$resource   = 'admin.support';
+		$controller = 'Admin_SupportResource@';
+		Route::get(  		     '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'   	 ));
+		Route::get(  	'/show/{id}', array('as' => $resource.'.show'    , 'uses' => $controller.'show'   	 ));
+		Route::get(     '/read/{id}', array('as' => $resource.'.read'    , 'uses' => $controller.'read'		 ));
+		Route::get(   '/unread/{id}', array('as' => $resource.'.unread'  , 'uses' => $controller.'unread' 	 ));
 	});
 });
 

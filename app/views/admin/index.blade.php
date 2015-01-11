@@ -23,8 +23,8 @@
 									<i class="fa fa-support fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">0</div>
-									<div>投诉建议</div>
+									<div class="huge">{{ $unreadSupport }}</div>
+									<div>未读反馈</div>
 								</div>
 							</div>
 						</div>

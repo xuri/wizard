@@ -22,10 +22,11 @@ class AdminController extends BaseController
      */
     public function getIndex()
     {
-    	$totalUser = User::get()->count();
-    	$maleUser = User::where('sex', 'M')->get()->count();
-    	$femaleUser = User::where('sex', 'F')->get()->count();
-    	$analyticsUser = AnalyticsUser::select(
+		$totalUser		= User::get()->count();
+		$maleUser		= User::where('sex', 'M')->get()->count();
+		$femaleUser		= User::where('sex', 'F')->get()->count();
+		$unreadSupport	= Support::where('status', false)->get()->count();
+    	$analyticsUser  = AnalyticsUser::select(
 							'all_user',
 							'daily_active_user',
 							'weekly_active_user',
@@ -115,7 +116,7 @@ class AdminController extends BaseController
 			', "Android用户":'.preg_replace('/["]/', '' ,json_encode($fromAndroid)).
 			', "iOS用户":'.preg_replace('/["]/', '' ,json_encode($fromiOS)).
 			'}';
-        return View::make('admin.index')->with(compact('totalUser', 'maleUser', 'femaleUser', 'userBasicAnalytics'));
+        return View::make('admin.index')->with(compact('unreadSupport', 'totalUser', 'maleUser', 'femaleUser', 'userBasicAnalytics'));
     }
 
 

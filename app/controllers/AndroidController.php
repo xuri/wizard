@@ -1119,47 +1119,56 @@ class AndroidController extends BaseController
 					} else { // First get data from Android client
 
 						// Query last user id in database
-						$lastRecord = ForumPost::orderBy('id', 'desc')->first()->id;
+						$lastRecord = ForumPost::orderBy('id', 'desc')->first();
 
-						// Query all items from database
-						$items	= ForumPost::where('category_id', $cat_id)
-									->orderBy('created_at' , 'desc')
-									->where('id', '<=', $lastRecord)
-									->select('id', 'user_id', 'title', 'content', 'created_at')
-									->take('10')
-									->get()
-									->toArray();
+						// Post not exists
+						if(is_null($lastRecord)) {
 
-						// Replace receiver ID to receiver portrait
-						foreach($items as $key => $field){
+							// Build Json format
+							return '{ "status" : "1", "data" : []}';
+						} else {
 
-							// Retrieve user
-							$post_user						= User::where('id', $items[$key]['user_id'])->first();
+							// Post exists
+							// Query all items from database
+							$items	= ForumPost::where('category_id', $cat_id)
+										->orderBy('created_at' , 'desc')
+										->where('id', '<=', $lastRecord->id)
+										->select('id', 'user_id', 'title', 'content', 'created_at')
+										->take('10')
+										->get()
+										->toArray();
 
-							// Get post user portrait real storage path and user porirait key to array
-							$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
+							// Replace receiver ID to receiver portrait
+							foreach($items as $key => $field){
 
-							// Get post user sex (M, F or null) and add user sex key to array
-							$items[$key]['sex']				= $post_user->sex;
+								// Retrieve user
+								$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
-							// Count how many comments of this post and add comments_count key to array
-							$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+								// Get post user portrait real storage path and user porirait key to array
+								$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
 
-							// Get post user portrait and add portrait key to array
-							$items[$key]['nickname']		= $post_user->nickname;
+								// Get post user sex (M, F or null) and add user sex key to array
+								$items[$key]['sex']				= $post_user->sex;
 
-							// Using expression get all picture attachments (Only with pictures stored on this server.)
-							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
+								// Count how many comments of this post and add comments_count key to array
+								$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
 
-							// Construct picture attachments list and add thumbnails (array format) to array
-							$items[$key]['thumbnails']		= join(',', array_pop($match));
+								// Get post user portrait and add portrait key to array
+								$items[$key]['nickname']		= $post_user->nickname;
 
-							// Get plain text from post content HTML code and replace to content value in array
-							$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+								// Using expression get all picture attachments (Only with pictures stored on this server.)
+								preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
+
+								// Construct picture attachments list and add thumbnails (array format) to array
+								$items[$key]['thumbnails']		= join(',', array_pop($match));
+
+								// Get plain text from post content HTML code and replace to content value in array
+								$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+							}
+
+							// Build Json format
+							return '{ "status" : "1", "data" : ' . json_encode($items) . '}';
 						}
-
-						// Build Json format
-						return '{ "status" : "1", "data" : ' . json_encode($items) . '}';
 					}
 
 				break;
@@ -1184,82 +1193,103 @@ class AndroidController extends BaseController
 						$author		= User::where('id', $post->user_id)->first();
 
 						// Get last record from database
-						$lastRecord	= ForumComments::orderBy('id', 'desc')->first()->id;
+						$lastRecord	= ForumComments::orderBy('id', 'desc')->first();
 
-						// Query all comments of this post
-						$comments	= ForumComments::where('post_id', $postid)
-											->orderBy('created_at' , 'asc')
-											->where('id', '<=', $lastRecord)
+						// Determine forum comments exist
+						if(is_null($lastRecord)){
+
+							// Build Data Array
+							$data = array(
+								'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
+								'sex'			=> $author->sex, // Post user sex
+								'nickname'		=> $author->nickname, // Post user nickname
+								'user_id'		=> $author->id, // Post user ID
+								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
+								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
+								'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
+								'comments'		=> array(), // Post comments (array format and include reply)
+								'title'			=> $post->title // Post title
+
+							);
+
+							// Build Json format
+							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+						} else {
+							// Query all comments of this post
+							$comments	= ForumComments::where('post_id', $postid)
+												->orderBy('created_at' , 'asc')
+												->where('id', '<=', $lastRecord->id)
+												->select('id', 'user_id', 'content', 'created_at')
+												->take($perpage)
+												->get()
+												->toArray();
+							// Build comments array and include reply information
+							foreach($comments as $key => $field) {
+
+								// Retrieve comments user
+								$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
+
+								// Comments user ID
+								$comments[$key]['user_id']			= $comments_user->id;
+
+								// Removing contents html tags except image and text string
+								$comments[$key]['content']			= strip_tags($comments[$key]['content'], '<img>');
+								// Comments user portrait
+								$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
+
+								// Comments user sex
+								$comments[$key]['user_sex']			= $comments_user->sex;
+
+								// Comments user nickname
+								$comments[$key]['user_nickname']	= $comments_user->nickname;
+
+								// Query all replies of this post
+								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 											->select('id', 'user_id', 'content', 'created_at')
-											->take($perpage)
+											->orderBy('created_at' , 'asc')
+											->take(3)
 											->get()
 											->toArray();
-						// Build comments array and include reply information
-						foreach($comments as $key => $field) {
 
-							// Retrieve comments user
-							$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
+								// Calculate total replies of this post
+								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
 
-							// Comments user ID
-							$comments[$key]['user_id']			= $comments_user->id;
+								// Build reply array
+								foreach($replies as $keys => $field) {
 
-							// Removing contents html tags except image and text string
-							$comments[$key]['content']			= strip_tags($comments[$key]['content'], '<img>');
-							// Comments user portrait
-							$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
+									// Retrieve reply user
+									$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
 
-							// Comments user sex
-							$comments[$key]['user_sex']			= $comments_user->sex;
+									// Reply user sex
+									$replies[$keys]['sex']		= $reply_user->sex;
 
-							// Comments user nickname
-							$comments[$key]['user_nickname']	= $comments_user->nickname;
+									// Reply user portrait
+									$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
 
-							// Query all replies of this post
-							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
-										->select('id', 'user_id', 'content', 'created_at')
-										->orderBy('created_at' , 'asc')
-										->take(3)
-										->get()
-										->toArray();
+								}
 
-							// Calculate total replies of this post
-							$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
-
-							// Build reply array
-							foreach($replies as $keys => $field) {
-
-								// Retrieve reply user
-								$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
-
-								// Reply user sex
-								$replies[$keys]['sex']		= $reply_user->sex;
-
-								// Reply user portrait
-								$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
+								// Add comments replies array to post comments_reply array
+								$comments[$key]['comment_reply'] = $replies;
 
 							}
 
-							// Add comments replies array to post comments_reply array
-							$comments[$key]['comment_reply'] = $replies;
+							// Build Data Array
+							$data = array(
+								'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
+								'sex'			=> $author->sex, // Post user sex
+								'nickname'		=> $author->nickname, // Post user nickname
+								'user_id'		=> $author->id, // Post user ID
+								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
+								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
+								'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
+								'comments'		=> $comments, // Post comments (array format and include reply)
+								'title'			=> $post->title // Post title
 
+							);
+
+							// Build Json format
+							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 						}
-
-						// Build Data Array
-						$data = array(
-							'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-							'sex'			=> $author->sex, // Post user sex
-							'nickname'		=> $author->nickname, // Post user nickname
-							'user_id'		=> $author->id, // Post user ID
-							'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
-							'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-							'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
-							'comments'		=> $comments, // Post comments (array format and include reply)
-							'title'			=> $post->title // Post title
-
-						);
-
-						// Build Json format
-						return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 
 					} else {
 
@@ -1412,9 +1442,11 @@ class AndroidController extends BaseController
 								)
 							);
 						}
-					} else { // Post reply
+					} else {
+						// Post reply
 						$reply_id			= Input::get('replyid');
 						$comments_id		= Input::get('commentid');
+
 						// Create comments reply
 						$reply				= new ForumReply;
 						$reply->content		= $content;
@@ -1424,14 +1456,16 @@ class AndroidController extends BaseController
 						$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1; // Calculate this reply in which floor
 						if($reply->save())
 						{
+
+							// Retrieve comments
+							$comment						= ForumComments::where('id', $comments_id)->first();
+							// Retrieve author of comment
+							$comment_author					= User::where('id', $comment->user_id)->first();
+							// Retrieve forum notifications of comment author
+							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+
 							// Determine sender and receiver
 							if($user_id != $comment_author->id) {
-								// Retrieve comments
-								$comment						= ForumComments::where('id', $comments_id)->first();
-								// Retrieve author of comment
-								$comment_author					= User::where('id', $comment->user_id)->first();
-								// Retrieve forum notifications of comment author
-								$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
 								$easemob						= getEasemob();
 								// Android Push notifications
 								$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
@@ -1555,74 +1589,123 @@ class AndroidController extends BaseController
 					$original_numchars	= Input::get('original_numchars');
 					// Get user ID from Android client
 					$id					= Input::get('id');
+					$check_null = Notification::get()->first();
 
-					// Retrieve all user's notifications
-					$notifications = Notification::where('receiver_id', $id)
-										->select('id', 'category', 'sender_id', 'receiver_id', 'category_id', 'post_id', 'comment_id', 'reply_id', 'created_at')
-										->orderBy('created_at' , 'desc')
-										->get()
-										->toArray();
+					// Determine
+					if(is_null($check_null)) {
 
-					// Build format
-					foreach ($notifications as $key => $notification) {
+						// Build Json format
+						return '{ "status" : "1", "data" :[]}';
 
-						// Retrieve sender
-						$sender						= User::where('id', $notifications[$key]['sender_id'])->first();
+					} else {
 
-						// Determine user set portrait
-						if($sender->portrait){
+						// Retrieve all user's notifications
+						$notifications = Notification::where('receiver_id', $id)
+											->select('id', 'category', 'sender_id', 'receiver_id', 'category_id', 'post_id', 'comment_id', 'reply_id', 'created_at')
+											->orderBy('created_at' , 'desc')
+											->get()
+											->toArray();
 
-							// Get user portrait
-							$notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender->portrait;
-						} else {
+						// Build format
+						foreach ($notifications as $key => $notification) {
 
-							// Return null
-							$notifications[$key]['portrait']	= null;
+							// Retrieve sender
+							$sender						= User::where('id', $notifications[$key]['sender_id'])->first();
+
+							// Determine user set portrait
+							if($sender->portrait){
+
+								// Get user portrait
+								$notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender->portrait;
+							} else {
+
+								// Return null
+								$notifications[$key]['portrait']	= null;
+							}
+
+							// Determine user set nuckname
+							if($sender->nickname) {
+
+								// Get user nickname
+								$notifications[$key]['nickname'] 	= $sender->nickname;
+							} else {
+
+								// Return null
+								$notifications[$key]['nickname'] 	= null;
+							}
+
+							// Determine category
+							if($notifications[$key]['category'] == 6) {
+
+								// Comment
+								$post										= ForumPost::where('id', $notifications[$key]['post_id'])->first();
+
+								// Retrieve comment
+								$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
+
+								// Add comment content summary to content key
+								$notifications[$key]['content']				= getplaintextintrofromhtml($comment->content, $numchars);
+
+								// Add post content summary to original_content key
+								$notifications[$key]['original_content']	= getplaintextintrofromhtml($post->content, $numchars);
+							} else {
+
+								// Reply
+								$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
+
+								// Retrieve reply
+								$reply										= ForumReply::where('id', $notifications[$key]['reply_id'])->first();
+
+								// Add reply content summary to content key
+								$notifications[$key]['content']				= getplaintextintrofromhtml($reply->content, $numchars);
+
+								// Add post content summary to original_content key
+								$notifications[$key]['original_content']	= getplaintextintrofromhtml($comment->content, $original_numchars);
+							}
 						}
 
-						// Determine user set nuckname
-						if($sender->nickname) {
-
-							// Get user nickname
-							$notifications[$key]['nickname'] 	= $sender->nickname;
-						} else {
-
-							// Return null
-							$notifications[$key]['nickname'] 	= null;
-						}
-
-						// Determine category
-						if($notifications[$key]['category'] == 6) {
-
-							// Comment
-							$post										= ForumPost::where('id', $notifications[$key]['post_id'])->first();
-
-							// Retrieve comment
-							$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
-
-							// Add comment content summary to content key
-							$notifications[$key]['content']				= getplaintextintrofromhtml($comment->content, $numchars);
-
-							// Add post content summary to original_content key
-							$notifications[$key]['original_content']	= getplaintextintrofromhtml($post->content, $numchars);
-						} else {
-
-							// Reply
-							$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
-
-							// Retrieve reply
-							$reply										= ForumReply::where('id', $notifications[$key]['reply_id'])->first();
-
-							// Add reply content summary to content key
-							$notifications[$key]['content']				= getplaintextintrofromhtml($reply->content, $numchars);
-
-							// Add post content summary to original_content key
-							$notifications[$key]['original_content']	= getplaintextintrofromhtml($comment->content, $original_numchars);
-						}
+						// Build Json format
+						return '{ "status" : "1", "data" : ' . json_encode($notifications) . '}';
 					}
+				break;
+
+				// Forum Get Reply
+				case 'forum_getreply' :
+
+					// Post forum post ID from Android client
+					$post_id		= Input::get('postid');
+
+					// Post comment ID from Android client
+					$comment_id		= Input::get('commentid');
+
+					// Retrieve comment
+					$comment		= ForumComments::where('id', $comment_id)->first();
+
+					// Retrieve comment user
+					$comment_author	= User::where('id', $comment->user_id)->first();
+
+					// Retrieve reply
+					$replies = ForumReply::where('comments_id', $comment_id)
+									->select('id', 'user_id', 'content', 'created_at')
+									->orderBy('created_at' , 'asc')
+									->get()
+									->toArray();
+
+					// Build Data Array
+					$data = array(
+						'user_portrait'		=> route('home') . '/' . 'portrait/' . $comment_author->portrait, // Post user portrait
+						'user_sex'			=> $comment_author->sex, // Comment user sex
+						'user_nickname'		=> $comment_author->nickname, // Comment user nickname
+						'user_id'			=> $comment_author->id, // Comment user ID
+						'id'				=> $comment->id, // Comment ID
+						'title'				=> $comment->title, // Comment title
+						'created_at'		=> $comment->created_at->toDateTimeString(), // Comment created date
+						'content'			=> strip_tags($comment->content, '<img>'), // Comment content (removing contents html tags except image and text string)
+						'comment_reply'		=> $replies // Post comments reply (array format and include reply)
+					);
 
 					// Build Json format
-					return '{ "status" : "1", "data" : ' . json_encode($notifications) . '}';
+					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 				break;
 			}
 		} else {

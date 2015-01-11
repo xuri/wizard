@@ -7,7 +7,7 @@
 			<span class="icon-bar"></span>
 			<span class="icon-bar"></span>
 		</button>
-		<a class="navbar-brand" href="{{ route('admin') }}">聘爱网 管理中心</a>
+		<a class="navbar-brand" href="{{ route('admin') }}">聘爱 · 管理中心</a>
 	</div>
 	<!-- /.navbar-header -->
 
@@ -91,6 +91,9 @@
 					</ul>
 				</li>
 				<li>
+					<a href="{{ route('admin.support.index') }}"><i class="fa fa-support fa-fw"></i> 反馈管理</a>
+				</li>
+				<li>
 					<a href="#"><i class="fa fa-files-o fa-fw"></i> 网站菜单<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
@@ -103,10 +106,19 @@
 							<a href="{{ route('members.index') }}">缘来在这</a>
 						</li>
 						<li>
+							<a href="{{ route('account.notifications') }}">我的来信</a>
+						</li>
+						<li>
 							<a href="{{ route('forum.index') }}">单身公寓</a>
 						</li>
 						<li>
 							<a href="{{ route('account.posts') }}">我的帖子</a>
+						</li>
+						<li>
+							<a href="{{ route('support.index') }}">联系客服</a>
+						</li>
+						<li>
+							<a href="{{ route('home') }}">关于我们</a>
 						</li>
 						<li>
 							<a href="{{ route('signout') }}">退出登录</a>

@@ -31,67 +31,41 @@
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th>身份 {{ order_by('is_admin') }}</th>
-											<th style="text-align:center;">头像</th>
-											<th>邮箱 / 手机</th>
-											<th>昵称 {{ order_by('nickname') }}</th>
-											<th>注册时间 {{ order_by('created_at', 'desc') }}</th>
-											<th>最后登录时间 {{ order_by('signin_at') }}</th>
-											<th style="width:9.5em;text-align:center;">操作</th>
+											<th style="text-align:center;">分类</th>
+											<th>反馈用户</th>
+											<th>标题</th>
+											<th>创建时间 {{ order_by('created_at', 'desc') }}</th>
+											<th style="width:10.5em;text-align:center;">操作</th>
 										</tr>
 									</thead>
 									<tbody>
-										<?php $currentId = Auth::user()->id; ?>
 										@foreach ($datas as $data)
 										<tr class="odd gradeX">
-											<td>{{ $data->id }}</td>
-											<td>{{ $data->is_admin ? '管理员' : '普通用户' }}</td>
-											<td style="text-align:center;">
-												<a href="{{ route('members.show', $data->id) }}">
-													@if($data->portrait)
-													{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '20')) }}
-													@else
-													{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '20')) }}
-													@endif
-												</a>
-											</td>
-											@if($data->email)
-											<td>邮箱：<a href="mailto:{{ $data->email }}">{{ $data->email }}<a></td>
-											@else
-											<td>手机：{{ $data->phone }}</td>
-											@endif
-											<td class="center">{{ $data->nickname }}</td>
+											<?php
+												$user = User::where('id', $data->user_id)->first();
 
+											?>
+											<td>{{ $data->id }}</td>
+											<td style="text-align:center;"><a href="{{ route('forum.index') }}">{{ $data->category }}</a></td>
+											@if($user->nickname)
+											<td>昵称：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->nickname }}<a></td>
+											@elseif($data->email)
+											<td>邮箱：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->email }}</a></td>
+											@elseif($data->phone)
+											<td>手机：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->phone }}</a></td>
+											@else
+											<td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->id }}</a></td>
+											@endif
+											<td class="center">{{ $data->title }}</td>
 											<td class="center">{{ $data->created_at }}</td>
-											<td class="center">{{ $data->signin_at }}</td>
 											<td class="center">
-												@if($data->block)
-													{{ Form::open(array(
-														'autocomplete'	=> 'off',
-														'action'		=> 'Admin_UserResource@unclock'
-														))
-													}}
-													@if($data->id!=$currentId)
-													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">编辑</a>
-													{{ Form::hidden('id', $data->id) }}
-													<button type="submit" class="btn btn-xs btn-success">解锁</button>
-													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
-													@endif
-													{{ Form::close() }}
+												@if($data->status)
+												<a href="{{ route($resource.'.unread', $data->id) }}" class="btn btn-xs btn-success">已解决</a>
 												@else
-													{{ Form::open(array(
-														'autocomplete'	=> 'off',
-														'action'		=> 'Admin_UserResource@block'
-														))
-													}}
-													@if($data->id!=$currentId)
-													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">编辑</a>
-													{{ Form::hidden('id', $data->id) }}
-													<button type="submit" class="btn btn-xs btn-warning">锁定</button>
-													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
-													@endif
-													{{ Form::close() }}
+												<a href="{{ route($resource.'.read', $data->id) }}" class="btn btn-xs btn-warning">未处理</a>
 												@endif
+												<a href="{{ route($resource.'.show', $data->id) }}" class="btn btn-xs btn-info" target="_blank">查看</a>
+												<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
 											</td>
 										</tr>
 										@endforeach
@@ -102,7 +76,6 @@
 
 							</div>
 							<!-- /.table-responsive -->
-
 						</div>
 						<!-- /.panel-body -->
 					</div>
