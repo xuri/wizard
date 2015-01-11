@@ -352,11 +352,14 @@
 }
 
 .re-headImg {
-	width: 73px;
+	width: 83px;
 	height: 83px;
 	padding: 3px;
 	border: 1px solid #ebebeb;
 	float: left;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .message-re .re-title {
@@ -442,8 +445,11 @@ button.bbs_bottom {
 }
 
 .re-headImg img {
-	width: 73px;
+	width: 83px;
 	height: 83px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .message-re .sexImg {

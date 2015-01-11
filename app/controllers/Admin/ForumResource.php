@@ -32,7 +32,7 @@ class Admin_ForumResource extends BaseResource
 	 * Resource identification
 	 * @var string
 	 */
-	protected $resource = 'forum';
+	protected $resource = 'admin.forum';
 
 	/**
 	 * Resource database tables
@@ -178,17 +178,42 @@ class Admin_ForumResource extends BaseResource
 	public function destroy($id)
 	{
 		$data		= $this->model->find($id);
-		$profile	= Profile::where('user_id', $id)->first();
-		$portrait	= $this->model->where('id', $id)->first()->portrait;
+
 		if (is_null($data)) {
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
+		} else {
+
+			// Using expression get all picture attachments (Only with pictures stored on this server.)
+			preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $data->content, $match );
+
+			// Construct picture attachments list
+			$srcArray 	= array_pop($match);
+
+			if(!empty( $srcArray )) // This post have picture attachments
+			{
+				// Foreach picture attachments list array
+				foreach($srcArray as $key => $field){
+					$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]); // Convert to correct real storage path
+					File::delete(public_path($srcArray[$key])); // Destory upload picture attachments in this post
+				}
+
+				// Delete post in forum
+				if($data->delete()){
+					return Redirect::back()->with('success', $this->resourceName.'删除成功。');
+				} else {
+					return Redirect::back()->with('warning', $this->resourceName.'删除失败。');
+				}
+
+			} else {
+				// Delete post in forum
+				if($data->delete()){
+					return Redirect::back()->with('success', $this->resourceName.'删除成功。');
+				} else {
+					return Redirect::back()->with('warning', $this->resourceName.'删除失败。');
+				}
+			}
 		}
-		elseif ($data->delete() && $profile->delete()){
-			File::delete(public_path('portrait/'.$portrait));
-			return Redirect::back()->with('success', $this->resourceName.'删除成功。');
-		} else{
-			return Redirect::back()->with('warning', $this->resourceName.'删除失败。');
-		}
+
 	}
 
 	/**

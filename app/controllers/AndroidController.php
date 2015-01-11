@@ -309,7 +309,7 @@ class AndroidController extends BaseController
 						->toArray();
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
-							$users[$key]['portrait']	= route('home').'/'.'portrait/'.$users[$key]['portrait']; // Convert to real storage path
+							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait']; // Convert to real storage path
 						}
 						$users = json_encode($users); // Encode likes array to json format
 						if($users) // If get query success
@@ -1589,9 +1589,11 @@ class AndroidController extends BaseController
 					$original_numchars	= Input::get('original_numchars');
 					// Get user ID from Android client
 					$id					= Input::get('id');
-					$check_null = Notification::get()->first();
 
-					// Determine
+					// Retrieve notifications
+					$check_null			= Notification::get()->first();
+
+					// Determine notifications exist
 					if(is_null($check_null)) {
 
 						// Build Json format
@@ -1707,6 +1709,67 @@ class AndroidController extends BaseController
 					// Build Json format
 					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 				break;
+
+				// Get user posts
+				case 'get_userposts' :
+
+					// Post user ID from Android client
+					$user_id	= Input::get('id');
+
+					// Retrieve user
+					$user		= User::find($user_id);
+
+					// Get all post of this user
+					$posts		= ForumPost::where('user_id', $user_id)
+									->orderBy('created_at', 'desc')
+									->select('id', 'title', 'created_at')
+									->get()
+									->toArray();
+
+					// Build format
+					foreach ($posts as $key => $value) {
+						// Query how many comment of this post
+						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->count();
+					}
+
+					// Build format
+					$data = array(
+							'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
+							'nickname'		=> $user->nickname,
+							'posts_count'	=> ForumPost::where('user_id', 4)->orderBy('created_at', 'desc')->count(),
+							'posts'			=> $posts
+						);
+
+					// Build Json format
+					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+				break;
+
+				// Get User Portrait
+				case 'get_portrait' :
+
+					// Retrieve
+					$user = User::find(Input::get('id'));
+
+					if(not_null($user)) {
+						// User exist
+						return Response::json(
+							array(
+								'status' 	=> 1,
+								'portrait'  => route('home') . '/' . 'portrait/' . $user->portrait,
+							)
+						);
+					} else {
+						// User not exist
+						return Response::json(
+							array(
+								'status' 	=> 0,
+								'portrait'  => null
+							)
+						);
+					}
+
+				break;
+
 			}
 		} else {
 			return Response::json(

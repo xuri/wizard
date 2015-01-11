@@ -137,10 +137,13 @@
 }
 
 .lu_resumes_user .lu_img {
-	width: 50px;
+	width: 60px;
 	height: 60px;
-	margin: 20px 0 0 45px;
+	margin: 20px 0 0 35px;
 	float: left;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .lu_resumes_user .lu_userMessage {

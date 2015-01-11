@@ -234,18 +234,22 @@ class ForumController extends BaseController {
 
 			// Get all form data.
 			$data = Input::all();
+
 			// Create validation rules
 			$rules = array(
 				'reply_content'	=> 'required',
 				'reply_id'		=> 'required',
 				'comments_id'	=> 'required'
 			);
+
 			// Custom validation message
 			$messages = array(
 				'reply_content.required'	=> '请输入回复内容。',
 			);
+
 			// Begin verification
 			$validator		= Validator::make($data, $rules, $messages);
+
 			// Remove default string on reply textarea
 			$reply_content	= str_replace('回复 '.Input::get('data_nickname').':', '', Input::get('reply_content'));
 

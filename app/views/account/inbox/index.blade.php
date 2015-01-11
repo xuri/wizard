@@ -78,7 +78,7 @@
 								$Days   = round(($d1-$d2)/3600/24);
 							?>
 							<li class="preLi">
-							{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186', 'class' => '_headPic')) }}
+							{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186', 'class' => '_headPic')) }}
 							{{ Form::open(array(
 									'action' => array('MemberController@like', $user->id)
 								))

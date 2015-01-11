@@ -141,4 +141,22 @@ class Admin_SupportResource extends BaseResource
 		return View::make($this->resourceView.'.show')->with(compact('resourceName', 'data', 'user'));
 	}
 
+	/**
+	 * Resource destory action
+	 * DELETE      /resource/{id}
+	 * @param  int  $id
+	 * @return Response
+	 */
+	public function destroy($id)
+	{
+		$data		= $this->model->find($id);
+		if (is_null($data)) {
+			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
+		}
+		elseif ($data->delete()){
+			return Redirect::back()->with('success', $this->resourceName.'删除成功。');
+		} else{
+			return Redirect::back()->with('warning', $this->resourceName.'删除失败。');
+		}
+	}
 }

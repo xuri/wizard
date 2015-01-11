@@ -515,7 +515,7 @@
 		tou_img1.src = global_pic_path + 'head/' + tou + '.png';
 		tou_img1.onload = function(){
 
-			context.drawImage(tou_img1, 30, 30, 120, 171);
+			context.drawImage(tou_img1, 50, 30, 120, 171);
 
 
 			// 画耳
@@ -525,9 +525,9 @@
 
 				// 画女生的耳
 				if(global_pic_path == './images/preInfoEdit/girl/'){
-					context.drawImage(er_img1, 13, 104, 155, 50);
+					context.drawImage(er_img1, 33, 104, 155, 50);
 				}else{ // 画男生的耳
-					context.drawImage(er_img1, 6, 104, 168, 50);
+					context.drawImage(er_img1, 26, 104, 168, 50);
 				}
 
 
@@ -537,7 +537,7 @@
 				mei_img1.src = global_pic_path + 'eyebrows/' + mei + '.png';
 				mei_img1.onload = function(){
 
-					context.drawImage(mei_img1, 48, 80, 80, 28.6);
+					context.drawImage(mei_img1, 68, 80, 80, 28.6);
 
 
 					// 画眼
@@ -545,7 +545,7 @@
 					yan_img1.src = global_pic_path + 'eyes/' + yan + '.png';
 					yan_img1.onload = function(){
 
-						context.drawImage(yan_img1, 48, 100, 80, 28.6);
+						context.drawImage(yan_img1, 68, 100, 80, 28.6);
 
 
 						// 画嘴
@@ -553,7 +553,7 @@
 						zui_img1.src = global_pic_path + 'mouth/' + zui + '.png';
 						zui_img1.onload = function(){
 
-							context.drawImage(zui_img1, 60, 152, 60, 30);
+							context.drawImage(zui_img1, 80, 152, 60, 30);
 
 
 
@@ -562,7 +562,7 @@
 							bi_img1.src = global_pic_path + 'nose/' + bi + '.png';
 							bi_img1.onload = function(){
 
-								context.drawImage(bi_img1, 72, 124, 35, 30);
+								context.drawImage(bi_img1, 92, 124, 35, 30);
 
 
 								// 画头发
@@ -572,9 +572,9 @@
 
 									// 画女生头发
 									if(global_pic_path == '../assets/images/preInfoEdit/girl/'){
-										context.drawImage(hair_img1, 0, 0, 178, 222);
+										context.drawImage(hair_img1, 20, 0, 178, 222);
 									}else{ // 画男生头发
-										context.drawImage(hair_img1, 0, 0, 178, 125);
+										context.drawImage(hair_img1, 20, 0, 178, 125);
 									}
 
 								} // ------画头发
@@ -618,7 +618,7 @@
 
 				div.style.background = bgcolor_arr[i];
 
-				var img = document.createElement('img');
+				var img = document.createElement('div');
 				img.style.width = '52px';
 				img.style.height = '51px';
 				img.title = src_str + '_' + i;

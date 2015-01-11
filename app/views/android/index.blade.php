@@ -17,7 +17,6 @@ Android Debug
 // 		->setOptions([CURLOPT_VERBOSE => true])
 // 		->send();
 // 	echo $test->body;
-// Post number chars of items summary from Android client
 //
-
+//
 ?>

@@ -202,6 +202,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::get(  '/unclock/{id}', array('as' => $resource.'.unclock' , 'uses' => $controller.'unclock' 	 ));
 		Route::get(	     '/top/{id}', array('as' => $resource.'.top' 	 , 'uses' => $controller.'top' 		 ));
 		Route::get(	   '/untop/{id}', array('as' => $resource.'.untop' 	 , 'uses' => $controller.'untop'	 ));
+		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));
 	});
 
 	# Support Management
@@ -212,6 +213,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::get(  	'/show/{id}', array('as' => $resource.'.show'    , 'uses' => $controller.'show'   	 ));
 		Route::get(     '/read/{id}', array('as' => $resource.'.read'    , 'uses' => $controller.'read'		 ));
 		Route::get(   '/unread/{id}', array('as' => $resource.'.unread'  , 'uses' => $controller.'unread' 	 ));
+		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));
 	});
 });
 

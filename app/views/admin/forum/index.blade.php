@@ -33,6 +33,7 @@
 											<th>ID</th>
 											<th style="text-align:center;">分类</th>
 											<th>发帖用户</th>
+											<th>标题</th>
 											<th>评论数</th>
 											<th>创建时间 {{ order_by('created_at', 'desc') }}</th>
 											<th style="width:12.5em;text-align:center;">操作</th>
@@ -60,19 +61,20 @@
 											@else
 											<td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->id }}</a></td>
 											@endif
+											<td>{{ close_tags(Str::limit($data->title, 20)) }}</td>
 											<td class="center">{{ $comments->count() }}</td>
 											<td class="center">{{ $data->created_at }}</td>
 											<td class="center">
-												<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">编辑</a>
+												<a href="{{ route('forum.show', $data->id) }}" class="btn btn-xs btn-info" target="_blank">查看</a>
 												@if($data->top)
-												<a href="{{ route('admin.forum.untop', $data->id) }}" class="btn btn-xs btn-primary">取顶</a>
+												<a href="{{ route($resource.'.untop', $data->id) }}" class="btn btn-xs btn-primary">取顶</a>
 												@else
-												<a href="{{ route('admin.forum.top', $data->id) }}" class="btn btn-xs btn-success">置顶</a>
+												<a href="{{ route($resource.'.top', $data->id) }}" class="btn btn-xs btn-success">置顶</a>
 												@endif
 												@if($data->block)
-												<a href="{{ route('admin.forum.unclock', $data->id) }}" class="btn btn-xs btn-primary btn-outline">解锁</a>
+												<a href="{{ route($resource.'.forum.unclock', $data->id) }}" class="btn btn-xs btn-primary btn-outline">解锁</a>
 												@else
-												<a href="{{ route('admin.forum.block', $data->id) }}" class="btn btn-xs btn-warning">屏蔽</a>
+												<a href="{{ route($resource.'.block', $data->id) }}" class="btn btn-xs btn-warning">屏蔽</a>
 												@endif
 												<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
 											</td>

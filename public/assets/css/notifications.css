@@ -251,14 +251,17 @@ body {
 }
 
 #wrap .img img {
-	width: 122px;
+	width: 150px;
 	height: 150px;
 	display: block;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 #wrap .sgnin {
 	float: right;
-	width: 695px;
+	width: 667px;
 }
 
 #wrap .sgnin_top {

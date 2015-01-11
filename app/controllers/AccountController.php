@@ -208,7 +208,17 @@ class AccountController extends BaseController
 				// Update success
 				if($portrait != NULL) // User update avatar
 				{
-					File::delete($portraitPath.$oldPortrait); // Delete old poritait
+					// Determine user portrait type
+					$asset = strpos($oldPortrait, 'android');
+
+					// Should to use !== false
+					if($asset !== false){
+						// No nothing
+					} else {
+						// User set portrait from web delete old poritait
+						File::delete($portraitPath . $oldPortrait);
+					}
+
 				}
 				return Redirect::route('account')
 					->with('success', '<strong>基本资料更新成功。</strong>');
@@ -258,7 +268,7 @@ class AccountController extends BaseController
 	 */
 	public function getPosts()
 	{
-		$posts = ForumPost::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
+		$posts		= ForumPost::where('user_id', Auth::user()->id)->orderBy('created_at', 'desc')->paginate(10);
 
 		// Get user's profile
 		$profile	= Profile::where('user_id', Auth::user()->id)->first();

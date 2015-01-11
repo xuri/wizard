@@ -15,7 +15,7 @@
 	{{-- Avatar --}}
 	<div id="pre_content">
 		<a id="pre_close" href="javascript:;">×</a>
-		<canvas id="pre_pic_wrap" width="180" height="220">您的浏览器不支持该功能</canvas>
+		<canvas id="pre_pic_wrap" width="220" height="220">您的浏览器不支持该功能</canvas>
 		<div id="pre_pic_list">
 		</div>
 		<div id="pre_btn_list">
