@@ -2,7 +2,6 @@
 <html>
 <head>
 	<title>追我的人 | 聘爱网</title>
-
 	@include('layout.meta')
 	@yield('content')
 

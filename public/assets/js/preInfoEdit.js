@@ -195,11 +195,11 @@
 		// 获取请求学校数据时的token值
 		var to_ken= getById('province_token').value;
 		// ajax 请求学校数据
-		// $.post('http://localhost/~luxurioust/wizard/public/account/postuniversity',{
-		$.post('http://dev.pinai521.com/account/postuniversity',{
+		$.post(postuniversity,{
 			'_token' : to_ken,
 			'province' : target.innerHTML
 		},function(jdata){
+
 			for(var j = school_wrap.children.length - 1; j >= 0; j--){
 				school_wrap.removeChild(school_wrap.children[j]);
 			}
@@ -618,7 +618,7 @@
 
 				div.style.background = bgcolor_arr[i];
 
-				var img = document.createElement('div');
+				var img = document.createElement('section');
 				img.style.width = '52px';
 				img.style.height = '51px';
 				img.title = src_str + '_' + i;
@@ -663,6 +663,7 @@
 		var div = pic_list.getElementsByTagName('div');
 		for(var i = div.length - 1; i >= 0; i--){
 			pic_list.removeChild(div[i]);
+			//alert(div[i]);
 		}
 	}
 

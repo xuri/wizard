@@ -121,8 +121,9 @@
 								@endif
 								</div>
 							</li>
-							@endforeach
+
 							{{ Form::close() }}
+							@endforeach
 						</ul>
 					</div>
 				</div>

@@ -79,7 +79,7 @@
 								$Days	= round(($d1-$d2)/3600/24);
 							?>
 							<li class="preLi">
-								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '152', 'height' => '186','class' => '_headPic')) }}
+								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186','class' => '_headPic')) }}
 								{{ Form::open(array(
 										'action' => array('MemberController@like', $data->receiver_id)
 									))
@@ -124,8 +124,10 @@
 									<a href="javascript:;" class="button-block">已经拉黑</a>
 									@endif
 								</div>
+								<input type="hidden" value="" id="{{ $user->id }}"/>
 								{{ Form::close() }}
 							</li>
+
 							@endforeach
 
 						</ul>
