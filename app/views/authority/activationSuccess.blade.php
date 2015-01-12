@@ -1,4 +1,4 @@
-@include('authority.activationSuccess-header')
+@include('authority.header')
 @yield('content')
 
 	@include('layout.navigation')
