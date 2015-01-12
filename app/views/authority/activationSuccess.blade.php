@@ -34,7 +34,7 @@
 				</div><!-- end login_main -->
 				<div id="login_main" style="text-align: center;">
 					<p style="color: #ef698a; margin-top: 20%; font-size: 18px;">账号激活成功</p>
-					<a href="{{ route('home') }}" class="login_submit" style="line-height: 35px;">开始体验</a>
+					<a href="{{ route('members.index') }}" class="login_submit" style="line-height: 35px;">开始体验</a>
 				</div>
 				{{-- rgs_main --}}
 			</div>
