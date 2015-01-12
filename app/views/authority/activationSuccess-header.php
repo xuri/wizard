@@ -11,6 +11,5 @@
 	{{ HTML::style('assets/css/signin.css') }}
 	{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
 
-	<meta content="4; {{ route('account') }}" http-equiv="refresh">
 </head>
 <body>
