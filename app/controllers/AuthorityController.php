@@ -386,6 +386,8 @@ class AuthorityController extends BaseController
 		// Delete tokens
 		$activation->delete();
 		// Activation success
+		// Log a user into the application by ID
+		Auth::loginUsingId($user->id);
 		return View::make('authority.activationSuccess');
 	}
 

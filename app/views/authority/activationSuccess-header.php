@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh_CN">
 <head>
-	<title>注册登陆 | 聘爱网</title>
+	<title>激活成功 | 聘爱网</title>
 
 	@include('layout.meta')
 	@yield('content')
+
+	<meta content="3; {{ route('account') }}" http-equiv="refresh">
 
 	{{ HTML::style('assets/css/reset.css') }}
 	{{ HTML::style('assets/css/nav.css') }}
