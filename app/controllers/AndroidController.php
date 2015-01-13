@@ -954,7 +954,7 @@ class AndroidController extends BaseController
 					}
 				break;
 
-				// Get Username
+				// Get user friends nickname
 
 				case 'getnickname' :
 
@@ -962,19 +962,30 @@ class AndroidController extends BaseController
 					$id		= Input::get('id');
 
 					// Get sender user data
-					$sender = Like::where('receiver_id', $id)
-								->where('status', 1)
+					$friends = Like::where('receiver_id', $id)->orWhere('sender_id', $id)
+								->where('status', 3)
 								->select('sender_id')
 								->get()
 								->toArray();
 
-					foreach($sender as $key => $field){
+					foreach($friends as $key => $field){
 
-							// Sender nickname
-							$sender[$key]['nickname']	= User::where('id', $sender[$key]['sender_id'])->first()->nickname;
+							// Determine user is sender or receiver
+							if($friends[$key]['sender_id'] == $id) {
+								// User is sender
+								// Receiver nickname
+								$friends[$key]['nickname']	= User::where('id', $friends[$key]['receiver_id'])->first()->nickname;
 
-							// Sender portrait
-							$sender[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $sender[$key]['sender_id'])->first()->portrait;
+								// Receiver portrait
+								$friends[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $friends[$key]['receiver_id'])->first()->portrait;
+							} else {
+								// User is receiver
+								// Sender nickname
+								$friends[$key]['nickname']	= User::where('id', $friends[$key]['sender_id'])->first()->nickname;
+
+								// Sender portrait
+								$friends[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $friends[$key]['sender_id'])->first()->portrait;
+							}
 						}
 
 					// Convert array to json format

@@ -14,6 +14,14 @@
  * @version 	0.1
  */
 
+/**
+ *
+ * University status
+ *
+ * status = 0 or NULL   Close status code
+ * status = 1 			Pending status code
+ * status = 2 			Open status code
+ */
 class Admin_UniversityResource extends BaseResource
 {
 	/**
@@ -57,14 +65,7 @@ class Admin_UniversityResource extends BaseResource
 		$orderColumn	= Input::get('sort_up', Input::get('sort_down', 'created_at'));
 		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
 		// Get search conditions
-		switch (Input::get('status')) {
-			case '0':
-				$is_admin = 0;
-				break;
-			case '1':
-				$is_admin = 1;
-				break;
-		}
+		$province_filter = Input::get('status');
 		switch (Input::get('target')) {
 			case 'email':
 				$email = Input::get('like');
@@ -72,73 +73,75 @@ class Admin_UniversityResource extends BaseResource
 		}
 		// Construct query statement
 		$query = $this->model->orderBy($orderColumn, $direction);
-		isset($is_admin) AND $query->where('is_admin', $is_admin);
-		isset($email)    AND $query->where('email', 'like', "%{$email}%");
+		if($province_filter){
+			isset($province_filter) AND $query->where('province_id', $province_filter);
+		}
+
+		isset($email)    AND $query->where('university', 'like', "%{$email}%");
 		$datas = $query->paginate(10);
-		return View::make($this->resourceView.'.index')->with(compact('datas'));
+		$provinces	= Province::get();
+		return View::make($this->resourceView.'.index')->with(compact('datas', 'provinces'));
 	}
 
 	/**
-	 * Mark read user support ticket
-	 * GET /{id}/block
+	 * Mark open university
+	 * GET /{id}/open
 	 * @return Response     View
 	 */
-	public function read($id)
+	public function open($id)
 	{
-		// Retrieve user support ticket
+		// Retrieve university
 		$data			= $this->model->find($id);
 
-		// Mark read support ticket
-		$data->status	= true;
+		// Mark open university
+		$data->status	= 2;
 
 		if (is_null($data)) {
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
 		}
 		elseif ($data->save()){
-			return Redirect::back()->with('success', $this->resourceName.'设置已读标记成功。');
+			return Redirect::back()->with('success', $this->resourceName.'开放成功。');
 		} else{
-			return Redirect::back()->with('warning', $this->resourceName.'设置已读标记失败。');
+			return Redirect::back()->with('warning', $this->resourceName.'开放失败。');
 		}
 	}
 
 	/**
-	 * Unmark read user support ticket
-	 * POST /{id}/block
+	 * Close university service
+	 * POST /{id}/close
 	 * @return Response     View
 	 */
-	public function unread($id)
+	public function close($id)
 	{
-		// Retrieve user support ticket
+		// Retrieve university
 		$data			= $this->model->find($id);
 
-		// Unmark read user support ticket
-		$data->status	= false;
+		// Close university
+		$data->status	= 0;
 
 		if (is_null($data)) {
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
 		}
 		elseif ($data->save()){
-			return Redirect::back()->with('success', $this->resourceName.'取消已读标记成功。');
+			return Redirect::back()->with('success', $this->resourceName.'取消开放成功。');
 		} else{
-			return Redirect::back()->with('warning', $this->resourceName.'取消已读标记失败。');
+			return Redirect::back()->with('warning', $this->resourceName.'取消开放失败。');
 		}
 	}
 
 	/**
-	 * Show user support ticket
-	 * POST /{id}/block
+	 * Edit university open date
+	 * GET /edit/{id}
 	 * @return Response     View
 	 */
-	public function show($id)
+	public function edit($id)
 	{
 		$resourceName = $this->resourceName;
 
 		// Retrieve support ticket
 		$data			= $this->model->find($id)->first();
 
-		// Retrieve user
-		$user			= User::find($data->user_id);
-		return View::make($this->resourceView.'.show')->with(compact('resourceName', 'data', 'user'));
+		return View::make($this->resourceView.'.edit')->with(compact('resourceName', 'data'));
 	}
 
 	/**

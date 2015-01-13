@@ -216,14 +216,14 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));
 	});
 
-	# Support Management
+	# University Management
 	Route::group(array('prefix' => 'university'), function () {
 		$resource   = 'admin.university';
 		$controller = 'Admin_UniversityResource@';
 		Route::get(  		     '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'   	 ));
-		Route::get(  	'/show/{id}', array('as' => $resource.'.show'    , 'uses' => $controller.'show'   	 ));
-		Route::get(     '/read/{id}', array('as' => $resource.'.read'    , 'uses' => $controller.'read'		 ));
-		Route::get(   '/unread/{id}', array('as' => $resource.'.unread'  , 'uses' => $controller.'unread' 	 ));
+		Route::get(  	'/open/{id}', array('as' => $resource.'.open'    , 'uses' => $controller.'open'   	 ));
+		Route::get(    '/close/{id}', array('as' => $resource.'.close'   , 'uses' => $controller.'close'	 ));
+		Route::get(     '/edit/{id}', array('as' => $resource.'.edit'    , 'uses' => $controller.'edit'	 	 ));
 		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));
 	});
 });
