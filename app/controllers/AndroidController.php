@@ -965,7 +965,7 @@ class AndroidController extends BaseController
 					// Get sender user data
 					$friends = Like::where('receiver_id', $id)->orWhere('sender_id', $id)
 								->where('status', 3)
-								->select('sender_id')
+								->select('sender_id', 'receiver_id')
 								->get()
 								->toArray();
 
@@ -990,14 +990,14 @@ class AndroidController extends BaseController
 						}
 
 					// Convert array to json format
-					$friends = json_encode($friends);
+					$friend = json_encode($friends);
 
 					// Query successful
-					if($sender)
+					if($friend)
 					{
-						return '{ "status" : "1", "data" : ' . $friends . '}';
+						echo '{ "status" : "1", "data" : ' . $friend . '}';
 					} else {
-						return Response::json(
+						echo Response::json(
 							array(
 								'status' 	=> 0
 							)

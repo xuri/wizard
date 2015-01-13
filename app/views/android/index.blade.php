@@ -22,7 +22,7 @@ Android Debug
 $id = 2;
 					$friends = Like::where('receiver_id', $id)->orWhere('sender_id', $id)
 								->where('status', 3)
-								->select('sender_id')
+								->select('sender_id', 'receiver_id')
 								->get()
 								->toArray();
 
@@ -47,14 +47,14 @@ $id = 2;
 						}
 
 					// Convert array to json format
-					$sender = json_encode($friends);
+					$friend = json_encode($friends);
 
 					// Query successful
-					if($sender)
+					if($friend)
 					{
-						return '{ "status" : "1", "data" : ' . $sender . '}';
+						echo '{ "status" : "1", "data" : ' . $friend . '}';
 					} else {
-						return Response::json(
+						echo Response::json(
 							array(
 								'status' 	=> 0
 							)
