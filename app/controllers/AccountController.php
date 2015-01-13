@@ -38,9 +38,15 @@ class AccountController extends BaseController
 	 */
 	public function getComplete()
 	{
+		// Retrieve user profile
 		$profile			= Profile::where('user_id', Auth::user()->id)->first();
-		$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
-		return View::make('account.complete')->with(compact('profile', 'constellationInfo'));
+
+		// Get all province
+		$provinces			= Province::get();
+
+		// Get user's constellation
+		$constellationInfo	= getConstellation($profile->constellation);
+		return View::make('account.complete')->with(compact('profile', 'constellationInfo', 'provinces'));
 	}
 
 	/**
@@ -49,9 +55,9 @@ class AccountController extends BaseController
 	 */
 	public function postUniversity()
 	{
-		$province    = Input::get('province');
+		$province    = Province::where('province', Input::get('province'))->first();
 
-		$universites = University::where('province', $province)->get();
+		$universites = University::where('province_id', $province->province_id)->get();
 		$school = array();
 		foreach ($universites as $university) {
 			$elements = explode(':', $university->university);

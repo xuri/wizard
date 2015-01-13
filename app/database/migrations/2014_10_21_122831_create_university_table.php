@@ -15,10 +15,10 @@ class CreateUniversityTable extends Migration {
 		Schema::create('university', function(Blueprint $table)
 		{
 			$table->increments('id');
-	        $table->string('province', 30)->nullable();
-	        $table->string('city', 30);
-	        $table->string('university_type', 10);
-	        $table->string('university', 30);
+	        $table->integer('university_id', 11)->nullable();
+	        $table->integer('province_id', 11)->nullable();
+	        $table->string('university', 255)->nullable();
+	        $table->integer('status', 1)->nullable();
 	        $table->timestamp('deleted_at')->nullable();
 	        $table->timestamps();
 	    });

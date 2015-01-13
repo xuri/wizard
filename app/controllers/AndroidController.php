@@ -416,7 +416,7 @@ class AndroidController extends BaseController
 						$profile			= Profile::where('user_id', $user->id)->first();
 						$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
 						$tag_str			= explode(',', substr($profile->tag_str, 1)); // Get user's tag
-						return Response::json(
+						return Response::json(utf8_converter(
 							array(
 								'status'		=> 1,
 								'sex'			=> $user->sex,
@@ -430,8 +430,8 @@ class AndroidController extends BaseController
 								'hobbies'		=> $profile->hobbies,
 								'grade'			=> $profile->grade,
 								'question'		=> $profile->question,
-								'self_intro'	=> $profile->self_intro,
-							)
+								'self_intro'	=> $profile->self_intro)
+							))
 						);
 					} else {
 						return Response::json(
@@ -1182,7 +1182,7 @@ class AndroidController extends BaseController
 					$perpage	= Input::get('perpage', 10);
 
 					// If Android have post last user id
-					if($lastid == NULL) {
+					if($lastid == null) {
 
 						// First get data from Android client
 
@@ -1293,16 +1293,10 @@ class AndroidController extends BaseController
 
 					} else {
 
-						// Retrieve post data
-						$post		= ForumPost::where('id', $postid)->first();
-
-						// Retrieve user data of this post
-						$author		= User::where('id', $post->user_id)->first();
-
 						// Query all comments of this post
 						$comments	= ForumComments::where('post_id', $postid)
-											->orderBy('created_at' , 'desc')
-											->where('id', '<', $lastid)
+											->orderBy('id' , 'asc')
+											->where('id', '>', $lastid)
 											->select('id', 'user_id', 'content', 'created_at')
 											->take($perpage)
 											->get()
@@ -1349,25 +1343,17 @@ class AndroidController extends BaseController
 
 								// Reply user portrait
 								$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
-
 							}
 
 							// Add comments replies array to post comments_reply array
 							$comments[$key]['comment_reply'] = $replies;
-
 						}
 
 						// Build Data Array
 						$data = array(
-							'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-							'sex'			=> $author->sex, // Post user sex
-							'nickname'		=> $author->nickname, // Post user nickname
-							'user_id'		=> $author->id, // Post user ID
-							'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
-							'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-							'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
-							'comments'		=> $comments // Post comments (array format and include reply)
 
+							// Post comments (array format and include reply)
+							'comments'		=> $comments
 						);
 
 						// Build Json format
@@ -1603,6 +1589,8 @@ class AndroidController extends BaseController
 
 						// Retrieve all user's notifications
 						$notifications = Notification::where('receiver_id', $id)
+											->whereIn('category', array(6, 7))
+											->where('status', 0)
 											->select('id', 'category', 'sender_id', 'receiver_id', 'category_id', 'post_id', 'comment_id', 'reply_id', 'created_at')
 											->orderBy('created_at' , 'desc')
 											->get()
@@ -1666,6 +1654,8 @@ class AndroidController extends BaseController
 							}
 						}
 
+						Notification::where('receiver_id', $id)->whereIn('category', array(6, 7))->update(array('status' => 1));
+
 						// Build Json format
 						return '{ "status" : "1", "data" : ' . json_encode($notifications) . '}';
 					}
@@ -1728,6 +1718,7 @@ class AndroidController extends BaseController
 
 					// Build format
 					foreach ($posts as $key => $value) {
+
 						// Query how many comment of this post
 						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->count();
 					}
@@ -1736,7 +1727,7 @@ class AndroidController extends BaseController
 					$data = array(
 							'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
 							'nickname'		=> $user->nickname,
-							'posts_count'	=> ForumPost::where('user_id', 4)->orderBy('created_at', 'desc')->count(),
+							'posts_count'	=> ForumPost::where('user_id', $user_id)->count(),
 							'posts'			=> $posts
 						);
 
@@ -1750,12 +1741,12 @@ class AndroidController extends BaseController
 					// Retrieve
 					$user = User::find(Input::get('id'));
 
-					if(not_null($user)) {
+					if($user) {
 						// User exist
 						return Response::json(
 							array(
 								'status' 	=> 1,
-								'portrait'  => route('home') . '/' . 'portrait/' . $user->portrait,
+								'portrait'  => route('home') . '/' . 'portrait/' . $user->portrait
 							)
 						);
 					} else {

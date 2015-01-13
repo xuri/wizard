@@ -52,14 +52,11 @@
 		<div class="vs-Popup-pass" id="vs-pass">×</div>
 		<div class="vs-box clear">
 			<div class="vs-Popup-school">选择学校</div>
-			<div class="vs-search">搜索：<input type="text"/></div>
+			<!-- <div class="vs-search">搜索：<input type="text"/></div> -->
 			<div class="vs-shcoollist clear" id="provinces">
-				<a href="javascript:;">黑龙江</a>
-				<a href="javascript:;">黑龙江</a>
-				<a href="javascript:;">黑龙江</a>
-				<a href="javascript:;">黑龙江</a>
-				<a href="javascript:;">黑龙江</a>
-				<a href="javascript:;">黑龙江</a>
+				@foreach($provinces as $province)
+					<a href="javascript:;">{{ $province->province }}</a>
+				@endforeach
 			</div>
 			<span class="vs-line-bottom"></span>
 			<!--a href="javascript:;">哈尔滨理工大学</a-->
