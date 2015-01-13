@@ -973,19 +973,47 @@ class AndroidController extends BaseController
 
 							// Determine user is sender or receiver
 							if($friends[$key]['sender_id'] == $id) {
-								// User is sender
-								// Receiver nickname
-								$friends[$key]['nickname']	= User::where('id', $friends[$key]['receiver_id'])->first()->nickname;
 
-								// Receiver portrait
-								$friends[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $friends[$key]['receiver_id'])->first()->portrait;
+								// User is sender and retrieve receiver user
+								$user = User::where('id', $friends[$key]['receiver_id'])->first();
+
+								// Friend ID
+								$friends[$key]['friend_id']	= $user->id;
+
+								// Friend nickname
+								$friends[$key]['nickname']	= e($user->nickname);
+
+								// Determine user portrait
+								if(is_null($user->portrait)){
+
+									// Friend portrait
+									$friends[$key]['portrait']	= null;
+								} else {
+
+									// Friend portrait
+									$friends[$key]['portrait']	= route('home'). '/' . 'portrait/' . $user->portrait;
+								}
 							} else {
-								// User is receiver
-								// Sender nickname
-								$friends[$key]['nickname']	= User::where('id', $friends[$key]['sender_id'])->first()->nickname;
 
-								// Sender portrait
-								$friends[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $friends[$key]['sender_id'])->first()->portrait;
+								// User is receiver and retrieve sender user
+								$user = User::where('id', $friends[$key]['sender_id'])->first();
+
+								// Friend ID
+								$friends[$key]['friend_id']	= $user->id;
+
+								// Friend nickname
+								$friends[$key]['nickname']	= e($user->nickname);
+
+								// Determine user portrait
+								if(is_null($user->portrait)){
+
+									// Friend portrait
+									$friends[$key]['portrait']	= null;
+								} else {
+
+									// Friend portrait
+									$friends[$key]['portrait']	= route('home'). '/' . 'portrait/' . $user->portrait;
+								}
 							}
 						}
 
@@ -995,9 +1023,9 @@ class AndroidController extends BaseController
 					// Query successful
 					if($friend)
 					{
-						echo '{ "status" : "1", "data" : ' . $friend . '}';
+						return '{ "status" : "1", "data" : ' . $friend . '}';
 					} else {
-						echo Response::json(
+						return Response::json(
 							array(
 								'status' 	=> 0
 							)
