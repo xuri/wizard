@@ -224,6 +224,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::get(  	'/open/{id}', array('as' => $resource.'.open'    , 'uses' => $controller.'open'   	 ));
 		Route::get(    '/close/{id}', array('as' => $resource.'.close'   , 'uses' => $controller.'close'	 ));
 		Route::get(     '/edit/{id}', array('as' => $resource.'.edit'    , 'uses' => $controller.'edit'	 	 ));
+		Route::post(    '/edit/{id}', array('as' => $resource.'.update'  , 'uses' => $controller.'update'	 ));
 		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));
 	});
 });

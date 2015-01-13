@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							设置在{{ $data->university }}的开放时间， <a href="{{ route('admin.university.index') }}">点此返回{{ $resourceName }}管理列表。</a>
+							设置在{{ $data->university }}的开放时间，格式为：2015-01-13 08:12:22， 在高校管理中设定开放功能后方可生效。<a href="{{ route('admin.university.index') }}">点此返回{{ $resourceName }}管理列表。</a>
 						</div>
 						<div class="panel-body">
 							<div class="row">
@@ -31,11 +31,11 @@
 									))
 								}}
 									<div class="col-lg-12">
-										<div class="form-group">
-											<label>爱情宣言</label>
-											<textarea class="form-control" rows="3" name="system_notification">{{ Input::old('system_notification') }}</textarea>
+										<div class="form-group input-group">
+											<span class="input-group-addon">请在此设定开放时间</span>
+											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('created_at', $data->open_at) }}" name="open_at">
 										</div>
-										<button type="submit" class="btn btn-default">推 送</button>
+										<button type="submit" class="btn btn-default">确 定</button>
 										<button type="reset" class="btn btn-default">重 置</button>
 									</div>
 									{{-- /.col-lg-12 (nested) --}}

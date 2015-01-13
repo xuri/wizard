@@ -138,10 +138,35 @@ class Admin_UniversityResource extends BaseResource
 	{
 		$resourceName = $this->resourceName;
 
-		// Retrieve support ticket
-		$data			= $this->model->find($id)->first();
+		// Retrieve university ticket
+		$data		  = $this->model->find($id)->first();
 
 		return View::make($this->resourceView.'.edit')->with(compact('resourceName', 'data'));
+	}
+
+	/**
+	 * Update university open date
+	 * POST /edit/{id}
+	 * @return Response     View
+	 */
+	public function update($id)
+	{
+		if(Input::get('open_at') != null)
+		{
+			// Retrieve university ticket
+			$data			= $this->model->find($id);
+			$data->open_at	= Input::get('open_at');
+			$data->save();
+
+			// Update success
+			return Redirect::back()
+				->with('success', '<strong>'.$this->resourceName.'开通时间设定成功：</strong>您可以修改此设置'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
+		} else {
+			// Update fail
+			return Redirect::back()
+				->with('warning', '<strong>'.$this->resourceName.'设置失败，请输入开通时间。</strong>');
+		}
+
 	}
 
 	/**
@@ -152,7 +177,7 @@ class Admin_UniversityResource extends BaseResource
 	 */
 	public function destroy($id)
 	{
-		$data		= $this->model->find($id);
+		$data        = $this->model->find($id);
 		if (is_null($data)) {
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
 		}

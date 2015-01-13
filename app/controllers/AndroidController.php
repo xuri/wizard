@@ -79,7 +79,8 @@ class AndroidController extends BaseController
 							array(
 								'status'	=> 1,
 								'id'		=> $user->id,
-								'password'	=> $user->password
+								'password'	=> $user->password,
+								'portrait'	=> route('home').'/'.'portrait/'.$user->portrait
 							)
 						);
 					} else {
@@ -989,12 +990,12 @@ class AndroidController extends BaseController
 						}
 
 					// Convert array to json format
-					$sender = json_encode($sender);
+					$friends = json_encode($friends);
 
 					// Query successful
 					if($sender)
 					{
-						return '{ "status" : "1", "data" : ' . $sender . '}';
+						return '{ "status" : "1", "data" : ' . $friends . '}';
 					} else {
 						return Response::json(
 							array(
