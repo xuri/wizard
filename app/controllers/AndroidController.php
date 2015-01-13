@@ -416,8 +416,7 @@ class AndroidController extends BaseController
 						$profile			= Profile::where('user_id', $user->id)->first();
 						$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
 						$tag_str			= explode(',', substr($profile->tag_str, 1)); // Get user's tag
-						return Response::json(utf8_converter(
-							array(
+						$data = array(
 								'status'		=> 1,
 								'sex'			=> $user->sex,
 								'bio'			=> $user->bio,
@@ -430,9 +429,9 @@ class AndroidController extends BaseController
 								'hobbies'		=> $profile->hobbies,
 								'grade'			=> $profile->grade,
 								'question'		=> $profile->question,
-								'self_intro'	=> $profile->self_intro)
-							))
-						);
+								'self_intro'	=> $profile->self_intro
+							);
+						return Response::json(utf8_converter($data));
 					} else {
 						return Response::json(
 							array(
