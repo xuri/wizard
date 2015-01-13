@@ -418,20 +418,20 @@ class AndroidController extends BaseController
 						$tag_str			= explode(',', substr($profile->tag_str, 1)); // Get user's tag
 						$data = array(
 								'status'		=> 1,
-								'sex'			=> $user->sex,
-								'bio'			=> $user->bio,
-								'nickname'		=> $user->nickname,
-								'born_year'		=> $user->born_year,
-								'school'		=> $user->school,
+								'sex'			=> e($user->sex),
+								'bio'			=> e($user->bio),
+								'nickname'		=> e($user->nickname),
+								'born_year'		=> e($user->born_year),
+								'school'		=> e($user->school),
 								'portrait'		=> route('home').'/'.'portrait/'.$user->portrait,
 								'constellation'	=> $constellationInfo['name'],
 								'tag_str'		=> $tag_str,
-								'hobbies'		=> $profile->hobbies,
-								'grade'			=> $profile->grade,
-								'question'		=> $profile->question,
-								'self_intro'	=> $profile->self_intro
+								'hobbies'		=> e($profile->hobbies),
+								'grade'			=> e($profile->grade),
+								'question'		=> e($profile->question),
+								'self_intro'	=> e($profile->self_intro)
 							);
-						return Response::json(utf8_converter($data));
+						return Response::json($data);
 					} else {
 						return Response::json(
 							array(

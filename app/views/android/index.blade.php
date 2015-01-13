@@ -19,25 +19,4 @@ Android Debug
 // 	echo $test->body;
 //
 
-// Retrieve user
-// Retrieve user
-						$user				= User::where('id', 3)->first();
-						$profile			= Profile::where('user_id', $user->id)->first();
-						$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
-						$tag_str			= explode(',', substr($profile->tag_str, 1)); // Get user's tag
-						$data = array(
-								'status'		=> 1,
-								'sex'			=> $user->sex,
-								'bio'			=> $user->bio,
-								'nickname'		=> $user->nickname,
-								'born_year'		=> $user->born_year,
-								'school'		=> $user->school,
-								'portrait'		=> route('home').'/'.'portrait/'.$user->portrait,
-								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> $tag_str,
-								'hobbies'		=> $profile->hobbies,
-								'grade'			=> $profile->grade,
-								'question'		=> $profile->question,
-								'self_intro'	=> $profile->self_intro
-							);
-						echo Response::json(utf8_converter($data));
+?>
