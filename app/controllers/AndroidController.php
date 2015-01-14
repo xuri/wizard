@@ -118,8 +118,12 @@ class AndroidController extends BaseController
 						// Verification success, add user
 						$user				= new User;
 						$user->phone		= $phone;
-						$user->from			= 1; // Signup from Android
+
+						// Signup from 1 - Android, 2 - iOS
+						$user->from			= Input::get('from');
 						$user->activated_at	= date('Y-m-d H:m:s');
+
+						$user->sex			= e(Input::get('sex'));
 						$user->password		= md5(Input::get('password'));
 						if ($user->save()) {
 							$profile			= new Profile;
@@ -177,7 +181,6 @@ class AndroidController extends BaseController
 						'constellation' => Input::get('constellation'),
 						'portrait'      => Input::get('portrait'),
 						'tag_str'       => Input::get('tag_str'),
-						'sex'           => Input::get('sex'),
 						'born_year'     => Input::get('born_year'),
 						'grade'         => Input::get('grade'),
 						'hobbies'       => Input::get('hobbies'),
@@ -193,7 +196,6 @@ class AndroidController extends BaseController
 						'nickname'		=> 'required|between:1,30',
 						'constellation'	=> 'required',
 						'tag_str'		=> 'required',
-						'sex'			=> 'required',
 						'born_year'		=> 'required',
 						'grade'			=> 'required',
 						'hobbies'		=> 'required',
@@ -210,7 +212,6 @@ class AndroidController extends BaseController
 						'nickname.between'			=> '昵称长度请保持在:min到:max字之间',
 						'constellation.required'	=> '请选择星座',
 						'tag_str.required'			=> '给自己贴个标签吧',
-						'sex.required'				=> '请选择性别',
 						'born_year.required'		=> '请选择出生年',
 						'grade.required'			=> '请选择入学年',
 						'hobbies.required'			=> '填写你的爱好',
@@ -233,18 +234,19 @@ class AndroidController extends BaseController
 
 						// Protrait section
 						$portrait               = Input::get('portrait');
-						if($portrait = 'null')
+						if(is_null($portrait))
 						{
 							$user->portrait 	= $oldPortrait;  // User not update avatar
-						} else{  // User update avatar
+						} else{
+							// User update avatar
 							$portraitPath		= public_path('portrait/');
 							$user->portrait     = 'android/'.$portrait; // Save file name to database
 						}
-						if($user->sex == NULL)
+						if(is_null($user->sex))
 						{
 							$user->sex          = Input::get('sex');
 						}
-						if($user->born_year == NULL)
+						if(is_null($user->born_year))
 						{
 							$user->born_year    = Input::get('born_year');
 						}
@@ -262,13 +264,19 @@ class AndroidController extends BaseController
 
 						if ($user->save() && $profile->save()) {
 							// Update success
-							if($portrait != 'null') // User update avatar
+							if($portrait != NULL) // User update avatar
 							{
-								$oldAndroidPortrait = strpos($oldPortrait, 'android');
-								if($oldAndroidPortrait === false) // Must use ===
-								{
-									File::delete($portraitPath.$oldPortrait); // Delete old poritait
+								// Determine user portrait type
+								$asset = strpos($oldPortrait, 'android');
+
+								// Should to use !== false
+								if($asset !== false){
+									// No nothing
+								} else {
+									// User set portrait from web delete old poritait
+									File::delete($portraitPath . $oldPortrait);
 								}
+
 							}
 							return Response::json(
 								array(
@@ -288,7 +296,8 @@ class AndroidController extends BaseController
 						// Verification fail, redirect back
 						return Response::json(
 							array(
-								'status' 		=> 0
+								'status' 		=> 0,
+								'info'			=> $validator
 							)
 						);
 					}
@@ -297,20 +306,51 @@ class AndroidController extends BaseController
 				// Members
 
 				case 'members_index' :
-					$last_id  = Input::get('lastid'); // Post last user id from Android client
-					$per_page = Input::get('perpage'); // Post count per query from Android client
-					if($last_id) // If Android have post last user id
-					{
-						$users = User::whereNotNull('portrait') // Skip none portrait user
-						->orderBy('id', 'desc')
-						->select('id', 'nickname', 'school', 'sex', 'portrait')
-						->where('id', '<', $last_id)
-						->take($per_page)
-						->get()
-						->toArray();
+					// Post last user id from Android client
+					$last_id			= Input::get('lastid');
+
+					// Post count per query from Android client
+					$per_page			= Input::get('perpage');
+
+					// Post sex filter from Android client
+					$sex_filter			= Input::get('sex');
+
+					// Post university filter from Android client
+					$university_filter	= Input::get('university');
+
+					if($last_id){
+
+						//  Android client have post last user id, retrieve and skip none portrait user
+						$query      = User::whereNotNull('portrait');
+
+						if($sex_filter){
+							isset($sex_filter) AND $query->where('sex', $sex_filter);
+						}
+						if($university_filter){
+							isset($university_filter) AND $query->where('school', $university_filter);
+						}
+
+						$users = $query
+							->orderBy('id', 'desc')
+							->select('id', 'nickname', 'school', 'sex', 'portrait')
+							->where('id', '<', $last_id)
+							->take($per_page)
+							->get()
+							->toArray();
+
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
-							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait']; // Convert to real storage path
+							// Convert to real storage path
+							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+							// Retrieve sex with UTF8 encode
+							$users[$key]['sex']			= e($users[$key]['sex']);
+
+							// Retrieve nickname with UTF8 encode
+							$users[$key]['nickname']	= e($users[$key]['nickname']);
+
+							// Retrieve school with UTF8 encode
+							$users[$key]['school']		= e($users[$key]['school']);
 						}
 						$users = json_encode($users); // Encode likes array to json format
 						if($users) // If get query success
@@ -323,18 +363,41 @@ class AndroidController extends BaseController
 								)
 							);
 						}
-					} else { // First get data from Android client
-						$lastRecord = User::orderBy('id', 'desc')->first()->id; // Query last user id in database
-						$users      = User::whereNotNull('portrait') // Skip none portrait user
-						->orderBy('id', 'desc')
-						->select('id', 'nickname', 'school', 'sex', 'portrait')
-						->where('id', '<=', $lastRecord)
-						->take($per_page)
-						->get()
-						->toArray();
+					} else {
+
+						//  First get data from Android client, retrieve and skip none portrait user
+						$query      = User::whereNotNull('portrait');
+
+						if($sex_filter){
+							isset($sex_filter) AND $query->where('sex', $sex_filter);
+						}
+						if($university_filter){
+							isset($university_filter) AND $query->where('school', $university_filter);
+						}
+
+						// Query last user id in database
+						$lastRecord = User::orderBy('id', 'desc')->first()->id;
+
+						$users      = $query
+										->orderBy('id', 'desc')
+										->select('id', 'nickname', 'school', 'sex', 'portrait')
+										->where('id', '<=', $lastRecord)
+										->take($per_page)
+										->get()
+										->toArray();
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
-							$users[$key]['portrait']	= route('home').'/'.'portrait/'.$users[$key]['portrait']; // Convert to real storage path
+							// Convert to real storage path
+							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+							// Retrieve sex with UTF8 encode
+							$users[$key]['sex']			= e($users[$key]['sex']);
+
+							// Retrieve nickname with UTF8 encode
+							$users[$key]['nickname']	= e($users[$key]['nickname']);
+
+							// Retrieve school with UTF8 encode
+							$users[$key]['school']		= e($users[$key]['school']);
 						}
 						$users = json_encode($users); // Encode likes array to json format
 						if($users)
@@ -1135,13 +1198,13 @@ class AndroidController extends BaseController
 							$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
 
 							// Get post user sex (M, F or null) and add user sex key to array
-							$items[$key]['sex']				= $post_user->sex;
+							$items[$key]['sex']				= e($post_user->sex);
 
 							// Count how many comments of this post and add comments_count key to array
-							$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+							$items[$key]['comments_count']	= e(ForumComments::where('post_id', $items[$key]['id'])->count());
 
 							// Get post user portrait and add portrait key to array
-							$items[$key]['nickname']		= $post_user->nickname;
+							$items[$key]['nickname']		= e($post_user->nickname);
 
 							// Using expression get all picture attachments (Only with pictures stored on this server.)
 							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1187,13 +1250,13 @@ class AndroidController extends BaseController
 								$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
 
 								// Get post user sex (M, F or null) and add user sex key to array
-								$items[$key]['sex']				= $post_user->sex;
+								$items[$key]['sex']				= e($post_user->sex);
 
 								// Count how many comments of this post and add comments_count key to array
 								$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
 
 								// Get post user portrait and add portrait key to array
-								$items[$key]['nickname']		= $post_user->nickname;
+								$items[$key]['nickname']		= e($post_user->nickname);
 
 								// Using expression get all picture attachments (Only with pictures stored on this server.)
 								preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1784,22 +1847,43 @@ class AndroidController extends BaseController
 						// User exist
 						return Response::json(
 							array(
-								'status' 	=> 1,
-								'portrait'  => route('home') . '/' . 'portrait/' . $user->portrait
+								'status'	=> 1,
+								'nickname'	=> e($user->nickname),
+								'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait
 							)
 						);
 					} else {
 						// User not exist
 						return Response::json(
 							array(
-								'status' 	=> 0,
-								'portrait'  => null
+								'status' 	=> 0
 							)
 						);
 					}
 
 				break;
 
+				// Open university
+				case 'open_university' :
+
+					// Retrieve opened and pending university
+					$universities 		= University::whereIn('status', array(1, 2))->select('id', 'university', 'open_at', 'status')->orderBy('status', 'desc')->get()->toArray();
+
+					// Format pending time
+					foreach ($universities as $key => $value) {
+						$universities[$key]['open_at'] = e(date('m月d日', strtotime($universities[$key]['open_at'])));
+					}
+
+					// Build Json format
+					return '{ "status" : "1", "data" : ' . json_encode($universities) . '}';
+				break;
+
+				// Members filter
+				case 'members_filter' :
+
+					// Retrieve all members
+
+				break;
 			}
 		} else {
 			return Response::json(

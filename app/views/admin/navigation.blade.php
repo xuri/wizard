@@ -49,7 +49,7 @@
 					<a class="active" href="{{ route('admin') }}"><i class="fa fa-dashboard fa-fw"></i> 控制面板</a>
 				</li>
 				<li>
-					<a href="{{ route('users.index') }}"><i class="fa fa-table fa-fw"></i> 用户管理</a>
+					<a href="{{ route('users.index') }}"><i class="fa fa-users fa-fw"></i> 用户管理</a>
 
 				</li>
 				<li>
@@ -62,7 +62,11 @@
 					{{-- /.nav-second-level --}}
 				</li>
 				<li>
-					<a href="javascript:void();"><i class="fa  fa-bar-chart-o fa-fw"></i> 统计报表<span class="fa arrow"></span></a>
+					<a href="{{ route('admin.university.index') }}"><i class="fa fa-bank fa-fw"></i> 高校管理</a>
+
+				</li>
+				<li>
+					<a href="javascript:void();"><i class="fa  fa-table fa-fw"></i> 统计报表<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
 							<a href="{{ route('analytics.userform') }}">用户详细报表</a>
@@ -87,6 +91,17 @@
 						</li>
 						<li>
 							<a href="{{ route('analytics.likecharts') }}">用户互动趋势图</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="javascript:void();"><i class="fa fa-newspaper-o"></i> 新闻管理<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="{{ route('categories.index') }}">分类目录</a>
+						</li>
+						<li>
+							<a href="{{ route('admin.articles.index') }}">文章管理</a>
 						</li>
 					</ul>
 				</li>

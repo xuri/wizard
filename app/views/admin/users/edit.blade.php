@@ -70,7 +70,12 @@
 										<div class="form-group input-group">
 											<label>头像预览</label>
 											<p class="form-control-static">
+											@if($data->portrait)
 											{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '150')) }}
+											@else
+											{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '150'))}}
+											@endif
+
 											</p>
 										</div>
 

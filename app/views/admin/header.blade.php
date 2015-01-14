@@ -35,6 +35,9 @@
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
+    {{-- jQuery Version 1.11.0 --}}
+    {{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
+
 </head>
 
 <body>

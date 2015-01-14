@@ -148,11 +148,7 @@
 			</div>
 
 			<div class="lu_content_right">
-				{{ HTML::image('assets/images/user_1.png', '', array('class' => 'lu_img')) }}
-				<div class="lu_up">
-					<p class="lu_te lu_name lu_left">{{ HTML::image('assets/images/symbol.png') }}夏米斯丁艾合麦提·阿布都米吉提</p>
-					<p class="lu_bin lu_left">精灵豆：<a>60</a></p>
-				</div>
+				{{ HTML::image('assets/images/sidebar_4.jpg') }}
 			</div>
 		</div>
 	</div>

@@ -227,6 +227,30 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 		Route::post(    '/edit/{id}', array('as' => $resource.'.update'  , 'uses' => $controller.'update'	 ));
 		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));
 	});
+
+	# Categories Management
+	Route::group(array('prefix' => 'categories'), function () {
+        $resource   = 'categories';
+        $controller = 'Admin_CategoryResource@';
+        Route::get(        '/', array('as' => $resource.'.index'  , 'uses' => $controller.'index'  ));
+        Route::get(   'create', array('as' => $resource.'.create' , 'uses' => $controller.'create' ));
+        Route::post(       '/', array('as' => $resource.'.store'  , 'uses' => $controller.'store'  ));
+        Route::get('{id}/edit', array('as' => $resource.'.edit'   , 'uses' => $controller.'edit'   ));
+        Route::put(     '{id}', array('as' => $resource.'.update' , 'uses' => $controller.'update' ));
+        Route::delete(  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'));
+    });
+
+	# Articles Management
+	Route::group(array('prefix' => 'articles'), function () {
+        $resource   = 'admin.articles';
+        $controller = 'Admin_ArticleResource@';
+        Route::get(        '/', array('as' => $resource.'.index'  , 'uses' => $controller.'index'  ));
+        Route::get(   'create', array('as' => $resource.'.create' , 'uses' => $controller.'create' ));
+        Route::post(       '/', array('as' => $resource.'.store'  , 'uses' => $controller.'store'  ));
+        Route::get('{id}/edit', array('as' => $resource.'.edit'   , 'uses' => $controller.'edit'   ));
+        Route::put(     '{id}', array('as' => $resource.'.update' , 'uses' => $controller.'update' ));
+        Route::delete(  '{id}', array('as' => $resource.'.destroy', 'uses' => $controller.'destroy'));
+    });
 });
 
 /*

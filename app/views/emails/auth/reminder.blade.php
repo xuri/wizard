@@ -7,7 +7,7 @@
             <div style="float:left;background:#fff url({{ route('home')}}/assets/images/email/top_bg.jpg) no-repeat left top;border:1px solid #e3e3e3;padding:85px 70px 54px 70px;min-height:auto;">
                 <h1 style="color:#D65679;font-size:22px">聘爱网 密码重置</h1>
                 <div>
-                    {{ HTML::image('assets/images/email/email_logo.png', '', array('height'=>'89', 'width'=>'200')); }}
+                    {{ HTML::image('assets/images/email/email_logo.png', '', array('height'=>'89', 'width'=>'200')) }}
                 </div>
                 <div style="margin-top:35px">
                     <h1 style="color:#333;font-size:16px">亲爱的用户： 您好！</h1>

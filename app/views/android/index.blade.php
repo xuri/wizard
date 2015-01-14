@@ -18,75 +18,88 @@ Android Debug
 // 		->send();
 // 	echo $test->body;
 //
-// Get sender user data
-$id = 2;
-					// Get sender user data
-					$friends = Like::where('receiver_id', $id)->orWhere('sender_id', $id)
-								->where('status', 3)
-								->select('sender_id', 'receiver_id')
-								->get()
-								->toArray();
+$sex_filter = Input::get('sex');
+$university_filter = Input::get('university');
 
-					foreach($friends as $key => $field){
 
-							// Determine user is sender or receiver
-							if($friends[$key]['sender_id'] == $id) {
-
-								// User is sender and retrieve receiver user
-								$user = User::where('id', $friends[$key]['receiver_id'])->first();
-
-								// Friend ID
-								$friends[$key]['friend_id']	= $user->id;
-
-								// Friend nickname
-								$friends[$key]['nickname']	= e($user->nickname);
-
-								// Determine user portrait
-								if(is_null($user->portrait)){
-
-									// Friend portrait
-									$friends[$key]['portrait']	= null;
-								} else {
-
-									// Friend portrait
-									$friends[$key]['portrait']	= route('home'). '/' . 'portrait/' . $user->portrait;
-								}
-							} else {
-
-								// User is receiver and retrieve sender user
-								$user = User::where('id', $friends[$key]['sender_id'])->first();
-
-								// Friend ID
-								$friends[$key]['friend_id']	= $user->id;
-
-								// Friend nickname
-								$friends[$key]['nickname']	= e($user->nickname);
-
-								// Determine user portrait
-								if(is_null($user->portrait)){
-
-									// Friend portrait
-									$friends[$key]['portrait']	= null;
-								} else {
-
-									// Friend portrait
-									$friends[$key]['portrait']	= route('home'). '/' . 'portrait/' . $user->portrait;
-								}
-							}
-						}
-
-					// Convert array to json format
-					$friend = json_encode($friends);
-
-					// Query successful
-					if($friend)
+$last_id  = Input::get('lastid'); // Post last user id from Android client
+					$per_page = Input::get('perpage',10); // Post count per query from Android client
+					if($last_id) // If Android have post last user id
 					{
-						echo '{ "status" : "1", "data" : ' . $friend . '}';
-					} else {
-						return Response::json(
-							array(
-								'status' 	=> 0
-							)
-						);
+
+						$users = User::whereNotNull('portrait') // Skip none portrait user
+						->orderBy('id', 'desc')
+						->select('id', 'nickname', 'school', 'sex', 'portrait')
+						->where('id', '<', $last_id)
+						->take($per_page)
+						->get()
+						->toArray();
+						// Replace receiver ID to receiver portrait
+						foreach($users as $key => $field){
+							// Convert to real storage path
+							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+							// Retrieve sex with UTF8 encode
+							$users[$key]['sex']			= e($users[$key]['sex']);
+
+							// Retrieve nickname with UTF8 encode
+							$users[$key]['nickname']	= e($users[$key]['nickname']);
+
+							// Retrieve school with UTF8 encode
+							$users[$key]['school']		= e($users[$key]['school']);
+						}
+						$users = json_encode($users); // Encode likes array to json format
+						if($users) // If get query success
+						{
+							echo '{ "status" : "1", "data" : '.$users.'}'; // Build Json format
+						} else { // Get query fail
+							echo Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					} else { // First get data from Android client
+						$query      = User::whereNotNull('portrait');
+						if($sex_filter){
+							isset($sex_filter) AND $query->where('sex', $sex_filter);
+						}
+						if($university_filter){
+							isset($university_filter) AND $query->where('school', $university_filter);
+						}
+						$lastRecord = User::orderBy('id', 'desc')->first()->id; // Query last user id in database
+						$users      = $query // Skip none portrait user
+										->orderBy('id', 'desc')
+										->select('id', 'nickname', 'school', 'sex', 'portrait')
+										->where('id', '<=', $lastRecord)
+										->take($per_page)
+										->get()
+										->toArray();
+						// Replace receiver ID to receiver portrait
+						foreach($users as $key => $field){
+							// Convert to real storage path
+							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+							// Retrieve sex with UTF8 encode
+							$users[$key]['sex']			= e($users[$key]['sex']);
+
+							// Retrieve nickname with UTF8 encode
+							$users[$key]['nickname']	= e($users[$key]['nickname']);
+
+							// Retrieve school with UTF8 encode
+							$users[$key]['school']		= e($users[$key]['school']);
+						}
+						$users = json_encode($users); // Encode likes array to json format
+						if($users)
+						{
+							echo '{ "status" : "1", "data" : '.$users.'}';
+						} else {
+							echo Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
 					}
+
 ?>

@@ -222,7 +222,7 @@ class AccountController extends BaseController
 						// No nothing
 					} else {
 						// User set portrait from web delete old poritait
-						// File::delete($portraitPath . $oldPortrait);
+						File::delete($portraitPath . $oldPortrait);
 					}
 
 				}
