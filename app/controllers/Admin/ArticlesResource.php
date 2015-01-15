@@ -14,7 +14,7 @@
  * @version     0.1
  */
 
-class Admin_ArticleResource extends BaseResource
+class Admin_ArticlesResource extends BaseResource
 {
 	/**
 	 * Resource view directory

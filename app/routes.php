@@ -253,7 +253,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 	# Articles Management
 	Route::group(array('prefix' => 'articles'), function () {
 		$resource   = 'admin.articles';
-		$controller = 'Admin_ArticleResource@';
+		$controller = 'Admin_ArticlesResource@';
 		Route::get(  	         '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'  ));
 		Route::get( 	    'create', array('as' => $resource.'.create'  , 'uses' => $controller.'create' ));
 		Route::post(  		     '/', array('as' => $resource.'.store'   , 'uses' => $controller.'store'  ));
