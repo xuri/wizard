@@ -14,16 +14,27 @@
 		</div>
 		<div class="lu_content_box clear">
 			<div class="lu_content_main clear">
-				<div class="lu_content_main_tab">
-					<a href="#" class="lu_school lu_public">选择学校</a>
-					<select class="lu_sex lu_public">
-						<option>性别</option>
-						<option>男</option>
-						<option>女</option>
-					</select>
+				{{ Form::open(array('method' => 'get', 'class' => 'lu_content_main_tab')) }}
+					{{
+						Form::select(
+							'target',
+							array('' => '性别', 'M' => '男', 'F' => '女'),
+							Input::get('target', 'email'),
+							array('class' => 'lu_sex lu_public')
+						)
+					}}
+					{{
+						Form::select(
+							'target',
+							array('' => '性别', 'M' => '男', 'F' => '女'),
+							Input::get('target', 'email'),
+							array('class' => 'lu_sex lu_public')
+						)
+					}}
 					<a href="#" class="lu_search lu_public">搜索</a>
 					<a href="#" class="lu_release lu_public">我也发个</a>
-				</div>
+				{{ Form::close() }}
+
 				<div id="load-ajax">
 					@foreach($datas as $data)
 					@if($data->portrait)

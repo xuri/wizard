@@ -137,7 +137,7 @@ class Admin_ArticleResource extends BaseResource
 				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext; // 哈希处理过的文件名，包括真实拓展名
 				$model->thumbnails	= $hashname;
 				$thumbnails			= Image::make($image->getRealPath());
-				$thumbnails->fit(320, 150)->save(public_path('upload/thumbnails/'.$hashname));
+				$thumbnails->fit(320, 140)->save(public_path('upload/thumbnails/'.$hashname));
 			}
 
 			if ($model->save()) {
@@ -211,7 +211,7 @@ class Admin_ArticleResource extends BaseResource
 				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext; // 哈希处理过的文件名，包括真实拓展名
 				$model->thumbnails	= $hashname;
 				$thumbnails			= Image::make($image->getRealPath());
-				$thumbnails->fit(320, 150)->save(public_path('upload/thumbnails/'.$hashname));
+				$thumbnails->fit(320, 140)->save(public_path('upload/thumbnails/'.$hashname));
 				if($oldImage)
 				{
 					// Delete old thumbnails

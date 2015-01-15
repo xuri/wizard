@@ -1,7 +1,7 @@
 <div class="sgnin_con">
 	<div class="comeon">
 		<span class="comeon_title">为爱情正能量加油</span>
-		<a id="clickon" href="javascript:;">加油</a>
+		<a id="clickon" href="javascript:void(0);">加油</a>
 		<div id="instr">
 			<div>当你连续加油<span>15</span>天后，会得到代表(活跃用户标志)的<em>橙色昵称</em></div>
 			<div>当你连续加油累积<span>30</span>天后，会得到由聘爱网送出的精美礼品。</span></div>

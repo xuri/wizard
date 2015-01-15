@@ -12,8 +12,15 @@ window.onload = function(){
 
 	// 点击签到按钮
 	clickon.onclick = function(){
-		pillars_auto.style.width = pillars_auto.offsetWidth + 10 + 'px';
-		days.innerHTML = parseInt(days.innerHTML) + 1;
+
+		$.post(post_renew_url,{
+			'_token' : token
+		},function(jdata){
+			if(jdata['success']){
+				pillars_auto.style.width = pillars_auto.offsetWidth + 10 + 'px';
+				days.innerHTML = parseInt(days.innerHTML) + 1;
+			}
+		});
 
 		// 如果parseInt(days.innerHTML) % 50 == 0成立，说明能量柱到头了
 		if(parseInt(days.innerHTML) % 50 == 0){

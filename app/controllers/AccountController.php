@@ -74,7 +74,6 @@ class AccountController extends BaseController
 	 */
 	public function postRenew()
 	{
-		$renew	= Input::get('renew');
 		$today	= Carbon::today();
 		$user	= Profile::where('user_id', Auth::user()->id)->first();
 		$points	= User::where('id', Auth::user()->id)->first();
