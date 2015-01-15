@@ -1,7 +1,7 @@
 @include('account.sent.header')
 @yield('content')
 
-	@include('layout.navigation')
+	@include('account.sent.navigation')
 	@yield('content')
 
 	<div id="content" class="clear">
@@ -15,15 +15,15 @@
 		<div id="wrap" class="clear">
 			<div class="w_left">
 				<ul class="w_nav">
-					<li><a href="{{ route('account') }}" class="a1 fa fa-tasks">&nbsp;&nbsp;&nbsp;我的资料</a></li>
-					<li><a href="{{ route('members.index') }}" class="a1 fa fa-users">&nbsp;&nbsp;&nbsp;缘来在这</a></li>
+					<li><a href="{{ route('account') }}" class="a1 fa fa-tasks" target="_blank">&nbsp;&nbsp;&nbsp;我的资料</a></li>
+					<li><a href="{{ route('members.index') }}" class="a1 fa fa-users" target="_blank">&nbsp;&nbsp;&nbsp;缘来在这</a></li>
 					<li><a href="{{ route('account.sent') }}" class="active a2 fa fa-heart-o">&nbsp;&nbsp;&nbsp;我追的人</a></li>
 					<li><a href="{{ route('account.inbox') }}" class="a2 fa fa-star">&nbsp;&nbsp;&nbsp;追我的人</a></li>
-					<li><a href="{{ route('account.notifications') }}" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;我的来信</a></li>
-					<li><a href="{{ route('forum.index') }}" class="a3 fa fa-user">&nbsp;&nbsp;&nbsp;单身公寓</a></li>
-					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o">&nbsp;&nbsp;&nbsp;我的帖子</a></li>
-					<li><a href="{{ route('support.index') }}" class="a5 fa fa-life-ring">&nbsp;&nbsp;&nbsp;联系客服</a></li>
-					<li><a href="{{ route('home') }}" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关于我们</a></li>
+					<li><a href="{{ route('account.notifications') }}" class="a3 fa fa-inbox" target="_blank">&nbsp;&nbsp;&nbsp;我的来信</a></li>
+					<li><a href="{{ route('forum.index') }}" class="a3 fa fa-user" target="_blank">&nbsp;&nbsp;&nbsp;单身公寓</a></li>
+					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o" target="_blank">&nbsp;&nbsp;&nbsp;我的帖子</a></li>
+					<li><a href="{{ route('support.index') }}" class="a5 fa fa-life-ring" target="_blank">&nbsp;&nbsp;&nbsp;联系客服</a></li>
+					<li><a href="{{ route('home') }}" class="a5 fa fa-bookmark" target="_blank">&nbsp;&nbsp;&nbsp;关于我们</a></li>
 				</ul>
 				<div id="download">
 					<div>移动客户端下载</div>
@@ -125,9 +125,9 @@
 									@endif
 								</div>
 								<input type="hidden" value="" id="{{ $user->id }}"/>
-								{{ Form::close() }}
-							</li>
 
+							</li>
+							{{ Form::close() }}
 							@endforeach
 
 						</ul>

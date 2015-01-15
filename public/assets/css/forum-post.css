@@ -447,6 +447,7 @@ button.bbs_bottom {
 }
 
 .bbs_bottom_btn:hover {
+	cursor: pointer;
 	background: #f95a6b;
 }
 

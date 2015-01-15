@@ -1,6 +1,9 @@
 @include('authority.password.header')
 @yield('content')
 
+	@include('layout.navigation')
+	@yield('content')
+
 	<div class="fp_box">
 		<h1>找回密码</h1>
 		<a href="{{ route('signin') }}" class="fp_back">登陆</a>
@@ -48,7 +51,7 @@
 						'id'           => 'fp_form'
 						)) }}
 
-					<p id="push_error"></p>
+					<p id="push_error" style="text-align: center;"></p>
 					<input type="hidden" id="forgot_password" value="forgot_password" />
 					<div>
 						<p class="fp_p">手机号：</p>
@@ -73,7 +76,10 @@
 			</div>
 		</div>
 	</div>
-</body>
+
+	@include('layout.copyright')
+	@yield('content')
+
 <script>
 	var oTab1=document.getElementById('tab1'),
 		oTab2=document.getElementById('tab2'),
@@ -184,4 +190,5 @@
 	})
 
 </script>
+</body>
 </html>

@@ -35,6 +35,17 @@
 
 <div class="nav">
 
+	@if(Auth::guest()){{-- Guest --}}
+	@else
+	{{-- 消息提醒列表 --}}
+	<div id="nav_message">
+		<h5 class="nav_message_title">暂无消息</h5>
+		<ul class="nav_message_list">
+		{{ HTML::image('assets/images/nav_mas_j.png', '', array('class' => 'jiao_pic')) }}
+		</ul>
+	</div>
+	@endif
+
 	<div class="nav_main">
 		{{ HTML::image('assets/images/nav_main_bg.png', '', array('id' => 'nav_main')) }}
 
@@ -65,4 +76,4 @@
 		</p>
 	</div>
 </div>
-{{ HTML::script('assets/js/nav.js') }}
+{{ HTML::script('assets/js/account_inbox_sent_nav.js') }}

@@ -794,6 +794,7 @@ div.footer a {
 	float: left;
 	margin: 10px 10px 0 10px;
 	color: #297fb8;
+	cursor: pointer;
 }
 
 .vs-filt {
