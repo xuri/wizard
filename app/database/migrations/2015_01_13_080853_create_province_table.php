@@ -14,7 +14,7 @@ class CreateProvinceTable extends Migration {
 	{
 		Schema::create('province', function(Blueprint $table)
 		{
-			$table->integer('province_id', 11);
+			$table->increments('id', 11);
 			$table->string('province', 11)->nullable();
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();

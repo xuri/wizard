@@ -644,10 +644,25 @@ class AndroidController extends BaseController
 						}
 						// Replace receiver ID to receiver portrait
 						foreach($likes as $key => $field){
-							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
-							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
-							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
-							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+
+							// Retrieve receiver user
+							$user						= User::where('id',  $likes[$key]['portrait'])->first();
+
+							// Receiver ID
+							$likes[$key]['id']			= e($user->id);
+
+							// Receiver avatar real storage path
+							$likes[$key]['portrait']	= route('home') . '/' . 'portrait/' . $user->portrait;
+
+							// Receiver school
+							$likes[$key]['school']		= e($user->school);
+
+							// Receiver nickname
+							$likes[$key]['name']		= e($user->nickname);
+
+							// Receiver sex
+							$likes[$key]['sex']			= e($user->sex);
+
 							// Convert how long liked
 							$Date_1						= date("Y-m-d"); // Current date and time
 							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
@@ -686,10 +701,25 @@ class AndroidController extends BaseController
 						}
 						// Replace receiver ID to receiver portrait
 						foreach($likes as $key => $field){
-							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
-							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
-							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
-							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+
+							// Retrieve receiver user
+							$user						= User::where('id',  $likes[$key]['portrait'])->first();
+
+							// Receiver ID
+							$likes[$key]['id']			= e($user->id);
+
+							// Receiver avatar real storage path
+							$likes[$key]['portrait']	= route('home') . '/' . 'portrait/' . $user->portrait;
+
+							// Receiver school
+							$likes[$key]['school']		= e($user->school);
+
+							// Receiver nickname
+							$likes[$key]['name']		= e($user->nickname);
+
+							// Receiver sex
+							$likes[$key]['sex']			= e($user->sex);
+
 							// Convert how long liked
 							$Date_1						= date("Y-m-d"); // Current date and time
 							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
@@ -1183,8 +1213,9 @@ class AndroidController extends BaseController
 						$items	= ForumPost::where('category_id', $cat_id)
 									->orderBy('created_at' , 'desc')
 									->where('id', '<', $last_id)
+									->where('top', 0)
 									->select('id', 'user_id', 'title', 'content', 'created_at')
-									->take('10')
+									->take($per_page)
 									->get()
 									->toArray();
 
@@ -1231,12 +1262,52 @@ class AndroidController extends BaseController
 						} else {
 
 							// Post exists
+
+							// Query all items from database
+							$top	= ForumPost::where('category_id', $cat_id)
+										->orderBy('created_at' , 'desc')
+										->where('id', '<=', $lastRecord->id)
+										->where('top', 1)
+										->select('id', 'user_id', 'title', 'content', 'created_at')
+										->take('5')
+										->get()
+										->toArray();
+
+							// Replace receiver ID to receiver portrait
+							foreach($top as $key => $field){
+
+								// Retrieve user
+								$post_user						= User::where('id', $top[$key]['user_id'])->first();
+
+								// Get post user portrait real storage path and user porirait key to array
+								$top[$key]['portrait']			= route('home') . '/' . 'portrait/' . $post_user->portrait;
+
+								// Get post user sex (M, F or null) and add user sex key to array
+								$top[$key]['sex']				= e($post_user->sex);
+
+								// Count how many comments of this post and add comments_count key to array
+								$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
+
+								// Get post user portrait and add portrait key to array
+								$top[$key]['nickname']			= e($post_user->nickname);
+
+								// Using expression get all picture attachments (Only with pictures stored on this server.)
+								preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
+
+								// Construct picture attachments list and add thumbnails (array format) to array
+								$top[$key]['thumbnails']		= join(',', array_pop($match));
+
+								// Get plain text from post content HTML code and replace to content value in array
+								$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+							}
+
 							// Query all items from database
 							$items	= ForumPost::where('category_id', $cat_id)
 										->orderBy('created_at' , 'desc')
 										->where('id', '<=', $lastRecord->id)
+										->where('top', 0)
 										->select('id', 'user_id', 'title', 'content', 'created_at')
-										->take('10')
+										->take($per_page)
 										->get()
 										->toArray();
 
@@ -1268,8 +1339,13 @@ class AndroidController extends BaseController
 								$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
 							}
 
+							$data = array(
+									'top'	=> $top,
+									'items'	=> $items
+								);
+
 							// Build Json format
-							return '{ "status" : "1", "data" : ' . json_encode($items) . '}';
+							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 						}
 					}
 
@@ -1485,7 +1561,9 @@ class AndroidController extends BaseController
 								// Retrieve author of post
 								$post_author				= ForumPost::where('id', $post_id)->first();
 								// Retrieve forum notifications of post author
-								$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->get();
+								$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->where('status', 0);
+
+								$unread = $post_author_notifications->count() + 1;
 
 								$easemob		= getEasemob();
 								// Android Push notifications
@@ -1506,7 +1584,7 @@ class AndroidController extends BaseController
 																		// Notification content
 																		'content'	=> '有人评论了你的帖子，快去看看吧',
 																		// Count unread notofications of receiver user
-																		'unread'	=> $post_author_notifications->count()
+																		'unread'	=> $unread
 																	]
 											])
 										->setHeader('content-type', 'application/json')
@@ -1550,7 +1628,9 @@ class AndroidController extends BaseController
 							// Retrieve author of comment
 							$comment_author					= User::where('id', $comment->user_id)->first();
 							// Retrieve forum notifications of comment author
-							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->where('status', 0);
+
+							$unread = $comment_author_notifications->count() + 1;
 
 							// Determine sender and receiver
 							if($user_id != $comment_author->id) {
@@ -1573,7 +1653,7 @@ class AndroidController extends BaseController
 																		// Notification content
 																		'content'	=> '有人回复了你的评论，快去看看吧',
 																		// Count unread notofications of receiver user
-																		'unread'	=> $comment_author_notifications->count()
+																		'unread'	=> $unread
 																	]
 											])
 										->setHeader('content-type', 'application/json')
@@ -1692,7 +1772,7 @@ class AndroidController extends BaseController
 						// Retrieve all user's notifications
 						$notifications = Notification::where('receiver_id', $id)
 											->whereIn('category', array(6, 7))
-											->where('status', 0)
+											->where('status', 0) // Unread flag
 											->select('id', 'category', 'sender_id', 'receiver_id', 'category_id', 'post_id', 'comment_id', 'reply_id', 'created_at')
 											->orderBy('created_at' , 'desc')
 											->get()
@@ -1878,11 +1958,44 @@ class AndroidController extends BaseController
 					return '{ "status" : "1", "data" : ' . json_encode($universities) . '}';
 				break;
 
-				// Members filter
-				case 'members_filter' :
+				// Get forum unread notifications
+				case 'get_forumunread' :
 
-					// Retrieve all members
+					// Get user ID from Android client and retrieve User
+					$user 		   = User::find(Input::get('id'));
+					$notifications = Notification::where('receiver_id', $user->id)
+												->whereIn('category', array(6, 7))
+												->where('status', 0)
+												->count();
+					if(is_null($notifications)) {
+						// No unread notifications, build Json format
+						return '{ "status" : "1", "num" : "0" }';
+					} else {
+						// Build Json format
+						return '{ "status" : "1", "num" : ' . $notifications. '}';
+					}
+				break;
 
+				// Get open articles
+				case 'get_openarticles' :
+
+					// Retrieve all open articles
+					$articles = Article::where('status', 1)->select('id', 'status', 'title', 'thumbnails', 'slug')->take(3)->get()->toArray();
+
+					// Add thumbnails images and article url to array
+					foreach ($articles as $key => $value) {
+						$articles[$key]['title']		= Str::limit($articles[$key]['title'], 15);
+						$articles[$key]['thumbnails']	= URL::to('/upload/thumbnails') . '/' . $articles[$key]['thumbnails'];
+						$articles[$key]['url']			= URL::to('/article') . '/' . $articles[$key]['slug'];
+					}
+
+					// Build Json format
+					return '{ "status" : "1", "data" : ' . json_encode($articles) . '}';
+				break;
+
+				// Recovery password
+				case 'recovery_password' :
+					$id = Input::get('id');
 				break;
 			}
 		} else {

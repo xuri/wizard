@@ -38,4 +38,28 @@ class HomeController extends BaseController {
 		}
 	}
 
+	/**
+	 * Articles category list
+	 * @return Respanse
+	 */
+	public function getCategory($category_id)
+	{
+		$articles   = Article::where('category_id', $category_id)->orderBy('created_at', 'desc')->paginate(5);
+		$categories = Category::orderBy('sort_order')->get();
+		return View::make('blog.categoryArticles')->with(compact('articles', 'categories', 'category_id'));
+	}
+
+	/**
+	 * Article show page
+	 * @param  string $slug
+	 * @return response
+	 */
+	public function getShow($slug)
+	{
+		$article    = Article::where('slug', $slug)->first();
+		is_null($article) AND App::abort(404);
+		$categories = Category::orderBy('sort_order')->get();
+		return View::make('home.show')->with(compact('article', 'categories'));
+	}
+
 }

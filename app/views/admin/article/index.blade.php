@@ -59,24 +59,27 @@
 									<thead>
 										<tr>
 											<th>标题 {{ order_by('title') }}</th>
-											<th>评论数 {{ order_by('comments_count') }}</th>
 											<th>创建时间 {{ order_by('created_at', 'desc') }}</th>
-											<th style="width:7em;text-align:center;">操作</th>
+											<th style="width:10.5em;text-align:center;">操作</th>
 										</tr>
 									</thead>
 									<tbody>
 										@foreach ($datas as $data)
 										<tr>
 											<td>
-												<a href="{{ route('blog.show', $data->slug) }}" target="_blank">
-													<i class="glyphicon glyphicon-share" style="font-size:0.5em;"></i>
+												<a href="{{ route('show', $data->slug) }}" target="_blank">
+													<i class="glyphicon glyphicon-share" style="font-size: 0.8em;"></i>
 												</a>
 												{{ $data->title }}
 											</td>
-											<td>{{ $data->comments_count }}</td>
 											<td>{{ $data->created_at }}</td>
 											<td>
-												<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs">编辑</a>
+												<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">编辑</a>
+												@if($data->status == 1)
+												<a href="{{ route($resource.'.close', $data->id) }}" class="btn btn-xs btn-success">已发布</a>
+												@else
+												<a href="{{ route($resource.'.open', $data->id) }}" class="btn btn-xs btn-warning">未发布</a>
+												@endif
 												<a href="javascript:void(0)" class="btn btn-xs btn-danger"
 													 onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
 											</td>

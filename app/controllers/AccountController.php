@@ -57,7 +57,7 @@ class AccountController extends BaseController
 	{
 		$province    = Province::where('province', Input::get('province'))->first();
 
-		$universites = University::where('province_id', $province->province_id)->get();
+		$universites = University::where('province_id', $province->id)->get();
 		$school = array();
 		foreach ($universites as $university) {
 			$elements = explode(':', $university->university);

@@ -32,11 +32,14 @@
 				<li><a href="#tab-meta-data" data-toggle="tab">SEO</a></li>
 			</ul>
 
-			<form class="form-horizontal" method="post" action="{{ route($resource.'.store') }}" autocomplete="off"
-				style="background:#f8f8f8;padding:1em;border:1px solid #ddd;border-top:0;">
-				<!-- CSRF Token -->
-				<input type="hidden" name="_token" value="{{ csrf_token() }}" />
-
+			{{ Form::open(array(
+					'files'		=> true,
+					'url'		=> route($resource.'.store'),
+					'method'	=> 'post',
+					'style'		=> 'background:#f8f8f8;padding:1em;border:1px solid #ddd;border-top:0;',
+					'class'		=> 'form-horizontal'
+ 				 ))
+			}}
 				<!-- Tabs Content -->
 				<div class="tab-content">
 
@@ -60,17 +63,25 @@
 							{{ $errors->first('slug', '<span style="color:#c7254e;margin:0 1em;">:message</span>') }}
 							<div class="input-group">
 								<span class="input-group-addon" >
-									{{ str_finish(URL::to('/'), '/') }}
+									{{ str_finish(URL::to('/article'), '/') }}
 								</span>
 								<input class="form-control" type="text" name="slug" id="slug" value="{{ Input::old('slug') }}">
 							</div>
 						</div>
 
 						<div class="form-group">
+							<label for="content">设定移动端 App 轮播图（可选）</label>
+							{{ Form::file('thumbnails') }}
+						</div>
+
+						<div class="form-group">
 							<label for="content">内容</label>
 							{{ $errors->first('content', '<span style="color:#c7254e;margin:0 1em;">:message</span>') }}
-							<textarea id="content" class="form-control" data-provide="markdown"
-								name="content" rows="10">{{ Input::old('content') }}</textarea>
+
+							{{ Umeditor::css() }}
+							{{ Umeditor::content(Input::old('content'), ['id'=>'create_comment_editor', 'class'=>'g-r-value', 'name' => 'content', 'height' => '220']) }}
+							{{ Umeditor::js() }}
+
 						</div>
 
 					</div>
@@ -132,6 +143,11 @@
 	$(document).ready(function() {
 		$('#dataTables-example').dataTable();
 	});
+
+	// Instantiate editor
+	var um = UM.getEditor('create_comment_editor',{onready:function(){this.setContent('');}});
+	$('div.edui-container').removeAttr("style");
+	$('div#create_comment_editor').removeAttr("style").height(200);
 	</script>
 </body>
 

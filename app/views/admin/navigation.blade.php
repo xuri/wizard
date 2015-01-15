@@ -109,7 +109,7 @@
 					<a href="{{ route('admin.support.index') }}"><i class="fa fa-support fa-fw"></i> 反馈管理</a>
 				</li>
 				<li>
-					<a href="#"><i class="fa fa-files-o fa-fw"></i> 网站菜单<span class="fa arrow"></span></a>
+					<a href="#"><i class="fa fa-list fa-fw"></i> 网站菜单<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
 							<a href="{{ route('home') }}">访问首页</a>

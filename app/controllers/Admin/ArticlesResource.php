@@ -51,12 +51,14 @@ class Admin_ArticleResource extends BaseResource
 	 * @var array
 	 */
 	protected $validatorMessages = array(
-		'title.required'   => '请填写文章标题。',
-		'title.unique'     => '已有同名文章。',
-		'slug.required'    => '请填写文章 sulg。',
-		'slug.unique'      => '已有同名 sulg。',
-		'content.required' => '请填写文章内容。',
-		'category.exists'  => '请填选择正确的文章分类。',
+		'title.required'		=> '请填写文章标题。',
+		'title.unique'			=> '已有同名文章。',
+		'slug.required'			=> '请填写文章 sulg。',
+		'slug.unique'			=> '已有同名 sulg。',
+		'content.required'		=> '请填写文章内容。',
+		'category.exists'		=> '请填选择正确的文章分类。',
+		'thumbnails.mimes'		=> '请上传 :values 格式的图片。',
+		'thumbnails.max'		=> '图片的大小请控制在 1M 以内。',
 	);
 
 	/**
@@ -105,27 +107,39 @@ class Admin_ArticleResource extends BaseResource
 		// 创建验证规则
 		$unique = $this->unique();
 		$rules  = array(
-			'title'    => 'required|'.$unique,
-			'slug'     => 'required|'.$unique,
-			'content'  => 'required',
-			'category' => 'exists:article_categories,id',
+			'title'			=> 'required|'.$unique,
+			'slug'			=> 'required|'.$unique,
+			'content'		=> 'required',
+			'thumbnails'	=> 'mimes:jpg,jpeg,gif,png|max:1024',
+			'category'		=> 'exists:article_categories,id',
 		);
 		// 自定义验证消息
 		$messages = $this->validatorMessages;
 		// 开始验证
 		$validator = Validator::make($data, $rules, $messages);
 		if ($validator->passes()) {
-			// 验证成功
+			// Verification success
 			// 添加资源
-			$model = $this->model;
-			$model->user_id          = Auth::user()->id;
-			$model->category_id      = $data['category'];
-			$model->title            = e($data['title']);
-			$model->slug             = e($data['slug']);
-			$model->content          = $data['content'];
-			$model->meta_title       = e($data['meta_title']);
-			$model->meta_description = e($data['meta_description']);
-			$model->meta_keywords    = e($data['meta_keywords']);
+			$model						= $this->model;
+			$model->user_id				= Auth::user()->id;
+			$model->category_id			= $data['category'];
+			$model->title				= e($data['title']);
+			$model->slug				= e($data['slug']);
+			$model->content				= $data['content'];
+			$model->meta_title			= e($data['meta_title']);
+			$model->meta_description	= e($data['meta_description']);
+			$model->meta_keywords		= e($data['meta_keywords']);
+
+			$image			= Input::file('thumbnails');
+			if($image) {
+				$ext				= $image->guessClientExtension();  // 根据 mime 类型取得真实拓展名
+				$fullname			= $image->getClientOriginalName(); // 客户端文件名，包括客户端拓展名
+				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext; // 哈希处理过的文件名，包括真实拓展名
+				$model->thumbnails	= $hashname;
+				$thumbnails			= Image::make($image->getRealPath());
+				$thumbnails->fit(320, 150)->save(public_path('upload/thumbnails/'.$hashname));
+			}
+
 			if ($model->save()) {
 				// 添加成功
 				return Redirect::back()
@@ -167,10 +181,11 @@ class Admin_ArticleResource extends BaseResource
 		$data = Input::all();
 		// 创建验证规则
 		$rules = array(
-			'title'    => 'required|'.$this->unique('title', $id),
-			'slug'     => 'required|'.$this->unique('slug', $id),
-			'content'  => 'required',
-			'category' => 'exists:article_categories,id',
+			'title'			=> 'required|'.$this->unique('title', $id),
+			'slug'			=> 'required|'.$this->unique('slug', $id),
+			'content'		=> 'required',
+			'thumbnails'	=> 'mimes:jpg,jpeg,gif,png|max:1024',
+			'category'		=> 'exists:article_categories,id',
 		);
 		// 自定义验证消息
 		$messages  = $this->validatorMessages;
@@ -187,6 +202,23 @@ class Admin_ArticleResource extends BaseResource
 			$model->meta_title       = e($data['meta_title']);
 			$model->meta_description = e($data['meta_description']);
 			$model->meta_keywords    = e($data['meta_keywords']);
+
+			$image			= Input::file('thumbnails');
+			if($image) {
+				$oldImage			= $model->thumbnails;
+				$ext				= $image->guessClientExtension();  // 根据 mime 类型取得真实拓展名
+				$fullname			= $image->getClientOriginalName(); // 客户端文件名，包括客户端拓展名
+				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext; // 哈希处理过的文件名，包括真实拓展名
+				$model->thumbnails	= $hashname;
+				$thumbnails			= Image::make($image->getRealPath());
+				$thumbnails->fit(320, 150)->save(public_path('upload/thumbnails/'.$hashname));
+				if($oldImage)
+				{
+					// Delete old thumbnails
+					File::delete(public_path('upload/thumbnails/' . $oldImage));
+				}
+			}
+
 			if ($model->save()) {
 				// 更新成功
 				return Redirect::back()
@@ -202,4 +234,51 @@ class Admin_ArticleResource extends BaseResource
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 	}
+
+	/**
+	 * Mark open university
+	 * GET /{id}/open
+	 * @return Response     View
+	 */
+	public function open($id)
+	{
+		// Retrieve university
+		$data			= $this->model->find($id);
+
+		// Mark open university
+		$data->status	= 1;
+
+		if (is_null($data)) {
+			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
+		}
+		elseif ($data->save()){
+			return Redirect::back()->with('success', $this->resourceName.'发布成功。');
+		} else{
+			return Redirect::back()->with('warning', $this->resourceName.'发布失败。');
+		}
+	}
+
+	/**
+	 * Close university service
+	 * POST /{id}/close
+	 * @return Response     View
+	 */
+	public function close($id)
+	{
+		// Retrieve university
+		$data			= $this->model->find($id);
+
+		// Close university
+		$data->status	= 0;
+
+		if (is_null($data)) {
+			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
+		}
+		elseif ($data->save()){
+			return Redirect::back()->with('success', $this->resourceName.'取消发布成功。');
+		} else{
+			return Redirect::back()->with('warning', $this->resourceName.'取消发布失败。');
+		}
+	}
+
 }
