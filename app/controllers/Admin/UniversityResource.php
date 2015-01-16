@@ -62,23 +62,25 @@ class Admin_UniversityResource extends BaseResource
 	public function index()
 	{
 		// Get sort conditions
-		$orderColumn	= Input::get('sort_up', Input::get('sort_down', 'created_at'));
-		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
+		$orderColumn		= Input::get('sort_up', Input::get('sort_down', 'created_at'));
+		$direction			= Input::get('sort_up') ? 'asc' : 'desc' ;
 		// Get search conditions
-		$province_filter = Input::get('status');
-		switch (Input::get('target')) {
-			case 'email':
-				$email = Input::get('like');
-				break;
-		}
+		$province_filter	= Input::get('province');
+		$status_filter		= Input::get('status');
+		$university_like	= Input::get('like');
+
 		// Construct query statement
 		$query = $this->model->orderBy($orderColumn, $direction);
 		if($province_filter){
 			isset($province_filter) AND $query->where('province_id', $province_filter);
 		}
 
-		isset($email)    AND $query->where('university', 'like', "%{$email}%");
-		$datas = $query->paginate(10);
+		if($status_filter){
+			isset($status_filter) AND $query->where('status', $status_filter);
+		}
+
+		isset($university_like)    AND $query->where('university', 'like', "%{$university_like}%");
+		$datas		= $query->paginate(10);
 		$provinces	= Province::get();
 		return View::make($this->resourceView.'.index')->with(compact('datas', 'provinces'));
 	}
@@ -156,6 +158,7 @@ class Admin_UniversityResource extends BaseResource
 			// Retrieve university ticket
 			$data			= $this->model->find($id);
 			$data->open_at	= Input::get('open_at');
+			$data->status	= 1;
 			$data->save();
 
 			// Update success

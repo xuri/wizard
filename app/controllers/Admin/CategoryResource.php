@@ -3,37 +3,37 @@
 class Admin_CategoryResource extends BaseResource
 {
 	/**
-	 * 资源视图目录
+	 * Define recource view
 	 * @var string
 	 */
 	protected $resourceView = 'admin.category';
 
 	/**
-	 * 资源模型名称，初始化后转为模型实例
+	 * Resource model name, after initialization into model instances
 	 * @var string|Illuminate\Database\Eloquent\Model
 	 */
 	protected $model = 'Category';
 
 	/**
-	 * 资源标识
+	 * Resource identification
 	 * @var string
 	 */
 	protected $resource = 'categories';
 
 	/**
-	 * 资源数据库表
+	 * Resource table
 	 * @var string
 	 */
 	protected $resourceTable = 'article_categories';
 
 	/**
-	 * 资源名称（中文）
+	 * Resource name
 	 * @var string
 	 */
 	protected $resourceName = '文章分类';
 
 	/**
-	 * 自定义验证消息
+	 * Custom validation message
 	 * @var array
 	 */
 	protected $validatorMessages = array(
@@ -44,7 +44,7 @@ class Admin_CategoryResource extends BaseResource
 	);
 
 	/**
-	 * 资源列表页面
+	 * Resource index view
 	 * GET         /resource
 	 * @return Response
 	 */
@@ -55,13 +55,13 @@ class Admin_CategoryResource extends BaseResource
 	}
 
 	/**
-	 * 资源创建动作
+	 * Resource create action
 	 * POST        /resource
 	 * @return Response
 	 */
 	public function store()
 	{
-		// 获取所有表单数据.
+		// Get all form data
 		$data   = Input::all();
 		// 创建验证规则
 		$unique = $this->unique();

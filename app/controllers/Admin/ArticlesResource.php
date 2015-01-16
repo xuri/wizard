@@ -85,7 +85,7 @@ class Admin_ArticlesResource extends BaseResource
 	}
 
 	/**
-	 * 资源创建页面
+	 * Resource create views
 	 * GET         /resource/create
 	 * @return Response
 	 */
@@ -96,13 +96,13 @@ class Admin_ArticlesResource extends BaseResource
 	}
 
 	/**
-	 * 资源创建动作
+	 * Resource store action
 	 * POST        /resource
 	 * @return Response
 	 */
 	public function store()
 	{
-		// 获取所有表单数据.
+		// Get all input data
 		$data   = Input::all();
 		// 创建验证规则
 		$unique = $this->unique();
@@ -113,13 +113,13 @@ class Admin_ArticlesResource extends BaseResource
 			'thumbnails'	=> 'mimes:jpg,jpeg,gif,png|max:1024',
 			'category'		=> 'exists:article_categories,id',
 		);
-		// 自定义验证消息
+		// Cusom validation messages
 		$messages = $this->validatorMessages;
-		// 开始验证
+		// Validation
 		$validator = Validator::make($data, $rules, $messages);
 		if ($validator->passes()) {
 			// Verification success
-			// 添加资源
+			// Create resource
 			$model						= $this->model;
 			$model->user_id				= Auth::user()->id;
 			$model->category_id			= $data['category'];
@@ -130,34 +130,39 @@ class Admin_ArticlesResource extends BaseResource
 			$model->meta_description	= e($data['meta_description']);
 			$model->meta_keywords		= e($data['meta_keywords']);
 
-			$image			= Input::file('thumbnails');
+			$image						= Input::file('thumbnails');
 			if($image) {
-				$ext				= $image->guessClientExtension();  // 根据 mime 类型取得真实拓展名
-				$fullname			= $image->getClientOriginalName(); // 客户端文件名，包括客户端拓展名
-				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext; // 哈希处理过的文件名，包括真实拓展名
+				// Get real extension file name
+				$ext				= $image->guessClientExtension();
+
+				// Full file name, include extension file name
+				$fullname			= $image->getClientOriginalName();
+
+				// Hash processed file name, include extension file name
+				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext;
 				$model->thumbnails	= $hashname;
 				$thumbnails			= Image::make($image->getRealPath());
 				$thumbnails->fit(320, 140)->save(public_path('upload/thumbnails/'.$hashname));
 			}
 
 			if ($model->save()) {
-				// 添加成功
+				//  Store success
 				return Redirect::back()
 					->with('success', '<strong>'.$this->resourceName.'添加成功：</strong>您可以继续添加新'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
 			} else {
-				// 添加失败
+				// Store fail
 				return Redirect::back()
 					->withInput()
 					->with('error', '<strong>'.$this->resourceName.'添加失败。</strong>');
 			}
 		} else {
-			// 验证失败
+			// Validation fail
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 	}
 
 	/**
-	 * 资源编辑页面
+	 * Resource edit view
 	 * GET         /resource/{id}/edit
 	 * @param  int  $id
 	 * @return Response
@@ -170,16 +175,16 @@ class Admin_ArticlesResource extends BaseResource
 	}
 
 	/**
-	 * 资源编辑动作
+	 * Resource update action
 	 * PUT/PATCH   /resource/{id}
 	 * @param  int  $id
 	 * @return Response
 	 */
 	public function update($id)
 	{
-		// 获取所有表单数据.
+		// Get all form input data
 		$data = Input::all();
-		// 创建验证规则
+		// Create validation rules
 		$rules = array(
 			'title'			=> 'required|'.$this->unique('title', $id),
 			'slug'			=> 'required|'.$this->unique('slug', $id),
@@ -187,13 +192,13 @@ class Admin_ArticlesResource extends BaseResource
 			'thumbnails'	=> 'mimes:jpg,jpeg,gif,png|max:1024',
 			'category'		=> 'exists:article_categories,id',
 		);
-		// 自定义验证消息
+		// Custom validation message
 		$messages  = $this->validatorMessages;
-		// 开始验证
+		// Begin verification
 		$validator = Validator::make($data, $rules, $messages);
 		if ($validator->passes()) {
-			// 验证成功
-			// 更新资源
+			// Verify success
+			// Update the resource
 			$model = $this->model->find($id);
 			$model->category_id      = $data['category'];
 			$model->title            = e($data['title']);
@@ -206,9 +211,15 @@ class Admin_ArticlesResource extends BaseResource
 			$image			= Input::file('thumbnails');
 			if($image) {
 				$oldImage			= $model->thumbnails;
-				$ext				= $image->guessClientExtension();  // 根据 mime 类型取得真实拓展名
-				$fullname			= $image->getClientOriginalName(); // 客户端文件名，包括客户端拓展名
-				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext; // 哈希处理过的文件名，包括真实拓展名
+
+				// Get real extension file name
+				$ext				= $image->guessClientExtension();
+
+				// Full file name, include extension file name
+				$fullname			= $image->getClientOriginalName();
+
+				// Hash processed file name, include extension file name
+				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext;
 				$model->thumbnails	= $hashname;
 				$thumbnails			= Image::make($image->getRealPath());
 				$thumbnails->fit(320, 140)->save(public_path('upload/thumbnails/'.$hashname));
@@ -220,17 +231,17 @@ class Admin_ArticlesResource extends BaseResource
 			}
 
 			if ($model->save()) {
-				// 更新成功
+				// Update success
 				return Redirect::back()
 					->with('success', '<strong>'.$this->resourceName.'更新成功：</strong>您可以继续编辑'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
 			} else {
-				// 更新失败
+				// Update fail
 				return Redirect::back()
 					->withInput()
 					->with('error', '<strong>'.$this->resourceName.'更新失败。</strong>');
 			}
 		} else {
-			// 验证失败
+			// Validation fail
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
 	}

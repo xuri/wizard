@@ -28,19 +28,24 @@
 							{{ Form::open(array('method' => 'get')) }}
 								<div class="input-group col-md-9" style="margin:1em auto 0 auto;">
 									<span class="input-group-btn" style="width:8em;">
-										<select class="form-control input-sm" name="status">
+										<select class="form-control input-sm" name="province">
 											<option value="">所有省份</option>
 											@foreach($provinces as $province)
-											<option value="{{ $province->province_id }}">{{ $province->province }}</option>
+											<option value="{{ $province->id }}">{{ $province->province }}</option>
 											@endforeach
 										</select>
 									</span>
 									<span class="input-group-btn" style="width:6em;">
 										{{
 											Form::select(
-												'target',
-												array('email' => '省份'),
-												Input::get('target', 'email'),
+												'status',
+												array(
+													'' => '全部学校',
+													'0' => '暂未开放',
+													'1' => '即将开放',
+													'2' => '已经开放'
+												),
+												Input::get('status'),
 												array('class' => 'form-control input-sm')
 											)
 										}}
@@ -72,11 +77,13 @@
 										<tr class="odd gradeX">
 											<td>{{ $data->id }}</td>
 											<td style="text-align:center;">{{ $data->university }}</td>
-											<td class="center">11</td>
+											<td class="center">{{ User::where('school', $data->university)->count() }}</td>
 											<td class="center">{{ $data->created_at }}</td>
 											<td class="center">
 												@if($data->status == 2)
 												<a href="{{ route($resource.'.close', $data->id) }}" class="btn btn-xs btn-success">已开放</a>
+												@elseif($data->status == 1)
+												<a href="{{ route($resource.'.open', $data->id) }}" class="btn btn-xs btn-primary">等待中</a>
 												@elseif($data->status == 0 || $data->status = 0)
 												<a href="{{ route($resource.'.open', $data->id) }}" class="btn btn-xs btn-warning">未开放</a>
 												@endif

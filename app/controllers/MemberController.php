@@ -71,15 +71,43 @@ class MemberController extends BaseController {
 	 */
 	public function index()
 	{
-		$datas = User::whereNotNull('portrait')->orderBy('created_at', 'desc')->paginate(10);
+		$query					= User::whereNotNull('portrait')->orderBy('created_at', 'desc');
+		$open_universities		= University::where('status', 2)->select('id', 'university')->get();
+		$pending_universities	= University::where('status', 1)->select('id', 'university', 'created_at')->get();
 
-		// AJAX Pagination with jQuery
+		$university				= Input::get('university');
+		$grade					= Input::get('grade');
+		$sex					= Input::get('sex');
 
-		if (Request::ajax()) {
-			return Response::json(View::make($this->resource.'.load-ajax')->with(compact('datas'))->render());
+		// University filter
+		if($university) {
+			if($university == 'others') {
+				$universities_list = University::where('status', 2)->select('university')->get()->toArray();
+				isset($university) AND $query->whereNotIn('school', array($universities_list));
+			} else {
+				isset($university) AND $query->where('school', $university);
+			}
 		}
 
-		return View::make($this->resource.'.index')->with(compact('datas'));
+		// Sex filter
+		if($sex) {
+			isset($sex) AND $query->where('sex', $sex);
+		}
+
+		// Grade filter
+		if($grade) {
+			isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
+				$profileQuery->where('grade', '=', Input::get('grade'));
+			});
+		}
+
+		$datas = $query->paginate(10);
+
+		if (Request::ajax()) {
+			return Response::json(View::make($this->resource.'.load-ajax')->with(compact('datas', 'pending_universities', 'open_universities'))->render());
+		}
+
+		return View::make($this->resource.'.index')->with(compact('datas', 'pending_universities', 'open_universities'));
 	}
 
 	/**

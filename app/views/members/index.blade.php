@@ -15,23 +15,39 @@
 		<div class="lu_content_box clear">
 			<div class="lu_content_main clear">
 				{{ Form::open(array('method' => 'get', 'class' => 'lu_content_main_tab')) }}
+					<select class="lu_school lu_public" name="university">
+						<option value="">选择学校</option>
+						@foreach($open_universities as $open_university)
+						<option value="{{ $open_university->university }}">{{ $open_university->university }}</option>
+						@endforeach
+						<option value="others">其他学校</option>
+						@foreach($pending_universities as $pending_university)∂
+						<option vlaue="">{{ $pending_university->university }}（{{ date('m月d日', strtotime($pending_university->created_at)) }}开放）</option>
+						@endforeach
+					</select>
 					{{
 						Form::select(
 							'target',
 							array('' => '性别', 'M' => '男', 'F' => '女'),
-							Input::get('target', 'email'),
-							array('class' => 'lu_sex lu_public')
+							Input::get('target', 'sex'),
+							array('class' => 'lu_sex lu_public', 'name' => 'sex')
 						)
 					}}
 					{{
 						Form::select(
 							'target',
-							array('' => '性别', 'M' => '男', 'F' => '女'),
-							Input::get('target', 'email'),
-							array('class' => 'lu_sex lu_public')
+							array('' => '入学年',
+									'2015' => '2015年',
+									'2014' => '2014年',
+									'2013' => '2013年',
+									'2012' => '2012年',
+									'2011' => '2011年',
+								),
+							Input::get('target', 'grade'),
+							array('class' => 'lu_school lu_public', 'name' => 'grade')
 						)
 					}}
-					<a href="#" class="lu_search lu_public">搜索</a>
+					<button type="submit" class="lu_search lu_public">搜索</button>
 					<a href="#" class="lu_release lu_public">我也发个</a>
 				{{ Form::close() }}
 

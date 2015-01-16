@@ -173,6 +173,18 @@ class AuthorityController extends BaseController
 			$user			= User::where('phone', $phone)->first();
 			$user->password	= Hash::make(md5(Input::get('password')));
 			if ($user->save()) {
+
+				// Update users password in easemob system
+				$easemob	= getEasemob();
+
+				// New request or new Json request returns a request object
+				$regChat	= cURL::newJsonRequest('put', 'https://a1.easemob.com/jinglingkj/pinai/users/' . $user->id . '/password', ['newpassword' => $user->password])
+					->setHeader('content-type', 'application/json')
+					->setHeader('Accept', 'json')
+					->setHeader('Authorization', 'Bearer '.$easemob->token)
+					->setOptions([CURLOPT_VERBOSE => true])
+					->send();
+
 				// Redirect to Home Page
 				Auth::login($user);
 				// Add user fail
@@ -440,15 +452,24 @@ class AuthorityController extends BaseController
 		$credentials = Input::only(
 			'email', 'password', 'password_confirmation', 'token'
 		);
-
 		$response = Password::reset($credentials, function ($user, $password) {
 			// Save new password
 			$user->password = md5($password);
 			$user->save();
+
+			// Update users password in easemob system
+			$easemob	= getEasemob();
+			// New request or new Json request returns a request object
+			$regChat			= cURL::newJsonRequest('put', 'https://a1.easemob.com/jinglingkj/pinai/users/' . $user->id . '/password', ['newpassword' => $user->password])
+				->setHeader('content-type', 'application/json')
+				->setHeader('Accept', 'json')
+				->setHeader('Authorization', 'Bearer '.$easemob->token)
+				->setOptions([CURLOPT_VERBOSE => true])
+				->send();
+
 			// User signin
 			Auth::login($user);
 		});
-
 		switch ($response) {
 			case Password::INVALID_PASSWORD:
 				// no break

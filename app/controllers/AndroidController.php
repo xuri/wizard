@@ -440,19 +440,19 @@ class AndroidController extends BaseController
 						return Response::json(
 							array(
 								'status'		=> 1,
-								'sex'			=> $data->sex,
-								'bio'			=> $data->bio,
-								'nickname'		=> $data->nickname,
-								'born_year'		=> $data->born_year,
-								'school'		=> $data->school,
-								'portrait'		=> route('home').'/'.'portrait/'.$data->portrait,
+								'sex'			=> e($data->sex),
+								'bio'			=> e($data->bio),
+								'nickname'		=> e($data->nickname),
+								'born_year'		=> e($data->born_year),
+								'school'		=> e($data->school),
+								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> $tag_str,
-								'hobbies'		=> $profile->hobbies,
-								'grade'			=> $profile->grade,
-								'question'		=> $profile->question,
-								'self_intro'	=> $profile->self_intro,
-								'like'			=> $likeCount,
+								'tag_str'		=> e($tag_str),
+								'hobbies'		=> e($profile->hobbies),
+								'grade'			=> e($profile->grade),
+								'question'		=> e($profile->question),
+								'self_intro'	=> e($profile->self_intro),
+								'like'			=> e($likeCount),
 							)
 						);
 					} else {
@@ -1248,7 +1248,7 @@ class AndroidController extends BaseController
 						}
 
 						// Build Json format
-						return '{ "status" : "1", "data" : ' . json_encode($items) . '}';
+						return '{ "status" : "1", "data" : {"top":[], "items" : ' . json_encode($items) . '}}';
 					} else { // First get data from Android client
 
 						// Query last user id in database
@@ -1995,7 +1995,47 @@ class AndroidController extends BaseController
 
 				// Recovery password
 				case 'recovery_password' :
-					$id = Input::get('id');
+
+					// Retrieve user
+					if($user = User::where('phone', Input::get('phone'))->first()){
+						// Update user password
+						$user->password = md5(Input::get('password'));
+
+						// Update successful
+						if($user->save()) {
+							// Update user password in easemob
+
+							$easemob			= getEasemob();
+							// newRequest or newJsonRequest returns a Request object
+							$regChat			= cURL::newJsonRequest('put', 'https://a1.easemob.com/jinglingkj/pinai/users/' . $user->id . '/password', ['newpassword' => $user->password])
+								->setHeader('content-type', 'application/json')
+								->setHeader('Accept', 'json')
+								->setHeader('Authorization', 'Bearer '.$easemob->token)
+								->setOptions([CURLOPT_VERBOSE => true])
+								->send();
+
+							return Response::json(
+								array(
+									'status'	=> 1
+								)
+							);
+						} else {
+
+							// Update fail
+							return Response::json(
+								array(
+									'status'	=> 0
+								)
+							);
+						}
+					} else {
+						// Can't find user
+						return Response::json(
+							array(
+								'status'	=> 2
+							)
+						);
+					}
 				break;
 			}
 		} else {
