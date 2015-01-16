@@ -1246,6 +1246,12 @@ class AndroidController extends BaseController
 
 							// Get plain text from post content HTML code and replace to content value in array
 							$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+
+							// Get forum title
+							$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+
+							// Get forum content
+							$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
 						}
 
 						// Build Json format
@@ -1300,6 +1306,12 @@ class AndroidController extends BaseController
 
 								// Get plain text from post content HTML code and replace to content value in array
 								$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+
+								// Get forum top post title
+								$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+
+								// Get forum top post content
+								$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
 							}
 
 							// Query all items from database
@@ -1338,6 +1350,12 @@ class AndroidController extends BaseController
 
 								// Get plain text from post content HTML code and replace to content value in array
 								$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+
+								// Get forum title
+								$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+
+								// Get forum content
+								$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
 							}
 
 							$data = array(
@@ -1385,7 +1403,7 @@ class AndroidController extends BaseController
 								'user_id'		=> $author->id, // Post user ID
 								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-								'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
+								'content'		=> strip_tags(convertBr($post->content), '<img>'), // Post content (removing contents html tags except image and text string)
 								'comments'		=> array(), // Post comments (array format and include reply)
 								'title'			=> $post->title // Post title
 
@@ -1460,7 +1478,7 @@ class AndroidController extends BaseController
 								'user_id'		=> $author->id, // Post user ID
 								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-								'content'		=> strip_tags($post->content, '<img>'), // Post content (removing contents html tags except image and text string)
+								'content'		=> strip_tags(convertBr($post->content), '<img>'), // Post content (removing contents html tags except image and text string)
 								'comments'		=> $comments, // Post comments (array format and include reply)
 								'title'			=> $post->title // Post title
 
@@ -1694,7 +1712,7 @@ class AndroidController extends BaseController
 					$post->category_id	= Input::get('catid');
 					$post->title		= Input::get('title');
 					$post->user_id		= Input::get('userid');
-					$post->content		= Input::get('content');
+					$post->content		= nl2br(Input::get('content'), true);
 
 					if($post->save()) {
 						// Create successful
@@ -1918,6 +1936,42 @@ class AndroidController extends BaseController
 					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 				break;
 
+				// Delete forum post
+				case 'delete_userpost';
+					// Get post ID in forum for delete
+					$postId		= Input::get('post_id');
+
+					// Retrieve post
+					$forumPost	= ForumPost::where('id', $postId)->first();
+
+					// Using expression get all picture attachments (Only with pictures stored on this server.)
+					preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $forumPost->content, $match );
+
+					// Construct picture attachments list
+					$srcArray 	= array_pop($match);
+
+					if(!empty( $srcArray )) // This post have picture attachments
+					{
+						// Foreach picture attachments list array
+						foreach($srcArray as $key => $field){
+							$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]); // Convert to correct real storage path
+							File::delete(public_path($srcArray[$key])); // Destory upload picture attachments in this post
+						}
+						$forumPost->delete(); // Delete post in forum
+						return Response::json(
+							array(
+								'status'		=> 1
+							)
+						);
+					} else {
+						return Response::json(
+							array(
+								'status'		=> 0
+							)
+						);
+					}
+				break;
+
 				// Get User Portrait
 				case 'get_portrait' :
 
@@ -2034,6 +2088,26 @@ class AndroidController extends BaseController
 						return Response::json(
 							array(
 								'status'	=> 2
+							)
+						);
+					}
+				break;
+
+				// Support
+				case 'support' :
+					$support			= new Support;
+					$support->user_id 	= Input::get('id');
+					$support->content	= Input::get('content');
+					if($support->save()) {
+						return Response::json(
+							array(
+								'status' 		=> 1
+							)
+						);
+					} else {
+						return Response::json(
+							array(
+								'status' 		=> 0
 							)
 						);
 					}

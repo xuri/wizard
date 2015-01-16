@@ -70,12 +70,14 @@ class ForumController extends BaseController {
 		$data = Input::all();
 		// Create validation rules
 		$rules = array(
-			'title'		=> 'required',
+			'title'		=> 'required|max:30',
 			'content'	=> 'required',
 		);
+
 		// Custom validation message
 		$messages = array(
 			'title.required'	=> '请填写帖子标题。',
+			'title.max'			=> '帖子标题不超过:max个字。',
 			'content.required'	=> '请输入内容。',
 		);
 

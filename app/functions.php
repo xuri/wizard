@@ -620,3 +620,9 @@ function getplaintextintrofromhtml($html, $numchars) {
 	$html .= "…";
 	return $html;
 }
+
+function convertBr($string) {
+	$breaks	= array("<br />","<br>","<br/>");
+	$string	= str_ireplace($breaks, "\n", $string);
+	return $string;
+}

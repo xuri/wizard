@@ -1,7 +1,7 @@
 <ul id="bbs_main_clinic" class="bbs_main bbs_main_{{ $categoryCode }}">
 	@foreach($items as $post)
 	<li class="bbs_main_boy">
-		<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ $post->title }}</a>
+		<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ Str::limit($post->title, 35) }}</a>
 
 		<p>{{ close_tags(Str::limit($post->content, 500)) }}</p>
 		<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
