@@ -1939,7 +1939,7 @@ class AndroidController extends BaseController
 				// Delete forum post
 				case 'delete_userpost';
 					// Get post ID in forum for delete
-					$postId		= Input::get('post_id');
+					$postId		= Input::get('postid');
 
 					// Retrieve post
 					$forumPost	= ForumPost::where('id', $postId)->first();
@@ -1957,18 +1957,37 @@ class AndroidController extends BaseController
 							$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]); // Convert to correct real storage path
 							File::delete(public_path($srcArray[$key])); // Destory upload picture attachments in this post
 						}
-						$forumPost->delete(); // Delete post in forum
-						return Response::json(
-							array(
-								'status'		=> 1
-							)
-						);
+						// Delete post in forum
+						if($forumPost->delete()) {
+							return Response::json(
+								array(
+									'status'	=> 1
+								)
+							);
+						} else {
+							return Response::json(
+								array(
+									'status'	=> 0
+								)
+							);
+						}
 					} else {
-						return Response::json(
-							array(
-								'status'		=> 0
-							)
-						);
+
+						// Delete post in forum
+						if($forumPost->delete()) {
+							return Response::json(
+								array(
+									'status'	=> 1
+								)
+							);
+						} else {
+							return Response::json(
+								array(
+									'status'	=> 0
+								)
+							);
+						}
+
 					}
 				break;
 
@@ -2111,6 +2130,35 @@ class AndroidController extends BaseController
 							)
 						);
 					}
+				break;
+
+				// Admin notifications
+				case 'system_notifications' :
+					// Post user ID from Android client
+					$id				= Input::get('id');
+
+					// Retrieve all system notifications
+					$notifications	= Notification::where('receiver_id', $id)
+										->whereIn('category', array(8, 9))
+										->orderBy('created_at' , 'desc')
+										->select('id', 'sender_id', 'created_at')
+										->where('status', 0)
+										->get()
+										->toArray();
+
+					// Build array
+					foreach ($notifications as $key => $value) {
+						$notifications_content				= NotificationsContent::where('notifications_id', $notifications[$key]['id'])->first();
+						$notifications[$key]['content']		= $notifications_content->content;
+						$notifications[$key]['created_at']	= date('m-d H:m', strtotime($notifications_content->created_at));
+
+					}
+
+					// Mark read for this user
+					Notification::where('receiver_id', $id)->whereIn('category', array(8, 9))->update(array('status' => 1));
+
+					// Build Json format
+					return '{ "status" : "1", "data" : ' . json_encode($notifications) . '}';
 				break;
 			}
 		} else {

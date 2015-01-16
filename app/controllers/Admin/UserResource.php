@@ -196,8 +196,9 @@ class Admin_UserResource extends BaseResource
 	 */
 	public function notify($id)
 	{
-		$data		= $this->model->where('id', $id)->first();
-		return View::make($this->resourceView.'.notify')->with(compact('data', 'sends', 'inboxs', 'count'));
+		$data			= $this->model->where('id', $id)->first();
+		$notifications	= Notification::where('receiver_id', $id)->where('category', 8)->get();
+		return View::make($this->resourceView.'.notify')->with(compact('data', 'notifications'));
 	}
 
 	/**
@@ -223,7 +224,11 @@ class Admin_UserResource extends BaseResource
 					'target'		=> [$id],
 					'msg'			=> ['type' => 'cmd', 'action' => '8'],
 					'from'			=> '0',
-					'ext'			=> ['content' => '系统消息：'.Input::get('system_notification'), 'id' => '0']
+					'ext'			=> [
+											'content'		=> '系统消息：'.Input::get('system_notification'),
+											'id'			=> $notification->id,
+											'created_at'	=> date('m-d H:m', strtotime($notification->created_at))
+										]
 				])
 					->setHeader('content-type', 'application/json')
 					->setHeader('Accept', 'json')

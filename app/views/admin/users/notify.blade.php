@@ -37,7 +37,7 @@
 								}}
 									<div class="col-lg-12">
 										<div class="form-group">
-											<label>爱情宣言</label>
+											<label>推送内容</label>
 											<textarea class="form-control" rows="3" name="system_notification">{{ Input::old('system_notification') }}</textarea>
 										</div>
 										<button type="submit" class="btn btn-default">推 送</button>
@@ -52,6 +52,43 @@
 						{{-- /.panel-body --}}
 					</div>
 					{{-- /.panel --}}
+				</div>
+				{{-- /.col-lg-12 --}}
+
+			</div>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<h3 class="page-header">推送历史</h3>
+				</div>
+				<!-- /.col-lg-12 -->
+
+
+				<div class="col-lg-12">
+					@foreach($notifications as $notification)
+
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							推送时间：{{ $notification->created_at }}，用户接收状态：
+							@if($notification->status == 0)
+							未接收
+							@else
+							已接收
+							@endif
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-lg-12">
+									{{ NotificationsContent::where('notifications_id', $notification->id)->first()->content }}
+								</div>
+								{{-- /.col-lg-12 (nested) --}}
+							</div>
+							{{-- /.row (nested) --}}
+						</div>
+						{{-- /.panel-body --}}
+					</div>
+					{{-- /.panel --}}
+					@endforeach
 				</div>
 				{{-- /.col-lg-12 --}}
 			</div>

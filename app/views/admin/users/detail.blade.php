@@ -35,6 +35,7 @@
 									<thead>
 										<tr>
 											<th>#</th>
+											<th>对方ID</th>
 											<th>对方昵称</th>
 											<th>创建时间</th>
 											<th>次数</th>
@@ -44,8 +45,8 @@
 									<tbody>
 										@foreach($sends as $send)
 										<?php
-											$receiver = User::where('id', $send->receiver_id)->first();
-											$statusCode = $send->status;
+											$receiver	= User::where('id', $send->receiver_id)->first();
+											$statusCode	= $send->status;
 
 											switch ($statusCode) {
 												case '0':
@@ -71,7 +72,12 @@
 										?>
 										<tr>
 											<td>{{ $count ++ }}</td>
-											<td><a href="{{ route('members.show', $receiver->id) }}">{{ $receiver->nickname }}</a></td>
+											<td>
+												<a href="{{ route('members.show', $receiver->id) }}" title="点击查看用户详细资料" alt="点击查看用户详细资料">{{ $receiver->id }}</a>
+											</td>
+											<td>
+												<a href="{{ route('members.show', $receiver->id) }}" title="点击查看用户详细资料" alt="点击查看用户详细资料">{{ $receiver->nickname }}</a>
+											</td>
 											<td>{{ $send->created_at }}</td>
 											<td>{{ $send->count }}</td>
 											<td>{{ $status }}</td>
@@ -99,6 +105,7 @@
 									<thead>
 										<tr>
 											<th>#</th>
+											<th>对方ID</th>
 											<th>对方昵称</th>
 											<th>创建时间</th>
 											<th>次数</th>
@@ -108,8 +115,8 @@
 									<tbody>
 										@foreach($inboxs as $inbox)
 										<?php
-											$sender = User::where('id', $send->sender_id)->first();
-											$statusCode = $send->status;
+											$sender = User::where('id', $inbox->sender_id)->first();
+											$statusCode = $inbox->status;
 
 											switch ($statusCode) {
 												case '0':
@@ -135,9 +142,14 @@
 										?>
 										<tr>
 											<td>{{ $count ++ }}</td>
-											<td><a href="{{ route('members.show', $sender->id) }}">{{ $sender->nickname }}</a></td>
+											<td>
+												<a href="{{ route('members.show', $inbox->id) }}" title="点击查看用户详细资料" alt="点击查看用户详细资料">{{ $sender->id }}</a>
+											</td>
+											<td>
+												<a href="{{ route('members.show', $inbox->id) }}" title="点击查看用户详细资料" alt="点击查看用户详细资料">{{ $sender->nickname }}</a>
+											</td>
 											<td>{{ $inbox->created_at }}</td>
-											<td>{{ $send->count }}</td>
+											<td>{{ $inbox->count }}</td>
 											<td>{{ $status }}</td>
 										</tr>
 										@endforeach

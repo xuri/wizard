@@ -309,17 +309,17 @@ class AccountController extends BaseController
 		$items_per_page = Input::get('per_pg', 5);
 
 		if ($type == 'first') {
-			$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(1, 2, 3, 4, 5, 10))->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$friendNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(1, 2, 3, 4, 5, 10))->orderBy('created_at' , 'desc')->where('status', 0)->paginate($items_per_page);
 			$view = View::make('account.notifications.first-ajax')->with(compact('friendNotifications'));
 			return $view;
 			exit;
 		} else if ($type == 'second'){
-			$forumNotifications			= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(6, 7))->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$forumNotifications			= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(6, 7))->orderBy('created_at' , 'desc')->where('status', 0)->paginate($items_per_page);
 			$view = View::make('account.notifications.second-ajax')->with(compact('forumNotifications'));
 			return $view;
 			exit;
 		} else {
-			$systemNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(8, 9))->orderBy('created_at' , 'desc')->paginate($items_per_page);
+			$systemNotifications		= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(8, 9))->orderBy('created_at' , 'desc')->where('status', 0)->paginate($items_per_page);
 			$view = View::make('account.notifications.third-ajax')->with(compact('systemNotifications'));
 			return $view;
 			exit;
@@ -351,20 +351,41 @@ class AccountController extends BaseController
 				$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]); // Convert to correct real storage path
 				File::delete(public_path($srcArray[$key])); // Destory upload picture attachments in this post
 			}
-			$forumPost->delete(); // Delete post in forum
-			return Response::json(
-				array(
-					'success'		=> true,
-					'success_info'	=> '帖子删除成功！'
-				)
-			);
+			// Delete post in forum
+			if($forumPost->delete()) {
+				return Response::json(
+					array(
+						'success'		=> true,
+						'success_info'	=> '帖子删除成功！'
+					)
+				);
+			} else {
+				return Response::json(
+					array(
+						'fail'		=> true,
+						'fail_info'	=> '帖子删除失败！'
+					)
+				);
+			}
 		} else {
-			return Response::json(
-				array(
-					'fail'		=> true,
-					'fail_info'	=> '帖子删除失败！'
-				)
-			);
+
+			// Delete post in forum
+			if($forumPost->delete()) {
+				return Response::json(
+					array(
+						'success'		=> true,
+						'success_info'	=> '帖子删除成功！'
+					)
+				);
+			} else {
+				return Response::json(
+					array(
+						'fail'		=> true,
+						'fail_info'	=> '帖子删除失败！'
+					)
+				);
+			}
+
 		}
 	}
 
