@@ -234,26 +234,29 @@ class AuthorityController extends BaseController
 			$data = Input::all();
 			// Create validation rules
 			$rules = array(
-				'email'               => 'required|email|unique:users',
-				'password'            => 'required|alpha_dash|between:6,16|confirmed',
+				'email'		=> 'required|email|unique:users',
+				'password'	=> 'required|alpha_dash|between:6,16|confirmed',
+				'sex'		=> 'required',
 			);
 			// Custom validation message
 			$messages = array(
-				'email.required'      => '请输入邮箱地址。',
-				'email.email'         => '请输入正确的邮箱地址。',
-				'email.unique'        => '此邮箱已被使用。',
-				'password.required'   => '请输入密码。',
-				'password.alpha_dash' => '密码格式不正确。',
-				'password.between'    => '密码长度请保持在:min到:max位之间。',
-				'password.confirmed'  => '两次输入的密码不一致。',
+				'email.required'		=> '请输入邮箱地址。',
+				'email.email'			=> '请输入正确的邮箱地址。',
+				'email.unique'			=> '此邮箱已被使用。',
+				'password.required'		=> '请输入密码。',
+				'password.alpha_dash'	=> '密码格式不正确。',
+				'password.between'		=> '密码长度请保持在:min到:max位之间。',
+				'password.confirmed'	=> '两次输入的密码不一致。',
+				'sex.required'			=> '请选择性别',
 			);
 			// Begin verification
 			$validator = Validator::make($data, $rules, $messages);
 			if ($validator->passes()) {
 				// Verification success，add user
-				$user           = new User;
-				$user->email    = Input::get('email');
-				$user->password = md5(Input::get('password'));
+				$user			= new User;
+				$user->email	= Input::get('email');
+				$user->sex		= Input::get('sex');
+				$user->password	= md5(Input::get('password'));
 
 				if ($user->save()) {
 					$profile			= new Profile;
@@ -263,6 +266,7 @@ class AuthorityController extends BaseController
 					// Generate activation code
 					$activation			= new Activation;
 					$activation->email	= $user->email;
+					$activation->sex	= $user->sex;
 					$activation->token	= str_random(40);
 					$activation->save();
 
@@ -304,21 +308,23 @@ class AuthorityController extends BaseController
 			$data = Input::all();
 			// Create validation rules
 			$rules = array(
-				'phone'               => 'required|digits:11|unique:users',
-				'password'            => 'required|alpha_dash|between:6,16|confirmed',
-				'sms_code'            => 'required|digits:6',
+				'phone'		=> 'required|digits:11|unique:users',
+				'password'	=> 'required|alpha_dash|between:6,16|confirmed',
+				'sms_code'	=> 'required|digits:6',
+				'sex'		=> 'required',
 			);
 			// Custom validation message
 			$messages = array(
-				'phone.required'      => '请输入手机号码。',
-				'phone.digits'        => '请输入正确的手机号码。',
-				'phone.unique'        => '此手机号码已被使用。',
-				'password.required'   => '请输入密码。',
-				'password.alpha_dash' => '密码格式不正确。',
-				'password.between'    => '密码长度请保持在:min到:max位之间。',
-				'password.confirmed'  => '两次输入的密码不一致。',
-				'sms_code.required'   => '请填写验证码。',
-				'sms_code.digits'     => '验证码错误。',
+				'phone.required'		=> '请输入手机号码。',
+				'phone.digits'			=> '请输入正确的手机号码。',
+				'phone.unique'			=> '此手机号码已被使用。',
+				'password.required'		=> '请输入密码。',
+				'password.alpha_dash'	=> '密码格式不正确。',
+				'password.between'		=> '密码长度请保持在:min到:max位之间。',
+				'password.confirmed'	=> '两次输入的密码不一致。',
+				'sms_code.required'		=> '请填写验证码。',
+				'sms_code.digits'		=> '验证码错误。',
+				'sex.required'			=> '请选择性别',
 			);
 			// Begin verification
 			$validator   = Validator::make($data, $rules, $messages);
@@ -327,9 +333,10 @@ class AuthorityController extends BaseController
 			$sms_code    = Input::get('sms_code');
 			if ($validator->passes() && $sms_code == $verify_code) {
 				// Verification success, add user
-				$user           = new User;
-				$user->phone    = $phone;
-				$user->password = md5(Input::get('password'));
+				$user			= new User;
+				$user->phone	= $phone;
+				$user->password	= md5(Input::get('password'));
+				$user->sex		= Input::get('sex');
 				if ($user->save()) {
 					$profile			= new Profile;
 					$profile->user_id	= $user->id;
@@ -347,8 +354,10 @@ class AuthorityController extends BaseController
 						->setHeader('Authorization', 'Bearer '.$easemob->token)
 						->setOptions([CURLOPT_VERBOSE => true])
 						->send();
+					// User signin
+					Auth::login($user);
 					// Redirect to a registration page, prompts user to activate
-					return Redirect::route('home');
+					return Redirect::route('account');
 				} else {
 					// Add user fail
 					return Redirect::back()
@@ -392,8 +401,9 @@ class AuthorityController extends BaseController
 		is_null($activation) AND App::abort(404);
 		// Database tokens
 		// Activate the corresponding user
-		$user               = User::where('email', $activation->email)->first();
-		$user->activated_at = new Carbon;
+		$user				= User::where('email', $activation->email)->first();
+		$user->activated_at	= new Carbon;
+		$user->sex			= $activation->sex;
 		$user->save();
 		// Delete tokens
 		$activation->delete();

@@ -48,7 +48,7 @@
 						)
 					}}
 					<button type="submit" class="lu_search lu_public">搜索</button>
-					<a href="#" class="lu_release lu_public">我也发个</a>
+					<a href="{{ route('account') }}" class="lu_release lu_public">我也发个</a>
 				{{ Form::close() }}
 
 				<div id="load-ajax">

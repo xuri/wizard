@@ -59,6 +59,7 @@
 						{{ $errors->first('sms_code', '<strong class="error">:message</strong>') }}
 						{{ $errors->first('email', '<strong class="error">:message</strong>') }}
 						{{ $errors->first('password', '<strong class="error">:message</strong>') }}
+						{{ $errors->first('sex', '<strong class="error">:message</strong>') }}
 					</p>
 					{{ Form::open(array(
 						'id'           => 'rgs_tab1',
@@ -87,9 +88,13 @@
 							</li>
 						</ul>
 						<div class="login_clause">
+							我 是： <input type="radio" name="sex" value="M" /> 男 生
+							&nbsp; <input type="radio" name="sex" value="F" /> 女 生
+						</div>
+						<div class="login_clause">
 							<input class="login_check" type="checkbox" name="checkbox" checked >
 							<span>同意</span>
-							<a class="rgs_agree" href="#">使用条款</a>
+							<a class="rgs_agree" href="{{ route('home') }}/article/privacy.html" target="_blank">使用条款</a>
 						</div>
 						<input class="login_submit" type="submit" value="立即注册">
 					{{ Form::close() }}
@@ -114,9 +119,13 @@
 							</li>
 						</ul>
 						<div class="login_clause">
+							我 是： <input type="radio" name="sex" value="M" /> 男 生
+							&nbsp; <input type="radio" name="sex" value="F" /> 女 生
+						</div>
+						<div class="login_clause">
 							<input class="login_check" type="checkbox" name="checkbox" checked >
 							<span>同意</span>
-							<a class="rgs_agree" href="#">使用条款</a>
+							<a class="rgs_agree" href="{{ route('home') }}/article/privacy.html" target="_blank">使用条款</a>
 						</div>
 						<input class="login_submit" type="submit" value="立即注册">
 					{{ Form::close() }}

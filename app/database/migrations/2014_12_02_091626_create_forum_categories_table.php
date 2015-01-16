@@ -16,6 +16,7 @@ class CreateForumCategoriesTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name');
+			$table->boolean('open')->default('1');
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();
 		});

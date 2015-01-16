@@ -321,8 +321,12 @@
 								<td class="data_td1">性别：{{ $errors->first('sex', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									@if(Auth::user()->sex)
-									<input value="{{ Auth::user()->sex }}" type="hidden" name="sex"> （性别不能修改）
-									{{ Auth::user()->sex }}
+									<input value="{{ Auth::user()->sex }}" type="hidden" name="sex">
+										@if(Auth::user()->sex == 'M')
+										{{ HTML::image('assets/images/symbol.png') }}（性别不能修改）
+										@else(Auth::user()->sex == 'F')
+										{{ HTML::image('assets/images/g.jpg') }}（性别不能修改）
+										@endif
 									@else
 									<select name="sex" id="sex_select">
 										<option value="">请选择</option>

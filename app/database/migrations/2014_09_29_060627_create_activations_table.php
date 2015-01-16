@@ -15,6 +15,7 @@ class CreateActivationsTable extends Migration {
 		Schema::create('activations', function(Blueprint $table)
 		{
 			$table->increments('id');
+			$table->string('sex',4)->nullable();
 			$table->string('email',60);
 			$table->string('token',40);
 			$table->timestamps();

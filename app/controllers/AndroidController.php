@@ -80,6 +80,7 @@ class AndroidController extends BaseController
 								'status'	=> 1,
 								'id'		=> $user->id,
 								'password'	=> $user->password,
+								'sex' 		=> $user->sex,
 								'portrait'	=> route('home').'/'.'portrait/'.$user->portrait
 							)
 						);
@@ -447,7 +448,7 @@ class AndroidController extends BaseController
 								'school'		=> e($data->school),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> e($tag_str),
+								'tag_str'		=> $tag_str,
 								'hobbies'		=> e($profile->hobbies),
 								'grade'			=> e($profile->grade),
 								'question'		=> e($profile->question),

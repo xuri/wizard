@@ -138,7 +138,6 @@ class AccountController extends BaseController
 			'nickname'      => 'required|between:1,30',
 			'constellation' => 'required',
 			'tag_str'       => 'required',
-			'sex'           => 'required',
 			'born_year'     => 'required',
 			'grade'         => 'required',
 			'hobbies'       => 'required',
@@ -155,7 +154,6 @@ class AccountController extends BaseController
 			'nickname.between'       => '昵称长度请保持在:min到:max字之间',
 			'constellation.required' => '请选择星座',
 			'tag_str.required'       => '给自己贴个标签吧',
-			'sex.required'           => '请选择性别',
 			'born_year.required'     => '请选择出生年',
 			'grade.required'         => '请选择入学年',
 			'hobbies.required'       => '填写你的爱好',
@@ -188,10 +186,6 @@ class AccountController extends BaseController
 				$portraitFile       = uniqid() . '.png'; // Portrait file name
 				$successPortrait    = file_put_contents($portraitPath.$portraitFile, $portraitData); // Store file
 				$user->portrait     = $portraitFile; // Save file name to database
-			}
-			if(Auth::user()->sex == NULL)
-			{
-				$user->sex          = Input::get('sex');
 			}
 			if(Auth::user()->born_year == NULL)
 			{
