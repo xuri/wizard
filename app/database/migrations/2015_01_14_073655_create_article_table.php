@@ -16,7 +16,7 @@ class CreateArticleTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('user_id');
-			$table->integer('status', 1)->default(0);
+			$table->integer('status')->default(0);
 			$table->integer('category_id');
 			$table->string('title')->nullable();
 			$table->string('slug')->nullable();
