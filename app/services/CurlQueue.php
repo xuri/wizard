@@ -5,6 +5,8 @@ class CurlQueue extends BaseController{
 	public function fire($job, $data)
 	{
 
+		// Add user success and chat Register
+		$easemob			= getEasemob();
 		// Push notifications to App client
 		$data = cURL::newJsonRequest($data)
 				->setHeader('content-type', 'application/json')

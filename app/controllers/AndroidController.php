@@ -136,8 +136,7 @@ class AndroidController extends BaseController
 							$profile->user_id	= $user->id;
 							$profile->save();
 
-							// Add user success and chat Register
-							$easemob			= getEasemob();
+
 
 							// newRequest or newJsonRequest returns a Request object
 							// $regChat			= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
