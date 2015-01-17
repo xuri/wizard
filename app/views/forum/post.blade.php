@@ -25,7 +25,11 @@
 				<div class="message-re message-border clear">
 					<div class="re-headImg-box">
 						<div class="re-headImg">
+							@if($author->portrait)
 							{{ HTML::image('portrait/'.$author->portrait) }}
+							@else
+							{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+							@endif
 						</div>
 						@if($author->sex == 'M')
 						{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
@@ -55,7 +59,11 @@
 						<div class="message-re clear">
 							<div class="re-headImg-box">
 								<div class="re-headImg">
+									@if($user->portrait)
 									{{ HTML::image('portrait/'.$user->portrait) }}
+									@else
+									{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+									@endif
 								</div>
 								@if($user->sex == 'M')
 								{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
@@ -93,7 +101,11 @@
 									?>
 									<div>
 										<span class="imgSpan">
+											@if($reply_user->portrait)
 											{{ HTML::image('portrait/'.$reply_user->portrait) }}
+											@else
+											{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+											@endif
 										</span>
 										@if($reply_user->sex == 'M')
 										{{ HTML::image('assets/images/symbol.png', '', array('class' => 'o-sexImg')) }}
