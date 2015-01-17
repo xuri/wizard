@@ -65,6 +65,8 @@
 					{{ Form::close() }}
 
 				</div>
+
+				@if($cat2_status)
 				<div style="display: none;" id="second">
 					<div id="second_inner"></div>
 					<div class="if_error_2"></div>
@@ -91,6 +93,14 @@
 					{{ Form::close() }}
 
 				</div>
+				@else
+				<div style="display: none;" id="second">
+					<div class="callout-warning">这个版块会在每晚9点到10点开放哦。</div>
+					{{ HTML::image('assets/images/cat2_close.jpg') }}
+				</div>
+				@endif
+
+				@if($cat3_status)
 				<div style="display: none;" id="third">
 					<div id="third_inner"></div>
 					<div class="if_error_3"></div>
@@ -117,6 +127,12 @@
 					{{ Form::close() }}
 
 				</div>
+				@else
+				<div style="display: none;" id="third">
+					<div class="callout-warning">这个版块会在每晚9点到10点开放哦。</div>
+					{{ HTML::image('assets/images/cat3_close.jpg') }}
+				</div>
+				@endif
 			</div>
 
 			<div class="lu_content_right">

@@ -22,6 +22,11 @@
  * from = 3 			Signup from iOS Client
  * from = 4 			Add user by administrator
  *
+ * Forum Code Explanation
+ *
+ * status = 0 			Response fail
+ * status = 1 			Forum is open and response success
+ * status = 2 			Forum is closed and response success
  */
 
 class AndroidController extends BaseController
@@ -1195,6 +1200,9 @@ class AndroidController extends BaseController
 				// Get Forum Category
 
 				case 'forum_getcat' :
+					// Post user ID from Android client
+					$user_id	= Input::get('userid');
+
 					// Post last user ID from Android client
 					$last_id	= Input::get('lastid');
 
@@ -1258,113 +1266,354 @@ class AndroidController extends BaseController
 						return '{ "status" : "1", "data" : {"top":[], "items" : ' . json_encode($items) . '}}';
 					} else { // First get data from Android client
 
-						// Query last user id in database
-						$lastRecord = ForumPost::orderBy('id', 'desc')->first();
+						// Determine forum open status
+						if(ForumCategories::where('id', 1)->first()->open == 1) {
 
-						// Post not exists
-						if(is_null($lastRecord)) {
+							// Forum is opening query last user id in database
+							$lastRecord = ForumPost::orderBy('id', 'desc')->first();
 
-							// Build Json format
-							return '{ "status" : "1", "data" : []}';
+							// Post not exists
+							if(is_null($lastRecord)) {
+
+								// Build Json format
+								return '{ "status" : "1", "data" : []}';
+							} else {
+
+								// Post exists
+
+								// Query all items from database
+								$top	= ForumPost::where('category_id', $cat_id)
+											->orderBy('created_at' , 'desc')
+											->where('id', '<=', $lastRecord->id)
+											->where('top', 1)
+											->select('id', 'user_id', 'title', 'content', 'created_at')
+											->take('5')
+											->get()
+											->toArray();
+
+								// Replace receiver ID to receiver portrait
+								foreach($top as $key => $field){
+
+									// Retrieve user
+									$post_user						= User::where('id', $top[$key]['user_id'])->first();
+
+									// Get post user portrait real storage path and user porirait key to array
+									$top[$key]['portrait']			= route('home') . '/' . 'portrait/' . $post_user->portrait;
+
+									// Get post user sex (M, F or null) and add user sex key to array
+									$top[$key]['sex']				= e($post_user->sex);
+
+									// Count how many comments of this post and add comments_count key to array
+									$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
+
+									// Get post user portrait and add portrait key to array
+									$top[$key]['nickname']			= e($post_user->nickname);
+
+									// Using expression get all picture attachments (Only with pictures stored on this server.)
+									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
+
+									// Construct picture attachments list and add thumbnails (array format) to array
+									$top[$key]['thumbnails']		= join(',', array_pop($match));
+
+									// Get plain text from post content HTML code and replace to content value in array
+									$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+
+									// Get forum top post title
+									$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+
+									// Get forum top post content
+									$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
+								}
+
+								// Query all items from database
+								$items	= ForumPost::where('category_id', $cat_id)
+											->orderBy('created_at' , 'desc')
+											->where('id', '<=', $lastRecord->id)
+											->where('top', 0)
+											->select('id', 'user_id', 'title', 'content', 'created_at')
+											->take($per_page)
+											->get()
+											->toArray();
+
+								// Replace receiver ID to receiver portrait
+								foreach($items as $key => $field){
+
+									// Retrieve user
+									$post_user						= User::where('id', $items[$key]['user_id'])->first();
+
+									// Get post user portrait real storage path and user porirait key to array
+									$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
+
+									// Get post user sex (M, F or null) and add user sex key to array
+									$items[$key]['sex']				= e($post_user->sex);
+
+									// Count how many comments of this post and add comments_count key to array
+									$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+
+									// Get post user portrait and add portrait key to array
+									$items[$key]['nickname']		= e($post_user->nickname);
+
+									// Using expression get all picture attachments (Only with pictures stored on this server.)
+									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
+
+									// Construct picture attachments list and add thumbnails (array format) to array
+									$items[$key]['thumbnails']		= join(',', array_pop($match));
+
+									// Get plain text from post content HTML code and replace to content value in array
+									$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+
+									// Get forum title
+									$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+
+									// Get forum content
+									$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
+								}
+
+								$data = array(
+										'top'	=> $top,
+										'items'	=> $items
+									);
+
+								// Build Json format
+								echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+							}
 						} else {
+							// Retrieve user
+							$user = User::find($user_id);
 
-							// Post exists
+							// Determine user sex
+							if($user->sex == 'M') {
 
-							// Query all items from database
-							$top	= ForumPost::where('category_id', $cat_id)
-										->orderBy('created_at' , 'desc')
-										->where('id', '<=', $lastRecord->id)
-										->where('top', 1)
-										->select('id', 'user_id', 'title', 'content', 'created_at')
-										->take('5')
-										->get()
-										->toArray();
+								// Male user and determine category
+								if($cat_id == 3) {
+									// Forum is closed and build Json format
+									echo '{ "status" : "2" }';
+								} else {
+									// Forum is opening query last user id in database
+									$lastRecord = ForumPost::orderBy('id', 'desc')->first();
 
-							// Replace receiver ID to receiver portrait
-							foreach($top as $key => $field){
+									// Post not exists
+									if(is_null($lastRecord)) {
 
-								// Retrieve user
-								$post_user						= User::where('id', $top[$key]['user_id'])->first();
+										// Build Json format
+										return '{ "status" : "1", "data" : []}';
+									} else {
 
-								// Get post user portrait real storage path and user porirait key to array
-								$top[$key]['portrait']			= route('home') . '/' . 'portrait/' . $post_user->portrait;
+										// Post exists
 
-								// Get post user sex (M, F or null) and add user sex key to array
-								$top[$key]['sex']				= e($post_user->sex);
+										// Query all items from database
+										$top	= ForumPost::where('category_id', $cat_id)
+													->orderBy('created_at' , 'desc')
+													->where('id', '<=', $lastRecord->id)
+													->where('top', 1)
+													->select('id', 'user_id', 'title', 'content', 'created_at')
+													->take('5')
+													->get()
+													->toArray();
 
-								// Count how many comments of this post and add comments_count key to array
-								$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
+										// Replace receiver ID to receiver portrait
+										foreach($top as $key => $field){
 
-								// Get post user portrait and add portrait key to array
-								$top[$key]['nickname']			= e($post_user->nickname);
+											// Retrieve user
+											$post_user						= User::where('id', $top[$key]['user_id'])->first();
 
-								// Using expression get all picture attachments (Only with pictures stored on this server.)
-								preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
+											// Get post user portrait real storage path and user porirait key to array
+											$top[$key]['portrait']			= route('home') . '/' . 'portrait/' . $post_user->portrait;
 
-								// Construct picture attachments list and add thumbnails (array format) to array
-								$top[$key]['thumbnails']		= join(',', array_pop($match));
+											// Get post user sex (M, F or null) and add user sex key to array
+											$top[$key]['sex']				= e($post_user->sex);
 
-								// Get plain text from post content HTML code and replace to content value in array
-								$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+											// Count how many comments of this post and add comments_count key to array
+											$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
 
-								// Get forum top post title
-								$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+											// Get post user portrait and add portrait key to array
+											$top[$key]['nickname']			= e($post_user->nickname);
 
-								// Get forum top post content
-								$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
+
+											// Construct picture attachments list and add thumbnails (array format) to array
+											$top[$key]['thumbnails']		= join(',', array_pop($match));
+
+											// Get plain text from post content HTML code and replace to content value in array
+											$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+
+											// Get forum top post title
+											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+
+											// Get forum top post content
+											$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
+										}
+
+										// Query all items from database
+										$items	= ForumPost::where('category_id', $cat_id)
+													->orderBy('created_at' , 'desc')
+													->where('id', '<=', $lastRecord->id)
+													->where('top', 0)
+													->select('id', 'user_id', 'title', 'content', 'created_at')
+													->take($per_page)
+													->get()
+													->toArray();
+
+										// Replace receiver ID to receiver portrait
+										foreach($items as $key => $field){
+
+											// Retrieve user
+											$post_user						= User::where('id', $items[$key]['user_id'])->first();
+
+											// Get post user portrait real storage path and user porirait key to array
+											$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
+
+											// Get post user sex (M, F or null) and add user sex key to array
+											$items[$key]['sex']				= e($post_user->sex);
+
+											// Count how many comments of this post and add comments_count key to array
+											$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+
+											// Get post user portrait and add portrait key to array
+											$items[$key]['nickname']		= e($post_user->nickname);
+
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
+
+											// Construct picture attachments list and add thumbnails (array format) to array
+											$items[$key]['thumbnails']		= join(',', array_pop($match));
+
+											// Get plain text from post content HTML code and replace to content value in array
+											$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+
+											// Get forum title
+											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+
+											// Get forum content
+											$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
+										}
+
+										$data = array(
+												'top'	=> $top,
+												'items'	=> $items
+											);
+
+										// Build Json format
+										echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+									}
+								}
+							} else {
+								// Female user and determine category
+								if($cat_id == 2) {
+									// Forum is closed and build Json format
+									echo '{ "status" : "2" }';
+								} else {
+									// Forum is opening query last user id in database
+									$lastRecord = ForumPost::orderBy('id', 'desc')->first();
+
+									// Post not exists
+									if(is_null($lastRecord)) {
+
+										// Build Json format
+										return '{ "status" : "1", "data" : []}';
+									} else {
+
+										// Post exists
+
+										// Query all items from database
+										$top	= ForumPost::where('category_id', $cat_id)
+													->orderBy('created_at' , 'desc')
+													->where('id', '<=', $lastRecord->id)
+													->where('top', 1)
+													->select('id', 'user_id', 'title', 'content', 'created_at')
+													->take('5')
+													->get()
+													->toArray();
+
+										// Replace receiver ID to receiver portrait
+										foreach($top as $key => $field){
+
+											// Retrieve user
+											$post_user						= User::where('id', $top[$key]['user_id'])->first();
+
+											// Get post user portrait real storage path and user porirait key to array
+											$top[$key]['portrait']			= route('home') . '/' . 'portrait/' . $post_user->portrait;
+
+											// Get post user sex (M, F or null) and add user sex key to array
+											$top[$key]['sex']				= e($post_user->sex);
+
+											// Count how many comments of this post and add comments_count key to array
+											$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
+
+											// Get post user portrait and add portrait key to array
+											$top[$key]['nickname']			= e($post_user->nickname);
+
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
+
+											// Construct picture attachments list and add thumbnails (array format) to array
+											$top[$key]['thumbnails']		= join(',', array_pop($match));
+
+											// Get plain text from post content HTML code and replace to content value in array
+											$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+
+											// Get forum top post title
+											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+
+											// Get forum top post content
+											$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
+										}
+
+										// Query all items from database
+										$items	= ForumPost::where('category_id', $cat_id)
+													->orderBy('created_at' , 'desc')
+													->where('id', '<=', $lastRecord->id)
+													->where('top', 0)
+													->select('id', 'user_id', 'title', 'content', 'created_at')
+													->take($per_page)
+													->get()
+													->toArray();
+
+										// Replace receiver ID to receiver portrait
+										foreach($items as $key => $field){
+
+											// Retrieve user
+											$post_user						= User::where('id', $items[$key]['user_id'])->first();
+
+											// Get post user portrait real storage path and user porirait key to array
+											$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
+
+											// Get post user sex (M, F or null) and add user sex key to array
+											$items[$key]['sex']				= e($post_user->sex);
+
+											// Count how many comments of this post and add comments_count key to array
+											$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+
+											// Get post user portrait and add portrait key to array
+											$items[$key]['nickname']		= e($post_user->nickname);
+
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
+
+											// Construct picture attachments list and add thumbnails (array format) to array
+											$items[$key]['thumbnails']		= join(',', array_pop($match));
+
+											// Get plain text from post content HTML code and replace to content value in array
+											$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+
+											// Get forum title
+											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+
+											// Get forum content
+											$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
+										}
+
+										$data = array(
+												'top'	=> $top,
+												'items'	=> $items
+											);
+
+										// Build Json format
+										echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+									}
+								}
 							}
-
-							// Query all items from database
-							$items	= ForumPost::where('category_id', $cat_id)
-										->orderBy('created_at' , 'desc')
-										->where('id', '<=', $lastRecord->id)
-										->where('top', 0)
-										->select('id', 'user_id', 'title', 'content', 'created_at')
-										->take($per_page)
-										->get()
-										->toArray();
-
-							// Replace receiver ID to receiver portrait
-							foreach($items as $key => $field){
-
-								// Retrieve user
-								$post_user						= User::where('id', $items[$key]['user_id'])->first();
-
-								// Get post user portrait real storage path and user porirait key to array
-								$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
-
-								// Get post user sex (M, F or null) and add user sex key to array
-								$items[$key]['sex']				= e($post_user->sex);
-
-								// Count how many comments of this post and add comments_count key to array
-								$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
-
-								// Get post user portrait and add portrait key to array
-								$items[$key]['nickname']		= e($post_user->nickname);
-
-								// Using expression get all picture attachments (Only with pictures stored on this server.)
-								preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
-
-								// Construct picture attachments list and add thumbnails (array format) to array
-								$items[$key]['thumbnails']		= join(',', array_pop($match));
-
-								// Get plain text from post content HTML code and replace to content value in array
-								$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
-
-								// Get forum title
-								$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
-
-								// Get forum content
-								$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
-							}
-
-							$data = array(
-									'top'	=> $top,
-									'items'	=> $items
-								);
-
-							// Build Json format
-							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 						}
 					}
 

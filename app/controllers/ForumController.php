@@ -29,7 +29,28 @@ class ForumController extends BaseController {
 
 	public function getIndex()
 	{
-		return View::make($this->resource.'.index');
+		// Determine forum open status
+		if(ForumCategories::where('id', 1)->first()->open == 1) {
+
+			// Forum is open
+			$cat2_status = 1;
+			$cat3_status = 1;
+		} else {
+
+			// Determine user sex
+			if(Auth::user()->sex == 'M') {
+
+				// Forum is close and male user can't access category 3
+				$cat2_status = true;
+				$cat3_status = false;
+			} else {
+
+				// Forum is close and female user can't access category 2
+				$cat2_status = false;
+				$cat3_status = true;
+			}
+		}
+		return View::make($this->resource.'.index')->with(compact('cat2_status', 'cat3_status'));
 	}
 
 	/**
@@ -41,18 +62,56 @@ class ForumController extends BaseController {
 	{
 		$items_per_page = Input::get('per_pg', 10);
 
-		if ($type == 'first') {
-			$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
-			$categoryCode	= 1;
-			$editorCode		= 'cat1_editor';
-		} else if ($type == 'second'){
-			$items			= ForumPost::where('block', false)->where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
-			$categoryCode	= 2;
-			$editorCode		= 'cat2_editor';
+		// Determine forum open status
+		if(ForumCategories::where('id', 1)->first()->open == 1) {
+			// Forum is opening
+			if ($type == 'first') {
+				$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+				$categoryCode	= 1;
+				$editorCode		= 'cat1_editor';
+			} else if ($type == 'second'){
+				$items			= ForumPost::where('block', false)->where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+				$categoryCode	= 2;
+				$editorCode		= 'cat2_editor';
+			} else {
+				$items			= ForumPost::where('block', false)->where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+				$categoryCode	= 3;
+				$editorCode		= 'cat3_editor';
+			}
 		} else {
-			$items			= ForumPost::where('block', false)->where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
-			$categoryCode	= 3;
-			$editorCode		= 'cat3_editor';
+
+			// Determine user sex
+			if(Auth::user()->sex == 'M') {
+				// Forum is closed only show category 1 and 2
+				if ($type == 'first') {
+					$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$categoryCode	= 1;
+					$editorCode		= 'cat1_editor';
+				} else if ($type == 'second'){
+					$items			= ForumPost::where('block', false)->where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$categoryCode	= 2;
+					$editorCode		= 'cat2_editor';
+				} else {
+					$items			= null;
+					$categoryCode	= 3;
+					$editorCode		= 'cat3_editor';
+				}
+			} else {
+				// Forum is closed only show category 1 and 3
+				if ($type == 'first') {
+					$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$categoryCode	= 1;
+					$editorCode		= 'cat1_editor';
+				} else if ($type == 'second'){
+					$items			= null;
+					$categoryCode	= 2;
+					$editorCode		= 'cat2_editor';
+				} else {
+					$items			= ForumPost::where('block', false)->where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$categoryCode	= 3;
+					$editorCode		= 'cat3_editor';
+				}
+			}
 		}
 
 		$view = View::make($this->resource.'.item-type')->with(compact('categoryCode', 'items', 'editorCode'));
