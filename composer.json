@@ -12,7 +12,7 @@
 		"indatus/dispatcher"	: "1.4.*",
 		"zhuzhichao/umeditor"	: "dev-master",
 		"jenssegers/agent"		: "*",
-		"pda/pheanstalk"		: "*"
+		"pda/pheanstalk"		: "2.0.*"
 	},
 	"autoload": {
 		"classmap": [
