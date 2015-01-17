@@ -11,7 +11,8 @@
 		"jenssegers/date"		: "*",
 		"indatus/dispatcher"	: "1.4.*",
 		"zhuzhichao/umeditor"	: "dev-master",
-		"jenssegers/agent"		: "*"
+		"jenssegers/agent"		: "*",
+		"pda/pheanstalk"		: "*"
 	},
 	"autoload": {
 		"classmap": [
