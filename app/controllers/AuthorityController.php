@@ -343,10 +343,9 @@ class AuthorityController extends BaseController
 					$user->activated_at	= date('Y-m-d H:m:s');
 					$profile->save();
 
-					// Chat Register
-
-					// If use authorizition register need get token
+					// Chat Register and if use authorizition register need get token
 					$easemob			= getEasemob();
+
 					// newRequest or newJsonRequest returns a Request object
 					$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
 						->setHeader('content-type', 'application/json')
@@ -354,6 +353,10 @@ class AuthorityController extends BaseController
 						->setHeader('Authorization', 'Bearer '.$easemob->token)
 						->setOptions([CURLOPT_VERBOSE => true])
 						->send();
+
+					// Create floder to store chat record
+					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+
 					// User signin
 					Auth::login($user);
 					// Redirect to a registration page, prompts user to activate

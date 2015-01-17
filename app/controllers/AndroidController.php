@@ -135,9 +135,8 @@ class AndroidController extends BaseController
 							$profile			= new Profile;
 							$profile->user_id	= $user->id;
 							$profile->save();
-							// Add user success
-							// Chat Register
 
+							// Add user success and chat Register
 							$easemob			= getEasemob();
 
 							// newRequest or newJsonRequest returns a Request object
