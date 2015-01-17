@@ -13,3 +13,5 @@
 
 Artisan::add(new analytics);
 Artisan::add(new chatrecord);
+Artisan::add(new forumopen);
+Artisan::add(new forumclose);
