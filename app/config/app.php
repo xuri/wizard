@@ -126,6 +126,7 @@ return array(
 		'Indatus\Dispatcher\ServiceProvider',
 		'Zhuzhichao\Umeditor\UmeditorServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
+		'anlutro\cURL\Laravel\cURLServiceProvider',
 	),
 
 	/*

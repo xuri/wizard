@@ -140,13 +140,14 @@ class AndroidController extends BaseController
 							$easemob			= getEasemob();
 
 							// newRequest or newJsonRequest returns a Request object
-							$regChat			= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
-								->setHeader('content-type', 'application/json')
-								->setHeader('Accept', 'json')
-								->setHeader('Authorization', 'Bearer '.$easemob->token)
-								->setOptions([CURLOPT_VERBOSE => true])
-								->send();
-
+							// $regChat			= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
+							// 	->setHeader('content-type', 'application/json')
+							// 	->setHeader('Accept', 'json')
+							// 	->setHeader('Authorization', 'Bearer '.$easemob->token)
+							// 	->setOptions([CURLOPT_VERBOSE => true])
+							// 	->send();
+							$data = array('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password]);
+							Queue::push('CurlQueue', $data);
 							// Create floder to store chat record
 							File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 

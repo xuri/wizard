@@ -217,37 +217,24 @@ class Admin_UserResource extends BaseResource
 			$notificationsContent->content			= Input::get('system_notification');
 			$notificationsContent->save();
 
-			$data = array(	'target_type'	=> 'users',
-							'target'		=> [$id],
-							'msg'			=> ['type' => 'cmd', 'action' => '8'],
-							'from'			=> '0',
-							'ext'			=> [
-													'content'		=> '系统消息：'.Input::get('system_notification'),
-													'id'			=> $notification->id,
-													'created_at'	=> date('m-d H:m', strtotime($notification->created_at))
-												]
-						);
-
-			Queue::push('CurlQueue', $data);
-			// $easemob								= getEasemob();
-			// // Push notifications to App client
-			// cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-			// 		'target_type'	=> 'users',
-			// 		'target'		=> [$id],
-			// 		'msg'			=> ['type' => 'cmd', 'action' => '8'],
-			// 		'from'			=> '0',
-			// 		'ext'			=> [
-			// 								'content'		=> '系统消息：'.Input::get('system_notification'),
-			// 								'id'			=> $notification->id,
-			// 								'created_at'	=> date('m-d H:m', strtotime($notification->created_at))
-			// 							]
-			// 	])
-			// 		->setHeader('content-type', 'application/json')
-			// 		->setHeader('Accept', 'json')
-			// 		->setHeader('Authorization', 'Bearer '.$easemob->token)
-			// 		->setOptions([CURLOPT_VERBOSE => true])
-			// 		->send();
-
+			$easemob								= getEasemob();
+			// Push notifications to App client
+			cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+					'target_type'	=> 'users',
+					'target'		=> [$id],
+					'msg'			=> ['type' => 'cmd', 'action' => '8'],
+					'from'			=> '0',
+					'ext'			=> [
+											'content'		=> '系统消息：'.Input::get('system_notification'),
+											'id'			=> $notification->id,
+											'created_at'	=> date('m-d H:m', strtotime($notification->created_at))
+										]
+				])
+					->setHeader('content-type', 'application/json')
+					->setHeader('Accept', 'json')
+					->setHeader('Authorization', 'Bearer '.$easemob->token)
+					->setOptions([CURLOPT_VERBOSE => true])
+					->send();
 			// Update success
 			return Redirect::back()
 				->with('success', '<strong>'.$this->resourceName.'系统消息推送成功：</strong>您可以继续推送'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
