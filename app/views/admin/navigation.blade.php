@@ -22,7 +22,7 @@
 				<li><a href="{{ route('admin') }}"><i class="fa fa-gear fa-fw"></i> 控制面板</a>
 				</li>
 				<li class="divider"></li>
-				<li><a href="{{ route('signuot') }}"><i class="fa fa-sign-out fa-fw"></i> 退出登陆</a>
+				<li><a href="{{ route('signout') }}"><i class="fa fa-sign-out fa-fw"></i> 退出登陆</a>
 				</li>
 			</ul>
 			<!-- /.dropdown-user -->

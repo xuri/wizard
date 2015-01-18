@@ -22,7 +22,11 @@
 					@endif
 
 					<div class="pi_center_top">
+						@if($data->portrait)
 						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
+						@else
+						{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('class' => 'pi_userhead lu_left')) }}
+						@endif
 						<h3 class="pi_person lu_left">个人简介</h3>
 						<p class="pi_introduce lu_left">{{ $profile->self_intro}}</p>
 					</div>

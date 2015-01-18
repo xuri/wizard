@@ -237,33 +237,18 @@ class ForumController extends BaseController {
 						// Retrieve forum notifications of post author
 						$post_author_notifications	= Notification::where('receiver_id', $forum_post->user_id)->whereIn('category', array(6, 7))->get();
 
-						$easemob		= getEasemob();
-						// Android Push notifications
-						$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
-									[
-										// Push notification to single user
-										'target_type'	=> 'users',
-										// Receiver user ID (in easemob)
-										'target'		=> [$forum_post->user_id],
-										// category = 6 Some user comments your post in forum (Get more info from app/controllers/MemberController.php)
-										'msg'			=> ['type' => 'cmd', 'action' => '6'],
-										// Sender user ID (in easemob)
-										'from'			=> Auth::user()->id,
-										// Notification body
-										'ext'			=> [
-																// Sender user ID
-																'id'		=> Auth::user()->id,
-																// Notification content
-																'content'	=> '有人评论了你的帖子，快去看看吧',
-																// Count unread notofications of receiver user
-																'unread'	=> $post_author_notifications->count()
-															]
-									])
-								->setHeader('content-type', 'application/json')
-								->setHeader('Accept', 'json')
-								->setHeader('Authorization', 'Bearer '.$easemob->token)
-								->setOptions([CURLOPT_VERBOSE => true])
-								->send();
+						// Add push notifications for App client to queue
+						Queue::push('ForumQueue', [
+													'target'	=> $forum_post->user_id,
+													'action'	=> 6,
+													'from'		=> Auth::user()->id,
+													// Notification content
+													'content'	=> '有人评论了你的帖子，快去看看吧',
+													// Sender user ID
+													'id'		=> Auth::user()->id,
+													// Count unread notofications of receiver user
+													'unread'	=> $post_author_notifications->count()
+												]);
 
 						// Create notifications
 						Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
@@ -335,33 +320,21 @@ class ForumController extends BaseController {
 
 						// Determine sender and receiver
 						if(Auth::user()->id != $comment_author->id) {
-							$easemob			= getEasemob();
-							// Android Push notifications
-							$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
-										[
-											// Push notification to single user
-											'target_type'	=> 'users',
-											// Receiver user ID (in easemob)
-											'target'		=> [$comment_author->id],
-											// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
-											'msg'			=> ['type' => 'cmd', 'action' => '7'],
-											// Sender user ID (in easemob)
-											'from'			=> Auth::user()->id,
-											// Notification body
-											'ext'			=> [
-																	// Sender user ID
-																	'id'		=> Auth::user()->id,
-																	// Notification content
-																	'content'	=> '有人回复了你的评论，快去看看吧',
-																	// Count unread notofications of receiver user
-																	'unread'	=> $comment_author_notifications->count()
-																]
-										])
-									->setHeader('content-type', 'application/json')
-									->setHeader('Accept', 'json')
-									->setHeader('Authorization', 'Bearer '.$easemob->token)
-									->setOptions([CURLOPT_VERBOSE => true])
-									->send();
+
+							// Add push notifications for App client to queue
+							Queue::push('ForumQueue', [
+														'target'	=> $comment_author->id,
+														// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+														'action'	=> 7,
+														// Sender user ID
+														'from'		=> Auth::user()->id,
+														// Notification content
+														'content'	=> '有人回复了你的评论，快去看看吧',
+														// Sender user ID
+														'id'		=> Auth::user()->id,
+														// Count unread notofications of receiver user
+														'unread'	=> $comment_author_notifications->count()
+													]);
 
 							// Create notifications
 							Notifications(7, Auth::user()->id, $comment_author->id, $forum_post->category_id, $id, Input::get('comments_id'), $reply->id);

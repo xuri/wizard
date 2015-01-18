@@ -72,9 +72,12 @@
 }
 
 .new_main_head {
-	width: 42px;
+	width: 50px;
 	height: 50px;
 	float: left;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 .new_main_sex {

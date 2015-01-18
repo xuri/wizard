@@ -136,17 +136,16 @@ class AndroidController extends BaseController
 							$profile->user_id	= $user->id;
 							$profile->save();
 
-							Queue::push('CurlQueue', ['id' => $user->id, 'password' => $user->password]);
-							// // Add user success and chat Register
-							// $easemob			= getEasemob();
+							// Add user success and chat Register
+							$easemob			= getEasemob();
 
-							// // newRequest or newJsonRequest returns a Request object
-							// $regChat			= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
-							// 	->setHeader('content-type', 'application/json')
-							// 	->setHeader('Accept', 'json')
-							// 	->setHeader('Authorization', 'Bearer '.$easemob->token)
-							// 	->setOptions([CURLOPT_VERBOSE => true])
-							// 	->send();
+							// newRequest or newJsonRequest returns a Request object
+							$regChat			= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
+								->setHeader('content-type', 'application/json')
+								->setHeader('Accept', 'json')
+								->setHeader('Authorization', 'Bearer '.$easemob->token)
+								->setOptions([CURLOPT_VERBOSE => true])
+								->send();
 
 							// Create floder to store chat record
 							File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
@@ -520,12 +519,12 @@ class AndroidController extends BaseController
 					$rules	= array(
 						'id'			=> 'required',
 						'receiverid'	=> 'required',
-						'answer'		=> 'required|min:3',
+						//'answer'		=> 'required|min:3',
 					);
 					// Custom validation message
 					$messages = array(
 						'answer.required'     => '请回答爱情考验问题。',
-						'answer.min'          => '至少要写:min个字哦。',
+						//'answer.min'          => '至少要写:min个字哦。',
 					);
 
 					// Begin verification
@@ -545,26 +544,19 @@ class AndroidController extends BaseController
 								if($have_like->save() && $user->save())
 								{
 									Notification(2, $user->id, $receiver_id); // Some user re-liked you
-									$easemob		= getEasemob();
-									// Push notifications to App client
-									cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-											'target_type'	=> 'users',
-											'target'		=> [$receiver_id],
-											'msg'			=> ['type' => 'cmd', 'action' => '2'],
-											'from'			=> $user->id,
-											'ext'			=> [
-																	'content'	=> $user->nickname.'又追你了，快去查看一下吧',
-																	'id'		=> Input::get('id'),
-																	'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
-																	'nickname'	=> $user->nickname,
-																	'answer'	=> Input::get('answer')
-																]
-										])
-											->setHeader('content-type', 'application/json')
-											->setHeader('Accept', 'json')
-											->setHeader('Authorization', 'Bearer '.$easemob->token)
-											->setOptions([CURLOPT_VERBOSE => true])
-											->send();
+
+									// Add push notifications for App client to queue
+									Queue::push('LikeQueue', [
+																'target'	=> $receiver_id,
+																'action'	=> 2,
+																'from'		=> $user->id,
+																'content'	=> $user->nickname.'又追你了，快去查看一下吧',
+																'id'		=> Input::get('id'),
+																'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
+																'nickname'	=> $user->nickname,
+																'answer'	=> Input::get('answer')
+															]);
+
 									return Response::json(
 										array(
 											'status' 		=> 1
@@ -582,26 +574,19 @@ class AndroidController extends BaseController
 								if($like->save() && $user->save())
 								{
 									Notification(1, $user->id, $receiver_id); // Some user first like you
-									$easemob		= getEasemob();
-									// Push notifications to App client
-									cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-											'target_type'	=> 'users',
-											'target'		=> [$receiver_id],
-											'msg'			=> ['type' => 'cmd', 'action' => '1'],
-											'from'			=> $user->id,
-											'ext'			=> [
-																	'content'	=> $user->nickname.'追你了，快去查看一下吧',
-																	'id'		=> Input::get('id'),
-																	'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
-																	'nickname'	=> $user->nickname,
-																	'answer'	=> Input::get('answer')
-																]
-										])
-											->setHeader('content-type', 'application/json')
-											->setHeader('Accept', 'json')
-											->setHeader('Authorization', 'Bearer '.$easemob->token)
-											->setOptions([CURLOPT_VERBOSE => true])
-											->send();
+
+									// Add push notifications for App client to queue
+									Queue::push('LikeQueue', [
+																'target'	=> $receiver_id,
+																'action'	=> 1,
+																'from'		=> $user->id,
+																'content'	=> $user->nickname.'追你了，快去查看一下吧',
+																'id'		=> Input::get('id'),
+																'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
+																'nickname'	=> $user->nickname,
+																'answer'	=> Input::get('answer')
+															]);
+
 									return Response::json(
 										array(
 											'status' 		=> 1
@@ -1647,8 +1632,8 @@ class AndroidController extends BaseController
 							// Build Data Array
 							$data = array(
 								'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-								'sex'			=> $author->sex, // Post user sex
-								'nickname'		=> $author->nickname, // Post user nickname
+								'sex'			=> e($author->sex), // Post user sex
+								'nickname'		=> e($author->nickname), // Post user nickname
 								'user_id'		=> $author->id, // Post user ID
 								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
@@ -1684,10 +1669,10 @@ class AndroidController extends BaseController
 								$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
 								// Comments user sex
-								$comments[$key]['user_sex']			= $comments_user->sex;
+								$comments[$key]['user_sex']			= e($comments_user->sex);
 
 								// Comments user nickname
-								$comments[$key]['user_nickname']	= $comments_user->nickname;
+								$comments[$key]['user_nickname']	= e($comments_user->nickname);
 
 								// Query all replies of this post
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
@@ -1722,8 +1707,8 @@ class AndroidController extends BaseController
 							// Build Data Array
 							$data = array(
 								'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-								'sex'			=> $author->sex, // Post user sex
-								'nickname'		=> $author->nickname, // Post user nickname
+								'sex'			=> e($author->sex), // Post user sex
+								'nickname'		=> e($author->nickname), // Post user nickname
 								'user_id'		=> $author->id, // Post user ID
 								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
@@ -1760,10 +1745,10 @@ class AndroidController extends BaseController
 							$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
 							// Comments user sex
-							$comments[$key]['user_sex']			= $comments_user->sex;
+							$comments[$key]['user_sex']			= e($comments_user->sex);
 
 							// Comments user nickname
-							$comments[$key]['user_nickname']	= $comments_user->nickname;
+							$comments[$key]['user_nickname']	= e($comments_user->nickname);
 
 							// Removing contents html tags except image and text string
 							$comments[$key]['content']			= strip_tags($comments[$key]['content'], '<img>');
@@ -1785,7 +1770,7 @@ class AndroidController extends BaseController
 								$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
 
 								// Reply user sex
-								$replies[$keys]['sex']		= $reply_user->sex;
+								$replies[$keys]['sex']		= e($reply_user->sex);
 
 								// Reply user portrait
 								$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
@@ -1833,33 +1818,18 @@ class AndroidController extends BaseController
 
 								$unread = $post_author_notifications->count() + 1;
 
-								$easemob		= getEasemob();
-								// Android Push notifications
-								$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
-											[
-												// Push notification to single user
-												'target_type'	=> 'users',
-												// Receiver user ID (in easemob)
-												'target'		=> [$post_author->user_id],
-												// category = 6 Some user comments your post in forum (Get more info from app/controllers/MemberController.php)
-												'msg'			=> ['type' => 'cmd', 'action' => '6'],
-												// Sender user ID (in easemob)
-												'from'			=> $user_id,
-												// Notification body
-												'ext'			=> [
-																		// Sender user ID
-																		'id'		=> $user_id,
-																		// Notification content
-																		'content'	=> '有人评论了你的帖子，快去看看吧',
-																		// Count unread notofications of receiver user
-																		'unread'	=> $unread
-																	]
-											])
-										->setHeader('content-type', 'application/json')
-										->setHeader('Accept', 'json')
-										->setHeader('Authorization', 'Bearer '.$easemob->token)
-										->setOptions([CURLOPT_VERBOSE => true])
-										->send();
+								// Add push notifications for App client to queue
+								Queue::push('ForumQueue', [
+															'target'	=> $post_author->user_id,
+															'action'	=> 6,
+															'from'		=> $user_id,
+															// Notification content
+															'content'	=> '有人评论了你的帖子，快去看看吧',
+															// Sender user ID
+															'id'		=> $user_id,
+															// Count unread notofications of receiver user
+															'unread'	=> $unread
+														]);
 
 								// Create notifications
 								Notifications(6, $user_id, $forum_post->user_id, $forum_post->category_id, $post_id, $comment->id, null);
@@ -1902,33 +1872,21 @@ class AndroidController extends BaseController
 
 							// Determine sender and receiver
 							if($user_id != $comment_author->id) {
-								$easemob						= getEasemob();
-								// Android Push notifications
-								$push_notifications = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages',
-											[
-												// Push notification to single user
-												'target_type'	=> 'users',
-												// Receiver user ID (in easemob)
-												'target'		=> [$comment_author->id],
-												// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
-												'msg'			=> ['type' => 'cmd', 'action' => '7'],
-												// Sender user ID (in easemob)
-												'from'			=> $user_id,
-												// Notification body
-												'ext'			=> [
-																		// Sender user ID
-																		'id'		=> $user_id,
-																		// Notification content
-																		'content'	=> '有人回复了你的评论，快去看看吧',
-																		// Count unread notofications of receiver user
-																		'unread'	=> $unread
-																	]
-											])
-										->setHeader('content-type', 'application/json')
-										->setHeader('Accept', 'json')
-										->setHeader('Authorization', 'Bearer '.$easemob->token)
-										->setOptions([CURLOPT_VERBOSE => true])
-										->send();
+
+								// Add push notifications for App client to queue
+								Queue::push('ForumQueue', [
+															'target'	=> $comment_author->id,
+															// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+															'action'	=> 7,
+															// Sender user ID
+															'from'		=> $user_id,
+															// Notification content
+															'content'	=> '有人回复了你的评论，快去看看吧',
+															// Sender user ID
+															'id'		=> $user_id,
+															// Count unread notofications of receiver user
+															'unread'	=> $unread
+														]);
 
 								// Create notifications
 								Notifications(7, $user_id, $comment_author->id, $forum_post->category_id, $post_id, $comment->id, $reply->id);

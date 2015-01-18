@@ -169,23 +169,22 @@ class MemberController extends BaseController {
 							if($have_like->save() && Auth::user()->save())
 							{
 								$notification	= Notification(2, Auth::user()->id, $id); // Some user re-liked you
-								$easemob		= getEasemob();
-								// Push notifications to App client
-								cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-										'target_type'	=> 'users',
-										'target'		=> [$id],
-										'msg'			=> ['type' => 'cmd', 'action' => '2'],
-										'from'			=> Auth::user()->id,
-										'ext'			=> ['content' => '用户'.Auth::user()->nickname.'再次追你了', 'id' => Auth::user()->id]
-									])
-										->setHeader('content-type', 'application/json')
-										->setHeader('Accept', 'json')
-										->setHeader('Authorization', 'Bearer '.$easemob->token)
-										->setOptions([CURLOPT_VERBOSE => true])
-										->send();
+
+								// Add push notifications for App client to queue
+								Queue::push('LikeQueue', [
+															'target'	=> $id,
+															'action'	=> 2,
+															'from'		=> Auth::user()->id,
+															'content'	=> Auth::user()->nickname . '又追你了，快去查看一下吧',
+															'id'		=> Auth::user()->id,
+															'portrait'	=> route('home') . '/' . 'portrait/' . Auth::user()->portrait,
+															'nickname'	=> Auth::user()->nickname,
+															'answer'	=> Input::get('answer')
+														]);
+
 								return Redirect::route('account.sent')
-								->withInput()
-								->with('success', '发送成功，静待缘分到来吧。');
+									->withInput()
+									->with('success', '发送成功，静待缘分到来吧。');
 							}
 						} else { // First like
 							$like					= new Like();
@@ -198,20 +197,19 @@ class MemberController extends BaseController {
 							if($like->save() && Auth::user()->save())
 							{
 								$notification	= Notification(1, Auth::user()->id, $id); // Some user first like you
-								$easemob		= getEasemob();
-								// Push notifications to App client
-								cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-										'target_type'	=> 'users',
-										'target'		=> [$id],
-										'msg'			=> ['type' => 'cmd', 'action' => '1'],
-										'from'			=> Auth::user()->id,
-										'ext'			=> ['content' => '用户'.Auth::user()->nickname.'追你了', 'id' => Auth::user()->id]
-									])
-										->setHeader('content-type', 'application/json')
-										->setHeader('Accept', 'json')
-										->setHeader('Authorization', 'Bearer '.$easemob->token)
-										->setOptions([CURLOPT_VERBOSE => true])
-										->send();
+
+								// Add push notifications for App client to queue
+								Queue::push('LikeQueue', [
+															'target'	=> $id,
+															'action'	=> 1,
+															'from'		=> Auth::user()->id,
+															'content'	=> Auth::user()->nickname . '追你了，快去查看一下吧',
+															'id'		=> Auth::user()->id,
+															'portrait'	=> route('home') . '/' . 'portrait/' . Auth::user()->portrait,
+															'nickname'	=> Auth::user()->nickname,
+															'answer'	=> Input::get('answer')
+														]);
+
 								return Redirect::route('account.sent')
 									->withInput()
 									->with('success', '发送成功，静待缘分到来吧。');
