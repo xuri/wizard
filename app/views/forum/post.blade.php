@@ -25,11 +25,13 @@
 				<div class="message-re message-border clear">
 					<div class="re-headImg-box">
 						<div class="re-headImg">
-							@if($author->portrait)
-							{{ HTML::image('portrait/'.$author->portrait) }}
-							@else
-							{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
-							@endif
+							<a href="{{ route('members.show', $author->id) }}">
+								@if($author->portrait)
+								{{ HTML::image('portrait/'.$author->portrait) }}
+								@else
+								{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+								@endif
+							</a>
 						</div>
 						@if($author->sex == 'M')
 						{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
@@ -42,7 +44,7 @@
 					<p class="m-reply">{{ $data->content }}</p>
 
 					<ul class="reply">
-						<li><a href="#" class="a-color-grey">举报</a></li>
+						<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
 						<li>1楼</li>
 						<li>{{ date("Y-m-d H:m",strtotime($data->created_at)) }}</li>
 						<li><a href="#create_comment" class="a-color-pink smooth">回复</a></li>
@@ -59,23 +61,25 @@
 						<div class="message-re clear">
 							<div class="re-headImg-box">
 								<div class="re-headImg">
-									@if($user->portrait)
-									{{ HTML::image('portrait/'.$user->portrait) }}
-									@else
-									{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
-									@endif
+									<a href="{{ route('members.show', $user->id) }}">
+										@if($user->portrait)
+										{{ HTML::image('portrait/'.$user->portrait) }}
+										@else
+										{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+										@endif
+									</a>
 								</div>
 								@if($user->sex == 'M')
 								{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
 								@else
 								{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left sexImg')) }}
 								@endif
-								<a href="{{ route('members.show', $comment->user_id) }}" class="m-h3">{{ $user->nickname }}</a>
+								<a href="{{ route('members.show', $user->user_id) }}" class="m-h3">{{ $user->nickname }}</a>
 							</div>
 							<p class="g-reply">{{ $comment->content }}</p>
 
 							<ul class="reply">
-								<li><a href="#" class="a-color-grey">举报</a></li>
+								<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
 								<li>{{ $floor ++ }}楼</li>
 								<li>{{ date("Y-m-d H:m",strtotime($comment->created_at)) }}</li>
 								<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
@@ -101,11 +105,13 @@
 									?>
 									<div>
 										<span class="imgSpan">
-											@if($reply_user->portrait)
-											{{ HTML::image('portrait/'.$reply_user->portrait) }}
-											@else
-											{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
-											@endif
+											<a href="{{ route('members.show', $reply_user->id) }}">
+												@if($reply_user->portrait)
+												{{ HTML::image('portrait/'.$reply_user->portrait) }}
+												@else
+												{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+												@endif
+											</a>
 										</span>
 										@if($reply_user->sex == 'M')
 										{{ HTML::image('assets/images/symbol.png', '', array('class' => 'o-sexImg')) }}

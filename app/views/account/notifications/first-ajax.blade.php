@@ -20,7 +20,7 @@
 	<a href="{{ route('members.show', $sender->id) }}" class="new_main_name">{{ $sender->nickname }}</a>
 	<h3 class="new_main_school">{{ $sender->school }}</h6>
 	<span class="new_main_time">{{ date("m-d H:m",strtotime($friendNotification->created_at)) }}</span>
-	<p>{{ $notifications['content'] }}</p>
+	<p class="list_1">{{ $notifications['content'] }}</p>
 	<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">查看</a>
 </li>
 @endforeach

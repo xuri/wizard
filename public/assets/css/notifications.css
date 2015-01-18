@@ -116,22 +116,23 @@
 	top: 48px;
 }
 
-#new_main_system li {
-	border-bottom: 1px solid #ddd;
-	margin: 0.5em auto;
-}
-
-.new_main p, .new_main_state {
+.new_main .list_1, .new_main_state {
 	height: 20px;
 	line-height: 20px;
 }
 
-.new_main p {
+.list_1 {
 	width: 530px;
 	padding-left: 10px;
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+}
+
+.list_3 {
+	padding: 10px;
+	font-size: 14px;
+	line-height: 28px;
 }
 
 .new_main_reply {
@@ -317,7 +318,7 @@ body {
 	border-radius: 3px;
 	position: absolute;
 	left: 34px;
-	top: -120px;
+	top: -10px;
 	background: #fff;
 	z-index: 1;
 	display: none;

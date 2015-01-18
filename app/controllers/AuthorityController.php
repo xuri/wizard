@@ -51,7 +51,7 @@ class AuthorityController extends BaseController
 			'password' => md5(Input::get('password')
 		));
 		// Remember login status
-		// $remember    = Input::get('remember-me', 1);
+		$remember    = Input::get('remember-me', 1);
 		// Verify signin
 		if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
 			// Signin success, redirect to the previous page that was blocked

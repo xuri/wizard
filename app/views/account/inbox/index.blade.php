@@ -23,7 +23,7 @@
 					<li><a href="{{ route('forum.index') }}" class="a3 fa fa-user" target="_blank">&nbsp;&nbsp;&nbsp;单身公寓</a></li>
 					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o" target="_blank">&nbsp;&nbsp;&nbsp;我的帖子</a></li>
 					<li><a href="{{ route('support.index') }}" class="a5 fa fa-life-ring" target="_blank">&nbsp;&nbsp;&nbsp;联系客服</a></li>
-					<li><a href="{{ route('home') }}" class="a5 fa fa-bookmark" target="_blank">&nbsp;&nbsp;&nbsp;关于我们</a></li>
+					<li><a href="{{ route('home') }}/article/about.html" class="a5 fa fa-bookmark" target="_blank">&nbsp;&nbsp;&nbsp;关于我们</a></li>
 				</ul>
 				<div id="download">
 					<div>移动客户端下载</div>

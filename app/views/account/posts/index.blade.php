@@ -5,7 +5,7 @@
 	@yield('content')
 
 	<div id="content" class="clear">
-		<div class="con_title">我的来信</div>
+		<div class="con_title">我的帖子</div>
 		<div class="con_img">
 			<span class="line1"></span>
 			<span class="line2"></span>
@@ -23,7 +23,7 @@
 					<li><a href="{{ route('forum.index') }}" class="a3 fa fa-user">&nbsp;&nbsp;&nbsp;单身公寓</a></li>
 					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o active">&nbsp;&nbsp;&nbsp;我的帖子</a></li>
 					<li><a href="{{ route('support.index') }}" class="a5 fa fa-life-ring">&nbsp;&nbsp;&nbsp;联系客服</a></li>
-					<li><a href="{{ route('home') }}" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关于我们</a></li>
+					<li><a href="{{ route('home') }}/article/about.html" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关于我们</a></li>
 				</ul>
 				<div id="download">
 					<div>移动客户端下载</div>

@@ -17,7 +17,7 @@
 
 		            <div class="row">
 
-		                <div class="col-6 col-sm-6 col-lg-12 panel">
+		                <div class="col-12 col-sm-12 col-lg-12 panel">
 		                    <h2>{{ $article->title }}</h2>
 		                    <hr />
 		                    <p>

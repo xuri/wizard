@@ -593,7 +593,7 @@ button.reply_comment_submit {
 	float: right;
 	margin-right: 30px;
 	margin-left: 200px;
-	width: 40px;
+	width: 50px;
 	height: 20px;
 	border: 1px solid #ef698a;
 	border-radius: 3px;
@@ -607,7 +607,7 @@ button.reply_comment_submit {
 	float: right;
 	margin-right: 20px;
 	margin-left: 200px;
-	width: 40px;
+	width: 50px;
 	height: 20px;
 	border: 1px solid #ef698a;
 	border-radius: 3px;
