@@ -1238,13 +1238,10 @@ class iOSController extends BaseController
 							$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 							// Get plain text from post content HTML code and replace to content value in array
-							$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+							$items[$key]['content']			= str_ireplace("\n", '', getplaintextintrofromhtml($items[$key]['content'], $numchars));
 
 							// Get forum title
 							$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
-
-							// Get forum content
-							$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
 						}
 
 						// Build Json format
@@ -1305,9 +1302,6 @@ class iOSController extends BaseController
 
 									// Get forum top post title
 									$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
-
-									// Get forum top post content
-									$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
 								}
 
 								// Query all items from database
@@ -1345,13 +1339,10 @@ class iOSController extends BaseController
 									$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 									// Get plain text from post content HTML code and replace to content value in array
-									$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+									$items[$key]['content']			= str_ireplace("\n", '',getplaintextintrofromhtml($items[$key]['content'], $numchars));
 
 									// Get forum title
 									$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
-
-									// Get forum content
-									$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
 								}
 
 								$data = array(
@@ -1421,13 +1412,10 @@ class iOSController extends BaseController
 											$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+											$top[$key]['content']			= str_ireplace("\n", '',getplaintextintrofromhtml($top[$key]['content'], $numchars));
 
 											// Get forum top post title
 											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
-
-											// Get forum top post content
-											$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
 										}
 
 										// Query all items from database
@@ -1469,9 +1457,6 @@ class iOSController extends BaseController
 
 											// Get forum title
 											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
-
-											// Get forum content
-											$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
 										}
 
 										$data = array(
@@ -1540,9 +1525,6 @@ class iOSController extends BaseController
 
 											// Get forum top post title
 											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
-
-											// Get forum top post content
-											$top[$key]['content']			= e(Str::limit($top[$key]['content'], 300));
 										}
 
 										// Query all items from database
@@ -1584,9 +1566,6 @@ class iOSController extends BaseController
 
 											// Get forum title
 											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
-
-											// Get forum content
-											$items[$key]['content']			= e(Str::limit($items[$key]['content'], 300));
 										}
 
 										$data = array(
@@ -1612,12 +1591,13 @@ class iOSController extends BaseController
 
 					$perpage	= Input::get('perpage', 10);
 
+					// Define breaks convert rules
+					$breaks		= array("<br />","<br>","<br/>");
+
 					// If Android have post last user id
 					if($lastid == null) {
 
-						// First get data from Android client
-
-						// Retrieve post data
+						// First get data from Android client and Retrieve post data
 						$post		= ForumPost::where('id', $postid)->first();
 
 						// Retrieve user data of this post
@@ -1637,7 +1617,7 @@ class iOSController extends BaseController
 								'user_id'		=> $author->id, // Post user ID
 								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-								'content'		=> strip_tags(convertBr($post->content), '<img>'), // Post content (removing contents html tags except image and text string)
+								'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
 								'comments'		=> array(), // Post comments (array format and include reply)
 								'title'			=> $post->title // Post title
 
@@ -1646,6 +1626,7 @@ class iOSController extends BaseController
 							// Build Json format
 							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 						} else {
+
 							// Query all comments of this post
 							$comments	= ForumComments::where('post_id', $postid)
 												->orderBy('created_at' , 'asc')
@@ -1664,7 +1645,7 @@ class iOSController extends BaseController
 								$comments[$key]['user_id']			= $comments_user->id;
 
 								// Removing contents html tags except image and text string
-								$comments[$key]['content']			= strip_tags($comments[$key]['content'], '<img>');
+								$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
 								// Comments user portrait
 								$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
@@ -1694,6 +1675,8 @@ class iOSController extends BaseController
 									// Reply user sex
 									$replies[$keys]['sex']		= $reply_user->sex;
 
+									$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
+
 									// Reply user portrait
 									$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
 
@@ -1712,7 +1695,7 @@ class iOSController extends BaseController
 								'user_id'		=> $author->id, // Post user ID
 								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
 								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-								'content'		=> strip_tags(convertBr($post->content), '<img>'), // Post content (removing contents html tags except image and text string)
+								'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
 								'comments'		=> $comments, // Post comments (array format and include reply)
 								'title'			=> $post->title // Post title
 
@@ -1751,7 +1734,8 @@ class iOSController extends BaseController
 							$comments[$key]['user_nickname']	= e($comments_user->nickname);
 
 							// Removing contents html tags except image and text string
-							$comments[$key]['content']			= strip_tags($comments[$key]['content'], '<img>');
+							$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
+
 							// Query all replies of this post
 							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 										->select('id', 'user_id', 'content', 'created_at')
@@ -1771,6 +1755,8 @@ class iOSController extends BaseController
 
 								// Reply user sex
 								$replies[$keys]['sex']		= e($reply_user->sex);
+
+								$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
 
 								// Reply user portrait
 								$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
@@ -1797,7 +1783,7 @@ class iOSController extends BaseController
 				case 'forum_postcomment' :
 					$user_id	= Input::get('userid');
 					$post_id	= Input::get('postid');
-					$content	= Input::get('content');
+					$content	= nl2br(Input::get('content'), true);
 					$forum_post	= ForumPost::where('id', $post_id)->first();
 					// Select post type
 					if(Input::get('type') == 'comments') // Post comments
@@ -1849,7 +1835,7 @@ class iOSController extends BaseController
 					} else {
 						// Post reply
 						$reply_id			= Input::get('replyid');
-						$comments_id		= Input::get('commentid');
+						$comments_id		= nl2br(Input::get('commentid'), true);
 
 						// Create comments reply
 						$reply				= new ForumReply;

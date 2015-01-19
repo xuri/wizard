@@ -8,14 +8,16 @@
 </script>
 
 {{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
-{{ HTML::script('assets/js/jingling.js') }}
-{{ HTML::script('assets/js/color.js') }}
-{{ HTML::script('assets/js/courtship.js') }}
-{{ HTML::script('assets/remodal-0.3.0/jquery.remodal.js') }}
-{{-- Easemob Web IM SDK --}}
-{{ HTML::script('assets/easymob-webim1.0/strophe-custom-1.0.0.js') }}
-{{ HTML::script('assets/easymob-webim1.0/json2.js') }}
-{{ HTML::script('assets/easymob-webim1.0/easemob.im-1.0.0.js') }}
-{{ HTML::script('assets/js/inbox_chat.js') }}
+
+{{ Minify::javascript(array(
+	'/assets/js/jingling.js',
+	'/assets/js/color.js',
+	'/assets/js/courtship.js',
+	'/assets/remodal-0.3.0/jquery.remodal.js',
+	'/assets/easymob-webim1.0/strophe-custom-1.0.0.js',
+	'/assets/easymob-webim1.0/json2.js',
+	'/assets/easymob-webim1.0/easemob.im-1.0.0.js',
+	'/assets/js/inbox_chat.js'
+)) }}
 </body>
 </html>

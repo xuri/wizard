@@ -127,6 +127,7 @@ return array(
 		'Zhuzhichao\Umeditor\UmeditorServiceProvider',
 		'Jenssegers\Agent\AgentServiceProvider',
 		'anlutro\cURL\Laravel\cURLServiceProvider',
+		'CeesVanEgmond\Minify\MinifyServiceProvider',
 	),
 
 	/*

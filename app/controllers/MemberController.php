@@ -175,8 +175,11 @@ class MemberController extends BaseController {
 															'target'	=> $id,
 															'action'	=> 2,
 															'from'		=> Auth::user()->id,
+
+															// Notification ID
+															'id' 		=> e($notification->id),
 															'content'	=> Auth::user()->nickname . '又追你了，快去查看一下吧',
-															'id'		=> Auth::user()->id,
+															'sender_id'	=> e(Auth::user()->id),
 															'portrait'	=> route('home') . '/' . 'portrait/' . Auth::user()->portrait,
 															'nickname'	=> Auth::user()->nickname,
 															'answer'	=> Input::get('answer')
@@ -203,8 +206,11 @@ class MemberController extends BaseController {
 															'target'	=> $id,
 															'action'	=> 1,
 															'from'		=> Auth::user()->id,
+
+															// Notification ID
+															'id'		=> e($notification->id),
 															'content'	=> Auth::user()->nickname . '追你了，快去查看一下吧',
-															'id'		=> Auth::user()->id,
+															'sender_id'	=> e(Auth::user()->id),
 															'portrait'	=> route('home') . '/' . 'portrait/' . Auth::user()->portrait,
 															'nickname'	=> Auth::user()->nickname,
 															'answer'	=> Input::get('answer')
@@ -245,22 +251,36 @@ class MemberController extends BaseController {
 				$like->status	= 1; // Receiver accept like
 
 				$easemob		= getEasemob();
+
 				// Add friend relationship in chat system and start chat
-				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
-						->setHeader('content-type', 'application/json')
-						->setHeader('Accept', 'json')
-						->setHeader('Authorization', 'Bearer '.$easemob->token)
-						->setOptions([CURLOPT_VERBOSE => true])
-						->send();
-				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.Auth::user()->id)
-						->setHeader('content-type', 'application/json')
-						->setHeader('Accept', 'json')
-						->setHeader('Authorization', 'Bearer '.$easemob->token)
-						->setOptions([CURLOPT_VERBOSE => true])
-						->send();
+				Queue::push('AddFriendQueue', [
+											'user_id'	=> Auth::user()->id,
+											'friend_id'	=> $id,
+										]);
+				Queue::push('AddFriendQueue', [
+											'user_id'	=> $id,
+											'friend_id'	=> Auth::user()->id,
+										]);
+
 				if($like->save())
 				{
-					Notification(3, Auth::user()->id, $id); // Some user accept you like
+					$notification = Notification(3, Auth::user()->id, $id); // Some user accept you like
+
+					// Add push notifications for App client to queue
+					Queue::push('LikeQueue', [
+												'target'	=> $id,
+												'action'	=> 3,
+												'from'		=> Auth::user()->id,
+
+												// Notification ID
+												'id'		=> e($notification->id),
+												'content'	=> Auth::user()->nickname . '接受了你的邀请，快去查看一下吧',
+												'sender_id'	=> e(Auth::user()->id),
+												'portrait'	=> route('home') . '/' . 'portrait/' . Auth::user()->portrait,
+												'nickname'	=> e(Auth::user()->nickname),
+												'answer'	=> null
+											]);
+
 					return Redirect::route('account.inbox')
 						->withInput()
 						->with('success', '添加好友成功！');
@@ -274,38 +294,34 @@ class MemberController extends BaseController {
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
 				$like->status	= 3; // Receiver block user, remove friend relationship in chat system
 
-				$easemob		= getEasemob();
 				// Remove friend relationship in chat system
-				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
-						->setHeader('content-type', 'application/json')
-						->setHeader('Accept', 'json')
-						->setHeader('Authorization', 'Bearer '.$easemob->token)
-						->setOptions([CURLOPT_VERBOSE => true])
-						->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
-						->send();
-				cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.Auth::user()->id)
-						->setHeader('content-type', 'application/json')
-						->setHeader('Accept', 'json')
-						->setHeader('Authorization', 'Bearer '.$easemob->token)
-						->setOptions([CURLOPT_VERBOSE => true])
-						->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
-						->send();
+				Queue::push('DeleteFriendQueue', [
+											'user_id'	=> Auth::user()->id,
+											'block_id'	=> $id,
+										]);
+				Queue::push('DeleteFriendQueue', [
+											'user_id'	=> $id,
+											'block_id'	=> Auth::user()->id,
+										]);
 				if($like->save())
 				{
-					$notification = Notification(5, Auth::user()->id, $id); // Some user blocked you
+					// Some user blocked you
+					$notification = Notification(5, Auth::user()->id, $id);
+
 					// Push notifications to App client
-					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-							'target_type'	=> 'users',
-							'target'		=> [$id],
-							'msg'			=> ['type' => 'cmd', 'action' => '5'],
-							'from'			=> $receiver_id,
-							'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'把你加入了黑名单', 'id' => $notification->id]
-						])
-							->setHeader('content-type', 'application/json')
-							->setHeader('Accept', 'json')
-							->setHeader('Authorization', 'Bearer '.$easemob->token)
-							->setOptions([CURLOPT_VERBOSE => true])
-							->send();
+					// cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+					// 		'target_type'	=> 'users',
+					// 		'target'		=> [$id],
+					// 		'msg'			=> ['type' => 'cmd', 'action' => '5'],
+					// 		'from'			=> Auth::user()->id,
+					// 		'ext'			=> ['content' => User::where('id', Auth::user()->id)->first()->nickname.'把你加入了黑名单', 'id' => $notification->id]
+					// 	])
+					// 		->setHeader('content-type', 'application/json')
+					// 		->setHeader('Accept', 'json')
+					// 		->setHeader('Authorization', 'Bearer '.$easemob->token)
+					// 		->setOptions([CURLOPT_VERBOSE => true])
+					// 		->send();
+
 					return Redirect::back()
 						->withInput()
 						->with('success', '拉黑成功。');
@@ -317,17 +333,19 @@ class MemberController extends BaseController {
 			break;
 			case 'sender_block' :
 				$like			= Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
-				$like->status	= 4; // Sender block receiver user, remove friend relationship in chat system
 
-				$easemob		= getEasemob();
+				// Sender block receiver user, remove friend relationship in chat system
+				$like->status	= 4;
+
 				// Remove friend relationship in chat system
-				$regChat		= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.Auth::user()->id.'/contacts/users/'.$id)
-						->setHeader('content-type', 'application/json')
-						->setHeader('Accept', 'json')
-						->setHeader('Authorization', 'Bearer '.$easemob->token)
-						->setOptions([CURLOPT_VERBOSE => true])
-						->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
-						->send();
+				Queue::push('DeleteFriendQueue', [
+											'user_id'	=> $id,
+											'block_id'	=> Auth::user()->id,
+										]);
+				Queue::push('DeleteFriendQueue', [
+											'user_id'	=> Auth::user()->id,
+											'block_id'	=> $id,
+										]);
 
 				if($like->save())
 				{

@@ -78,7 +78,11 @@
 								$Days   = round(($d1-$d2)/3600/24);
 							?>
 							<li class="preLi">
-							{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186', 'class' => '_headPic')) }}
+							@if($user->portrait)
+								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186', 'class' => '_headPic')) }}
+							@else
+							{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '186', 'height' => '186', 'class' => '_headPic')) }}
+							@endif
 							{{ Form::open(array(
 									'action' => array('MemberController@like', $user->id)
 								))

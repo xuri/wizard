@@ -5,9 +5,12 @@
 	@include('layout.meta')
 	@yield('content')
 
-	{{ HTML::style('assets/css/reset.css') }}
-	{{ HTML::style('assets/css/nav.css') }}
-	{{ HTML::style('assets/css/getPasswordBack.css') }}
+	{{ Minify::stylesheet(array(
+		'/assets/css/reset.css',
+		'/assets/css/nav.css',
+		'/assets/css/getPasswordBack.css'
+	)) }}
+
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 </head>
 <body>

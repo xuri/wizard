@@ -6,11 +6,15 @@
 	@include('layout.meta')
 	@yield('content')
 
-	{{ HTML::style('assets/css/reset.css') }}
-	{{ HTML::style('assets/css/forum-post.css') }}
-	{{ HTML::style('assets/css/nav.css') }}
-	{{ HTML::style('assets/fancybox-2.1.5/jquery.fancybox.css') }}
 	{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
+
+	{{ HTML::style('assets/fancybox-2.1.5/jquery.fancybox.css') }}
+
+	{{ Minify::stylesheet(array(
+		'/assets/css/reset.css',
+		'/assets/css/nav.css',
+		'/assets/css/forum-post.css'
+	)) }}
 
 	@include('layout.theme')
 	@yield('content')

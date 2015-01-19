@@ -6,12 +6,15 @@
 	@include('layout.meta')
 	@yield('content')
 
-	{{ HTML::style('assets/css/reset.css') }}
-	{{ HTML::style('assets/css/courtship.css') }}
-	{{ HTML::style('assets/css/nav.css') }}
 	{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
-	{{ HTML::style('assets/remodal-0.3.0/jquery.remodal.css') }}
-	{{ HTML::style('assets/css/chat.css') }}
+
+	{{ Minify::stylesheet(array(
+		'/assets/css/reset.css',
+		'/assets/css/nav.css',
+		'/assets/css/courtship.css',
+		'/assets/remodal-0.3.0/jquery.remodal.css',
+		'/assets/css/chat.css'
+	)) }}
 
 	@include('layout.theme')
 	@yield('content')

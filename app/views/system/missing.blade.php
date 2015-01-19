@@ -64,11 +64,11 @@
 				<div class="footer-copyright">Copyright &copy; 2013 - <?php echo date('Y'); ?> pinai521.com. All rights reserved.</div>
 				<hr class="footer-hr">
 				<div class="footer-nav">
-					<a href="#" target="_blank">使用帮助</a>
+					<a href="{{ route('home') }}/article/privacy.html" target="_blank">服务条款</a>
 					<span class="footer-separator">|</span>
-					<a href="#" target="_blank">意见反馈</a>
+					<a href="{{ route('support.index') }}" target="_blank">意见反馈</a>
 					<span class="footer-separator">|</span>
-					<a href="#" rel="nofollow" target="_blank">关于我们</a>
+					<a href="{{ route('home') }}/article/about.html" rel="nofollow" target="_blank">关于我们</a>
 				</div>
 			</div>
 		</div>

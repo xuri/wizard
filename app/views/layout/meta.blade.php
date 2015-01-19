@@ -1,7 +1,8 @@
 	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="description" content="聘爱网, 中国首个面向大学为群体的情侣招聘网站" />
-	<meta name="keywords" content="聘爱网,聘爱,Pinai,校内,大学,黑工程,哈商大,哈工大,交友,聊天,精灵,校园" />
+	<meta name="description" content="聘爱, 中国首个面向大学为群体的情侣招聘网站" />
+	<meta name="keywords" content="聘爱, Pinai,校内,大学,黑工程,哈商大,哈工大,交友,聊天,精灵,校园" />
 	<meta name="author" content="哈尔滨精灵科技有限责任公司" />
 	{{-- Favicons --}}
 	<link rel="shortcut icon" href="{{ route('home') }}/assets/images/icons/favicon.png" sizes="32x32">

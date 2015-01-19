@@ -275,7 +275,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin')
 Route::group(array('prefix' => 'android'), function () {
 	$controller = 'AndroidController@';
 	# Android API
-	//Route::get('api'               , array('as' => 'api'         , 'uses' => $controller.'api'));
+	Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
 	Route::post('api'              , $controller.'postAndroid');
 
 });
@@ -306,17 +306,17 @@ Route::group(array('prefix' => 'ios'), function () {
 // 	 return View::make('tools.migrate');
 // }));
 
-Route::get('browser_not_support', array('as' => 'browser_not_support', function()
-{
-	return View::make('system.browserUpdate');
-}));
+// Route::get('browser_not_support', array('as' => 'browser_not_support', function()
+// {
+// 	return View::make('system.browserUpdate');
+// }));
 
-App::missing(function($exception)
-{
-	return Response::view('system.missing', array(), 404);
-});
+// App::missing(function($exception)
+// {
+// 	return Response::view('system.missing', array(), 404);
+// });
 
-App::error(function($exception)
-{
-	return Response::view('system.missing', array(), 404);
-});
+// App::error(function($exception)
+// {
+// 	return Response::view('system.missing', array(), 404);
+// });

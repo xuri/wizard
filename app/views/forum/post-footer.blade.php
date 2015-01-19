@@ -5,6 +5,8 @@
 	var forumControllerPostCommentAction	= "{{ action('ForumController@postComment', $data->id) }}";
 	var homeuri								= "{{ route('home') }}";
 </script>
-{{ HTML::script('assets/js/forum-post.js') }}
+
+{{ Minify::javascript(array('/assets/js/forum-post.js')) }}
+
 </body>
 </html>

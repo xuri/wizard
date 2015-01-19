@@ -38,7 +38,7 @@ class AndroidController extends BaseController
 	 */
 	public function getDebug()
 	{
-		return View::make('android.index')->with(compact('test'));
+		return View::make('app.index')->with(compact('test'));
 	}
 
 	/**
@@ -239,7 +239,7 @@ class AndroidController extends BaseController
 
 						// Protrait section
 						$portrait               = Input::get('portrait');
-						if(is_null($portrait))
+						if($portrait == null)
 						{
 							$user->portrait 	= $oldPortrait;  // User not update avatar
 						} else{
@@ -543,16 +543,19 @@ class AndroidController extends BaseController
 								$user->points		= $user->points - 1;
 								if($have_like->save() && $user->save())
 								{
-									Notification(2, $user->id, $receiver_id); // Some user re-liked you
+									$notification = Notification(2, $user->id, $receiver_id); // Some user re-liked you
 
 									// Add push notifications for App client to queue
 									Queue::push('LikeQueue', [
 																'target'	=> $receiver_id,
 																'action'	=> 2,
 																'from'		=> $user->id,
-																'content'	=> $user->nickname.'又追你了，快去查看一下吧',
-																'id'		=> Input::get('id'),
-																'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
+
+																// Notification ID
+																'id' 		=> e($notification->id),
+																'content'	=> $user->nickname . '再次追你了，快去查看一下吧',
+																'sender_id'	=> e(Input::get('id')),
+																'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
 																'nickname'	=> $user->nickname,
 																'answer'	=> Input::get('answer')
 															]);
@@ -573,7 +576,7 @@ class AndroidController extends BaseController
 								$user->points		= $user->points - 1;
 								if($like->save() && $user->save())
 								{
-									Notification(1, $user->id, $receiver_id); // Some user first like you
+									$notification = Notification(1, $user->id, $receiver_id); // Some user first like you
 
 									// Add push notifications for App client to queue
 									Queue::push('LikeQueue', [
@@ -581,7 +584,10 @@ class AndroidController extends BaseController
 																'action'	=> 1,
 																'from'		=> $user->id,
 																'content'	=> $user->nickname.'追你了，快去查看一下吧',
-																'id'		=> Input::get('id'),
+
+																// Notification ID
+																'id'		=> e($notification->id),
+																'sender_id'	=> e(Input::get('id')),
 																'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
 																'nickname'	=> $user->nickname,
 																'answer'	=> Input::get('answer')
@@ -673,57 +679,63 @@ class AndroidController extends BaseController
 								)
 							);
 						}
-					} else { // First get data from Android client
-						$lastRecord = Like::where('sender_id', $user_id)->orderBy('id', 'desc')->first()->id; // Query last like id in database
-						$allLike    = Like::where('sender_id', $user_id) // Query all user liked users
-							->orderBy('id', 'desc')
-							->select('receiver_id', 'status', 'created_at', 'count')
-							->where('id', '<=', $lastRecord)
-							->take($per_page)
-							->get()
-							->toArray();
-						// Replace receiver_id key name to portrait
-						foreach($allLike as $key1 => $val1){
-							foreach($val1 as $key => $val){
-								$new_key				= str_replace('receiver_id', 'portrait', $key);
-								$new_array[$new_key]	= $val;
-							}
-							$likes[] = $new_array;
-						}
-						// Replace receiver ID to receiver portrait
-						foreach($likes as $key => $field){
+					} else {
+						// First get data from Android client
+						$lastRecord = Like::where('sender_id', $user_id)->orderBy('id', 'desc')->first(); // Query last like id in database
 
-							// Retrieve receiver user
-							$user						= User::where('id',  $likes[$key]['portrait'])->first();
-
-							// Receiver ID
-							$likes[$key]['id']			= e($user->id);
-
-							// Receiver avatar real storage path
-							$likes[$key]['portrait']	= route('home') . '/' . 'portrait/' . $user->portrait;
-
-							// Receiver school
-							$likes[$key]['school']		= e($user->school);
-
-							// Receiver nickname
-							$likes[$key]['name']		= e($user->nickname);
-
-							// Receiver sex
-							$likes[$key]['sex']			= e($user->sex);
-
-							// Convert how long liked
-							$Date_1						= date("Y-m-d"); // Current date and time
-							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
-							$d1							= strtotime($Date_1);
-							$d2							= strtotime($Date_2);
-							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
-							$likes[$key]['created_at']	= $Days;
-						}
-						$like = json_encode($likes); // Encode likes array to json format
-						if($allLike)
+						// Determin like exist
+						if(is_null($lastRecord))
 						{
-							return '{ "status" : "1", "data" : '.$like.'}';
+							return '{ "status" : "1", "data" : []}';
 						} else {
+
+							$allLike    = Like::where('sender_id', $user_id) // Query all user liked users
+								->orderBy('id', 'desc')
+								->select('receiver_id', 'status', 'created_at', 'count')
+								->where('id', '<=', $lastRecord->id)
+								->take($per_page)
+								->get()
+								->toArray();
+							// Replace receiver_id key name to portrait
+							foreach($allLike as $key1 => $val1){
+								foreach($val1 as $key => $val){
+									$new_key				= str_replace('receiver_id', 'portrait', $key);
+									$new_array[$new_key]	= $val;
+								}
+								$likes[] = $new_array;
+							}
+							// Replace receiver ID to receiver portrait
+							foreach($likes as $key => $field){
+
+								// Retrieve receiver user
+								$user						= User::where('id',  $likes[$key]['portrait'])->first();
+
+								// Receiver ID
+								$likes[$key]['id']			= e($user->id);
+
+								// Receiver avatar real storage path
+								$likes[$key]['portrait']	= route('home') . '/' . 'portrait/' . $user->portrait;
+
+								// Receiver school
+								$likes[$key]['school']		= e($user->school);
+
+								// Receiver nickname
+								$likes[$key]['name']		= e($user->nickname);
+
+								// Receiver sex
+								$likes[$key]['sex']			= e($user->sex);
+
+								// Convert how long liked
+								$Date_1						= date("Y-m-d"); // Current date and time
+								$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+								$d1							= strtotime($Date_1);
+								$d2							= strtotime($Date_2);
+								$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+								$likes[$key]['created_at']	= $Days;
+							}
+
+							$like = json_encode($likes); // Encode likes array to json format
+
 							return Response::json(
 								array(
 									'status' 		=> 0
@@ -836,43 +848,36 @@ class AndroidController extends BaseController
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
 					$like->status	= 1; // Receiver accept like
 
-					$easemob		= getEasemob();
 					// Add friend relationship in chat system and start chat
-					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$receiver_id.'/contacts/users/'.$id)
-							->setHeader('content-type', 'application/json')
-							->setHeader('Accept', 'json')
-							->setHeader('Authorization', 'Bearer '.$easemob->token)
-							->setOptions([CURLOPT_VERBOSE => true])
-							->send();
-					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.$receiver_id)
-							->setHeader('content-type', 'application/json')
-							->setHeader('Accept', 'json')
-							->setHeader('Authorization', 'Bearer '.$easemob->token)
-							->setOptions([CURLOPT_VERBOSE => true])
-							->send();
+					Queue::push('AddFriendQueue', [
+											'user_id'	=> $receiver_id,
+											'friend_id'	=> $id,
+										]);
+					Queue::push('AddFriendQueue', [
+											'user_id'	=> $id,
+											'friend_id'	=> $receiver_id,
+										]);
+
 					if($like->save())
 					{
 						// Save notification in database for website
 						$notification	= Notification(3, $receiver_id, $id); // Some user accept you like
-						$easemob		= getEasemob();
-						// Push notifications to App client
-						cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-								'target_type'	=> 'users',
-								'target'		=> [$id],
-								'msg'			=> ['type' => 'cmd', 'action' => '3'],
-								'from'			=> $receiver_id,
-								'ext'			=> [
-														'content'	=> $receiver->nickname.'接受了你的邀请',
-														'id'		=> $receiver_id,
-														'portrait'	=> route('home').'/'.'portrait/'.$receiver->portrait,
-														'nickname'	=> $receiver->nickname
-													]
-							])
-								->setHeader('content-type', 'application/json')
-								->setHeader('Accept', 'json')
-								->setHeader('Authorization', 'Bearer '.$easemob->token)
-								->setOptions([CURLOPT_VERBOSE => true])
-								->send();
+
+						// Add push notifications for App client to queue
+						Queue::push('LikeQueue', [
+													'target'	=> $id,
+													'action'	=> 3,
+													'from'		=> $receiver_id,
+
+													// Notification ID
+													'id'		=> e($notification->id),
+													'content'	=> $receiver->nickname . '接受了你的邀请，快去查看一下吧',
+													'sender_id'	=> e($receiver_id),
+													'portrait'	=> route('home') . '/' . 'portrait/' . $receiver->portrait,
+													'nickname'	=> $receiver->nickname,
+													'answer'	=> null
+												]);
+
 						return Response::json(
 								array(
 									'status'	=> 1,
@@ -902,25 +907,25 @@ class AndroidController extends BaseController
 					{
 						// Save notification in database for website
 						$notification	= Notification(4, $receiver_id, $id); // Some user reject you like
-						$easemob		= getEasemob();
+						// $easemob		= getEasemob();
 						// Push notifications to App client
-						cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-								'target_type'	=> 'users',
-								'target'		=> [$id],
-								'msg'			=> ['type' => 'cmd', 'action' => '4'],
-								'from'			=> $receiver_id,
-								'ext'			=> [
-														'content'	=> $receiver->nickname.'拒绝了你的邀请',
-														'id'		=> $receiver_id,
-														'portrait'	=> route('home').'/'.'portrait/'.$receiver->portrait,
-														'nickname'	=> $receiver->nickname
-													]
-							])
-								->setHeader('content-type', 'application/json')
-								->setHeader('Accept', 'json')
-								->setHeader('Authorization', 'Bearer '.$easemob->token)
-								->setOptions([CURLOPT_VERBOSE => true])
-								->send();
+						// cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+						// 		'target_type'	=> 'users',
+						// 		'target'		=> [$id],
+						// 		'msg'			=> ['type' => 'cmd', 'action' => '4'],
+						// 		'from'			=> $receiver_id,
+						// 		'ext'			=> [
+						// 								'content'	=> $receiver->nickname.'拒绝了你的邀请',
+						// 								'id'		=> $receiver_id,
+						// 								'portrait'	=> route('home').'/'.'portrait/'.$receiver->portrait,
+						// 								'nickname'	=> $receiver->nickname
+						// 							]
+						// 	])
+						// 		->setHeader('content-type', 'application/json')
+						// 		->setHeader('Accept', 'json')
+						// 		->setHeader('Authorization', 'Bearer '.$easemob->token)
+						// 		->setOptions([CURLOPT_VERBOSE => true])
+						// 		->send();
 						return Response::json(
 								array(
 									'status' 		=> 1
@@ -943,36 +948,32 @@ class AndroidController extends BaseController
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
 					$like->status	= 3; // Receiver block user, remove friend relationship in chat system
 
-					$easemob		= getEasemob();
-					$notification	= Notification(5, $id, $receiver_id); // Some user blocked you
+					// Some user blocked you
+					$notification	= Notification(5, $id, $receiver_id);
 					// Remove friend relationship in chat system
-					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$receiver_id.'/contacts/users/'.$id)
-							->setHeader('content-type', 'application/json')
-							->setHeader('Accept', 'json')
-							->setHeader('Authorization', 'Bearer '.$easemob->token)
-							->setOptions([CURLOPT_VERBOSE => true])
-							->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
-							->send();
-					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users/'.$id.'/contacts/users/'.$receiver_id)
-							->setHeader('content-type', 'application/json')
-							->setHeader('Accept', 'json')
-							->setHeader('Authorization', 'Bearer '.$easemob->token)
-							->setOptions([CURLOPT_VERBOSE => true])
-							->setOptions([CURLOPT_CUSTOMREQUEST => 'DELETE'])
-							->send();
+					Queue::push('DeleteFriendQueue', [
+											'user_id'	=> $receiver_id,
+											'block_id'	=> $id,
+										]);
+					Queue::push('DeleteFriendQueue', [
+											'user_id'	=> $id,
+											'block_id'	=> $receiver_id,
+										]);
+
 					// Push notifications to App client
-					cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
-							'target_type'	=> 'users',
-							'target'		=> [$id],
-							'msg'			=> ['type' => 'cmd', 'action' => '5'],
-							'from'			=> $receiver_id,
-							'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'把你加入了黑名单', 'id' => $notification->id]
-						])
-							->setHeader('content-type', 'application/json')
-							->setHeader('Accept', 'json')
-							->setHeader('Authorization', 'Bearer '.$easemob->token)
-							->setOptions([CURLOPT_VERBOSE => true])
-							->send();
+					// cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
+					// 		'target_type'	=> 'users',
+					// 		'target'		=> [$id],
+					// 		'msg'			=> ['type' => 'cmd', 'action' => '5'],
+					// 		'from'			=> $receiver_id,
+					// 		'ext'			=> ['content' => User::where('id', $receiver_id)->first()->nickname.'把你加入了黑名单', 'id' => $notification->id]
+					// 	])
+					// 		->setHeader('content-type', 'application/json')
+					// 		->setHeader('Accept', 'json')
+					// 		->setHeader('Authorization', 'Bearer '.$easemob->token)
+					// 		->setOptions([CURLOPT_VERBOSE => true])
+					// 		->send();
+
 					if($like->save())
 					{
 						return Response::json(
@@ -1048,7 +1049,7 @@ class AndroidController extends BaseController
 
 					// Get sender user data
 					$friends = Like::where('receiver_id', $id)->orWhere('sender_id', $id)
-								->where('status', 3)
+								->where('status', 1)
 								->select('sender_id', 'receiver_id')
 								->get()
 								->toArray();
@@ -2339,6 +2340,22 @@ class AndroidController extends BaseController
 										->get()
 										->toArray();
 
+					$friend_notifications = Notification::where('receiver_id', $id)
+										->whereIn('category', array(1, 2, 3))
+										->orderBy('created_at' , 'desc')
+										->select('id', 'sender_id', 'created_at', 'receiver_id', 'category')
+										->where('status', 0)
+										->get()
+										->toArray();
+
+					$accept_notifications = Notification::where('receiver_id', $id)
+										->whereIn('category', array(3))
+										->orderBy('created_at' , 'desc')
+										->select('id', 'sender_id', 'created_at', 'receiver_id', 'category')
+										->where('status', 0)
+										->get()
+										->toArray();
+
 					// Build array
 					foreach ($notifications as $key => $value) {
 						$notifications_content				= NotificationsContent::where('notifications_id', $notifications[$key]['id'])->first();
@@ -2347,11 +2364,50 @@ class AndroidController extends BaseController
 
 					}
 
+					foreach ($friend_notifications as $key => $value) {
+						switch ($friend_notifications[$key]['category']) {
+							case '1' :
+								$sender_user							= User::find($friend_notifications[$key]['sender_id']);
+								$like									= Like::where('sender_id', $friend_notifications[$key]['sender_id'])->where('receiver_id', $friend_notifications[$key]['receiver_id'])->first();
+								$friend_notifications[$key]['content']	= $sender_user->nickname . '追你了，快去看看吧';
+								$friend_notifications[$key]['nickname']	= $sender_user->nickname;
+								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
+								$friend_notifications[$key]['answer']	= $like->answer;
+								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
+							break;
+
+							case '2' :
+								$sender_user							= User::find($friend_notifications[$key]['sender_id']);
+								$like									= Like::where('sender_id', $friend_notifications[$key]['sender_id'])->where('receiver_id', $friend_notifications[$key]['receiver_id'])->first();
+								$friend_notifications[$key]['content']	= $sender_user->nickname . '再次追你了，快去看看吧';
+								$friend_notifications[$key]['nickname']	= e($sender_user->nickname);
+								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
+								$friend_notifications[$key]['answer']	= e($like->answer);
+								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
+							break;
+						}
+					}
+
+					// Build notifications
+					foreach ($accept_notifications as $key => $value) {
+						$sender_user							= User::find($accept_notifications[$key]['sender_id']);
+						$accept									= Like::where('sender_id', $accept_notifications[$key]['sender_id'])->where('receiver_id', $accept_notifications[$key]['receiver_id'])->first();
+						$accept_notifications[$key]['nickname']	= $sender_user->nickname;
+						$accept_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
+						$accept_notifications[$key]['from']		= $accept_notifications[$key]['sender_id'];
+					}
+
+					$data = array(
+							'system_notifications'	=> $notifications,
+							'friend_notifications'	=> $friend_notifications,
+							'accept_notifications'	=> $accept_notifications
+						);
+
 					// Mark read for this user
-					Notification::where('receiver_id', $id)->whereIn('category', array(8, 9))->update(array('status' => 1));
+					//Notification::where('receiver_id', $id)->update(array('status' => 1));
 
 					// Build Json format
-					return '{ "status" : "1", "data" : ' . json_encode($notifications) . '}';
+					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 				break;
 			}
 		} else {

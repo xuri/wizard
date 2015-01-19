@@ -14,9 +14,6 @@
 					<p>{{ date('Y-m-d H:m:s') }}</p>
 				</div>
 			</div>
-
-
-
 		</div>
 		<div class="message">
 			<input id="talkInputId" type="text" name="imessage" value="" placeholder="输入消息……"/>

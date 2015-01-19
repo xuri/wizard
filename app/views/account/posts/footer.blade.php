@@ -1,11 +1,17 @@
 <script>
 	var csrfToken						= '{{ csrf_token() }}';
+	var token							= '{{ csrf_token() }}';
+	var post_renew_url					= "{{ route('postrenew') }}";
 	var accountDeleteForumPostAction	= "{{ action('AccountController@postDeleteForumPost') }}";
 </script>
 {{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
-{{ HTML::script('assets/js/jingling.js') }}
-{{ HTML::script('assets/js/color.js') }}
-{{ HTML::script('assets/js/preInfo.js') }}
-{{ HTML::script('assets/js/account-posts.js') }}
+
+{{ Minify::javascript(array(
+	'/assets/js/jingling.js',
+	'/assets/js/color.js',
+	'/assets/js/preInfo.js',
+	'/assets/js/account-posts.js'
+)) }}
+
 </body>
 </html>

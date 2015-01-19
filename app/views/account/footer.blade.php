@@ -3,9 +3,12 @@
 	var token			= "{{ csrf_token() }}";
 </script>
 {{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
-{{ HTML::script('assets/js/jingling.js') }}
-{{ HTML::script('assets/js/color.js') }}
-{{ HTML::script('assets/js/preInfo.js') }}
+
+{{ Minify::javascript(array(
+	'/assets/js/jingling.js',
+	'/assets/js/color.js',
+	'/assets/js/preInfo.js'
+)) }}
 
 </body>
 </html>

@@ -12,6 +12,8 @@
 	var secondAjaxURL 					= '{{ route("forum.type", "second") }}';
 	var thirdAjaxURL 					= '{{ route("forum.type", "third") }}';
 </script>
-{{ HTML::script('assets/js/forum.js') }}
+
+{{ Minify::javascript(array('/assets/js/forum.js')) }}
+
 </body>
 </html>
