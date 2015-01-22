@@ -2404,7 +2404,7 @@ class AndroidController extends BaseController
 						);
 
 					// Mark read for this user
-					//Notification::where('receiver_id', $id)->update(array('status' => 1));
+					Notification::where('receiver_id', $id)->update(array('status' => 1));
 
 					// Build Json format
 					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
