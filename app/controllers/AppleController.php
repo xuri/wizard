@@ -29,23 +29,14 @@
  * status = 2 			Forum is closed and response success
  */
 
-class iOSController extends BaseController
+class AppleController extends BaseController
 {
-
-	/**
-	 * View: Debug
-	 * @return Response
-	 */
-	public function getDebug()
-	{
-		return View::make('app.index')->with(compact('test'));
-	}
 
 	/**
 	 * Main Android API
 	 * @return Json
 	 */
-	public function postiOS()
+	public function postApple()
 	{
 
 		$token  = Input::get('token');
