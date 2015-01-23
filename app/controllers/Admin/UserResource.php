@@ -6,7 +6,7 @@
  * Redistributions of files must retain the above copyright notice.
  *
  * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
- * @author 		Ri Xu http://xuri.me
+ * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
  * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
  * @since 		25th Nov, 2014
@@ -284,14 +284,33 @@ class Admin_UserResource extends BaseResource
 	 */
 	public function destroy($id)
 	{
-		$data		= $this->model->find($id);
-		$profile	= Profile::where('user_id', $id)->first();
-		$portrait	= $this->model->where('id', $id)->first()->portrait;
+		$data			= $this->model->find($id);
+		$profile		= Profile::where('user_id', $id)->first();
+		$portrait		= $this->model->find($id)->portrait;
+		$oldPortrait	= $portrait;
+		$portraitPath	= public_path('portrait/');
 		if (is_null($data)) {
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
 		}
 		elseif ($data->delete() && $profile->delete()){
-			File::delete(public_path('portrait/'.$portrait));
+
+			// Destory user post in forum
+			ForumPost::where('user_id', $id)->delete();
+
+			if($portrait != NULL)
+			{
+				// Determine user portrait type
+				$asset = strpos($oldPortrait, 'android');
+
+				// Should to use !== false
+				if($asset !== false){
+					// No nothing
+				} else {
+					// User set portrait from web delete old poritait
+					File::delete($portraitPath . $oldPortrait);
+				}
+
+			}
 			return Redirect::back()->with('success', $this->resourceName.'删除成功。');
 		} else{
 			return Redirect::back()->with('warning', $this->resourceName.'删除失败。');

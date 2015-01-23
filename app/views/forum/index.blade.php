@@ -28,13 +28,13 @@
 					</a>
 					<a class="lu_left" href="#second">
 
-							<span>男人帮</span>
+							<span>男生帮</span>
 							{{ HTML::image('assets/images/boys.png') }}
 
 					</a>
 					<a class="lu_left" id="bbs_tab_end" href="#third">
 
-							<span>女人窝</span>
+							<span>女生窝</span>
 							{{ HTML::image('assets/images/girls.png') }}
 
 					</a>
