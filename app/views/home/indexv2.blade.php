@@ -49,7 +49,8 @@
 						@endif
 						<li class="colored"><a href="{{ route('home') }}/article/about.html">关于我们</a><div class="hover colored-bg"></div></li>
 					</ul>
-				</div><!--/.navbar-collapse -->
+				</div>
+				{{--/.navbar-collapse --}}
 			</div>
 		</div>
 
@@ -70,12 +71,9 @@
 			</div>
 		</div>
 
-		<!-- HOWTO -->
+	</div> {{-- /content --}}
 
-
-	</div> <!-- /content -->
-
-	<!-- FOOTER -->
+	{{-- FOOTER --}}
 	<footer class="row footer colored-bg">
 		<div class="col-sm-8 col-sm-offset-2">
 
@@ -88,7 +86,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h5 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="index-light.html#collapseOne">
+								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
 									这里不是拼脸的地方，寻找真爱请用
 								</a>
 							</h5>
@@ -98,7 +96,7 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h5 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="index-light.html#collapseTwo">
+								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
 									这里是爱升华的地方，我们主张“心灵美”
 								</a>
 							</h5>
@@ -108,19 +106,17 @@
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h5 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="index-light.html#collapseThree">
+								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
 								聘则为妻，妻者，夫之爱也。爱，生活也
 								</a>
 							</h5>
 						</div>
 					</div>
 
-					<!-- -->
-
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<h5 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accordion" href="index-light.html#collapseFive">
+								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
 								这里不是商场，我们真正为你寻找靠谱的爱
 								</a>
 							</h5>
@@ -164,7 +160,6 @@
 		</div>
 	</footer>
 
-	<!-- MODERNIZR -->
 	{{-- JQUERY --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 
