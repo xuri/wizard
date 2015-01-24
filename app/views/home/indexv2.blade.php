@@ -132,13 +132,12 @@
 							<h3>移动客户端下载</h3>
 						</div>
 
-						<form action="ajax-contact-form/contact.php" class="form-inline" name="contactform" id="contactform" role="form">
 							<div class="form-group">
 								<div class="col-sm-6">
-									<a href="index-light.html#" class="fixed form-control btn btn-default btn-sm"><i class="fa fa-apple"></i>&nbsp;App Store</a>
+									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm"><i class="fa fa-apple"></i>&nbsp;App Store</a>
 								</div>
 								<div class="col-sm-6">
-									<a href="index-light.html#" class="fixed form-control btn btn-default btn-sm"><i class="fa fa-android"></i>&nbsp;安卓下载</a>
+									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm"><i class="fa fa-android"></i>&nbsp;安卓下载</a>
 								</div>
 							</div>
 							<div class="form-group resp-center">
@@ -147,7 +146,6 @@
 								</center>
 
 							</div>
-						</form>
 						<div id="message"></div>
 
 					</div>
