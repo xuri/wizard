@@ -2,7 +2,7 @@
 	<ul>
 		<li style="margin-top:56px;"><a href="{{ route('home') }}" class="gn-icon fa-home a">前往首页</a></li>
 		<li><a href="{{ route('members.index') }}" class="gn-icon fa-users a">缘来在这</a></li>
-		@if(Auth::guest()){{-- 游客 --}}
+		@if(Auth::guest()){{-- Guest --}}
 		<li><a href="{{ route('home') }}" class="gn-icon fa-download a">App下载</a></li>
 		<li><a href="{{ route('signin') }}" class="gn-icon fa-sign-in a">登陆</a></li>
 		<li><a href="{{ route('signup') }}" class="gn-icon fa-user a">注册</a></li>
