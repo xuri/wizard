@@ -4,5 +4,3 @@
 
 @include('layout.analytics')
 @yield('content')
-
-<?php echo '<img src="'._cnzzTrackPageView(5808356).'" width="0" height="0"/>';?>
