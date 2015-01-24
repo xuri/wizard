@@ -28,7 +28,9 @@
 					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 						<span class="fa fa-reorder icon resp-menu"></span>
 					</button>
-					<a class="navbar-brand" href="javascript:void(0);" data-0="line-height:130px;" data-300="line-height:56px;"><img data-0="width:72px;" data-300=" width:50px;" src="{{ route('home') }}/assets/images/logo.png" alt="stylio theme"/></a>
+					<a class="navbar-brand" href="javascript:void(0);" data-0="line-height:130px;" data-300="line-height:56px;">
+						{{ HTML::image('assets/images/logo.png', '', array('data-300' => 'width:50px;', 'data-0' => 'width:72px;', 'width' => '72')) }}
+					</a>
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav" data-0="margin-top:40px;" data-300="margin-top:1px;">
