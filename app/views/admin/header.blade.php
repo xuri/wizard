@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>管理中心 | 聘爱网</title>
+	<title>管理中心 | 聘爱</title>
 
 	@include('layout.meta')
 	@yield('content')

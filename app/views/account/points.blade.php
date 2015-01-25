@@ -4,7 +4,7 @@
 		<a id="clickon" href="javascript:void(0);">加油</a>
 		<div id="instr">
 			<div>当你连续加油<span>30</span>天后，会得到代表(活跃用户标志)的<em>橙色昵称</em></div>
-			<!-- <div>当你连续加油累积<span>30</span>天后，会得到由聘爱网送出的精美礼品。</span></div> -->
+			<!-- <div>当你连续加油累积<span>30</span>天后，会得到由聘爱送出的精美礼品。</span></div> -->
 			<div>只要你相信真爱，就会惊喜不断，让我们一起为真爱加油助威吧</div>
 		</div>
 	</div>

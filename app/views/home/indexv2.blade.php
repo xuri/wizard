@@ -2,7 +2,7 @@
 <html>
 <head>
 	{{-- The Meta --}}
-	<title>聘爱网 | 中国首个面向大学为群体的情侣招聘网站</title>
+	<title>聘爱 | 专注于大学生的恋爱平台</title>
 
 	@include('layout.meta')
 	@yield('content')
@@ -162,7 +162,7 @@
 		</div>
 	</footer>
 
-	{{-- JQUERY --}}
+	{{-- jQuery --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 
 	{{-- Bootstrap Core JavaScript --}}
@@ -177,5 +177,8 @@
 		'/assets/js/mainv2.js'
 	)) }}
 
+	{{-- Analytics Code --}}
+	@include('layout.analytics')
+	@yield('content')
 	</body>
 </html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>重置密码 | 聘爱网</title>
+	<title>重置密码 | 聘爱</title>
 	@include('layout.meta')
 	@yield('content')
 

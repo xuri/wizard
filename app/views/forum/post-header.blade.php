@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>单身公寓 | 聘爱网</title>
+	<title>单身公寓 | 聘爱</title>
 
 	@include('layout.meta')
 	@yield('content')

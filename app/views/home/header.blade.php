@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-	<title>{{ $article->title }} | 聘爱网</title>
+	<title>{{ $article->title }} | 聘爱</title>
 
 	@include('layout.meta')
 	@yield('content')

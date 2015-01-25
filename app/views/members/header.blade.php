@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>缘来在这 | 聘爱网</title>
+	<title>缘来在这 | 聘爱</title>
 
 	@include('layout.meta')
 	@yield('content')

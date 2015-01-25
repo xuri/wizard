@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>找不到页面 | 聘爱网</title>
+	<title>找不到页面 | 聘爱</title>
 	<meta content="20; {{ route('home') }}" http-equiv="refresh">
 	@include('layout.meta')
 	@yield('content')

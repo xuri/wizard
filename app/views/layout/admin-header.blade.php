@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>控制面板 | 聘爱网 哈尔滨精灵科技有限公司</title>
+	<title>控制面板 | 聘爱 哈尔滨精灵科技有限公司</title>
 
 	@include('layout.meta')
 	@yield('content')

@@ -2,7 +2,7 @@
 <html>
 <head>
 	{{-- The Meta --}}
-	<title>聘爱网 | 中国首个面向大学为群体的情侣招聘网站</title>
+	<title>聘爱 | 专注于大学生的恋爱平台</title>
 
 	@include('layout.meta')
 	@yield('content')
@@ -13,7 +13,7 @@
 </head>
 <body>
 	<div class="nav">
-		<center class="nav-content">聘爱网 —— 中国首个面向大学为群体的情侣招聘网站</center>
+		<center class="nav-content">聘爱 —— 专注于大学生的恋爱平台</center>
 	</div>
 	<center id="content">
 		<p>聘爱网，我们主张“心灵美”, &nbsp; 我们真正为你寻找靠谱的爱</p>

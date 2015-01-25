@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>资料详情 | 聘爱网</title>
+	<title>资料详情 | 聘爱</title>
 
 	@include('layout.meta')
 	@yield('content')

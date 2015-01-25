@@ -49,7 +49,7 @@
 	<div class="nav_main">
 		{{ HTML::image('assets/images/nav_main_bg.png', '', array('id' => 'nav_main')) }}
 
-		<p>欢迎来到聘爱网!
+		<p>欢迎来到聘爱!
 			@if(Auth::guest()){{-- Guest --}}
 			<a href="{{ route('signin') }}" id="signIn">登陆</a>
 			<a href="#" id="signUp">/</a>
