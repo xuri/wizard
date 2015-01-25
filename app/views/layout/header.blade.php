@@ -7,6 +7,10 @@
 	@include('layout.meta')
 	@yield('content')
 
+	<!--[if lte IE 9]>
+		<script type=text/javascript>window.location.href="{{ route('browser_not_support') }}";  </script>
+	<![endif]-->
+
 	{{-- The Stylesheets --}}
 
 	{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
