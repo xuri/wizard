@@ -45,11 +45,11 @@
 
 				</div><!-- end login_main -->
 				<div id="rgs_main">
-					<a href="#" id="rgs_phone" class="login_button">
+					<a href="javascript:void(0);" id="rgs_phone" class="login_button">
 						<i class="fa fa-mobile"></i>
 
 						手机注册</a>
-					<a href="#" id="rgs_email" class="login_button">
+					<a href="javascript:void(0);" id="rgs_email" class="login_button">
 						<i class="fa fa-envelope-o"></i>
 
 						邮箱注册</a>
