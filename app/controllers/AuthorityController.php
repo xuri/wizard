@@ -65,12 +65,19 @@ class AuthorityController extends BaseController
 		// Verify signin
 		if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
 			// Signin success, redirect to the previous page that was blocked
-			return Redirect::intended();
+			return Response::json(
+				array(
+					'success'	=> true
+				)
+			);
 		} else {
 			// Signin fail, redirect back
-			return Redirect::back()
-				->withInput()
-				->withErrors(array('attempt' => 'E-mail 或 用户名错误, 请重新登录'));
+			return Response::json(
+				array(
+					'success'	=> false,
+					'attempt'	=> 'E-mail 或 用户名错误, 请重新登录'
+				)
+			);
 		}
 	}
 
@@ -301,18 +308,29 @@ class AuthorityController extends BaseController
 							->subject('聘爱网 账号激活邮件'); // Subject
 					});
 					// Redirect to a registration page, prompts user to activate
-					return Redirect::route('signupSuccess', $user->email);
+					return Response::json(
+						array(
+							'success'	=> true,
+							'attempt'	=> route('signupSuccess', $user->email)
+						)
+					);
 				} else {
 					// Add user fail
-					return Redirect::back()
-						->withInput()
-						->withErrors(array('add' => '注册失败。'));
+					return Response::json(
+						array(
+							'success'	=> false,
+							'attempt'	=> '注册失败。'
+						)
+					);
 				}
 			} else {
 				// Verification fail, redirect back
-				return Redirect::back()
-					->withInput()
-					->withErrors($validator);
+				return Response::json(
+					array(
+						'success'		=> false,
+						'error_info'	=> $validator->messages()->toArray()
+					)
+				);
 			}
 		} else {
 			if(SimpleCaptcha::check(Input::get('captcha')) == true) {
@@ -334,8 +352,8 @@ class AuthorityController extends BaseController
 					'password.alpha_dash'	=> '密码格式不正确。',
 					'password.between'		=> '密码长度请保持在:min到:max位之间。',
 					'password.confirmed'	=> '两次输入的密码不一致。',
-					'sms_code.required'		=> '请填写验证码。',
-					'sms_code.digits'		=> '验证码错误。',
+					'sms_code.required'		=> '请填写短信验证码。',
+					'sms_code.digits'		=> '短信验证码错误。',
 					'sex.required'			=> '请选择性别',
 				);
 				// Begin verification
@@ -372,23 +390,37 @@ class AuthorityController extends BaseController
 						// User signin
 						Auth::login($user);
 						// Redirect to a registration page, prompts user to activate
-						return Redirect::route('account');
+						return Response::json(
+							array(
+								'success'	=> true,
+								'attempt'	=> route('account')
+							)
+						);
 					} else {
 						// Add user fail
-						return Redirect::back()
-							->withInput()
-							->withErrors(array('add' => '注册失败。'));
+						return Response::json(
+							array(
+								'success'	=> false,
+								'attempt'	=> '注册失败。'
+							)
+						);
 					}
 				} else {
 					// Add user fail
-					return Redirect::route('signup')
-						->withInput()
-						->withErrors($validator);
+					return Response::json(
+						array(
+							'success'		=> false,
+							'error_info'	=> $validator->messages()->toArray()
+						)
+					);
 				}
 			} else {
-				return Redirect::back()
-					->withInput()
-					->withErrors(array('captcha' => '验证码输入错误。'));
+				return Response::json(
+					array(
+						'success'	=> false,
+						'attempt'	=> '请正确填写图形验证码。'
+					)
+				);
 			}
 		}
 	}

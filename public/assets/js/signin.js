@@ -71,6 +71,127 @@ $(function(){
 		});
 	});
 
+	// Ajax login with E-mail or phone
+	$('.signin_submit').click(function(){
+		var formData = {
+			_token 			: csrf_token, // CSRF token
+			username 		: $('input[name=email]').val(),
+			password		: $('input[name=password]').val(),
+		};
+		$.ajax({
+			url 	: signin_url, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData
+		}).done(function(data) {
+
+			// Here we will handle errors and validation messages
+			if (!data.success) {
+				$('.signin_error').html(data.attempt);
+			} else {
+				location.reload();
+			}
+		});
+	});
+
+	// Ajax signup with phone
+	$('.phone_signup_submit').click(function(){
+		var formData = {
+			_token 					: csrf_token, // CSRF token
+			phone 					: $('input[name=phone]').val(),
+			sms_code 				: $('input[name=sms_code]').val(),
+			password				: $('input[name=phone_signup_password]').val(),
+			sex 					: $('input[name=phone_signup_sex]:checked').val(),
+			password_confirmation	: $('input[name=phone_signup_password_confirmation]').val(),
+			captcha					: $('input[name=captcha]').val(),
+		};
+		$.ajax({
+			url 	: signup_url, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData
+		}).done(function(data) {
+
+			// Here we will handle errors and validation messages
+			if (!data.success) {
+				if(data.error_info){
+					if(data.error_info.phone){
+						var errors_phone = data.error_info.phone;
+					} else {
+						var errors_phone = '';
+					}
+
+					if(data.error_info.password){
+						var error_password = data.error_info.password;
+					} else {
+						var error_password = '';
+					}
+
+					if(data.error_info.sms_code){
+						var error_sms_code = data.error_info.sms_code;
+					} else {
+						var error_sms_code = '';
+					}
+
+					if(data.error_info.sex){
+						var error_sex = data.error_info.sex;
+					} else {
+						var error_sex = '';
+					}
+
+					$('.phone_error').html(errors_phone + error_password + error_sms_code + error_sex);
+				}
+				$('.phone_error').html(data.attempt);
+			} else {
+				window.location.href=data.attempt;
+			}
+		});
+	});
+
+	// Ajax signup with E-mail
+	$('.mail_signup_submit').click(function(){
+		var formData = {
+			_token 					: csrf_token, // CSRF token
+			email 					: $('input[name=signup_email]').val(),
+			password				: $('input[name=mail_signup_password]').val(),
+			sex 					: $('input[name=mail_signup_sex]:checked').val(),
+			password_confirmation	: $('input[name=mail_signup_password_confirmation]').val(),
+			type 					: 'email'
+		};
+		$.ajax({
+			url 	: signup_url, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData
+		}).done(function(data) {
+
+			// Here we will handle errors and validation messages
+			if (!data.success) {
+				if(data.error_info){
+					if(data.error_info.email){
+						var errors_email = data.error_info.email;
+					} else {
+						var errors_email = '';
+					}
+
+					if(data.error_info.password){
+						var error_password = data.error_info.password;
+					} else {
+						var error_password = '';
+					}
+
+					if(data.error_info.sex){
+						var error_sex = data.error_info.sex;
+					} else {
+						var error_sex = '';
+					}
+
+					$('.mail_error').html(errors_email + error_password + error_sex);
+				}
+				$('.mail_error').html(data.attempt);
+			} else {
+				window.location.href=data.attempt;
+			}
+		});
+	});
+
 	var times=60; // Set Count time
 	$('.count-send').click(function(){
 		// this point

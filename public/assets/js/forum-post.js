@@ -140,7 +140,7 @@ var um = UM.getEditor('create_comment_editor');
 		var formData = {
 			content 	: um.getContent(), // Get post content
 			_token 		: csrfToken, // CSRF token
-			type : 'comments'
+			type 		: 'comments'
 		};
 		// Process ajax request
 		$.ajax({
