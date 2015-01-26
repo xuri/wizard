@@ -74,9 +74,9 @@
 								<input type="text" id="phone" name="phone" autofocus required="required" placeholder="请输入11位手机号" value="{{ Input::old('phone') }}"/>
 							</li>
 							<li class="rgs_li">
-								<span>验证码:</span>
-								<input id="rgs_code" type="text" name="sms_code" required="required" placeholder="短信验证码" value="{{ Input::old('sms_code') }}">
-								<input type="button" class="login_button count-send" style="height: 2.6em; color: #fff;" value="发送验证码" />
+								<span>短信验证码:</span>
+								<input class="rgs_code" type="text" name="sms_code" required="required" placeholder="短信验证码" value="{{ Input::old('sms_code') }}">
+								<input type="button" class="login_button count-send" style="height: 2.4em; padding-top: 7px; color: #fff;" value="发送验证码" />
 							</li>
 							<li class="rgs_li">
 								<span>密码:</span>
@@ -85,6 +85,13 @@
 							<li class="rgs_li">
 								<span>重复密码:</span>
 								<input type="password" name="password_confirmation" required="required" placeholder="确认您的密码">
+							</li>
+							<li class="rgs_li">
+								<span>验证码:</span>
+								<input type="text" class="captcha_code" name="captcha" required="required" placeholder="区分大小写">
+								<span class="load_captcha">
+									{{ HTML::image(URL::to('simplecaptcha'),'Captcha', array('class' => 'captcha_img')) }}
+								</span>
 							</li>
 						</ul>
 						<div class="login_clause">
@@ -140,48 +147,11 @@
 	@include('layout.copyright')
 	@yield('content')
 
+	<script type="text/javascript">
+		var verifycode	= '{{ route("verifycode") }}';
+		var csrf_token	= '{{ csrf_token() }}';
+		var captcha_url	= '{{ route("captcha") }}';
+	</script>
+
 @include('authority.footer')
 @yield('content')
-
-<script type="text/javascript">
-
-		$(function(){
-			var times=60; {{-- Set Count time --}}
-			$('.count-send').click(function(){
-				{{-- this point --}}
-				var _this = this;
-				{{-- Get phone number --}}
-				var phone = $('#phone').val();
-
-				$.post('{{ route("verifycode"); }}',
-			    {
-			      phone : phone
-			    },function(jdata){
-			    	{{-- Send message success --}}
-			    	if(jdata.length != undefined){
-						var that=$(_this);
-						timeSend(that);
-			    	}else{
-			    		{{-- Send error --}}
-						$('.phone_error').html(jdata.errors.phone);
-			    	}
-
-			    });
-
-			});
-
-			function timeSend(that){
-				if(times==0){
-					that.removeAttr('disabled').val('重新发送验证码');
-					times=60;
-				}else{
-					that.attr('disabled',true).val(times+'秒后重新发送');
-					times--;
-					setTimeout(function(){
-					 timeSend(that);
-					},1000);
-				}
-			}
-		})
-
-</script>

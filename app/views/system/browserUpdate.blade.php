@@ -77,7 +77,7 @@
 </head>
 
 <body>
-	<!-- Content -->
+	{{-- Content --}}
 	<div class="not-support-browser">
 		<div class="rixuonline-logo">
 			{{ HTML::image('assets/images/browser_not_support/pinai.png') }}

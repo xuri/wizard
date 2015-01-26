@@ -35,6 +35,16 @@ class AuthorityController extends BaseController
 		return View::make('authority.signin');
 	}
 
+	public function postCaptcha()
+	{
+		return Response::json(
+			array(
+				'success'	=> true,
+				'captcha'	=> HTML::image(URL::to('simplecaptcha'),'Captcha', array('class' => 'captcha_img'))
+			)
+		);
+	}
+
 	/**
 	 * Action: Signin
 	 * @return Response
@@ -229,6 +239,7 @@ class AuthorityController extends BaseController
 	 */
 	public function postSignup()
 	{
+
 		if(Input::get('type') === 'email') {
 			// Get all form data.
 			$data = Input::all();
@@ -304,74 +315,80 @@ class AuthorityController extends BaseController
 					->withErrors($validator);
 			}
 		} else {
-			// Get all form data.
-			$data = Input::all();
-			// Create validation rules
-			$rules = array(
-				'phone'		=> 'required|digits:11|unique:users',
-				'password'	=> 'required|alpha_dash|between:6,16|confirmed',
-				'sms_code'	=> 'required|digits:6',
-				'sex'		=> 'required',
-			);
-			// Custom validation message
-			$messages = array(
-				'phone.required'		=> '请输入手机号码。',
-				'phone.digits'			=> '请输入正确的手机号码。',
-				'phone.unique'			=> '此手机号码已被使用。',
-				'password.required'		=> '请输入密码。',
-				'password.alpha_dash'	=> '密码格式不正确。',
-				'password.between'		=> '密码长度请保持在:min到:max位之间。',
-				'password.confirmed'	=> '两次输入的密码不一致。',
-				'sms_code.required'		=> '请填写验证码。',
-				'sms_code.digits'		=> '验证码错误。',
-				'sex.required'			=> '请选择性别',
-			);
-			// Begin verification
-			$validator   = Validator::make($data, $rules, $messages);
-			$phone       = Input::get('phone');
-			$verify_code = Session::get('verify_code');
-			$sms_code    = Input::get('sms_code');
-			if ($validator->passes() && $sms_code == $verify_code) {
-				// Verification success, add user
-				$user			= new User;
-				$user->phone	= $phone;
-				$user->password	= md5(Input::get('password'));
-				$user->sex		= Input::get('sex');
-				if ($user->save()) {
-					$profile			= new Profile;
-					$profile->user_id	= $user->id;
-					$user->activated_at	= date('Y-m-d H:m:s');
-					$profile->save();
+			if(SimpleCaptcha::check(Input::get('captcha')) == true) {
+				// Get all form data.
+				$data = Input::all();
+				// Create validation rules
+				$rules = array(
+					'phone'		=> 'required|digits:11|unique:users',
+					'password'	=> 'required|alpha_dash|between:6,16|confirmed',
+					'sms_code'	=> 'required|digits:6',
+					'sex'		=> 'required',
+				);
+				// Custom validation message
+				$messages = array(
+					'phone.required'		=> '请输入手机号码。',
+					'phone.digits'			=> '请输入正确的手机号码。',
+					'phone.unique'			=> '此手机号码已被使用。',
+					'password.required'		=> '请输入密码。',
+					'password.alpha_dash'	=> '密码格式不正确。',
+					'password.between'		=> '密码长度请保持在:min到:max位之间。',
+					'password.confirmed'	=> '两次输入的密码不一致。',
+					'sms_code.required'		=> '请填写验证码。',
+					'sms_code.digits'		=> '验证码错误。',
+					'sex.required'			=> '请选择性别',
+				);
+				// Begin verification
+				$validator   = Validator::make($data, $rules, $messages);
+				$phone       = Input::get('phone');
+				$verify_code = Session::get('verify_code');
+				$sms_code    = Input::get('sms_code');
+				if ($validator->passes() && $sms_code == $verify_code) {
+					// Verification success, add user
+					$user			= new User;
+					$user->phone	= $phone;
+					$user->password	= md5(Input::get('password'));
+					$user->sex		= Input::get('sex');
+					if ($user->save()) {
+						$profile			= new Profile;
+						$profile->user_id	= $user->id;
+						$user->activated_at	= date('Y-m-d H:m:s');
+						$profile->save();
 
-					// Chat Register and if use authorizition register need get token
-					$easemob			= getEasemob();
+						// Chat Register and if use authorizition register need get token
+						$easemob			= getEasemob();
 
-					// newRequest or newJsonRequest returns a Request object
-					$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
-						->setHeader('content-type', 'application/json')
-						->setHeader('Accept', 'json')
-						->setHeader('Authorization', 'Bearer '.$easemob->token)
-						->setOptions([CURLOPT_VERBOSE => true])
-						->send();
+						// newRequest or newJsonRequest returns a Request object
+						$regChat = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
+							->setHeader('content-type', 'application/json')
+							->setHeader('Accept', 'json')
+							->setHeader('Authorization', 'Bearer '.$easemob->token)
+							->setOptions([CURLOPT_VERBOSE => true])
+							->send();
 
-					// Create floder to store chat record
-					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+						// Create floder to store chat record
+						File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 
-					// User signin
-					Auth::login($user);
-					// Redirect to a registration page, prompts user to activate
-					return Redirect::route('account');
+						// User signin
+						Auth::login($user);
+						// Redirect to a registration page, prompts user to activate
+						return Redirect::route('account');
+					} else {
+						// Add user fail
+						return Redirect::back()
+							->withInput()
+							->withErrors(array('add' => '注册失败。'));
+					}
 				} else {
 					// Add user fail
-					return Redirect::back()
+					return Redirect::route('signup')
 						->withInput()
-						->withErrors(array('add' => '注册失败。'));
+						->withErrors($validator);
 				}
 			} else {
-				// Add user fail
-				return Redirect::route('signup')
+				return Redirect::back()
 					->withInput()
-					->withErrors($validator);
+					->withErrors(array('captcha' => '验证码输入错误。'));
 			}
 		}
 	}

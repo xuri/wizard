@@ -81,6 +81,8 @@ Route::group(array('prefix' => 'auth'), function () {
 		# SMS Verify
 		Route::post('verifycode'				, array('as' => 'verifycode'	, 'uses' => $Authority.'postVerifyCode'		));
 		Route::post('postsmsreset'				, array('as' => 'postsmsreset'  , 'uses' => $Authority.'postSMSReset'		));
+		# Captcha
+		Route::post('captcha'					, array('as' => 'captcha'		, 'uses' => $Authority.'postCaptcha'			));
 	});
 });
 
@@ -311,12 +313,12 @@ Route::get('browser_not_support', array('as' => 'browser_not_support', function(
 	return View::make('system.browserUpdate');
 }));
 
-App::missing(function($exception)
-{
-	return Response::view('system.missing', array(), 404);
-});
+// App::missing(function($exception)
+// {
+// 	return Response::view('system.missing', array(), 404);
+// });
 
-App::error(function($exception)
-{
-	return Response::view('system.missing', array(), 404);
-});
+// App::error(function($exception)
+// {
+// 	return Response::view('system.missing', array(), 404);
+// });

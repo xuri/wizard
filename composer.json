@@ -13,6 +13,7 @@
 		"zhuzhichao/umeditor"	: "dev-master",
 		"jenssegers/agent"		: "*",
 		"pda/pheanstalk"		: "2.0.*",
+		"iorme/simplecaptcha"	: "dev-master",
 		"ceesvanegmond/minify"	: "*"
 	},
 	"autoload": {
