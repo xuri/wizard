@@ -40,7 +40,7 @@ class AuthorityController extends BaseController
 		return Response::json(
 			array(
 				'success'	=> true,
-				'captcha'	=> HTML::image(URL::to('simplecaptcha'.'123456'),'Captcha', array('class' => 'captcha_img'))
+				'captcha'	=> HTML::image(URL::to('simplecaptcha'.'?123456'),'Captcha', array('class' => 'captcha_img'))
 			)
 		);
 	}
