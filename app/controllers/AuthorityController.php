@@ -87,67 +87,76 @@ class AuthorityController extends BaseController
 	 */
 	public function postVerifyCode()
 	{
-		// Send Recovery Password SMS
-		if(Input::get('forgot_password')){
-			$phone       = array (
-				'phone' => Input::get('phone')
-			);
-			// Create validation rules
-			$rules = array(
-				'phone'          => 'required|digits:11|exists:users'
-			);
-			// Custom validation message
-			$messages = array(
-				'phone.required' => '请输入手机号码。',
-				'phone.digits'   => '请输入正确的手机号码。',
-				'phone.exists'   => '此手机号未注册。'
-			);
-			// Begin verification
-			$validator = Validator::make($phone, $rules, $messages);
-			if ($validator->passes()) {
-				$verify_code = rand(100000,999999);
-				Session::forget('verify_code');
-				Session::put('verify_code', $verify_code);
-				include_once( app_path('api/sms/SendTemplateSMS.php') );
-				sendTemplateSMS(Input::get('phone'), array($verify_code,'5'), "1");
-			} else {
-				return Response::json(
-					array(
-						'fail'      => true,
-						'errors'    => $validator->getMessageBag()->toArray()
-					)
+		if(SimpleCaptcha::check(Input::get('captcha')) == true) {
+			// Send Recovery Password SMS
+			if(Input::get('forgot_password')){
+				$phone       = array (
+					'phone' => Input::get('phone')
 				);
+				// Create validation rules
+				$rules = array(
+					'phone'          => 'required|digits:11|exists:users'
+				);
+				// Custom validation message
+				$messages = array(
+					'phone.required' => '请输入手机号码。',
+					'phone.digits'   => '请输入正确的手机号码。',
+					'phone.exists'   => '此手机号未注册。'
+				);
+				// Begin verification
+				$validator = Validator::make($phone, $rules, $messages);
+				if ($validator->passes()) {
+					$verify_code = rand(100000,999999);
+					Session::forget('verify_code');
+					Session::put('verify_code', $verify_code);
+					include_once( app_path('api/sms/SendTemplateSMS.php') );
+					sendTemplateSMS(Input::get('phone'), array($verify_code,'5'), "1");
+				} else {
+					return Response::json(
+						array(
+							'fail'      => true,
+							'errors'    => $validator->getMessageBag()->toArray()
+						)
+					);
+				}
+			} else {
+				$phone       = array (
+					'phone' => Input::get('phone')
+				);
+				// Create validation rules
+				$rules = array(
+					'phone'          => 'required|digits:11|unique:users'
+				);
+				// Custom validation message
+				$messages = array(
+					'phone.required' => '请输入手机号码。',
+					'phone.digits'   => '请输入正确的手机号码。',
+					'phone.unique'   => '此手机号码已被使用。'
+				);
+				// Begin verification
+				$validator = Validator::make($phone, $rules, $messages);
+				if ($validator->passes()) {
+					$verify_code = rand(100000,999999);
+					Session::forget('verify_code');
+					Session::put('verify_code', $verify_code);
+					include_once( app_path('api/sms/SendTemplateSMS.php') );
+					sendTemplateSMS(Input::get('phone'), array($verify_code,'5'), "1");
+				} else {
+					return Response::json(
+						array(
+							'fail'      => true,
+							'errors'    => $validator->getMessageBag()->toArray()
+						)
+					);
+				}
 			}
 		} else {
-			$phone       = array (
-				'phone' => Input::get('phone')
+			return Response::json(
+				array(
+					'fail'			=> true,
+					'captcha_error'	=> '请正确填写图形验证码。'
+				)
 			);
-			// Create validation rules
-			$rules = array(
-				'phone'          => 'required|digits:11|unique:users'
-			);
-			// Custom validation message
-			$messages = array(
-				'phone.required' => '请输入手机号码。',
-				'phone.digits'   => '请输入正确的手机号码。',
-				'phone.unique'   => '此手机号码已被使用。'
-			);
-			// Begin verification
-			$validator = Validator::make($phone, $rules, $messages);
-			if ($validator->passes()) {
-				$verify_code = rand(100000,999999);
-				Session::forget('verify_code');
-				Session::put('verify_code', $verify_code);
-				include_once( app_path('api/sms/SendTemplateSMS.php') );
-				sendTemplateSMS(Input::get('phone'), array($verify_code,'5'), "1");
-			} else {
-				return Response::json(
-					array(
-						'fail'      => true,
-						'errors'    => $validator->getMessageBag()->toArray()
-					)
-				);
-			}
 		}
 	}
 

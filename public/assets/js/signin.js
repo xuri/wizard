@@ -201,15 +201,20 @@ $(function(){
 
 		$.post(verifycode,
 		{
-		  phone : phone
+		  phone 	: phone,
+		  captcha 	: $('input[name=captcha]').val(),
 		},function(jdata){
 			// Send message success
 			if(jdata.length != undefined){
 				var that=$(_this);
 				timeSend(that);
 			}else{
-				//Send error
-				$('.phone_error').html(jdata.errors.phone);
+				// Send error
+				if(jdata.captcha_error){
+					$('.phone_error').html(jdata.captcha_error);
+				} else {
+					$('.phone_error').html(jdata.errors.phone);
+				}
 			}
 
 		});
