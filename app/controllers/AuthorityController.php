@@ -53,12 +53,12 @@ class AuthorityController extends BaseController
 	{
 		// Credentials
 		$credentials = array(
-			'email' => Input::get('email'),
-			'password' => md5(Input::get('password')
+			'email'		=> Input::get('email'),
+			'password'	=> md5(Input::get('password')
 		));
 		$phone_credentials = array(
-			'phone' => Input::get('email'),
-			'password' => md5(Input::get('password')
+			'phone'		=> Input::get('email'),
+			'password'	=> md5(Input::get('password')
 		));
 		// Remember login status
 		$remember    = Input::get('remember-me', 1);
@@ -113,6 +113,12 @@ class AuthorityController extends BaseController
 					Queue::push('SendSMSQueue', [
 						'phone'	=> Input::get('phone')
 					]);
+
+					return Response::json(
+						array(
+							'success'	=> true
+						)
+					);
 				} else {
 					return Response::json(
 						array(
@@ -141,8 +147,16 @@ class AuthorityController extends BaseController
 					$verify_code = rand(100000,999999);
 					Session::forget('verify_code');
 					Session::put('verify_code', $verify_code);
-					include_once( app_path('api/sms/SendTemplateSMS.php') );
-					sendTemplateSMS(Input::get('phone'), array($verify_code,'5'), "1");
+
+					Queue::push('SendSMSQueue', [
+						'phone'	=> Input::get('phone')
+					]);
+
+					return Response::json(
+						array(
+							'success'	=> true
+						)
+					);
 				} else {
 					return Response::json(
 						array(

@@ -196,16 +196,20 @@ $(function(){
 	$('.count-send').click(function(){
 		// this point
 		var _this = this;
-		// Get phone number
-		var phone = $('#phone').val();
 
-		$.post(verifycode,
-		{
-		  phone 	: phone,
-		  captcha 	: $('input[name=captcha]').val(),
-		},function(jdata){
+		var formData = {
+			_token 		: csrf_token, // CSRF token
+			phone 		: $('input[name=phone]').val(), // Get phone number
+			captcha		: $('input[name=captcha]').val()
+		};
+
+		$.ajax({
+			url 	: verifycode, // the url where we want to POST
+			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+			data 	: formData
+		}).done(function(jdata) {
 			// Send message success
-			if(jdata.length != undefined){
+			if(jdata.success){
 				var that=$(_this);
 				timeSend(that);
 			}else{
