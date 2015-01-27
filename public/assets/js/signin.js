@@ -212,6 +212,7 @@ $(function(){
 			if(jdata.success){
 				var that=$(_this);
 				timeSend(that);
+				$('.phone_error').html(jdata.success_info);
 			}else{
 				// Send error
 				if(jdata.captcha_error){

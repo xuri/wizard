@@ -111,12 +111,14 @@ class AuthorityController extends BaseController
 					Session::put('verify_code', $verify_code);
 
 					Queue::push('SendSMSQueue', [
-						'phone'	=> Input::get('phone')
+						'phone'			=> Input::get('phone'),
+						'verify_code'	=> $verify_code
 					]);
 
 					return Response::json(
 						array(
-							'success'	=> true
+							'success'		=> true,
+							'success_info'	=> '短信验证码已发送。'
 						)
 					);
 				} else {
@@ -149,12 +151,14 @@ class AuthorityController extends BaseController
 					Session::put('verify_code', $verify_code);
 
 					Queue::push('SendSMSQueue', [
-						'phone'	=> Input::get('phone')
+						'phone'			=> Input::get('phone'),
+						'verify_code'	=> $verify_code
 					]);
 
 					return Response::json(
 						array(
-							'success'	=> true
+							'success'		=> true,
+							'success_info'	=> '短信验证码已发送。'
 						)
 					);
 				} else {
