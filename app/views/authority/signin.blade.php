@@ -70,6 +70,13 @@
 								<input type="text" id="phone" name="phone" autofocus required="required" placeholder="请输入11位手机号" value="{{ Input::old('phone') }}"/>
 							</li>
 							<li class="rgs_li">
+								<span>图形验证码:</span>
+								<input type="text" class="captcha_code" name="captcha" required="required" placeholder="区分大小写">
+								<span class="load_captcha">
+									{{ HTML::image(URL::to('simplecaptcha'),'Captcha', array('class' => 'captcha_img')) }}
+								</span>
+							</li>
+							<li class="rgs_li">
 								<span>短信验证码:</span>
 								<input class="rgs_code" type="text" name="sms_code" required="required" placeholder="短信验证码" value="{{ Input::old('sms_code') }}">
 								<input type="button" class="login_button count-send" style="height: 2.4em; padding-top: 7px; color: #fff;" value="发送验证码" />
@@ -81,13 +88,6 @@
 							<li class="rgs_li">
 								<span>重复密码:</span>
 								<input type="password" name="phone_signup_password_confirmation" required="required" placeholder="确认您的密码">
-							</li>
-							<li class="rgs_li">
-								<span>图形验证码:</span>
-								<input type="text" class="captcha_code" name="captcha" required="required" placeholder="区分大小写">
-								<span class="load_captcha">
-									{{ HTML::image(URL::to('simplecaptcha'),'Captcha', array('class' => 'captcha_img')) }}
-								</span>
 							</li>
 						</ul>
 						<div class="login_clause">

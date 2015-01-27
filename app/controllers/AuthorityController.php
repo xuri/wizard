@@ -40,7 +40,7 @@ class AuthorityController extends BaseController
 		return Response::json(
 			array(
 				'success'	=> true,
-				'captcha'	=> HTML::image(URL::to('simplecaptcha'),'Captcha', array('class' => 'captcha_img'))
+				'captcha'	=> HTML::image(URL::to('simplecaptcha'.'123456'),'Captcha', array('class' => 'captcha_img'))
 			)
 		);
 	}
@@ -109,8 +109,10 @@ class AuthorityController extends BaseController
 					$verify_code = rand(100000,999999);
 					Session::forget('verify_code');
 					Session::put('verify_code', $verify_code);
-					include_once( app_path('api/sms/SendTemplateSMS.php') );
-					sendTemplateSMS(Input::get('phone'), array($verify_code,'5'), "1");
+
+					Queue::push('SendSMSQueue', [
+						'phone'	=> Input::get('phone')
+					]);
 				} else {
 					return Response::json(
 						array(
