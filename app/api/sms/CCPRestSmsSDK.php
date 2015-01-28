@@ -32,7 +32,7 @@ class REST {
     // $this->ServerIP = $ServerIP;
     // $this->ServerPort = $ServerPort;
     // $this->SoftVersion = $SoftVersion;
-    $this->ServerIP = 'sandboxapp.cloopen.com';
+    $this->ServerIP = 'app.cloopen.com';
     $this->ServerPort = '8883';
     $this->SoftVersion = '2013-12-26';
     $this->Handle = fopen($this->Filename, 'a');
@@ -59,8 +59,8 @@ class REST {
     */
     function setAppId($AppId){
        // $this->AppId = $AppId;
-       $this->AppId = 'aaf98f89495b3f380149751481f1101e'; // Develop App ID
-       // $this->AppId = '8a48b5514979e09101498317feaa0600';
+       // $this->AppId = 'aaf98f89495b3f380149751481f1101e'; // Develop App ID
+       $this->AppId = '8a48b5514979e09101498317feaa0600';
     }
 
    /**

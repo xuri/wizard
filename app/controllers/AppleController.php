@@ -1,9 +1,26 @@
 <?php
 
 /**
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
+ *
+ * AppleController.php
+ *
+ */
+
+/**
+ * Code Explanation
+ *
+ * Status Code Explanation
+ *
+ * - from = 0 (default) 	Signup from Website
+ * - from = 1 				Signup from Android
+ * - from = 3 				Signup from iOS Client
+ * - from = 4 				Add user by administrator
+ *
+ * Forum Code Explanation
+ *
+ * - status = 0 			Response fail
+ * - status = 1 			Forum is open and response success
+ * - status = 2 			Forum is closed and response success
  *
  * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
  * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
@@ -12,21 +29,7 @@
  * @since  		25th Nov, 2014
  * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
  * @version 	0.1
- */
-
-/**
- * Status Code Explanation
  *
- * from = 0 (default) 	Signup from Website
- * from = 1 			Signup from Android
- * from = 3 			Signup from iOS Client
- * from = 4 			Add user by administrator
- *
- * Forum Code Explanation
- *
- * status = 0 			Response fail
- * status = 1 			Forum is open and response success
- * status = 2 			Forum is closed and response success
  */
 
 class AppleController extends BaseController

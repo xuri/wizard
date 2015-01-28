@@ -9,7 +9,7 @@ class SendSMSQueue extends BaseController{
 		$verify_code	= $data['verify_code'];
 
 		include_once( app_path('api/sms/SendTemplateSMS.php') );
-		sendTemplateSMS($phone, array($verify_code,'5'), "1");
+		sendTemplateSMS($phone, array($verify_code,'5'), "11702");
 
 		$job->delete();
 	}

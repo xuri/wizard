@@ -1,23 +1,31 @@
 <?php
 
 /**
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
+ *
+ * AuthorityController.php
+ *
+ */
+
+/**
+ *
+ * This controller include signin, signup with phone or E-mail, send SMS and E-mail and recovery password.
+ *
+ * Send SMS service use Yuntongxun http://www.yuntongxun.com, and domain mail use Netease free service.
+ * This two work in the beanstalk queue service, queue server monitoring visit http://beanstalk.pinai521.com
  *
  * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
  * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
- * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
+ * @copyright 	Copyright (c) 2013 - 2015 Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
- * @since  		25th Nov, 2014
  * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
- * @version 	0.1
+ * @version 	PHP Version 5.5.21 App Version 0.1 2015-01-29
+ *
  */
 
 class AuthorityController extends BaseController
 {
 	/**
-	 * Action: Signout
+	 * function getSignout
 	 * @return Response
 	 */
 	public function getSignout()
@@ -35,6 +43,10 @@ class AuthorityController extends BaseController
 		return View::make('authority.signin');
 	}
 
+	/**
+	 * View: postCaptcha
+	 * @return Response
+	 */
 	public function postCaptcha()
 	{
 		return Response::json(
@@ -514,7 +526,8 @@ class AuthorityController extends BaseController
 
 	/**
 	 * View: Reset password
-	 * @return Response
+	 * @param 	varchar 	$token
+	 * @return 	Response
 	 */
 	public function getReset($token)
 	{
