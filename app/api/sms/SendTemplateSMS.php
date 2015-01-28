@@ -22,7 +22,7 @@ $accountToken= '0b4a6bd3de9a49529a3d47a99bff8cc6';
 
 //应用Id，在官网应用列表中点击应用，对应应用详情中的APP ID
 //在开发调试的时候，可以使用官网自动为您分配的测试Demo的APP ID
-$appId='aaf98f89495b3f380149751481f1101e';
+$appId='8a48b5514979e09101498317feaa0600';
 
 //请求地址
 //沙盒环境（用于应用开发调试）：sandboxapp.cloopen.com
