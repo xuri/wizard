@@ -32,7 +32,7 @@ class BaseController extends Controller
 		// CSRF protection
 		$this->beforeFilter('csrf', array(
 			'on' => 'post|put|delete',
-			'except' => ['postAndroid', 'postVerifyCode', 'postSMSReset']
+			'except' => ['postAndroid', 'postApple', 'postVerifyCode', 'postSMSReset']
 			));
 		// Instantiate a messaging object
 		$this->messages = new Illuminate\Support\MessageBag;
