@@ -33,7 +33,7 @@
 #nav_message .nav_message_title {
 	color: #fff;
 	position: absolute;
-	font-size: 12px;
+	font-size: 15px;
 	right: 0;
 }
 /* 文字发光结束 */
@@ -70,6 +70,7 @@
 
 .nav_main {
 	height: 56px;
+	padding-left: 19%;
 }
 
 .nav_main p {
@@ -82,10 +83,9 @@
 }
 
 .nav_main p #signIn,#signUp {
-	float: right;
 	color: #fff;
-	margin-left: 3px;
-	font-weight: bold;
+	margin-left: 3em;
+	font-size: 15px;
 }
 
 .nav_left {
@@ -118,15 +118,55 @@
 .a {
 	line-height: 50px;
 	float: left;
-	width: 150px;
-	height: 50px;
-	color: #6e6e86;
-	font-size: 14px;
+	padding-top: 0.2em;
+	/*height: 50px;*/
+	width: 11%;
+	/*color: #6e6e86;*/
+	color: #FFF;
+	text-align: center;
+	font-size: 15px;
 }
 
 .a:hover {
-	background: #6e6e86;
-	color: #fff;
+	/*background: #6e6e86;*/
+	/*color: #fff;*/
+	color: #FFF;
+}
+
+/* Effect 1: Brackets */
+.cl-effect-1 a::before,
+.cl-effect-1 a::after {
+	/* display: inline-block; */
+	opacity: 0;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+	-moz-transition: -moz-transform 0.3s, opacity 0.2s;
+	transition: transform 0.3s, opacity 0.2s;
+}
+
+.cl-effect-1 a::before {
+	margin-right: 10px;
+	content: '[';
+	-webkit-transform: translateX(20px);
+	-moz-transform: translateX(20px);
+	transform: translateX(20px);
+}
+
+.cl-effect-1 a::after {
+	margin-left: 10px;
+	content: ']';
+	-webkit-transform: translateX(-20px);
+	-moz-transform: translateX(-20px);
+	transform: translateX(-20px);
+}
+
+.cl-effect-1 a:hover::before,
+.cl-effect-1 a:hover::after,
+.cl-effect-1 a:focus::before,
+.cl-effect-1 a:focus::after {
+	opacity: 1;
+	-webkit-transform: translateX(0px);
+	-moz-transform: translateX(0px);
+	transform: translateX(0px);
 }
 
 #signIn {
@@ -136,6 +176,7 @@
 #nav_main {
 	margin: 17px 13px;
 	float: left;
+	display: none;
 }
 
 .gn-icon::before {

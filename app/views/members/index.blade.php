@@ -5,7 +5,7 @@
 	@yield('content')
 
 	<div id="lu_content">
-		<div class="lu_con_title">缘来在这</div>
+		<div class="lu_con_title">缘分大厅</div>
 		<div class="lu_con_img">
 			<span class="lu_line1"></span>
 			<span class="lu_line2"></span>

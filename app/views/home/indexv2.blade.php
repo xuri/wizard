@@ -39,7 +39,7 @@
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav" data-0="margin-top:40px;" data-300="margin-top:1px;">
 						<li class="colored active"><a href="{{ route('home') }}">首 页</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('members.index') }}">缘来在这</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('members.index') }}">缘分大厅</a><div class="hover colored-bg"></div></li>
 						<li class="colored"><a href="{{ route('forum.index') }}">单身公寓</a><div class="hover colored-bg"></div></li>
 						@if(Auth::guest()){{-- Guest --}}
 						<li class="colored"><a href="{{ route('signin') }}">登 陆</a><div class="hover colored-bg"></div></li>
