@@ -506,6 +506,7 @@ class AppleController extends BaseController
 								'like'			=> e($likeCount),
 								'user_like_me'	=> e($user_like_me),
 								'answer'		=> e($answer),
+								'user_id'		=> e($data->id),
 							)
 						);
 					} else {
