@@ -41,7 +41,7 @@
 			<li class="cl-effect-1"><a href="{{ route('home') }}" class="a">首 页</a></li>
 			<li class="cl-effect-1"><a href="{{ route('members.index') }}" class="a">缘分大厅</a></li>
 			<li class="cl-effect-1"><a href="{{ route('forum.index') }}" class="a">单身公寓</a></li>
-			<li><a href="{{ route('account') }}" class="a">{{ HTML::image('assets/images/logo.png', '', array('width' => '50')) }}</a></li>
+			<li><a href="{{ route('account') }}" class="a">{{ HTML::image('assets/images/logo.png', '', array('width' => '40', 'style' => 'margin-top: 0.3em;')) }}</a></li>
 			@if(Auth::guest()){{-- Guest --}}
 			<li class="cl-effect-1"><a href="{{ route('signin') }}" class="a">登 陆</a></li>
 			<li class="cl-effect-1"><a href="{{ route('signup') }}" class="a">注 册</a></li>
