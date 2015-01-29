@@ -65,11 +65,11 @@ class AuthorityController extends BaseController
 	{
 		// Credentials
 		$credentials = array(
-			'email'		=> Input::get('email'),
+			'email'		=> Input::get('username'),
 			'password'	=> md5(Input::get('password')
 		));
 		$phone_credentials = array(
-			'phone'		=> Input::get('email'),
+			'phone'		=> Input::get('username'),
 			'password'	=> md5(Input::get('password')
 		));
 		// Remember login status
