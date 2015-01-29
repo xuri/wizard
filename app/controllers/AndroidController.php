@@ -51,7 +51,8 @@ class AndroidController extends BaseController
 		$token  = Input::get('token');
 		$action = Input::get('action');
 
-		if($token == 'jciy9ldJ') // Define token
+		// Define token
+		if($token == 'jciy9ldJ')
 		{
 			switch ($action) {
 
@@ -86,7 +87,7 @@ class AndroidController extends BaseController
 								'id'		=> $user->id,
 								'password'	=> $user->password,
 								'sex' 		=> $user->sex,
-								'portrait'	=> route('home').'/'.'portrait/'.$user->portrait
+								'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait
 							)
 						);
 					} else {
@@ -180,6 +181,7 @@ class AndroidController extends BaseController
 				// Profile complete
 
 				case 'complete' :
+
 					// Get all form data
 					$info = array(
 						'nickname'      => Input::get('nickname'),
@@ -196,7 +198,6 @@ class AndroidController extends BaseController
 					);
 
 					// Create validation rules
-
 					$rules = array(
 						'nickname'		=> 'required|between:1,30',
 						'constellation'	=> 'required',
@@ -211,7 +212,6 @@ class AndroidController extends BaseController
 					);
 
 					// Custom validation message
-
 					$messages = array(
 						'nickname.required'			=> '请输入昵称',
 						'nickname.between'			=> '昵称长度请保持在:min到:max字之间',
@@ -227,7 +227,6 @@ class AndroidController extends BaseController
 					);
 
 					// Begin verification
-
 					$validator = Validator::make($info, $rules, $messages);
 					if ($validator->passes()) {
 
@@ -312,6 +311,7 @@ class AndroidController extends BaseController
 				// Members
 
 				case 'members_index' :
+
 					// Post last user id from Android client
 					$last_id			= Input::get('lastid');
 
@@ -326,6 +326,7 @@ class AndroidController extends BaseController
 
 					// Grade filter
 					$grade				= Input::get('grade');
+
 					if($last_id){
 
 						//  Android client have post last user id, retrieve and skip none portrait user
@@ -419,6 +420,7 @@ class AndroidController extends BaseController
 										->take($per_page)
 										->get()
 										->toArray();
+
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
 							// Convert to real storage path
@@ -453,15 +455,20 @@ class AndroidController extends BaseController
 				// Members show profile
 
 				case 'members_show' :
-					// Get all form data
 
+					// Get all form data
 					$info = array(
-						'phone'   => Input::get('senderid'), // Current signin user phone number on android
-						'user_id' => Input::get('userid'), // Which user want to see
+
+						// Current signin user phone number on android
+						'phone'   => Input::get('senderid'),
+
+						// Which user want to see
+						'user_id' => Input::get('userid'),
 					);
 					if ($info)
 					{
-						$sender_id	= Input::get('senderid'); // Sender user ID
+						// Sender user ID
+						$sender_id	= Input::get('senderid');
 						$user_id	= Input::get('userid');
 						$data		= User::where('id', $user_id)->first();
 						$profile	= Profile::where('user_id', $user_id)->first();
@@ -481,8 +488,11 @@ class AndroidController extends BaseController
 							$answer			= $like_me->answer;
 						}
 
-						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
-						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
+						// Get user's constellation
+						$constellationInfo = getConstellation($profile->constellation);
+
+						// Get user's tag
+						$tag_str           = explode(',', substr($profile->tag_str, 1));
 
 						return Response::json(
 							array(
@@ -516,8 +526,8 @@ class AndroidController extends BaseController
 				// Profile
 
 				case 'account' :
-					// Get all form data
 
+					// Get all form data
 					$info = array(
 						'id'   => Input::get('id'),
 					);
@@ -527,8 +537,13 @@ class AndroidController extends BaseController
 						// Retrieve user
 						$user				= User::where('id', Input::get('id'))->first();
 						$profile			= Profile::where('user_id', $user->id)->first();
-						$constellationInfo	= getConstellation($profile->constellation); // Get user's constellation
-						$tag_str			= explode(',', substr($profile->tag_str, 1)); // Get user's tag
+
+						// Get user's constellation
+						$constellationInfo	= getConstellation($profile->constellation);
+
+						// Get user's tag
+						$tag_str			= explode(',', substr($profile->tag_str, 1));
+
 						$data = array(
 								'status'		=> 1,
 								'sex'			=> e($user->sex),
@@ -536,7 +551,7 @@ class AndroidController extends BaseController
 								'nickname'		=> e($user->nickname),
 								'born_year'		=> e($user->born_year),
 								'school'		=> e($user->school),
-								'portrait'		=> route('home').'/'.'portrait/'.$user->portrait,
+								'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
 								'constellation'	=> $constellationInfo['name'],
 								'tag_str'		=> $tag_str,
 								'hobbies'		=> e($profile->hobbies),
@@ -557,8 +572,10 @@ class AndroidController extends BaseController
 				// Like
 
 				case 'like' :
+
 					// Get all form data.
 					$data	= Input::all();
+
 					// Create validation rules
 					$rules	= array(
 						'id'			=> 'required',
@@ -580,14 +597,17 @@ class AndroidController extends BaseController
 						if($user->points > 0)
 						{
 							$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
-							if($have_like) // This user already sent like
+
+							// This user already sent like
+							if($have_like)
 							{
 								$have_like->answer	= Input::get('answer');
 								$have_like->count	= $have_like->count + 1;
 								$user->points		= $user->points - 1;
 								if($have_like->save() && $user->save())
 								{
-									$notification = Notification(2, $user->id, $receiver_id); // Some user re-liked you
+									// Some user re-liked you
+									$notification = Notification(2, $user->id, $receiver_id);
 
 									// Add push notifications for App client to queue
 									Queue::push('LikeQueue', [
@@ -632,7 +652,7 @@ class AndroidController extends BaseController
 																// Notification ID
 																'id'		=> e($notification->id),
 																'sender_id'	=> e(Input::get('id')),
-																'portrait'	=> route('home').'/'.'portrait/'.$user->portrait,
+																'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
 																'nickname'	=> $user->nickname,
 																'answer'	=> Input::get('answer')
 															]);
@@ -663,18 +683,27 @@ class AndroidController extends BaseController
 				// Sent
 
 				case 'sent' :
-					$last_id	= Input::get('lastid'); // Post last user id from Android client
-					$per_page	= Input::get('perpage'); // Post count per query from Android client
-					$user_id	= Input::get('id'); // Get user id
-					if($last_id) // If Android have post last user id
+					// Post last user id from Android client
+					$last_id	= Input::get('lastid');
+
+					// Post count per query from Android client
+					$per_page	= Input::get('perpage');
+
+					// Get user id
+					$user_id	= Input::get('id');
+
+					// If Android have post last user id
+					if($last_id)
 					{
-						$allLike    = Like::where('sender_id', $user_id) // Query all user liked users
+						// Query all user liked users
+						$allLike    = Like::where('sender_id', $user_id)
 							->orderBy('id', 'desc')
 							->select('receiver_id', 'status', 'created_at', 'count')
 							->where('id', '<', $last_id)
 							->take($per_page)
 							->get()
 							->toArray();
+
 						// Replace receiver_id key name to portrait
 						foreach($allLike as $key1 => $val1){
 							foreach($val1 as $key => $val){
@@ -683,6 +712,7 @@ class AndroidController extends BaseController
 							}
 							$likes[] = $new_array;
 						}
+
 						// Replace receiver ID to receiver portrait
 						foreach($likes as $key => $field){
 
@@ -709,10 +739,14 @@ class AndroidController extends BaseController
 							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
 							$d1							= strtotime($Date_1);
 							$d2							= strtotime($Date_2);
-							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+
+							// Calculate liked time
+							$Days						= round(($d1-$d2)/3600/24);
 							$likes[$key]['created_at']	= $Days;
 						}
-						$like = json_encode($likes); // Encode likes array to json format
+
+						// Encode likes array to json format
+						$like = json_encode($likes);
 						if($allLike)
 						{
 							return '{ "status" : "1", "data" : '.$like.'}';
@@ -724,8 +758,9 @@ class AndroidController extends BaseController
 							);
 						}
 					} else {
-						// First get data from Android client
-						$lastRecord = Like::where('sender_id', $user_id)->orderBy('id', 'desc')->first(); // Query last like id in database
+
+						// First get data from Android client and query last like id in database
+						$lastRecord = Like::where('sender_id', $user_id)->orderBy('id', 'desc')->first();
 
 						// Determin like exist
 						if(is_null($lastRecord))
@@ -733,13 +768,15 @@ class AndroidController extends BaseController
 							return '{ "status" : "1", "data" : []}';
 						} else {
 
-							$allLike    = Like::where('sender_id', $user_id) // Query all user liked users
+							// Query all user liked users
+							$allLike    = Like::where('sender_id', $user_id)
 								->orderBy('id', 'desc')
 								->select('receiver_id', 'status', 'created_at', 'count')
 								->where('id', '<=', $lastRecord->id)
 								->take($per_page)
 								->get()
 								->toArray();
+
 							// Replace receiver_id key name to portrait
 							foreach($allLike as $key1 => $val1){
 								foreach($val1 as $key => $val){
@@ -748,6 +785,7 @@ class AndroidController extends BaseController
 								}
 								$likes[] = $new_array;
 							}
+
 							// Replace receiver ID to receiver portrait
 							foreach($likes as $key => $field){
 
@@ -770,15 +808,19 @@ class AndroidController extends BaseController
 								$likes[$key]['sex']			= e($user->sex);
 
 								// Convert how long liked
-								$Date_1						= date("Y-m-d"); // Current date and time
+								// Current date and time
+								$Date_1						= date("Y-m-d");
 								$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
 								$d1							= strtotime($Date_1);
 								$d2							= strtotime($Date_2);
-								$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+
+								// Calculate liked time
+								$Days						= round(($d1-$d2)/3600/24);
 								$likes[$key]['created_at']	= $Days;
 							}
 
-							$like = json_encode($likes); // Encode likes array to json format
+							// Encode likes array to json format
+							$like = json_encode($likes);
 
 							return Response::json(
 								array(
@@ -792,18 +834,28 @@ class AndroidController extends BaseController
 				// Inbox
 
 				case 'inbox' :
-					$last_id	= Input::get('lastid'); // Post last user id from Android client
-					$per_page	= Input::get('perpage'); // Post count per query from Android client
-					$user_id	= Input::get('id'); // Get user id
-					if($last_id != 'null') // If Android have post last user id
+
+					// Post last user id from Android client
+					$last_id	= Input::get('lastid');
+
+					// Post count per query from Android client
+					$per_page	= Input::get('perpage');
+
+					// Get user id
+					$user_id	= Input::get('id');
+
+					// If Android have post last user id
+					if($last_id != 'null')
 					{
-						$allLike	= Like::where('receiver_id', $user_id) // Query all user liked users
+						// Query all user liked users
+						$allLike	= Like::where('receiver_id', $user_id)
 							->orderBy('id', 'desc')
 							->select('sender_id', 'status', 'created_at', 'count')
 							->where('id', '<', $last_id)
 							->take($per_page)
 							->get()
 							->toArray();
+
 						// Replace sender_id key name to portrait
 						foreach($allLike as $key1 => $val1){
 							foreach($val1 as $key => $val){
@@ -812,21 +864,37 @@ class AndroidController extends BaseController
 							}
 							$likes[] = $new_array;
 						}
+
 						// Replace receiver ID to receiver portrait
 						foreach($likes as $key => $field){
-							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
-							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
-							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
-							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+
+							// Receiver ID
+							$likes[$key]['id']			= $likes[$key]['portrait'];
+
+							// Receiver avatar real storage path
+							$likes[$key]['portrait']	= route('home') . '/' . 'portrait/' . User::where('id', $likes[$key]['portrait'])->first()->portrait;
+
+							// Receiver school
+							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school;
+
+							// Receiver ID
+							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname;
+
 							// Convert how long liked
-							$Date_1						= date("Y-m-d"); // Current date and time
+							$Date_1						= date("Y-m-d");
+
+							// Current date and time
 							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
 							$d1							= strtotime($Date_1);
 							$d2							= strtotime($Date_2);
-							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+
+							// Calculate liked time
+							$Days						= round(($d1-$d2)/3600/24);
 							$likes[$key]['created_at']	= $Days;
 						}
-						$like = json_encode($likes); // Encode likes array to json format
+
+						// Encode likes array to json format
+						$like = json_encode($likes);
 						if($allLike)
 						{
 							return '{ "status" : "1", "data" : '.$like.'}';
@@ -838,14 +906,19 @@ class AndroidController extends BaseController
 							);
 						}
 					} else { // First get data from Android client
-						$lastRecord = Like::where('receiver_id', $user_id)->orderBy('id', 'desc')->first()->id; // Query last like id in database
-						$allLike    = Like::where('receiver_id', $user_id) // Query all user liked users
+
+						// Query last like id in database
+						$lastRecord = Like::where('receiver_id', $user_id)->orderBy('id', 'desc')->first()->id;
+
+						// Query all user liked users
+						$allLike    = Like::where('receiver_id', $user_id)
 							->orderBy('id', 'desc')
 							->select('sender_id', 'status', 'created_at', 'count')
 							->where('id', '<=', $lastRecord)
 							->take($per_page)
 							->get()
 							->toArray();
+
 						// Replace receiver_id key name to portrait
 						foreach($allLike as $key1 => $val1){
 							foreach($val1 as $key => $val){
@@ -854,21 +927,37 @@ class AndroidController extends BaseController
 							}
 							$likes[] = $new_array;
 						}
+
 						// Replace receiver ID to receiver portrait
 						foreach($likes as $key => $field){
-							$likes[$key]['id']			= $likes[$key]['portrait']; // Receiver ID
-							$likes[$key]['portrait']	= route('home').'/'.'portrait/'.User::where('id', $likes[$key]['portrait'])->first()->portrait; // Receiver avatar real storage path
-							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school; // Receiver school
-							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname; // Receiver ID
+
+							// Receiver ID
+							$likes[$key]['id']			= $likes[$key]['portrait'];
+
+							// Receiver avatar real storage path
+							$likes[$key]['portrait']	= route('home') . '/' . 'portrait/' . User::where('id', $likes[$key]['portrait'])->first()->portrait;
+
+							// Receiver school
+							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school;
+
+							// Receiver ID
+							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname;
+
 							// Convert how long liked
-							$Date_1						= date("Y-m-d"); // Current date and time
+							$Date_1						= date("Y-m-d");
+
+							// Current date and time
 							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
 							$d1							= strtotime($Date_1);
 							$d2							= strtotime($Date_2);
-							$Days						= round(($d1-$d2)/3600/24); // Calculate liked time
+
+							// Calculate liked time
+							$Days						= round(($d1-$d2)/3600/24);
 							$likes[$key]['created_at']	= $Days;
 						}
-						$like = json_encode($likes); // Encode likes array to json format
+
+						// Encode likes array to json format
+						$like = json_encode($likes);
 						if($allLike)
 						{
 							return '{ "status" : "1", "data" : '.$like.'}';
@@ -885,12 +974,18 @@ class AndroidController extends BaseController
 				// Accept
 
 				case 'accept' :
-					$id				= Input::get('senderid'); // Get sender ID from client
+
+					// Get sender ID from client
+					$id				= Input::get('senderid');
 					$sender 		= User::where('id', $id)->first();
-					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
+
+					// Get receiver ID from client
+					$receiver_id	= Input::get('receiverid');
 					$receiver		= User::where('id', $receiver_id)->first();
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
-					$like->status	= 1; // Receiver accept like
+
+					// Receiver accept like
+					$like->status	= 1;
 
 					// Add friend relationship in chat system and start chat
 					Queue::push('AddFriendQueue', [
@@ -942,15 +1037,23 @@ class AndroidController extends BaseController
 				// Reject
 
 				case 'reject' :
-					$id				= Input::get('senderid'); // Get sender ID from client
-					$receiver_id	= Input::get('receiverid'); // Get receiver ID from client
+
+					// Get sender ID from client
+					$id				= Input::get('senderid');
+
+					// Get receiver ID from client
+					$receiver_id	= Input::get('receiverid');
 					$receiver		= User::where('id', $receiver_id)->first();
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
-					$like->status	= 2; // Receiver reject user, remove friend relationship in chat system
+
+					// Receiver reject user, remove friend relationship in chat system
+					$like->status	= 2;
+
 					if($like->save())
 					{
 						// Save notification in database for website
 						$notification	= Notification(4, $receiver_id, $id); // Some user reject you like
+
 						// $easemob		= getEasemob();
 						// Push notifications to App client
 						// cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
@@ -990,10 +1093,13 @@ class AndroidController extends BaseController
 					$id				= Input::get('senderid');
 					$receiver_id	= Input::get('id');
 					$like			= Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
-					$like->status	= 3; // Receiver block user, remove friend relationship in chat system
+
+					// Receiver block user, remove friend relationship in chat system
+					$like->status	= 3;
 
 					// Some user blocked you
 					$notification	= Notification(5, $id, $receiver_id);
+
 					// Remove friend relationship in chat system
 					Queue::push('DeleteFriendQueue', [
 											'user_id'	=> $receiver_id,
@@ -1055,7 +1161,9 @@ class AndroidController extends BaseController
 									'renewdays' 	=> $user->renew
 								)
 							);
-						} else if ($today >= $user->renew_at){ // You haven't renew today
+						} else if ($today >= $user->renew_at){
+
+							// You haven't renew today
 							$user->renew_at	= Carbon::now();
 							$user->renew	= $user->renew + 1;
 							$points->points	= $points->points + 2;
@@ -1067,7 +1175,9 @@ class AndroidController extends BaseController
 									'renewdays' 	=> $user->renew
 								)
 							);
-						} else { // You have renew today
+						} else {
+
+							// You have renew today
 							return Response::json(
 								array(
 									'status' 		=> 2
@@ -1168,8 +1278,10 @@ class AndroidController extends BaseController
 
 					// Retrieve user
 					$user			= User::where('id', Input::get('id'))->first();
+
 					// Old portrait
 					$oldPortrait	= $user->portrait;
+
 					// Get user portrait name
 					$portrait		= Input::get('portrait');
 
@@ -1291,6 +1403,7 @@ class AndroidController extends BaseController
 
 						// Build Json format
 						return '{ "status" : "1", "data" : {"top":[], "items" : ' . json_encode($items) . '}}';
+
 					} else { // First get data from Android client
 
 						// Determine forum open status
@@ -1397,8 +1510,10 @@ class AndroidController extends BaseController
 
 								// Build Json format
 								echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+
 							}
 						} else {
+
 							// Retrieve user
 							$user = User::find($user_id);
 
@@ -1407,9 +1522,12 @@ class AndroidController extends BaseController
 
 								// Male user and determine category
 								if($cat_id == 3) {
+
 									// Forum is closed and build Json format
 									echo '{ "status" : "2" }';
+
 								} else {
+
 									// Forum is opening query last user id in database
 									$lastRecord = ForumPost::orderBy('id', 'desc')->first();
 
@@ -1420,9 +1538,7 @@ class AndroidController extends BaseController
 										return '{ "status" : "1", "data" : []}';
 									} else {
 
-										// Post exists
-
-										// Query all items from database
+										// Post exists and query all items from database
 										$top	= ForumPost::where('category_id', $cat_id)
 													->orderBy('created_at' , 'desc')
 													->where('id', '<=', $lastRecord->id)
@@ -1514,11 +1630,15 @@ class AndroidController extends BaseController
 									}
 								}
 							} else {
+
 								// Female user and determine category
 								if($cat_id == 2) {
+
 									// Forum is closed and build Json format
 									echo '{ "status" : "2" }';
+
 								} else {
+
 									// Forum is opening query last user id in database
 									$lastRecord = ForumPost::orderBy('id', 'desc')->first();
 
@@ -1664,20 +1784,39 @@ class AndroidController extends BaseController
 
 								// Build Data Array
 								$data = array(
-									'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-									'sex'			=> e($author->sex), // Post user sex
-									'nickname'		=> e($author->nickname), // Post user nickname
-									'user_id'		=> $author->id, // Post user ID
-									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
-									'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
-									'comments'		=> array(), // Post comments (array format and include reply)
-									'title'			=> $post->title // Post title
+
+									// Post user portrait
+									'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait,
+
+									// Post user sex
+									'sex'			=> e($author->sex),
+
+									// Post user nickname
+									'nickname'		=> e($author->nickname),
+
+									// Post user ID
+									'user_id'		=> $author->id,
+
+									// Post comments count
+									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(),
+
+									// Post created date
+									'created_at'	=> $post->created_at->toDateTimeString(),
+
+									// Post content (removing contents html tags except image and text string)
+									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'),
+
+									// Post comments (array format and include reply)
+									'comments'		=> array(),
+
+									// Post title
+									'title'			=> $post->title
 
 								);
 
 								// Build Json format
 								return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+
 							} else {
 
 								// Query all comments of this post
@@ -1688,6 +1827,7 @@ class AndroidController extends BaseController
 													->take($perpage)
 													->get()
 													->toArray();
+
 								// Build comments array and include reply information
 								foreach($comments as $key => $field) {
 
@@ -1742,15 +1882,32 @@ class AndroidController extends BaseController
 
 								// Build Data Array
 								$data = array(
-									'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-									'sex'			=> e($author->sex), // Post user sex
-									'nickname'		=> e($author->nickname), // Post user nickname
-									'user_id'		=> $author->id, // Post user ID
-									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
-									'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
-									'comments'		=> $comments, // Post comments (array format and include reply)
-									'title'			=> $post->title // Post title
+
+									// Post user portrait
+									'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait,
+
+									// Post user sex
+									'sex'			=> e($author->sex),
+
+									// Post user nickname
+									'nickname'		=> e($author->nickname),
+
+									// Post user ID
+									'user_id'		=> $author->id,
+
+									// Post comments count
+									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(),
+
+									// Post created date
+									'created_at'	=> $post->created_at->toDateTimeString(),
+
+									// Post content (removing contents html tags except image and text string)
+									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'),
+
+									// Post comments (array format and include reply)
+									'comments'		=> $comments,
+									// Post title
+									'title'			=> $post->title
 
 								);
 
@@ -1854,13 +2011,17 @@ class AndroidController extends BaseController
 					$forum_post	= ForumPost::where('id', $post_id)->first();
 
 					// Select post type
-					if(Input::get('type') == 'comments') // Post comments
+					if(Input::get('type') == 'comments')
 					{
+						// Post comments
 						$comment			= new ForumComments;
 						$comment->post_id	= $post_id;
 						$comment->content	= $content;
 						$comment->user_id	= $user_id;
-						$comment->floor		= ForumComments::where('post_id', $post_id)->count() + 2; // Calculate this comment in which floor
+
+						// Calculate this comment in which floor
+						$comment->floor		= ForumComments::where('post_id', $post_id)->count() + 2;
+
 						if($comment->save())
 						{
 							// Determine sender and receiver
@@ -1879,10 +2040,13 @@ class AndroidController extends BaseController
 															'target'	=> $post_author->user_id,
 															'action'	=> 6,
 															'from'		=> $user_id,
+
 															// Notification content
 															'content'	=> '有人评论了你的帖子，快去看看吧',
+
 															// Sender user ID
 															'id'		=> $user_id,
+
 															// Count unread notofications of receiver user
 															'unread'	=> $unread
 														]);
@@ -1903,6 +2067,7 @@ class AndroidController extends BaseController
 							);
 						}
 					} else {
+
 						// Post reply
 						$reply_id			= Input::get('replyid');
 						$comments_id		= nl2br(Input::get('commentid'), true);
@@ -1913,7 +2078,10 @@ class AndroidController extends BaseController
 						$reply->reply_id	= $reply_id;
 						$reply->comments_id	= $comments_id;
 						$reply->user_id		= $user_id;
-						$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1; // Calculate this reply in which floor
+
+						// Calculate this reply in which floor
+						$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1;
+
 						if($reply->save())
 						{
 
@@ -2003,6 +2171,7 @@ class AndroidController extends BaseController
 
 				// Upload Images
 				case 'uploadimage' :
+
 					// Get all json format data from Android client and json decode data
 					$items	= json_decode(Input::get('data'));
 
@@ -2371,14 +2540,16 @@ class AndroidController extends BaseController
 
 					// Retrieve user
 					if($user = User::where('phone', Input::get('phone'))->first()){
+
 						// Update user password
 						$user->password = md5(Input::get('password'));
 
 						// Update successful
 						if($user->save()) {
-							// Update user password in easemob
 
+							// Update user password in easemob
 							$easemob			= getEasemob();
+
 							// newRequest or newJsonRequest returns a Request object
 							$regChat			= cURL::newJsonRequest('put', 'https://a1.easemob.com/jinglingkj/pinai/users/' . $user->id . '/password', ['newpassword' => $user->password])
 								->setHeader('content-type', 'application/json')
