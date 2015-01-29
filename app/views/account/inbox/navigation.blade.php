@@ -54,9 +54,8 @@
 			<li class="cl-effect-1"><a href="{{ route('forum.index') }}" class="a">单身公寓</a></li>
 			<li><a href="{{ route('account') }}" class="a">{{ HTML::image('assets/images/logo.png', '', array('width' => '50')) }}</a></li>
 			@if(Auth::guest()){{-- Guest --}}
-			<a href="{{ route('signin') }}" id="signIn">登 陆</a>
-			<a href="#" id="signUp">/</a>
-			<a href="{{ route('signup') }}" id="signUp">注 册</a>
+			<li class="cl-effect-1"><a href="{{ route('signin') }}" class="a">登 陆</a></li>
+			<li class="cl-effect-1"><a href="{{ route('signup') }}" class="a">注 册</a></li>
 			@elseif(! Auth::user()->is_admin){{-- 普通登录用户 --}}
 				@if(Auth::user()->nickname)
 					<li class="cl-effect-1"><a href="{{ route('account') }}" class="a">{{ Auth::user()->nickname }}</a></li>
@@ -71,7 +70,8 @@
 			<li class="cl-effect-1"><a href="{{ route('home') }}/article/about.html" class="a">关于我们</a></li>
 		</ul>
 		<p>
-			@if(Auth::user()->is_admin) {{-- 管理员 --}}
+			@if(Auth::guest()){{-- Guest --}}
+			@elseif(Auth::user()->is_admin) {{-- Administrator --}}
 				<a href="{{ route('admin') }}" id="signUp">控制面板</a>
 			@endif
 		</p>
