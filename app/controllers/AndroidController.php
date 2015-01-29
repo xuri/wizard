@@ -268,6 +268,7 @@ class AndroidController extends BaseController
 						$profile->question      = Input::get('question');
 
 						if ($user->save() && $profile->save()) {
+
 							// Update success
 							if($portrait != NULL) // User update avatar
 							{
@@ -323,16 +324,28 @@ class AndroidController extends BaseController
 					// Post university filter from Android client
 					$university_filter	= Input::get('university');
 
+					// Grade filter
+					$grade				= Input::get('grade');
 					if($last_id){
 
 						//  Android client have post last user id, retrieve and skip none portrait user
 						$query      = User::whereNotNull('portrait');
 
+						// Sex filter
 						if($sex_filter){
 							isset($sex_filter) AND $query->where('sex', $sex_filter);
 						}
+
+						// University filter
 						if($university_filter){
 							isset($university_filter) AND $query->where('school', $university_filter);
+						}
+
+						// Grade filter
+						if($grade) {
+							isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
+								$profileQuery->where('grade', '=', Input::get('grade'));
+							});
 						}
 
 						$users = $query
@@ -357,11 +370,17 @@ class AndroidController extends BaseController
 							// Retrieve school with UTF8 encode
 							$users[$key]['school']		= e($users[$key]['school']);
 						}
-						$users = json_encode($users); // Encode likes array to json format
-						if($users) // If get query success
+
+						// Encode likes array to json format
+						$users = json_encode($users);
+
+						// If get query success
+						if($users)
 						{
-							return '{ "status" : "1", "data" : '.$users.'}'; // Build Json format
-						} else { // Get query fail
+							// Build Json format
+							return '{ "status" : "1", "data" : ' . $users . '}';
+						} else {
+							// Get query fail
 							return Response::json(
 								array(
 									'status' 		=> 0
@@ -373,11 +392,21 @@ class AndroidController extends BaseController
 						//  First get data from Android client, retrieve and skip none portrait user
 						$query      = User::whereNotNull('portrait');
 
+						// Sex filter
 						if($sex_filter){
 							isset($sex_filter) AND $query->where('sex', $sex_filter);
 						}
+
+						// University filter
 						if($university_filter){
 							isset($university_filter) AND $query->where('school', $university_filter);
+						}
+
+						// Grade filter
+						if($grade) {
+							isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
+								$profileQuery->where('grade', '=', Input::get('grade'));
+							});
 						}
 
 						// Query last user id in database
@@ -404,10 +433,13 @@ class AndroidController extends BaseController
 							// Retrieve school with UTF8 encode
 							$users[$key]['school']		= e($users[$key]['school']);
 						}
-						$users = json_encode($users); // Encode likes array to json format
+
+						// Encode likes array to json format
+						$users = json_encode($users);
+
 						if($users)
 						{
-							return '{ "status" : "1", "data" : '.$users.'}';
+							return '{ "status" : "1", "data" : ' . $users . '}';
 						} else {
 							return Response::json(
 								array(
@@ -1002,7 +1034,7 @@ class AndroidController extends BaseController
 						if($user->renew_at == '0000-00-00 00:00:00'){ // First renew
 							$user->renew_at	= Carbon::now();
 							$user->renew	= $user->renew + 1;
-							$points->points	= $points->points + 2;
+							$points->points	= $points->points + 5;
 							$user->save();
 							$points->save();
 							return Response::json(
@@ -1601,41 +1633,142 @@ class AndroidController extends BaseController
 						// First get data from Android client and Retrieve post data
 						$post		= ForumPost::where('id', $postid)->first();
 
-						// Retrieve user data of this post
-						$author		= User::where('id', $post->user_id)->first();
-
-						// Get last record from database
-						$lastRecord	= ForumComments::orderBy('id', 'desc')->first();
-
-						// Determine forum comments exist
-						if(is_null($lastRecord)){
-
-							// Build Data Array
-							$data = array(
-								'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-								'sex'			=> e($author->sex), // Post user sex
-								'nickname'		=> e($author->nickname), // Post user nickname
-								'user_id'		=> $author->id, // Post user ID
-								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
-								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-								'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
-								'comments'		=> array(), // Post comments (array format and include reply)
-								'title'			=> $post->title // Post title
-
-							);
+						// Determine forum post exist
+						if(is_null($post)) {
 
 							// Build Json format
-							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+							return '{ "status" : "2" }';
+
+						} else {
+
+							// Retrieve user data of this post
+							$author		= User::where('id', $post->user_id)->first();
+
+							// Get last record from database
+							$lastRecord	= ForumComments::orderBy('id', 'desc')->first();
+
+							// Determine forum comments exist
+							if(is_null($lastRecord)){
+
+								// Build Data Array
+								$data = array(
+									'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
+									'sex'			=> e($author->sex), // Post user sex
+									'nickname'		=> e($author->nickname), // Post user nickname
+									'user_id'		=> $author->id, // Post user ID
+									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
+									'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
+									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
+									'comments'		=> array(), // Post comments (array format and include reply)
+									'title'			=> $post->title // Post title
+
+								);
+
+								// Build Json format
+								return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+							} else {
+
+								// Query all comments of this post
+								$comments	= ForumComments::where('post_id', $postid)
+													->orderBy('created_at' , 'asc')
+													->where('id', '<=', $lastRecord->id)
+													->select('id', 'user_id', 'content', 'created_at')
+													->take($perpage)
+													->get()
+													->toArray();
+								// Build comments array and include reply information
+								foreach($comments as $key => $field) {
+
+									// Retrieve comments user
+									$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
+
+									// Comments user ID
+									$comments[$key]['user_id']			= $comments_user->id;
+
+									// Removing contents html tags except image and text string
+									$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
+									// Comments user portrait
+									$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
+
+									// Comments user sex
+									$comments[$key]['user_sex']			= e($comments_user->sex);
+
+									// Comments user nickname
+									$comments[$key]['user_nickname']	= e($comments_user->nickname);
+
+									// Query all replies of this post
+									$replies = ForumReply::where('comments_id', $comments[$key]['id'])
+												->select('id', 'user_id', 'content', 'created_at')
+												->orderBy('created_at' , 'asc')
+												->take(3)
+												->get()
+												->toArray();
+
+									// Calculate total replies of this post
+									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+
+									// Build reply array
+									foreach($replies as $keys => $field) {
+
+										// Retrieve reply user
+										$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
+
+										// Reply user sex
+										$replies[$keys]['sex']		= $reply_user->sex;
+
+										$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
+
+										// Reply user portrait
+										$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
+
+									}
+
+									// Add comments replies array to post comments_reply array
+									$comments[$key]['comment_reply'] = $replies;
+
+								}
+
+								// Build Data Array
+								$data = array(
+									'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
+									'sex'			=> e($author->sex), // Post user sex
+									'nickname'		=> e($author->nickname), // Post user nickname
+									'user_id'		=> $author->id, // Post user ID
+									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
+									'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
+									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
+									'comments'		=> $comments, // Post comments (array format and include reply)
+									'title'			=> $post->title // Post title
+
+								);
+
+								// Build Json format
+								return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+							}
+						}
+
+					} else {
+
+						// First get data from Android client and Retrieve post data
+						$post		= ForumPost::where('id', $postid)->first();
+
+						// Determine forum post exist
+						if(is_null($post)) {
+
+							// Build Json format
+							return '{ "status" : "2" }';
+
 						} else {
 
 							// Query all comments of this post
 							$comments	= ForumComments::where('post_id', $postid)
-												->orderBy('created_at' , 'asc')
-												->where('id', '<=', $lastRecord->id)
+												->orderBy('id' , 'asc')
+												->where('id', '>', $lastid)
 												->select('id', 'user_id', 'content', 'created_at')
 												->take($perpage)
 												->get()
 												->toArray();
+
 							// Build comments array and include reply information
 							foreach($comments as $key => $field) {
 
@@ -1645,8 +1778,6 @@ class AndroidController extends BaseController
 								// Comments user ID
 								$comments[$key]['user_id']			= $comments_user->id;
 
-								// Removing contents html tags except image and text string
-								$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
 								// Comments user portrait
 								$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
@@ -1656,10 +1787,13 @@ class AndroidController extends BaseController
 								// Comments user nickname
 								$comments[$key]['user_nickname']	= e($comments_user->nickname);
 
+								// Removing contents html tags except image and text string
+								$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
+
 								// Query all replies of this post
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 											->select('id', 'user_id', 'content', 'created_at')
-											->orderBy('created_at' , 'asc')
+											->orderBy('created_at' , 'desc')
 											->take(3)
 											->get()
 											->toArray();
@@ -1674,108 +1808,28 @@ class AndroidController extends BaseController
 									$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
 
 									// Reply user sex
-									$replies[$keys]['sex']		= $reply_user->sex;
+									$replies[$keys]['sex']		= e($reply_user->sex);
 
 									$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
 
 									// Reply user portrait
 									$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
-
 								}
 
 								// Add comments replies array to post comments_reply array
 								$comments[$key]['comment_reply'] = $replies;
-
 							}
 
 							// Build Data Array
 							$data = array(
-								'portrait'		=> route('home') . '/' . 'portrait/' . $author->portrait, // Post user portrait
-								'sex'			=> e($author->sex), // Post user sex
-								'nickname'		=> e($author->nickname), // Post user nickname
-								'user_id'		=> $author->id, // Post user ID
-								'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(), // Post comments count
-								'created_at'	=> $post->created_at->toDateTimeString(), // Post created date
-								'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'), // Post content (removing contents html tags except image and text string)
-								'comments'		=> $comments, // Post comments (array format and include reply)
-								'title'			=> $post->title // Post title
 
+								// Post comments (array format and include reply)
+								'comments'		=> $comments
 							);
 
 							// Build Json format
 							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 						}
-
-					} else {
-
-						// Query all comments of this post
-						$comments	= ForumComments::where('post_id', $postid)
-											->orderBy('id' , 'asc')
-											->where('id', '>', $lastid)
-											->select('id', 'user_id', 'content', 'created_at')
-											->take($perpage)
-											->get()
-											->toArray();
-						// Build comments array and include reply information
-						foreach($comments as $key => $field) {
-
-							// Retrieve comments user
-							$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
-
-							// Comments user ID
-							$comments[$key]['user_id']			= $comments_user->id;
-
-							// Comments user portrait
-							$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
-
-							// Comments user sex
-							$comments[$key]['user_sex']			= e($comments_user->sex);
-
-							// Comments user nickname
-							$comments[$key]['user_nickname']	= e($comments_user->nickname);
-
-							// Removing contents html tags except image and text string
-							$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
-
-							// Query all replies of this post
-							$replies = ForumReply::where('comments_id', $comments[$key]['id'])
-										->select('id', 'user_id', 'content', 'created_at')
-										->orderBy('created_at' , 'desc')
-										->take(3)
-										->get()
-										->toArray();
-
-							// Calculate total replies of this post
-							$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
-
-							// Build reply array
-							foreach($replies as $keys => $field) {
-
-								// Retrieve reply user
-								$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
-
-								// Reply user sex
-								$replies[$keys]['sex']		= e($reply_user->sex);
-
-								$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
-
-								// Reply user portrait
-								$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
-							}
-
-							// Add comments replies array to post comments_reply array
-							$comments[$key]['comment_reply'] = $replies;
-						}
-
-						// Build Data Array
-						$data = array(
-
-							// Post comments (array format and include reply)
-							'comments'		=> $comments
-						);
-
-						// Build Json format
-						return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 					}
 
 				break;
@@ -1786,6 +1840,7 @@ class AndroidController extends BaseController
 					$post_id	= Input::get('postid');
 					$content	= nl2br(Input::get('content'), true);
 					$forum_post	= ForumPost::where('id', $post_id)->first();
+
 					// Select post type
 					if(Input::get('type') == 'comments') // Post comments
 					{
@@ -1798,8 +1853,10 @@ class AndroidController extends BaseController
 						{
 							// Determine sender and receiver
 							if($user_id != $forum_post->user_id) {
+
 								// Retrieve author of post
 								$post_author				= ForumPost::where('id', $post_id)->first();
+
 								// Retrieve forum notifications of post author
 								$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->where('status', 0);
 
@@ -1850,8 +1907,10 @@ class AndroidController extends BaseController
 
 							// Retrieve comments
 							$comment						= ForumComments::where('id', $comments_id)->first();
+
 							// Retrieve author of comment
 							$comment_author					= User::where('id', $comment->user_id)->first();
+
 							// Retrieve forum notifications of comment author
 							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->where('status', 0);
 
@@ -1864,12 +1923,16 @@ class AndroidController extends BaseController
 								Queue::push('ForumQueue', [
 															'target'	=> $comment_author->id,
 															// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+
 															'action'	=> 7,
 															// Sender user ID
+
 															'from'		=> $user_id,
 															// Notification content
+
 															'content'	=> '有人回复了你的评论，快去看看吧',
 															// Sender user ID
+
 															'id'		=> $user_id,
 															// Count unread notofications of receiver user
 															'unread'	=> $unread
@@ -1966,8 +2029,10 @@ class AndroidController extends BaseController
 
 					// Post number chars of items summary from Android client
 					$numchars			= Input::get('numchars');
+
 					// Post number chars of original items summary from Android client
 					$original_numchars	= Input::get('original_numchars');
+
 					// Get user ID from Android client
 					$id					= Input::get('id');
 
@@ -2033,6 +2098,7 @@ class AndroidController extends BaseController
 
 								// Add post content summary to original_content key
 								$notifications[$key]['original_content']	= getplaintextintrofromhtml($post->content, $numchars);
+
 							} else {
 
 								// Reply
@@ -2080,15 +2146,33 @@ class AndroidController extends BaseController
 
 					// Build Data Array
 					$data = array(
-						'user_portrait'		=> route('home') . '/' . 'portrait/' . $comment_author->portrait, // Post user portrait
-						'user_sex'			=> $comment_author->sex, // Comment user sex
-						'user_nickname'		=> $comment_author->nickname, // Comment user nickname
-						'user_id'			=> $comment_author->id, // Comment user ID
-						'id'				=> $comment->id, // Comment ID
-						'title'				=> $comment->title, // Comment title
-						'created_at'		=> $comment->created_at->toDateTimeString(), // Comment created date
-						'content'			=> strip_tags($comment->content, '<img>'), // Comment content (removing contents html tags except image and text string)
-						'comment_reply'		=> $replies // Post comments reply (array format and include reply)
+
+						// Post user portrait
+						'user_portrait'		=> route('home') . '/' . 'portrait/' . $comment_author->portrait,
+
+						// Comment user sex
+						'user_sex'			=> $comment_author->sex,
+
+						// Comment user nickname
+						'user_nickname'		=> $comment_author->nickname,
+
+						// Comment user ID
+						'user_id'			=> $comment_author->id,
+
+						// Comment ID
+						'id'				=> $comment->id,
+
+						// Comment title
+						'title'				=> $comment->title,
+
+						// Comment created date
+						'created_at'		=> $comment->created_at->toDateTimeString(),
+
+						// Comment content (removing contents html tags except image and text string)
+						'content'			=> strip_tags($comment->content, '<img>'),
+
+						// Post comments reply (array format and include reply)
+						'comment_reply'		=> $replies
 					);
 
 					// Build Json format
@@ -2132,6 +2216,7 @@ class AndroidController extends BaseController
 
 				// Delete forum post
 				case 'delete_userpost';
+
 					// Get post ID in forum for delete
 					$postId		= Input::get('postid');
 
@@ -2144,13 +2229,19 @@ class AndroidController extends BaseController
 					// Construct picture attachments list
 					$srcArray 	= array_pop($match);
 
-					if(!empty( $srcArray )) // This post have picture attachments
+					// This post have picture attachments
+					if(!empty( $srcArray ))
 					{
 						// Foreach picture attachments list array
 						foreach($srcArray as $key => $field){
-							$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]); // Convert to correct real storage path
-							File::delete(public_path($srcArray[$key])); // Destory upload picture attachments in this post
+
+							// Convert to correct real storage path
+							$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]);
+
+							// Destory upload picture attachments in this post
+							File::delete(public_path($srcArray[$key]));
 						}
+
 						// Delete post in forum
 						if($forumPost->delete()) {
 							return Response::json(
@@ -2236,9 +2327,11 @@ class AndroidController extends BaseController
 												->where('status', 0)
 												->count();
 					if(is_null($notifications)) {
+
 						// No unread notifications, build Json format
 						return '{ "status" : "1", "num" : "0" }';
 					} else {
+
 						// Build Json format
 						return '{ "status" : "1", "num" : ' . $notifications. '}';
 					}

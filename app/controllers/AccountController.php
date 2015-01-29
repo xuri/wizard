@@ -78,7 +78,21 @@ class AccountController extends BaseController
 		$user	= Profile::where('user_id', Auth::user()->id)->first();
 		$points	= User::where('id', Auth::user()->id)->first();
 
-		if($user->renew_at == '0000-00-00 00:00:00'){ // First renew
+		// First renew
+		if($user->renew_at == '0000-00-00 00:00:00'){
+			$user->renew_at	= Carbon::now();
+			$user->renew	= $user->renew + 1;
+			$points->points	= $points->points + 5;
+			$user->save();
+			$points->save();
+			return Response::json(
+				array(
+					'success' => true
+				)
+			);
+		} else if ($today >= $user->renew_at){
+
+			// You haven't renew today
 			$user->renew_at	= Carbon::now();
 			$user->renew	= $user->renew + 1;
 			$points->points	= $points->points + 2;
@@ -89,18 +103,9 @@ class AccountController extends BaseController
 					'success' => true
 				)
 			);
-		} else if ($today >= $user->renew_at){ // You haven't renew today
-			$user->renew_at	= Carbon::now();
-			$user->renew	= $user->renew + 1;
-			$points->points	= $points->points + 2;
-			$user->save();
-			$points->save();
-			return Response::json(
-				array(
-					'success' => true
-				)
-			);
-		} else { // You have renew today
+		} else {
+
+			// You have renew today
 			return Response::json(
 				array(
 					'success' => false
