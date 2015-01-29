@@ -466,14 +466,24 @@ class AndroidController extends BaseController
 						$data		= User::where('id', $user_id)->first();
 						$profile	= Profile::where('user_id', $user_id)->first();
 						$like		= Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first();
-						if($like)
-						{
+						$like_me	= Like::where('sender_id', $user_id)->where('receiver_id', $sender_id)->first();
+						if($like) {
 							$likeCount = $like->count;
 						} else {
 							$likeCount = 0;
 						}
+
+						if(is_null($like_me)) {
+							$user_like_me	= 0;
+							$answer			= null;
+						} else {
+							$user_like_me	= 1;
+							$answer			= $like_me->answer;
+						}
+
 						$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
 						$tag_str           = explode(',', substr($profile->tag_str, 1)); // Get user's tag
+
 						return Response::json(
 							array(
 								'status'		=> 1,
@@ -490,6 +500,8 @@ class AndroidController extends BaseController
 								'question'		=> e($profile->question),
 								'self_intro'	=> e($profile->self_intro),
 								'like'			=> e($likeCount),
+								'user_like_me'	=> e($user_like_me),
+								'answer'		=> e($answer),
 							)
 						);
 					} else {
