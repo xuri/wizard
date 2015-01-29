@@ -42,6 +42,7 @@
 									'2013' => '2013年',
 									'2012' => '2012年',
 									'2011' => '2011年',
+									'2010' => '2010年',
 								),
 							Input::get('target', 'grade'),
 							array('class' => 'lu_school lu_public', 'name' => 'grade')

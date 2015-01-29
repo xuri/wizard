@@ -347,6 +347,10 @@
 										<option value="1991">1991</option>
 										<option value="1992">1992</option>
 										<option value="1993">1993</option>
+										<option value="1993">1994</option>
+										<option value="1993">1995</option>
+										<option value="1993">1996</option>
+										<option value="1993">1997</option>
 									</select>
 									（注意：出生年设置后不能修改）
 									@endif
@@ -366,10 +370,12 @@
 								<td class="data_td1">入学年：{{ $errors->first('grade', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									<select name="grade" id="grade_select">
+										<option value="2011">2010</option>
 										<option value="2011">2011</option>
 										<option value="2012">2012</option>
 										<option value="2013">2013</option>
 										<option value="2014">2014</option>
+										<option value="2014">2015</option>
 									</select>
 								</td>
 							</tr>
