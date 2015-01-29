@@ -73,8 +73,6 @@
 		<p>
 			@if(Auth::user()->is_admin) {{-- 管理员 --}}
 				<a href="{{ route('admin') }}" id="signUp">控制面板</a>
-				<a href="#" id="signUp">/</a>
-				<a href="{{ route('signout') }}" id="signUp">退出登陆</a>
 			@endif
 		</p>
 	</div>
