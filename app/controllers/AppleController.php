@@ -475,10 +475,34 @@ class AppleController extends BaseController
 						}
 
 						if(is_null($like_me)) {
-							$user_like_me	= 0;
+
+							// This user never liked you
+							$user_like_me	= 5;
 							$answer			= null;
+
 						} else {
-							$user_like_me	= 1;
+
+							// Determine users relationship, see code explanation in MembersController
+							switch ($like_me->status) {
+								case '0':
+									// status = 0 User send like, pending accept
+									$user_like_me	= 0;
+								break;
+
+								case '1':
+
+									// status = 1 Receiver accept like, add friend relationship in chat system and start chat
+									$user_like_me	= 1;
+								break;
+
+								default:
+
+									// status = 1 Receiver accept like, add friend relationship in chat system and start chat
+									$user_like_me	= 1;
+								break;
+							}
+
+							// User liked answer
 							$answer			= $like_me->answer;
 						}
 
