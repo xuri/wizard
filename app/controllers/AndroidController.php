@@ -528,7 +528,7 @@ class AndroidController extends BaseController
 								'school'		=> e($data->school),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> $tag_str,
+								'tag_str'		=> e($tag_str),
 								'hobbies'		=> e($profile->hobbies),
 								'grade'			=> e($profile->grade),
 								'question'		=> e($profile->question),
@@ -578,8 +578,8 @@ class AndroidController extends BaseController
 								'school'		=> e($user->school),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> $tag_str,
 								'hobbies'		=> e($profile->hobbies),
+								'tag_str'		=> e($tag_str),
 								'grade'			=> e($profile->grade),
 								'question'		=> e($profile->question),
 								'self_intro'	=> e($profile->self_intro)
