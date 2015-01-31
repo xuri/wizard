@@ -2,11 +2,15 @@
 
 /**
  *
- * AppleController.php
+ * Licensed under The MIT License
+ * For full copyright and license information, please see the LICENSE.txt
+ * Redistributions of files must retain the above copyright notice.
  *
  */
 
 /**
+ * This controller include main iOS client API
+ *
  * Code Explanation
  *
  * Status Code Explanation
@@ -36,8 +40,8 @@ class AppleController extends BaseController
 {
 
 	/**
-	 * Main Android API
-	 * @return Json
+	 * Main iOS API
+	 * @return json All response are in JSON format.
 	 */
 	public function postApple()
 	{
@@ -306,16 +310,16 @@ class AppleController extends BaseController
 
 				case 'members_index' :
 
-					// Post last user id from Android client
+					// Post last user id from App client
 					$last_id			= Input::get('lastid');
 
-					// Post count per query from Android client
+					// Post count per query from App client
 					$per_page			= Input::get('perpage');
 
-					// Post sex filter from Android client
+					// Post sex filter from App client
 					$sex_filter			= Input::get('sex');
 
-					// Post university filter from Android client
+					// Post university filter from App client
 					$university_filter	= Input::get('university');
 
 					// Grade filter
@@ -323,8 +327,8 @@ class AppleController extends BaseController
 
 					if($last_id){
 
-						//  Android client have post last user id, retrieve and skip none portrait user
-						$query      = User::whereNotNull('portrait');
+						//  App client have post last user id, retrieve and skip profile not completed user
+						$query      = User::whereNotNull('portrait')->whereNotNull('nickname');
 
 						// Sex filter
 						if($sex_filter){
@@ -384,8 +388,8 @@ class AppleController extends BaseController
 						}
 					} else {
 
-						//  First get data from Android client, retrieve and skip none portrait user
-						$query      = User::whereNotNull('portrait');
+						//  First get data from App client, retrieve and skip profile not completed user
+						$query      = User::whereNotNull('portrait')->whereNotNull('nickname');
 
 						// Sex filter
 						if($sex_filter){
@@ -453,7 +457,7 @@ class AppleController extends BaseController
 					// Get all form data
 					$info = array(
 
-						// Current signin user phone number on android
+						// Current signin user phone number on App
 						'phone'   => Input::get('senderid'),
 
 						// Which user want to see
@@ -710,16 +714,16 @@ class AppleController extends BaseController
 				// Sent
 
 				case 'sent' :
-					// Post last user id from Android client
+					// Post last user id from App client
 					$last_id	= Input::get('lastid');
 
-					// Post count per query from Android client
+					// Post count per query from App client
 					$per_page	= Input::get('perpage');
 
 					// Get user id
 					$user_id	= Input::get('id');
 
-					// If Android have post last user id
+					// If App have post last user id
 					if($last_id)
 					{
 						// Query all user liked users
@@ -786,7 +790,7 @@ class AppleController extends BaseController
 						}
 					} else {
 
-						// First get data from Android client and query last like id in database
+						// First get data from App client and query last like id in database
 						$lastRecord = Like::where('sender_id', $user_id)->orderBy('id', 'desc')->first();
 
 						// Determin like exist
@@ -862,16 +866,16 @@ class AppleController extends BaseController
 
 				case 'inbox' :
 
-					// Post last user id from Android client
+					// Post last user id from App client
 					$last_id	= Input::get('lastid');
 
-					// Post count per query from Android client
+					// Post count per query from App client
 					$per_page	= Input::get('perpage');
 
 					// Get user id
 					$user_id	= Input::get('id');
 
-					// If Android have post last user id
+					// If App have post last user id
 					if($last_id != 'null')
 					{
 						// Query all user liked users
@@ -932,7 +936,7 @@ class AppleController extends BaseController
 								)
 							);
 						}
-					} else { // First get data from Android client
+					} else { // First get data from App client
 
 						// Query last like id in database
 						$lastRecord = Like::where('receiver_id', $user_id)->orderBy('id', 'desc')->first()->id;
@@ -1369,22 +1373,22 @@ class AppleController extends BaseController
 				// Get Forum Category
 
 				case 'forum_getcat' :
-					// Post user ID from Android client
+					// Post user ID from App client
 					$user_id	= Input::get('userid');
 
-					// Post last user ID from Android client
+					// Post last user ID from App client
 					$last_id	= Input::get('lastid');
 
-					// Post count per query from Android client
+					// Post count per query from App client
 					$per_page	= Input::get('perpage');
 
-					// Post category ID from Android client
+					// Post category ID from App client
 					$cat_id		= Input::get('catid');
 
-					// Post number chars of post summary from Android client
+					// Post number chars of post summary from App client
 					$numchars	= Input::get('numchars');
 
-					// If Android have post last user id
+					// If App have post last user id
 					if($last_id != 'null') {
 
 						// Query all items from database
@@ -1431,7 +1435,7 @@ class AppleController extends BaseController
 						// Build Json format
 						return '{ "status" : "1", "data" : {"top":[], "items" : ' . json_encode($items) . '}}';
 
-					} else { // First get data from Android client
+					} else { // First get data from App client
 
 						// Determine forum open status
 						if(ForumCategories::where('id', 1)->first()->open == 1) {
@@ -1786,10 +1790,10 @@ class AppleController extends BaseController
 					// Define breaks convert rules
 					$breaks		= array("<br />","<br>","<br/>");
 
-					// If Android have post last user id
+					// If App have post last user id
 					if($lastid == null) {
 
-						// First get data from Android client and Retrieve post data
+						// First get data from App client and Retrieve post data
 						$post		= ForumPost::where('id', $postid)->first();
 
 						// Determine forum post exist
@@ -1945,7 +1949,7 @@ class AppleController extends BaseController
 
 					} else {
 
-						// First get data from Android client and Retrieve post data
+						// First get data from App client and Retrieve post data
 						$post		= ForumPost::where('id', $postid)->first();
 
 						// Determine forum post exist
@@ -2199,7 +2203,7 @@ class AppleController extends BaseController
 				// Upload Images
 				case 'uploadimage' :
 
-					// Get all json format data from Android client and json decode data
+					// Get all json format data from App client and json decode data
 					$items	= json_decode(Input::get('data'));
 
 					// Create an empty array to store path of upload image
@@ -2235,13 +2239,13 @@ class AppleController extends BaseController
 				// Get Notifications
 				case 'get_notifications' :
 
-					// Post number chars of items summary from Android client
+					// Post number chars of items summary from App client
 					$numchars			= Input::get('numchars');
 
-					// Post number chars of original items summary from Android client
+					// Post number chars of original items summary from App client
 					$original_numchars	= Input::get('original_numchars');
 
-					// Get user ID from Android client
+					// Get user ID from App client
 					$id					= Input::get('id');
 
 					// Retrieve notifications
@@ -2333,10 +2337,10 @@ class AppleController extends BaseController
 				// Forum Get Reply
 				case 'forum_getreply' :
 
-					// Post forum post ID from Android client
+					// Post forum post ID from App client
 					$post_id		= Input::get('postid');
 
-					// Post comment ID from Android client
+					// Post comment ID from App client
 					$comment_id		= Input::get('commentid');
 
 					// Retrieve comment
@@ -2390,7 +2394,7 @@ class AppleController extends BaseController
 				// Get user posts
 				case 'get_userposts' :
 
-					// Post user ID from Android client
+					// Post user ID from App client
 					$user_id	= Input::get('id');
 
 					// Retrieve user
@@ -2528,7 +2532,7 @@ class AppleController extends BaseController
 				// Get forum unread notifications
 				case 'get_forumunread' :
 
-					// Get user ID from Android client and retrieve User
+					// Get user ID from App client and retrieve User
 					$user 		   = User::find(Input::get('id'));
 					$notifications = Notification::where('receiver_id', $user->id)
 												->whereIn('category', array(6, 7))
@@ -2631,7 +2635,7 @@ class AppleController extends BaseController
 
 				// Admin notifications
 				case 'system_notifications' :
-					// Post user ID from Android client
+					// Post user ID from App client
 					$id				= Input::get('id');
 
 					// Retrieve all system notifications
