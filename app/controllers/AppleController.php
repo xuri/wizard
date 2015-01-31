@@ -510,7 +510,11 @@ class AppleController extends BaseController
 						$constellationInfo = getConstellation($profile->constellation);
 
 						// Get user's tag
-						$tag_str           = explode(',', substr($profile->tag_str, 1));
+						if(is_null($profile->tag_str)){
+							$tag_str = e(null);
+						} else {
+							$tag_str = explode(',', substr($profile->tag_str, 1));
+						}
 
 						return Response::json(
 							array(
@@ -522,7 +526,7 @@ class AppleController extends BaseController
 								'school'		=> e($data->school),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> e($tag_str),
+								'tag_str'		=> $tag_str,
 								'hobbies'		=> e($profile->hobbies),
 								'grade'			=> e($profile->grade),
 								'question'		=> e($profile->question),
@@ -561,7 +565,11 @@ class AppleController extends BaseController
 						$constellationInfo	= getConstellation($profile->constellation);
 
 						// Get user's tag
-						$tag_str			= explode(',', substr($profile->tag_str, 1));
+						if(is_null($profile->tag_str)){
+							$tag_str = e(null);
+						} else {
+							$tag_str = explode(',', substr($profile->tag_str, 1));
+						}
 
 						$data = array(
 								'status'		=> 1,
@@ -573,7 +581,7 @@ class AppleController extends BaseController
 								'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
 								'constellation'	=> $constellationInfo['name'],
 								'hobbies'		=> e($profile->hobbies),
-								'tag_str'		=> e($tag_str),
+								'tag_str'		=> $tag_str,
 								'grade'			=> e($profile->grade),
 								'question'		=> e($profile->question),
 								'self_intro'	=> e($profile->self_intro)
