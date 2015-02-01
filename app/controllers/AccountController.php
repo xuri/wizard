@@ -1,25 +1,29 @@
 <?php
 
 /**
- *
  * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
+ *
+ * PHP Version 5.5
+ */
+
+/**
+ * Class for sign-in user account management.
  *
  * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
  * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
  * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
- * @since 		25th Nov, 2014
  * @license 	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
- * @version 	0.1
- *
+ * @version 	Release: 0.1 2014-12-25
  */
 
 class AccountController extends BaseController
 {
 	/**
-	 * Account index
+	 * Show sign-in profile index view.
+	 *
 	 * @return Response
 	 */
 	public function getIndex()
@@ -33,7 +37,8 @@ class AccountController extends BaseController
 	}
 
 	/**
-	 * Account profile
+	 * Show edit sign-in user profile view
+	 *
 	 * @return Reponse
 	 */
 	public function getComplete()
@@ -50,7 +55,8 @@ class AccountController extends BaseController
 	}
 
 	/**
-	 * Ajax get university list
+	 * Ajax get university list for sign-in user choose school
+	 *
 	 * @return json $school
 	 */
 	public function postUniversity()
@@ -70,6 +76,7 @@ class AccountController extends BaseController
 
 	/**
 	 * Ajax daly post renew to get point
+	 *
 	 * @return json success true or false
 	 */
 	public function postRenew()
@@ -92,7 +99,7 @@ class AccountController extends BaseController
 			);
 		} else if ($today >= $user->renew_at){
 
-			// You haven't renew today
+			// Sign-in user haven't renew today
 			$user->renew_at	= Carbon::now();
 			$user->renew	= $user->renew + 1;
 			$points->points	= $points->points + 2;
@@ -105,7 +112,7 @@ class AccountController extends BaseController
 			);
 		} else {
 
-			// You have renew today
+			// Sign-in user have renew today
 			return Response::json(
 				array(
 					'success' => false
@@ -115,7 +122,8 @@ class AccountController extends BaseController
 	}
 
 	/**
-	 * Post update profile information
+	 * Sign-in user update profile information
+	 *
 	 * @return Response
 	 */
 	public function postComplete()

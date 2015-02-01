@@ -21,6 +21,7 @@ class CreateArticleTable extends Migration {
 			$table->string('title')->nullable();
 			$table->string('slug')->nullable();
 			$table->text('content')->nullable();
+			$table->string('thumbnails')->nullable();
 			$table->string('meta_title')->nullable();
 			$table->string('meta_description')->nullable();
 			$table->string('meta_keywords')->nullable();
