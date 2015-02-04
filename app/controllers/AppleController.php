@@ -781,7 +781,7 @@ class AppleController extends BaseController
 						$like = json_encode($likes);
 						if($allLike)
 						{
-							return '{ "status" : "1", "data" : '.$like.'}';
+							return '{ "status" : "1", "data" : ' . $like . '}';
 						} else {
 							return Response::json(
 								array(
@@ -853,12 +853,16 @@ class AppleController extends BaseController
 
 							// Encode likes array to json format
 							$like = json_encode($likes);
-
-							return Response::json(
-								array(
-									'status' 		=> 0
-								)
-							);
+							if($allLike)
+							{
+								return '{ "status" : "1", "data" : ' . $like . '}';
+							} else {
+								return Response::json(
+									array(
+										'status' 		=> 0
+									)
+								);
+							}
 						}
 					}
 				break;
