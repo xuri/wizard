@@ -51,7 +51,7 @@
 				margin: 0;
 				background: #ef698a;
 				font-size: 12px;
-				position:absolute; bottom:0;
+				position:fixed; bottom:0;
 
 			}
 
