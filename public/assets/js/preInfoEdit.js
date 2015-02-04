@@ -1,3 +1,21 @@
+$(function() {
+	$('.image-editor').cropit({
+		imageState: {
+			src: ''
+		}
+	});
+
+	$('.export').click(function() {
+		var imageData				= $('.image-editor').cropit('export');
+		getById('portait').value	= imageData;
+		var head_pic				= getById('head_pic');
+		head_pic.src				= imageData;
+		$('#upload_panel').css("display","none");
+		$('#mask').css("display","none");
+	});
+});
+
+
 /**
  * canvas 元素宽高180
  * 头元素宽120 高171
@@ -6,11 +24,8 @@
  // 私有(块级)作用越
 +(function (){
 
-
-
 	// 定义全局图片路径
 	var global_pic_path = '';
-
 
 	// 获取canvas元素
 	var pic_wrap = getById('pre_pic_wrap');
@@ -69,6 +84,10 @@
 	var mask = getById('mask');
 	// 获取捏脸插件
 	var pre_content = getById('pre_content');
+	// Get upload avatar panel
+	var upload_panel = getById('upload_panel');
+	// Close upload avatar panel
+	var upload_panel_close = getById('upload_panel_close');
 	// 获取关闭按钮
 	var pre_close = getById('pre_close');
 	// 获取选择男女窗
@@ -81,9 +100,12 @@
 	// 点击修改头像按钮
 	change_photo.onclick = function(){
 		mask.style.display = checkbg.style.display = 'block';
-
 		makeHeight(checkbg, 250); // 计算遮罩和弹窗高度的函数
+	};
 
+	upload_panel_close.onclick = function(){
+		mask.style.display = upload_panel.style.display = 'none';
+		clearImgList(); // 点击关闭按钮的时候
 	};
 
 	// 点击关闭按钮 关闭的是捏脸时候的窗口
@@ -96,7 +118,6 @@
 		mask.style.display = checkbg.style.display = 'none';
 		clearImgList(); // 点击关闭按钮的时候
 	};
-
 
 	// 点击男孩或女孩
 	for(var gb = 1; gb < g_b_btns.length; gb++){
@@ -124,7 +145,11 @@
 				global_bi = 1; // 鼻的默认地址
 				global_hair = 1; // 头发的默认地址
 				global_bgcolor = 0; // 背景色的默认地址
-			}else{ // 男生初始化
+
+				checkbg.style.display = 'none';
+				pre_content.style.display = 'block';
+				createImgList('head', 28);
+			}else if(this.id == "../assets/images/preInfoEdit/boy/"){ // 男生初始化
 				global_pic_path = "../assets/images/preInfoEdit/boy/";
 				main(1, 1, 1, 1, 1, 1, 1, 0);
 
@@ -147,10 +172,15 @@
 				global_bi = 1; // 鼻的默认地址
 				global_hair = 1; // 头发的默认地址
 				global_bgcolor = 0; // 背景色的默认地址
+
+				checkbg.style.display = 'none';
+				pre_content.style.display = 'block';
+				createImgList('head', 28);
+			} else {
+				checkbg.style.display = 'none';
+				upload_panel.style.display = 'block';
 			}
-			checkbg.style.display = 'none';
-			pre_content.style.display = 'block';
-			createImgList('head', 28);
+
 		};
 	}
 
@@ -766,95 +796,95 @@ for(var i=0;i<aLi.length;i++){
    // 初始化的时候，读取隐藏表单的值，看看有没有选择,并付给数组tagArr  和  admin_tagArr
    admin_tagArr = tag_str.value.split(',');
    for(var u = 0; u < admin_tagArr.length; u++){
-   		for(var w = 0; w < aLi.length; w++){
+		for(var w = 0; w < aLi.length; w++){
 
-   			if(admin_tagArr[u] == w+ 1){
-   				//alert(aLi[w].children[0].innerHTML);
-   				fnY(aLi[w], w+1, aLi[w].children[0].innerHTML);
-   				var s = (w+1) + '-' + aLi[w].children[0].innerHTML;
-   				for(var j = tag_td.children.length - 2;j >= 0; j--){
-		   			tag_td.removeChild(tag_td.children[j]);
-		   		}
-		   		for(var i = 0; i < tagArr.length; i++){
-		   			// 动态创建标签
-		   			var span = document.createElement('span');
+			if(admin_tagArr[u] == w+ 1){
+				//alert(aLi[w].children[0].innerHTML);
+				fnY(aLi[w], w+1, aLi[w].children[0].innerHTML);
+				var s = (w+1) + '-' + aLi[w].children[0].innerHTML;
+				for(var j = tag_td.children.length - 2;j >= 0; j--){
+					tag_td.removeChild(tag_td.children[j]);
+				}
+				for(var i = 0; i < tagArr.length; i++){
+					// 动态创建标签
+					var span = document.createElement('span');
 
-		   			var ii = document.createElement('i');
-		   			ii.innerHTML = tagArr[i].split('-')[1];
+					var ii = document.createElement('i');
+					ii.innerHTML = tagArr[i].split('-')[1];
 
-		   			var em = document.createElement('em');
-		   			em.innerHTML = '×';
-		   			em.onclick = function(){
-		   				for(var m = 0; m < aLi.length; m++){
-		   					var sr = this.parentNode.getAttribute('data-num');
+					var em = document.createElement('em');
+					em.innerHTML = '×';
+					em.onclick = function(){
+						for(var m = 0; m < aLi.length; m++){
+							var sr = this.parentNode.getAttribute('data-num');
 
-		   					if(sr == aLi[m].getAttribute('data-num')){
+							if(sr == aLi[m].getAttribute('data-num')){
 
-		   						fnY(aLi[m], sr.split('-')[0], sr.split('-')[1]);
-		   						tag_td.removeChild(this.parentNode);
+								fnY(aLi[m], sr.split('-')[0], sr.split('-')[1]);
+								tag_td.removeChild(this.parentNode);
 
-		   						tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
-		   					}
+								tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
+							}
 
 
-			   			}
-		   			}
+						}
+					}
 
-		   			span.appendChild(ii);
-		   			span.appendChild(em);
-		   			span.setAttribute("data-num", tagArr[i].toString());
-		   			tag_td.insertBefore(span, tag_td.children[0]);
+					span.appendChild(ii);
+					span.appendChild(em);
+					span.setAttribute("data-num", tagArr[i].toString());
+					tag_td.insertBefore(span, tag_td.children[0]);
 
-		   		}
-   			}
+				}
+			}
 
 		}
    }
 
 
    tag_end.onclick = function(){
-   		tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
+		tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
 
-   		for(var j = tag_td.children.length - 2;j >= 0; j--){
-   			tag_td.removeChild(tag_td.children[j]);
-   		}
-   		for(var i = 0; i < tagArr.length; i++){
-   			// 动态创建标签
-   			var span = document.createElement('span');
+		for(var j = tag_td.children.length - 2;j >= 0; j--){
+			tag_td.removeChild(tag_td.children[j]);
+		}
+		for(var i = 0; i < tagArr.length; i++){
+			// 动态创建标签
+			var span = document.createElement('span');
 
-   			var ii = document.createElement('i');
-   			ii.innerHTML = tagArr[i].split('-')[1];
+			var ii = document.createElement('i');
+			ii.innerHTML = tagArr[i].split('-')[1];
 
-   			var em = document.createElement('em');
-   			em.innerHTML = '×';
-   			em.onclick = function(){
-   				for(var m = 0; m < aLi.length; m++){
-   					var sr = this.parentNode.getAttribute('data-num');
+			var em = document.createElement('em');
+			em.innerHTML = '×';
+			em.onclick = function(){
+				for(var m = 0; m < aLi.length; m++){
+					var sr = this.parentNode.getAttribute('data-num');
 
-   					if(sr == aLi[m].getAttribute('data-num')){
+					if(sr == aLi[m].getAttribute('data-num')){
 
-   						fnY(aLi[m], sr.split('-')[0], sr.split('-')[1],1);
-   						tag_td.removeChild(this.parentNode);
+						fnY(aLi[m], sr.split('-')[0], sr.split('-')[1],1);
+						tag_td.removeChild(this.parentNode);
 
-   						tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
-   					}
+						tag_str.value = admin_tagArr.toString(); // 给隐藏表单填值
+					}
 
 
-	   			}
-   			}
+				}
+			}
 
-   			span.appendChild(ii);
-   			span.appendChild(em);
-   			span.setAttribute("data-num", tagArr[i].toString());
-   			tag_td.insertBefore(span, tag_td.children[0]);
+			span.appendChild(ii);
+			span.appendChild(em);
+			span.setAttribute("data-num", tagArr[i].toString());
+			tag_td.insertBefore(span, tag_td.children[0]);
 
-   			// 获取选择标签弹窗
+			// 获取选择标签弹窗
 			var tag_Popup = getById('tag-Popup');
-   			// 关闭弹窗
-   			mask.style.display = tag_Popup.style.display = 'none';
-   		}
+			// 关闭弹窗
+			mask.style.display = tag_Popup.style.display = 'none';
+		}
 
-   		//alert(tagArr + '--' + admin_tagArr);
+		//alert(tagArr + '--' + admin_tagArr);
 
    };
 
@@ -915,12 +945,12 @@ for(var i=0;i<aLi.length;i++){
 		//alert(arr);
 		//alert('1'+arr + val);
 		for (var i = 0; i < arr.length; i++) {
-	        if (arr[i] == val){
-	        	var index = arr.getArrayIndex(val);
-	        	//alert('2'+index);
-	        	arr.splice(index, 1);
-	        }
-	    }
+			if (arr[i] == val){
+				var index = arr.getArrayIndex(val);
+				//alert('2'+index);
+				arr.splice(index, 1);
+			}
+		}
 	}
 	Array.prototype.getArrayIndex = function ( value ) {
 		var index = -1;

@@ -169,7 +169,7 @@
 				"password_confirmation" : password_conf_val
 			}, function(jdata){
 				if(jdata.success){
-					location.href = "<?php echo route('home'); ?>";
+					location.href = "{{ route('home') }}";
 
 				}else{
 					if(jdata.errors.hasOwnProperty("phone")){

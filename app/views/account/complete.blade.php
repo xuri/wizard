@@ -5,12 +5,26 @@
 	<div id="mask"></div>
 	<div id="checkbg">
 		<a id="check_close" href="javascript:;">×</a>
-		<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/boy/">
-			{{ HTML::image('assets/images/preInfoEdit/bgcolor/boy.png') }}
-		</a>
-		<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/girl/">
-			{{ HTML::image('assets/images/preInfoEdit/bgcolor/girl.png') }}
-		</a>
+
+		<span class="fp_bottom" id="bottom"></span>
+
+		<div id="pinai_avatar">
+			@if(Auth::user()->sex == 'M')
+			<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/boy/">
+				聘爱头像{{-- HTML::image('assets/images/preInfoEdit/bgcolor/boy.png') --}}
+			</a>
+			<a href="javascript:;" class="type_changer">自定义上传</a>
+			@else
+			<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/girl/">
+				聘爱头像{{-- HTML::image('assets/images/preInfoEdit/bgcolor/girl.png') --}}
+			</a>
+			<a href="javascript:;" class="type_changer">自定义上传</a>
+			@endif
+		</div>
+
+		<div id="custom_avater">
+		</div>
+
 	</div>
 	{{-- Avatar --}}
 	<div id="pre_content">
@@ -46,6 +60,18 @@
 		</div>
 		<a href="javascript:;" id="save_pic">保存</a>
 	</div>
+	<div id="upload_panel">
+		<a id="upload_panel_close" href="javascript:;">×</a>
+		<div class="image-editor">
+			<input type="file" class="cropit-image-input">
+			<div class="cropit-image-preview"></div>
+			<div class="image-size-label">
+			剪裁照片
+			</div>
+			<input type="range" class="cropit-image-zoom-input">
+			<a href="javascript:;" id="save_upload_pic" class="export">保存</a>
+		</div>
+	</div>
 	{{-- end Avatar --}}
 	{{-- Choose school --}}
 	<div class="vs-Popup" id="vote-school">
@@ -59,7 +85,6 @@
 				@endforeach
 			</div>
 			<span class="vs-line-bottom"></span>
-			<!--a href="javascript:;">哈尔滨理工大学</a-->
 			<div class="vs-school clear" id="school_wrap">
 
 			</div>
