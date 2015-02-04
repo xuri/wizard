@@ -349,7 +349,7 @@ class AppleController extends BaseController
 						}
 
 						$users = $query
-							->orderBy('id', 'desc')
+							->orderBy('signin_at', 'desc')
 							->select('id', 'nickname', 'school', 'sex', 'portrait')
 							->where('id', '<', $last_id)
 							->take($per_page)
@@ -413,7 +413,7 @@ class AppleController extends BaseController
 						$lastRecord = User::orderBy('id', 'desc')->first()->id;
 
 						$users      = $query
-										->orderBy('id', 'desc')
+										->orderBy('signin_at', 'desc')
 										->select('id', 'nickname', 'school', 'sex', 'portrait')
 										->where('id', '<=', $lastRecord)
 										->take($per_page)
