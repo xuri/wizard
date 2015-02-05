@@ -44,7 +44,7 @@ class AppleController extends BaseController
 	 *
 	 * @return Json All response are in JSON format.
 	 */
-	public function postApple()
+	public function postAndroid()
 	{
 
 		$token  = Input::get('token');
@@ -410,7 +410,7 @@ class AppleController extends BaseController
 						}
 
 						// Query last user id in database
-						$lastRecord = User::orderBy('id', 'desc')->first()->id;
+						$lastRecord = User::orderBy('signin_at', 'desc')->first()->id;
 
 						$users      = $query
 										->orderBy('signin_at', 'desc')
