@@ -44,7 +44,7 @@ class AppleController extends BaseController
 	 *
 	 * @return Json All response are in JSON format.
 	 */
-	public function postAndroid()
+	public function postApple()
 	{
 
 		$token  = Input::get('token');

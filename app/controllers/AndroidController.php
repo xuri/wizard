@@ -419,7 +419,7 @@ class AndroidController extends BaseController
 						}
 
 						// Query last user id in database
-						$lastRecord = User::orderBy('signin_at', 'desc')->first()->id;
+						$lastRecord = User::orderBy('id', 'desc')->first()->id;
 
 						$users      = $query
 										->orderBy('signin_at', 'desc')
