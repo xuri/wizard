@@ -340,7 +340,7 @@ class AppleController extends BaseController
 
 						// University filter
 						if($university_filter){
-							if($university == '其他') {
+							if($university == 'others') {
 								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
 								isset($university) AND $query->whereNotIn('school', array($universities_list));
 							} else {
@@ -2538,7 +2538,7 @@ class AppleController extends BaseController
 					}
 
 					array_push($universities, array(
-						'id'			=> 0,
+						'id'			=> 'others',
 						'university'	=> '其他',
 						'open_at'		=> 'none',
 						'status'		=> 2
