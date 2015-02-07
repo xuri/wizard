@@ -4,7 +4,7 @@
 	<div id="wrapper">
 		@if(Agent::isMobile())
 		@else
-			@include('home.navigation')
+			@include('layout.navigation')
 			@yield('content')
 		@endif
 

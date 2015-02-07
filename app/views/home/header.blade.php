@@ -35,11 +35,11 @@
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
 
-	{{ HTML::style('assets/css/nav.css') }}
+	{{ Minify::stylesheet(array(
+		'/assets/css/cms-nav.css'
+	)) }}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
-
 </head>
-
 <body>
