@@ -340,9 +340,9 @@ class AppleController extends BaseController
 
 						// University filter
 						if($university_filter){
-							if($university == 'others') {
+							if($university_filter == '其他') {
 								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
-								isset($university) AND $query->whereNotIn('school', array($universities_list));
+								isset($university_filter) AND $query->whereNotIn('school', array($universities_list));
 							} else {
 								isset($university_filter) AND $query->where('school', $university_filter);
 							}
@@ -406,7 +406,12 @@ class AppleController extends BaseController
 
 						// University filter
 						if($university_filter){
-							isset($university_filter) AND $query->where('school', $university_filter);
+							if($university_filter == '其他') {
+								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
+								isset($university_filter) AND $query->whereNotIn('school', array($universities_list));
+							} else {
+								isset($university_filter) AND $query->where('school', $university_filter);
+							}
 						}
 
 						// Grade filter
@@ -2538,7 +2543,7 @@ class AppleController extends BaseController
 					}
 
 					array_push($universities, array(
-						'id'			=> 'others',
+						'id'			=> 0,
 						'university'	=> '其他',
 						'open_at'		=> 'none',
 						'status'		=> 2
