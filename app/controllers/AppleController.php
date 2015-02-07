@@ -2541,7 +2541,7 @@ class AppleController extends BaseController
 						'id'			=> 0,
 						'university'	=> '其他',
 						'open_at'		=> 'none',
-						'status'		=> 1
+						'status'		=> 2
 					));
 
 					// Build Json format
