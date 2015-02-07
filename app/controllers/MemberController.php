@@ -93,7 +93,7 @@ class MemberController extends BaseController {
 		if($university) {
 			if($university == 'others') {
 				$universities_list = University::where('status', 2)->select('university')->get()->toArray();
-				isset($university) AND $query->whereNotIn('school', array($universities_list));
+				isset($university) AND $query->whereNotIn('school', $universities_list);
 			} else {
 				isset($university) AND $query->where('school', $university);
 			}

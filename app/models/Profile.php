@@ -36,11 +36,8 @@ class Profile extends BaseModel
 	 */
 	protected $table = 'profile';
 
-	 public function belongsToUser()
-
-  {
-
-    return $this->belongsToMany('User', 'user_id', 'id');
-
-  }
+	public function belongsToUser()
+	{
+		return $this->belongsToMany('User', 'user_id', 'id');
+	}
 }

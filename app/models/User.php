@@ -153,5 +153,4 @@ class User extends BaseModel implements UserInterface, RemindableInterface
 	{
 		return $this->hasOne('Profile', 'user_id', 'id', 'grade');
 	}
-
 }

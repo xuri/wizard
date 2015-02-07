@@ -342,7 +342,7 @@ class AppleController extends BaseController
 						if($university_filter){
 							if($university_filter == '其他') {
 								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
-								isset($university_filter) AND $query->whereNotIn('school', array($universities_list));
+								isset($university_filter) AND $query->whereNotIn('school', $universities_list);
 							} else {
 								isset($university_filter) AND $query->where('school', $university_filter);
 							}
@@ -408,7 +408,7 @@ class AppleController extends BaseController
 						if($university_filter){
 							if($university_filter == '其他') {
 								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
-								isset($university_filter) AND $query->whereNotIn('school', array($universities_list));
+								isset($university_filter) AND $query->whereNotIn('school', $universities_list);
 							} else {
 								isset($university_filter) AND $query->where('school', $university_filter);
 							}
