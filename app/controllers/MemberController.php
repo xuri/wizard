@@ -73,7 +73,7 @@ class MemberController extends BaseController {
 	{
 		$query					= User::whereNotNull('portrait')
 											->whereNotNull('nickname')
-											->orderBy('signin_at', 'desc');
+											->orderBy('updated_at', 'desc');
 		$open_universities		= University::where('status', 2)->select('id', 'university')->get();
 		$pending_universities	= University::where('status', 1)->select('id', 'university', 'created_at')->get();
 

@@ -327,9 +327,11 @@ class AppleController extends BaseController
 					$grade				= Input::get('grade');
 
 					if($last_id){
+						// User last signin at time
+						$last_updated_at	= User::find($last_id)->updated_at;
 
 						//  App client have post last user id, retrieve and skip profile not completed user
-						$query      = User::whereNotNull('portrait')->whereNotNull('nickname');
+						$query				= User::whereNotNull('portrait')->whereNotNull('nickname');
 
 						// Sex filter
 						if($sex_filter){
@@ -349,9 +351,9 @@ class AppleController extends BaseController
 						}
 
 						$users = $query
-							->orderBy('signin_at', 'desc')
+							->orderBy('updated_at', 'desc')
 							->select('id', 'nickname', 'school', 'sex', 'portrait')
-							->where('id', '<', $last_id)
+							->where('updated_at', '<', $last_updated_at)
 							->take($per_page)
 							->get()
 							->toArray();
@@ -410,12 +412,12 @@ class AppleController extends BaseController
 						}
 
 						// Query last user id in database
-						$lastRecord = User::orderBy('signin_at', 'desc')->first()->id;
+						$lastRecord = User::orderBy('updated_at', 'desc')->first()->updated_at;
 
 						$users      = $query
-										->orderBy('signin_at', 'desc')
+										->orderBy('updated_at', 'desc')
 										->select('id', 'nickname', 'school', 'sex', 'portrait')
-										->where('id', '<=', $lastRecord)
+										->where('updated_at', '<=', $lastRecord)
 										->take($per_page)
 										->get()
 										->toArray();
