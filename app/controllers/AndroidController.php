@@ -349,7 +349,12 @@ class AndroidController extends BaseController
 
 						// University filter
 						if($university_filter){
-							isset($university_filter) AND $query->where('school', $university_filter);
+							if($university == '其他') {
+								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
+								isset($university) AND $query->whereNotIn('school', array($universities_list));
+							} else {
+								isset($university_filter) AND $query->where('school', $university_filter);
+							}
 						}
 
 						// Grade filter
@@ -2540,6 +2545,13 @@ class AndroidController extends BaseController
 					foreach ($universities as $key => $value) {
 						$universities[$key]['open_at'] = e(date('m月d日', strtotime($universities[$key]['open_at'])));
 					}
+
+					array_push($universities, array(
+						'id'			=> 0,
+						'university'	=> '其他',
+						'open_at'		=> 'none',
+						'status'		=> 1
+					));
 
 					// Build Json format
 					return '{ "status" : "1", "data" : ' . json_encode($universities) . '}';
