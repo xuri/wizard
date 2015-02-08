@@ -9,17 +9,14 @@
  */
 
 /**
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
+ * Class for website CMS system, create, update and destory posts.
  *
- * @uses        Laravel The PHP frameworks for web artisans http://laravel.com
- * @author      Ri Xu http://xuri.me <xuri.me@gmail.com>
- * @copyright   Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
- * @link        http://www.jinglingkj.com
- * @since       25th Nov, 2014
- * @license     Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
- * @version     0.1
+ * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
+ * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
+ * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
+ * @link 		http://www.jinglingkj.com
+ * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
+ * @version 	Release: 0.1 2014-12-25
  */
 
 class Admin_ArticlesResource extends BaseResource
@@ -172,7 +169,7 @@ class Admin_ArticlesResource extends BaseResource
 	/**
 	 * Resource edit view
 	 * GET         /resource/{id}/edit
-	 * @param  int  $id
+	 * @param  integer  $id
 	 * @return Response
 	 */
 	public function edit($id)
@@ -185,7 +182,7 @@ class Admin_ArticlesResource extends BaseResource
 	/**
 	 * Resource update action
 	 * PUT/PATCH   /resource/{id}
-	 * @param  int  $id
+	 * @param  integer  $id
 	 * @return Response
 	 */
 	public function update($id)
@@ -257,6 +254,7 @@ class Admin_ArticlesResource extends BaseResource
 	/**
 	 * Mark open university
 	 * GET /{id}/open
+	 * @param integer $id University ID
 	 * @return Response     View
 	 */
 	public function open($id)
@@ -280,6 +278,7 @@ class Admin_ArticlesResource extends BaseResource
 	/**
 	 * Close university service
 	 * POST /{id}/close
+	 * @param integer $id University ID
 	 * @return Response     View
 	 */
 	public function close($id)

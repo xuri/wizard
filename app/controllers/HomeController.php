@@ -9,17 +9,14 @@
  */
 
 /**
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
+ * Class for website home page, and CMS system.
  *
  * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
  * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
  * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
- * @since  		25th Nov, 2014
  * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
- * @version 	0.1
+ * @version 	Release: 0.1 2014-12-25
  */
 
 class HomeController extends BaseController {
@@ -36,10 +33,14 @@ class HomeController extends BaseController {
 	|	Route::get('/', 'HomeController@showWelcome');
 	|
 	*/
-
+	/**
+	 * Home page of website
+	 * @return response Rendering home page view
+	 */
 	public function getIndex()
 	{
-		if (Agent::isMobile()) { // Mobile Detect
+		// Mobile Detect
+		if (Agent::isMobile()) {
 			return View::make('home.indexv2');
 		} else {
 			return View::make('home.indexv2');
@@ -48,7 +49,8 @@ class HomeController extends BaseController {
 
 	/**
 	 * Articles category list
-	 * @return Respanse
+	 * @param integer $category_id Category ID in CMS system
+	 * @return response
 	 */
 	public function getCategory($category_id)
 	{

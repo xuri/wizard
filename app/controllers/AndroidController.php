@@ -9,7 +9,7 @@
  */
 
 /**
- * This controller include main Android client API
+ * Class include main Android client API
  *
  * Code Explanation
  *

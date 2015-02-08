@@ -9,19 +9,17 @@
  */
 
 /**
- *
- * This controller include signin, signup with phone or E-mail, send SMS and E-mail and recovery password.
+ * Class for signin, signup with phone or E-mail, send SMS and E-mail and recovery password.
  *
  * Send SMS service use Yuntongxun http://www.yuntongxun.com, and domain mail use Netease free service.
  * This two work in the beanstalk queue service, queue server monitoring visit http://beanstalk.pinai521.com
  *
  * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
  * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
- * @copyright 	Copyright (c) 2013 - 2015 Harbin Wizard Techonlogy Co., Ltd.
+ * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
  * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
- * @version 	PHP Version 5.5.21 App Version 0.1 2015-01-29
- *
+ * @version 	Release: 0.1 2014-12-25
  */
 
 class AuthorityController extends BaseController

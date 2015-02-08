@@ -9,7 +9,7 @@
  */
 
 /**
- * This controller include main iOS client API
+ * Class include main iOS client API
  *
  * Code Explanation
  *

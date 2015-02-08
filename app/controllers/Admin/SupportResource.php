@@ -9,17 +9,14 @@
  */
 
 /**
- * Licensed under The MIT License
- * For full copyright and license information, please see the LICENSE.txt
- * Redistributions of files must retain the above copyright notice.
+ * Class for administrators management support or suggestions.
  *
  * @uses 		Laravel The PHP frameworks for web artisans http://laravel.com
  * @author 		Ri Xu http://xuri.me <xuri.me@gmail.com>
  * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
- * @since 		25th Nov, 2014
- * @license 	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
- * @version 	0.1
+ * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
+ * @version 	Release: 0.1 2014-12-25
  */
 
 class Admin_SupportResource extends BaseResource
@@ -89,6 +86,7 @@ class Admin_SupportResource extends BaseResource
 	/**
 	 * Mark read user support ticket
 	 * GET /{id}/block
+	 * @param integer $id Support or suggestions ID
 	 * @return Response     View
 	 */
 	public function read($id)
@@ -112,6 +110,7 @@ class Admin_SupportResource extends BaseResource
 	/**
 	 * Unmark read user support ticket
 	 * POST /{id}/block
+	 * @param integer $id Support or suggestions ID
 	 * @return Response     View
 	 */
 	public function unread($id)
@@ -135,6 +134,7 @@ class Admin_SupportResource extends BaseResource
 	/**
 	 * Show user support ticket
 	 * POST /{id}/block
+	 * @param integer $id Support or suggestions ID
 	 * @return Response     View
 	 */
 	public function show($id)
