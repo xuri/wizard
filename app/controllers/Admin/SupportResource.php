@@ -142,7 +142,7 @@ class Admin_SupportResource extends BaseResource
 		$resourceName = $this->resourceName;
 
 		// Retrieve support ticket
-		$data			= $this->model->find($id)->first();
+		$data			= $this->model->find($id);
 
 		// Retrieve user
 		$user			= User::find($data->user_id);
