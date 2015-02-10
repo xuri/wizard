@@ -25,11 +25,6 @@
 					@foreach($tag_str as $tag)
 					<li style="background:#e64150;">{{ getTagName($tag) }}</li>
 					@endforeach
-					<!-- <li style="background:#e64150;">帅哥控</li>
-					<li style="background:#5cd5d5;">美女控</li>
-					<li style="background:#8acd47;">御姐控</li>
-					<li style="background:#ffcc00;">文艺青年</li>
-					<li style="background:#a036a0;">技术宅</li> -->
 				</ul>
 			</div>
 		</div>
@@ -39,3 +34,20 @@
 	@endforeach
 	{{ pagination($datas->appends(Input::except('page')), 'layout.paginator') }}
 </div>
+<script type="text/javascript">
+	var aColor=['#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+				'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+				'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+				'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+				'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900'];
+	function loop(classValue){
+		var aT=document.getElementsByClassName(classValue);
+		for(var i=0;i<aT.length;i++){
+			var aLi=aT[i].getElementsByTagName('li');
+			for(var a=0;a<aLi.length;a++){
+				aLi[a].style.background=aColor[a];
+			}
+		}
+	}
+	loop('lu_userMessage_character');
+</script>
