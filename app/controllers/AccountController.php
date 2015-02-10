@@ -33,7 +33,15 @@ class AccountController extends BaseController
 		$constellationIcon = $constellationInfo['icon'];
 		$constellationName = $constellationInfo['name'];
 		$tag_str           = explode(',', substr($profile->tag_str, 1));
-		return View::make('account.index')->with(compact('profile', 'constellationIcon', 'constellationName', 'tag_str'));
+
+		// Determine user renew status
+		if($profile->crenew >= 30){
+			$crenew = true;
+		} else {
+			$crenew = false;
+		}
+
+		return View::make('account.index')->with(compact('profile', 'constellationIcon', 'constellationName', 'tag_str', 'crenew'));
 	}
 
 	/**
@@ -51,7 +59,15 @@ class AccountController extends BaseController
 
 		// Get user's constellation
 		$constellationInfo	= getConstellation($profile->constellation);
-		return View::make('account.complete')->with(compact('profile', 'constellationInfo', 'provinces'));
+
+		// Determine user renew status
+		if($profile->crenew >= 30){
+			$crenew = true;
+		} else {
+			$crenew = false;
+		}
+
+		return View::make('account.complete')->with(compact('profile', 'constellationInfo', 'provinces', 'crenew'));
 	}
 
 	/**
@@ -82,6 +98,7 @@ class AccountController extends BaseController
 	public function postRenew()
 	{
 		$today	= Carbon::today();
+		$yesterday = Carbon::yesterday();
 		$user	= Profile::where('user_id', Auth::user()->id)->first();
 		$points	= User::where('id', Auth::user()->id)->first();
 
@@ -89,6 +106,7 @@ class AccountController extends BaseController
 		if($user->renew_at == '0000-00-00 00:00:00'){
 			$user->renew_at	= Carbon::now();
 			$user->renew	= $user->renew + 1;
+			$user->crenew	= $user->crenew + 1;
 			$points->points	= $points->points + 5;
 			$user->save();
 			$points->save();
@@ -99,12 +117,24 @@ class AccountController extends BaseController
 			);
 		} else if ($today >= $user->renew_at){
 
+			// Check user whether or not renew yesterday
+			if($yesterday <= $user->renew_at){
+
+				// Keep renew
+				$user->crenew	= $user->crenew + 1;
+			} else {
+
+				// Not keep renew, reset renew count
+				$user->crenew	= 0;
+			}
+
 			// Sign-in user haven't renew today
 			$user->renew_at	= Carbon::now();
 			$user->renew	= $user->renew + 1;
 			$points->points	= $points->points + 2;
 			$user->save();
 			$points->save();
+
 			return Response::json(
 				array(
 					'success' => true
@@ -258,7 +288,15 @@ class AccountController extends BaseController
 
 		// Get user's profile
 		$profile	= Profile::where('user_id', Auth::user()->id)->first();
-		return View::make('account.sent.index')->with(compact('datas', 'profile'));
+
+		// Determine user renew status
+		if($profile->crenew >= 30){
+			$crenew = true;
+		} else {
+			$crenew = false;
+		}
+
+		return View::make('account.sent.index')->with(compact('datas', 'profile', 'crenew'));
 	}
 
 	/**
@@ -271,7 +309,15 @@ class AccountController extends BaseController
 
 		// Get user's profile
 		$profile	= Profile::where('user_id', Auth::user()->id)->first();
-		return View::make('account.inbox.index')->with(compact('datas', 'profile'));
+
+		// Determine user renew status
+		if($profile->crenew >= 30){
+			$crenew = true;
+		} else {
+			$crenew = false;
+		}
+
+		return View::make('account.inbox.index')->with(compact('datas', 'profile', 'crenew'));
 	}
 
 	/**
@@ -285,10 +331,17 @@ class AccountController extends BaseController
 		// Get user's profile
 		$profile	= Profile::where('user_id', Auth::user()->id)->first();
 
+		// Determine user renew status
+		if($profile->crenew >= 30){
+			$crenew = true;
+		} else {
+			$crenew = false;
+		}
+
 		if (Request::ajax()) {
 			return Response::json(View::make('account.posts.load-ajax')->with(compact('posts'))->render());
 		}
-		return View::make('account.posts.index')->with(compact('posts', 'profile'));
+		return View::make('account.posts.index')->with(compact('posts', 'profile', 'crenew'));
 	}
 
 	/**
@@ -309,7 +362,14 @@ class AccountController extends BaseController
 		$forumNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(6, 7))->where('status', 0)->count();
 		$systemNotificationsCount	= Notification::where('receiver_id', Auth::user()->id)->whereIn('category', array(8, 9))->where('status', 0)->count();
 
-		return View::make('account.notifications.index')->with(compact('friendNotifications', 'forumNotifications', 'systemNotifications', 'friendNotificationsCount', 'forumNotificationsCount', 'systemNotificationsCount', 'profile'));
+		// Determine user renew status
+		if($profile->crenew >= 30){
+			$crenew = true;
+		} else {
+			$crenew = false;
+		}
+
+		return View::make('account.notifications.index')->with(compact('friendNotifications', 'forumNotifications', 'systemNotifications', 'friendNotificationsCount', 'forumNotificationsCount', 'systemNotificationsCount', 'profile', 'crenew'));
 	}
 
 	/**

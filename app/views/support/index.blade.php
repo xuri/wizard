@@ -21,7 +21,7 @@
 					<li><a href="{{ route('account.notifications') }}" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;我的来信</a></li>
 					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o">&nbsp;&nbsp;&nbsp;我的帖子</a></li>
 					<li><a href="{{ route('support.index') }}" class="a5 fa active fa-life-ring">&nbsp;&nbsp;&nbsp;联系客服</a></li>
-					<li><a href="{{ route('home') }}" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关于我们</a></li>
+					<li><a href="{{ route('home') }}/article/about.html" class="a5 fa fa-bookmark">&nbsp;&nbsp;&nbsp;关于我们</a></li>
 				</ul>
 				<div id="download">
 					<div>移动客户端下载</div>

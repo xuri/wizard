@@ -89,6 +89,13 @@ Route::filter('not.self', function ($route) {
 		return Redirect::back();
 });
 
+# Mobile access redirect
+Route::filter('is.mobile', function ($route) {
+	// Intercept your user ID
+	if (Agent::isMobile())
+		return View::make('home.mobilev2');
+});
+
 /*
 |--------------------------------------------------------------------------
 | [Rear] Filters

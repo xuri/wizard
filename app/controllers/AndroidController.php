@@ -252,7 +252,7 @@ class AndroidController extends BaseController
 						} else{
 							// User update avatar
 							$portraitPath		= public_path('portrait/');
-							$user->portrait     = 'android/'.$portrait; // Save file name to database
+							$user->portrait     = 'android/' . $portrait; // Save file name to database
 						}
 						if(is_null($user->sex))
 						{
@@ -1357,14 +1357,15 @@ class AndroidController extends BaseController
 						$portraitPath		= public_path('portrait/');
 
 						// Save file name to database
-						$user->portrait     = 'android/'.$portrait;
+						$user->portrait     = 'android/' . $portrait;
 
 						if ($user->save()) {
 							// Update success
 							$oldAndroidPortrait = strpos($oldPortrait, 'android');
 							if($oldAndroidPortrait === false) // Must use ===
 							{
-								File::delete($portraitPath.$oldPortrait); // Delete old poritait
+								// Delete old poritait
+								File::delete($portraitPath . $oldPortrait);
 								return Response::json(
 									array(
 										'status' 	=> 1
@@ -1378,6 +1379,69 @@ class AndroidController extends BaseController
 									)
 								);
 							}
+						} else {
+							// Update fail
+							return Response::json(
+								array(
+									'status' 	=> 0
+								)
+							);
+						}
+					}
+				break;
+
+				// Upload portrait
+
+				case 'uploadportrait' :
+
+					// Retrieve user
+					$user			= User::where('id', Input::get('id'))->first();
+
+					// Old pritrait
+					$oldPortrait	= $user->portrait;
+
+					// Portrait data
+					$portrait		= Input::get('portrait');
+
+					// Portrait MIME
+					$mime			= Input::get('mime');
+
+					// User update avatar
+					if($portrait != NULL)
+					{
+						$portrait           = str_replace('data:image/' . $mime . ';base64,', '', $portrait);
+						$portrait           = str_replace(' ', '+', $portrait);
+						$portraitData       = base64_decode($portrait);
+
+						// Decode string
+						$portraitPath		= public_path('portrait/');
+
+						// Portrait file name
+						$portraitFile       = uniqid() . $mime;
+
+						// Store file
+						$successPortrait    = file_put_contents($portraitPath . $portraitFile, $portraitData);
+
+						// Save file name to database
+						$user->portrait     = $portraitFile;
+
+						if ($user->save()){
+							// Determine user portrait type
+							$asset = strpos($oldPortrait, 'android');
+
+							// Should to use !== false
+							if($asset !== false){
+								// No nothing
+							} else {
+								// User set portrait from web delete old poritait
+								File::delete($portraitPath . $oldPortrait);
+							}
+							// Update success
+							return Response::json(
+								array(
+									'status' 	=> 1
+								)
+							);
 						} else {
 							// Update fail
 							return Response::json(

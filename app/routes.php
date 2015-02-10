@@ -31,7 +31,7 @@
 |
 */
 
-Route::group(array(), function () {
+Route::group(array('before' => 'is.mobile'), function () {
 	$controller = 'HomeController@';
 	# Homepage
 	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   ));
@@ -54,7 +54,7 @@ Route::group(array(), function () {
 |
 */
 
-Route::group(array('prefix' => 'auth'), function () {
+Route::group(array('prefix' => 'auth', 'before' => 'is.mobile'), function () {
 	$Authority = 'AuthorityController@';
 
 	# Signout
@@ -93,7 +93,7 @@ Route::group(array('prefix' => 'auth'), function () {
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'auth|auth.activated'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'auth|auth.activated|is.mobile'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -109,7 +109,7 @@ Route::group(array('prefix' => 'members', 'before' => 'auth|auth.activated'), fu
 |
 */
 
-Route::group(array('prefix' => 'support', 'before' => 'auth|auth.activated'), function () {
+Route::group(array('prefix' => 'support', 'before' => 'auth|auth.activated|is.mobile'), function () {
 	$resource   = 'support';
 	$controller = 'SupportController@';
 	# Get index
@@ -124,7 +124,7 @@ Route::group(array('prefix' => 'support', 'before' => 'auth|auth.activated'), fu
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated'), function () {
+Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated|is.mobile'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'							, array('as' => 'account',						'uses' => $Account.'getIndex'				));
@@ -153,7 +153,7 @@ Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated'), fu
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated'), function () {
+Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated|is.mobile'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Type
@@ -172,7 +172,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated'), func
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin'), function () {
+Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|is.mobile'), function () {
 	$Admin = 'AdminController@';
 	# Admin index
 	Route::get('/'		, array('as' => 'admin', 'uses' => $Admin.'getIndex'));

@@ -39,28 +39,31 @@
 		</div>
 		<!-- /#page-wrapper -->
 
-		@include('layout.copyright')
-		@yield('content')
-		<style>
-			div.footer {
-				text-align: center;
-				color: #FFF;
-				width: 100%;
-				height: 50px;
-				padding: 15px;
-				margin: 0;
-				background: #ef698a;
-				font-size: 12px;
-				position:fixed; bottom:0;
+		@if(Agent::isMobile())
+		@else
+			@include('layout.copyright')
+			@yield('content')
+			<style>
+				div.footer {
+					text-align: center;
+					color: #FFF;
+					width: 100%;
+					height: 50px;
+					padding: 15px;
+					margin: 0;
+					background: #ef698a;
+					font-size: 12px;
+					position:fixed; bottom:0;
 
-			}
+				}
 
-			div.footer a {
-				color: #FFF;
-				font-size: 12px;
-				margin: 0 auto;
-			}
-		</style>
+				div.footer a {
+					color: #FFF;
+					font-size: 12px;
+					margin: 0 auto;
+				}
+			</style>
+		@endif
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
@@ -68,7 +71,5 @@
 	{{-- Bootstrap Core JavaScript --}}
 	{{ HTML::script('assets/bootstrap-3.3.0/js/bootstrap.min.js') }}
 
-
 </body>
-
 </html>

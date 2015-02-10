@@ -15,6 +15,7 @@ $(function() {
 	});
 });
 
+$("#grade_select").val($("#grade_select").attr("rel"));
 
 /**
  * canvas 元素宽高180

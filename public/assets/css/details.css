@@ -162,6 +162,17 @@ body {
 	font-size: 14px;
 }
 
+.tags {
+	width: 70px;
+	height: 21px;
+	float: left;
+	margin-right: 5px;
+	margin-top: 5px;
+	text-align: center;
+	line-height: 21px;
+	color: #fff;
+}
+
 .callout-warning {
 	padding: 20px;
 	margin: 20px 0;

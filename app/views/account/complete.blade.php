@@ -307,10 +307,6 @@
 						<div id="change_photo">修改头像{{ $errors->first('portrait', '<strong class="error" style="color: #cc0000">:message</strong>') }}</div>
 					</div>
 					<div class="sgnin">
-						<div class="sgnin_top">
-							<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
-							<div><span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
-						</div>
 						@include('account.points')
 						@yield('content')
 					</div>
@@ -394,13 +390,14 @@
 							<tr>
 								<td class="data_td1">入学年：{{ $errors->first('grade', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
-									<select name="grade" id="grade_select">
-										<option value="2011">2010</option>
+									<select name="grade" id="grade_select" rel="{{ $profile->grade }}">
+										<option value="">请选择</option>
+										<option value="2010">2010</option>
 										<option value="2011">2011</option>
 										<option value="2012">2012</option>
 										<option value="2013">2013</option>
 										<option value="2014">2014</option>
-										<option value="2014">2015</option>
+										<option value="2015">2015</option>
 									</select>
 								</td>
 							</tr>

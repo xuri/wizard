@@ -38,7 +38,12 @@
 						@else
 						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'pi_sex')) }}
 						@endif
-						<span class="pi_name">{{ $data->nickname }}</span>
+						@if($crenew)
+							<span class="pi_name" style="color: #FF9900;">{{ $data->nickname }}</span>
+						@else
+							<span class="pi_name">{{ $data->nickname }}</span>
+						@endif
+
 					</div>
 					<ul class="pi_center_main">
 						<li>
@@ -60,9 +65,9 @@
 						</li>
 						<li>
 							<span>标签:</span>
-							<p>
+							<p class="lu_userMessage_character">
 							@foreach($tag_str as $tag)
-								{{ getTagName($tag) }} &nbsp;
+								<a class="tags">{{ getTagName($tag) }}</a>
 							@endforeach
 							</p>
 						</li>
@@ -208,6 +213,20 @@
 
 	@include('layout.copyright')
 	@yield('content')
+
+	<script type="text/javascript">
+		var aColor=['#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0'];
+		function loop(classValue){
+			var aT=document.getElementsByClassName(classValue);
+			for(var i=0;i<aT.length;i++){
+				var aLi=aT[i].getElementsByTagName('a');
+				for(var a=0;a<aLi.length;a++){
+					aLi[a].style.background=aColor[a];
+				}
+			}
+		}
+		loop('lu_userMessage_character');
+	</script>
 
 </body>
 </html>

@@ -16,7 +16,7 @@
  * @copyright 	Copyright (c) Harbin Wizard Techonlogy Co., Ltd.
  * @link 		http://www.jinglingkj.com
  * @license   	Licensed under The MIT License http://www.opensource.org/licenses/mit-license.php
- * @version 	Release: 0.1 2014-12-25 *
+ * @version 	Release: 0.1 2014-12-25
  *
  * Status Code Explanation
  *
@@ -126,15 +126,26 @@ class MemberController extends BaseController {
 		$profile           = Profile::where('user_id', $id)->first();
 		$like              = Like::where('sender_id', Auth::user()->id)->where('receiver_id', $data->id)->first();
 		$like_me           = Like::where('sender_id', $data->id)->where('receiver_id', Auth::user()->id)->first();
-		$constellationInfo = getConstellation($profile->constellation); // Get user's constellation
+
+		// Get user's constellation
+		$constellationInfo = getConstellation($profile->constellation);
 		$tag_str           = explode(',', substr($profile->tag_str, 1));
+
 		if($data->sex == 'M')
 		{
 			$sex = '他';
 		} else {
 			$sex = '她';
 		}
-		return View::make('members.show')->with(compact('data', 'like', 'profile', 'constellationInfo', 'tag_str', 'sex','like_me'));
+
+		// Determine user renew status
+		if($profile->crenew >= 30){
+			$crenew = true;
+		} else {
+			$crenew = false;
+		}
+
+		return View::make('members.show')->with(compact('data', 'like', 'profile', 'constellationInfo', 'tag_str', 'sex', 'like_me', 'crenew'));
 	}
 
 	/**

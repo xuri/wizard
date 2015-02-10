@@ -26,37 +26,6 @@
 	<div class="content">
 
 		<section id="home" class="appear"></section>
-		<div class="navbar navbar-fixed-top" data-0="line-height:160px; height:160px; background-color:rgba(0,0,0,0);" data-300="line-height:60px; height:60px; background-color:rgba(29,33,37,1);">
-			 <div class="container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="fa fa-reorder icon resp-menu"></span>
-					</button>
-					<a class="navbar-brand" href="javascript:void(0);" data-0="line-height:130px;" data-300="line-height:56px;">
-						{{ HTML::image('assets/images/logo.png', '', array('data-300' => 'width:50px;', 'data-0' => 'width:72px;', 'width' => '72')) }}
-					</a>
-				</div>
-				<div class="navbar-collapse collapse">
-					<ul class="nav navbar-nav" data-0="margin-top:40px;" data-300="margin-top:1px;">
-						<li class="colored active"><a href="{{ route('home') }}">首 页</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('members.index') }}">缘分大厅</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('forum.index') }}">单身公寓</a><div class="hover colored-bg"></div></li>
-						@if(Auth::guest()){{-- Guest --}}
-						<li class="colored"><a href="{{ route('signin') }}">登 陆</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('signup') }}">注 册</a><div class="hover colored-bg"></div></li>
-						@elseif(! Auth::user()->is_admin){{-- 普通登录用户 --}}
-						<li class="colored"><a href="{{ route('account') }}">我的资料</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('signout') }}">退 出</a><div class="hover colored-bg"></div></li>
-						@elseif(Auth::user()->is_admin) {{-- 管理员 --}}
-						<li class="colored"><a href="{{ route('admin') }}">管 理</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('signout') }}">退 出</a><div class="hover colored-bg"></div></li>
-						@endif
-						<li class="colored"><a href="{{ route('home') }}/article/about.html">关于我们</a><div class="hover colored-bg"></div></li>
-					</ul>
-				</div>
-				{{--/.navbar-collapse --}}
-			</div>
-		</div>
 
 		<div class="fullwidthbanner-container overlay-fix">
 			<div class="top-overlay"></div>
@@ -68,7 +37,7 @@
 							<p class="header-txt">用心，寻找真爱<br/> —— 专注于大学生的恋爱平台
 								<br />
 							</p>
-							<a href="{{ route('members.index') }}" class="top-download btn btn-default btn-lg">立即体验</a>
+							<a href="{{ route('members.index') }}" class="top-download btn btn-default btn-lg">百度搜索《聘爱》<br />在电脑上也可以玩哦~</a>
 						</div>
 					</div>
 				</div>

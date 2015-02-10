@@ -23,6 +23,7 @@ class CreateProfileTable extends Migration {
 			$table->string('tag_str')->nullable();
 			$table->text('self_intro')->nullable();
 			$table->integer('renew')->nullable();
+			$table->integer('crenew')->nullable();
 			$table->timestamp('renew_at')->nullable();
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();

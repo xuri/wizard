@@ -48,10 +48,7 @@
 							</div>
 						</div>
 						@endif
-						<div class="sgnin_top">
-							<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
-							<div><span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
-						</div>
+
 						@include('account.points')
 						@yield('content')
 					</div>

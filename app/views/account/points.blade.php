@@ -1,3 +1,16 @@
+<div class="sgnin_top">
+	@if(Auth::user()->nickname)
+		@if($crenew)
+			<div style="color: #FF9900;"><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
+		@else
+			<div><span>昵称 : </span>{{ Auth::user()->nickname }}</div>
+		@endif
+	@else
+		欢迎来到聘爱网
+	@endif
+	<div><span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
+</div>
+
 <div class="sgnin_con">
 	<div class="comeon">
 		<span class="comeon_title">为爱情正能量加油</span>

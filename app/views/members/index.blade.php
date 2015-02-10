@@ -36,7 +36,7 @@
 					{{
 						Form::select(
 							'target',
-							array('' => '入学年',
+							array('' => '入学年份',
 									'2015' => '2015年',
 									'2014' => '2014年',
 									'2013' => '2013年',
@@ -69,7 +69,11 @@
 							@else
 							{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left')) }}
 							@endif
-								<p class="lu_te lu_userMessage_name lu_left">{{ $data->nickname }}</p>
+								@if($profile->crenew >= 30)
+									<p class="lu_te lu_userMessage_name lu_left" style="color: #FF9900;">{{ $data->nickname }}</p>
+								@else
+									<p class="lu_te lu_userMessage_name lu_left">{{ $data->nickname }}</p>
+								@endif
 								<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">{{ $data->school }}</p>
 								<p class="lu_userMessage_p lu_left">{{ $profile->grade }}届</p>
 								<a class="lu_userMessage_detail lu_right" href="{{ route('members.show', $data->id) }}">详细资料</a>
@@ -77,7 +81,7 @@
 								<ul class="lu_userMessage_character">
 
 									@foreach($tag_str as $tag)
-									<li style="background:#e64150;">{{ getTagName($tag) }}</li>
+									<li>{{ getTagName($tag) }}</li>
 									@endforeach
 									<!-- <li style="background:#e64150;">帅哥控</li>
 									<li style="background:#5cd5d5;">美女控</li>
