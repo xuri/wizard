@@ -74,7 +74,7 @@
 								@else
 								{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left sexImg')) }}
 								@endif
-								<a href="{{ route('members.show', $user->user_id) }}" class="m-h3">{{ $user->nickname }}</a>
+								<a href="{{ route('members.show', $user->id) }}" class="m-h3">{{ $user->nickname }}</a>
 							</div>
 							<p class="g-reply">{{ $comment->content }}</p>
 
