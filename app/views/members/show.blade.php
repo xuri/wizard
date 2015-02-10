@@ -215,7 +215,11 @@
 	@yield('content')
 
 	<script type="text/javascript">
-		var aColor=['#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0'];
+		var aColor=['#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+					'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+					'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+					'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+					'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900'];
 		function loop(classValue){
 			var aT=document.getElementsByClassName(classValue);
 			for(var i=0;i<aT.length;i++){

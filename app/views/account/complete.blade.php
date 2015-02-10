@@ -415,7 +415,6 @@
 							</tr>
 							<tr>
 								<td class="data_td1 vertical_top">标签：{{ $errors->first('tag_str', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
-									<!--span data-num="1-冷酷">冷酷<em>×</em></span-->
 								<td class="data_td2 character" id="tag_td">
 									<span class="end" id="check_tag"><b>+</b>  标签 </span>
 								</td>

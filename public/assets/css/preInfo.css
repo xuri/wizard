@@ -153,6 +153,7 @@ body {
 #wrap .sgnin_top div em {
 	color: #ee7481;
 	font-weight: bold;
+
 }
 
 #wrap .sgnin_top div strong {
@@ -370,13 +371,13 @@ body {
 
 #data table .character span {
 	width: 98px;
-	height: 30px;
+	height: 1.5em;
 	display: inline-block;
 	background: #e64150;
 	position: relative;
-	font-size: 16px;
+	font-size: 14px;
 	text-align: center;
-	line-height: 30px;
+	line-height: 1.5em;
 	color: #fff;
 	margin-left: 5px;
 	margin-bottom: 5px

@@ -105,7 +105,7 @@
 						</tr>
 						<tr>
 							<td class="data_td1">标签：</td>
-							<td class="data_td2 character">
+							<td class="data_td2 character tags">
 								@foreach($tag_str as $tag)
 								<span>{{ getTagName($tag) }}</span>
 								@endforeach

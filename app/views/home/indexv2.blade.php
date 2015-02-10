@@ -22,7 +22,7 @@
 		'/assets/css/animation.css'
 	)) }}
 </head>
-    <body>
+	<body>
 	<div class="content">
 
 		<section id="home" class="appear"></section>
@@ -60,7 +60,7 @@
 
 		<div class="fullwidthbanner-container overlay-fix">
 			<div class="top-overlay"></div>
-		    <div class="fullwidthbanner" data-0="background-position:0px 0px;" data-end="background-position:0px 600px;">
+			<div class="fullwidthbanner" data-0="background-position:0px 0px;" data-end="background-position:0px 600px;">
 				<div class="col-sm-12 header-area">
 					<div class="row">
 						<div class="col-sm-5 col-sm-offset-2 resp-center header animate animate_aft">
@@ -138,7 +138,7 @@
 
 							<div class="form-group">
 								<div class="col-sm-6">
-									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm"><i class="fa fa-apple"></i>&nbsp;AppStore 即将上线</a>
+									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm ios-app-btn"><i class="fa fa-apple"></i>&nbsp;App Store</a>
 								</div>
 								<div class="col-sm-6">
 									<a href="http://fir.im/pinai" class="fixed form-control btn btn-default btn-sm" target="_blank"><i class="fa fa-android"></i>&nbsp;安卓下载</a>
@@ -180,5 +180,19 @@
 	{{-- Analytics Code --}}
 	@include('layout.analytics')
 	@yield('content')
+
+	<script>
+		$('.ios-app-btn').hover(
+			function() {
+				var $this = $(this); // caching $(this)
+				$this.data('App Store', $this.text());
+				$this.text("即将上线");
+			},
+			function() {
+				var $this = $(this); // caching $(this)
+				$this.text($this.data('App Store'));
+			}
+		);
+	</script>
 	</body>
 </html>

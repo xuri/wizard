@@ -39,3 +39,18 @@ window.onload = function(){
 
 }
 
+var aColor=['#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+			'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+			'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+			'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900',
+			'#e64150','#5cd5d5','#8acd47','#ffcc00','#a036a0', '#FF3399', '#6699FF', '#FF9900'];
+function loop(classValue){
+	var aT=document.getElementsByClassName(classValue);
+	for(var i=0;i<aT.length;i++){
+		var aLi=aT[i].getElementsByTagName('span');
+		for(var a=0;a<aLi.length;a++){
+			aLi[a].style.background=aColor[a];
+		}
+	}
+}
+loop('tags');
