@@ -227,7 +227,7 @@ class Admin_ArticlesResource extends BaseResource
 				$hashname			= date('H.i.s').'-'.md5($fullname).'.'.$ext;
 				$model->thumbnails	= $hashname;
 				$thumbnails			= Image::make($image->getRealPath());
-				$thumbnails->fit(320, 140)->save(public_path('upload/thumbnails/'.$hashname));
+				$thumbnails->fit(640, 280)->save(public_path('upload/thumbnails/'.$hashname));
 				if($oldImage)
 				{
 					// Delete old thumbnails
