@@ -31,7 +31,7 @@
 |
 */
 
-Route::group(array('before' => 'is.mobile'), function () {
+Route::group(array(), function () {
 	$controller = 'HomeController@';
 	# Homepage
 	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   ));

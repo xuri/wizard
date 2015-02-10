@@ -41,7 +41,7 @@ class HomeController extends BaseController {
 	{
 		// Mobile Detect
 		if (Agent::isMobile()) {
-			return View::make('home.indexv2');
+			return View::make('home.mobilev2');
 		} else {
 			return View::make('home.indexv2');
 		}
