@@ -119,6 +119,7 @@
 								<a href="javascript:void(0)" class="button-block">已经拉黑</a>
 								@endif
 								</div>
+								<input type="hidden" value="" id="{{ $user->id }}"/>
 							</li>
 
 							{{ Form::close() }}

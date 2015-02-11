@@ -65,7 +65,7 @@
 						</li>
 						<li>
 							<span>标签:</span>
-							<p class="lu_userMessage_character">
+							<p class="lu_userMessage_character" style="height: 55px; overflow: hidden;">
 							@foreach($tag_str as $tag)
 								<a class="tags">{{ getTagName($tag) }}</a>
 							@endforeach

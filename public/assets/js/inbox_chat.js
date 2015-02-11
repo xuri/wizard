@@ -504,6 +504,7 @@ $(document).on('open', '.remodal', function() {
 
 	//设置当前显示的聊天窗口div，如果有联系人则默认选中联系人中的第一个联系人，如没有联系人则当前div为null-nouser
 	var setCurrentContact = function(defaultUserId, nickname) {
+		//alert(defaultUserId+','+nickname);
 		showContactChatDiv(defaultUserId,nickname);
 		if (curChatUserId != null) {
 			hiddenContactChatDiv(curChatUserId);
@@ -579,30 +580,32 @@ $(document).on('open', '.remodal', function() {
 				(function (){
 					//alert(j);
 					var preLi_chat_start = getByClass(preLi[j],'a','chat_start'); // 获取每个li下面的点击聊天的按钮
-					if(preLi_chat_start[0].getAttribute('data-id') == userName){
-						// 获取头像
-						var headPicSrc = preLi_chat_start[0].parentNode.parentNode.parentNode.getElementsByClassName('_headPic')[0].src;
-						//alert(headPicSrc);
-						var newPic = document.createElement('img');
-						newPic.src = headPicSrc;
-						newPic.style.width = '40px';
-						newPic.style.height = '40px';
-						newPic.style.position = 'absolute';
-						newPic.style.top = '5px';
-						newPic.style.left = '5px';
-						//alert();
-						lielem.appendChild(newPic);
+					if(preLi_chat_start.length != 0){
+						if(preLi_chat_start[0].getAttribute('data-id') == userName){
+							// 获取头像
+							var headPicSrc = preLi_chat_start[0].parentNode.parentNode.parentNode.getElementsByClassName('_headPic')[0].src;
+							//alert(headPicSrc);
+							var newPic = document.createElement('img');
+							newPic.src = headPicSrc;
+							newPic.style.width = '40px';
+							newPic.style.height = '40px';
+							newPic.style.position = 'absolute';
+							newPic.style.top = '5px';
+							newPic.style.left = '5px';
+							//alert();
+							lielem.appendChild(newPic);
 
-						// 创建昵称
-						var t_p = document.createElement('p');
-						t_p.innerHTML = "昵称: " + preLi_chat_start[0].getAttribute('data-nickname');
-						t_p.style.float = 'left';
-						t_p.setAttribute('data-nickn', preLi_chat_start[0].getAttribute('data-nickname'));
-						t_p.style.color = '#ab657d';
-						t_p.style.marginLeft = '50px';
-						lielem.appendChild(t_p);
+							// 创建昵称
+							var t_p = document.createElement('p');
+							t_p.innerHTML = "昵称: " + preLi_chat_start[0].getAttribute('data-nickname');
+							t_p.style.float = 'left';
+							t_p.setAttribute('data-nickn', preLi_chat_start[0].getAttribute('data-nickname'));
+							t_p.style.color = '#ab657d';
+							t_p.style.marginLeft = '50px';
+							lielem.appendChild(t_p);
 
 
+						}
 					}
 				})(j);
 
@@ -688,18 +691,23 @@ $(document).on('open', '.remodal', function() {
 
 	//显示当前选中联系人的聊天窗口div，并将该联系人在联系人列表中背景色置为蓝色
 	var showContactChatDiv = function(chatUserId,nickname) {
+	
 		var contentDiv = getContactChatDiv(chatUserId);
 		if (contentDiv == null) {
 			contentDiv = createContactChatDiv(chatUserId);
 			document.getElementById(msgCardDivId).appendChild(contentDiv);
 		}
+
 		contentDiv.style.display = "block";
 		var contactLi = document.getElementById(chatUserId);
+//alert(contactLi);
 		if (contactLi == null) {
 			return;
 		}
+		//alert(4);
 		//contactLi.style.backgroundColor = "blue";
 		var dispalyTitle = null;//聊天窗口显示当前对话人名称
+		
 		if (chatUserId.indexOf(groupFlagMark) >= 0) {
 			dispalyTitle = "群组" + $(contactLi).attr('displayname') + "聊天中";
 			curRoomId = $(contactLi).attr('roomid');
@@ -708,7 +716,7 @@ $(document).on('open', '.remodal', function() {
 			dispalyTitle = "与 " + nickname + " 聊天中";
 			$("#roomMemberImg").css('display', 'none');
 		}
-
+	
 		document.getElementById('cont_title').innerHTML = dispalyTitle;
 	};
 	//对上一个联系人的聊天窗口div做隐藏处理，并将联系人列表中选择的联系人背景色置空
@@ -825,6 +833,7 @@ $(document).on('open', '.remodal', function() {
 		if (textSending) {
 			return;
 		}
+		
 		textSending = true;
 
 		var msgInput = document.getElementById(talkInputId);
@@ -1547,7 +1556,7 @@ $(document).on('open', '.remodal', function() {
 				var show_id = curUserId + "-" + $(_this).data('id');
 				//alert(show_id);
 				$('#' + show_id).show();
-
+//alert(show_id);
 				// 把消息提醒也关掉
 				var uielem = document.getElementById("nav_message").getElementsByClassName('nav_message_list')[0];
 				var li_nav_msg_arr = uielem.getElementsByTagName('li');

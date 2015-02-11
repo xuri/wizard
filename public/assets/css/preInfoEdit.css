@@ -448,6 +448,9 @@ input, textarea {
 	margin-left: 5px;
 	margin-bottom: 5px;
 	border: none;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 #data table .character span em {

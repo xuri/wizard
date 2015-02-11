@@ -243,6 +243,9 @@ select::-ms-expand {
 	text-align: center;
 	line-height: 21px;
 	color: #fff;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .lu_sex {
