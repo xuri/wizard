@@ -138,7 +138,7 @@
 
 							<div class="form-group">
 								<div class="col-sm-6">
-									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm ios-app-btn"><i class="fa fa-apple"></i>&nbsp;App Store</a>
+									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm ios-app-btn">&nbsp;App Store</a>
 								</div>
 								<div class="col-sm-6">
 									<a href="http://fir.im/pinai" class="fixed form-control btn btn-default btn-sm" target="_blank"><i class="fa fa-android"></i>&nbsp;安卓下载</a>
@@ -180,19 +180,5 @@
 	{{-- Analytics Code --}}
 	@include('layout.analytics')
 	@yield('content')
-
-	<script>
-		$('.ios-app-btn').hover(
-			function() {
-				var $this = $(this); // caching $(this)
-				$this.data('App Store', $this.text());
-				$this.text("即将上线");
-			},
-			function() {
-				var $this = $(this); // caching $(this)
-				$this.text($this.data('App Store'));
-			}
-		);
-	</script>
 	</body>
 </html>

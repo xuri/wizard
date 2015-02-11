@@ -208,3 +208,15 @@ $('.nav-tabs a').click(function (e) {
   e.preventDefault()
   $(this).tab('show')
 })
+
+$('.ios-app-btn').hover(
+	function() {
+		var $this = $(this); // caching $(this)
+		$this.data(' App Store', $this.text());
+		$this.text(" 即将上线");
+	},
+	function() {
+		var $this = $(this); // caching $(this)
+		$this.text($this.data(' App Store'));
+	}
+);
