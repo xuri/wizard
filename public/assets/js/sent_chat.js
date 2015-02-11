@@ -666,7 +666,7 @@ var showContactChatDiv = function(chatUserId,nickname) {
 		contentDiv = createContactChatDiv(chatUserId);
 		document.getElementById(msgCardDivId).appendChild(contentDiv);
 	}
-	
+
 	contentDiv.style.display = "block";
 	var contactLi = document.getElementById(chatUserId);
 //alert(contactLi);
@@ -1551,7 +1551,7 @@ setInterval(function(){
 			// document.title = (c_uielem.children[i].style.display == 'block');
 			if(c_uielem.children[i].style.display == 'block'){
 				c_title.id = 'y';
-				c_title.innerHTML = '【 有消息啦！】';
+				c_title.innerHTML = '<span class="notify_inner">【 有消息啦！】</span>';
 				//addClass(c_title,'fg'); // 添加文字发光样式
 
 				break;
@@ -1571,7 +1571,7 @@ setInterval(function(){
 	if(c_title.id == 'y'){
 		if(btnonoff){
 			document.title = '有消息啦！';
-			c_title.innerHTML = '【 有消息啦！】';
+			c_title.innerHTML = '<span class="notify_inner">【 有消息啦！】</span>';
 			btnonoff = false;
 		}else{
 			document.title = start_title;

@@ -84,11 +84,6 @@ ul {
 	position: relative;
 }
 
-.nav_main {
-	height: 56px;
-	padding-left: 16.5%;
-}
-
 .nav_main p {
 	text-align: center;
 	margin: 0 auto;
@@ -147,42 +142,6 @@ ul {
 	/*background: #6e6e86;*/
 	/*color: #fff;*/
 	color: #FFF;
-}
-
-/* Effect 1: Brackets */
-.cl-effect-1 a::before,
-.cl-effect-1 a::after {
-	/* display: inline-block; */
-	opacity: 0;
-	-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
-	-moz-transition: -moz-transform 0.3s, opacity 0.2s;
-	transition: transform 0.3s, opacity 0.2s;
-}
-
-.cl-effect-1 a::before {
-	margin-right: 10px;
-	content: '[';
-	-webkit-transform: translateX(20px);
-	-moz-transform: translateX(20px);
-	transform: translateX(20px);
-}
-
-.cl-effect-1 a::after {
-	margin-left: 10px;
-	content: ']';
-	-webkit-transform: translateX(-20px);
-	-moz-transform: translateX(-20px);
-	transform: translateX(-20px);
-}
-
-.cl-effect-1 a:hover::before,
-.cl-effect-1 a:hover::after,
-.cl-effect-1 a:focus::before,
-.cl-effect-1 a:focus::after {
-	opacity: 1;
-	-webkit-transform: translateX(0px);
-	-moz-transform: translateX(0px);
-	transform: translateX(0px);
 }
 
 #signIn {
@@ -432,4 +391,55 @@ ul {
 
 .message a:hover {
 	color: #111;
+}
+
+@media (min-width: 800px){
+
+	.nav_main {
+		height: 56px;
+		padding-left: 15%;
+	}
+
+	/* Effect 1: Brackets */
+	.cl-effect-1 a::before,
+	.cl-effect-1 a::after {
+		/* display: inline-block; */
+		opacity: 0;
+		-webkit-transition: -webkit-transform 0.3s, opacity 0.2s;
+		-moz-transition: -moz-transform 0.3s, opacity 0.2s;
+		transition: transform 0.3s, opacity 0.2s;
+	}
+
+	.cl-effect-1 a::before {
+		margin-right: 10px;
+		content: '[';
+		-webkit-transform: translateX(20px);
+		-moz-transform: translateX(20px);
+		transform: translateX(20px);
+	}
+
+	.cl-effect-1 a::after {
+		margin-left: 10px;
+		content: ']';
+		-webkit-transform: translateX(-20px);
+		-moz-transform: translateX(-20px);
+		transform: translateX(-20px);
+	}
+
+	.cl-effect-1 a:hover::before,
+	.cl-effect-1 a:hover::after,
+	.cl-effect-1 a:focus::before,
+	.cl-effect-1 a:focus::after {
+		opacity: 1;
+		-webkit-transform: translateX(0px);
+		-moz-transform: translateX(0px);
+		transform: translateX(0px);
+	}
+}
+
+@media (max-width: 1000px){
+	.nav_main a.a{
+		width: 14%;
+		font-size: 12px;
+	}
 }

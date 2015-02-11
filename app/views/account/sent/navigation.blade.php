@@ -39,7 +39,7 @@
 	@else
 	{{-- 消息提醒列表 --}}
 	<div id="nav_message">
-		<h5 class="nav_message_title">暂无消息</h5>
+		<h5 class="nav_message_title"></h5>
 		<ul class="nav_message_list">
 		{{ HTML::image('assets/images/nav_mas_j.png', '', array('class' => 'jiao_pic')) }}
 		</ul>
@@ -59,18 +59,14 @@
 			<li class="cl-effect-1"><a href="{{ route('signup') }}" class="a">注 册</a></li>
 			@elseif(! Auth::user()->is_admin){{-- 普通登录用户 --}}
 			<li class="cl-effect-1"><a href="{{ route('account') }}" class="a">我的资料</a></li>
-			@elseif(Auth::user()->is_admin) {{-- 管理员 --}}
-			<li class="cl-effect-1"><a href="{{ route('account') }}" class="a">我的资料</a></li>
-			@endif
 			<li class="cl-effect-1"><a href="{{ route('home') }}/article/about.html" class="a">关于我们</a></li>
 			<li class="cl-effect-1"><a href="{{ route('signout') }}" class="a">退出登陆</a></li>
-		</ul>
-		<p>
-			@if(Auth::guest()){{-- Guest --}}
-			@elseif(Auth::user()->is_admin) {{-- Administrator --}}
-				<a href="{{ route('admin') }}" id="signUp">控制面板</a>
+			@elseif(Auth::user()->is_admin) {{-- 管理员 --}}
+			<li class="cl-effect-1"><a href="{{ route('account') }}" class="a">我的资料</a></li>
+			<li class="cl-effect-1"><a href="{{ route('home') }}/article/about.html" class="a">关于我们</a></li>
+			<li class="cl-effect-1"><a href="{{ route('signout') }}" class="a">退出登陆</a></li>
 			@endif
-		</p>
+		</ul>
 	</div>
 </div>
 {{ HTML::script('assets/js/account_inbox_sent_nav.js') }}

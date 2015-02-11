@@ -691,7 +691,7 @@ $(document).on('open', '.remodal', function() {
 
 	//显示当前选中联系人的聊天窗口div，并将该联系人在联系人列表中背景色置为蓝色
 	var showContactChatDiv = function(chatUserId,nickname) {
-	
+
 		var contentDiv = getContactChatDiv(chatUserId);
 		if (contentDiv == null) {
 			contentDiv = createContactChatDiv(chatUserId);
@@ -707,7 +707,7 @@ $(document).on('open', '.remodal', function() {
 		//alert(4);
 		//contactLi.style.backgroundColor = "blue";
 		var dispalyTitle = null;//聊天窗口显示当前对话人名称
-		
+
 		if (chatUserId.indexOf(groupFlagMark) >= 0) {
 			dispalyTitle = "群组" + $(contactLi).attr('displayname') + "聊天中";
 			curRoomId = $(contactLi).attr('roomid');
@@ -716,7 +716,7 @@ $(document).on('open', '.remodal', function() {
 			dispalyTitle = "与 " + nickname + " 聊天中";
 			$("#roomMemberImg").css('display', 'none');
 		}
-	
+
 		document.getElementById('cont_title').innerHTML = dispalyTitle;
 	};
 	//对上一个联系人的聊天窗口div做隐藏处理，并将联系人列表中选择的联系人背景色置空
@@ -833,7 +833,7 @@ $(document).on('open', '.remodal', function() {
 		if (textSending) {
 			return;
 		}
-		
+
 		textSending = true;
 
 		var msgInput = document.getElementById(talkInputId);
@@ -1582,7 +1582,7 @@ $(document).on('open', '.remodal', function() {
 				// document.title = (c_uielem.children[i].style.display == 'block');
 				if(c_uielem.children[i].style.display == 'block'){
 					c_title.id = 'y';
-					c_title.innerHTML = '【 有消息啦！】';
+					c_title.innerHTML = '<span class="notify_inner">【 有消息啦！】</span>';
 					//addClass(c_title,'fg'); // 添加文字发光样式
 
 					break;
@@ -1602,7 +1602,7 @@ $(document).on('open', '.remodal', function() {
 		if(c_title.id == 'y'){
 			if(btnonoff){
 				document.title = '有消息啦！';
-				c_title.innerHTML = '【 有消息啦！】';
+				c_title.innerHTML = '<span class="notify_inner">【 有消息啦！】</span>';
 				btnonoff = false;
 			}else{
 				document.title = start_title;
