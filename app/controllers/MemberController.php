@@ -75,6 +75,7 @@ class MemberController extends BaseController {
 	public function index()
 	{
 		$query					= User::whereNotNull('portrait')
+											->where('block', 0)
 											->whereNotNull('nickname')
 											->orderBy('updated_at', 'desc');
 		$open_universities		= University::where('status', 2)->select('id', 'university')->get();

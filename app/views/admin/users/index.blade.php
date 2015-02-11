@@ -26,6 +26,38 @@
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
+							{{ Form::open(array('method' => 'get')) }}
+								<div class="input-group col-md-12" style="margin:0 0 1em 0">
+									<span class="input-group-btn" style="width: 20%; padding: 0 10px 0 0;">
+										<select class="form-control input-sm" name="province">
+											<option value="">所有省份</option>
+											@foreach($provinces as $province)
+											<option value="{{ $province->id }}">{{ $province->province }}</option>
+											@endforeach
+										</select>
+									</span>
+
+									<span class="input-group-btn" style="width: 10%; padding: 0 10px 0 0;">
+										{{
+											Form::select(
+												'sex',
+												array(
+													'' => '性别',
+													'M' => '男',
+													'F' => '女'
+												),
+												Input::get('sex'),
+												array('class' => 'form-control input-sm')
+											)
+										}}
+									</span>
+									<input type="text" class="form-control input-sm" name="like" placeholder="模糊搜索ID、E-mail和昵称" value="{{ Input::get('like') }}">
+									<span class="input-group-btn">
+											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">筛选</button>
+									</span>
+								</div>
+
+							{{ Form::close() }}
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 									<thead>

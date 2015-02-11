@@ -78,29 +78,31 @@ class Admin_UserResource extends BaseResource
 	 */
 	public function index()
 	{
+		$provinces	= Province::get();
+
 		// Get sort conditions
 		$orderColumn	= Input::get('sort_up', Input::get('sort_down', 'created_at'));
 		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
+
 		// Get search conditions
-		switch (Input::get('status')) {
-			case '0':
-				$is_admin = 0;
+		switch (Input::get('sex')) {
+			case 'F':
+				$sex = 'F';
 				break;
-			case '1':
-				$is_admin = 1;
-				break;
-		}
-		switch (Input::get('target')) {
-			case 'email':
-				$email = Input::get('like');
+			case 'M':
+				$sex = 'M';
 				break;
 		}
+		if(Input::get('like')) {
+			$filter = Input::get('like');
+		}
+
 		// Construct query statement
 		$query = $this->model->orderBy($orderColumn, $direction);
-		isset($is_admin) AND $query->where('is_admin', $is_admin);
-		isset($email)    AND $query->where('email', 'like', "%{$email}%");
+		isset($sex) AND $query->where('sex', $sex);
+		isset($filter) AND $query->where('email', 'like', "%{$filter}%")->orWhere('nickname', 'like', "%{$filter}%")->orWhere('id', 'like', "%{$filter}%");
 		$datas = $query->paginate(10);
-		return View::make($this->resourceView.'.index')->with(compact('datas'));
+		return View::make($this->resourceView.'.index')->with(compact('datas', 'provinces'));
 	}
 
 	/**

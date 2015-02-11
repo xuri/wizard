@@ -1,3 +1,4 @@
+<div class="renew_error"></div>
 <div class="sgnin_top">
 	@if(Auth::user()->nickname)
 		@if($crenew)
@@ -8,7 +9,12 @@
 	@else
 		欢迎来到聘爱网
 	@endif
-	<div><span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong></div>
+	<div>
+		<span>精灵豆 : </span><em>{{ Auth::user()->points }}</em><strong>　(每天为爱情正能量加油可以获取精灵豆哦)</strong>
+		@if($profile->crenew)
+		<span> &nbsp; &nbsp; 已连续签到 : </span><em>{{ $profile->crenew }}天</em>
+		@endif
+	</div>
 </div>
 
 <div class="sgnin_con">

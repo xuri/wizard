@@ -357,6 +357,7 @@ class AppleController extends BaseController
 
 						$users = $query
 							->orderBy('updated_at', 'desc')
+							->where('block', 0)
 							->select('id', 'nickname', 'school', 'sex', 'portrait')
 							->where('updated_at', '<', $last_updated_at)
 							->take($per_page)
@@ -427,6 +428,7 @@ class AppleController extends BaseController
 						$users      = $query
 										->orderBy('updated_at', 'desc')
 										->select('id', 'nickname', 'school', 'sex', 'portrait')
+										->where('block', 0)
 										->where('updated_at', '<=', $lastRecord)
 										->take($per_page)
 										->get()
