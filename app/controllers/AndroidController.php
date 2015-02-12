@@ -1893,7 +1893,7 @@ class AndroidController extends BaseController
 					$perpage	= Input::get('perpage', 10);
 
 					// Define breaks convert rules
-					$breaks		= array("<br />","<br>","<br/>");
+					$breaks		= array("<br />","<br>","<br/>","</p>");
 
 					// If App have post last user id
 					if($lastid == null) {
@@ -1940,7 +1940,7 @@ class AndroidController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'),
+									'content'		=> strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'),
 
 									// Post comments (array format and include reply)
 									'comments'		=> array(),
@@ -2038,7 +2038,7 @@ class AndroidController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> strip_tags(str_ireplace($breaks, "\\n", $post->content), '<img>'),
+									'content'		=> strip_tags(str_replace('&nbsp;', " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'),
 
 									// Post comments (array format and include reply)
 									'comments'		=> $comments,

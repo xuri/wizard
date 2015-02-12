@@ -18,14 +18,18 @@
 .lu_right {
 	float: right;
 }
-
+.message-re .message-border p, span {
+	text-align: left;
+	white-space: normal !important;
+}
 .lu_te {
-	white-space: nowrap;
+	white-space: normal !important;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
 
 #lu_content {
+	white-space: normal !important;
 	margin: 60px auto 0;
 }
 
@@ -330,9 +334,9 @@
 	margin-bottom: 20px;
 }
 .message-re p {
-	margin-top: 9px;
+	margin: 1em 0 1em 9.5em;
 	color: #777978;
-	width: 528px;
+	width: 550px;
 	font-size: 14px;
 	line-height: 2em;
 	overflow: hidden;
@@ -369,7 +373,7 @@
 }
 
 .message-re .re-title {
-	margin: 15px 0 0 10px;
+	margin: 15px 0 0 1.5em;
 	width: 600px;
 	color: #d65679;
 	float: left;
@@ -466,9 +470,9 @@ button.bbs_bottom {
 }
 
 .message-re .m-h3 {
-	width: 60px;
 	float: left;
-	margin: 5px 0 0 10px;
+	display: inline;
+	margin: 10px 5px;
 	font-size: 14px;
 	color: #4aabf5;
 }
