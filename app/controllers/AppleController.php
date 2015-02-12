@@ -1423,7 +1423,7 @@ class AppleController extends BaseController
 						$portraitPath		= public_path('portrait/');
 
 						// Portrait file name
-						$portraitFile       = uniqid() . $mime;
+						$portraitFile       = uniqid() . '.' . $mime;
 
 						// Store file
 						$successPortrait    = file_put_contents($portraitPath . $portraitFile, $portraitData);
