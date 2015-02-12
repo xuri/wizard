@@ -51,10 +51,12 @@
 					height: 50px;
 					padding: 15px;
 					margin: 0;
-					background: #ef698a;
+					background: #6E6E86;
 					font-size: 12px;
-					position:fixed; bottom:0;
-
+					position:fixed;
+					float: left;
+					display: inline;
+					bottom:0;
 				}
 
 				div.footer a {
