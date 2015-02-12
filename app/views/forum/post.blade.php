@@ -203,7 +203,7 @@
 				<div class="if_error"></div>
 
 				<div class="g-box clear" id="create_comment">
-					<a class="color">发表评论</a>
+					<h2 class="color" style="margin: 2em 0 1em 2em;">发表评论</h2>
 					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					<div class="g-r-box clear" class="clear">
 						{{ Form::open(array(
