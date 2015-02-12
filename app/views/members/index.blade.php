@@ -70,9 +70,21 @@
 							{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left')) }}
 							@endif
 								@if($profile->crenew >= 30)
-									<p class="lu_te lu_userMessage_name lu_left" style="color: #FF9900;">{{ $data->nickname }}</p>
+									<p class="lu_te lu_userMessage_name lu_left">
+										@if($data->is_admin)
+										<span class="admin">管理员</span>
+										@else
+										@endif
+										{{ $data->nickname }}
+									</p>
 								@else
-									<p class="lu_te lu_userMessage_name lu_left">{{ $data->nickname }}</p>
+									<p class="lu_te lu_userMessage_name lu_left">
+										@if($data->is_admin)
+											<span class="admin">管理员</span>
+										@else
+										@endif
+										{{ $data->nickname }}
+									</p>
 								@endif
 								<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">{{ $data->school }}</p>
 								<p class="lu_userMessage_p lu_left">{{ $profile->grade }}届</p>

@@ -669,6 +669,32 @@ button.reply_comment_submit {
 	color: #d65679;
 }
 
+span.admin {
+	background-color: #FF9900;
+	font-size: 11px;
+	padding: 3px;
+	height: 13px;
+	margin: 0.5em;
+	color: #FFF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	float: left;
+}
+
+span.reply_from_admin {
+	background-color: #FF9900;
+	font-size: 11px;
+	padding: 3px;
+	height: 13px;
+	margin: 1.5em 0.5em;
+	color: #FFF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	float: left;
+}
+
 div.footer {
 	text-align: center;
 	color: #FFF;

@@ -22,19 +22,19 @@
 				<ul class="tabNavigation bbs_tab">
 					<a class="lu_left active" href="#first">
 
-							<span>爱诊所</span>
-							{{ HTML::image('assets/images/boys.png') }}
+							<span style="color: #ef698a;">爱诊所</span>
+							{{ HTML::image('assets/images/forum-tab-1.png') }}
 
 					</a>
 					<a class="lu_left" href="#second">
 
-							<span>男生帮</span>
+							<span>男生公寓</span>
 							{{ HTML::image('assets/images/boys.png') }}
 
 					</a>
 					<a class="lu_left" id="bbs_tab_end" href="#third">
 
-							<span>女生窝</span>
+							<span style="color: #ef698a;">女生公寓</span>
 							{{ HTML::image('assets/images/girls.png') }}
 
 					</a>

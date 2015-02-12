@@ -196,7 +196,7 @@ select::-ms-expand {
 }
 
 .lu_resumes_user .lu_userMessage_name {
-	width: 100px;
+	width: 110px;
 	height: 20px;
 	font-size: 14px;
 	line-height: 20px;
@@ -374,6 +374,17 @@ select::-ms-expand {
 .lu_userMessage_arrow {
 	float: left;
 	margin-left: -34px;
+}
+
+span.admin {
+	background-color: #FF9900;
+	font-size: 11px;
+	padding: 3px;
+	height: 28px;
+	color: #FFF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 div.footer {

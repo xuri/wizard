@@ -39,8 +39,16 @@
 						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'pi_sex')) }}
 						@endif
 						@if($crenew)
+							@if($data->is_admin)
+							<span class="admin">管理员</span>
+							@else
+							@endif
 							<span class="pi_name" style="color: #FF9900;">{{ $data->nickname }}</span>
 						@else
+							@if($data->is_admin)
+							<span class="admin">管理员</span>
+							@else
+							@endif
 							<span class="pi_name">{{ $data->nickname }}</span>
 						@endif
 
