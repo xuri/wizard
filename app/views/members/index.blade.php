@@ -75,7 +75,7 @@
 										<span class="admin">管理员</span>
 										@else
 										@endif
-										{{ $data->nickname }}
+										<span style="color: #FF9900;">{{ $data->nickname }}</span>
 									</p>
 								@else
 									<p class="lu_te lu_userMessage_name lu_left">
