@@ -62,7 +62,7 @@
 					<ul class="reply">
 						<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
 						<li>1楼</li>
-						<li>{{ date("Y-m-d H:m",strtotime($data->created_at)) }}</li>
+						<li>{{ date("Y-m-d G:i",strtotime($data->created_at)) }}</li>
 						<li><a href="#create_comment" class="a-color-pink smooth">回复</a></li>
 					</ul>
 
@@ -118,7 +118,7 @@
 							<ul class="reply">
 								<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
 								<li>{{ $floor ++ }}楼</li>
-								<li>{{ date("Y-m-d H:m",strtotime($comment->created_at)) }}</li>
+								<li>{{ date("Y-m-d G:i",strtotime($comment->created_at)) }}</li>
 								<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
 							</ul>
 							<section class="form_box_first">
@@ -175,7 +175,7 @@
 											<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>
 										@endif
 
-										<p class="r-value">{{ date("Y-m-d H:m",strtotime($reply->created_at)) }}  {{ $reply->content }}</p>
+										<p class="r-value">{{ date("Y-m-d G:i",strtotime($reply->created_at)) }}  {{ $reply->content }}</p>
 										<a class="replay-a reply_inner">回复</a>
 
 										<section class="form_box_second">

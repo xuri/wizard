@@ -7,7 +7,7 @@
 		{{-- Get plain text from post content HTML code and replace to content value in array --}}
 		<p>{{ str_ireplace("\n", '', getplaintextintrofromhtml($top->content, 200)); }}</p>
 		<span class="bbs_main_look">{{ ForumComments::where('post_id', $top->id)->count() }}</span>
-		<span class="bbs_main_time">{{ date("m-d H:m",strtotime($top->created_at)) }}</span>
+		<span class="bbs_main_time">{{ date("m-d G:i",strtotime($top->created_at)) }}</span>
 	</li>
 	@endforeach
 
@@ -18,7 +18,7 @@
 		{{-- Get plain text from post content HTML code and replace to content value in array --}}
 		<p>{{ str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200)); }}</p>
 		<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
-		<span class="bbs_main_time">{{ date("m-d H:m",strtotime($post->created_at)) }}</span>
+		<span class="bbs_main_time">{{ date("m-d G:i",strtotime($post->created_at)) }}</span>
 		<?php
 			// Using expression get all picture attachments (Only with pictures stored on this server.)
 			preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $post->content, $match );

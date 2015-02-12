@@ -136,7 +136,7 @@ class AndroidController extends BaseController
 
 						// Signup from 1 - Android, 2 - iOS
 						$user->from			= Input::get('from');
-						$user->activated_at	= date('Y-m-d H:m:s');
+						$user->activated_at	= date('Y-m-d G:i:s');
 
 						$user->sex			= e(Input::get('sex'));
 						$user->password		= md5(Input::get('password'));
@@ -2779,7 +2779,7 @@ class AndroidController extends BaseController
 					foreach ($notifications as $key => $value) {
 						$notifications_content				= NotificationsContent::where('notifications_id', $notifications[$key]['id'])->first();
 						$notifications[$key]['content']		= $notifications_content->content;
-						$notifications[$key]['created_at']	= date('m-d H:m', strtotime($notifications_content->created_at));
+						$notifications[$key]['created_at']	= date('m-d G:i', strtotime($notifications_content->created_at));
 
 					}
 
