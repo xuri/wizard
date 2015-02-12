@@ -3,7 +3,12 @@
 
 		@foreach($comments as $comment)
 		<?php
-			$user = User::where('id', $comment->user_id)->first(); // Retrieve comment user profile
+
+			// Retrieve comment user profile
+			$user = User::where('id', $comment->user_id)->first();
+
+			// Retrieve user profile
+			$user_profile	= Profile::where('user_id', $comment->user_id)->first();
 		?>
 		<div class="message-re clear">
 			<div class="re-headImg-box">
@@ -23,7 +28,14 @@
 					{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left sexImg')) }}
 					@endif
 				</a>
-				<a href="{{ route('members.show', $user->id) }}" class="m-h3">{{ $user->nickname }}</a>
+
+				{{--  Determine user renew status --}}
+
+				@if($user_profile->crenew >= 30)
+					<a href="{{ route('members.show', $user->id) }}" class="m-h3" style="color: #FF9900;">{{ $user->nickname }}</a>
+				@else
+					<a href="{{ route('members.show', $user->id) }}" class="m-h3">{{ $user->nickname }}</a>
+				@endif
 			</div>
 			<p class="g-reply">{{ $comment->content }}</p>
 
@@ -50,7 +62,10 @@
 					?>
 					@foreach($replies as $reply)
 					<?php
-						$reply_user = User::where('id', $reply->user_id)->first();
+						$reply_user			= User::where('id', $reply->user_id)->first();
+
+						// Retrieve reply user profile
+						$reply_user_profile	= Profile::where('user_id', $reply->user_id)->first();
 					?>
 					<div>
 						<span class="imgSpan">
@@ -67,10 +82,17 @@
 						@else
 						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'o-sexImg')) }}
 						@endif
+
+						{{--  Determine user renew status --}}
+
+						@if($reply_user_profile->crenew >= 30)
+						<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3" style="color: #FF9900;">{{ $reply_user->nickname }}:</a>
+						@else
 						<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>
-						<p class="r-value">{{ $reply->content }}</p>
+						@endif
+
+						<p class="r-value">{{ date("Y-m-d H:m",strtotime($reply->created_at)) }}  {{ $reply->content }}</p>
 						<a class="replay-a reply_inner">回复</a>
-						<p class="date">{{ date("Y-m-d H:m",strtotime($reply->created_at)) }}</p>
 
 						<section class="form_box_second">
 							{{ Form::open(array(

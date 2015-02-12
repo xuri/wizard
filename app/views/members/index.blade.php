@@ -83,11 +83,6 @@
 									@foreach($tag_str as $tag)
 									<li>{{ getTagName($tag) }}</li>
 									@endforeach
-									<!-- <li style="background:#e64150;">帅哥控</li>
-									<li style="background:#5cd5d5;">美女控</li>
-									<li style="background:#8acd47;">御姐控</li>
-									<li style="background:#ffcc00;">文艺青年</li>
-									<li style="background:#a036a0;">技术宅</li> -->
 								</ul>
 							</div>
 						</div>

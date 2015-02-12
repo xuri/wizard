@@ -73,7 +73,7 @@
 .bbs_main p {
 	margin-top: 9px;
 	color: #777978;
-	width: 528px;
+	width: 510px;
 	overflow: hidden;
 }
 
@@ -266,6 +266,24 @@
 	margin-left: 15px;
 	line-height: 20px;
 	cursor: pointer;
+}
+
+.tops {
+	background-color: #ef698a;
+	color: #FFF;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	padding: 2px 0.4em;
+}
+
+img.post_thumbnails {
+	margin: 1em 1em 1em 0;
+	width: 100px;
+	height: 100px;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
 }
 
 div.footer {

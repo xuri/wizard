@@ -71,15 +71,46 @@ class ForumController extends BaseController {
 		if(ForumCategories::where('id', 1)->first()->open == 1) {
 			// Forum is opening
 			if ($type == 'first') {
-				$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+				$tops			= ForumPost::where('block', false)
+										->where('category_id', 1)
+										->where('top', 1)
+										->orderBy('created_at' , 'desc')
+										->paginate($items_per_page);
+
+				$items			= ForumPost::where('block', false)
+										->where('category_id', 1)
+										->where('top', 0)
+										->orderBy('created_at' , 'desc')
+										->paginate($items_per_page);
 				$categoryCode	= 1;
 				$editorCode		= 'cat1_editor';
 			} else if ($type == 'second'){
-				$items			= ForumPost::where('block', false)->where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+				$tops			= ForumPost::where('block', false)
+										->where('category_id', 2)
+										->where('top', 1)
+										->orderBy('created_at' , 'desc')
+										->paginate($items_per_page);
+
+				$items			= ForumPost::where('block', false)
+										->where('category_id', 2)
+										->where('top', 0)
+										->orderBy('created_at' , 'desc')
+										->paginate($items_per_page);
+
 				$categoryCode	= 2;
 				$editorCode		= 'cat2_editor';
 			} else {
-				$items			= ForumPost::where('block', false)->where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+				$tops			= ForumPost::where('block', false)
+										->where('category_id', 3)
+										->where('top', 1)
+										->orderBy('created_at' , 'desc')
+										->paginate($items_per_page);
+
+				$items			= ForumPost::where('block', false)
+										->where('category_id', 3)
+										->where('top', 0)
+										->orderBy('created_at' , 'desc')
+										->paginate($items_per_page);
 				$categoryCode	= 3;
 				$editorCode		= 'cat3_editor';
 			}
@@ -89,11 +120,31 @@ class ForumController extends BaseController {
 			if(Auth::user()->sex == 'M') {
 				// Forum is closed only show category 1 and 2
 				if ($type == 'first') {
-					$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$tops			= ForumPost::where('block', false)
+											->where('category_id', 1)
+											->where('top', 1)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
+
+					$items			= ForumPost::where('block', false)
+											->where('category_id', 1)
+											->where('top', 0)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
 					$categoryCode	= 1;
 					$editorCode		= 'cat1_editor';
 				} else if ($type == 'second'){
-					$items			= ForumPost::where('block', false)->where('category_id', 2)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$tops			= ForumPost::where('block', false)
+											->where('category_id', 2)
+											->where('top', 1)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
+
+					$items			= ForumPost::where('block', false)
+											->where('category_id', 2)
+											->where('top', 0)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
 					$categoryCode	= 2;
 					$editorCode		= 'cat2_editor';
 				} else {
@@ -104,7 +155,17 @@ class ForumController extends BaseController {
 			} else {
 				// Forum is closed only show category 1 and 3
 				if ($type == 'first') {
-					$items			= ForumPost::where('block', false)->where('category_id', 1)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$tops			= ForumPost::where('block', false)
+											->where('category_id', 1)
+											->where('top', 1)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
+
+					$items			= ForumPost::where('block', false)
+											->where('category_id', 1)
+											->where('top', 0)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
 					$categoryCode	= 1;
 					$editorCode		= 'cat1_editor';
 				} else if ($type == 'second'){
@@ -112,14 +173,24 @@ class ForumController extends BaseController {
 					$categoryCode	= 2;
 					$editorCode		= 'cat2_editor';
 				} else {
-					$items			= ForumPost::where('block', false)->where('category_id', 3)->orderBy('created_at' , 'desc')->paginate($items_per_page);
+					$tops			= ForumPost::where('block', false)
+											->where('category_id', 3)
+											->where('top', 1)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
+
+					$items			= ForumPost::where('block', false)
+											->where('category_id', 3)
+											->where('top', 0)
+											->orderBy('created_at' , 'desc')
+											->paginate($items_per_page);
 					$categoryCode	= 3;
 					$editorCode		= 'cat3_editor';
 				}
 			}
 		}
 
-		$view = View::make($this->resource.'.item-type')->with(compact('categoryCode', 'items', 'editorCode'));
+		$view = View::make($this->resource.'.item-type')->with(compact('categoryCode', 'tops', 'items', 'editorCode'));
 		return $view;
 		exit;
 	}
@@ -189,16 +260,19 @@ class ForumController extends BaseController {
 	 */
 	public function getShow($id)
 	{
-		$data		= ForumPost::where('id', $id)->first();
-		$author		= User::where('id', $data->user_id)->first();
-		$comments	= ForumComments::where('post_id', $id)->orderBy('created_at' , 'asc')->paginate(10);
-		$floor		= 2;
+		$data			= ForumPost::where('id', $id)->first();
+		$author			= User::where('id', $data->user_id)->first();
+		$comments		= ForumComments::where('post_id', $id)->orderBy('created_at' , 'asc')->paginate(10);
+		$floor			= 2;
+
+		// Get user's profile
+		$author_profile	= Profile::where('user_id', $data->user_id)->first();
 
 		if (Request::ajax()) {
-			return Response::json(View::make($this->resource.'.post-ajax')->with(compact('data', 'author', 'comments', 'floor'))->render());
+			return Response::json(View::make($this->resource.'.post-ajax')->with(compact('data', 'author', 'author_profile', 'comments', 'floor'))->render());
 		}
 
-		return View::make($this->resource.'.post')->with(compact('data', 'author', 'comments', 'floor'));
+		return View::make($this->resource.'.post')->with(compact('data', 'author', 'author_profile', 'comments', 'floor'));
 	}
 
 	/**
