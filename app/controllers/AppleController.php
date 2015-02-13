@@ -1470,27 +1470,30 @@ class AppleController extends BaseController
 
 				case 'forum_getcat' :
 					// Post user ID from App client
-					$user_id	= Input::get('userid');
+					$user_id			= Input::get('userid');
 
 					// Post last user ID from App client
-					$last_id	= Input::get('lastid');
+					$last_id			= Input::get('lastid');
 
 					// Post count per query from App client
-					$per_page	= Input::get('perpage');
+					$per_page			= Input::get('perpage');
 
 					// Post category ID from App client
-					$cat_id		= Input::get('catid');
+					$cat_id				= Input::get('catid');
 
 					// Post number chars of post summary from App client
-					$numchars	= Input::get('numchars');
+					$numchars			= Input::get('numchars');
 
 					// If App have post last user id
 					if($last_id != 'null') {
 
+						// Get last post updated at
+						$last_updated_at	= ForumPost::where('id', $last_id)->first()->updated_at;
+
 						// Query all items from database
 						$items	= ForumPost::where('category_id', $cat_id)
 									->orderBy('updated_at' , 'desc')
-									->where('id', '<', $last_id)
+									->where('updated_at', '<', $last_updated_at)
 									->where('top', 0)
 									->select('id', 'user_id', 'title', 'content', 'created_at')
 									->take($per_page)
@@ -1537,7 +1540,7 @@ class AppleController extends BaseController
 						if(ForumCategories::where('id', 1)->first()->open == 1) {
 
 							// Forum is opening query last user id in database
-							$lastRecord = ForumPost::orderBy('id', 'desc')->first();
+							$lastRecord = ForumPost::orderBy('updated_at', 'desc')->first();
 
 							// Post not exists
 							if(is_null($lastRecord)) {
@@ -1550,8 +1553,8 @@ class AppleController extends BaseController
 
 								// Query all items from database
 								$top	= ForumPost::where('category_id', $cat_id)
-											->orderBy('created_at' , 'desc')
-											->where('id', '<=', $lastRecord->id)
+											->orderBy('updated_at' , 'desc')
+											->where('updated_at', '<=', $lastRecord->updated_at)
 											->where('top', 1)
 											->select('id', 'user_id', 'title', 'content', 'created_at')
 											->take('5')
@@ -1591,8 +1594,8 @@ class AppleController extends BaseController
 
 								// Query all items from database
 								$items	= ForumPost::where('category_id', $cat_id)
-											->orderBy('created_at' , 'desc')
-											->where('id', '<=', $lastRecord->id)
+											->orderBy('updated_at' , 'desc')
+											->where('updated_at', '<=', $lastRecord->updated_at)
 											->where('top', 0)
 											->select('id', 'user_id', 'title', 'content', 'created_at')
 											->take($per_page)
@@ -1656,7 +1659,7 @@ class AppleController extends BaseController
 								} else {
 
 									// Forum is opening query last user id in database
-									$lastRecord = ForumPost::orderBy('id', 'desc')->first();
+									$lastRecord = ForumPost::orderBy('updated_at', 'desc')->first();
 
 									// Post not exists
 									if(is_null($lastRecord)) {
@@ -1668,7 +1671,7 @@ class AppleController extends BaseController
 										// Post exists and query all items from database
 										$top	= ForumPost::where('category_id', $cat_id)
 													->orderBy('updated_at' , 'desc')
-													->where('id', '<=', $lastRecord->id)
+													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 1)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take('5')
@@ -1709,7 +1712,7 @@ class AppleController extends BaseController
 										// Query all items from database
 										$items	= ForumPost::where('category_id', $cat_id)
 													->orderBy('updated_at' , 'desc')
-													->where('id', '<=', $lastRecord->id)
+													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take($per_page)
@@ -1767,7 +1770,7 @@ class AppleController extends BaseController
 								} else {
 
 									// Forum is opening query last user id in database
-									$lastRecord = ForumPost::orderBy('id', 'desc')->first();
+									$lastRecord = ForumPost::orderBy('updated_at', 'desc')->first();
 
 									// Post not exists
 									if(is_null($lastRecord)) {
@@ -1781,7 +1784,7 @@ class AppleController extends BaseController
 										// Query all items from database
 										$top	= ForumPost::where('category_id', $cat_id)
 													->orderBy('updated_at' , 'desc')
-													->where('id', '<=', $lastRecord->id)
+													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 1)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take('5')
@@ -1822,7 +1825,7 @@ class AppleController extends BaseController
 										// Query all items from database
 										$items	= ForumPost::where('category_id', $cat_id)
 													->orderBy('updated_at' , 'desc')
-													->where('id', '<=', $lastRecord->id)
+													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take($per_page)
