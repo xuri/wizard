@@ -30,7 +30,7 @@
 
 	<script type="text/javascript">
 		for(i=0;i<1;i++){
-			Vartest=window.prompt("请输入内测码:", " ");
+			Vartest=window.prompt("请输入内测码:", '');
 			if(Vartest=='pinai'){
 				break;
 			} else {
