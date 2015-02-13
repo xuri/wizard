@@ -78,13 +78,13 @@ class ForumController extends BaseController {
 				$tops			= ForumPost::where('block', false)
 										->where('category_id', 1)
 										->where('top', 1)
-										->orderBy('created_at' , 'desc')
+										->orderBy('updated_at' , 'desc')
 										->paginate($items_per_page);
 
 				$items			= ForumPost::where('block', false)
 										->where('category_id', 1)
 										->where('top', 0)
-										->orderBy('created_at' , 'desc')
+										->orderBy('updated_at' , 'desc')
 										->paginate($items_per_page);
 				$categoryCode	= 1;
 				$editorCode		= 'cat1_editor';
@@ -92,13 +92,13 @@ class ForumController extends BaseController {
 				$tops			= ForumPost::where('block', false)
 										->where('category_id', 2)
 										->where('top', 1)
-										->orderBy('created_at' , 'desc')
+										->orderBy('updated_at' , 'desc')
 										->paginate($items_per_page);
 
 				$items			= ForumPost::where('block', false)
 										->where('category_id', 2)
 										->where('top', 0)
-										->orderBy('created_at' , 'desc')
+										->orderBy('updated_at' , 'desc')
 										->paginate($items_per_page);
 
 				$categoryCode	= 2;
@@ -107,13 +107,13 @@ class ForumController extends BaseController {
 				$tops			= ForumPost::where('block', false)
 										->where('category_id', 3)
 										->where('top', 1)
-										->orderBy('created_at' , 'desc')
+										->orderBy('updated_at' , 'desc')
 										->paginate($items_per_page);
 
 				$items			= ForumPost::where('block', false)
 										->where('category_id', 3)
 										->where('top', 0)
-										->orderBy('created_at' , 'desc')
+										->orderBy('updated_at' , 'desc')
 										->paginate($items_per_page);
 				$categoryCode	= 3;
 				$editorCode		= 'cat3_editor';
@@ -125,13 +125,13 @@ class ForumController extends BaseController {
 					$tops			= ForumPost::where('block', false)
 											->where('category_id', 1)
 											->where('top', 1)
-											->orderBy('created_at' , 'desc')
+											->orderBy('updated_at' , 'desc')
 											->paginate($items_per_page);
 
 					$items			= ForumPost::where('block', false)
 											->where('category_id', 1)
 											->where('top', 0)
-											->orderBy('created_at' , 'desc')
+											->orderBy('updated_at' , 'desc')
 											->paginate($items_per_page);
 					$categoryCode	= 1;
 					$editorCode		= 'cat1_editor';
@@ -139,13 +139,13 @@ class ForumController extends BaseController {
 					$tops			= ForumPost::where('block', false)
 											->where('category_id', 2)
 											->where('top', 1)
-											->orderBy('created_at' , 'desc')
+											->orderBy('updated_at' , 'desc')
 											->paginate($items_per_page);
 
 					$items			= ForumPost::where('block', false)
 											->where('category_id', 2)
 											->where('top', 0)
-											->orderBy('created_at' , 'desc')
+											->orderBy('updated_at' , 'desc')
 											->paginate($items_per_page);
 
 					$categoryCode	= 2;
@@ -154,13 +154,13 @@ class ForumController extends BaseController {
 					$tops			= ForumPost::where('block', false)
 											->where('category_id', 3)
 											->where('top', 1)
-											->orderBy('created_at' , 'desc')
+											->orderBy('updated_at' , 'desc')
 											->paginate($items_per_page);
 
 					$items			= ForumPost::where('block', false)
 											->where('category_id', 3)
 											->where('top', 0)
-											->orderBy('created_at' , 'desc')
+											->orderBy('updated_at' , 'desc')
 											->paginate($items_per_page);
 					$categoryCode	= 3;
 					$editorCode		= 'cat3_editor';
@@ -173,13 +173,13 @@ class ForumController extends BaseController {
 						$tops			= ForumPost::where('block', false)
 												->where('category_id', 1)
 												->where('top', 1)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 
 						$items			= ForumPost::where('block', false)
 												->where('category_id', 1)
 												->where('top', 0)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 						$categoryCode	= 1;
 						$editorCode		= 'cat1_editor';
@@ -187,13 +187,13 @@ class ForumController extends BaseController {
 						$tops			= ForumPost::where('block', false)
 												->where('category_id', 2)
 												->where('top', 1)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 
 						$items			= ForumPost::where('block', false)
 												->where('category_id', 2)
 												->where('top', 0)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 						$categoryCode	= 2;
 						$editorCode		= 'cat2_editor';
@@ -208,13 +208,13 @@ class ForumController extends BaseController {
 						$tops			= ForumPost::where('block', false)
 												->where('category_id', 1)
 												->where('top', 1)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 
 						$items			= ForumPost::where('block', false)
 												->where('category_id', 1)
 												->where('top', 0)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 						$categoryCode	= 1;
 						$editorCode		= 'cat1_editor';
@@ -226,13 +226,13 @@ class ForumController extends BaseController {
 						$tops			= ForumPost::where('block', false)
 												->where('category_id', 3)
 												->where('top', 1)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 
 						$items			= ForumPost::where('block', false)
 												->where('category_id', 3)
 												->where('top', 0)
-												->orderBy('created_at' , 'desc')
+												->orderBy('updated_at' , 'desc')
 												->paginate($items_per_page);
 						$categoryCode	= 3;
 						$editorCode		= 'cat3_editor';
@@ -353,7 +353,7 @@ class ForumController extends BaseController {
 			$validator		= Validator::make($data, $rules, $messages);
 			if ($validator->passes())
 			{
-				$forum_post->created_at	= Carbon::now();
+				$forum_post->updated_at	= Carbon::now();
 				$forum_post->save();
 				$comment				= new ForumComments;
 				$comment->post_id		= $id;

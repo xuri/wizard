@@ -1489,7 +1489,7 @@ class AppleController extends BaseController
 
 						// Query all items from database
 						$items	= ForumPost::where('category_id', $cat_id)
-									->orderBy('created_at' , 'desc')
+									->orderBy('updated_at' , 'desc')
 									->where('id', '<', $last_id)
 									->where('top', 0)
 									->select('id', 'user_id', 'title', 'content', 'created_at')
@@ -1667,7 +1667,7 @@ class AppleController extends BaseController
 
 										// Post exists and query all items from database
 										$top	= ForumPost::where('category_id', $cat_id)
-													->orderBy('created_at' , 'desc')
+													->orderBy('updated_at' , 'desc')
 													->where('id', '<=', $lastRecord->id)
 													->where('top', 1)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
@@ -1708,7 +1708,7 @@ class AppleController extends BaseController
 
 										// Query all items from database
 										$items	= ForumPost::where('category_id', $cat_id)
-													->orderBy('created_at' , 'desc')
+													->orderBy('updated_at' , 'desc')
 													->where('id', '<=', $lastRecord->id)
 													->where('top', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
@@ -1780,7 +1780,7 @@ class AppleController extends BaseController
 
 										// Query all items from database
 										$top	= ForumPost::where('category_id', $cat_id)
-													->orderBy('created_at' , 'desc')
+													->orderBy('updated_at' , 'desc')
 													->where('id', '<=', $lastRecord->id)
 													->where('top', 1)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
@@ -1821,7 +1821,7 @@ class AppleController extends BaseController
 
 										// Query all items from database
 										$items	= ForumPost::where('category_id', $cat_id)
-													->orderBy('created_at' , 'desc')
+													->orderBy('updated_at' , 'desc')
 													->where('id', '<=', $lastRecord->id)
 													->where('top', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
@@ -1884,7 +1884,7 @@ class AppleController extends BaseController
 					$perpage	= Input::get('perpage', 10);
 
 					// Define breaks convert rules
-					$breaks		= array("<br />","<br>","<br/>", "</p>");
+					$breaks		= array("<br />","<br>","<br/>","</p>");
 
 					// If App have post last user id
 					if($lastid == null) {
@@ -2140,14 +2140,16 @@ class AppleController extends BaseController
 					// Select post type
 					if(Input::get('type') == 'comments')
 					{
+						$forum_post->updated_at	= Carbon::now();
+						$forum_post->save();
 						// Post comments
-						$comment			= new ForumComments;
-						$comment->post_id	= $post_id;
-						$comment->content	= $content;
-						$comment->user_id	= $user_id;
+						$comment				= new ForumComments;
+						$comment->post_id		= $post_id;
+						$comment->content		= $content;
+						$comment->user_id		= $user_id;
 
 						// Calculate this comment in which floor
-						$comment->floor		= ForumComments::where('post_id', $post_id)->count() + 2;
+						$comment->floor			= ForumComments::where('post_id', $post_id)->count() + 2;
 
 						if($comment->save())
 						{
