@@ -353,12 +353,15 @@ class ForumController extends BaseController {
 			$validator		= Validator::make($data, $rules, $messages);
 			if ($validator->passes())
 			{
+				$forum_post->created_at	= Carbon::now();
+				$forum_post->save();
+				$comment				= new ForumComments;
+				$comment->post_id		= $id;
+				$comment->content		= Input::get('content');
+				$comment->user_id		= Auth::user()->id;
 
-				$comment			= new ForumComments;
-				$comment->post_id	= $id;
-				$comment->content	= Input::get('content');
-				$comment->user_id	= Auth::user()->id;
-				$comment->floor		= ForumComments::where('post_id', $id)->count() + 2; // Calculate this comment in which floor
+				// Calculate this comment in which floor
+				$comment->floor			= ForumComments::where('post_id', $id)->count() + 2;
 
 
 				if($comment->save())
