@@ -647,7 +647,7 @@ button.reply_comment_submit {
 	margin: 18px 0 0 15px;
 	float: left;
 	line-height: 19px;
-	width: 380px;
+	width: 380px !important;
 }
 
 .g-r-value {

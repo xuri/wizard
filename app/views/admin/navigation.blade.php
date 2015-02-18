@@ -118,7 +118,7 @@
 							<a href="{{ route('account') }}">个人信息</a>
 						</li>
 						<li>
-							<a href="{{ route('members.index') }}">缘来在这</a>
+							<a href="{{ route('members.index') }}">缘分大厅</a>
 						</li>
 						<li>
 							<a href="{{ route('account.notifications') }}">我的来信</a>
