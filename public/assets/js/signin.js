@@ -72,24 +72,26 @@ $(function(){
 	});
 
 	$(document).keypress(function(e) {
-		var formData = {
-			_token 			: csrf_token, // CSRF token
-			username 		: $('input[name=email]').val(),
-			password		: $('input[name=password]').val(),
-		};
-		$.ajax({
-			url 	: signin_url, // the url where we want to POST
-			type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
-			data 	: formData
-		}).done(function(data) {
+		if(e.which == 13) {
+			var formData = {
+				_token 			: csrf_token, // CSRF token
+				username 		: $('input[name=email]').val(),
+				password		: $('input[name=password]').val(),
+			};
+			$.ajax({
+				url 	: signin_url, // the url where we want to POST
+				type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+				data 	: formData
+			}).done(function(data) {
 
-			// Here we will handle errors and validation messages
-			if (!data.success) {
-				$('.signin_error').html(data.attempt);
-			} else {
-				location.reload();
-			}
-		});
+				// Here we will handle errors and validation messages
+				if (!data.success) {
+					$('.signin_error').html(data.attempt);
+				} else {
+					location.reload();
+				}
+			});
+		}
 	});
 
 	// Ajax login with E-mail or phone

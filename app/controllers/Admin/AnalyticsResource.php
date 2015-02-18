@@ -502,9 +502,9 @@ class Admin_AnalyticsResource extends BaseResource
 
 		// Build Json data (remove double quotes from Json return data)
 		$monthlyLikes = '{
-			"每周用户互动次数":'.preg_replace('/["]/', '' ,json_encode($monthlyLike)).
-			', "每周男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyMaleLike)).
-			', "每周女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyFemaleLike)).
+			"每月用户互动次数":'.preg_replace('/["]/', '' ,json_encode($monthlyLike)).
+			', "每月男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyMaleLike)).
+			', "每月女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyFemaleLike)).
 			'}';
 
 		/*

@@ -143,12 +143,12 @@ class Admin_UniversityResource extends BaseResource
 	 */
 	public function edit($id)
 	{
-		$resourceName = $this->resourceName;
+		$resourceName	= $this->resourceName;
 
 		// Retrieve university ticket
-		$data		  = $this->model->find($id)->first();
-
-		return View::make($this->resourceView.'.edit')->with(compact('resourceName', 'data'));
+		$data			= $this->model->find($id);
+		$provinces		= Province::get();
+		return View::make($this->resourceView.'.edit')->with(compact('resourceName', 'data', 'provinces'));
 	}
 
 	/**
@@ -159,21 +159,49 @@ class Admin_UniversityResource extends BaseResource
 	 */
 	public function update($id)
 	{
-		if(Input::get('open_at') != null)
-		{
-			// Retrieve university ticket
-			$data			= $this->model->find($id);
-			$data->open_at	= Input::get('open_at');
-			$data->status	= 1;
-			$data->save();
+		$data       = array (
+			'university'	=> Input::get('university'),
+			'province_id'	=> Input::get('province_id')
+		);
 
-			// Update success
-			return Redirect::back()
-				->with('success', '<strong>'.$this->resourceName.'开通时间设定成功：</strong>您可以修改此设置'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
+		// Create validation rules
+		$rules = array(
+			'university'	=> 'required',
+			'province_id'	=> 'required|integer'
+		);
+
+		// Custom validation message
+		$messages = array(
+			'university.required'	=> '高校名称必须填写。',
+			'province_id.required'	=> '请选择所属省份。',
+			'province_id.integer'	=> '所属省份格式不正确。'
+		);
+
+		// Begin verification
+		$validator = Validator::make($data, $rules, $messages);
+		if ($validator->passes()) {
+
+			// Retrieve university ticket
+			$data				= $this->model->find($id);
+			$data->university	= Input::get('university');
+			$data->province_id	= Input::get('province_id');
+			if(Input::get('open_at') != null) {
+				$data->open_at	= Input::get('open_at');
+				$data->status	= 1;
+			}
+			if ($data->save()) {
+				// Update success
+				return Redirect::back()
+					->with('success', '<strong>' . $this->resourceName.'信息编辑成功：</strong>您可以修改此设置' . $this->resourceName.'，或返回'.$this->resourceName.'列表。');
+			} else {
+				// Update fail
+				return Redirect::back()
+					->with('warning', '更新失败，请重新尝试。');
+			}
+
 		} else {
-			// Update fail
-			return Redirect::back()
-				->with('warning', '<strong>'.$this->resourceName.'设置失败，请输入开通时间。</strong>');
+			// Verification fail
+			return Redirect::back()->withInput()->withErrors($validator);
 		}
 
 	}
