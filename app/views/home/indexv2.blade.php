@@ -29,17 +29,17 @@
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 
 	<script type="text/javascript">
-		for(i=0;i<1;i++){
-			Vartest=window.prompt("请输入内测码:", '');
-			if(Vartest=='pinai'){
-				break;
-			} else {
-				alert("获取内测码 请加QQ: 523591643");
-				window.open('','_self','');
-				window.close();
-				$("body").css('display', 'none');
-			}
-		}
+		// for(i=0;i<1;i++){
+		// 	Vartest=window.prompt("请输入内测码:", '');
+		// 	if(Vartest=='pinai'){
+		// 		break;
+		// 	} else {
+		// 		alert("获取内测码 请加QQ: 523591643");
+		// 		window.open('','_self','');
+		// 		window.close();
+		// 		$("body").css('display', 'none');
+		// 	}
+		// }
 	</script>
 	@else
 	@endif

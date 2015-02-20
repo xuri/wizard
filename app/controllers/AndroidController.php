@@ -2833,6 +2833,29 @@ class AndroidController extends BaseController
 					// Build Json format
 					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
 				break;
+
+				// Signout
+				case 'signout' :
+
+					// USer ID
+					$id = Input::get('id');
+
+					if(User::find($id))
+					{
+						return Response::json(
+							array(
+								'status' 		=> 1
+							)
+						);
+					} else {
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
+					}
+
+				break;
 			}
 		} else {
 			return Response::json(
