@@ -135,7 +135,7 @@ class MemberController extends BaseController {
 			} else {
 				Session::put('grade', $grade);
 				isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
-					$profileQuery->where('grade', '=', $grade);
+					$profileQuery->where('grade', '=', Input::get('grade'));
 				});
 			}
 		}
@@ -143,7 +143,7 @@ class MemberController extends BaseController {
 		// Session Grade filter
 		if($session_grade) {
 			isset($session_grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
-				$profileQuery->where('grade', '=', $session_grade);
+				$profileQuery->where('grade', '=', Session::get('grade'));
 			});
 		}
 
