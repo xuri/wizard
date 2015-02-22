@@ -1523,7 +1523,7 @@ class AndroidController extends BaseController
 					$cat_id				= Input::get('catid');
 
 					// Post number chars of post summary from App client
-					$numchars			= Input::get('numchars');
+					$numchars			= Input::get('numchars', 200);
 
 					// If App have post last user id
 					if($last_id != 'null') {
@@ -1544,6 +1544,20 @@ class AndroidController extends BaseController
 						// Replace receiver ID to receiver portrait
 						foreach($items as $key => $field){
 
+							// Count how many comments of this post
+							$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+
+							// Retrieve all comments to array
+							$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+
+							// Init replies count
+							$replies_count					= 0;
+
+							// Calculate total replies of this post
+							foreach ($comments_array as $comments_array_key => $value) {
+								$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+							}
+
 							// Retrieve user
 							$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
@@ -1554,7 +1568,7 @@ class AndroidController extends BaseController
 							$items[$key]['sex']				= e($post_user->sex);
 
 							// Count how many comments of this post and add comments_count key to array
-							$items[$key]['comments_count']	= e(ForumComments::where('post_id', $items[$key]['id'])->count());
+							$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 							// Get post user portrait and add portrait key to array
 							$items[$key]['nickname']		= e($post_user->nickname);
@@ -1605,6 +1619,20 @@ class AndroidController extends BaseController
 								// Replace receiver ID to receiver portrait
 								foreach($top as $key => $field){
 
+									// Count how many comments of this post
+									$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->count();
+
+									// Retrieve all comments to array
+									$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->select('id')->get()->toArray();
+
+									// Init replies count
+									$replies_count					= 0;
+
+									// Calculate total replies of this post
+									foreach ($comments_array as $comments_array_key => $value) {
+										$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+									}
+
 									// Retrieve user
 									$post_user						= User::where('id', $top[$key]['user_id'])->first();
 
@@ -1614,8 +1642,8 @@ class AndroidController extends BaseController
 									// Get post user sex (M, F or null) and add user sex key to array
 									$top[$key]['sex']				= e($post_user->sex);
 
-									// Count how many comments of this post and add comments_count key to array
-									$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
+									// Count how many comments and replies of this post and add comments_count key to array
+									$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 									// Get post user portrait and add portrait key to array
 									$top[$key]['nickname']			= e($post_user->nickname);
@@ -1646,6 +1674,20 @@ class AndroidController extends BaseController
 								// Replace receiver ID to receiver portrait
 								foreach($items as $key => $field){
 
+									// Count how many comments of this post
+									$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+
+									// Retrieve all comments to array
+									$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+
+									// Init replies count
+									$replies_count					= 0;
+
+									// Calculate total replies of this post
+									foreach ($comments_array as $comments_array_key => $value) {
+										$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+									}
+
 									// Retrieve user
 									$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
@@ -1655,8 +1697,8 @@ class AndroidController extends BaseController
 									// Get post user sex (M, F or null) and add user sex key to array
 									$items[$key]['sex']				= e($post_user->sex);
 
-									// Count how many comments of this post and add comments_count key to array
-									$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+									// Count how many comments and replies of this post and add comments_count key to array
+									$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 									// Get post user portrait and add portrait key to array
 									$items[$key]['nickname']		= e($post_user->nickname);
@@ -1722,6 +1764,20 @@ class AndroidController extends BaseController
 										// Replace receiver ID to receiver portrait
 										foreach($top as $key => $field){
 
+											// Count how many comments of this post
+											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->count();
+
+											// Retrieve all comments to array
+											$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->select('id')->get()->toArray();
+
+											// Init replies count
+											$replies_count					= 0;
+
+											// Calculate total replies of this post
+											foreach ($comments_array as $comments_array_key => $value) {
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+											}
+
 											// Retrieve user
 											$post_user						= User::where('id', $top[$key]['user_id'])->first();
 
@@ -1732,7 +1788,7 @@ class AndroidController extends BaseController
 											$top[$key]['sex']				= e($post_user->sex);
 
 											// Count how many comments of this post and add comments_count key to array
-											$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
+											$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
 											$top[$key]['nickname']			= e($post_user->nickname);
@@ -1763,6 +1819,20 @@ class AndroidController extends BaseController
 										// Replace receiver ID to receiver portrait
 										foreach($items as $key => $field){
 
+											// Count how many comments of this post
+											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+
+											// Retrieve all comments to array
+											$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+
+											// Init replies count
+											$replies_count					= 0;
+
+											// Calculate total replies of this post
+											foreach ($comments_array as $comments_array_key => $value) {
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+											}
+
 											// Retrieve user
 											$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
@@ -1773,7 +1843,7 @@ class AndroidController extends BaseController
 											$items[$key]['sex']				= e($post_user->sex);
 
 											// Count how many comments of this post and add comments_count key to array
-											$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+											$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
 											$items[$key]['nickname']		= e($post_user->nickname);
@@ -1835,6 +1905,20 @@ class AndroidController extends BaseController
 										// Replace receiver ID to receiver portrait
 										foreach($top as $key => $field){
 
+											// Count how many comments of this post
+											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->count();
+
+											// Retrieve all comments to array
+											$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->select('id')->get()->toArray();
+
+											// Init replies count
+											$replies_count					= 0;
+
+											// Calculate total replies of this post
+											foreach ($comments_array as $comments_array_key => $value) {
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+											}
+
 											// Retrieve user
 											$post_user						= User::where('id', $top[$key]['user_id'])->first();
 
@@ -1845,7 +1929,7 @@ class AndroidController extends BaseController
 											$top[$key]['sex']				= e($post_user->sex);
 
 											// Count how many comments of this post and add comments_count key to array
-											$top[$key]['comments_count']	= ForumComments::where('post_id', $top[$key]['id'])->count();
+											$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
 											$top[$key]['nickname']			= e($post_user->nickname);
@@ -1876,6 +1960,20 @@ class AndroidController extends BaseController
 										// Replace receiver ID to receiver portrait
 										foreach($items as $key => $field){
 
+											// Count how many comments of this post
+											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+
+											// Retrieve all comments to array
+											$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+
+											// Init replies count
+											$replies_count					= 0;
+
+											// Calculate total replies of this post
+											foreach ($comments_array as $comments_array_key => $value) {
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+											}
+
 											// Retrieve user
 											$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
@@ -1886,7 +1984,7 @@ class AndroidController extends BaseController
 											$items[$key]['sex']				= e($post_user->sex);
 
 											// Count how many comments of this post and add comments_count key to array
-											$items[$key]['comments_count']	= ForumComments::where('post_id', $items[$key]['id'])->count();
+											$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
 											$items[$key]['nickname']		= e($post_user->nickname);

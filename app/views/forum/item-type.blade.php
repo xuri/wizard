@@ -6,7 +6,17 @@
 
 		{{-- Get plain text from post content HTML code and replace to content value in array --}}
 		<p>{{ str_ireplace("\n", '', getplaintextintrofromhtml($top->content, 200)); }}</p>
-		<span class="bbs_main_look">{{ ForumComments::where('post_id', $top->id)->count() }}</span>
+
+		<?php
+			$comments_count	= ForumComments::where('post_id', $top->id)->count();
+			$comments_array	= ForumComments::where('post_id', $top->id)->select('id')->get()->toArray();
+			$replies_count	= 0;
+			foreach ($comments_array as $key => $value) {
+				$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+			}
+			$comments_and_replies = $comments_count + $replies_count;
+		?>
+		<span class="bbs_main_look">{{ $comments_and_replies }}</span>
 		<span class="bbs_main_time">{{ date("m-d G:i",strtotime($top->created_at)) }}</span>
 	</li>
 	@endforeach
@@ -15,9 +25,19 @@
 	<li class="bbs_main_boy">
 		<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ Str::limit($post->title, 35) }}</a>
 
+		<?php
+			$comments_count	= ForumComments::where('post_id', $post->id)->count();
+			$comments_array	= ForumComments::where('post_id', $post->id)->select('id')->get()->toArray();
+			$replies_count	= 0;
+			foreach ($comments_array as $key => $value) {
+				$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+			}
+			$comments_and_replies = $comments_count + $replies_count;
+		?>
+
 		{{-- Get plain text from post content HTML code and replace to content value in array --}}
 		<p>{{ str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200)); }}</p>
-		<span class="bbs_main_look">{{ ForumComments::where('post_id', $post->id)->count() }}</span>
+		<span class="bbs_main_look">{{ $comments_and_replies }}</span>
 		<span class="bbs_main_time">{{ date("m-d G:i",strtotime($post->created_at)) }}</span>
 		<?php
 			// Using expression get all picture attachments (Only with pictures stored on this server.)
