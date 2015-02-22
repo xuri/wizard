@@ -85,29 +85,69 @@ class MemberController extends BaseController {
 		$grade					= Input::get('grade');
 		$sex					= Input::get('sex');
 
+		$session_university		= Session::get('university');
+		$session_grade			= Session::get('grade');
+		$session_sex			= Session::get('sex');
+
 		// University filter
 		if($university) {
-			if($university == 'others') {
+			if($university == 'all') {
+				Session::forget('university');
+			} elseif($university == 'others') {
+				Session::put('university', 'others');
 				$universities_list = University::where('status', 2)->select('university')->get()->toArray();
 				isset($university) AND $query->whereNotIn('school', $universities_list);
 			} else {
+				Session::put('university', $university);
 				isset($university) AND $query->where('school', $university);
+			}
+		}
+
+		// Session University filter
+		if($session_university) {
+			if($session_university == 'others') {
+				$universities_list = University::where('status', 2)->select('university')->get()->toArray();
+				isset($session_university) AND $query->whereNotIn('school', $universities_list);
+			} else {
+				isset($session_university) AND $query->where('school', $session_university);
 			}
 		}
 
 		// Sex filter
 		if($sex) {
-			isset($sex) AND $query->where('sex', $sex);
+			if($sex == 'all') {
+				Session::forget('sex');
+			} else {
+				Session::put('sex', $sex);
+				isset($sex) AND $query->where('sex', $sex);
+			}
+		}
+
+		// Session Sex filter
+		if($session_sex) {
+			isset($session_sex) AND $query->where('sex', $session_sex);
 		}
 
 		// Grade filter
 		if($grade) {
-			isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
-				$profileQuery->where('grade', '=', Input::get('grade'));
+			if($grade == 'all') {
+				Session::forget('grade');
+			} else {
+				Session::put('grade', $grade);
+				isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
+					$profileQuery->where('grade', '=', $grade);
+				});
+			}
+		}
+
+		// Session Grade filter
+		if($session_grade) {
+			isset($session_grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
+				$profileQuery->where('grade', '=', $session_grade);
 			});
 		}
 
-		$datas = $query->paginate(10);
+		$datas = $query->paginate(5);
 
 		if (Request::ajax()) {
 			return Response::json(View::make($this->resource.'.load-ajax')->with(compact('datas', 'pending_universities', 'open_universities'))->render());

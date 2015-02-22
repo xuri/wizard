@@ -5,7 +5,7 @@
 	@yield('content')
 
 	<div id="lu_content">
-		<div class="lu_con_title">缘分大厅</div>
+		<div class="lu_con_title">缘分大厅{{ Session::get('university') }}{{ Session::get('sex')}}</div>
 		<div class="lu_con_img">
 			<span class="lu_line1"></span>
 			<span class="lu_line2"></span>
@@ -15,8 +15,8 @@
 		<div class="lu_content_box clear">
 			<div class="lu_content_main clear">
 				{{ Form::open(array('method' => 'get', 'class' => 'lu_content_main_tab')) }}
-					<select class="lu_school lu_public" name="university">
-						<option value="">选择学校</option>
+					<select class="lu_school lu_public" name="university" id="university_select" rel="{{ Session::get('university') }}">
+						<option value="all">所有学校</option>
 						@foreach($open_universities as $open_university)
 						<option value="{{ $open_university->university }}">{{ $open_university->university }}</option>
 						@endforeach
@@ -28,9 +28,9 @@
 					{{
 						Form::select(
 							'target',
-							array('' => '性别', 'M' => '男', 'F' => '女'),
+							array('all' => '性别', 'M' => '男', 'F' => '女'),
 							Input::get('target', 'sex'),
-							array('class' => 'lu_sex lu_public', 'name' => 'sex')
+							array('class' => 'lu_sex lu_public', 'name' => 'sex', 'id' => 'sex_select', 'rel' => Session::get('sex'))
 						)
 					}}
 					{{
@@ -45,7 +45,7 @@
 									'2010' => '2010年',
 								),
 							Input::get('target', 'grade'),
-							array('class' => 'lu_school lu_public', 'name' => 'grade')
+							array('class' => 'lu_school lu_public', 'name' => 'grade', 'id' => 'grade_select', 'rel' => Session::get('grade'))
 						)
 					}}
 					<button type="submit" class="lu_search lu_public">搜索</button>
@@ -156,5 +156,17 @@
 			alert('Posts could not be loaded.');
 		});
 	}
+
+	@if(Session::get('university'))
+	$("#university_select").val($("#university_select").attr("rel"));
+	@endif
+
+	@if(Session::get('sex'))
+	$("#sex_select").val($("#sex_select").attr("rel"));
+	@endif
+
+	@if(Session::get('grade'))
+	$("#grade_select").val($("#grade_select").attr("rel"));
+	@endif
 </script>
 </html>
