@@ -152,6 +152,79 @@ class AccountController extends BaseController
 	}
 
 	/**
+	 * Ajax check complete
+	 * @return json success
+	 */
+	public function checkComplete()
+	{
+		// Get all form data
+
+		$info = array(
+			'nickname'      => Input::get('nickname'),
+			'constellation' => Input::get('constellation'),
+			'portrait'      => Input::get('portrait'),
+			'tag_str'       => Input::get('tag_str'),
+			'sex'           => Input::get('sex'),
+			'born_year'     => Input::get('born_year'),
+			'grade'         => Input::get('grade'),
+			'hobbies'       => Input::get('hobbies'),
+			'self_intro'    => Input::get('self_intro'),
+			'bio'           => Input::get('bio'),
+			'question'      => Input::get('question'),
+			'school'        => Input::get('school'),
+		);
+
+		//Create validation rules
+
+		$rules = array(
+			'nickname'      => 'required|between:1,30',
+			'constellation' => 'required',
+			'tag_str'       => 'required',
+			'born_year'     => 'required',
+			'grade'         => 'required',
+			'hobbies'       => 'required',
+			'self_intro'    => 'required',
+			'bio'           => 'required',
+			'question'      => 'required',
+			'school'        => 'required',
+		);
+
+		// Custom validation message
+
+		$messages = array(
+			'nickname.required'      => '请输入昵称',
+			'nickname.between'       => '昵称长度请保持在:min到:max字之间',
+			'constellation.required' => '请选择星座',
+			'tag_str.required'       => '给自己贴个标签吧',
+			'born_year.required'     => '请选择出生年',
+			'grade.required'         => '请选择入学年',
+			'hobbies.required'       => '填写你的爱好',
+			'self_intro.required'    => '请填写个人简介',
+			'bio.required'           => '请填写你的真爱寄语',
+			'question.required'      => '记得填写爱情考验哦',
+			'school.required'        => '请选择所在学校',
+
+		);
+
+		// Begin verification
+
+		$validator = Validator::make($info, $rules, $messages);
+		if ($validator->passes()) {
+			return Response::json(
+				array(
+					'success' => true
+				)
+			);
+		} else {
+			return Response::json(
+				array(
+					'success' => false
+				)
+			);
+		}
+	}
+
+	/**
 	 * Sign-in user update profile information
 	 *
 	 * @return Response

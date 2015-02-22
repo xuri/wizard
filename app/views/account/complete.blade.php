@@ -359,17 +359,17 @@
 								<td class="data_td2">
 									@if(Auth::user()->born_year)
 									{{ Auth::user()->born_year }} （出生年不能修改了）
-									<input value="{{ Auth::user()->born_year }}" type="hidden" name="born_year">
+									<input value="{{ Auth::user()->born_year }}" type="hidden" name="born_year" id="born_select">
 									@else
 									<select name="born_year" id="born_select">
 										<option value="1990">1990</option>
 										<option value="1991">1991</option>
 										<option value="1992">1992</option>
 										<option value="1993">1993</option>
-										<option value="1993">1994</option>
-										<option value="1993">1995</option>
-										<option value="1993">1996</option>
-										<option value="1993">1997</option>
+										<option value="1994">1994</option>
+										<option value="1995">1995</option>
+										<option value="1996">1996</option>
+										<option value="1997">1997</option>
 									</select>
 									（注意：出生年设置后不能修改）
 									@endif
@@ -439,8 +439,8 @@
 							</tr>
 						</table>
 
-					<div class="btn_box">
-						<input type="submit" value="保存"/>
+					<div class="btn_box" id="submit_btn">
+						<input id="submit" type="submit" value="保存" />
 					</div>
 					{{ Form::close() }}
 				</div>

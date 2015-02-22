@@ -25,7 +25,7 @@
 							{{ $resourceName }}列表
 						</div>
 						<div class="panel-body">
-							{{ Form::open(array('method' => 'get')) }}
+							{{ Form::open(array('method' => 'get', 'action' => array('Admin_UniversityResource@index'))) }}
 								<div class="input-group col-md-9" style="margin:1em auto 0 auto;">
 									<span class="input-group-btn" style="width:8em;">
 										<select class="form-control input-sm" name="province">
@@ -65,19 +65,61 @@
 								<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 									<thead>
 										<tr>
-											<th>ID {{ order_by('id', 'desc') }}</th>
+											<th>ID <a href="{{ route('admin.university.index') }}?sort_up=id" class="glyphicon glyphicon-random"></a></th>
 											<th style="text-align:center;">高校 {{ order_by('university', 'desc') }}</th>
-											<th>注册人数 <a href="{{ route('admin.university.order_by_users_desc') }}" class="glyphicon glyphicon-random"></a></th>
-											<th>创建时间（即将开放） {{ order_by('created_at', 'desc') }}</th>
-											<th style="width:10.5em;text-align:center;">操作 {{ order_by('status', 'desc') }}</th>
+											<th>注册人数<a href="{{ route('admin.university.index') }}" class="glyphicon glyphicon-chevron-down"></a></th>
+											<th>创建时间（即将开放） <a href="{{ route('admin.university.index') }}?sort_up=created_at" class="glyphicon glyphicon-random"></a></th>
+											<th style="width:10.5em;text-align:center;">操作 <a href="{{ route('admin.university.index') }}?sort_up=status" class="glyphicon glyphicon-random"></a></th>
 										</tr>
 									</thead>
 									<tbody>
-										@foreach ($datas as $data)
+									<?php
+										$arr = $universities_list;
+
+										$rows_per_page = 10;
+
+										// get total number of rows
+
+										$numrows = count($arr);
+
+										// Calculate number of $lastpage
+										$lastpage = ceil($numrows/$rows_per_page);
+
+										// condition inputs/set default
+										if (isset($_GET['pageno'])) {
+										   $pageno = $_GET['pageno'];
+										} else {
+										   $pageno = 1;
+										}
+
+										// validate/limit requested $pageno
+										$pageno = (int)$pageno;
+										if ($pageno > $lastpage) {
+										   $pageno = $lastpage;
+										}
+										if ($pageno < 1) {
+										   $pageno = 1;
+										}
+
+										// Find start and end array index that corresponds to the reuqeted pageno
+										$start = ($pageno - 1) * $rows_per_page;
+										$end = $start + $rows_per_page -1;
+
+										// limit $end to highest array index
+										if($end > $numrows - 1){
+											$end = $numrows - 1;
+										}
+
+										// display array from $start to $end
+										for($i = $start;$i <= $end;$i++){
+											$data = University::where('id', $arr[$i]['id'])->first();
+
+									?>
+
 										<tr class="odd gradeX">
-											<td>{{ $data->id }}</td>
-											<td style="text-align:center;">{{ $data->university }}</td>
-											<td class="center">{{ User::where('school', $data->university)->count() }}</td>
+											<td>{{ $arr[$i]['id'] }}</td>
+											<td style="text-align:center;">{{ $arr[$i]['name'] }}</td>
+											<td class="center">{{ $arr[$i]['all_users'] }}</td>
 											<td class="center">{{ $data->created_at }}</td>
 											<td class="center">
 												@if($data->status == 2)
@@ -91,12 +133,38 @@
 												<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
 											</td>
 										</tr>
-										@endforeach
+									<?php
+										}
+									?>
 									</tbody>
 								</table>
 
-								{{ pagination($datas->appends(Input::except('page')), 'admin.paginator') }}
+								<ul class="pagination pagination-sm">
 
+									<?php
+										// first/prev pagination hyperlinks
+										if ($pageno == 1) {
+										   echo ' <li class="disabled"><span>«</span></li> ';
+										} else {
+										   echo " <li><a href='?pageno=1'>最前</a></li> ";
+										   $prevpage = $pageno-1;
+										   echo " <li><a href='?pageno=$prevpage'>前一页</a></li> ";
+										}
+
+										// Display current page or pages
+										echo '<li class="disabled"><span>( 第' . $pageno . '页，共' . $lastpage . '页 )</span></li>';
+
+										// next/last pagination hyperlinks
+										if ($pageno == $lastpage) {
+										   echo '<li class="disabled"><span>»</span></li>';
+										} else {
+										   $nextpage = $pageno+1;
+										   echo " <li><a href='?pageno=$nextpage'>下一页</a></li> ";
+										   echo " <li><a href='?pageno=$lastpage'>最后</a></li> ";
+										}
+									?>
+
+								</ul>
 							</div>
 							<!-- /.table-responsive -->
 						</div>

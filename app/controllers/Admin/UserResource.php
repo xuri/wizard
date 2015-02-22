@@ -127,6 +127,7 @@ class Admin_UserResource extends BaseResource
 	{
 		// Get all form data.
 		$data	= Input::all();
+
 		// Create validation rules
 		$rules	= array(
 			'born_year'		=> 'numeric|digits:4',
@@ -136,15 +137,19 @@ class Admin_UserResource extends BaseResource
 			'renew'			=> 'numeric',
 			'constellation'	=> 'numeric'
 		);
+
 		// Custom validation message
 		$messages	= $this->validatorMessages;
+
 		// Begin verification
 		$validator	= Validator::make($data, $rules, $messages);
 		if ($validator->passes()) {
+
 			// Verification success
 			// Update resource
 			$model					= $this->model->find($id);
 			$model->is_admin		= (int)Input::get('is_admin', 0);
+			$model->is_verify		= (int)Input::get('is_verify', 0);
 			$model->created_at		= Input::get('created_at');
 			$model->signin_at		= Input::get('signin_at');
 			$model->nickname		= Input::get('nickname');
@@ -155,6 +160,7 @@ class Admin_UserResource extends BaseResource
 			$model->sex				= Input::get('sex');
 			$model->points			= Input::get('points');
 			$model->bio				= Input::get('bio');
+
 			// Update user profile
 			$profile				= Profile::where('user_id', $id)->first();
 			if(Input::get('grade') != null) {

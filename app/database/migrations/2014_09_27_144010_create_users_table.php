@@ -28,6 +28,7 @@ class CreateUsersTable extends Migration {
 	        $table->string('portrait')->nullable();
 	        $table->string('remember_token')->nullable();
 	        $table->boolean('is_admin')->default('0');
+	        $table->boolean('is_verify')->default('0');
 	        $table->boolean('block')->default('0');
 	        $table->tinyInteger('from')->default('0');
 	        $table->timestamp('deleted_at')->nullable();

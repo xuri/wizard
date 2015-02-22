@@ -18,5 +18,4 @@ Android Debug
 // 		->send();
 // 	echo $test->body;
 //
-
 ?>

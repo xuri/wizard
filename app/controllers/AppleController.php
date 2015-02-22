@@ -358,7 +358,7 @@ class AppleController extends BaseController
 						$users = $query
 							->orderBy('updated_at', 'desc')
 							->where('block', 0)
-							->select('id', 'nickname', 'school', 'sex', 'portrait')
+							->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify')
 							->where('updated_at', '<', $last_updated_at)
 							->take($per_page)
 							->get()
@@ -366,6 +366,17 @@ class AppleController extends BaseController
 
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
+
+							// Retrieve user profile
+							$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+
+							// Determine user renew status
+							if($profile->crenew >= 30){
+								$users[$key]['crenew'] = 1;
+							} else {
+								$users[$key]['crenew'] = 0;
+							}
+
 							// Convert to real storage path
 							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
 
@@ -427,7 +438,7 @@ class AppleController extends BaseController
 
 						$users      = $query
 										->orderBy('updated_at', 'desc')
-										->select('id', 'nickname', 'school', 'sex', 'portrait')
+										->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify')
 										->where('block', 0)
 										->where('updated_at', '<=', $lastRecord)
 										->take($per_page)
@@ -436,6 +447,17 @@ class AppleController extends BaseController
 
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
+
+							// Retrieve user profile
+							$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+
+							// Determine user renew status
+							if($profile->crenew >= 30){
+								$users[$key]['crenew'] = 1;
+							} else {
+								$users[$key]['crenew'] = 0;
+							}
+
 							// Convert to real storage path
 							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
 
@@ -493,6 +515,13 @@ class AppleController extends BaseController
 							$likeCount = 0;
 						}
 
+						// Determine user renew status
+						if($profile->crenew >= 30){
+							$crenew = 1;
+						} else {
+							$crenew = 0;
+						}
+
 						if(is_null($like_me)) {
 
 							// This user never liked you
@@ -538,11 +567,14 @@ class AppleController extends BaseController
 						return Response::json(
 							array(
 								'status'		=> 1,
+								'user_id'		=> e($data->id),
 								'sex'			=> e($data->sex),
 								'bio'			=> e($data->bio),
 								'nickname'		=> e($data->nickname),
 								'born_year'		=> e($data->born_year),
 								'school'		=> e($data->school),
+								'is_admin'		=> e($data->is_admin),
+								'is_verify'		=> e($data->is_verify),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
 								'tag_str'		=> $tag_str,
@@ -553,7 +585,7 @@ class AppleController extends BaseController
 								'like'			=> e($likeCount),
 								'user_like_me'	=> e($user_like_me),
 								'answer'		=> e($answer),
-								'user_id'		=> e($data->id),
+								'crenew'		=> e($crenew),
 							)
 						);
 					} else {
@@ -1940,7 +1972,7 @@ class AppleController extends BaseController
 									'comments'		=> array(),
 
 									// Post title
-									'title'			=> $post->title
+									'title'			=> str_replace("&nbsp;", " ", $post->title)
 
 								);
 
@@ -2037,7 +2069,7 @@ class AppleController extends BaseController
 									// Post comments (array format and include reply)
 									'comments'		=> $comments,
 									// Post title
-									'title'			=> $post->title
+									'title'			=> str_replace("&nbsp;", " ", $post->title)
 
 								);
 

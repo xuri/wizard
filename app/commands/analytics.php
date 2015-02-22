@@ -87,16 +87,16 @@ class analytics extends ScheduledCommand {
 		// Female
 
 		// All register female users
-		$allFemailUser								= User::where('sex', 'S')->get()->count();
+		$allFemailUser								= User::where('sex', 'F')->get()->count();
 
 		// Daily active female user
-		$dailyActiveFemaleUser						= User::where('sex', 'S')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+		$dailyActiveFemaleUser						= User::where('sex', 'F')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Weekly active female user
-		$weeklyActiveFemaleUser						= User::where('sex', 'S')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
+		$weeklyActiveFemaleUser						= User::where('sex', 'F')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
 
 		// Monthly active female user
-		$monthlyActiveFemaleUser					= User::where('sex', 'S')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
+		$monthlyActiveFemaleUser					= User::where('sex', 'F')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
 
 		// Complete profile user
 		$completeProfileUserRatio					= number_format((User::whereNotNull('portrait')->count() / $allUser) * 100, 2);

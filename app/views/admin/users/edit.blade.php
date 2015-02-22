@@ -66,6 +66,15 @@
 												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1">管理员
 											</label>
 											@endif
+											@if($data->is_verify == 1)
+											<label class="radio-inline">
+												<input type="checkbox" name="is_verify" id="optionsRadiosInline3" value="1" checked="checked">&nbsp;认证用户
+											</label>
+											@else
+											<label class="radio-inline">
+												<input type="checkbox" name="is_verify" id="optionsRadiosInline3" value="1">&nbsp;认证用户
+											</label>
+											@endif
 										</div>
 										<div class="form-group input-group">
 											<label>头像预览</label>
@@ -73,9 +82,8 @@
 											@if($data->portrait)
 											{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '150')) }}
 											@else
-											{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '150'))}}
+											{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '150')) }}
 											@endif
-
 											</p>
 										</div>
 

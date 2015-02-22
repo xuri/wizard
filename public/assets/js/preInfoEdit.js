@@ -17,6 +17,38 @@ $(function() {
 
 $("#grade_select").val($("#grade_select").attr("rel"));
 
+// Check form data
+$('#submit_btn').bind("mouseover", function(e) {
+	// Ajax post data
+	var formData = {
+		nickname		: $('input[name=nickname]').val(),
+		constellation 	: $('input[name=constellation]').val(),
+		tag_str			: $('input[name=tag_str]').val(),
+		born_year		: $('#born_select').val(),
+		grade 			: $('#grade_select').val(),
+		hobbies 		: $('input[name=hobbies]').val(),
+		self_intro 		: $('textarea[name=self_intro]').val(),
+		bio 			: $('input[name=bio]').val(),
+		question 		: $('input[name=question]').val(),
+		school 			: $('input[name=school]').val(),
+		_token 			: token, // CSRF token
+	};
+
+	// Process ajax request
+	$.ajax({
+		url 	: checkcomplete_url, // the url where we want to POST
+		type 	: "POST",  // define the type of HTTP verb we want to use (POST for our form)
+		data 	: formData, // our data object
+	}).done(function(data) {
+		// Here we will handle errors and validation messages
+		if ( ! data.success) {
+			$('input:submit').val("资料要填全哦").attr("disabled", true).css({'background-color':'#888'});
+		} else {
+			$('input:submit').val("保存").removeAttr("disabled").css({'background-color':'#de3861'});
+		}
+	});
+});
+
 /**
  * canvas 元素宽高180
  * 头元素宽120 高171
