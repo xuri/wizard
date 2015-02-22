@@ -376,6 +376,28 @@ select::-ms-expand {
 	margin-left: -34px;
 }
 
+.icon_approve {
+	background-image: url(../images/verified-20x20.png);
+	background-repeat: no-repeat;
+	background-color: #FFF;
+	width: 20px;
+	position: absolute;
+	display: inline-block;
+	top: 10px;
+	height: 20px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	box-shadow: 0 0 3px rgba(0,0,0,0.3);
+	vertical-align: -2px;
+}
+
+.icon_verify{
+	position: relative;
+	left: 80px;
+	top: 57px;
+}
+
 span.admin {
 	background-color: #FF9900;
 	font-size: 11px;

@@ -23,6 +23,11 @@
 
 			<div class="lu_content_main clear">
 				<div class="message-re message-border clear">
+
+					@if($author->is_verify == 1)
+						<a href="javascript:void(0);" class="large_icon_verify" title="实名认证" alt="实名认证"><span class="large_icon_approve"></span></a>
+					@else
+					@endif
 					<div class="re-headImg-box">
 						<div class="re-headImg">
 							<a href="{{ route('members.show', $author->id) }}">
@@ -80,6 +85,12 @@
 							$user_profile	= Profile::where('user_id', $comment->user_id)->first();
 						?>
 						<div class="message-re clear">
+
+							@if($user->is_verify == 1)
+								<a href="javascript:void(0);" class="large_icon_verify" title="实名认证" alt="实名认证"><span class="large_icon_approve"></span></a>
+							@else
+							@endif
+
 							<div class="re-headImg-box">
 								<div class="re-headImg">
 									<a href="{{ route('members.show', $user->id) }}">
@@ -145,6 +156,12 @@
 									?>
 									<div>
 										<span class="imgSpan">
+
+											@if($reply_user->is_verify == 1)
+												<a href="javascript:void(0);" class="small_icon_verify" title="实名认证" alt="实名认证"><span class="small_icon_approve"></span></a>
+											@else
+											@endif
+
 											<a href="{{ route('members.show', $reply_user->id) }}">
 												@if($reply_user->portrait)
 												{{ HTML::image('portrait/'.$reply_user->portrait) }}

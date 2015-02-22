@@ -22,6 +22,10 @@
 					@endif
 
 					<div class="pi_center_top">
+						@if($data->is_verify == 1)
+						<a href="javascript:void(0);" class="icon_verify" title="实名认证" alt="实名认证"><span class="icon_approve"></span></a>
+						@else
+						@endif
 						@if($data->portrait)
 						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
 						@else

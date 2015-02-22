@@ -673,6 +673,50 @@ button.reply_comment_submit {
 	color: #d65679;
 }
 
+.large_icon_approve {
+	background-image: url(../images/verified-25x25.png);
+	background-repeat: no-repeat;
+	background-color: #FFF;
+	width: 25px;
+	height: 25px;
+	position: absolute;
+	display: inline-block;
+	top: 10px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	box-shadow: 0 0 3px rgba(0,0,0,0.3);
+	vertical-align: -2px;
+}
+
+.large_icon_verify{
+	position: relative;
+	left: 87px;
+	top: 75px;
+}
+
+.small_icon_approve {
+	background-image: url(../images/verified-20x20.png);
+	background-repeat: no-repeat;
+	background-color: #FFF;
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	display: inline-block;
+	top: 10px;
+	border-radius: 50%;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	box-shadow: 0 0 3px rgba(0,0,0,0.3);
+	vertical-align: -2px;
+}
+
+.small_icon_verify{
+	position: relative;
+	left: 30px;
+	top: 20px;
+}
+
 span.admin {
 	background-color: #FF9900;
 	font-size: 11px;
