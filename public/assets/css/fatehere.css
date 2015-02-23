@@ -392,10 +392,11 @@ select::-ms-expand {
 	vertical-align: -2px;
 }
 
-.icon_verify{
+.icon_verify {
 	position: relative;
 	left: 80px;
 	top: 57px;
+	display: inherit;
 }
 
 span.admin {

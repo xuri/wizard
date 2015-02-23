@@ -693,6 +693,7 @@ button.reply_comment_submit {
 	position: relative;
 	left: 87px;
 	top: 75px;
+	display: inherit;
 }
 
 .small_icon_approve {
@@ -715,6 +716,7 @@ button.reply_comment_submit {
 	position: relative;
 	left: 30px;
 	top: 20px;
+	display: inherit;
 }
 
 span.admin {

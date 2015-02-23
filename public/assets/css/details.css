@@ -177,10 +177,11 @@ body {
 	vertical-align: -2px;
 }
 
-.icon_verify{
+.icon_verify {
 	position: relative;
 	left: 97px;
 	top: 85px;
+	display: inherit;
 }
 
 span.admin {
