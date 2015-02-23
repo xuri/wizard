@@ -534,8 +534,8 @@ class Admin_AnalyticsResource extends BaseResource
 
 		// Build Json data (remove double quotes from Json return data)
 		$allUsersAcceptRatio = '{
-			"男生追女生成功比率":'.preg_replace('/["]/', '' ,json_encode($allFemaleAcceptRatio)).
-			', "女生追男生成功比率":'.preg_replace('/["]/', '' ,json_encode($allMaleAcceptRatio)).
+			"女生追女生成功比率":'.preg_replace('/["]/', '' ,json_encode($allFemaleAcceptRatio)).
+			', "男生追男生成功比率":'.preg_replace('/["]/', '' ,json_encode($allMaleAcceptRatio)).
 			'}';
 
 		/*
