@@ -7,7 +7,12 @@
 	?>
 	<div class="lu_resumes clear">
 		<div class="lu_resumes_user clear">
-			{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'lu_img')) }}
+			@if($data->is_verify == 1)
+			<a href="javascript:void(0);" class="icon_verify" title="实名认证" alt="实名认证"><span class="icon_approve"></span></a>
+			@else
+			@endif
+
+			{{ HTML::image('portrait/' . $data->portrait, '', array('class' => 'lu_img')) }}
 			<div class="lu_userMessage">
 			{{ HTML::image('assets/images/arrow.png', '', array('class' => 'lu_userMessage_arrow')) }}
 			@if($data->sex == 'M')
