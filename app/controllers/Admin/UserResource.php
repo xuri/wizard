@@ -389,4 +389,16 @@ class Admin_UserResource extends BaseResource
 
 		return View::make($this->resourceView.'.chatrecord')->with(compact('data', 'date', 'chatrecord'));
 	}
+
+	/**
+	 * User add friends request not responsed list
+	 * @return response     View
+	 */
+	public function noactive() {
+
+		// Retrieve all add friends request not responsed
+		$datas			= Like::where('status', 0)->get();
+
+		return View::make($this->resourceView.'.noactive')->with(compact('datas'));
+	}
 }

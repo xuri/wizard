@@ -186,6 +186,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|i
 		Route::post( 		      '/', array('as' => $resource.'.store'  	, 'uses' => $controller.'store'  	));
 		Route::get(	   '{id}/chatdir', array('as' => $resource.'.chatdir'	, 'uses' => $controller.'chatdir'	));
 		Route::get('/chatrecord/{id}', array('as' => $resource.'.chatrecord', 'uses' => $controller.'chatrecord'));
+		Route::get(		   'noactive', array('as' => $resource.'.noactive'	, 'uses' => $controller.'noactive'	));
 		Route::get(		  '{id}/edit', array('as' => $resource.'.edit'   	, 'uses' => $controller.'edit'   	))->before('not.self');
 		Route::get(	    '{id}/detail', array('as' => $resource.'.detail' 	, 'uses' => $controller.'detail' 	))->before('not.self');
 		Route::post(	  '{id}/edit', array('as' => $resource.'.update' 	, 'uses' => $controller.'update' 	))->before('not.self');

@@ -49,8 +49,15 @@
 					<a class="active" href="{{ route('admin') }}"><i class="fa fa-dashboard fa-fw"></i> 控制面板</a>
 				</li>
 				<li>
-					<a href="{{ route('users.index') }}"><i class="fa fa-users fa-fw"></i> 用户管理</a>
-
+					<a href="javascript:void();"><i class="fa fa-users fa-fw"></i> 用户管理<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="{{ route('users.index') }}">注册用户资料汇总表</a>
+						</li>
+						<li>
+							<a href="{{ route('users.noactive') }}">过久未响应好友请求</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a href="javascript:void();"><i class="fa fa-tags"></i> 论坛管理<span class="fa arrow"></span></a>
