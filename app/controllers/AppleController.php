@@ -569,8 +569,8 @@ class AppleController extends BaseController
 								'status'		=> 1,
 								'user_id'		=> e($data->id),
 								'sex'			=> e($data->sex),
-								'bio'			=> e($data->bio),
-								'nickname'		=> e($data->nickname),
+								'bio'			=> html_entity_decode(e($data->bio)),
+								'nickname'		=> html_entity_decode(e($data->nickname)),
 								'born_year'		=> e($data->born_year),
 								'school'		=> e($data->school),
 								'is_admin'		=> e($data->is_admin),
@@ -578,13 +578,13 @@ class AppleController extends BaseController
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
 								'tag_str'		=> $tag_str,
-								'hobbies'		=> e($profile->hobbies),
+								'hobbies'		=> html_entity_decode(e($profile->hobbies)),
 								'grade'			=> e($profile->grade),
-								'question'		=> e($profile->question),
-								'self_intro'	=> e($profile->self_intro),
+								'question'		=> html_entity_decode(e($profile->question)),
+								'self_intro'	=> html_entity_decode(e($profile->self_intro)),
 								'like'			=> e($likeCount),
 								'user_like_me'	=> e($user_like_me),
-								'answer'		=> e($answer),
+								'answer'		=> html_entity_decode(e($answer)),
 								'crenew'		=> e($crenew),
 							)
 						);
@@ -1562,7 +1562,7 @@ class AppleController extends BaseController
 							$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 							// Get post user portrait and add portrait key to array
-							$items[$key]['nickname']		= e($post_user->nickname);
+							$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
 
 							// Using expression get all picture attachments (Only with pictures stored on this server.)
 							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1571,10 +1571,10 @@ class AppleController extends BaseController
 							$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 							// Get plain text from post content HTML code and replace to content value in array
-							$items[$key]['content']			= str_ireplace("\n", '', getplaintextintrofromhtml($items[$key]['content'], $numchars));
+							$items[$key]['content']			= html_entity_decode(badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($items[$key]['content'], $numchars))));
 
 							// Get forum title
-							$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+							$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
 						}
 
 						// Build Json format
@@ -1637,7 +1637,7 @@ class AppleController extends BaseController
 									$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 									// Get post user portrait and add portrait key to array
-									$top[$key]['nickname']			= e($post_user->nickname);
+									$top[$key]['nickname']			= e(html_entity_decode($post_user->nickname));
 
 									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
@@ -1646,10 +1646,10 @@ class AppleController extends BaseController
 									$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 									// Get plain text from post content HTML code and replace to content value in array
-									$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+									$top[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars)));
 
 									// Get forum top post title
-									$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+									$top[$key]['title']				= html_entity_decode(e(badWordsFilter(Str::limit($top[$key]['title'], 35))));
 								}
 
 								// Query all items from database
@@ -1692,7 +1692,7 @@ class AppleController extends BaseController
 									$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 									// Get post user portrait and add portrait key to array
-									$items[$key]['nickname']		= e($post_user->nickname);
+									$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
 
 									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1704,7 +1704,7 @@ class AppleController extends BaseController
 									$items[$key]['content']			= str_ireplace("\n", '',getplaintextintrofromhtml($items[$key]['content'], $numchars));
 
 									// Get forum title
-									$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+									$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
 								}
 
 								$data = array(
@@ -1782,7 +1782,7 @@ class AppleController extends BaseController
 											$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$top[$key]['nickname']			= e($post_user->nickname);
+											$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname));
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
@@ -1791,10 +1791,10 @@ class AppleController extends BaseController
 											$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$top[$key]['content']			= str_ireplace("\n", '',getplaintextintrofromhtml($top[$key]['content'], $numchars));
+											$top[$key]['content']			= html_entity_decode(badWordsFilter(str_ireplace("\n", '',getplaintextintrofromhtml($top[$key]['content'], $numchars))));
 
 											// Get forum top post title
-											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+											$top[$key]['title']				= html_entity_decode(e(badWordsFilter(Str::limit($top[$key]['title'], 35))));
 										}
 
 										// Query all items from database
@@ -1837,7 +1837,7 @@ class AppleController extends BaseController
 											$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$items[$key]['nickname']		= e($post_user->nickname);
+											$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1846,10 +1846,10 @@ class AppleController extends BaseController
 											$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+											$items[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars)));
 
 											// Get forum title
-											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+											$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
 										}
 
 										$data = array(
@@ -1923,7 +1923,7 @@ class AppleController extends BaseController
 											$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$top[$key]['nickname']			= e($post_user->nickname);
+											$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname));
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
@@ -1932,10 +1932,10 @@ class AppleController extends BaseController
 											$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+											$top[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars)));
 
 											// Get forum top post title
-											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+											$top[$key]['title']				= e(html_entity_decode(badWordsFilter(Str::limit($top[$key]['title'], 35))));
 										}
 
 										// Query all items from database
@@ -1978,7 +1978,7 @@ class AppleController extends BaseController
 											$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$items[$key]['nickname']		= e($post_user->nickname);
+											$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1987,10 +1987,10 @@ class AppleController extends BaseController
 											$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+											$items[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars)));
 
 											// Get forum title
-											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+											$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
 										}
 
 										$data = array(
@@ -2052,7 +2052,7 @@ class AppleController extends BaseController
 									'sex'			=> e($author->sex),
 
 									// Post user nickname
-									'nickname'		=> e($author->nickname),
+									'nickname'		=> html_entity_decode(e($author->nickname)),
 
 									// Post user ID
 									'user_id'		=> $author->id,
@@ -2064,13 +2064,13 @@ class AppleController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'),
+									'content'		=> html_entity_decode(badWordsFilter(strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'))),
 
 									// Post comments (array format and include reply)
 									'comments'		=> array(),
 
 									// Post title
-									'title'			=> str_replace("&nbsp;", " ", $post->title)
+									'title'			=> html_entity_decode(badWordsFilter(str_replace("&nbsp;", " ", $post->title)))
 
 								);
 
@@ -2098,7 +2098,7 @@ class AppleController extends BaseController
 									$comments[$key]['user_id']			= $comments_user->id;
 
 									// Removing contents html tags except image and text string
-									$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
+									$comments[$key]['content']			= html_entity_decode(badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>')));
 									// Comments user portrait
 									$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
@@ -2106,7 +2106,7 @@ class AppleController extends BaseController
 									$comments[$key]['user_sex']			= e($comments_user->sex);
 
 									// Comments user nickname
-									$comments[$key]['user_nickname']	= e($comments_user->nickname);
+									$comments[$key]['user_nickname']	= html_entity_decode(e($comments_user->nickname));
 
 									// Query all replies of this post
 									$replies = ForumReply::where('comments_id', $comments[$key]['id'])
@@ -2128,7 +2128,7 @@ class AppleController extends BaseController
 										// Reply user sex
 										$replies[$keys]['sex']		= $reply_user->sex;
 
-										$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
+										$replies[$keys]['content']	= html_entity_decode(badWordsFilter(str_ireplace($breaks, '\\n', $replies[$keys]['content'])));
 
 										// Reply user portrait
 										$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
@@ -2150,7 +2150,7 @@ class AppleController extends BaseController
 									'sex'			=> e($author->sex),
 
 									// Post user nickname
-									'nickname'		=> e($author->nickname),
+									'nickname'		=> html_entity_decode(e($author->nickname)),
 
 									// Post user ID
 									'user_id'		=> $author->id,
@@ -2166,8 +2166,9 @@ class AppleController extends BaseController
 
 									// Post comments (array format and include reply)
 									'comments'		=> $comments,
+
 									// Post title
-									'title'			=> str_replace("&nbsp;", " ", $post->title)
+									'title'			=> html_entity_decode(badWordsFilter(str_replace("&nbsp;", " ", $post->title)))
 
 								);
 
@@ -2214,10 +2215,10 @@ class AppleController extends BaseController
 								$comments[$key]['user_sex']			= e($comments_user->sex);
 
 								// Comments user nickname
-								$comments[$key]['user_nickname']	= e($comments_user->nickname);
+								$comments[$key]['user_nickname']	= html_entity_decode(e($comments_user->nickname));
 
 								// Removing contents html tags except image and text string
-								$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
+								$comments[$key]['content']			= html_entity_decode(badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>')));
 
 								// Query all replies of this post
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
@@ -2239,7 +2240,7 @@ class AppleController extends BaseController
 									// Reply user sex
 									$replies[$keys]['sex']		= e($reply_user->sex);
 
-									$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
+									$replies[$keys]['content']	= html_entity_decode(badWordsFilter(str_ireplace($breaks, '\\n', $replies[$keys]['content'])));
 
 									// Reply user portrait
 									$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;

@@ -40,6 +40,8 @@
 		<!-- /#page-wrapper -->
 
 		@if(Agent::isMobile())
+			@include('layout.analytics')
+			@yield('content')
 		@else
 			@include('layout.copyright')
 			@yield('content')
