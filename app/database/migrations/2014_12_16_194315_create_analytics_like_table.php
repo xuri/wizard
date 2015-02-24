@@ -28,7 +28,7 @@ class CreateAnalyticsLikeTable extends Migration {
 			$table->integer('monthly_female_like');
 			$table->integer('all_male_accept_ratio');
 			$table->integer('all_female_accept_ratio');
-			$table->integer('average_like_duration');
+			$table->float('average_like_duration');
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();
 		});
