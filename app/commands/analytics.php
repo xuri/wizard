@@ -304,7 +304,7 @@ class analytics extends ScheduledCommand {
 			$sumLikeDurationArray[]					= $likeDurationArray[$key]['duration'];
 		}
 
-		$averageLikeDuration					= number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray), 4);
+		$averageLikeDuration					= number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray), 2);
 
 		// Store analytics data
 		$analyticsLike							= new AnalyticsLike;
