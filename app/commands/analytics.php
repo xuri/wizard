@@ -62,13 +62,13 @@ class analytics extends ScheduledCommand {
 		$allUser									= User::get()->count();
 
 		// Daily active user
-		$dailyActiveUser							= User::where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+		$dailyActiveUser							= User::where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Weekly active user
-		$weeklyActiveUser							= User::where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
+		$weeklyActiveUser							= User::where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
 
 		// Monthly active user
-		$monthlyActiveUser							= User::where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
+		$monthlyActiveUser							= User::where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
 
 		// Male
 
@@ -76,13 +76,13 @@ class analytics extends ScheduledCommand {
 		$allMaleUser								= User::where('sex', 'M')->get()->count();
 
 		// Daily active male user
-		$dailyActiveMaleUser						= User::where('sex', 'M')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+		$dailyActiveMaleUser						= User::where('sex', 'M')->where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Weekly active male user
-		$weeklyActiveMaleUser						= User::where('sex', 'M')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
+		$weeklyActiveMaleUser						= User::where('sex', 'M')->where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
 
 		// Monthly active male user
-		$monthlyActiveMaleUser						= User::where('sex', 'M')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
+		$monthlyActiveMaleUser						= User::where('sex', 'M')->where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
 
 		// Female
 
@@ -90,13 +90,13 @@ class analytics extends ScheduledCommand {
 		$allFemailUser								= User::where('sex', 'F')->get()->count();
 
 		// Daily active female user
-		$dailyActiveFemaleUser						= User::where('sex', 'F')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+		$dailyActiveFemaleUser						= User::where('sex', 'F')->where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
 		// Weekly active female user
-		$weeklyActiveFemaleUser						= User::where('sex', 'F')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
+		$weeklyActiveFemaleUser						= User::where('sex', 'F')->where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
 
 		// Monthly active female user
-		$monthlyActiveFemaleUser					= User::where('sex', 'F')->where('signin_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
+		$monthlyActiveFemaleUser					= User::where('sex', 'F')->where('updated_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
 
 		// Complete profile user
 		$completeProfileUserRatio					= number_format((User::whereNotNull('portrait')->count() / $allUser) * 100, 2);
@@ -119,7 +119,7 @@ class analytics extends ScheduledCommand {
 		$analyticsUser->weekly_active_user			= $weeklyActiveUser;
 		$analyticsUser->monthly_active_user			= $monthlyActiveUser;
 		$analyticsUser->all_male_user				= $allMaleUser;
-		$analyticsUser->daily_active_male_user		= $dailyActiveUser;
+		$analyticsUser->daily_active_male_user		= $dailyActiveMaleUser;
 		$analyticsUser->weekly_active_male_user		= $weeklyActiveMaleUser;
 		$analyticsUser->monthly_active_male_user	= $monthlyActiveMaleUser;
 		$analyticsUser->all_female_user				= $allFemailUser;
@@ -296,9 +296,14 @@ class analytics extends ScheduledCommand {
 		// Average like duration
 		$likeDurationArray		= Like::where('status', 1)->select('created_at', 'updated_at')->get()->toArray(); // Retrieve all accept like as an array
 		foreach($likeDurationArray as $key => $field){
-			$likeDurationArray[$key]['duration'] = diffBetweenTwoDays(date("Y-m-d",strtotime($likeDurationArray[$key]['updated_at'])), date("Y-m-d",strtotime($likeDurationArray[$key]['created_at']))); // Calculate duration days
-			$sumLikeDurationArray[] = $likeDurationArray[$key]['duration']; // Summary like duration to a new array
+
+			// Calculate duration days
+			$likeDurationArray[$key]['duration']	= diffBetweenTwoDays(date("Y-m-d",strtotime($likeDurationArray[$key]['updated_at'])), date("Y-m-d",strtotime($likeDurationArray[$key]['created_at'])));
+
+			// Summary like duration to a new array
+			$sumLikeDurationArray[]					= $likeDurationArray[$key]['duration'];
 		}
+
 		$averageLikeDuration					= number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray) * 100, 2);
 
 		// Store analytics data
