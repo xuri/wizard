@@ -61,8 +61,8 @@
 						@endif
 
 					</div>
-					<h3 class="re-title">{{ $data->title }}</h3>
-					<p class="m-reply">{{ $data->content }}</p>
+					<h3 class="re-title">{{ badWordsFilter($data->title) }}</h3>
+					<p class="m-reply">{{ badWordsFilter($data->content) }}</p>
 
 					<ul class="reply">
 						<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
@@ -124,7 +124,7 @@
 								@endif
 
 							</div>
-							<p class="g-reply">{{ $comment->content }}</p>
+							<p class="g-reply">{{ badWordsFilter($comment->content) }}</p>
 
 							<ul class="reply">
 								<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
@@ -192,7 +192,7 @@
 											<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>
 										@endif
 
-										<p class="r-value">{{ date("Y-m-d G:i",strtotime($reply->created_at)) }}  {{ $reply->content }}</p>
+										<p class="r-value">{{ date("Y-m-d G:i",strtotime($reply->created_at)) }}  {{ badWordsFilter($reply->content) }}</p>
 										<a class="replay-a reply_inner">回复</a>
 
 										<section class="form_box_second">

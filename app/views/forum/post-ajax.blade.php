@@ -51,7 +51,7 @@
 					<a href="{{ route('members.show', $user->id) }}" class="m-h3">{{ $user->nickname }}</a>
 				@endif
 			</div>
-			<p class="g-reply">{{ $comment->content }}</p>
+			<p class="g-reply">{{ badWordsFilter($comment->content) }}</p>
 
 			<ul class="reply">
 				<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
@@ -119,7 +119,7 @@
 							<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>
 						@endif
 
-						<p class="r-value">{{ date("Y-m-d G:i",strtotime($reply->created_at)) }}  {{ $reply->content }}</p>
+						<p class="r-value">{{ date("Y-m-d G:i",strtotime($reply->created_at)) }}  {{ badWordsFilter($reply->content) }}</p>
 						<a class="replay-a reply_inner">回复</a>
 
 						<section class="form_box_second">

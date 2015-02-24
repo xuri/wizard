@@ -1580,10 +1580,10 @@ class AndroidController extends BaseController
 							$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 							// Get plain text from post content HTML code and replace to content value in array
-							$items[$key]['content']			= str_ireplace("\n", '', getplaintextintrofromhtml($items[$key]['content'], $numchars));
+							$items[$key]['content']			= badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($items[$key]['content'], $numchars)));
 
 							// Get forum title
-							$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+							$items[$key]['title']			= e(badWordsFilter(Str::limit($items[$key]['title'], 35)));
 						}
 
 						// Build Json format
@@ -1655,10 +1655,10 @@ class AndroidController extends BaseController
 									$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 									// Get plain text from post content HTML code and replace to content value in array
-									$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+									$top[$key]['content']			= badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars));
 
 									// Get forum top post title
-									$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+									$top[$key]['title']				= e(badWordsFilter(Str::limit($top[$key]['title'], 35)));
 								}
 
 								// Query all items from database
@@ -1713,7 +1713,7 @@ class AndroidController extends BaseController
 									$items[$key]['content']			= str_ireplace("\n", '',getplaintextintrofromhtml($items[$key]['content'], $numchars));
 
 									// Get forum title
-									$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+									$items[$key]['title']			= e(badWordsFilter(Str::limit($items[$key]['title'], 35)));
 								}
 
 								$data = array(
@@ -1800,10 +1800,10 @@ class AndroidController extends BaseController
 											$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$top[$key]['content']			= str_ireplace("\n", '',getplaintextintrofromhtml($top[$key]['content'], $numchars));
+											$top[$key]['content']			= badWordsFilter(str_ireplace("\n", '',getplaintextintrofromhtml($top[$key]['content'], $numchars)));
 
 											// Get forum top post title
-											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+											$top[$key]['title']				= e(badWordsFilter(Str::limit($top[$key]['title'], 35)));
 										}
 
 										// Query all items from database
@@ -1855,10 +1855,10 @@ class AndroidController extends BaseController
 											$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+											$items[$key]['content']			= badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars));
 
 											// Get forum title
-											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+											$items[$key]['title']			= e(badWordsFilter(Str::limit($items[$key]['title'], 35)));
 										}
 
 										$data = array(
@@ -1941,10 +1941,10 @@ class AndroidController extends BaseController
 											$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$top[$key]['content']			= getplaintextintrofromhtml($top[$key]['content'], $numchars);
+											$top[$key]['content']			= badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars));
 
 											// Get forum top post title
-											$top[$key]['title']				= e(Str::limit($top[$key]['title'], 35));
+											$top[$key]['title']				= e(badWordsFilter(Str::limit($top[$key]['title'], 35)));
 										}
 
 										// Query all items from database
@@ -1996,10 +1996,10 @@ class AndroidController extends BaseController
 											$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$items[$key]['content']			= getplaintextintrofromhtml($items[$key]['content'], $numchars);
+											$items[$key]['content']			= badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars));
 
 											// Get forum title
-											$items[$key]['title']			= e(Str::limit($items[$key]['title'], 35));
+											$items[$key]['title']			= e(badWordsFilter(Str::limit($items[$key]['title'], 35)));
 										}
 
 										$data = array(
@@ -2073,13 +2073,13 @@ class AndroidController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'),
+									'content'		=> badWordsFilter(strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>')),
 
 									// Post comments (array format and include reply)
 									'comments'		=> array(),
 
 									// Post title
-									'title'			=> str_replace("&nbsp;", " ", $post->title)
+									'title'			=> badWordsFilter(str_replace("&nbsp;", " ", $post->title))
 
 								);
 
@@ -2107,7 +2107,7 @@ class AndroidController extends BaseController
 									$comments[$key]['user_id']			= $comments_user->id;
 
 									// Removing contents html tags except image and text string
-									$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
+									$comments[$key]['content']			= badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>'));
 									// Comments user portrait
 									$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
@@ -2137,7 +2137,7 @@ class AndroidController extends BaseController
 										// Reply user sex
 										$replies[$keys]['sex']		= $reply_user->sex;
 
-										$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
+										$replies[$keys]['content']	= badWordsFilter(str_ireplace($breaks, '\\n', $replies[$keys]['content']));
 
 										// Reply user portrait
 										$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
@@ -2175,8 +2175,9 @@ class AndroidController extends BaseController
 
 									// Post comments (array format and include reply)
 									'comments'		=> $comments,
+
 									// Post title
-									'title'			=> str_replace("&nbsp;", " ", $post->title)
+									'title'			=> badWordsFilter(str_replace("&nbsp;", " ", $post->title))
 
 								);
 
@@ -2226,7 +2227,7 @@ class AndroidController extends BaseController
 								$comments[$key]['user_nickname']	= e($comments_user->nickname);
 
 								// Removing contents html tags except image and text string
-								$comments[$key]['content']			= strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>');
+								$comments[$key]['content']			= badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>'));
 
 								// Query all replies of this post
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
@@ -2248,7 +2249,7 @@ class AndroidController extends BaseController
 									// Reply user sex
 									$replies[$keys]['sex']		= e($reply_user->sex);
 
-									$replies[$keys]['content'] = str_ireplace($breaks, '\\n', $replies[$keys]['content']);
+									$replies[$keys]['content']	= badWordsFilter(str_ireplace($breaks, '\\n', $replies[$keys]['content']));
 
 									// Reply user portrait
 									$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;

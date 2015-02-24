@@ -603,6 +603,12 @@ function diffBetweenTwoDays ($day1, $day2)
 }
 
 
+/**
+ * Get plain text intro from html
+ * @param  string $html     HTML code
+ * @param  int $numchars 	Abstract of the number of characters
+ * @return string          	Pain text intro from html
+ */
 function getplaintextintrofromhtml($html, $numchars) {
 	// Remove the HTML tags
 	$html = strip_tags($html);
@@ -621,8 +627,59 @@ function getplaintextintrofromhtml($html, $numchars) {
 	return $html;
 }
 
+/**
+ * Convert br
+ * @param  string $string Before convert string
+ * @return string         After convert string
+ */
 function convertBr($string) {
 	$breaks	= array("<br />","<br>","<br/>");
 	$string	= str_ireplace($breaks, "\n", $string);
 	return $string;
+}
+
+/**
+ * String to array
+ * @param  string &$str         badwords string
+ * @param  string &$replace_arr replace array
+ * @return string               result
+ */
+function strtr_array(&$str,&$replace_arr) {
+    $maxlen = 0;$minlen = 1024*128;
+    if (empty($replace_arr)) return $str;
+    foreach($replace_arr as $k => $v) {
+        $len = strlen($k);
+        if ($len < 1) continue;
+        if ($len > $maxlen) $maxlen = $len;
+        if ($len < $minlen) $minlen = $len;
+    }
+    $len = strlen($str);
+    $pos = 0;$result = '';
+    while ($pos < $len) {
+        if ($pos + $maxlen > $len) $maxlen = $len - $pos;
+        $found = false;$key = '';
+        for($i = 0;$i<$maxlen;++$i) $key .= $str[$i+$pos]; //原文：memcpy(key,str+$pos,$maxlen)
+        for($i = $maxlen;$i >= $minlen;--$i) {
+            $key1 = substr($key, 0, $i); //原文：key[$i] = '\0'
+            if (isset($replace_arr[$key1])) {
+                $result .= $replace_arr[$key1];
+                $pos += $i;
+                $found = true;
+                break;
+            }
+        }
+        if(!$found) $result .= $str[$pos++];
+    }
+    return $result;
+}
+
+/**
+ * Bad words filter
+ * @param  string $text Before filter bad words
+ * @return string       After filter bad words
+ */
+function badWordsFilter($text) {
+	require __DIR__.'/api/wordfilter/badword.src.php';
+	$text = strtr($text, array_combine($badword,array_fill(0,count($badword),'*')));
+	return $text;
 }
