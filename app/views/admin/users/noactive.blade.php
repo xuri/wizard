@@ -52,6 +52,8 @@
 
 											@if($sender->nickname)
 												<td><a href="{{ route('members.show', $sender->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i>&nbsp;{{ $sender->nickname }}</a></td>
+											@else
+												<td><a href="{{ route('members.show', $sender->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i></a>&nbsp;此用户暂未设定昵称</td>
 											@endif
 
 											<td>{{ $data->updated_at }}</td>
@@ -59,6 +61,8 @@
 
 											@if($receiver->nickname)
 												<td><a href="{{ route('members.show', $receiver->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i>&nbsp;{{ $receiver->nickname }}</a></td>
+											@else
+												<td><a href="{{ route('members.show', $receiver->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i></a>&nbsp;此用户暂未设定昵称</td>
 											@endif
 
 											<td>{{ $receiver->updated_at }}</td>
