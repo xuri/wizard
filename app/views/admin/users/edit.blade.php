@@ -162,6 +162,7 @@
 										</div>
 										<a href="{{ route($resource.'.detail', $data->id) }}" class="btn btn-default">查看此用户的好友关系详情</a>
 										<a href="{{ route($resource.'.notify', $data->id) }}" class="btn btn-default">向此用户推送系统通知</a>
+										<a href="{{ route($resource.'.chatdir', $data->id) }}" class="btn btn-default">查看此用户的聊天记录存档</a>
 									</div>
 									{{-- /.col-lg-6 (nested) --}}
 									<div class="col-lg-6">

@@ -2,7 +2,7 @@
 Android Debug
 
 <?php
-// $easemob		= getEasemob();
+//$easemob		= getEasemob();
 // // Android Push notifications debug
 // $test = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/messages', [
 // 	'target_type' => 'users',

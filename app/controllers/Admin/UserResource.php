@@ -342,4 +342,51 @@ class Admin_UserResource extends BaseResource
 		$count	= 1;
 		return View::make($this->resourceView.'.detail')->with(compact('data', 'sends', 'inboxs', 'count'));
 	}
+
+	/**
+	 * User chat record directory list
+	 * @param  int $id User ID
+	 * @return Response     View
+	 */
+	public function chatdir($id) {
+
+		// Retrieve user
+		$data			= $this->model->where('id', $id)->first();
+
+		// Define chat record log storge path
+		$path			= app_path('chatrecord/user_' . $id . '/');
+
+		// Convert chat record log storge directories lists to array
+		$directories	= array_map('basename', File::files($path));
+
+		return View::make($this->resourceView.'.chatdir')->with(compact('data', 'directories'));
+	}
+
+	/**
+	 * View user daily chat record
+	 * @param  string $id slug
+	 * @return Response     View
+	 */
+	public function chatrecord($id) {
+
+		// Split slug to get user ID and log file name
+		list($user_id, $log)	= preg_split('/[: -]/', $id);
+
+		// Retrieve user
+		$data					= $this->model->where('id', $user_id)->first();
+
+		// Split log file name to get date
+		$date					= substr($log, 0, 4) . '年' . substr($log, 4, -6) . '月' . substr($log, 6, -4) . '日';
+
+		// Define chat record log storge path
+		$path					= app_path('chatrecord/user_' . $user_id . '/');
+
+		// Build standard Json format
+		$json					= '[' . substr(File::get($path . $log), 0, -1) . ']';
+
+		// Convert Json to array
+		$chatrecord				= json_decode($json);
+
+		return View::make($this->resourceView.'.chatrecord')->with(compact('data', 'date', 'chatrecord'));
+	}
 }
