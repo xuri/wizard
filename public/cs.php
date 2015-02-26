@@ -10,7 +10,7 @@ class CS {
     private $imageDomain = 'c.cnzz.com';
 
     /**
-     * 
+     *
      * @param Integer $siteId 站点ID
      */
     public function __construct($siteId) {
@@ -39,7 +39,7 @@ class CS {
     }
 
     /**
-     * 
+     *
      * @return String 回传数据的请求字符串
      */
     public function trackPageView() {
@@ -52,7 +52,7 @@ class CS {
         $query = array();
         array_push($query, 'siteid=' . $this->siteId * 1);
         array_push($query, 'r=' . urlencode($referer));
-        array_push($query, 'rnd=' . mt_rand(1, 2147483648));
+        array_push($query, 'rnd=' . mt_rand(1, 2147483647));
         $imageUrl = $imageLocation . '?' . implode('&', $query);
         return $imageUrl;
     }
