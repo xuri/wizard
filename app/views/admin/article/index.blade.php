@@ -33,8 +33,8 @@
 						<!-- /.panel-heading -->
 						<div class="panel-body">
 							{{ Form::open(array('method' => 'get')) }}
-								<div class="input-group col-md-9" style="margin:1em auto 0 auto;">
-									<span class="input-group-btn" style="width:6em;">
+								<div class="input-group col-md-12" style="margin:0 0 1em 0">
+									<span class="input-group-btn" style="width: 10%; padding: 0 10px 0 0;">
 										{{
 											Form::select(
 												'target',
@@ -50,17 +50,14 @@
 									</span>
 								</div>
 							{{ Form::close() }}
-						</div>
-						<!-- /.panel-body -->
 
-						<div class="panel-body">
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-hover">
 									<thead>
 										<tr>
 											<th>标题 {{ order_by('title') }}</th>
 											<th>创建时间 {{ order_by('created_at', 'desc') }}</th>
-											<th style="width:10.5em;text-align:center;">操作</th>
+											<th style="width:10.5em;text-align:center;">操作 {{ order_by('status', 'desc') }}</th>
 										</tr>
 									</thead>
 									<tbody>

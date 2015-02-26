@@ -90,7 +90,7 @@
 											@if($data->email)
 											<td>邮箱：<a href="mailto:{{ $data->email }}">{{ $data->email }}<a></td>
 											@else
-											<td>手机：{{ $data->phone }}</td>
+											<td>手机：<a href="tel:{{ $data->phone }}" value="{{ $data->phone }}">{{ $data->phone }}</a></td>
 											@endif
 											<td class="center">{{ $data->nickname }}</td>
 
