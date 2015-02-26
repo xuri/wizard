@@ -41,9 +41,9 @@
 								<tbody>
 									@foreach($datas as $data)
 										<?php
-											$receiver = User::find($data->receiver_id);
-											$sender = User::find($data->sender_id);
-											$passtime = strtotime($data->updated_at) - strtotime($receiver->updated_at);
+											$receiver	= User::find($data->receiver_id);
+											$sender		= User::find($data->sender_id);
+											$passtime	= strtotime($data->updated_at) - strtotime($receiver->updated_at);
 										?>
 										@if($passtime > 259200)
 										<tr>

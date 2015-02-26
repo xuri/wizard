@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<title>聘爱内测啦</title>
+	<title>聘爱 - 全国首个大学生恋爱平台</title>
 	<meta id="viewport" name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,minimal-ui">
 	@include('layout.meta')
 	@yield('content')
@@ -34,7 +34,7 @@
     <center>
     {{ HTML::image('assets/images/mobile-home-logo.png', '', array('class' => 'logo')) }}
 	<span class="s_title" >聘爱</span>
-	<span class="instruct">首个大学生恋爱交友APP，为恋爱营造一个良好的氛围，相同的年纪更多的话题，让你的大学不留白。</span>
+	<span class="instruct">全国首个大学生恋爱平台，为恋爱营造一个良好的氛围，相同的年纪更多的话题，让你的大学不留白。</span>
 	<a id="android" class="but" href="http://fir.im/pinai">安卓客户端下载</a>
 	<span class="but" >IOS客户端：审核中</span>
 	<span class="but" >PC端：百度搜索聘爱</span>

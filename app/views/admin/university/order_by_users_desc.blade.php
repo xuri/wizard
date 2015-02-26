@@ -26,8 +26,8 @@
 						</div>
 						<div class="panel-body">
 							{{ Form::open(array('method' => 'get', 'action' => array('Admin_UniversityResource@index'))) }}
-								<div class="input-group col-md-9" style="margin:1em auto 0 auto;">
-									<span class="input-group-btn" style="width:8em;">
+								<div class="input-group col-md-12" style="margin:0 0 1em 0">
+									<span class="input-group-btn" style="width: 20%; padding: 0 10px 0 0;">
 										<select class="form-control input-sm" name="province">
 											<option value="">所有省份</option>
 											@foreach($provinces as $province)
@@ -35,7 +35,7 @@
 											@endforeach
 										</select>
 									</span>
-									<span class="input-group-btn" style="width:6em;">
+									<span class="input-group-btn" style="width: 10%; padding: 0 10px 0 0;">
 										{{
 											Form::select(
 												'status',
@@ -55,12 +55,8 @@
 										<button class="btn btn-sm btn-default" type="submit" style="width:5em;">筛选</button>
 									</span>
 								</div>
-
 							{{ Form::close() }}
 
-						</div>
-						<!-- /.panel-heading -->
-						<div class="panel-body">
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 									<thead>

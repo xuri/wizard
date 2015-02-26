@@ -85,7 +85,7 @@
 					<div class="row">
 						<div class="col-sm-5 col-sm-offset-2 resp-center header animate animate_aft">
 							{{ HTML::image('assets/images/main-header.png', '', array('class' => 'header-img')) }}
-							<p class="header-txt">用心，寻找真爱<br/> —— 专注于大学生的恋爱平台
+							<p class="header-txt">用心，寻找真爱<br/> —— 全国首个大学生恋爱平台
 								<br />
 							</p>
 							<a href="{{ route('members.index') }}" class="top-download btn btn-default btn-lg">立即体验</a>

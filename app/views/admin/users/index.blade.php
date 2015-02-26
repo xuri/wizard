@@ -24,7 +24,7 @@
 						<div class="panel-heading">
 							{{ $resourceName }}列表
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							{{ Form::open(array('method' => 'get')) }}
 								<div class="input-group col-md-12" style="margin:0 0 1em 0">
@@ -56,8 +56,8 @@
 											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">筛选</button>
 									</span>
 								</div>
-
 							{{ Form::close() }}
+
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 									<thead>
