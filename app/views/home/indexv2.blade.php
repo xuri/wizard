@@ -2,7 +2,7 @@
 <html>
 <head>
 	{{-- The Meta --}}
-	<title>聘爱 | 专注于大学生的恋爱平台</title>
+	<title>聘爱 | 全国首个大学生恋爱平台</title>
 
 	@include('layout.meta')
 	@yield('content')
