@@ -424,22 +424,27 @@ class Admin_UserResource extends BaseResource
 			// Send SMS
 			Queue::push('SendLikesNotifySMSQueue', [
 				'phone'			=> '15636129303',
-				'verify_code'	=> '111'
+				'verify_code'	=> '123'
 			]);
+			if($like->update(array('is_notify' => 1))){
+				return Redirect::back()->with('success', $this->resourceName.'好友请求通知短信发送成功。');
+			} else{
+				return Redirect::back()->with('warning', $this->resourceName.'好友请求通知短信发送失败。');
+			}
 		} else {
 			// Send E-mail
+			$with = array();
 			Mail::later(10, 'emails.notify.likereminder', $with, function ($message) use ($user) {
 						$message
 							->to($user->email)
 							->subject('聘爱网 好友请求提醒'); // Subject
 					});
+			if($like->update(array('is_notify' => 1))){
+				return Redirect::back()->with('success', $this->resourceName.'好友请求通知邮件发送成功。');
+			} else{
+				return Redirect::back()->with('warning', $this->resourceName.'好友请求通知邮件发送失败。');
+			}
 		}
-
-		if($like->update(array('is_notify' => 1))){
-			return Redirect::back()->with('success', $this->resourceName.'通知短信发送成功。');
-		} else{
-			return Redirect::back()->with('warning', $this->resourceName.'通知短信发送失败。');
-		}
-
 	}
+
 }
