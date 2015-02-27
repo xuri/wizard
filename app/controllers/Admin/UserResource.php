@@ -416,11 +416,24 @@ class Admin_UserResource extends BaseResource
 		// Retrieve like
 		$like = Like::where('receiver_id', $id);
 
-		// Send SMS
-		Queue::push('SendLikesNotifySMSQueue', [
-			'phone'			=> '14794669002',
-			'verify_code'	=> '111'
-		]);
+		// Retrieve user
+		$user = User::find($id);
+
+		if($user->phone)
+		{
+			// Send SMS
+			Queue::push('SendLikesNotifySMSQueue', [
+				'phone'			=> '15636129303',
+				'verify_code'	=> '111'
+			]);
+		} else {
+			// Send E-mail
+			Mail::later(10, 'emails.notify.likereminder', $with, function ($message) use ($user) {
+						$message
+							->to($user->email)
+							->subject('聘爱网 好友请求提醒'); // Subject
+					});
+		}
 
 		if($like->update(array('is_notify' => 1))){
 			return Redirect::back()->with('success', $this->resourceName.'通知短信发送成功。');

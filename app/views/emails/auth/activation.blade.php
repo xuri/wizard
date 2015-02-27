@@ -16,7 +16,7 @@
                         <a href="{{ route('activate', $activationCode) }}" target="_blank" style="color:#D65679;text-decoration:underline">{{ route('activate', $activationCode) }}</a>
                     </p>
                 </div>
-                <div style="border-top:1px solid #ebedf1;padding-top:45px;margin:30px 0 20px 0">聘爱<a href="#" title="聘爱" style="color:#D65679;margin:0 10px;text-decoration:none" target="_blank">pinai521.com</a>感谢您的访问，祝您使用愉快！</div>
+                <div style="border-top:1px solid #ebedf1;padding-top:45px;margin:30px 0 20px 0">聘爱<a href="{{ route('home') }}" title="聘爱" style="color:#D65679;margin:0 10px;text-decoration:none" target="_blank">pinai521.com</a>感谢您的访问，祝您使用愉快！</div>
             </div>
             <div style="clear:both;color:#757575;font-size:10px;padding:20px 0 80px;text-align:center">
                 <p style="margin:0;padding:0">请注意：此封邮件发送地址只用于通知，不能够接收邮件，请不要直接回复。您不需要退订或进行其他进一步的操作。</p>
