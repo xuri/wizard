@@ -75,9 +75,13 @@
 											@endif
 
 											@if($data->is_notify == 0)
-												<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">短信通知</a></td>
+												@if($receiver->email)
+													<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">邮件通知</a></td>
+												@else
+													<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">短信通知</a></td>
+												@endif
 											@else
-												<td><a href="javascript:void(0);" class="btn btn-xs btn-success">已经通知</a></td>
+												<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-success">再次通知</a></td>
 											@endif
 										</tr>
 										@endif
