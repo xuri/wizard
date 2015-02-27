@@ -36,6 +36,7 @@
 										<th>接收方</th>
 										<th>接收方最后活动时间</th>
 										<th>接收方联系方式</th>
+										<th style="width:5em;text-align:center;">操作</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -71,6 +72,12 @@
 												<td><a href="mailto:{{ $receiver->email }}" target="_blank"><i class="fa fa-envelope-o"></i></a>&nbsp;{{ $receiver->email }}</td>
 											@else
 												<td>{{ $receiver->phone }}</td>
+											@endif
+
+											@if($data->is_notify == 0)
+												<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">短信通知</a></td>
+											@else
+												<td><a href="javascript:void(0);" class="btn btn-xs btn-success">已经通知</a></td>
 											@endif
 										</tr>
 										@endif

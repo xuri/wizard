@@ -191,6 +191,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|i
 		Route::get(	    '{id}/detail', array('as' => $resource.'.detail' 	, 'uses' => $controller.'detail' 	))->before('not.self');
 		Route::post(	  '{id}/edit', array('as' => $resource.'.update' 	, 'uses' => $controller.'update' 	))->before('not.self');
 		Route::get(     '{id}/notify', array('as' => $resource.'.notify' 	, 'uses' => $controller.'notify' 	))->before('not.self');
+		Route::get( '{id}/sms_notify', array('as' => $resource.'.sms_notify', 'uses' => $controller.'sms_notify'))->before('not.self');
 		Route::delete(		   '{id}', array('as' => $resource.'.destroy'	, 'uses' => $controller.'destroy'	))->before('not.self');
 		Route::post(    '{id}/notify', $controller.'postNotify' )->before('not.self');
 		Route::post(   	 	 '/block', $controller.'block' 		)->before('not.self');

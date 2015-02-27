@@ -20,6 +20,7 @@ class CreateLikeTable extends Migration {
 			$table->integer('count');
 			$table->string('answer');
 			$table->tinyInteger('status')->default('0');
+			$table->boolean('is_notify')->default('0');
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();
 		});

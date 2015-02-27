@@ -335,7 +335,8 @@ class Admin_UserResource extends BaseResource
 	 * @param  int $id User ID
 	 * @return Response     View
 	 */
-	public function detail($id) {
+	public function detail($id)
+	{
 		$data	= $this->model->where('id', $id)->first();
 		$sends	= Like::where('sender_id', $id)->get();
 		$inboxs	= Like::where('receiver_id', $id)->get();
@@ -348,7 +349,8 @@ class Admin_UserResource extends BaseResource
 	 * @param  int $id User ID
 	 * @return Response     View
 	 */
-	public function chatdir($id) {
+	public function chatdir($id)
+	{
 
 		// Retrieve user
 		$data			= $this->model->where('id', $id)->first();
@@ -367,7 +369,8 @@ class Admin_UserResource extends BaseResource
 	 * @param  string $id slug
 	 * @return Response     View
 	 */
-	public function chatrecord($id) {
+	public function chatrecord($id)
+	{
 
 		// Split slug to get user ID and log file name
 		list($user_id, $log)	= preg_split('/[: -]/', $id);
@@ -394,11 +397,36 @@ class Admin_UserResource extends BaseResource
 	 * User add friends request not responsed list
 	 * @return response     View
 	 */
-	public function noactive() {
+	public function noactive()
+	{
 
 		// Retrieve all add friends request not responsed
 		$datas			= Like::where('status', 0)->get();
 
 		return View::make($this->resourceView.'.noactive')->with(compact('datas'));
+	}
+
+	/**
+	 * Send SMS notify no active much more than 3 days user
+	 * @param  int $id     Receiver SMS user ID
+	 * @return response    View
+	 */
+	public function sms_notify($id)
+	{
+		// Retrieve like
+		$like = Like::where('receiver_id', $id);
+
+		// Send SMS
+		Queue::push('SendLikesNotifySMSQueue', [
+			'phone'			=> '14794669002',
+			'verify_code'	=> '111'
+		]);
+
+		if($like->update(array('is_notify' => 1))){
+			return Redirect::back()->with('success', $this->resourceName.'通知短信发送成功。');
+		} else{
+			return Redirect::back()->with('warning', $this->resourceName.'通知短信发送失败。');
+		}
+
 	}
 }
