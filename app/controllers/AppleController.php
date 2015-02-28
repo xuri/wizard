@@ -1315,7 +1315,7 @@ class AppleController extends BaseController
 								$friends[$key]['friend_id']	= $user->id;
 
 								// Friend nickname
-								$friends[$key]['nickname']	= e($user->nickname);
+								$friends[$key]['nickname']	= html_entity_decode(e($user->nickname));
 
 								// Determine user portrait
 								if(is_null($user->portrait)){
@@ -1336,7 +1336,7 @@ class AppleController extends BaseController
 								$friends[$key]['friend_id']	= $user->id;
 
 								// Friend nickname
-								$friends[$key]['nickname']	= e($user->nickname);
+								$friends[$key]['nickname']	= html_entity_decode(e($user->nickname));
 
 								// Determine user portrait
 								if(is_null($user->portrait)){
