@@ -55,7 +55,6 @@
 					margin: 0;
 					background: #6E6E86;
 					font-size: 12px;
-					position:fixed;
 					float: left;
 					display: inline;
 					bottom:0;
