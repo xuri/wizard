@@ -393,7 +393,7 @@ class AndroidController extends BaseController
 							$users[$key]['sex']			= e($users[$key]['sex']);
 
 							// Retrieve nickname with UTF8 encode
-							$users[$key]['nickname']	= e($users[$key]['nickname']);
+							$users[$key]['nickname']	= html_entity_decode(e($users[$key]['nickname']));
 
 							// Retrieve school with UTF8 encode
 							$users[$key]['school']		= e($users[$key]['school']);
@@ -474,7 +474,7 @@ class AndroidController extends BaseController
 							$users[$key]['sex']			= e($users[$key]['sex']);
 
 							// Retrieve nickname with UTF8 encode
-							$users[$key]['nickname']	= e($users[$key]['nickname']);
+							$users[$key]['nickname']	= html_entity_decode(e($users[$key]['nickname']));
 
 							// Retrieve school with UTF8 encode
 							$users[$key]['school']		= e($users[$key]['school']);
@@ -635,16 +635,16 @@ class AndroidController extends BaseController
 								'status'		=> 1,
 								'sex'			=> e($user->sex),
 								'bio'			=> e($user->bio),
-								'nickname'		=> e($user->nickname),
+								'nickname'		=> html_entity_decode(e($user->nickname)),
 								'born_year'		=> e($user->born_year),
 								'school'		=> e($user->school),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'hobbies'		=> e($profile->hobbies),
+								'hobbies'		=> html_entity_decode(e($profile->hobbies)),
 								'tag_str'		=> $tag_str,
 								'grade'			=> e($profile->grade),
-								'question'		=> e($profile->question),
-								'self_intro'	=> e($profile->self_intro)
+								'question'		=> html_entity_decode(e($profile->question)),
+								'self_intro'	=> html_entity_decode(e($profile->self_intro))
 							);
 						return Response::json($data);
 					} else {
@@ -704,11 +704,11 @@ class AndroidController extends BaseController
 
 																// Notification ID
 																'id' 		=> e($notification->id),
-																'content'	=> $user->nickname . '再次追你了，快去查看一下吧',
+																'content'	=> html_entity_decode(e($user->nickname)) . '再次追你了，快去查看一下吧',
 																'sender_id'	=> e(Input::get('id')),
 																'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																'nickname'	=> $user->nickname,
-																'answer'	=> Input::get('answer')
+																'nickname'	=> html_entity_decode(e($user->nickname)),
+																'answer'	=> html_entity_decode(e(Input::get('answer')))
 															]);
 
 									return Response::json(
@@ -734,14 +734,14 @@ class AndroidController extends BaseController
 																'target'	=> $receiver_id,
 																'action'	=> 1,
 																'from'		=> $user->id,
-																'content'	=> $user->nickname.'追你了，快去查看一下吧',
+																'content'	=> html_entity_decode(e($user->nickname)) .'追你了，快去查看一下吧',
 
 																// Notification ID
 																'id'		=> e($notification->id),
 																'sender_id'	=> e(Input::get('id')),
 																'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																'nickname'	=> $user->nickname,
-																'answer'	=> Input::get('answer')
+																'nickname'	=> html_entity_decode(e($user->nickname)),
+																'answer'	=> html_entity_decode(e(Input::get('answer')))
 															]);
 
 									return Response::json(
@@ -816,7 +816,7 @@ class AndroidController extends BaseController
 							$likes[$key]['school']		= e($user->school);
 
 							// Receiver nickname
-							$likes[$key]['name']		= e($user->nickname);
+							$likes[$key]['name']		= html_entity_decode(e($user->nickname));
 
 							// Receiver sex
 							$likes[$key]['sex']			= e($user->sex);
@@ -889,7 +889,7 @@ class AndroidController extends BaseController
 								$likes[$key]['school']		= e($user->school);
 
 								// Receiver nickname
-								$likes[$key]['name']		= e($user->nickname);
+								$likes[$key]['name']		= html_entity_decode(e($user->nickname));
 
 								// Receiver sex
 								$likes[$key]['sex']			= e($user->sex);
@@ -969,7 +969,7 @@ class AndroidController extends BaseController
 							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school;
 
 							// Receiver ID
-							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname;
+							$likes[$key]['name']		= html_entity_decode(e(User::where('id', $likes[$key]['id'])->first()->nickname));
 
 							// Convert how long liked
 							$Date_1						= date("Y-m-d");
@@ -1032,7 +1032,7 @@ class AndroidController extends BaseController
 							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school;
 
 							// Receiver ID
-							$likes[$key]['name']		= User::where('id', $likes[$key]['id'])->first()->nickname;
+							$likes[$key]['name']		= html_entity_decode(e(User::where('id', $likes[$key]['id'])->first()->nickname));
 
 							// Convert how long liked
 							$Date_1						= date("Y-m-d");
@@ -1101,10 +1101,10 @@ class AndroidController extends BaseController
 
 													// Notification ID
 													'id'		=> e($notification->id),
-													'content'	=> $receiver->nickname . '接受了你的邀请，快去查看一下吧',
+													'content'	=> html_entity_decode(e($receiver->nickname)) . '接受了你的邀请，快去查看一下吧',
 													'sender_id'	=> e($receiver_id),
 													'portrait'	=> route('home') . '/' . 'portrait/' . $receiver->portrait,
-													'nickname'	=> $receiver->nickname,
+													'nickname'	=> html_entity_decode(e($receiver->nickname)),
 													'answer'	=> null
 												]);
 
@@ -1113,7 +1113,7 @@ class AndroidController extends BaseController
 									'status'	=> 1,
 									'id'		=> $id,
 									'portrait'	=> route('home').'/'.'portrait/'.$sender->portrait,
-									'nickname'	=> $sender->nickname
+									'nickname'	=> html_entity_decode(e($sender->nickname))
 								)
 							);
 					} else {
@@ -1646,7 +1646,7 @@ class AndroidController extends BaseController
 									$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 									// Get post user portrait and add portrait key to array
-									$top[$key]['nickname']			= e(html_entity_decode($post_user->nickname));
+									$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname));
 
 									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
@@ -2530,7 +2530,7 @@ class AndroidController extends BaseController
 							if($sender->nickname) {
 
 								// Get user nickname
-								$notifications[$key]['nickname'] 	= $sender->nickname;
+								$notifications[$key]['nickname'] 	= html_entity_decode(e($sender->nickname));
 							} else {
 
 								// Return null
@@ -2547,10 +2547,10 @@ class AndroidController extends BaseController
 								$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
 
 								// Add comment content summary to content key
-								$notifications[$key]['content']				= getplaintextintrofromhtml($comment->content, $numchars);
+								$notifications[$key]['content']				= html_entity_decode(e(getplaintextintrofromhtml($comment->content, $numchars)));
 
 								// Add post content summary to original_content key
-								$notifications[$key]['original_content']	= getplaintextintrofromhtml($post->content, $numchars);
+								$notifications[$key]['original_content']	= html_entity_decode(e(getplaintextintrofromhtml($post->content, $numchars)));
 
 							} else {
 
@@ -2561,10 +2561,10 @@ class AndroidController extends BaseController
 								$reply										= ForumReply::where('id', $notifications[$key]['reply_id'])->first();
 
 								// Add reply content summary to content key
-								$notifications[$key]['content']				= getplaintextintrofromhtml($reply->content, $numchars);
+								$notifications[$key]['content']				= html_entity_decode(e(getplaintextintrofromhtml($reply->content, $numchars)));
 
 								// Add post content summary to original_content key
-								$notifications[$key]['original_content']	= getplaintextintrofromhtml($comment->content, $original_numchars);
+								$notifications[$key]['original_content']	= html_entity_decode(e(getplaintextintrofromhtml($comment->content, $original_numchars)));
 							}
 						}
 
@@ -2607,7 +2607,7 @@ class AndroidController extends BaseController
 						'user_sex'			=> $comment_author->sex,
 
 						// Comment user nickname
-						'user_nickname'		=> $comment_author->nickname,
+						'user_nickname'		=> html_entity_decode(e($comment_author->nickname)),
 
 						// Comment user ID
 						'user_id'			=> $comment_author->id,
@@ -2616,13 +2616,13 @@ class AndroidController extends BaseController
 						'id'				=> $comment->id,
 
 						// Comment title
-						'title'				=> $comment->title,
+						'title'				=> html_entity_decode(e($comment->title)),
 
 						// Comment created date
 						'created_at'		=> $comment->created_at->toDateTimeString(),
 
 						// Comment content (removing contents html tags except image and text string)
-						'content'			=> strip_tags($comment->content, '<img>'),
+						'content'			=> html_entity_decode(e(strip_tags($comment->content, '<img>'))),
 
 						// Post comments reply (array format and include reply)
 						'comment_reply'		=> $replies
@@ -2658,7 +2658,7 @@ class AndroidController extends BaseController
 					// Build format
 					$data = array(
 							'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
-							'nickname'		=> $user->nickname,
+							'nickname'		=> html_entity_decode(e($user->nickname)),
 							'posts_count'	=> ForumPost::where('user_id', $user_id)->count(),
 							'posts'			=> $posts
 						);
@@ -2740,7 +2740,7 @@ class AndroidController extends BaseController
 						return Response::json(
 							array(
 								'status'	=> 1,
-								'nickname'	=> e($user->nickname),
+								'nickname'	=> html_entity_decode(e($user->nickname)),
 								'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait
 							)
 						);
@@ -2924,8 +2924,8 @@ class AndroidController extends BaseController
 							case '1' :
 								$sender_user							= User::find($friend_notifications[$key]['sender_id']);
 								$like									= Like::where('sender_id', $friend_notifications[$key]['sender_id'])->where('receiver_id', $friend_notifications[$key]['receiver_id'])->first();
-								$friend_notifications[$key]['content']	= $sender_user->nickname . '追你了，快去看看吧';
-								$friend_notifications[$key]['nickname']	= $sender_user->nickname;
+								$friend_notifications[$key]['content']	= html_entity_decode(e($sender_user->nickname)) . '追你了，快去看看吧';
+								$friend_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname));
 								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 								$friend_notifications[$key]['answer']	= $like->answer;
 								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
@@ -2934,8 +2934,8 @@ class AndroidController extends BaseController
 							case '2' :
 								$sender_user							= User::find($friend_notifications[$key]['sender_id']);
 								$like									= Like::where('sender_id', $friend_notifications[$key]['sender_id'])->where('receiver_id', $friend_notifications[$key]['receiver_id'])->first();
-								$friend_notifications[$key]['content']	= $sender_user->nickname . '再次追你了，快去看看吧';
-								$friend_notifications[$key]['nickname']	= e($sender_user->nickname);
+								$friend_notifications[$key]['content']	= html_entity_decode(e($sender_user->nickname)) . '再次追你了，快去看看吧';
+								$friend_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname));
 								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 								$friend_notifications[$key]['answer']	= e($like->answer);
 								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
@@ -2947,7 +2947,7 @@ class AndroidController extends BaseController
 					foreach ($accept_notifications as $key => $value) {
 						$sender_user							= User::find($accept_notifications[$key]['sender_id']);
 						$accept									= Like::where('sender_id', $accept_notifications[$key]['sender_id'])->where('receiver_id', $accept_notifications[$key]['receiver_id'])->first();
-						$accept_notifications[$key]['nickname']	= $sender_user->nickname;
+						$accept_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname));
 						$accept_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 						$accept_notifications[$key]['from']		= $accept_notifications[$key]['sender_id'];
 					}
