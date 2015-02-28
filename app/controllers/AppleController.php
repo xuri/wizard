@@ -2064,13 +2064,13 @@ class AppleController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> html_entity_decode(badWordsFilter(strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'))),
+									'content'		=> html_entity_decode(e(badWordsFilter(strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>')))),
 
 									// Post comments (array format and include reply)
 									'comments'		=> array(),
 
 									// Post title
-									'title'			=> html_entity_decode(badWordsFilter(str_replace("&nbsp;", " ", $post->title)))
+									'title'			=> html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", $post->title))))
 
 								);
 
@@ -2098,7 +2098,7 @@ class AppleController extends BaseController
 									$comments[$key]['user_id']			= $comments_user->id;
 
 									// Removing contents html tags except image and text string
-									$comments[$key]['content']			= html_entity_decode(badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>')));
+									$comments[$key]['content']			= html_entity_decode(e(badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>'))));
 									// Comments user portrait
 									$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
@@ -2128,7 +2128,7 @@ class AppleController extends BaseController
 										// Reply user sex
 										$replies[$keys]['sex']		= $reply_user->sex;
 
-										$replies[$keys]['content']	= html_entity_decode(badWordsFilter(str_ireplace($breaks, '\\n', $replies[$keys]['content'])));
+										$replies[$keys]['content']	= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $replies[$keys]['content'])))));
 
 										// Reply user portrait
 										$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
@@ -2162,13 +2162,13 @@ class AppleController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> strip_tags(str_replace('&nbsp;', " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'),
+									'content'		=> html_entity_decode(e(strip_tags(str_replace('&nbsp;', " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'))),
 
 									// Post comments (array format and include reply)
 									'comments'		=> $comments,
 
 									// Post title
-									'title'			=> html_entity_decode(badWordsFilter(str_replace("&nbsp;", " ", $post->title)))
+									'title'			=> html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", $post->title))))
 
 								);
 
@@ -2218,7 +2218,7 @@ class AppleController extends BaseController
 								$comments[$key]['user_nickname']	= html_entity_decode(e($comments_user->nickname));
 
 								// Removing contents html tags except image and text string
-								$comments[$key]['content']			= html_entity_decode(badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>')));
+								$comments[$key]['content']			= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>')))));
 
 								// Query all replies of this post
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
@@ -2240,7 +2240,7 @@ class AppleController extends BaseController
 									// Reply user sex
 									$replies[$keys]['sex']		= e($reply_user->sex);
 
-									$replies[$keys]['content']	= html_entity_decode(badWordsFilter(str_ireplace($breaks, '\\n', $replies[$keys]['content'])));
+									$replies[$keys]['content']	= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $replies[$keys]['content'])))));
 
 									// Reply user portrait
 									$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;

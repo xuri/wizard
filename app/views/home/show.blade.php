@@ -8,7 +8,6 @@
 			@yield('content')
 		@endif
 
-
 		@if(Agent::isMobile())
 		@else
 			<div class="row row-offcanvas row-offcanvas-right" style="margin-top: 8%">
@@ -26,18 +25,15 @@
 		                    <p>{{ $article->content }}</p>
 		                    <a name="comments"></a>
 
-		                </div><!--/span-->
+		                </div>{{--/span--}}
+		            </div>{{--/row--}}
+		        </div>{{--/span--}}
 
 
 
-		            </div><!--/row-->
-		        </div><!--/span-->
-
-
-
-		    </div><!--/row-->
+		    </div>{{--/row--}}
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 		@if(Agent::isMobile())
 			@include('layout.analytics')
@@ -46,6 +42,10 @@
 			@include('layout.copyright')
 			@yield('content')
 			<style>
+				span {
+					white-space: normal !important;
+				}
+
 				div.footer {
 					text-align: center;
 					color: #FFF;
