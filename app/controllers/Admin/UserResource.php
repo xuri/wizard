@@ -422,10 +422,11 @@ class Admin_UserResource extends BaseResource
 		if($user->phone)
 		{
 			// Send SMS
-			Queue::push('SendLikesNotifySMSQueue', [
-				'phone'			=> '15636129303',
-				'verify_code'	=> '123'
-			]);
+			// Queue::push('SendLikesNotifySMSQueue', [
+			// 	'phone'	=> $user->phone,
+			// 	'count'	=> Like::where('reserver_id', $id)->where('status', 0)->count()
+			// ]);
+
 			if($like->update(array('is_notify' => 1))){
 				return Redirect::back()->with('success', $this->resourceName.'好友请求通知短信发送成功。');
 			} else{
