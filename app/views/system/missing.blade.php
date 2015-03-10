@@ -14,7 +14,7 @@
 			<div class="twelve columns">
 				<div class="column-inner clearfix">
 					<a href="{{ route('home') }}" class="primary-header-logo fl">
-						{{ HTML::image('assets/images/404_logo.png', '', array('width' => '163', 'id' => 'primry-header-logo-kiss', 'height' => '31')) }}
+						{{ HTML::image('assets/images/404_logo.png', '', array('width' => '103', 'id' => 'primry-header-logo-kiss', 'height' => '31')) }}
 					</a>
 					<a href="{{ route('signin') }}" class="primary-header-signin fr typeface-bold underlined-link">登陆</a>
 				</div>

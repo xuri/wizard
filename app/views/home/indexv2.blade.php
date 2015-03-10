@@ -23,6 +23,15 @@
 	)) }}
 </head>
 	<body>
+	<noscript>
+		@include('system.javascriptNotSupport')
+		@yield('content')
+		<style type="text/css">
+			.content, footer {
+				display: none;
+			}
+		</style>
+	</noscript>
 	@if(Auth::guest())
 
 	{{-- jQuery --}}

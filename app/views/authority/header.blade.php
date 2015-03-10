@@ -15,3 +15,12 @@
 	)) }}
 </head>
 <body>
+	<noscript>
+		@include('system.javascriptNotSupport')
+		@yield('content')
+		<style type="text/css">
+			.nav, #login_wrap, .footer {
+				display: none;
+			}
+		</style>
+	</noscript>
