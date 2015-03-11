@@ -645,7 +645,7 @@ class AppleController extends BaseController
 								'tag_str'		=> $tag_str,
 								'grade'			=> e($profile->grade),
 								'question'		=> html_entity_decode(e($profile->question)),
-								'self_intro'	=> html_entity_decode(e($profile->self_intro))
+								'self_intro'	=> html_entity_decode(e($profile->self_intro)),
 								'is_verify'		=> e($user->is_verify)
 							);
 						return Response::json($data);
