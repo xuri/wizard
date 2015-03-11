@@ -3,8 +3,8 @@
 
 	<div class="fp_box">
 		<h1>找回密码</h1>
-		<a href="{{ route('signin') }}" class="fp_back">登陆</a>
-		<a href="{{ route('home') }}" class="fp_back">回到首页</a>
+		<a href="{{ route('signin') }}" class="fp_back">{{ Lang::get('navigation.signin') }}</a>
+		<a href="{{ route('home') }}" class="fp_back">{{ Lang::get('navigation.go_home') }}</a>
 		<div class="fp_passWord">
 			<a href="javascript:;" class="fp_tab fp_tab2" id="tab2">邮箱找回</a>
 			<a href="javascript:;" class="fp_tab fp_tab1" id="tab1">手机找回</a>

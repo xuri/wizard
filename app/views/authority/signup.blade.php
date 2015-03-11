@@ -134,11 +134,15 @@
 	@yield('content')
 
 	<script type="text/javascript">
-		var signin_url 	= '{{ route("signin") }}';
-		var signup_url 	= '{{ route("signup") }}';
-		var verifycode	= '{{ route("verifycode") }}';
-		var csrf_token	= '{{ csrf_token() }}';
-		var captcha_url	= '{{ route("captcha") }}';
+		var signin_url				= '{{ route("signin") }}';
+		var signup_url				= '{{ route("signup") }}';
+		var verifycode				= '{{ route("verifycode") }}';
+		var csrf_token				= '{{ csrf_token() }}';
+		var captcha_url				= '{{ route("captcha") }}';
+		var lang_signin				= "{{ Lang::get('navigation.signin') }}";
+		var lang_signup				= "{{ Lang::get('navigation.signup') }}";
+		var lang_resent_sms			= "{{ Lang::get('navigation.resent_sms') }}";
+		var lang_resent_sms_time	= "{{ Lang::get('navigation.resent_sms_time') }}";
 	</script>
 
 @include('authority.footer')

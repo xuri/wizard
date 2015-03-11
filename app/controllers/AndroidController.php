@@ -628,7 +628,7 @@ class AndroidController extends BaseController
 					if ($info)
 					{
 						// Retrieve user
-						$user				= User::find('id', Input::get('id'));
+						$user				= User::find(Input::get('id'));
 						$profile			= Profile::where('user_id', $user->id)->first();
 
 						// Get user's constellation
