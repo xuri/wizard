@@ -17,7 +17,7 @@ return array(
 
 	"signin_title"					=> "Signin",
 
-	"signin_error"					=>"E-mail or username fill in error",
+	"signin_error"					=> "E-mail or username fill in error",
 
 	"do_signin"						=> "Signin",
 
@@ -28,6 +28,10 @@ return array(
 	"account_input"					=> "E-mail or phone number",
 
 	"password"						=> "Input Password",
+
+	"new_password"					=> "New Password",
+
+	"update_password"				=> "Update Password",
 
 	"password_input"				=> "6-16 digit letters or numbers",
 

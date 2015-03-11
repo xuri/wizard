@@ -5,12 +5,12 @@
 	@yield('content')
 
 	<div class="fp_box">
-		<h1>找回密码</h1>
-		<a href="{{ route('signin') }}" class="fp_back">登陆</a>
-		<a href="{{ route('home') }}" class="fp_back">回到首页</a>
+		<h1>{{ Lang::get('authority.reset_password') }}</h1>
+		<a href="{{ route('signin') }}" class="fp_back">{{ Lang::get('navigation.signin') }}</a>
+		<a href="{{ route('home') }}" class="fp_back">{{ Lang::get('navigation.go_home') }}</a>
 		<div class="fp_passWord">
-			<a href="javascript:;" class="fp_tab fp_tab2" id="tab2">邮箱找回</a>
-			<a href="javascript:;" class="fp_tab fp_tab1" id="tab1">手机找回</a>
+			<a href="javascript:;" class="fp_tab fp_tab2" id="tab2">{{ Lang::get('authority.email_reset_password') }}</a>
+			<a href="javascript:;" class="fp_tab fp_tab1" id="tab1">{{ Lang::get('authority.phone_reset_password') }}</a>
 			<span class="fp_bottom" id="bottom"></span>
 			<div style="width:820px;">
 				<div class="fp_emile" id="emile">
@@ -27,9 +27,9 @@
 					@endif
 					{{ Form::open() }}
 
-					<p class="fp_p">邮箱号：</p>
+					<p class="fp_p">{{ Lang::get('authority.email') }}:</p>
 					<input type="text" name="email" class="fp_text"/>
-					<input type="submit" value="下一步" class="fp_next" />
+					<input type="submit" value="{{ Lang::get('authority.next') }}" class="fp_next" />
 					{{ Form::close() }}
 
 				</div>
@@ -54,22 +54,22 @@
 					<p id="push_error" style="text-align: center;"></p>
 					<input type="hidden" id="forgot_password" value="forgot_password" />
 					<div>
-						<p class="fp_p">手机号：</p>
-						<input type="text" class="fp_text" id="phone_number" name="phone" required="required" placeholder="请输入11位手机号"/>
+						<p class="fp_p">{{ Lang::get('authority.phone') }}:</p>
+						<input type="text" class="fp_text" id="phone_number" name="phone" required="required" placeholder="{{ Lang::get('authority.phone_input') }}"/>
 					</div>
 					<div>
-						<p class="fp_p">验证码：</p><input type="text" class="fp_code" name="sms_code" required="required" value="{{ Input::old('sms_code') }}" />
-						<input type="button" class="fp_button count-send" style="height: 2.6em; color: #fff;" value="获取验证码" />
+						<p class="fp_p">{{ Lang::get('authority.verify_code') }}:</p><input type="text" class="fp_code" name="sms_code" required="required" value="{{ Input::old('sms_code') }}" />
+						<input type="button" class="fp_button count-send" style="height: 2.6em; color: #fff;" value="{{ Lang::get('authority.send') }}" />
 					</div>
 					<div class="rgs_li">
-						<span>新密码:</span>
-						<input type="password" name="password" required="required" placeholdr="6-16位字母或数字的组合">
+						<span>{{ Lang::get('authority.new_password') }}:</span>
+						<input type="password" name="password" required="required" placeholdr="{{ Lang::get('authority.password_input') }}">
 					</div>
 					<div class="rgs_li">
-						<span>重复密码:</span>
-						<input type="password" name="password_confirmation" required="required" placeholder="确认你的密码">
+						<span>{{ Lang::get('authority.repet_password') }}:</span>
+						<input type="password" name="password_confirmation" required="required" placeholder="{{ Lang::get('authority.repet_password_input') }}">
 					</div>
-					<input type="button" value="修改密码" id="submit" class="fp_next" />
+					<input type="button" value="{{ Lang::get('authority.update_password') }}" id="submit" class="fp_next" />
 					{{ Form::close() }}
 
 				</div>

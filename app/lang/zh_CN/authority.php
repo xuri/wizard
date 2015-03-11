@@ -29,6 +29,10 @@ return array(
 
 	"password"						=> "输入密码",
 
+	"new_password"					=> "新密码",
+
+	"update_password"				=> "修改密码",
+
 	"password_input"				=> "6-16位字母或数字的组合",
 
 	"keep_signin"					=> "记住我",

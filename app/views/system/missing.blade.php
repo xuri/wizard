@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>找不到页面 | {{ Lang::get('navigation.pinai') }}</title>
+	<title>{{ Lang::get('system.missing') }} | {{ Lang::get('navigation.pinai') }}</title>
 	<meta content="20; {{ route('home') }}" http-equiv="refresh">
 	@include('layout.meta')
 	@yield('content')
@@ -40,10 +40,10 @@
 						</div>
 						<div class="ibc" style="margin: 20px 0">
 							<div class="ibc-content">
-								<h1 class="bold">找不到页面</h1>
+								<h1 class="bold">{{ Lang::get('system.missing') }}</h1>
 							</div>
 						</div>
-						<p style="margin: 10px 44px; text-align: left; font-size: 14px;">很遗憾，您访问的页面找不到了，您可以访问 <a href="{{ route('home') }}">网站首页</a> 或 <a href="{{ route('signup') }}">新用户注册</a>.</p>
+						<p style="margin: 10px 44px; text-align: left; font-size: 14px;">{{ Lang::get('system.missing_text') }} <a href="{{ route('home') }}">{{ Lang::get('navigation.index') }}</a> {{ Lang::get('system.or') }} <a href="{{ route('signup') }}">{{ Lang::get('navigation.signup') }}</a>.</p>
 					</div>
 				</div>
 			</div>
@@ -64,9 +64,9 @@
 				<div class="footer-copyright">Copyright &copy; 2013 - <?php echo date('Y'); ?> pinai521.com. All rights reserved.</div>
 				<hr class="footer-hr">
 				<div class="footer-nav">
-					<a href="{{ route('home') }}/article/privacy.html" target="_blank">服务条款</a>
+					<a href="{{ route('home') }}/article/privacy.html" target="_blank">{{ Lang::get('navigation.privacy') }}</a>
 					<span class="footer-separator">|</span>
-					<a href="{{ route('support.index') }}" target="_blank">意见反馈</a>
+					<a href="{{ route('support.index') }}" target="_blank">{{ Lang::get('navigation.support') }}</a>
 					<span class="footer-separator">|</span>
 					<a href="{{ route('home') }}/article/about.html" rel="nofollow" target="_blank">{{ Lang::get('navigation.about') }}</a>
 				</div>

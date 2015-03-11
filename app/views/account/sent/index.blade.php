@@ -5,7 +5,7 @@
 	@yield('content')
 
 	<div id="content" class="clear">
-		<div class="con_title">我追的人</div>
+		<div class="con_title">{{ Lang::get('navigation.friends') }}</div>
 		<div class="con_img">
 			<span class="line1"></span>
 			<span class="line2"></span>
@@ -14,14 +14,13 @@
 
 		<div id="wrap" class="clear">
 			<div class="w_left">
-				<ul class="w_nav">
-					<li><a href="{{ route('account') }}" class="a1 fa fa-tasks" target="_blank">&nbsp;&nbsp;&nbsp;我的资料</a></li>
-					<li><a href="{{ route('account.sent') }}" class="active a2 fa fa-heart-o">&nbsp;&nbsp;&nbsp;我追的人</a></li>
-					<li><a href="{{ route('account.inbox') }}" class="a2 fa fa-star">&nbsp;&nbsp;&nbsp;追我的人</a></li>
-					<li><a href="{{ route('account.notifications') }}" class="a3 fa fa-inbox" target="_blank">&nbsp;&nbsp;&nbsp;我的来信</a></li>
-					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o" target="_blank">&nbsp;&nbsp;&nbsp;我的帖子</a></li>
-					<li><a href="{{ route('support.index') }}" class="a5 fa fa-life-ring" target="_blank">&nbsp;&nbsp;&nbsp;联系客服</a></li>
-					<li><a href="{{ route('home') }}/article/about.html" class="a5 fa fa-bookmark" target="_blank">&nbsp;&nbsp;&nbsp;关于我们</a></li>
+				<ul class="w_nav"><li><a href="{{ route('account') }}" class="a1 fa fa-tasks">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.profile') }}</a></li>
+					<li><a href="{{ route('account.sent') }}" class="active a2 fa fa-heart-o">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.friends') }}</a></li>
+					<li><a href="{{ route('account.inbox') }}" class="a2 fa fa-star">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.followers') }}</a></li>
+					<li><a href="{{ route('account.notifications') }}" class="a3 fa fa-inbox">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.inbox') }}</a></li>
+					<li><a href="{{ route('account.posts') }}" class="a3 fa fa-flag-o">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.my_posts') }}</a></li>
+					<li><a href="{{ route('support.index') }}" class="a5 fa fa-life-ring">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.support') }}</a></li>
+					<li><a href="{{ route('home') }}/article/about.html" class="a5 fa fa-bookmark-o">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.about') }}</a></li>
 				</ul>
 				@include('account.qrcode')
 				@yield('content')
@@ -58,7 +57,7 @@
 				<div id="data">
 					<div class="data_top clear">
 						<span></span> {{-- Left pink section --}}
-						<p>我追的人</p>
+						<p>{{ Lang::get('navigation.friends') }}</p>
 					</div>
 					<div id="courtship">
 						<ul class="clear">

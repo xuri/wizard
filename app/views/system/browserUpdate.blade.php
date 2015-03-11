@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-	<title>浏览器升级建议 | {{ Lang::get('navigation.pinai') }}</title>
+	<title>{{ Lang::get('system.browser_not_support') }} | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')
@@ -83,7 +83,7 @@
 			{{ HTML::image('assets/images/browser_not_support/pinai.png') }}
 		</div>
 		<div class="not-support-browser-contant">
-			<span>欢迎来到聘爱，为了获得更好的用户体验，我们建议您使用下列浏览器的最新版本浏览。</span>
+			<span>{{ Lang::get('system.browser_not_support_text') }}</span>
 			<ul>
 				<li>
 					<a href="http://www.google.com/chrome/eula.html?hl=en&standalone=1" target="_blank">

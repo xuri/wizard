@@ -30,10 +30,10 @@
 						</div>
 						<div class="ibc" style="margin: 20px 0">
 							<div class="ibc-content">
-								<h1 class="bold">浏览器不支持 Javascript</h1>
+								<h1 class="bold">{{ Lang::get('system.javascript_not_support_text_1') }}</h1>
 							</div>
 						</div>
-						<p style="margin: 10px 44px; text-align: left; font-size: 14px;">欢迎来到“聘爱”，请开启 Javascript 脚本支持或使用 <a href="{{ route('browser_not_support') }}">我们推荐的浏览器</a>。</p>
+						<p style="margin: 10px 44px; text-align: left; font-size: 14px;">{{ Lang::get('system.javascript_not_support_text_2') }} <a href="{{ route('browser_not_support') }}">{{ Lang::get('system.javascript_not_support_text_3') }}</a></p>
 					</div>
 				</div>
 			</div>

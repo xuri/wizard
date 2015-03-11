@@ -298,8 +298,8 @@ Route::group(array('prefix' => 'android'), function () {
 Route::group(array('prefix' => 'ios'), function () {
 	$controller = 'AppleController@';
 	# iOS API
-	Route::post('api'              , $controller.'postApple');
-	Route::get('api'              , $controller.'postApple');
+	Route::post('api', 	$controller . 'postApple');
+	Route::get('api', 	$controller . 'postApple');
 });
 
 /*

@@ -43,6 +43,17 @@ class HomeController extends BaseController {
 		if (Agent::isMobile()) {
 			return View::make('home.mobilev2');
 		} else {
+
+			// Language select
+			$lang 		= Input::get('lang');
+			if($lang) {
+
+				// Set language
+				Session::set('language', $lang);
+				$language 	= Session::get('language',Config::get('app.locale'));
+				App::setlocale($language);
+				return Redirect::back();
+			}
 			return View::make('home.indexv2');
 		}
 	}
