@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>找不到页面 | 聘爱</title>
+	<title>找不到页面 | {{ Lang::get('navigation.pinai') }}</title>
 	<meta content="20; {{ route('home') }}" http-equiv="refresh">
 	@include('layout.meta')
 	@yield('content')
@@ -16,7 +16,7 @@
 					<a href="{{ route('home') }}" class="primary-header-logo fl">
 						{{ HTML::image('assets/images/404_logo.png', '', array('width' => '103', 'id' => 'primry-header-logo-kiss', 'height' => '31')) }}
 					</a>
-					<a href="{{ route('signin') }}" class="primary-header-signin fr typeface-bold underlined-link">登陆</a>
+					<a href="{{ route('signin') }}" class="primary-header-signin fr typeface-bold underlined-link">{{ Lang::get('navigation.signin') }}</a>
 				</div>
 			</div>
 		</div>
@@ -68,7 +68,7 @@
 					<span class="footer-separator">|</span>
 					<a href="{{ route('support.index') }}" target="_blank">意见反馈</a>
 					<span class="footer-separator">|</span>
-					<a href="{{ route('home') }}/article/about.html" rel="nofollow" target="_blank">关于我们</a>
+					<a href="{{ route('home') }}/article/about.html" rel="nofollow" target="_blank">{{ Lang::get('navigation.about') }}</a>
 				</div>
 			</div>
 		</div>

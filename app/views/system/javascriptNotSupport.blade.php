@@ -6,7 +6,7 @@
 					<a href="{{ route('home') }}" class="primary-header-logo fl">
 						{{ HTML::image('assets/images/404_logo.png', '', array('width' => '103', 'id' => 'primry-header-logo-kiss', 'height' => '31')) }}
 					</a>
-					<a href="{{ route('signin') }}" class="primary-header-signin fr typeface-bold underlined-link">登陆</a>
+					<a href="{{ route('signin') }}" class="primary-header-signin fr typeface-bold underlined-link">{{ Lang::get('navigation.signin') }}</a>
 				</div>
 			</div>
 		</div>
@@ -40,7 +40,7 @@
 		</div>
 	</div>
 	<div class="col-sm-8 col-sm-offset-2">
-		<p class="copy" style="text-align: center">Copyright &copy; 2013 - <?php echo date('Y'); ?> <a href="http://www.jinglingkj.com" target="_blank">哈尔滨精灵科技有限责任公司</a> All rights reserved. <a href="http://www.miitbeian.gov.cn/" target="_blank">黑ICP备14007294号</a></p>
+		<p class="copy" style="text-align: center">Copyright &copy; 2013 - <?php echo date('Y'); ?> <a href="http://www.jinglingkj.com" target="_blank">{{ Lang::get('footer.company') }}</a> All rights reserved. {{ Lang::get('footer.icp_license') }} <a href="http://www.miitbeian.gov.cn/" target="_blank">黑ICP备14007294号</a></p>
 	</div>
 </body>
 </html>

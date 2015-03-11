@@ -87,7 +87,7 @@ class AuthorityController extends BaseController
 			return Response::json(
 				array(
 					'success'	=> false,
-					'attempt'	=> 'E-mail 或 用户名错误, 请重新登录'
+					'attempt'	=> Lang::get('authority.signin_error')
 				)
 			);
 		}
@@ -111,9 +111,9 @@ class AuthorityController extends BaseController
 				);
 				// Custom validation message
 				$messages = array(
-					'phone.required' => '请输入手机号码。',
-					'phone.digits'   => '请输入正确的手机号码。',
-					'phone.exists'   => '此手机号未注册。'
+					'phone.required' => Lang::get('authority.phone_required'),
+					'phone.digits'   => Lang::get('authority.phone_digits'),
+					'phone.exists'   => Lang::get('authority.phone_exists')
 				);
 				// Begin verification
 				$validator = Validator::make($phone, $rules, $messages);
@@ -130,7 +130,7 @@ class AuthorityController extends BaseController
 					return Response::json(
 						array(
 							'success'		=> true,
-							'success_info'	=> '短信验证码已发送。'
+							'success_info'	=> Lang::get('authority.send_success')
 						)
 					);
 				} else {
@@ -151,9 +151,9 @@ class AuthorityController extends BaseController
 				);
 				// Custom validation message
 				$messages = array(
-					'phone.required' => '请输入手机号码。',
-					'phone.digits'   => '请输入正确的手机号码。',
-					'phone.unique'   => '此手机号码已被使用。'
+					'phone.required' => Lang::get('authority.phone_required'),
+					'phone.digits'   => Lang::get('authority.phone_digits'),
+					'phone.unique'   => Lang::get('authority.phone_exists')
 				);
 				// Begin verification
 				$validator = Validator::make($phone, $rules, $messages);
@@ -170,7 +170,7 @@ class AuthorityController extends BaseController
 					return Response::json(
 						array(
 							'success'		=> true,
-							'success_info'	=> '短信验证码已发送。'
+							'success_info'	=> Lang::get('authority.send_success')
 						)
 					);
 				} else {
@@ -186,7 +186,7 @@ class AuthorityController extends BaseController
 			return Response::json(
 				array(
 					'fail'			=> true,
-					'captcha_error'	=> '请正确填写图形验证码。'
+					'captcha_error'	=> Lang::get('authority.captcha_error')
 				)
 			);
 		}
@@ -200,25 +200,27 @@ class AuthorityController extends BaseController
 	{
 		// Get all form data.
 		$data = Input::all();
+
 		// Create validation rules
 		$rules = array(
 			'phone'					=> 'required|digits:11|exists:users',
 			'password'				=> 'required|alpha_dash|between:6,16|confirmed',
 			'password_confirmation'	=> 'required',
-			'sms_code'				=> 'required|digits:6',
+			'sms_code'				=> 'required|digits:6'
 		);
+
 		// Custom validation message
 		$messages = array(
-			'phone.required'					=> '请输入手机号码。',
-			'phone.digits'						=> '请输入正确的手机号码。',
-			'phone.exists'						=> '此手机号码未注册。',
-			'password.required'					=> '请输入密码。',
-			'password.alpha_dash'				=> '密码格式不正确。',
+			'phone.required'					=> Lang::get('authority.phone_required'),
+			'phone.digits'						=> Lang::get('authority.phone_digits'),
+			'phone.exists'						=> Lang::get('authority.phone_exists'),
+			'password.required'					=> Lang::get('authority.password_required'),
+			'password.alpha_dash'				=> Lang::get('authority.password_alpha_dash'),
 			'password.between'					=> '密码长度请保持在:min到:max位之间。',
-			'password.confirmed'				=> '两次输入的密码不一致。',
-			'password_confirmation.required'	=> '请填写确认密码',
-			'sms_code.required'					=> '请填写验证码。',
-			'sms_code.digits'					=> '验证码错误。',
+			'password.confirmed'				=> Lang::get('authority.password_confirmed'),
+			'password_confirmation.required'	=> Lang::get('authority.password_confirmed_required'),
+			'sms_code.required'					=> Lang::get('authority.sms_code_required'),
+			'sms_code.digits'					=> Lang::get('authority.sms_code_digits')
 		);
 
 		// Begin verification
@@ -227,6 +229,7 @@ class AuthorityController extends BaseController
 		$verify_code	= Session::get('verify_code');
 		$sms_code		= Input::get('sms_code');
 		if ($validator->passes() && $sms_code == $verify_code) {
+
 			// Verification success, add user
 			$user			= User::where('phone', $phone)->first();
 			$user->password	= Hash::make(md5(Input::get('password')));
@@ -256,7 +259,7 @@ class AuthorityController extends BaseController
 				return Response::json(
 					array(
 						'fail'		=> true,
-						'errors'	=> '找回密码失败'
+						'errors'	=> Lang::get('authority.reset_password_error')
 					)
 				);
 			}
@@ -289,28 +292,33 @@ class AuthorityController extends BaseController
 	{
 
 		if(Input::get('type') === 'email') {
+
 			// Get all form data.
 			$data = Input::all();
+
 			// Create validation rules
 			$rules = array(
 				'email'		=> 'required|email|unique:users',
 				'password'	=> 'required|alpha_dash|between:6,16|confirmed',
 				'sex'		=> 'required',
 			);
+
 			// Custom validation message
 			$messages = array(
-				'email.required'		=> '请输入邮箱地址。',
-				'email.email'			=> '请输入正确的邮箱地址。',
-				'email.unique'			=> '此邮箱已被使用。',
-				'password.required'		=> '请输入密码。',
-				'password.alpha_dash'	=> '密码格式不正确。',
+				'email.required'		=> Lang::get('authority.email_required'),
+				'email.email'			=> Lang::get('authority.email_email'),
+				'email.unique'			=> Lang::get('authority.email_unique'),
+				'password.required'		=> Lang::get('authority.password_required'),
+				'password.alpha_dash'	=> Lang::get('authority.password_alpha_dash'),
 				'password.between'		=> '密码长度请保持在:min到:max位之间。',
-				'password.confirmed'	=> '两次输入的密码不一致。',
-				'sex.required'			=> '请选择性别',
+				'password.confirmed'	=> Lang::get('authority.password_confirmed'),
+				'sex.required'			=> Lang::get('authority.sex_required')
 			);
+
 			// Begin verification
 			$validator = Validator::make($data, $rules, $messages);
 			if ($validator->passes()) {
+
 				// Verification success，add user
 				$user			= new User;
 				$user->email	= Input::get('email');
@@ -321,6 +329,7 @@ class AuthorityController extends BaseController
 					$profile			= new Profile;
 					$profile->user_id	= $user->id;
 					$profile->save();
+
 					// Add user success
 					// Generate activation code
 					$activation			= new Activation;
@@ -337,6 +346,7 @@ class AuthorityController extends BaseController
 
 					// Create floder to store chat record
 					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+
 					// Send activation mail
 					$with = array('activationCode' => $activation->token);
 					Mail::later(10, 'emails.auth.activation', $with, function ($message) use ($user) {
@@ -344,6 +354,7 @@ class AuthorityController extends BaseController
 							->to($user->email)
 							->subject('聘爱网 账号激活邮件'); // Subject
 					});
+
 					// Redirect to a registration page, prompts user to activate
 					return Response::json(
 						array(
@@ -371,8 +382,10 @@ class AuthorityController extends BaseController
 			}
 		} else {
 			if(SimpleCaptcha::check(Input::get('captcha')) == true) {
+
 				// Get all form data.
 				$data = Input::all();
+
 				// Create validation rules
 				$rules = array(
 					'phone'		=> 'required|digits:11|unique:users',
@@ -380,25 +393,28 @@ class AuthorityController extends BaseController
 					'sms_code'	=> 'required|digits:6',
 					'sex'		=> 'required',
 				);
+
 				// Custom validation message
 				$messages = array(
-					'phone.required'		=> '请输入手机号码。',
-					'phone.digits'			=> '请输入正确的手机号码。',
-					'phone.unique'			=> '此手机号码已被使用。',
-					'password.required'		=> '请输入密码。',
-					'password.alpha_dash'	=> '密码格式不正确。',
+					'phone.required'		=> Lang::get('authority.phone_required'),
+					'phone.digits'			=> Lang::get('authority.phone_digits'),
+					'phone.unique'			=> Lang::get('authority.phone_unique'),
+					'password.required'		=> Lang::get('authority.password_required'),
+					'password.alpha_dash'	=> Lang::get('authority.password_alpha_dash'),
 					'password.between'		=> '密码长度请保持在:min到:max位之间。',
-					'password.confirmed'	=> '两次输入的密码不一致。',
-					'sms_code.required'		=> '请填写短信验证码。',
-					'sms_code.digits'		=> '短信验证码错误。',
-					'sex.required'			=> '请选择性别',
+					'password.confirmed'	=> Lang::get('authority.password_confirmed'),
+					'sms_code.required'		=> Lang::get('authority.sms_code_required'),
+					'sms_code.digits'		=> Lang::get('authority.sms_code_digits'),
+					'sex.required'			=> Lang::get('authority.sex_required'),
 				);
+
 				// Begin verification
 				$validator   = Validator::make($data, $rules, $messages);
 				$phone       = Input::get('phone');
 				$verify_code = Session::get('verify_code');
 				$sms_code    = Input::get('sms_code');
 				if ($validator->passes() && $sms_code == $verify_code) {
+
 					// Verification success, add user
 					$user			= new User;
 					$user->phone	= $phone;
@@ -420,6 +436,7 @@ class AuthorityController extends BaseController
 
 						// User signin
 						Auth::login($user);
+
 						// Redirect to a registration page, prompts user to activate
 						return Response::json(
 							array(
@@ -432,7 +449,7 @@ class AuthorityController extends BaseController
 						return Response::json(
 							array(
 								'success'	=> false,
-								'attempt'	=> '注册失败。'
+								'attempt'	=> Lang::get('authority.signup_error')
 							)
 						);
 					}
@@ -449,7 +466,7 @@ class AuthorityController extends BaseController
 				return Response::json(
 					array(
 						'success'	=> false,
-						'attempt'	=> '请正确填写图形验证码。'
+						'attempt'	=> Lang::get('authority.captcha_error')
 					)
 				);
 			}
@@ -480,16 +497,20 @@ class AuthorityController extends BaseController
 	{
 		// Database authentication tokens
 		$activation = Activation::where('token', $activationCode)->first();
+
 		// No tokens in the database, throw 404
 		is_null($activation) AND App::abort(404);
+
 		// Database tokens
 		// Activate the corresponding user
 		$user				= User::where('email', $activation->email)->first();
 		$user->activated_at	= new Carbon;
 		$user->sex			= $activation->sex;
 		$user->save();
+
 		// Delete tokens
 		$activation->delete();
+
 		// Activation success
 		// Log a user into the application by ID
 		Auth::loginUsingId($user->id);
@@ -553,6 +574,7 @@ class AuthorityController extends BaseController
 
 			// Update users password in easemob system
 			$easemob	= getEasemob();
+
 			// New request or new Json request returns a request object
 			$regChat			= cURL::newJsonRequest('put', 'https://a1.easemob.com/jinglingkj/pinai/users/' . $user->id . '/password', ['newpassword' => $user->password])
 				->setHeader('content-type', 'application/json')

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-	<title>浏览器升级建议 | 聘爱</title>
+	<title>浏览器升级建议 | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')
@@ -113,7 +113,7 @@
 			</ul>
 		</div>
 		<div class="tech-support">
-			<a href="{{ route('home') }}" target="_blank" title="聘爱" alt="聘爱">www.pinai521.com</a>
+			<a href="{{ route('home') }}" target="_blank" title="{{ Lang::get('navigation.pinai') }}" alt="{{ Lang::get('navigation.pinai') }}">www.pinai521.com</a>
 		</div>
 	</div>
 	{{-- not-support-browser div end --}}

@@ -320,6 +320,9 @@ class AndroidController extends BaseController
 
 				case 'members_index' :
 
+					// Get user id from App client
+					$user_id			= Input::get('userid');
+
 					// Post last user id from App client
 					$last_id			= Input::get('lastid');
 
@@ -334,6 +337,13 @@ class AndroidController extends BaseController
 
 					// Grade filter
 					$grade				= Input::get('grade');
+
+					// Retrieve user
+					$user				= User::find('id', $user_id);
+
+					// Updated user active date
+					$user->updated_at	= Carbon::now();
+					$user->save();
 
 					if($last_id){
 						// User last signin at time
@@ -618,7 +628,7 @@ class AndroidController extends BaseController
 					if ($info)
 					{
 						// Retrieve user
-						$user				= User::where('id', Input::get('id'))->first();
+						$user				= User::find('id', Input::get('id'));
 						$profile			= Profile::where('user_id', $user->id)->first();
 
 						// Get user's constellation
@@ -645,6 +655,7 @@ class AndroidController extends BaseController
 								'grade'			=> e($profile->grade),
 								'question'		=> html_entity_decode(e($profile->question)),
 								'self_intro'	=> html_entity_decode(e($profile->self_intro))
+								'is_verify'		=> e($user->is_verify)
 							);
 						return Response::json($data);
 					} else {
@@ -2741,7 +2752,8 @@ class AndroidController extends BaseController
 							array(
 								'status'	=> 1,
 								'nickname'	=> html_entity_decode(e($user->nickname)),
-								'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait
+								'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
+								'is_verify'	=> e($user->is_verify)
 							)
 						);
 					} else {

@@ -2,7 +2,7 @@
 <html>
 <head>
 	{{-- The Meta --}}
-	<title>聘爱 | 全国首个大学生恋爱平台</title>
+	<title>{{ Lang::get('navigation.pinai') }} | {{ Lang::get('index.title') }}</title>
 
 	@include('layout.meta')
 	@yield('content')
@@ -67,20 +67,20 @@
 				</div>
 				<div class="navbar-collapse collapse">
 					<ul class="nav navbar-nav" data-0="margin-top:40px;" data-300="margin-top:1px;">
-						<li class="colored active"><a href="{{ route('home') }}">首 页</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('members.index') }}">缘分大厅</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('forum.index') }}">单身公寓</a><div class="hover colored-bg"></div></li>
+						<li class="colored active"><a href="{{ route('home') }}">{{ Lang::get('navigation.index') }}</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('members.index') }}">{{ Lang::get('navigation.discover') }}</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('forum.index') }}">{{ Lang::get('navigation.forum') }}</a><div class="hover colored-bg"></div></li>
 						@if(Auth::guest()){{-- Guest --}}
-						<li class="colored"><a href="{{ route('signin') }}">登 陆</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('signup') }}">注 册</a><div class="hover colored-bg"></div></li>
-						@elseif(! Auth::user()->is_admin){{-- 普通登录用户 --}}
-						<li class="colored"><a href="{{ route('account') }}">我的资料</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('signout') }}">退 出</a><div class="hover colored-bg"></div></li>
-						@elseif(Auth::user()->is_admin) {{-- 管理员 --}}
-						<li class="colored"><a href="{{ route('admin') }}">管 理</a><div class="hover colored-bg"></div></li>
-						<li class="colored"><a href="{{ route('signout') }}">退 出</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('signin') }}">{{ Lang::get('navigation.signin') }}</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('signup') }}">{{ Lang::get('navigation.signup') }}</a><div class="hover colored-bg"></div></li>
+						@elseif(! Auth::user()->is_admin){{-- User --}}
+						<li class="colored"><a href="{{ route('account') }}">{{ Lang::get('navigation.profile') }}</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('signout') }}">{{ Lang::get('navigation.signout') }}</a><div class="hover colored-bg"></div></li>
+						@elseif(Auth::user()->is_admin) {{-- Admin --}}
+						<li class="colored"><a href="{{ route('admin') }}">{{ Lang::get('navigation.admin') }}</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('signout') }}">{{ Lang::get('navigation.signout') }}</a><div class="hover colored-bg"></div></li>
 						@endif
-						<li class="colored"><a href="{{ route('home') }}/article/about.html">关于我们</a><div class="hover colored-bg"></div></li>
+						<li class="colored"><a href="{{ route('home') }}/article/about.html">{{ Lang::get('navigation.about') }}</a><div class="hover colored-bg"></div></li>
 					</ul>
 				</div>
 				{{--/.navbar-collapse --}}
@@ -94,10 +94,10 @@
 					<div class="row">
 						<div class="col-sm-5 col-sm-offset-2 resp-center header animate animate_aft">
 							{{ HTML::image('assets/images/main-header.png', '', array('class' => 'header-img')) }}
-							<p class="header-txt">用心，寻找真爱<br/> —— 全国首个大学生恋爱平台
+							<p class="header-txt">{{ Lang::get('index.slogan') }}<br/> —— {{ Lang::get('index.title') }}
 								<br />
 							</p>
-							<a href="{{ route('members.index') }}" class="top-download btn btn-default btn-lg">立即体验</a>
+							<a href="{{ route('members.index') }}" class="top-download btn btn-default btn-lg">{{ Lang::get('index.get_start') }}</a>
 						</div>
 					</div>
 				</div>
@@ -112,7 +112,7 @@
 
 			<div class="faq col-lg-6 col-sm-12 col-xs-12">
 
-				<h3>聘爱</h3>
+				<h3>{{ Lang::get('navigation.pinai') }}</h3>
 
 				<div class="panel-group" id="accordion">
 
@@ -120,7 +120,7 @@
 						<div class="panel-heading">
 							<h5 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
-									这里不是拼脸的地方，寻找真爱请用
+									{{ Lang::get('index.title_1') }}
 								</a>
 							</h5>
 						</div>
@@ -130,7 +130,7 @@
 						<div class="panel-heading">
 							<h5 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
-									这里是爱升华的地方，我们主张“心灵美”
+									{{ Lang::get('index.title_2') }}
 								</a>
 							</h5>
 						</div>
@@ -140,7 +140,7 @@
 						<div class="panel-heading">
 							<h5 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
-								聘则为妻，妻者，夫之爱也。爱，生活也
+								{{ Lang::get('index.title_3') }}
 								</a>
 							</h5>
 						</div>
@@ -150,7 +150,7 @@
 						<div class="panel-heading">
 							<h5 class="panel-title">
 								<a data-toggle="collapse" data-parent="#accordion" href="javascript:void(0);">
-								这里不是商场，我们真正为你寻找靠谱的爱
+								{{ Lang::get('index.title_4') }}
 								</a>
 							</h5>
 						</div>
@@ -162,7 +162,7 @@
 				<div class="row no-offset">
 					<div class="col-sm-12">
 						<div class="col-sm-12">
-							<h3>移动客户端下载</h3>
+							<h3>{{ Lang::get('index.download_app') }}</h3>
 						</div>
 
 							<div class="form-group">
@@ -170,7 +170,7 @@
 									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm ios-app-btn">&nbsp;App Store</a>
 								</div>
 								<div class="col-sm-6">
-									<a href="http://fir.im/pinai" class="fixed form-control btn btn-default btn-sm" target="_blank"><i class="fa fa-android"></i>&nbsp;安卓下载</a>
+									<a href="http://fir.im/pinai" class="fixed form-control btn btn-default btn-sm" target="_blank"><i class="fa fa-android"></i>&nbsp;{{ Lang::get('index.android_app') }}</a>
 								</div>
 							</div>
 							<div class="form-group resp-center">
@@ -187,7 +187,7 @@
 		</div>
 
 		<div class="col-sm-8 col-sm-offset-2">
-			<p class="copy">Copyright &copy; 2013 - <?php echo date('Y'); ?> <a href="http://www.jinglingkj.com" target="_blank">哈尔滨精灵科技有限责任公司</a> All rights reserved. <a href="http://www.miitbeian.gov.cn/" target="_blank">黑ICP备14007294号</a></p>
+			<p class="copy">Copyright &copy; 2013 - <?php echo date('Y'); ?> <a href="http://www.jinglingkj.com" target="_blank">{{ Lang::get('footer.company') }}</a> All rights reserved. {{ Lang::get('footer.icp_license') }} <a href="http://www.miitbeian.gov.cn/" target="_blank">黑ICP备14007294号</a></p>
 		</div>
 	</footer>
 

@@ -31,14 +31,14 @@ $('#login_tab').click(function(){
 			iIndex+=1;
 			$('#rgs_main').css('zIndex', iIndex);
 		}, 650);
-		$('#login_tab').html('登录');
+		$('#login_tab').html(lang_signin);
 	}else{
 		now=0;
 		setTimeout(function(){
 			iIndex+=1;
 			$('#login_main').css('zIndex', iIndex);
 		}, 650);
-		$('#login_tab').html('注册');
+		$('#login_tab').html(lang_signup);
 	}
 	$('#login_main_wrap').css({
 		webkitTransform : function(){ return 'rotateY('+now+'deg)'; },
@@ -251,10 +251,10 @@ $(function(){
 
 	function timeSend(that){
 		if(times==0){
-			that.removeAttr('disabled').val('重新发送验证码');
+			that.removeAttr('disabled').val(lang_resent_sms);
 			times=60;
 		}else{
-			that.attr('disabled',true).val(times+'秒后重新发送');
+			that.attr('disabled',true).val(times + lang_resent_sms_time);
 			times--;
 			setTimeout(function(){
 			 timeSend(that);
