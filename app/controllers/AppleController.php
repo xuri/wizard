@@ -329,12 +329,14 @@ class AppleController extends BaseController
 					// Grade filter
 					$grade				= Input::get('grade');
 
-					// Retrieve user
-					$usera				= User::find($user_id);
+					if($user_id) {
+						// Retrieve user
+						$user				= User::find($user_id);
 
-					// Updated user active date
-					$usera->updated_at	= Carbon::now();
-					$usera->save();
+						// Updated user active date
+						$user->updated_at	= Carbon::now();
+						$user->save();
+					}
 
 					if($last_id){
 						// User last signin at time

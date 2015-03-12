@@ -45,16 +45,17 @@ class HomeController extends BaseController {
 		} else {
 
 			// Language select
-			$lang 		= Input::get('lang');
-			if($lang) {
+			$language		= Input::get('lang');
+
+			if($language) {
 
 				// Set language
-				Session::set('language', $lang);
-				$language 	= Session::get('language',Config::get('app.locale'));
-				App::setlocale($language);
-				return Redirect::back();
+				Session::put('language', $language);
 			}
-			return View::make('home.indexv2');
+
+			$language = Session::get('language', Config::get('app.locale'));
+			App::setlocale($language);
+			return View::make('home.indexv2')->with(compact('language'));
 		}
 	}
 

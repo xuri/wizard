@@ -93,7 +93,7 @@
 				<div class="col-sm-12 header-area">
 					<div class="row">
 						<div class="col-sm-5 col-sm-offset-2 resp-center header animate animate_aft">
-							{{ HTML::image('assets/images/main-header.png', '', array('class' => 'header-img')) }}
+							{{ HTML::image('assets/images/main-header_' . $language . '.png', '', array('class' => 'header-img')) }}
 							<p class="header-txt">{{ Lang::get('index.slogan') }}<br/> —— {{ Lang::get('index.title') }}
 								<br />
 							</p>
@@ -175,7 +175,7 @@
 							</div>
 							<div class="form-group resp-center">
 								<center>
-									{{ HTML::image('assets/images/qr.png', '', array('class' => 'qr', 'width' => '120')) }}
+									{{ HTML::image('assets/images/qr_' . $language . '.png', '', array('class' => 'qr', 'width' => '120')) }}
 								</center>
 
 							</div>
