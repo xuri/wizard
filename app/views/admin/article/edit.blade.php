@@ -18,13 +18,13 @@
 						</div>
 					</h3>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 
 				<div class="col-lg-12">
 					@include('layout.notification')
 				</div>
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 
 
 			<ul class="nav nav-tabs">
@@ -40,10 +40,10 @@
 					'class'		=> 'form-horizontal'
  				 ))
 			}}
-				<!-- Tabs Content -->
+				{{-- Tabs Content --}}
 				<div class="tab-content">
 
-					<!-- General tab -->
+					{{-- General tab --}}
 					<div class="tab-pane active" id="tab-general" style="margin:0 1em;">
 
 						<div class="form-group">
@@ -67,6 +67,12 @@
 								</span>
 								<input class="form-control" type="text" name="slug" id="slug" value="{{ Input::old('slug', $data->slug) }}">
 							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="slug">创建时间</label>
+							{{ $errors->first('created_at', '<span style="color:#c7254e;margin:0 1em;">:message</span>') }}
+							<input class="form-control" type="text" name="created_at" id="created_at" value="{{ Input::old('created_at', $data->created_at) }}">
 						</div>
 
 						<div class="form-group">

@@ -189,6 +189,7 @@ class Admin_ArticlesResource extends BaseResource
 	{
 		// Get all form input data
 		$data = Input::all();
+
 		// Create validation rules
 		$rules = array(
 			'title'			=> 'required|'.$this->unique('title', $id),
@@ -197,23 +198,27 @@ class Admin_ArticlesResource extends BaseResource
 			'thumbnails'	=> 'mimes:jpg,jpeg,gif,png|max:1024',
 			'category'		=> 'exists:article_categories,id',
 		);
+
 		// Custom validation message
 		$messages  = $this->validatorMessages;
+
 		// Begin verification
 		$validator = Validator::make($data, $rules, $messages);
 		if ($validator->passes()) {
+
 			// Verify success
 			// Update the resource
-			$model = $this->model->find($id);
-			$model->category_id      = $data['category'];
-			$model->title            = e($data['title']);
-			$model->slug             = e($data['slug']);
-			$model->content          = $data['content'];
-			$model->meta_title       = e($data['meta_title']);
-			$model->meta_description = e($data['meta_description']);
-			$model->meta_keywords    = e($data['meta_keywords']);
+			$model						= $this->model->find($id);
+			$model->category_id			= $data['category'];
+			$model->title				= e($data['title']);
+			$model->slug				= e($data['slug']);
+			$model->content				= $data['content'];
+			$model->meta_title			= e($data['meta_title']);
+			$model->meta_description	= e($data['meta_description']);
+			$model->meta_keywords		= e($data['meta_keywords']);
+			$model->created_at			= e($data['created_at']);
+			$image						= Input::file('thumbnails');
 
-			$image			= Input::file('thumbnails');
 			if($image) {
 				$oldImage			= $model->thumbnails;
 
@@ -236,16 +241,19 @@ class Admin_ArticlesResource extends BaseResource
 			}
 
 			if ($model->save()) {
+
 				// Update success
 				return Redirect::back()
 					->with('success', '<strong>'.$this->resourceName.'更新成功：</strong>您可以继续编辑'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
 			} else {
+
 				// Update fail
 				return Redirect::back()
 					->withInput()
 					->with('error', '<strong>'.$this->resourceName.'更新失败。</strong>');
 			}
 		} else {
+
 			// Validation fail
 			return Redirect::back()->withInput()->withErrors($validator);
 		}
