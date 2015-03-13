@@ -289,7 +289,7 @@ class AccountController extends BaseController
 			// Update account
 			$user                   = Auth::user();
 			$oldPortrait			= $user->portrait;
-			$user->nickname         = Input::get('nickname');
+			$user->nickname         = htmlentities(Input::get('nickname'));
 
 			// Protrait section
 			$portrait               = Input::get('portrait');
@@ -305,19 +305,19 @@ class AccountController extends BaseController
 			}
 			if(Auth::user()->born_year == NULL)
 			{
-				$user->born_year    = Input::get('born_year');
+				$user->born_year    = htmlentities(Input::get('born_year'));
 			}
-			$user->bio              = Input::get('bio');
-			$user->school           = Input::get('school');
+			$user->bio              = htmlentities(Input::get('bio'));
+			$user->school           = htmlentities(Input::get('school'));
 
 			// Update profile information
 			$profile                = Profile::where('user_id', Auth::user()->id)->first();
-			$profile->tag_str       = Input::get('tag_str');
-			$profile->grade         = Input::get('grade');
-			$profile->hobbies       = Input::get('hobbies');
-			$profile->constellation = Input::get('constellation');
-			$profile->self_intro    = Input::get('self_intro');
-			$profile->question      = Input::get('question');
+			$profile->tag_str       = htmlentities(Input::get('tag_str'));
+			$profile->grade         = htmlentities(Input::get('grade'));
+			$profile->hobbies       = htmlentities(Input::get('hobbies'));
+			$profile->constellation = htmlentities(Input::get('constellation'));
+			$profile->self_intro    = htmlentities(Input::get('self_intro'));
+			$profile->question      = htmlentities(Input::get('question'));
 
 			if ($user->save() && $profile->save()) {
 				// Update success

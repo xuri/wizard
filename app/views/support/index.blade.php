@@ -46,7 +46,7 @@
 				<div id="data">
 
 					<div class="data_top clear">
-						<span></span> <!--左侧粉块-->
+						<span></span> {{-- Left pink border --}}
 						<p><a class="fa fa-phone"></a> 电话服务：15636129303</p>
 
 					</div>
@@ -54,21 +54,21 @@
 						<p>如您在使用过程中，遇到问题需要系客服，我们会第一时间为您解决。电话服务时间：工作日（8：00 - 18：00）。</p>
 					</div>
 					<div class="data_top clear">
-						<span></span> <!--左侧粉块-->
+						<span></span> {{-- Left pink border --}}
 						<p><a class="fa fa-qq"></a> 客服QQ：523591643</p>
 					</div>
 					<div class="content">
 						<p>QQ服务时间：每天（8：00 - 18：00）。</p>
 					</div>
 					<div class="data_top clear">
-						<span></span> <!--左侧粉块-->
+						<span></span> {{-- Left pink border --}}
 						<p><a class="fa fa-envelope-o"></a> 客服邮箱：support@pinai521.com</p>
 					</div>
 					<div class="content">
 						<p>如您对“聘爱”有任何意见或建议，欢迎发送邮件向我们反馈，您将在一个工作日内收到回复。</p>
 					</div>
 					<div class="data_top clear">
-						<span></span> <!--左侧粉块-->
+						<span></span> {{-- Left pink border --}}
 						<p><a class="fa fa-quote-left"></a> 意见反馈</p>
 					</div>
 					<div class="content">

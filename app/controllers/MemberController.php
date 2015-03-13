@@ -228,7 +228,7 @@ class MemberController extends BaseController {
 						$have_like = Like::where('sender_id', Auth::user()->id)->where('receiver_id', $id)->first();
 						if($have_like) // This user already sent like
 						{
-							$have_like->answer		= Input::get('answer');
+							$have_like->answer		= htmlentities(Input::get('answer'));
 							$have_like->count		= $have_like->count + 1;
 							Auth::user()->points	= Auth::user()->points - 1;
 							if($have_like->save() && Auth::user()->save())
@@ -247,7 +247,7 @@ class MemberController extends BaseController {
 															'sender_id'	=> e(Auth::user()->id),
 															'portrait'	=> route('home') . '/' . 'portrait/' . Auth::user()->portrait,
 															'nickname'	=> Auth::user()->nickname,
-															'answer'	=> Input::get('answer')
+															'answer'	=> htmlentities(Input::get('answer'))
 														]);
 
 								return Redirect::route('account.sent')
@@ -259,7 +259,7 @@ class MemberController extends BaseController {
 							$like->sender_id		= Auth::user()->id;
 							$like->receiver_id		= $id;
 							$like->status			= 0; // User send like, pending accept
-							$like->answer			= Input::get('answer');
+							$like->answer			= htmlentities(Input::get('answer'));
 							$like->count			= 1;
 							Auth::user()->points	= Auth::user()->points - 1;
 							if($like->save() && Auth::user()->save())
@@ -278,7 +278,7 @@ class MemberController extends BaseController {
 															'sender_id'	=> e(Auth::user()->id),
 															'portrait'	=> route('home') . '/' . 'portrait/' . Auth::user()->portrait,
 															'nickname'	=> Auth::user()->nickname,
-															'answer'	=> Input::get('answer')
+															'answer'	=> htmlentities(Input::get('answer'))
 														]);
 
 								return Redirect::route('account.sent')

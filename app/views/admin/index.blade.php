@@ -109,7 +109,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<i class="fa fa-bar-chart-o fa-fw"></i> 用户数据统计图例
+							<i class="fa fa-bar-chart-o fa-fw"></i> {{ Lang::get('admin/index.users_analytics_charts') }}
 							<div class="pull-right">
 								<div class="btn-group">
 									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -117,10 +117,10 @@
 										<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu pull-right" role="menu">
-										<li><a href="{{ route('analytics.forumcharts') }}">论坛活动趋势图</a>
+										<li><a href="{{ route('analytics.forumcharts') }}">{{ Lang::get('navigation.admin_analytics_forum_charts') }}</a>
 										</li>
 										<li class="divider"></li>
-										<li><a href="{{ route('analytics.likecharts') }}">用户互动趋势图</a>
+										<li><a href="{{ route('analytics.likecharts') }}">{{ Lang::get('navigation.admin_analytics_active_charts') }}</a>
 										</li>
 									</ul>
 								</div>

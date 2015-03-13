@@ -114,12 +114,12 @@ class AdminController extends BaseController
 
 		// Build Json data (remove double quotes from Json return data)
 		$userBasicAnalytics = '{
-			"总用户":'.preg_replace('/["]/', '' ,json_encode($allUser)).
-			', "男用户":'.preg_replace('/["]/', '' ,json_encode($allMaleUser)).
-			', "女用户":'.preg_replace('/["]/', '' ,json_encode($allFemaleUser)).
-			', "Web用户":'.preg_replace('/["]/', '' ,json_encode($fromWeb)).
-			', "Android用户":'.preg_replace('/["]/', '' ,json_encode($fromAndroid)).
-			', "iOS用户":'.preg_replace('/["]/', '' ,json_encode($fromiOS)).
+			"' . Lang::get('admin/index.total') .'":'.preg_replace('/["]/', '' ,json_encode($allUser)).
+			', "' . Lang::get('admin/index.male_users') .'":'.preg_replace('/["]/', '' ,json_encode($allMaleUser)).
+			', "' . Lang::get('admin/index.female_users') .'":'.preg_replace('/["]/', '' ,json_encode($allFemaleUser)).
+			', "Web ' . Lang::get('admin/index.users') .'":'.preg_replace('/["]/', '' ,json_encode($fromWeb)).
+			', "Android ' . Lang::get('admin/index.users') .'":'.preg_replace('/["]/', '' ,json_encode($fromAndroid)).
+			', "iOS ' . Lang::get('admin/index.users') .'":'.preg_replace('/["]/', '' ,json_encode($fromiOS)).
 			'}';
         return View::make('admin.index')->with(compact('unreadSupport', 'totalUser', 'maleUser', 'femaleUser', 'userBasicAnalytics'));
     }

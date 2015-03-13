@@ -34,7 +34,7 @@ class SupportController extends BaseController {
 
 	public function index()
 	{
-		return View::make($this->resource.'.index');
+		return View::make($this->resource . '.index');
 	}
 
 	/**
@@ -63,7 +63,7 @@ class SupportController extends BaseController {
 			// Create a new support
 			$support			= new Support;
 			$support->user_id 	= Auth::user()->id;
-			$support->content	= Input::get('content');
+			$support->content	= htmlentities(Input::get('content'));
 			if($support->save()) {
 				// Create successful
 				return Redirect::back()

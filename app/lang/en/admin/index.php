@@ -9,24 +9,28 @@ return array(
 	|
 	*/
 
-	"unread_support"	=> "Unread Support",
+	"unread_support"			=> "Unread Support",
 
-	"see_detail"		=> "See Detail",
+	"see_detail"				=> "See Detail",
 
-	"register_users"	=> "Register Users",
+	"register_users"			=> "Register Users",
 
-	"male_users"		=> "Male Users",
+	"male_users"				=> "Male Users",
 
-	"female_users"		=> "Female Users",
+	"female_users"				=> "Female Users",
 
-	"see_detail"		=> "See Detail",
+	"see_detail"				=> "See Detail",
 
-	"other_options"		=> "Other Options",
+	"other_options"				=> "Other Options",
 
-	"users"				=> "User",
+	"users"						=> "User",
 
-	"until"				=> "Until",
+	"until"						=> "Until",
 
-	"operating"			=> "Operating",
+	"operating"					=> "Operating",
+
+	"users_analytics_charts"	=> "Registered user analytics charts",
+
+	"total"						=> "Total Users",
 
 );

@@ -256,7 +256,7 @@ class AppleController extends BaseController
 						// Update account
 						$user                   = User::where('id', Input::get('id'))->first();
 						$oldPortrait			= $user->portrait;
-						$user->nickname         = Input::get('nickname');
+						$user->nickname         = htmlentities(Input::get('nickname'));
 
 						// Protrait section
 						$portrait               = Input::get('portrait');
@@ -276,17 +276,17 @@ class AppleController extends BaseController
 						{
 							$user->born_year    = Input::get('born_year');
 						}
-						$user->bio              = Input::get('bio');
+						$user->bio              = htmlentities(Input::get('bio'));
 						$user->school           = Input::get('school');
 
 						// Update profile information
 						$profile                = Profile::where('user_id', $user->id)->first();
 						$profile->tag_str       = Input::get('tag_str');
 						$profile->grade         = Input::get('grade');
-						$profile->hobbies       = Input::get('hobbies');
-						$profile->constellation = Input::get('constellation');
-						$profile->self_intro    = Input::get('self_intro');
-						$profile->question      = Input::get('question');
+						$profile->hobbies       = htmlentities(Input::get('hobbies'));
+						$profile->constellation = htmlentities(Input::get('constellation'));
+						$profile->self_intro    = htmlentities(Input::get('self_intro'));
+						$profile->question      = htmlentities(Input::get('question'));
 
 						if ($user->save() && $profile->save()) {
 
@@ -419,7 +419,7 @@ class AppleController extends BaseController
 							$users[$key]['sex']			= e($users[$key]['sex']);
 
 							// Retrieve nickname with UTF8 encode
-							$users[$key]['nickname']	= html_entity_decode(e($users[$key]['nickname']));
+							$users[$key]['nickname']	= html_entity_decode(e($users[$key]['nickname']), ENT_QUOTES, 'utf-8');
 
 							// Retrieve school with UTF8 encode
 							$users[$key]['school']		= e($users[$key]['school']);
@@ -500,7 +500,7 @@ class AppleController extends BaseController
 							$users[$key]['sex']			= e($users[$key]['sex']);
 
 							// Retrieve nickname with UTF8 encode
-							$users[$key]['nickname']	= html_entity_decode(e($users[$key]['nickname']));
+							$users[$key]['nickname']	= html_entity_decode(e($users[$key]['nickname']), ENT_QUOTES, 'utf-8');
 
 							// Retrieve school with UTF8 encode
 							$users[$key]['school']		= e($users[$key]['school']);
@@ -604,8 +604,8 @@ class AppleController extends BaseController
 								'status'		=> 1,
 								'user_id'		=> e($data->id),
 								'sex'			=> e($data->sex),
-								'bio'			=> html_entity_decode(e($data->bio)),
-								'nickname'		=> html_entity_decode(e($data->nickname)),
+								'bio'			=> html_entity_decode(e($data->bio), ENT_QUOTES, 'utf-8'),
+								'nickname'		=> html_entity_decode(e($data->nickname), ENT_QUOTES, 'utf-8'),
 								'born_year'		=> e($data->born_year),
 								'school'		=> e($data->school),
 								'is_admin'		=> e($data->is_admin),
@@ -613,13 +613,13 @@ class AppleController extends BaseController
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
 								'tag_str'		=> $tag_str,
-								'hobbies'		=> html_entity_decode(e($profile->hobbies)),
+								'hobbies'		=> html_entity_decode(e($profile->hobbies), ENT_QUOTES, 'utf-8'),
 								'grade'			=> e($profile->grade),
-								'question'		=> html_entity_decode(e($profile->question)),
-								'self_intro'	=> html_entity_decode(e($profile->self_intro)),
+								'question'		=> html_entity_decode(e($profile->question), ENT_QUOTES, 'utf-8'),
+								'self_intro'	=> html_entity_decode(e($profile->self_intro), ENT_QUOTES, 'utf-8'),
 								'like'			=> e($likeCount),
 								'user_like_me'	=> e($user_like_me),
-								'answer'		=> html_entity_decode(e($answer)),
+								'answer'		=> html_entity_decode(e($answer), ENT_QUOTES, 'utf-8'),
 								'crenew'		=> e($crenew),
 							)
 						);
@@ -660,17 +660,17 @@ class AppleController extends BaseController
 						$data = array(
 								'status'		=> 1,
 								'sex'			=> e($user->sex),
-								'bio'			=> e($user->bio),
-								'nickname'		=> html_entity_decode(e($user->nickname)),
+								'bio'			=> html_entity_decode(e($user->bio), ENT_QUOTES, 'utf-8'),
+								'nickname'		=> html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8'),
 								'born_year'		=> e($user->born_year),
 								'school'		=> e($user->school),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'hobbies'		=> html_entity_decode(e($profile->hobbies)),
+								'hobbies'		=> html_entity_decode(e($profile->hobbies), ENT_QUOTES, 'utf-8'),
 								'tag_str'		=> $tag_str,
 								'grade'			=> e($profile->grade),
-								'question'		=> html_entity_decode(e($profile->question)),
-								'self_intro'	=> html_entity_decode(e($profile->self_intro)),
+								'question'		=> html_entity_decode(e($profile->question), ENT_QUOTES, 'utf-8'),
+								'self_intro'	=> html_entity_decode(e($profile->self_intro), ENT_QUOTES, 'utf-8'),
 								'is_verify'		=> e($user->is_verify)
 							);
 						return Response::json($data);
@@ -722,7 +722,7 @@ class AppleController extends BaseController
 								// This user already sent like
 								if($have_like)
 								{
-									$have_like->answer	= Input::get('answer');
+									$have_like->answer	= htmlentities(Input::get('answer'));
 									$have_like->count	= $have_like->count + 1;
 									$user->points		= $user->points - 1;
 									if($have_like->save() && $user->save())
@@ -738,11 +738,11 @@ class AppleController extends BaseController
 
 																	// Notification ID
 																	'id' 		=> e($notification->id),
-																	'content'	=> html_entity_decode(e($user->nickname)) . '再次追你了，快去查看一下吧',
+																	'content'	=> html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8') . '再次追你了，快去查看一下吧',
 																	'sender_id'	=> e(Input::get('id')),
 																	'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																	'nickname'	=> html_entity_decode(e($user->nickname)),
-																	'answer'	=> html_entity_decode(e(Input::get('answer')))
+																	'nickname'	=> html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8'),
+																	'answer'	=> html_entity_decode(e(Input::get('answer')), ENT_QUOTES, 'utf-8')
 																]);
 
 										return Response::json(
@@ -756,7 +756,7 @@ class AppleController extends BaseController
 									$like->sender_id	= $user->id;
 									$like->receiver_id	= $receiver_id;
 									$like->status		= 0; // User send like, pending accept
-									$like->answer		= Input::get('answer');
+									$like->answer		= htmlentities(Input::get('answer'));
 									$like->count		= 1;
 									$user->points		= $user->points - 1;
 									if($like->save() && $user->save())
@@ -768,14 +768,14 @@ class AppleController extends BaseController
 																	'target'	=> $receiver_id,
 																	'action'	=> 1,
 																	'from'		=> $user->id,
-																	'content'	=> html_entity_decode(e($user->nickname)) .'追你了，快去查看一下吧',
+																	'content'	=> html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8') .'追你了，快去查看一下吧',
 
 																	// Notification ID
 																	'id'		=> e($notification->id),
 																	'sender_id'	=> e(Input::get('id')),
 																	'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																	'nickname'	=> html_entity_decode(e($user->nickname)),
-																	'answer'	=> html_entity_decode(e(Input::get('answer')))
+																	'nickname'	=> html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8'),
+																	'answer'	=> html_entity_decode(e(Input::get('answer')), ENT_QUOTES, 'utf-8')
 																]);
 
 										return Response::json(
@@ -858,7 +858,7 @@ class AppleController extends BaseController
 							$likes[$key]['school']		= e($user->school);
 
 							// Receiver nickname
-							$likes[$key]['name']		= html_entity_decode(e($user->nickname));
+							$likes[$key]['name']		= html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8');
 
 							// Receiver sex
 							$likes[$key]['sex']			= e($user->sex);
@@ -931,7 +931,7 @@ class AppleController extends BaseController
 								$likes[$key]['school']		= e($user->school);
 
 								// Receiver nickname
-								$likes[$key]['name']		= html_entity_decode(e($user->nickname));
+								$likes[$key]['name']		= html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8');
 
 								// Receiver sex
 								$likes[$key]['sex']			= e($user->sex);
@@ -1011,7 +1011,7 @@ class AppleController extends BaseController
 							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school;
 
 							// Receiver ID
-							$likes[$key]['name']		= html_entity_decode(e(User::where('id', $likes[$key]['id'])->first()->nickname));
+							$likes[$key]['name']		= html_entity_decode(e(User::where('id', $likes[$key]['id'])->first()->nickname), ENT_QUOTES, 'utf-8');
 
 							// Convert how long liked
 							$Date_1						= date("Y-m-d");
@@ -1074,7 +1074,7 @@ class AppleController extends BaseController
 							$likes[$key]['school']		= User::where('id', $likes[$key]['id'])->first()->school;
 
 							// Receiver ID
-							$likes[$key]['name']		= html_entity_decode(e(User::where('id', $likes[$key]['id'])->first()->nickname));
+							$likes[$key]['name']		= html_entity_decode(e(User::where('id', $likes[$key]['id'])->first()->nickname), ENT_QUOTES, 'utf-8');
 
 							// Convert how long liked
 							$Date_1						= date("Y-m-d");
@@ -1143,10 +1143,10 @@ class AppleController extends BaseController
 
 													// Notification ID
 													'id'		=> e($notification->id),
-													'content'	=> html_entity_decode(e($receiver->nickname)) . '接受了你的邀请，快去查看一下吧',
+													'content'	=> html_entity_decode(e($receiver->nickname), ENT_QUOTES, 'utf-8') . '接受了你的邀请，快去查看一下吧',
 													'sender_id'	=> e($receiver_id),
 													'portrait'	=> route('home') . '/' . 'portrait/' . $receiver->portrait,
-													'nickname'	=> html_entity_decode(e($receiver->nickname)),
+													'nickname'	=> html_entity_decode(e($receiver->nickname), ENT_QUOTES, 'utf-8'),
 													'answer'	=> null
 												]);
 
@@ -1155,7 +1155,7 @@ class AppleController extends BaseController
 									'status'	=> 1,
 									'id'		=> $id,
 									'portrait'	=> route('home').'/'.'portrait/'.$sender->portrait,
-									'nickname'	=> html_entity_decode(e($sender->nickname))
+									'nickname'	=> html_entity_decode(e($sender->nickname), ENT_QUOTES, 'utf-8')
 								)
 							);
 					} else {
@@ -1366,7 +1366,7 @@ class AppleController extends BaseController
 								$friends[$key]['friend_id']	= $user->id;
 
 								// Friend nickname
-								$friends[$key]['nickname']	= html_entity_decode(e($user->nickname));
+								$friends[$key]['nickname']	= html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8');
 
 								// Determine user portrait
 								if(is_null($user->portrait)){
@@ -1387,7 +1387,7 @@ class AppleController extends BaseController
 								$friends[$key]['friend_id']	= $user->id;
 
 								// Friend nickname
-								$friends[$key]['nickname']	= html_entity_decode(e($user->nickname));
+								$friends[$key]['nickname']	= html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8');
 
 								// Determine user portrait
 								if(is_null($user->portrait)){
@@ -1613,7 +1613,7 @@ class AppleController extends BaseController
 							$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 							// Get post user portrait and add portrait key to array
-							$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
+							$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname), ENT_QUOTES, 'utf-8');
 
 							// Using expression get all picture attachments (Only with pictures stored on this server.)
 							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1622,10 +1622,10 @@ class AppleController extends BaseController
 							$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 							// Get plain text from post content HTML code and replace to content value in array
-							$items[$key]['content']			= html_entity_decode(badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($items[$key]['content'], $numchars))));
+							$items[$key]['content']			= html_entity_decode(badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($items[$key]['content'], $numchars))), ENT_QUOTES, 'utf-8');
 
 							// Get forum title
-							$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
+							$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))), ENT_QUOTES, 'utf-8');
 						}
 
 						// Build Json format
@@ -1688,7 +1688,7 @@ class AppleController extends BaseController
 									$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 									// Get post user portrait and add portrait key to array
-									$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname));
+									$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname), ENT_QUOTES, 'utf-8');
 
 									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
@@ -1697,10 +1697,10 @@ class AppleController extends BaseController
 									$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 									// Get plain text from post content HTML code and replace to content value in array
-									$top[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars)));
+									$top[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars)), ENT_QUOTES, 'utf-8');
 
 									// Get forum top post title
-									$top[$key]['title']				= html_entity_decode(e(badWordsFilter(Str::limit($top[$key]['title'], 35))));
+									$top[$key]['title']				= html_entity_decode(e(badWordsFilter(Str::limit($top[$key]['title'], 35))), ENT_QUOTES, 'utf-8');
 								}
 
 								// Query all items from database
@@ -1743,7 +1743,7 @@ class AppleController extends BaseController
 									$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 									// Get post user portrait and add portrait key to array
-									$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
+									$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname), ENT_QUOTES, 'utf-8');
 
 									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1755,7 +1755,7 @@ class AppleController extends BaseController
 									$items[$key]['content']			= str_ireplace("\n", '',getplaintextintrofromhtml($items[$key]['content'], $numchars));
 
 									// Get forum title
-									$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
+									$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))), ENT_QUOTES, 'utf-8');
 								}
 
 								$data = array(
@@ -1833,7 +1833,7 @@ class AppleController extends BaseController
 											$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname));
+											$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname), ENT_QUOTES, 'utf-8');
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
@@ -1842,10 +1842,10 @@ class AppleController extends BaseController
 											$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$top[$key]['content']			= html_entity_decode(badWordsFilter(str_ireplace("\n", '',getplaintextintrofromhtml($top[$key]['content'], $numchars))));
+											$top[$key]['content']			= html_entity_decode(badWordsFilter(str_ireplace("\n", '',getplaintextintrofromhtml($top[$key]['content'], $numchars))), ENT_QUOTES, 'utf-8');
 
 											// Get forum top post title
-											$top[$key]['title']				= html_entity_decode(e(badWordsFilter(Str::limit($top[$key]['title'], 35))));
+											$top[$key]['title']				= html_entity_decode(e(badWordsFilter(Str::limit($top[$key]['title'], 35))), ENT_QUOTES, 'utf-8');
 										}
 
 										// Query all items from database
@@ -1888,7 +1888,7 @@ class AppleController extends BaseController
 											$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
+											$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname), ENT_QUOTES, 'utf-8');
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -1897,10 +1897,10 @@ class AppleController extends BaseController
 											$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$items[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars)));
+											$items[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars)), ENT_QUOTES, 'utf-8');
 
 											// Get forum title
-											$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
+											$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))), ENT_QUOTES, 'utf-8');
 										}
 
 										$data = array(
@@ -1974,7 +1974,7 @@ class AppleController extends BaseController
 											$top[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname));
+											$top[$key]['nickname']			= html_entity_decode(e($post_user->nickname), ENT_QUOTES, 'utf-8');
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
@@ -1983,10 +1983,10 @@ class AppleController extends BaseController
 											$top[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$top[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars)));
+											$top[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($top[$key]['content'], $numchars)), ENT_QUOTES, 'utf-8');
 
 											// Get forum top post title
-											$top[$key]['title']				= e(html_entity_decode(badWordsFilter(Str::limit($top[$key]['title'], 35))));
+											$top[$key]['title']				= e(html_entity_decode(badWordsFilter(Str::limit($top[$key]['title'], 35))), ENT_QUOTES, 'utf-8');
 										}
 
 										// Query all items from database
@@ -2029,7 +2029,7 @@ class AppleController extends BaseController
 											$items[$key]['comments_count']	= e($comments_count + $replies_count);
 
 											// Get post user portrait and add portrait key to array
-											$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname));
+											$items[$key]['nickname']		= html_entity_decode(e($post_user->nickname), ENT_QUOTES, 'utf-8');
 
 											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
@@ -2038,10 +2038,10 @@ class AppleController extends BaseController
 											$items[$key]['thumbnails']		= join(',', array_pop($match));
 
 											// Get plain text from post content HTML code and replace to content value in array
-											$items[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars)));
+											$items[$key]['content']			= html_entity_decode(badWordsFilter(getplaintextintrofromhtml($items[$key]['content'], $numchars)), ENT_QUOTES, 'utf-8');
 
 											// Get forum title
-											$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))));
+											$items[$key]['title']			= html_entity_decode(e(badWordsFilter(Str::limit($items[$key]['title'], 35))), ENT_QUOTES, 'utf-8');
 										}
 
 										$data = array(
@@ -2103,7 +2103,7 @@ class AppleController extends BaseController
 									'sex'			=> e($author->sex),
 
 									// Post user nickname
-									'nickname'		=> html_entity_decode(e($author->nickname)),
+									'nickname'		=> html_entity_decode(e($author->nickname), ENT_QUOTES, 'utf-8'),
 
 									// Post user ID
 									'user_id'		=> $author->id,
@@ -2115,13 +2115,13 @@ class AppleController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> html_entity_decode(e(badWordsFilter(strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>')))),
+									'content'		=> html_entity_decode(e(badWordsFilter(strip_tags(str_replace("&nbsp;", " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'))), ENT_QUOTES, 'utf-8'),
 
 									// Post comments (array format and include reply)
 									'comments'		=> array(),
 
 									// Post title
-									'title'			=> html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", $post->title))))
+									'title'			=> html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", $post->title))), ENT_QUOTES, 'utf-8')
 
 								);
 
@@ -2149,7 +2149,7 @@ class AppleController extends BaseController
 									$comments[$key]['user_id']			= $comments_user->id;
 
 									// Removing contents html tags except image and text string
-									$comments[$key]['content']			= html_entity_decode(e(badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>'))));
+									$comments[$key]['content']			= html_entity_decode(e(badWordsFilter(strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>'))), ENT_QUOTES, 'utf-8');
 									// Comments user portrait
 									$comments[$key]['user_portrait']	= route('home') . '/' . 'portrait/' . $comments_user->portrait;
 
@@ -2157,7 +2157,7 @@ class AppleController extends BaseController
 									$comments[$key]['user_sex']			= e($comments_user->sex);
 
 									// Comments user nickname
-									$comments[$key]['user_nickname']	= html_entity_decode(e($comments_user->nickname));
+									$comments[$key]['user_nickname']	= html_entity_decode(e($comments_user->nickname), ENT_QUOTES, 'utf-8');
 
 									// Query all replies of this post
 									$replies = ForumReply::where('comments_id', $comments[$key]['id'])
@@ -2179,7 +2179,7 @@ class AppleController extends BaseController
 										// Reply user sex
 										$replies[$keys]['sex']		= $reply_user->sex;
 
-										$replies[$keys]['content']	= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $replies[$keys]['content'])))));
+										$replies[$keys]['content']	= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $replies[$keys]['content'])))), ENT_QUOTES, 'utf-8');
 
 										// Reply user portrait
 										$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
@@ -2201,7 +2201,7 @@ class AppleController extends BaseController
 									'sex'			=> e($author->sex),
 
 									// Post user nickname
-									'nickname'		=> html_entity_decode(e($author->nickname)),
+									'nickname'		=> html_entity_decode(e($author->nickname), ENT_QUOTES, 'utf-8'),
 
 									// Post user ID
 									'user_id'		=> $author->id,
@@ -2213,13 +2213,13 @@ class AppleController extends BaseController
 									'created_at'	=> $post->created_at->toDateTimeString(),
 
 									// Post content (removing contents html tags except image and text string)
-									'content'		=> html_entity_decode(e(strip_tags(str_replace('&nbsp;', " ", str_ireplace($breaks, "\\n", $post->content)), '<img>'))),
+									'content'		=> html_entity_decode(e(strip_tags(str_replace('&nbsp;', " ", str_ireplace($breaks, "\\n", $post->content)), '<img>')), ENT_QUOTES, 'utf-8'),
 
 									// Post comments (array format and include reply)
 									'comments'		=> $comments,
 
 									// Post title
-									'title'			=> html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", $post->title))))
+									'title'			=> html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", $post->title))), ENT_QUOTES, 'utf-8')
 
 								);
 
@@ -2266,10 +2266,10 @@ class AppleController extends BaseController
 								$comments[$key]['user_sex']			= e($comments_user->sex);
 
 								// Comments user nickname
-								$comments[$key]['user_nickname']	= html_entity_decode(e($comments_user->nickname));
+								$comments[$key]['user_nickname']	= html_entity_decode(e($comments_user->nickname), ENT_QUOTES, 'utf-8');
 
 								// Removing contents html tags except image and text string
-								$comments[$key]['content']			= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>')))));
+								$comments[$key]['content']			= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", strip_tags(str_ireplace($breaks, "\\n", $comments[$key]['content']), '<img>')))), ENT_QUOTES, 'utf-8');
 
 								// Query all replies of this post
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
@@ -2291,7 +2291,7 @@ class AppleController extends BaseController
 									// Reply user sex
 									$replies[$keys]['sex']		= e($reply_user->sex);
 
-									$replies[$keys]['content']	= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $replies[$keys]['content'])))));
+									$replies[$keys]['content']	= html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $replies[$keys]['content'])))), ENT_QUOTES, 'utf-8');
 
 									// Reply user portrait
 									$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
@@ -2319,7 +2319,7 @@ class AppleController extends BaseController
 				case 'forum_postcomment' :
 					$user_id	= Input::get('userid');
 					$post_id	= Input::get('postid');
-					$content	= nl2br(Input::get('content'), true);
+					$content	= htmlentities(nl2br(Input::get('content'), true));
 					$forum_post	= ForumPost::where('id', $post_id)->first();
 
 					// Select post type
@@ -2384,7 +2384,7 @@ class AppleController extends BaseController
 
 						// Post reply
 						$reply_id			= Input::get('replyid');
-						$comments_id		= nl2br(Input::get('commentid'), true);
+						$comments_id		= htmlentities(nl2br(Input::get('commentid'), true));
 
 						// Create comments reply
 						$reply				= new ForumReply;
@@ -2461,9 +2461,9 @@ class AppleController extends BaseController
 					// Create new post
 					$post				= new ForumPost;
 					$post->category_id	= Input::get('catid');
-					$post->title		= Input::get('title');
+					$post->title		= htmlentities(Input::get('title'));
 					$post->user_id		= Input::get('userid');
-					$post->content		= nl2br(Input::get('content'), true);
+					$post->content		= htmlentities(nl2br(Input::get('content'), true));
 
 					if($post->save()) {
 						// Create successful
@@ -2572,7 +2572,7 @@ class AppleController extends BaseController
 							if($sender->nickname) {
 
 								// Get user nickname
-								$notifications[$key]['nickname'] 	= html_entity_decode(e($sender->nickname));
+								$notifications[$key]['nickname'] 	= html_entity_decode(e($sender->nickname), ENT_QUOTES, 'utf-8');
 							} else {
 
 								// Return null
@@ -2589,10 +2589,10 @@ class AppleController extends BaseController
 								$comment									= ForumComments::where('id', $notifications[$key]['comment_id'])->first();
 
 								// Add comment content summary to content key
-								$notifications[$key]['content']				= html_entity_decode(e(getplaintextintrofromhtml($comment->content, $numchars)));
+								$notifications[$key]['content']				= html_entity_decode(e(getplaintextintrofromhtml($comment->content, $numchars)), ENT_QUOTES, 'utf-8');
 
 								// Add post content summary to original_content key
-								$notifications[$key]['original_content']	= html_entity_decode(e(getplaintextintrofromhtml($post->content, $numchars)));
+								$notifications[$key]['original_content']	= html_entity_decode(e(getplaintextintrofromhtml($post->content, $numchars)), ENT_QUOTES, 'utf-8');
 
 							} else {
 
@@ -2603,10 +2603,10 @@ class AppleController extends BaseController
 								$reply										= ForumReply::where('id', $notifications[$key]['reply_id'])->first();
 
 								// Add reply content summary to content key
-								$notifications[$key]['content']				= html_entity_decode(e(getplaintextintrofromhtml($reply->content, $numchars)));
+								$notifications[$key]['content']				= html_entity_decode(e(getplaintextintrofromhtml($reply->content, $numchars)), ENT_QUOTES, 'utf-8');
 
 								// Add post content summary to original_content key
-								$notifications[$key]['original_content']	= html_entity_decode(e(getplaintextintrofromhtml($comment->content, $original_numchars)));
+								$notifications[$key]['original_content']	= html_entity_decode(e(getplaintextintrofromhtml($comment->content, $original_numchars)), ENT_QUOTES, 'utf-8');
 							}
 						}
 
@@ -2649,7 +2649,7 @@ class AppleController extends BaseController
 						'user_sex'			=> $comment_author->sex,
 
 						// Comment user nickname
-						'user_nickname'		=> html_entity_decode(e($comment_author->nickname)),
+						'user_nickname'		=> html_entity_decode(e($comment_author->nickname), ENT_QUOTES, 'utf-8'),
 
 						// Comment user ID
 						'user_id'			=> $comment_author->id,
@@ -2658,13 +2658,13 @@ class AppleController extends BaseController
 						'id'				=> $comment->id,
 
 						// Comment title
-						'title'				=> html_entity_decode(e($comment->title)),
+						'title'				=> html_entity_decode(e($comment->title), ENT_QUOTES, 'utf-8'),
 
 						// Comment created date
 						'created_at'		=> $comment->created_at->toDateTimeString(),
 
 						// Comment content (removing contents html tags except image and text string)
-						'content'			=> html_entity_decode(e(strip_tags($comment->content, '<img>'))),
+						'content'			=> html_entity_decode(e(strip_tags($comment->content, '<img>')), ENT_QUOTES, 'utf-8'),
 
 						// Post comments reply (array format and include reply)
 						'comment_reply'		=> $replies
@@ -2700,7 +2700,7 @@ class AppleController extends BaseController
 					// Build format
 					$data = array(
 							'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
-							'nickname'		=> html_entity_decode(e($user->nickname)),
+							'nickname'		=> html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8'),
 							'posts_count'	=> ForumPost::where('user_id', $user_id)->count(),
 							'posts'			=> $posts
 						);
@@ -2782,7 +2782,7 @@ class AppleController extends BaseController
 						return Response::json(
 							array(
 								'status'	=> 1,
-								'nickname'	=> html_entity_decode(e($user->nickname)),
+								'nickname'	=> html_entity_decode(e($user->nickname), ENT_QUOTES, 'utf-8'),
 								'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
 								'is_verify'	=> e($user->is_verify)
 							)
@@ -2908,7 +2908,7 @@ class AppleController extends BaseController
 				case 'support' :
 					$support			= new Support;
 					$support->user_id 	= Input::get('id');
-					$support->content	= Input::get('content');
+					$support->content	= htmlentities(Input::get('content'));
 					if($support->save()) {
 						return Response::json(
 							array(
@@ -2967,8 +2967,8 @@ class AppleController extends BaseController
 							case '1' :
 								$sender_user							= User::find($friend_notifications[$key]['sender_id']);
 								$like									= Like::where('sender_id', $friend_notifications[$key]['sender_id'])->where('receiver_id', $friend_notifications[$key]['receiver_id'])->first();
-								$friend_notifications[$key]['content']	= html_entity_decode(e($sender_user->nickname)) . '追你了，快去看看吧';
-								$friend_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname));
+								$friend_notifications[$key]['content']	= html_entity_decode(e($sender_user->nickname), ENT_QUOTES, 'utf-8') . '追你了，快去看看吧';
+								$friend_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname), ENT_QUOTES, 'utf-8');
 								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 								$friend_notifications[$key]['answer']	= $like->answer;
 								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
@@ -2977,8 +2977,8 @@ class AppleController extends BaseController
 							case '2' :
 								$sender_user							= User::find($friend_notifications[$key]['sender_id']);
 								$like									= Like::where('sender_id', $friend_notifications[$key]['sender_id'])->where('receiver_id', $friend_notifications[$key]['receiver_id'])->first();
-								$friend_notifications[$key]['content']	= html_entity_decode(e($sender_user->nickname)) . '再次追你了，快去看看吧';
-								$friend_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname));
+								$friend_notifications[$key]['content']	= html_entity_decode(e($sender_user->nickname), ENT_QUOTES, 'utf-8') . '再次追你了，快去看看吧';
+								$friend_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname), ENT_QUOTES, 'utf-8');
 								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 								$friend_notifications[$key]['answer']	= e($like->answer);
 								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
@@ -2990,7 +2990,7 @@ class AppleController extends BaseController
 					foreach ($accept_notifications as $key => $value) {
 						$sender_user							= User::find($accept_notifications[$key]['sender_id']);
 						$accept									= Like::where('sender_id', $accept_notifications[$key]['sender_id'])->where('receiver_id', $accept_notifications[$key]['receiver_id'])->first();
-						$accept_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname));
+						$accept_notifications[$key]['nickname']	= html_entity_decode(e($sender_user->nickname), ENT_QUOTES, 'utf-8');
 						$accept_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 						$accept_notifications[$key]['from']		= $accept_notifications[$key]['sender_id'];
 					}
