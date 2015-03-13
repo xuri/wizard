@@ -9,7 +9,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">用户互动报表</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_analytics_active_table') }}</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>

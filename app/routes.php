@@ -216,7 +216,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|i
 		$controller = 'Admin_ForumResource@';
 		Route::get(  		     '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'   	 ));
 		Route::get(    '/block/{id}', array('as' => $resource.'.block'   , 'uses' => $controller.'block'	 ));
-		Route::get(  '/unclock/{id}', array('as' => $resource.'.unclock' , 'uses' => $controller.'unclock' 	 ));
+		Route::get(   '/unlock/{id}', array('as' => $resource.'.unlock'  , 'uses' => $controller.'unlock' 	 ));
 		Route::get(	     '/top/{id}', array('as' => $resource.'.top' 	 , 'uses' => $controller.'top' 		 ));
 		Route::get(	   '/untop/{id}', array('as' => $resource.'.untop' 	 , 'uses' => $controller.'untop'	 ));
 		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));

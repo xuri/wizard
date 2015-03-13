@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-	<title>管理中心 | 聘爱</title>
+	<title>{{ Lang::get('navigation.dashboard') }} | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')

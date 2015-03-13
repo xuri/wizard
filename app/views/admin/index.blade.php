@@ -9,11 +9,11 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">控制面板</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.dashboard') }}</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-3 col-md-6">
 					<div class="panel panel-primary">
@@ -24,13 +24,13 @@
 								</div>
 								<div class="col-xs-9 text-right">
 									<div class="huge">{{ $unreadSupport }}</div>
-									<div>未读反馈</div>
+									<div>{{ Lang::get('admin/index.unread_support') }}</div>
 								</div>
 							</div>
 						</div>
 						<a href="{{ route('admin.support.index') }}">
 							<div class="panel-footer">
-								<span class="pull-left">查看详情</span>
+								<span class="pull-left">{{ Lang::get('admin/index.see_detail') }}</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 								<div class="clearfix"></div>
 							</div>
@@ -46,13 +46,13 @@
 								</div>
 								<div class="col-xs-9 text-right">
 									<div class="huge">{{ $totalUser }}</div>
-									<div>注册用户</div>
+									<div>{{ Lang::get('admin/index.register_users') }}</div>
 								</div>
 							</div>
 						</div>
 						<a href="{{ route('users.index') }}">
 							<div class="panel-footer">
-								<span class="pull-left">用户管理</span>
+								<span class="pull-left">{{ Lang::get('navigation.admin_user_management') }}</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 								<div class="clearfix"></div>
 							</div>
@@ -68,13 +68,13 @@
 								</div>
 								<div class="col-xs-9 text-right">
 									<div class="huge">{{ $maleUser }}</div>
-									<div>男用户</div>
+									<div>{{ Lang::get('admin/index.male_users') }}</div>
 								</div>
 							</div>
 						</div>
 						<a href="{{ route('analytics.usercharts') }}">
 							<div class="panel-footer">
-								<span class="pull-left">用户详细趋势图</span>
+								<span class="pull-left">{{ Lang::get('navigation.admin_analytics_users_charts') }}</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 								<div class="clearfix"></div>
 							</div>
@@ -90,13 +90,13 @@
 								</div>
 								<div class="col-xs-9 text-right">
 									<div class="huge">{{ $femaleUser }}</div>
-									<div>女用户</div>
+									<div>{{ Lang::get('admin/index.female_users') }}</div>
 								</div>
 							</div>
 						</div>
 						<a href="{{ route('analytics.userform') }}">
 							<div class="panel-footer">
-								<span class="pull-left">用户详情报表</span>
+								<span class="pull-left">{{ Lang::get('navigation.admin_user_all') }}</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
 								<div class="clearfix"></div>
 							</div>
@@ -104,7 +104,7 @@
 					</div>
 				</div>
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
@@ -113,7 +113,7 @@
 							<div class="pull-right">
 								<div class="btn-group">
 									<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-										其它选项
+										{{ Lang::get('admin/index.other_options') }}
 										<span class="caret"></span>
 									</button>
 									<ul class="dropdown-menu pull-right" role="menu">
@@ -126,23 +126,23 @@
 								</div>
 							</div>
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-1"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 	</div>
-	<!-- /#wrapper -->
+	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
@@ -193,7 +193,7 @@
 				xaxis: { mode: "time", timeformat: "%y-%m-%d" },
 				tooltip: true,
 				tooltipOpts: {
-					content: "截止 %x.1 %s： %y.4",
+					content: "{{ Lang::get('admin/index.until') }} %x.1 %s： %y.4",
 					shifts: {
 						x: -60,
 						y: 25

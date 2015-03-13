@@ -9,19 +9,19 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">论坛活动报表</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_analytics_forum_table') }}</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
 
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							网站论坛情况综合数据汇总表
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body" style="font-size: 12px;">
 							<div class="table-responsive">
 								<table class="table table-hover">

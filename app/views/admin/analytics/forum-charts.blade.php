@@ -9,51 +9,51 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">论坛活动信息趋势图</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_analytics_forum_charts') }}</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							论坛发帖数量变化趋势图
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-1"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							论坛每日发帖数量变化趋势图
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-2"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 	</div>
-	<!-- /#wrapper -->
+	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}

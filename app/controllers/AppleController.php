@@ -101,13 +101,16 @@ class AppleController extends BaseController
 				// Signup
 
 				case 'signup' :
+
 					// Get all form data.
 					$data = Input::all();
+
 					// Create validation rules
 					$rules = array(
 						'phone'               => 'required|digits:11|unique:users',
 						'password'            => 'required|alpha_dash|between:6,16'
 					);
+
 					// Custom validation message
 					$messages = array(
 						'phone.required'      => '请输入手机号码。',
@@ -117,10 +120,12 @@ class AppleController extends BaseController
 						'password.alpha_dash' => '密码格式不正确。',
 						'password.between'    => '密码长度请保持在:min到:max位之间。'
 					);
+
 					// Begin verification
 					$validator   = Validator::make($data, $rules, $messages);
 					$phone       = Input::get('phone');
 					if ($validator->passes()) {
+
 						// Verification success, add user
 						$user				= new User;
 						$user->phone		= $phone;
@@ -131,6 +136,7 @@ class AppleController extends BaseController
 
 						$user->sex			= e(Input::get('sex'));
 						$user->password		= md5(Input::get('password'));
+
 						if ($user->save()) {
 							$profile			= new Profile;
 							$profile->user_id	= $user->id;
@@ -147,20 +153,36 @@ class AppleController extends BaseController
 								->setOptions([CURLOPT_VERBOSE => true])
 								->send();
 
-							// Create floder to store chat record
-							File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+							// Respond body
+							$result 			= json_decode($regChat->body, true);
 
-							// Redirect to a registration page, prompts user to activate
-							// Signin success, redirect to the previous page that was blocked
-							return Response::json(
-								array(
-									'status'	=> 1,
-									'id'		=> $user->id,
-									'password'	=> $user->password
-								)
-							);
+							// Determine register status from Easemob
+							if($result['entities']['0']['activated'] == true)
+							{
+								// Create floder to store chat record
+								File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+
+								// Redirect to a registration page, prompts user to activate
+								// Signin success, redirect to the previous page that was blocked
+								return Response::json(
+									array(
+										'status'	=> 1,
+										'id'		=> $user->id,
+										'password'	=> $user->password
+									)
+								);
+							} else {
+
+								// Easemob register fail
+								return Response::json(
+									array(
+										'status' 		=> 0
+									)
+								);
+							}
 						} else {
-							// Signin success, redirect to the previous page that was blocked
+
+							// Add user success, but register fail in Easemob
 							return Response::json(
 								array(
 									'status' 		=> 0
@@ -168,6 +190,7 @@ class AppleController extends BaseController
 							);
 						}
 					} else {
+
 						// Add user fail
 						return Response::json(
 							array(
@@ -667,105 +690,120 @@ class AppleController extends BaseController
 					// Get all form data.
 					$data	= Input::all();
 
-					// Create validation rules
-					$rules	= array(
-						'id'			=> 'required',
-						'receiverid'	=> 'required',
-						//'answer'		=> 'required|min:3',
-					);
-					// Custom validation message
-					$messages = array(
-						'answer.required'     => '请回答爱情考验问题。',
-						//'answer.min'          => '至少要写:min个字哦。',
-					);
+					// Retrieve user
+					$user	= User::find(Input::get('id'));
 
-					// Begin verification
-					$validator   = Validator::make($data, $rules, $messages);
-					if ($validator->passes())
+					// Determin user profile is complete
+					if (isset($user->nickname) && isset($user->portrait) && isset($user->school) && isset($user->bio))
 					{
-						$user			= User::where('id', Input::get('id'))->first();
-						$receiver_id	= Input::get('receiverid');
-						if($user->points > 0)
+						// Create validation rules
+						$rules	= array(
+							'id'			=> 'required',
+							'receiverid'	=> 'required',
+							//'answer'		=> 'required|min:3',
+						);
+						// Custom validation message
+						$messages = array(
+							'answer.required'     => '请回答爱情考验问题。',
+							//'answer.min'          => '至少要写:min个字哦。',
+						);
+
+						// Begin verification
+						$validator   = Validator::make($data, $rules, $messages);
+
+						if ($validator->passes())
 						{
-							$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
-
-							// This user already sent like
-							if($have_like)
+							$user			= User::find(Input::get('id'));
+							$receiver_id	= Input::get('receiverid');
+							if($user->points > 0)
 							{
-								$have_like->answer	= Input::get('answer');
-								$have_like->count	= $have_like->count + 1;
-								$user->points		= $user->points - 1;
-								if($have_like->save() && $user->save())
+								$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
+
+								// This user already sent like
+								if($have_like)
 								{
-									// Some user re-liked you
-									$notification = Notification(2, $user->id, $receiver_id);
+									$have_like->answer	= Input::get('answer');
+									$have_like->count	= $have_like->count + 1;
+									$user->points		= $user->points - 1;
+									if($have_like->save() && $user->save())
+									{
+										// Some user re-liked you
+										$notification = Notification(2, $user->id, $receiver_id);
 
-									// Add push notifications for App client to queue
-									Queue::push('LikeQueue', [
-																'target'	=> $receiver_id,
-																'action'	=> 2,
-																'from'		=> $user->id,
+										// Add push notifications for App client to queue
+										Queue::push('LikeQueue', [
+																	'target'	=> $receiver_id,
+																	'action'	=> 2,
+																	'from'		=> $user->id,
 
-																// Notification ID
-																'id' 		=> e($notification->id),
-																'content'	=> html_entity_decode(e($user->nickname)) . '再次追你了，快去查看一下吧',
-																'sender_id'	=> e(Input::get('id')),
-																'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																'nickname'	=> html_entity_decode(e($user->nickname)),
-																'answer'	=> html_entity_decode(e(Input::get('answer')))
-															]);
+																	// Notification ID
+																	'id' 		=> e($notification->id),
+																	'content'	=> html_entity_decode(e($user->nickname)) . '再次追你了，快去查看一下吧',
+																	'sender_id'	=> e(Input::get('id')),
+																	'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
+																	'nickname'	=> html_entity_decode(e($user->nickname)),
+																	'answer'	=> html_entity_decode(e(Input::get('answer')))
+																]);
 
-									return Response::json(
-										array(
-											'status' 		=> 1
-										)
-									);
+										return Response::json(
+											array(
+												'status' 		=> 1
+											)
+										);
+									}
+								} else { // First like
+									$like				= new Like();
+									$like->sender_id	= $user->id;
+									$like->receiver_id	= $receiver_id;
+									$like->status		= 0; // User send like, pending accept
+									$like->answer		= Input::get('answer');
+									$like->count		= 1;
+									$user->points		= $user->points - 1;
+									if($like->save() && $user->save())
+									{
+										$notification = Notification(1, $user->id, $receiver_id); // Some user first like you
+
+										// Add push notifications for App client to queue
+										Queue::push('LikeQueue', [
+																	'target'	=> $receiver_id,
+																	'action'	=> 1,
+																	'from'		=> $user->id,
+																	'content'	=> html_entity_decode(e($user->nickname)) .'追你了，快去查看一下吧',
+
+																	// Notification ID
+																	'id'		=> e($notification->id),
+																	'sender_id'	=> e(Input::get('id')),
+																	'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
+																	'nickname'	=> html_entity_decode(e($user->nickname)),
+																	'answer'	=> html_entity_decode(e(Input::get('answer')))
+																]);
+
+										return Response::json(
+											array(
+												'status' 		=> 1
+											)
+										);
+									}
 								}
-							} else { // First like
-								$like				= new Like();
-								$like->sender_id	= $user->id;
-								$like->receiver_id	= $receiver_id;
-								$like->status		= 0; // User send like, pending accept
-								$like->answer		= Input::get('answer');
-								$like->count		= 1;
-								$user->points		= $user->points - 1;
-								if($like->save() && $user->save())
-								{
-									$notification = Notification(1, $user->id, $receiver_id); // Some user first like you
-
-									// Add push notifications for App client to queue
-									Queue::push('LikeQueue', [
-																'target'	=> $receiver_id,
-																'action'	=> 1,
-																'from'		=> $user->id,
-																'content'	=> html_entity_decode(e($user->nickname)) .'追你了，快去查看一下吧',
-
-																// Notification ID
-																'id'		=> e($notification->id),
-																'sender_id'	=> e(Input::get('id')),
-																'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																'nickname'	=> html_entity_decode(e($user->nickname)),
-																'answer'	=> html_entity_decode(e(Input::get('answer')))
-															]);
-
-									return Response::json(
-										array(
-											'status' 		=> 1
-										)
-									);
-								}
+							} else {
+								return Response::json(
+									array(
+										'status' 	=> 2 // User's point required
+									)
+								);
 							}
 						} else {
 							return Response::json(
 								array(
-									'status' 	=> 2 // User's point required
+									'status' 		=> 0
 								)
 							);
 						}
 					} else {
 						return Response::json(
 							array(
-								'status' 		=> 0
+								// User profile uncompleted
+								'status' 		=> 3
 							)
 						);
 					}

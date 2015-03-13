@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>重置密码 | 聘爱</title>
+	<title>{{ Lang::get('authority.reset_password') }} | {{ Lang::get('navigation.pinai') }}</title>
 	@include('layout.meta')
 	@yield('content')
 

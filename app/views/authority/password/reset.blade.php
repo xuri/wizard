@@ -2,7 +2,7 @@
 @yield('content')
 
 	<div class="fp_box">
-		<h1>找回密码</h1>
+		<h1>{{ Lang::get('authority.reset_password') }}</h1>
 		<a href="{{ route('signin') }}" class="fp_back">{{ Lang::get('navigation.signin') }}</a>
 		<a href="{{ route('home') }}" class="fp_back">{{ Lang::get('navigation.go_home') }}</a>
 		<div class="fp_passWord">

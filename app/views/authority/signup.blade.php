@@ -98,28 +98,28 @@
 
 						<ul class="login_form">
 							<li class="rgs_li">
-								<span>邮箱:</span>
-								<input type="text" name="signup_email" autofocus required="required" placeholder="请输入您的常用电子邮箱" value="{{ Input::old('email') }}">
+								<span>{{ Lang::get('authority.email') }}:</span>
+								<input type="text" name="signup_email" autofocus required="required" placeholder="{{ Lang::get('authority.email_input') }}" value="{{ Input::old('email') }}">
 							</li>
 							<li class="rgs_li">
-								<span>密码:</span>
-								<input type="password" name="mail_signup_password" required="required" placeholder="6-16位字母或数字的组合">
+								<span>{{ Lang::get('authority.password') }}:</span>
+								<input type="password" name="mail_signup_password" required="required" placeholder="{{ Lang::get('authority.password_input') }}">
 							</li>
 							<li class="rgs_li">
-								<span>重复密码:</span>
-								<input type="password" name="mail_signup_password_confirmation" required="required" placeholder="确认你的密码">
+								<span>{{ Lang::get('authority.repet_password') }}:</span>
+								<input type="password" name="mail_signup_password_confirmation" required="required" placeholder="{{ Lang::get('authority.repet_password_input') }}">
 							</li>
 						</ul>
 						<div class="login_clause">
-							我 是： <input type="radio" name="mail_signup_sex" value="M" /> 男 生
-							&nbsp; <input type="radio" name="mail_signup_sex" value="F" /> 女 生
+							{{ Lang::get('authority.im') }}： <input type="radio" name="mail_signup_sex" value="M" /> {{ Lang::get('authority.sex_male') }}
+							&nbsp; <input type="radio" name="mail_signup_sex" value="F" /> {{ Lang::get('authority.sex_female') }}
 						</div>
 						<div class="login_clause">
 							<input class="login_check" type="checkbox" name="checkbox" checked >
-							<span>同意</span>
-							<a class="rgs_agree" href="{{ route('home') }}/article/privacy.html" target="_blank">使用条款</a>
+							<span>{{ Lang::get('authority.agree') }}</span>
+							<a class="rgs_agree" href="{{ route('home') }}/article/privacy.html" target="_blank">{{ Lang::get('authority.terms_of_service') }}</a>
 						</div>
-						<a class="login_submit mail_signup_submit">立即注册</a>
+						<a class="login_submit mail_signup_submit">{{ Lang::get('authority.do_signup') }}</a>
 					{{ Form::close(); }}
 
 				</div>

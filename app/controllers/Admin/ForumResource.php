@@ -89,7 +89,7 @@ class Admin_ForumResource extends BaseResource
 	 * @param integer $id  Post ID in forum
 	 * @return Response     View
 	 */
-	public function unclock($id)
+	public function unlock($id)
 	{
 		// Retrieve post
 		$data			= $this->model->find($id);
