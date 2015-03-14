@@ -52,13 +52,6 @@ class HomeController extends BaseController {
 				if($language) {
 					// Set language
 					Session::put('language', $language);
-				} else {
-					if (in_array("zh", Agent::languages()))
-					{
-						$language = 'zh_CN';
-					} else {
-						$language = 'en';
-					}
 				}
 				$language 	= Session::get('language', Config::get('app.locale'));
 				App::setlocale($language);

@@ -212,11 +212,11 @@ $('.nav-tabs a').click(function (e) {
 $('.ios-app-btn').hover(
 	function() {
 		var $this = $(this); // caching $(this)
-		$this.data(' App Store', $this.text());
+		$this.data('<i class="fa fa-apple"></i> App Store', $this.text());
 		$this.text(appstore);
 	},
 	function() {
 		var $this = $(this); // caching $(this)
-		$this.text($this.data(' App Store'));
+		$this.html("<i class='fa fa-apple'></i> App Store");
 	}
 );

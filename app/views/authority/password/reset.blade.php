@@ -75,8 +75,8 @@
 	</div>
 </body>
 <script>
-	var lang_resent_sms			= "{{ Lang::get('navigation.resent_sms') }}";
-	var lang_resent_sms_time	= "{{ Lang::get('navigation.resent_sms_time') }}";
+	var lang_resent_sms			= "{{ Lang::get('authority.resent_sms') }}";
+	var lang_resent_sms_time	= "{{ Lang::get('authority.resent_sms_time') }}";
 
 	var oTab1=document.getElementById('tab1'),
 		oTab2=document.getElementById('tab2'),

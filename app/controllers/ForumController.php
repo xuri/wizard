@@ -275,14 +275,14 @@ class ForumController extends BaseController {
 			$post->category_id	= Input::get('category_id');
 			$post->title		= htmlentities(Input::get('title'));
 			$post->user_id		= Auth::user()->id;
-			$post->content		= htmlentities(Input::get('content'));
+			$post->content		= Input::get('content');
 			if($post->save())
 			{
 				return Response::json(
 					array(
 						'success'		=> true,
 						'success_info'	=> '发帖成功！',
-						'post_content'	=> htmlentities(Input::get('content')),
+						'post_content'	=> Input::get('content'),
 						'post_id'		=> $post->id,
 						'post_title'	=> htmlentities(Input::get('title')),
 						'post_comments'	=> ForumComments::where('post_id', $post->id)->count(),
@@ -357,7 +357,7 @@ class ForumController extends BaseController {
 				$forum_post->save();
 				$comment				= new ForumComments;
 				$comment->post_id		= $id;
-				$comment->content		= htmlentities(Input::get('content'));
+				$comment->content		= Input::get('content');
 				$comment->user_id		= Auth::user()->id;
 
 				// Calculate this comment in which floor
@@ -432,7 +432,7 @@ class ForumController extends BaseController {
 			$validator		= Validator::make($data, $rules, $messages);
 
 			// Remove default string on reply textarea
-			$reply_content	= str_replace('回复 ' . Input::get('data_nickname').':', '', htmlentities(Input::get('reply_content')));
+			$reply_content	= str_replace('回复 ' . Input::get('data_nickname') . ':', '', htmlentities(Input::get('reply_content')));
 
 			if($validator->passes())
 			{

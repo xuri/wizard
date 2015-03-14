@@ -6,7 +6,7 @@
 	var um3 							= UM.getEditor('cat3_editor');
 	// Define variable use in forum.js
 	var csrfToken 						= '{{ csrf_token() }}';
-	var forumShowRoute 					= '{{ route("forum.show") }}';
+	var forumShowRoute 					= '{{ route("forum.index") }}/';
 	var forumControllerPostNewAction 	= "{{ action('ForumController@postNew') }}";
 	var firstAjaxURL 					= '{{ route("forum.type", "first") }}';
 	var secondAjaxURL 					= '{{ route("forum.type", "second") }}';

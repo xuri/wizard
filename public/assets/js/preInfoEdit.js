@@ -42,9 +42,9 @@ $('#submit_btn').bind("mouseover", function(e) {
 	}).done(function(data) {
 		// Here we will handle errors and validation messages
 		if ( ! data.success) {
-			$('input:submit').val("资料要填全哦").attr("disabled", true).css({'background-color':'#888'});
+			$('#submit').val("资料要填全哦").attr("disabled", true).css({'background-color':'#888'});
 		} else {
-			$('input:submit').val("保存").removeAttr("disabled").css({'background-color':'#de3861'});
+			$('#submit').val("保存").removeAttr("disabled").css({'background-color':'#de3861'});
 		}
 	});
 });

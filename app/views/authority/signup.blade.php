@@ -141,8 +141,8 @@
 		var captcha_url				= '{{ route("captcha") }}';
 		var lang_signin				= "{{ Lang::get('navigation.signin') }}";
 		var lang_signup				= "{{ Lang::get('navigation.signup') }}";
-		var lang_resent_sms			= "{{ Lang::get('navigation.resent_sms') }}";
-		var lang_resent_sms_time	= "{{ Lang::get('navigation.resent_sms_time') }}";
+		var lang_resent_sms			= "{{ Lang::get('authority.resent_sms') }}";
+		var lang_resent_sms_time	= "{{ Lang::get('authority.resent_sms_time') }}";
 	</script>
 
 @include('authority.footer')
