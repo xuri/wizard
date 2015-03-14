@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 <head>
 	{{-- The Meta --}}
-	<title>聘爱 | 专注于大学生的恋爱平台</title>
+	<title>{{ Lang::get('navigation.pinai') }} | {{ Lang::get('index.title') }}</title>
 
 	@include('layout.meta')
 	@yield('content')

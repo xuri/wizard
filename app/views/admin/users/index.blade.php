@@ -9,9 +9,9 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">{{ $resourceName }}管理</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_user_management') }}</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
 			<!-- /.row -->
 			<div class="row">
@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							{{ $resourceName }}列表
+							{{ Lang::get('admin/users/index.users') }}{{ Lang::get('admin/users/index.table') }}
 						</div>
 						{{-- /.panel-heading --}}
 						<div class="panel-body">
@@ -30,7 +30,7 @@
 								<div class="input-group col-md-12" style="margin:0 0 1em 0">
 									<span class="input-group-btn" style="width: 20%; padding: 0 10px 0 0;">
 										<select class="form-control input-sm" name="province">
-											<option value="">所有省份</option>
+											<option value="">{{ Lang::get('admin/users/index.all_province') }}</option>
 											@foreach($provinces as $province)
 											<option value="{{ $province->id }}">{{ $province->province }}</option>
 											@endforeach
@@ -42,18 +42,18 @@
 											Form::select(
 												'sex',
 												array(
-													'' => '性别',
-													'M' => '男',
-													'F' => '女'
+													''	=> Lang::get('admin/users/index.sex'),
+													'M'	=> Lang::get('admin/users/index.male'),
+													'F'	=> Lang::get('admin/users/index.female')
 												),
 												Input::get('sex'),
 												array('class' => 'form-control input-sm')
 											)
 										}}
 									</span>
-									<input type="text" class="form-control input-sm" name="like" placeholder="模糊搜索ID、E-mail和昵称" value="{{ Input::get('like') }}">
+									<input type="text" class="form-control input-sm" name="like" placeholder="{{ Lang::get('admin/users/index.select_input') }}" value="{{ Input::get('like') }}">
 									<span class="input-group-btn">
-											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">筛选</button>
+											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">{{ Lang::get('admin/users/index.select') }}</button>
 									</span>
 								</div>
 							{{ Form::close() }}
@@ -63,13 +63,13 @@
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th>身份 {{ order_by('is_admin') }}</th>
-											<th style="text-align:center;">头像</th>
-											<th>邮箱 / 手机</th>
-											<th>昵称 {{ order_by('nickname') }}</th>
-											<th>注册时间 {{ order_by('created_at', 'desc') }}</th>
-											<th>最后登录时间 {{ order_by('signin_at') }}</th>
-											<th style="width:9.5em;text-align:center;">操作</th>
+											<th>{{ Lang::get('admin/users/index.identity') }} {{ order_by('is_admin') }}</th>
+											<th style="text-align:center;">{{ Lang::get('admin/users/index.portrait') }}</th>
+											<th>{{ Lang::get('admin/users/index.account') }}</th>
+											<th>{{ Lang::get('admin/users/index.nickname') }} {{ order_by('nickname') }}</th>
+											<th>{{ Lang::get('admin/users/index.created_at') }} {{ order_by('created_at', 'desc') }}</th>
+											<th>{{ Lang::get('admin/users/index.signin_at') }} {{ order_by('signin_at') }}</th>
+											<th style="width:11em;text-align:center;">{{ Lang::get('admin/users/index.operating') }}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -77,7 +77,7 @@
 										@foreach ($datas as $data)
 										<tr class="odd gradeX">
 											<td>{{ $data->id }}</td>
-											<td>{{ $data->is_admin ? '管理员' : '普通用户' }}</td>
+											<td>{{ $data->is_admin ? Lang::get('system.moderator') : Lang::get('admin/users/index.common_user') }}</td>
 											<td style="text-align:center;">
 												<a href="{{ route('members.show', $data->id) }}">
 													@if($data->portrait)
@@ -96,7 +96,7 @@
 
 											<td class="center">{{ $data->created_at }}</td>
 											<td class="center">{{ $data->signin_at }}</td>
-											<td class="center">
+											<td class="center" style="text-align:center;">
 												@if($data->block)
 													{{ Form::open(array(
 														'autocomplete'	=> 'off',
@@ -104,10 +104,10 @@
 														))
 													}}
 													@if($data->id!=$currentId)
-													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">编辑</a>
+													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
 													{{ Form::hidden('id', $data->id) }}
-													<button type="submit" class="btn btn-xs btn-success">解锁</button>
-													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
+													<button type="submit" class="btn btn-xs btn-success">{{ Lang::get('admin/users/index.unlock') }}</button>
+													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
 													@endif
 													{{ Form::close() }}
 												@else
@@ -117,10 +117,10 @@
 														))
 													}}
 													@if($data->id!=$currentId)
-													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">编辑</a>
+													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
 													{{ Form::hidden('id', $data->id) }}
-													<button type="submit" class="btn btn-xs btn-warning">锁定</button>
-													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">删除</a>
+													<button type="submit" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/index.lock') }}</button>
+													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
 													@endif
 													{{ Form::close() }}
 												@endif
@@ -133,20 +133,20 @@
 								{{ pagination($datas->appends(Input::except('page')), 'admin.paginator') }}
 
 							</div>
-							<!-- /.table-responsive -->
+							{{-- /.table-responsive --}}
 
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 	</div>
-	<!-- /#wrapper -->
+	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
@@ -174,12 +174,12 @@
 	<?php
 	$modalData['modal'] = array(
 		'id'      => 'myModal',
-		'title'   => '系统提示',
-		'message' => '确认删除此'.$resourceName.'？',
+		'title'   => Lang::get('system.system_prompt'),
+		'message' => Lang::get('system.delete_confirm') . Lang::get('admin/users/index.user') . '?',
 		'footer'  =>
 			Form::open(array('id' => 'real-delete', 'method' => 'delete')).'
-				<button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">取消</button>
-				<button type="submit" class="btn btn-sm btn-danger">确认删除</button>'.
+				<button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">' . Lang::get('system.cancel') . '</button>
+				<button type="submit" class="btn btn-sm btn-danger">' . Lang::get('system.delete_confirm') . '</button>'.
 			Form::close(),
 	);
 	?>

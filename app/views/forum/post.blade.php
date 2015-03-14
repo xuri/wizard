@@ -5,7 +5,7 @@
 	@yield('content')
 
 	<div id="lu_content">
-		<div class="lu_con_title">单身公寓</div>
+		<div class="lu_con_title">{{ Lang::get('navigation.forum') }}</div>
 		<div class="lu_con_img">
 			<span class="lu_line1"></span>
 			<span class="lu_line2"></span>
@@ -48,13 +48,13 @@
 
 						@if($author_profile->crenew >= 30)
 							@if($author->is_admin)
-								<span class="admin">管理员</span>
+								<span class="admin">{{ Lang::get('system.moderator') }}</span>
 							@else
 							@endif
 							<a href="{{ route('members.show', $author->id) }}" class="m-h3" style="color: #FF9900;">{{ $author->nickname }}</a>
 						@else
 							@if($author->is_admin)
-								<span class="admin">管理员</span>
+								<span class="admin">{{ Lang::get('system.moderator') }}</span>
 							@else
 							@endif
 							<a href="{{ route('members.show', $author->id) }}" class="m-h3">{{ $author->nickname }}</a>
@@ -111,13 +111,13 @@
 
 								@if($user_profile->crenew >= 30)
 									@if($user->is_admin)
-										<span class="admin">管理员</span>
+										<span class="admin">{{ Lang::get('system.moderator') }}</span>
 									@else
 									@endif
 									<a href="{{ route('members.show', $user->id) }}" class="m-h3" style="color: #FF9900;">{{ $user->nickname }}</a>
 								@else
 									@if($user->is_admin)
-										<span class="admin">管理员</span>
+										<span class="admin">{{ Lang::get('system.moderator') }}</span>
 									@else
 									@endif
 									<a href="{{ route('members.show', $user->id) }}" class="m-h3">{{ $user->nickname }}</a>
@@ -180,13 +180,13 @@
 
 										@if($reply_user_profile->crenew >= 30)
 											@if($reply_user->is_admin)
-												<span class="reply_from_admin">管理员</span>
+												<span class="reply_from_admin">{{ Lang::get('system.moderator') }}</span>
 											@else
 											@endif
 											<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3" style="color: #FF9900;">{{ $reply_user->nickname }}:</a>
 										@else
 											@if($reply_user->is_admin)
-												<span class="reply_from_admin">管理员</span>
+												<span class="reply_from_admin">{{ Lang::get('system.moderator') }}</span>
 											@else
 											@endif
 											<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>

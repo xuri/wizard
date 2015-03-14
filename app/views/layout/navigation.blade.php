@@ -1,5 +1,4 @@
 <div class="nav">
-
 	<div class="nav_main">
 		{{ HTML::image('assets/images/nav_main_bg.png', '', array('id' => 'nav_main')) }}
 		<ul>

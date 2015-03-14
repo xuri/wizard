@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>缘分大厅 | 聘爱</title>
+	<title>{{ Lang::get('navigation.discover') }} | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')

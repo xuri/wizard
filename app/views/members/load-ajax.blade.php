@@ -23,7 +23,7 @@
 				@if($profile->crenew >= 30)
 					<p class="lu_te lu_userMessage_name lu_left">
 						@if($data->is_admin)
-						<span class="admin">管理员</span>
+						<span class="admin">{{ Lang::get('system.moderator') }}</span>
 						@else
 						@endif
 						<span style="color: #FF9900;">{{ $data->nickname }}</span>
@@ -31,7 +31,7 @@
 				@else
 					<p class="lu_te lu_userMessage_name lu_left">
 						@if($data->is_admin)
-							<span class="admin">管理员</span>
+							<span class="admin">{{ Lang::get('system.moderator') }}</span>
 						@else
 						@endif
 						{{ $data->nickname }}

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 <head>
 	{{-- The Meta --}}
 	<title>{{ Lang::get('navigation.pinai') }} | {{ Lang::get('index.title') }}</title>
@@ -199,6 +199,9 @@
 		</div>
 	</footer>
 
+	<script>
+		var appstore = "{{ Lang::get('index.appstore') }}";
+	</script>
 	{{-- jQuery --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 

@@ -5,7 +5,7 @@
 	@yield('content')
 
 	<div id="lu_content">
-		<div class="lu_con_title">缘分大厅</div>
+		<div class="lu_con_title">{{ Lang::get('navigation.discover') }}</div>
 		<div class="lu_con_img">
 			<span class="lu_line1"></span>
 			<span class="lu_line2"></span>
@@ -76,7 +76,7 @@
 								@if($profile->crenew >= 30)
 									<p class="lu_te lu_userMessage_name lu_left">
 										@if($data->is_admin)
-										<span class="admin">管理员</span>
+										<span class="admin">{{ Lang::get('system.moderator') }}</span>
 										@else
 										@endif
 										<span style="color: #FF9900;">{{ $data->nickname }}</span>
@@ -84,7 +84,7 @@
 								@else
 									<p class="lu_te lu_userMessage_name lu_left">
 										@if($data->is_admin)
-											<span class="admin">管理员</span>
+											<span class="admin">{{ Lang::get('system.moderator') }}</span>
 										@else
 										@endif
 										{{ $data->nickname }}

@@ -39,13 +39,13 @@
 
 				@if($user_profile->crenew >= 30)
 					@if($user->is_admin)
-						<span class="admin">管理员</span>
+						<span class="admin">{{ Lang::get('system.moderator') }}</span>
 					@else
 					@endif
 					<a href="{{ route('members.show', $user->id) }}" class="m-h3" style="color: #FF9900;">{{ $user->nickname }}</a>
 				@else
 					@if($user->is_admin)
-						<span class="admin">管理员</span>
+						<span class="admin">{{ Lang::get('system.moderator') }}</span>
 					@else
 					@endif
 					<a href="{{ route('members.show', $user->id) }}" class="m-h3">{{ $user->nickname }}</a>
@@ -107,13 +107,13 @@
 
 						@if($reply_user_profile->crenew >= 30)
 							@if($reply_user->is_admin)
-								<span class="reply_from_admin">管理员</span>
+								<span class="reply_from_admin">{{ Lang::get('system.moderator') }}</span>
 							@else
 							@endif
 							<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3" style="color: #FF9900;">{{ $reply_user->nickname }}:</a>
 						@else
 							@if($reply_user->is_admin)
-								<span class="reply_from_admin">管理员</span>
+								<span class="reply_from_admin">{{ Lang::get('system.moderator') }}</span>
 							@else
 							@endif
 							<a href="{{ route('members.show', $reply_user->id) }}" target="_blank" class="g-h3">{{ $reply_user->nickname }}:</a>

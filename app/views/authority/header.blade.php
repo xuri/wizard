@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh_CN">
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 <head>
 	<title>{{ Lang::get('navigation.authority') }} | {{ Lang::get('navigation.pinai') }}</title>
 

@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 
 <head>
-	<title>{{ Lang::get('system.browser_not_support') }} | {{ Lang::get('navigation.pinai') }}</title>
+	<title>{{ Lang::get('system.brwoser_not_support') }} | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')

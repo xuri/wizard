@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 <head>
 	<title>{{ Lang::get('authority.reset_password') }} | {{ Lang::get('navigation.pinai') }}</title>
 	@include('layout.meta')

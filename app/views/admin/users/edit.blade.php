@@ -11,9 +11,9 @@
 				<div class="col-lg-12">
 					<h1 class="page-header">用户管理</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					@include('layout.notification')
@@ -56,14 +56,14 @@
 												<input type="radio" name="is_admin" id="optionsRadiosInline1" value="0">普通用户
 											</label>
 											<label class="radio-inline">
-												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1" checked="checked">管理员
+												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1" checked="checked">{{ Lang::get('system.moderator') }}
 											</label>
 											@else
 											<label class="radio-inline">
 												<input type="radio" name="is_admin" id="optionsRadiosInline1" value="0" checked="checked">普通用户
 											</label>
 											<label class="radio-inline">
-												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1">管理员
+												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1">{{ Lang::get('system.moderator') }}
 											</label>
 											@endif
 											@if($data->is_verify == 1)
@@ -162,7 +162,6 @@
 										</div>
 										<a href="{{ route($resource.'.detail', $data->id) }}" class="btn btn-default">查看此用户的好友关系详情</a>
 										<a href="{{ route($resource.'.notify', $data->id) }}" class="btn btn-default">向此用户推送系统通知</a>
-										<a href="{{ route($resource.'.chatdir', $data->id) }}" class="btn btn-default">查看此用户的聊天记录存档</a>
 									</div>
 									{{-- /.col-lg-6 (nested) --}}
 									<div class="col-lg-6">
@@ -213,6 +212,7 @@
 									{{-- /.col-lg-6 (nested) --}}
 									<button type="submit" class="btn btn-default">保 存</button>
 									<button type="reset" class="btn btn-default">重 置</button>
+									<a href="{{ route($resource.'.chatdir', $data->id) }}" class="btn btn-default">查看此用户的聊天记录存档</a>
 								{{ Form::close() }}
 							</div>
 							{{-- /.row (nested) --}}

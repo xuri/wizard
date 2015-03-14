@@ -273,7 +273,7 @@
 	@yield('content')
 
 	<div id="content" class="clear">
-		<div class="con_title">资料编辑</div>
+		<div class="con_title">{{ Lang::get('account/complete.edit_profile') }}</div>
 		<div class="con_img">
 			<span class="line1"></span>
 			<span class="line2"></span>
@@ -315,7 +315,7 @@
 					<a href="{{ route('account') }}" class="editor">取消</a>
 					<div class="data_top clear">
 						<span></span>{{-- Left pink section --}}
-						<p>我的资料</p>
+						<p>{{ Lang::get('navigation.profile') }}</p>
 					</div>
 					{{ Form::open(array(
 						'id'           => 'edi_form',

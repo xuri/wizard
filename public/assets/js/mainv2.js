@@ -213,7 +213,7 @@ $('.ios-app-btn').hover(
 	function() {
 		var $this = $(this); // caching $(this)
 		$this.data(' App Store', $this.text());
-		$this.text(" 即将上线");
+		$this.text(appstore);
 	},
 	function() {
 		var $this = $(this); // caching $(this)

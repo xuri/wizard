@@ -27,4 +27,12 @@ return array(
 
 	"javascript_not_support_text_3"	=> "our recommended browser.",
 
+	"moderator"						=> "MOD",
+
+	"system_prompt"					=> "System Prompt",
+
+	"delete_confirm"				=> "Confirm Delete This ",
+
+	"cancel"						=> "Cancel",
+
 );

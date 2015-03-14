@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 
 <head>
-	<title>{{ $article->title }} | 聘爱</title>
+	<title>{{ $article->title }} | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')
 
-	<!-- Bootstrap Core CSS -->
+	{{-- Bootstrap Core CSS --}}
 	{{ HTML::style('assets/bootstrap-3.3.0/css/bootstrap.min.css') }}
 
 
@@ -15,17 +15,17 @@
 	{{ HTML::style('assets/css/admin/plugins/metisMenu/metisMenu.min.css') }}
 
 
-	<!-- Timeline CSS -->
+	{{-- Timeline CSS --}}
 	{{ HTML::style('assets/css/admin/plugins/timeline.css') }}
 
-	<!-- Custom CSS -->
+	{{-- Custom CSS --}}
 	{{ HTML::style('assets/css/admin/admin.css') }}
 
 
-	<!-- Morris Charts CSS -->
+	{{-- Morris Charts CSS --}}
 	{{ HTML::style('assets/css/admin/plugins/morris.css') }}
 
-	<!-- Custom Fonts -->
+	{{-- Custom Fonts --}}
 	{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
 
 	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

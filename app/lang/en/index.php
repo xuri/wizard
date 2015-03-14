@@ -26,4 +26,6 @@ return array(
 	"title_3"		=> "Love: A temporary insanity curable by marriage.",
 
 	"title_4"		=> "Love is foolish … but I still might try it sometime.",
+
+	"appstore"		=> "Comming soon",
 );

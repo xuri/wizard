@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 <head>
-	<title>单身公寓 | 聘爱</title>
+	<title>{{ Lang::get('navigation.forum') }} | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')

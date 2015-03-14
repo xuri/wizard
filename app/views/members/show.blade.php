@@ -44,13 +44,13 @@
 						@endif
 						@if($crenew)
 							@if($data->is_admin)
-							<span class="admin">管理员</span>
+							<span class="admin">{{ Lang::get('system.moderator') }}</span>
 							@else
 							@endif
 							<span class="pi_name" style="color: #FF9900;">{{ $data->nickname }}</span>
 						@else
 							@if($data->is_admin)
-							<span class="admin">管理员</span>
+							<span class="admin">{{ Lang::get('system.moderator') }}</span>
 							@else
 							@endif
 							<span class="pi_name">{{ $data->nickname }}</span>

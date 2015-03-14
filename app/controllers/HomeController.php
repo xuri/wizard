@@ -44,18 +44,46 @@ class HomeController extends BaseController {
 			return View::make('home.mobilev2');
 		} else {
 
-			// Language select
-			$language		= Input::get('lang');
+			if(Auth::guest())
+			{
+				// Language select
+				$language	= Input::get('lang');
 
-			if($language) {
+				if($language) {
+					// Set language
+					Session::put('language', $language);
+				} else {
+					if (in_array("zh", Agent::languages()))
+					{
+						$language = 'zh_CN';
+					} else {
+						$language = 'en';
+					}
+				}
+				$language 	= Session::get('language', Config::get('app.locale'));
+				App::setlocale($language);
+				return View::make('home.indexv2')->with(compact('language'));
+			} else {
 
-				// Set language
-				Session::put('language', $language);
+				// Language select
+				$language	= Input::get('lang');
+
+				// Retrieve user profile
+				$profile	= Profile::find(Auth::user()->id);
+
+				if($language) {
+					$profile->language	= e($language);
+					$profile->save();
+					// Set language
+					Session::put('language', $language);
+				} else {
+					Session::put('language', $profile->language);
+				}
+
+				$language 	= Session::get('language', Config::get('app.locale'));
+				App::setlocale($language);
+				return View::make('home.indexv2')->with(compact('language'));
 			}
-
-			$language = Session::get('language', Config::get('app.locale'));
-			App::setlocale($language);
-			return View::make('home.indexv2')->with(compact('language'));
 		}
 	}
 

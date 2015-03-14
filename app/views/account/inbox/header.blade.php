@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 <head>
 	<title>{{ Lang::get('navigation.followers') }} | {{ Lang::get('navigation.pinai') }}</title>
 

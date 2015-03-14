@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 <head>
-	<title>编辑资料 | 聘爱</title>
+	<title>{{ Lang::get('account/complete.edit_profile') }} | {{ Lang::get('navigation.pinai') }}</title>
 
 	@include('layout.meta')
 	@yield('content')
