@@ -115,8 +115,6 @@
 			</div>
 			<div class="lu_content_right">
 				{{ HTML::image('assets/images/sidebar_1.jpg') }}
-
-
 			</div>
 		</div>
 	</div>
