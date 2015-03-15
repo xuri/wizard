@@ -140,7 +140,6 @@ select::-ms-expand {
 	width: 90px;
 	background: #ef698a;
 	margin-left: 20px;
-	letter-spacing: 5px;
 	text-align: center;
 	border: none;
 	-webkit-border-radius: 5px;
@@ -154,8 +153,6 @@ select::-ms-expand {
 	width: 100px;
 	background: #ed5565;
 	margin-left: 1em;
-	letter-spacing: 5px;
-	text-indent: 5px;
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
@@ -229,7 +226,7 @@ span.admin a {
 	height: 20px;
 	font-size: 14px;
 	line-height: 20px;
-	margin-left: 30px;
+	margin-left: 15px;
 }
 
 .lu_resumes_user .lu_userMessage_readme {
@@ -261,7 +258,7 @@ span.admin a {
 }
 
 .lu_paging {
-	width: 400px;
+	width: 500px;
 	height: 20px;
 	padding: 10px;
 	margin: 10px auto;
