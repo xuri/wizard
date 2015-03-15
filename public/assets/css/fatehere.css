@@ -204,6 +204,14 @@ select::-ms-expand {
 	color: #777978;
 }
 
+a.nickname {
+	color: #777978;
+}
+
+span.admin a {
+	color: #FFF;
+}
+
 .lu_resumes_user .lu_userMessage_p {
 	height: 20px;
 	font-size: 14px;

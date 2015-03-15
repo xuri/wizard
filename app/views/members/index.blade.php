@@ -59,35 +59,39 @@
 						$profile = Profile::where('user_id', $data->id)->first();
 						$tag_str = explode(',', substr($profile->tag_str, 1));
 					?>
+
 					<div class="lu_resumes clear">
 						<div class="lu_resumes_user clear">
 							@if($data->is_verify == 1)
 							<a href="javascript:void(0);" class="icon_verify" title="实名认证" alt="实名认证"><span class="icon_approve"></span></a>
 							@else
 							@endif
-							{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'lu_img')) }}
+							<a href="{{ route('members.show', $data->id) }}">
+								{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'lu_img')) }}
+							</a>
 							<div class="lu_userMessage">
-							{{ HTML::image('assets/images/arrow.png', '', array('class' => 'lu_userMessage_arrow')) }}
-							@if($data->sex == 'M')
-							{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left')) }}
-							@else
-							{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left')) }}
-							@endif
+								{{ HTML::image('assets/images/arrow.png', '', array('class' => 'lu_userMessage_arrow')) }}
+								@if($data->sex == 'M')
+								{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left')) }}
+								@else
+								{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left')) }}
+								@endif
+
 								@if($profile->crenew >= 30)
 									<p class="lu_te lu_userMessage_name lu_left">
 										@if($data->is_admin)
-										<span class="admin">{{ Lang::get('system.moderator') }}</span>
+										<span class="admin"><a href="{{ route('members.show', $data->id) }}">{{ Lang::get('system.moderator') }}</a></span>
 										@else
 										@endif
-										<span style="color: #FF9900;">{{ $data->nickname }}</span>
+										<span style="color: #FF9900;"><a href="{{ route('members.show', $data->id) }}" class="nickname">{{ $data->nickname }}</a></span>
 									</p>
 								@else
 									<p class="lu_te lu_userMessage_name lu_left">
 										@if($data->is_admin)
-											<span class="admin">{{ Lang::get('system.moderator') }}</span>
+											<span class="admin"><a href="{{ route('members.show', $data->id) }}">{{ Lang::get('system.moderator') }}</a></span>
 										@else
 										@endif
-										{{ $data->nickname }}
+										<a href="{{ route('members.show', $data->id) }}" class="nickname">{{ $data->nickname }}</a>
 									</p>
 								@endif
 								<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">{{ $data->school }}</p>
