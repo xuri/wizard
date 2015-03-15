@@ -3,6 +3,11 @@
 
 	<div id="wrapper">
 		@if(Agent::isMobile())
+			<style type="text/css">
+				img {
+					max-width: 320px;
+				}
+			</style>
 		@else
 			@include('layout.navigation')
 			@yield('content')

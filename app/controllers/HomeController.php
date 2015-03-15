@@ -41,7 +41,14 @@ class HomeController extends BaseController {
 	{
 		// Mobile Detect
 		if (Agent::isMobile()) {
-			return View::make('home.mobilev2');
+			if(Agent::isAndroidOS()) {
+				return Redirect::to('http://fir.im/pinai');
+			} elseif (Agent::isiOS()) {
+				return Redirect::to('http://fir.im/pinios');
+			} else {
+				return View::make('home.mobilev2');
+			}
+
 		} else {
 
 			if(Auth::guest())

@@ -167,7 +167,7 @@
 
 							<div class="form-group">
 								<div class="col-sm-6">
-									<a href="javascript:void(0);" class="fixed form-control btn btn-default btn-sm ios-app-btn"><i class="fa fa-apple"></i>&nbsp;App Store</a>
+									<a href="http://fir.im/pinios" target="_blank" class="fixed form-control btn btn-default btn-sm ios-app-btn"><i class="fa fa-apple"></i>&nbsp;App Store</a>
 								</div>
 								<div class="col-sm-6">
 									<a href="http://fir.im/pinai" class="fixed form-control btn btn-default btn-sm" target="_blank"><i class="fa fa-android"></i>&nbsp;{{ Lang::get('index.android_app') }}</a>
@@ -177,7 +177,6 @@
 								<center>
 									{{ HTML::image('assets/images/qr_' . $language . '.png', '', array('class' => 'qr', 'width' => '120')) }}
 								</center>
-
 							</div>
 						<div id="message"></div>
 

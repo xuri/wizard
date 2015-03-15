@@ -209,14 +209,14 @@ $('.nav-tabs a').click(function (e) {
   $(this).tab('show')
 })
 
-$('.ios-app-btn').hover(
-	function() {
-		var $this = $(this); // caching $(this)
-		$this.data('<i class="fa fa-apple"></i> App Store', $this.text());
-		$this.text(appstore);
-	},
-	function() {
-		var $this = $(this); // caching $(this)
-		$this.html("<i class='fa fa-apple'></i> App Store");
-	}
-);
+// $('.ios-app-btn').hover(
+// 	function() {
+// 		var $this = $(this); // caching $(this)
+// 		$this.data('<i class="fa fa-apple"></i> App Store', $this.text());
+// 		$this.text(appstore);
+// 	},
+// 	function() {
+// 		var $this = $(this); // caching $(this)
+// 		$this.html("<i class='fa fa-apple'></i> App Store");
+// 	}
+// );
