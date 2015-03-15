@@ -11,9 +11,9 @@ return array(
 
 	"community"		=> "Forum",
 
-	"male"			=> "Boys Club",
+	"male"			=> "Boys",
 
-	"female"		=> "Girls Club",
+	"female"		=> "Girls",
 
 	"post"			=> "Create",
 

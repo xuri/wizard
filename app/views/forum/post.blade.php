@@ -139,7 +139,7 @@
 									))
 								}}
 								<textarea class="reply_comment_textarea" id="reply_id_{{ $comment->id }}" name="reply_content">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
-								{{ Form::button('发表', array('class' => 'reply_comment_submit', 'data-nickname' => $user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $user->id)) }}
+								{{ Form::button(Lang::get('forum/post.reply'), array('class' => 'reply_comment_submit', 'data-nickname' => $user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $user->id)) }}
 								{{ Form::close() }}
 							</section>
 							<div class="message-other">
