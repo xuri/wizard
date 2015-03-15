@@ -183,9 +183,9 @@ class MemberController extends BaseController {
 
 		if($data->sex == 'M')
 		{
-			$sex = '他';
+			$sex = Lang::get('members/show.he');
 		} else {
-			$sex = '她';
+			$sex = Lang::get('members/show.she');
 		}
 
 		// Determine user renew status
@@ -216,7 +216,7 @@ class MemberController extends BaseController {
 				);
 				// Custom validation message
 				$messages = array(
-					'answer.required'     => '请回答爱情考验问题。',
+					'answer.required'     => Lang::get('members/show.answer_warning'),
 					'answer.min'          => '至少要写:min个字哦。',
 				);
 
@@ -252,7 +252,7 @@ class MemberController extends BaseController {
 
 								return Redirect::route('account.sent')
 									->withInput()
-									->with('success', '发送成功，静待缘分到来吧。');
+									->with('success', Lang::get('members/show.send_success'));
 							}
 						} else { // First like
 							$like					= new Like();
@@ -283,7 +283,7 @@ class MemberController extends BaseController {
 
 								return Redirect::route('account.sent')
 									->withInput()
-									->with('success', '发送成功，静待缘分到来吧。');
+									->with('success', Lang::get('members/show.send_success'));
 							}
 						}
 					} else {

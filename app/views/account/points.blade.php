@@ -39,7 +39,7 @@
 					@endif
 				</div>
 			</div>
-			<span class="num num1">0</span>
+			<span class="num num1" style="width: 50px;">积分:0</span>
 			<span class="num num2">25</span>
 			<span class="num num3">50</span>
 		</div>

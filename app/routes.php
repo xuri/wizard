@@ -327,5 +327,5 @@ App::missing(function($exception)
 
 App::error(function($exception)
 {
-	return Response::view('system.missing', array(), 404);
+	return Response::view('system.missing', array(), 500);
 });
