@@ -49,10 +49,12 @@ class HomeController extends BaseController {
 				// Language select
 				$language	= Input::get('lang');
 
+				// User change language
 				if($language) {
 					// Set language
 					Session::put('language', $language);
 				}
+
 				$language 	= Session::get('language', Config::get('app.locale'));
 				App::setlocale($language);
 				return View::make('home.indexv2')->with(compact('language'));
@@ -64,13 +66,21 @@ class HomeController extends BaseController {
 				// Retrieve user profile
 				$profile	= Profile::find(Auth::user()->id);
 
+				// User change language
 				if($language) {
 					$profile->language	= e($language);
 					$profile->save();
+
 					// Set language
 					Session::put('language', $language);
 				} else {
-					Session::put('language', $profile->language);
+					// Get user language profile
+					if(isset($profile->language))
+					{
+						Session::put('language', $profile->language);
+					} else {
+						Session::put('language', Config::get('app.locale'));
+					}
 				}
 
 				$language 	= Session::get('language', Config::get('app.locale'));
