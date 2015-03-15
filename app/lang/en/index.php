@@ -11,7 +11,7 @@ return array(
 
 	"slogan"		=> "Looking for you love",
 
-	"title"			=> "The first platform for college student dating",
+	"title"			=> "Dating platform particularly for college",
 
 	"get_start"		=> "Get Start",
 

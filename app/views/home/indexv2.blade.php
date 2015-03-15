@@ -112,7 +112,7 @@
 
 			<div class="faq col-lg-6 col-sm-12 col-xs-12">
 
-				<h3>{{ Lang::get('navigation.pinai') }}{{ Config::get('app.locale') }}</h3>
+				<h3>{{ Lang::get('navigation.pinai') }}</h3>
 
 				<div class="panel-group" id="accordion">
 
