@@ -9,11 +9,11 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">用户管理</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_user_noactive') }}</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					@include('layout.notification')
@@ -22,21 +22,21 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							以下是符合“接收方至少3天未登录”的好友请求记录列表
+							{{ Lang::get('admin/users/noactive.table_title') }}
 						</div>
 						<div class="table-responsive">
 							<table class="table table-bordered table-hover">
 								<thead>
 									<tr>
 										<th>ID</th>
-										<th>发送方ID</th>
-										<th>发送方</th>
-										<th>最后请求时间</th>
-										<th>接收方ID</th>
-										<th>接收方</th>
-										<th>接收方最后活动时间</th>
-										<th>接收方联系方式</th>
-										<th style="width:5em;text-align:center;">操作</th>
+										<th>{{ Lang::get('admin/users/noactive.sender_id') }}</th>
+										<th>{{ Lang::get('admin/users/noactive.sender') }}</th>
+										<th>{{ Lang::get('admin/users/noactive.request_at') }}</th>
+										<th>{{ Lang::get('admin/users/noactive.receiver_id') }}</th>
+										<th>{{ Lang::get('admin/users/noactive.receiver') }}</th>
+										<th>{{ Lang::get('admin/users/noactive.receiver_updated_at') }}</th>
+										<th>{{ Lang::get('admin/users/noactive.receiver_contact') }}</th>
+										<th style="width:5em;text-align:center;">{{ Lang::get('admin/users/index.operating') }}</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -49,21 +49,21 @@
 										@if($passtime > 259200)
 										<tr>
 											<td>{{ $data->id }}</td>
-											<td><a href="{{ route('users.edit', $sender->id) }}" alt="用户管理" title="用户管理" target="_blank"><i class="fa fa-pencil-square-o"></i>&nbsp;{{ $sender->id }}</a></td>
+											<td><a href="{{ route('users.edit', $sender->id) }}" alt="{{ Lang::get('navigation.admin_user_management') }}" title="{{ Lang::get('navigation.admin_user_management') }}" target="_blank"><i class="fa fa-pencil-square-o"></i>&nbsp;{{ $sender->id }}</a></td>
 
 											@if($sender->nickname)
-												<td><a href="{{ route('members.show', $sender->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i>&nbsp;{{ $sender->nickname }}</a></td>
+												<td><a href="{{ route('members.show', $sender->id) }}" alt="{{ Lang::get('admin/users/noactive.user_profile') }}" title="{{ Lang::get('admin/users/noactive.user_profile') }}" target="_blank"><i class="fa fa-external-link"></i>&nbsp;{{ $sender->nickname }}</a></td>
 											@else
-												<td><a href="{{ route('members.show', $sender->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i></a>&nbsp;此用户暂未设定昵称</td>
+												<td><a href="{{ route('members.show', $sender->id) }}" alt="{{ Lang::get('admin/users/noactive.user_profile') }}" title="{{ Lang::get('admin/users/noactive.user_profile') }}" target="_blank"><i class="fa fa-external-link"></i></a>&nbsp;{{ Lang::get('admin/users/noactive.no_nickname') }}</td>
 											@endif
 
 											<td>{{ $data->updated_at }}</td>
 											<td><a href="{{ route('users.edit', $receiver->id) }}" alt="用户管理" title="用户管理" target="_blank"><i class="fa fa-pencil-square-o"></i>&nbsp;{{ $receiver->id }}</a></td>
 
 											@if($receiver->nickname)
-												<td><a href="{{ route('members.show', $receiver->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i>&nbsp;{{ $receiver->nickname }}</a></td>
+												<td><a href="{{ route('members.show', $receiver->id) }}" alt="{{ Lang::get('admin/users/noactive.user_profile') }}" title="{{ Lang::get('admin/users/noactive.user_profile') }}" target="_blank"><i class="fa fa-external-link"></i>&nbsp;{{ $receiver->nickname }}</a></td>
 											@else
-												<td><a href="{{ route('members.show', $receiver->id) }}" alt="查看资料" title="查看资料" target="_blank"><i class="fa fa-external-link"></i></a>&nbsp;此用户暂未设定昵称</td>
+												<td><a href="{{ route('members.show', $receiver->id) }}" alt="{{ Lang::get('admin/users/noactive.user_profile') }}" title="{{ Lang::get('admin/users/noactive.user_profile') }}" target="_blank"><i class="fa fa-external-link"></i></a>&nbsp;{{ Lang::get('admin/users/noactive.no_nickname') }}</td>
 											@endif
 
 											<td>{{ $receiver->updated_at }}</td>
@@ -76,12 +76,12 @@
 
 											@if($data->is_notify == 0)
 												@if($receiver->email)
-													<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">邮件通知</a></td>
+													<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/noactive.email_notify') }}</a></td>
 												@else
-													<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">短信通知</a></td>
+													<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/noactive.sms_notify') }}</a></td>
 												@endif
 											@else
-												<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-success">再次通知</a></td>
+												<td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-success">{{ Lang::get('admin/users/noactive.re_notify') }}</a></td>
 											@endif
 										</tr>
 										@endif

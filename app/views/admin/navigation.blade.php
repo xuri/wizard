@@ -17,12 +17,18 @@
 				<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
 			</a>
 			<ul class="dropdown-menu dropdown-user">
-				<li><a href="{{ route('account') }}"><i class="fa fa-user fa-fw"></i> {{ Lang::get('navigation.profile') }}</a>
+				<li>
+					<a href="{{ route('home') }}"><i class="fa fa-home fa-fw"></i> {{ Lang::get('navigation.go_home') }}</a>
 				</li>
-				<li><a href="{{ route('admin') }}"><i class="fa fa-gear fa-fw"></i> {{ Lang::get('navigation.dashboard') }}</a>
+				<li>
+					<a href="{{ route('account') }}"><i class="fa fa-user fa-fw"></i> {{ Lang::get('navigation.profile') }}</a>
+				</li>
+				<li>
+					<a href="{{ route('admin') }}"><i class="fa fa-gear fa-fw"></i> {{ Lang::get('navigation.dashboard') }}</a>
 				</li>
 				<li class="divider"></li>
-				<li><a href="{{ route('signout') }}"><i class="fa fa-sign-out fa-fw"></i> {{ Lang::get('navigation.signout') }}</a>
+				<li>
+					<a href="{{ route('signout') }}"><i class="fa fa-sign-out fa-fw"></i> {{ Lang::get('navigation.signout') }}</a>
 				</li>
 			</ul>
 			{{-- /.dropdown-user --}}

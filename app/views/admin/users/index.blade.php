@@ -9,7 +9,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">{{ Lang::get('navigation.admin_user_management') }}</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_user_all') }}</h1>
 				</div>
 				{{-- /.col-lg-12 --}}
 			</div>
@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							{{ Lang::get('admin/users/index.users') }}{{ Lang::get('admin/users/index.table') }}
+							{{ Lang::get('admin/users/index.users') }} {{ Lang::get('admin/users/index.table') }}
 						</div>
 						{{-- /.panel-heading --}}
 						<div class="panel-body">

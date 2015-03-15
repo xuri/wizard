@@ -11,9 +11,15 @@ return array(
 
 	"category"					=> "分类",
 
-	"select"					=> "筛选",
+	"user"						=> "发帖用户",
 
-	"table"						=> "列表",
+	"nickname"					=> "昵称",
+
+	"profile"					=> "编辑或查看此用户资料",
+
+	"phone"						=> "手机",
+
+	"title"						=> "标题",
 
 	"edit"						=> "编辑",
 
@@ -31,6 +37,12 @@ return array(
 
 	"table_of_posts_in_forum"	=> "论坛帖子列表",
 
-	"management"				=> "管理",
+	"comments"					=> "评论数",
+
+	"operating"					=> "操作",
+
+	"created_at"				=> "创建时间",
+
+	"show"						=> "查看",
 
 );

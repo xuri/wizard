@@ -11,9 +11,15 @@ return array(
 
 	"category"					=> "Category",
 
-	"select"					=> "Select",
+	"user"						=> "User of Post",
 
-	"table"						=> "Table",
+	"nickname"					=> "Nickname",
+
+	"profile"					=> "Show user profile",
+
+	"phone"						=> "Phone number",
+
+	"title"						=> "Title",
 
 	"edit"						=> "Edit",
 
@@ -31,6 +37,11 @@ return array(
 
 	"table_of_posts_in_forum"	=> "Table of posts in forum",
 
-	"management"				=> "Management",
+	"comments"					=> "Comments",
 
+	"operating"					=> "Operating",
+
+	"created_at"				=> "Created Time",
+
+	"show"						=> "Show",
 );

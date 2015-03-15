@@ -164,25 +164,28 @@ class Admin_UserResource extends BaseResource
 			// Update user profile
 			$profile				= Profile::where('user_id', $id)->first();
 			if(Input::get('grade') != null) {
-				$profile->grade			= Input::get('grade');
+				$profile->grade		= Input::get('grade');
 			}
 			if(Input::get('constellation') != null) {
 				$profile->constellation	= Input::get('constellation');
 			}
 			if(Input::get('tag_str') != null) {
-				$profile->tag_str		= Input::get('tag_str');
+				$profile->tag_str	= Input::get('tag_str');
 			}
 			if(Input::get('hobbies') != null) {
-				$profile->hobbies		= Input::get('hobbies');
+				$profile->hobbies	= Input::get('hobbies');
 			}
 			if(Input::get('self_intro') != null) {
-				$profile->self_intro	= Input::get('self_intro');
+				$profile->self_intro = Input::get('self_intro');
 			}
 			if(Input::get('question') != null) {
-				$profile->question		= Input::get('question');
+				$profile->question	= Input::get('question');
 			}
 			if(Input::get('renew') != null) {
-				$profile->renew			= Input::get('renew');
+				$profile->renew		= Input::get('renew');
+			}
+			if(Input::get('language') != null) {
+				$profile->language	= Input::get('language');
 			}
 			if ($model->save() && $profile->save())
 			{

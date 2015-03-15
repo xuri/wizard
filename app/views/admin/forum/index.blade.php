@@ -9,7 +9,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">{{ $resourceName }}管理</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_forum_management') }}</h1>
 				</div>
 				{{-- /.col-lg-12 --}}
 			</div>
@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							{{ Lang::get('admin/forum.table_of_posts_in_forum') }}
+							{{ Lang::get('admin/forum/index.table_of_posts_in_forum') }}
 						</div>
 						{{-- /.panel-heading --}}
 						<div class="panel-body">
@@ -31,12 +31,12 @@
 									<thead>
 										<tr>
 											<th>ID</th>
-											<th style="text-align:center;">分类</th>
-											<th>发帖用户</th>
-											<th>标题</th>
-											<th>评论数</th>
-											<th>创建时间 {{ order_by('created_at', 'desc') }}</th>
-											<th style="width:12.5em;text-align:center;">操作</th>
+											<th style="text-align:center;">{{ Lang::get('admin/forum/index.category') }}</th>
+											<th>{{ Lang::get('admin/forum/index.category') }}</th>
+											<th>{{ Lang::get('admin/forum/index.title') }}</th>
+											<th>{{ Lang::get('admin/forum/index.comments') }}</th>
+											<th>{{ Lang::get('admin/forum/index.created_at') }} {{ order_by('created_at', 'desc') }}</th>
+											<th style="width:15.5em;text-align:center;">{{ Lang::get('admin/forum/index.operating') }}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -53,30 +53,30 @@
 											<td>{{ $data->id }}</td>
 											<td style="text-align:center;"><a href="{{ route('forum.index') }}">{{ $category->name }}</a></td>
 											@if($user->nickname)
-											<td>昵称：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->nickname }}<a></td>
+											<td>{{ Lang::get('admin/forum/index.nickname') }}: <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/forum/index.profile') }}" alt="{{ Lang::get('admin/forum/index.profile') }}">{{ $user->nickname }}<a></td>
 											@elseif($data->email)
-											<td>邮箱：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->email }}</a></td>
+											<td>E-mail: <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/forum/index.profile') }}" alt="{{ Lang::get('admin/forum/index.profile') }}">{{ $user->email }}</a></td>
 											@elseif($data->phone)
-											<td>手机：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->phone }}</a></td>
+											<td>{{ Lang::get('admin/forum/index.phone') }}: <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/forum/index.profile') }}" alt="{{ Lang::get('admin/forum/index.profile') }}">{{ $user->phone }}</a></td>
 											@else
-											<td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="编辑或查看此用户资料" alt="编辑或查看此用户资料">{{ $user->id }}</a></td>
+											<td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/forum/index.profile') }}" alt="{{ Lang::get('admin/forum/index.profile') }}">{{ $user->id }}</a></td>
 											@endif
 											<td>{{ close_tags(Str::limit($data->title, 20)) }}</td>
 											<td class="center">{{ $comments->count() }}</td>
 											<td class="center">{{ $data->created_at }}</td>
-											<td class="center">
-												<a href="{{ route('forum.show', $data->id) }}" class="btn btn-xs btn-info" target="_blank">查看</a>
+											<td class="center" style="text-align:center;">
+												<a href="{{ route('forum.show', $data->id) }}" class="btn btn-xs btn-info" target="_blank">{{ Lang::get('admin/forum/index.show') }}</a>
 												@if($data->top)
-												<a href="{{ route($resource . '.untop', $data->id) }}" class="btn btn-xs btn-primary">取顶</a>
+												<a href="{{ route($resource . '.untop', $data->id) }}" class="btn btn-xs btn-primary">{{ Lang::get('admin/forum/index.unfix_top') }}</a>
 												@else
-												<a href="{{ route($resource . '.top', $data->id) }}" class="btn btn-xs btn-success">置顶</a>
+												<a href="{{ route($resource . '.top', $data->id) }}" class="btn btn-xs btn-success">{{ Lang::get('admin/forum/index.fix_top') }}</a>
 												@endif
 												@if($data->block)
-												<a href="{{ route($resource . '.unlock', $data->id) }}" class="btn btn-xs btn-primary btn-outline">解锁</a>
+												<a href="{{ route($resource . '.unlock', $data->id) }}" class="btn btn-xs btn-primary btn-outline">{{ Lang::get('admin/forum/index.unlock') }}</a>
 												@else
-												<a href="{{ route($resource . '.block', $data->id) }}" class="btn btn-xs btn-warning">屏蔽</a>
+												<a href="{{ route($resource . '.block', $data->id) }}" class="btn btn-xs btn-warning">{{ Lang::get('admin/forum/index.block') }}</a>
 												@endif
-												<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource . '.destroy', $data->id) }}')">删除</a>
+												<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource . '.destroy', $data->id) }}')">{{ Lang::get('admin/forum/index.delete') }}</a>
 											</td>
 										</tr>
 										@endforeach

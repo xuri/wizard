@@ -152,13 +152,13 @@
 												<option value="12">摩羯座</option>
 											</select>
 										</div>
-										<div class="form-group input-group">
-											<span class="input-group-addon">注册时间</span>
-											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('created_at', $data->created_at) }}" name="created_at">
-										</div>
-										<div class="form-group input-group">
-											<span class="input-group-addon">最后登录</span>
-											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('signin_at', $data->updated_at) }}" name="updated_at">
+										<div class="form-group">
+											<label>首选语言</label>
+											<select class="form-control" id="language" name="language" onchange="language();" rel="{{ $profile->language }}">
+												<option value="">未设置首选语言</option>
+												<option value="zh_CN">简体中文</option>
+												<option value="en">English</option>
+											</select>
 										</div>
 										<a href="{{ route($resource.'.detail', $data->id) }}" class="btn btn-default">查看此用户的好友关系详情</a>
 										<a href="{{ route($resource.'.notify', $data->id) }}" class="btn btn-default">向此用户推送系统通知</a>
@@ -174,6 +174,14 @@
 										<div class="form-group input-group">
 											<span class="input-group-addon">手机号码</span>
 											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('phone', $data->phone) }}" name="phone">
+										</div>
+										<div class="form-group input-group">
+											<span class="input-group-addon">注册时间</span>
+											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('created_at', $data->created_at) }}" name="created_at">
+										</div>
+										<div class="form-group input-group">
+											<span class="input-group-addon">最后登录</span>
+											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('signin_at', $data->updated_at) }}" name="updated_at">
 										</div>
 										<div class="form-group input-group">
 											<span class="input-group-addon">头像文件</span>
@@ -193,6 +201,7 @@
 											<span class="input-group-addon">标签代码</span>
 											<input type="text" class="form-control" placeholder="未设置个性标签" value="{{ Input::old('tag_str', $profile->tag_str) }}" name="tag_str">
 										</div>
+
 										<div class="form-group">
 											<label>爱情宣言</label>
 											<textarea class="form-control" rows="3" name="bio">{{ Input::old('bio', $data->bio) }}</textarea>
@@ -247,6 +256,7 @@
 		$("#school").val($("#school").attr("rel"));
 		$("#grade").val($("#grade").attr("rel"));
 		$("#constellation").val($("#constellation").attr("rel"));
+		$("#language").val($("#language").attr("rel"));
 	</script>
 </body>
 
