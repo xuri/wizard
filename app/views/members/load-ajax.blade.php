@@ -8,7 +8,7 @@
 	<div class="lu_resumes clear">
 		<div class="lu_resumes_user clear">
 				@if($data->is_verify == 1)
-				<a href="javascript:void(0);" class="icon_verify" title="实名认证" alt="实名认证"><span class="icon_approve"></span></a>
+				<a href="javascript:void(0);" class="icon_verify" title="{{ Lang::get('members/index.verify') }}" alt="{{ Lang::get('members/index.verify') }}"><span class="icon_approve"></span></a>
 				@else
 				@endif
 
@@ -42,8 +42,8 @@
 					</p>
 				@endif
 				<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">{{ $data->school }}</p>
-				<p class="lu_userMessage_p lu_left">{{ $profile->grade }}届</p>
-				<a class="lu_userMessage_detail lu_right" href="{{ route('members.show', $data->id) }}">详细资料</a>
+				<p class="lu_userMessage_p lu_left">{{ $profile->grade }}{{ Lang::get('members/index.grade') }}</p>
+				<a class="lu_userMessage_detail lu_right" href="{{ route('members.show', $data->id) }}">{{ Lang::get('members/index.detail') }}</a>
 				<p class="lu_userMessage_readme lu_left">{{ $profile->self_intro }}</p>
 				<ul class="lu_userMessage_character">
 

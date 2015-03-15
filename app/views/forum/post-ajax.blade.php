@@ -13,7 +13,7 @@
 		<div class="message-re clear">
 
 			@if($user->is_verify == 1)
-				<a href="javascript:void(0);" class="large_icon_verify" title="实名认证" alt="实名认证"><span class="large_icon_approve"></span></a>
+				<a href="javascript:void(0);" class="large_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="large_icon_approve"></span></a>
 			@else
 			@endif
 
@@ -54,10 +54,10 @@
 			<p class="g-reply">{{ badWordsFilter($comment->content) }}</p>
 
 			<ul class="reply">
-				<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
-				<li>{{ $floor ++ }}楼</li>
+				<li><a href="{{ route('support.index') }}" class="a-color-grey">{{ Lang::get('forum/post.report') }}</a></li>
+				<li>{{ $floor ++ }}{{ Lang::get('forum/post.floor') }}</li>
 				<li>{{ date("Y-m-d G:i",strtotime($comment->created_at)) }}</li>
-				<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
+				<li><a href="javascript:void(0);" class="a-color-pink reply_comment">{{ Lang::get('forum/post.reply') }}</a></li>
 			</ul>
 			<section class="form_box_first">
 				{{ Form::open(array(
@@ -66,7 +66,7 @@
 					))
 				}}
 				<textarea class="reply_comment_textarea" id="reply_id_{{ $comment->id }}" name="reply_content">{{ Input::old('content', '回复 '.$user->nickname.':') }}</textarea>
-				{{ Form::button('发表', array('class' => 'reply_comment_submit', 'data-nickname' => $user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $user->id)) }}
+				{{ Form::button(Lang::get('forum/post.post'), array('class' => 'reply_comment_submit', 'data-nickname' => $user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $user->id)) }}
 				{{ Form::close() }}
 			</section>
 			<div class="message-other">
@@ -85,7 +85,7 @@
 						<span class="imgSpan">
 
 							@if($reply_user->is_verify == 1)
-								<a href="javascript:void(0);" class="small_icon_verify" title="实名认证" alt="实名认证"><span class="small_icon_approve"></span></a>
+								<a href="javascript:void(0);" class="small_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="small_icon_approve"></span></a>
 							@else
 							@endif
 
@@ -120,7 +120,7 @@
 						@endif
 
 						<p class="r-value">{{ date("Y-m-d G:i",strtotime($reply->created_at)) }}  {{ badWordsFilter($reply->content) }}</p>
-						<a class="replay-a reply_inner">回复</a>
+						<a class="replay-a reply_inner">{{ Lang::get('forum/post.reply') }}</a>
 
 						<section class="form_box_second">
 							{{ Form::open(array(
@@ -129,7 +129,7 @@
 								))
 							}}
 							<textarea class="textarea" name="reply_content" id="reply_id_{{ $reply->id }}">{{ Input::old('content', '回复 '.$reply_user->nickname.':') }}</textarea>
-							{{ Form::button('回复', array('class' => 'submit', 'data-nickname' => $reply_user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $reply->id)) }}
+							{{ Form::button(Lang::get('forum/post.reply'), array('class' => 'submit', 'data-nickname' => $reply_user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $reply->id)) }}
 							{{ Form::close() }}
 						</section>
 						<span class="span-line"></span>

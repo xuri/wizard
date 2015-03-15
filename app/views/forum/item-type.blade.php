@@ -1,7 +1,7 @@
 <ul id="bbs_main_clinic" class="bbs_main bbs_main_{{ $categoryCode }}">
 	@foreach($tops as $top)
 	<li class="bbs_main_boy">
-		<span class="tops">置 顶</span>
+		<span class="tops">{{ Lang::get('forum/index.top') }}</span>
 		<a href="{{ route('forum.show', $top->id) }}" target="_blank">{{ badWordsFilter(Str::limit($top->title, 35)) }}</a>
 
 		{{-- Get plain text from post content HTML code and replace to content value in array --}}

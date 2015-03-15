@@ -22,19 +22,19 @@
 				<ul class="tabNavigation bbs_tab">
 					<a class="lu_left active" href="#first">
 
-							<span style="color: #ef698a;">爱诊所</span>
+							<span style="color: #ef698a;">{{ Lang::get('forum/index.community') }}</span>
 							{{ HTML::image('assets/images/forum-tab-1.png') }}
 
 					</a>
 					<a class="lu_left" href="#second">
 
-							<span>男生公寓</span>
+							<span>{{ Lang::get('forum/index.male') }}</span>
 							{{ HTML::image('assets/images/boys.png') }}
 
 					</a>
 					<a class="lu_left" id="bbs_tab_end" href="#third">
 
-							<span style="color: #ef698a;">女生公寓</span>
+							<span style="color: #ef698a;">{{ Lang::get('forum/index.female') }}</span>
 							{{ HTML::image('assets/images/girls.png') }}
 
 					</a>
@@ -52,16 +52,16 @@
 						<input name="category_id" type="hidden" value="1" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
-							<span>发表新帖</span>
+							<span>{{ Lang::get('forum/index.post') }}</span>
 						</div>
-						<input class="bbs_bottom_title lu_left bbs_bottom_title_1" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<input class="bbs_bottom_title lu_left bbs_bottom_title_1" type="text" name="title" placeholder="{{ Lang::get('forum/index.title_input') }}" value="{{ Input::old('title') }}" required="required">
 						<br />
 						<br />
 						<br />
 						{{ Umeditor::css() }}
 						{{ Umeditor::content(Input::old('content'), ['id'=> 'cat1_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
 						{{ Umeditor::js() }}
-						{{ Form::button('发表', array('class' => 'bbs_bottom_btn bbs_bottom_btn_1', 'data-action-id' => '1')) }}
+						{{ Form::button(Lang::get('forum/index.do_post'), array('class' => 'bbs_bottom_btn bbs_bottom_btn_1', 'data-action-id' => '1')) }}
 					{{ Form::close() }}
 
 				</div>
@@ -80,16 +80,16 @@
 						<input name="category_id" type="hidden" value="2" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
-							<span>发表新帖</span>
+							<span>{{ Lang::get('forum/index.post') }}</span>
 						</div>
-						<input class="bbs_bottom_title lu_left bbs_bottom_title_2" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<input class="bbs_bottom_title lu_left bbs_bottom_title_2" type="text" name="title" placeholder="{{ Lang::get('forum/index.title_input') }}" value="{{ Input::old('title') }}" required="required">
 						<br />
 						<br />
 						<br />
 						{{ Umeditor::css() }}
 						{{ Umeditor::content(Input::old('content'), ['id'=> 'cat2_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
 						{{ Umeditor::js() }}
-						{{ Form::button('发表', array('class' => 'bbs_bottom_btn bbs_bottom_btn_2', 'data-action-id' => '2')) }}
+						{{ Form::button(Lang::get('forum/index.do_post'), array('class' => 'bbs_bottom_btn bbs_bottom_btn_2', 'data-action-id' => '2')) }}
 					{{ Form::close() }}
 
 				</div>
@@ -114,16 +114,16 @@
 						<input name="category_id" type="hidden" value="3" />
 						<div class="bbs_bottom_new lu_left">
 							{{ HTML::image('assets/images/release.png') }}
-							<span>发表新帖</span>
+							<span>{{ Lang::get('forum/index.post') }}</span>
 						</div>
-						<input class="bbs_bottom_title lu_left bbs_bottom_title_3" type="text" name="title" placeholder="添加题目" value="{{ Input::old('title') }}" required="required">
+						<input class="bbs_bottom_title lu_left bbs_bottom_title_3" type="text" name="title" placeholder="{{ Lang::get('forum/index.title_input') }}" value="{{ Input::old('title') }}" required="required">
 						<br />
 						<br />
 						<br />
 						{{ Umeditor::css() }}
 						{{ Umeditor::content(Input::old('content'), ['id'=> 'cat3_editor', 'class'=>'myEditor text-umeditor bbs_bottom', 'name' => 'content', 'height' => '220']) }}
 						{{ Umeditor::js() }}
-						{{ Form::button('发表', array('class' => 'bbs_bottom_btn bbs_bottom_btn_3', 'data-action-id' => '3')) }}
+						{{ Form::button(Lang::get('forum/index.do_post'), array('class' => 'bbs_bottom_btn bbs_bottom_btn_3', 'data-action-id' => '3')) }}
 					{{ Form::close() }}
 
 				</div>

@@ -25,7 +25,7 @@
 				<div class="message-re message-border clear">
 
 					@if($author->is_verify == 1)
-						<a href="javascript:void(0);" class="large_icon_verify" title="实名认证" alt="实名认证"><span class="large_icon_approve"></span></a>
+						<a href="javascript:void(0);" class="large_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="large_icon_approve"></span></a>
 					@else
 					@endif
 					<div class="re-headImg-box">
@@ -65,10 +65,10 @@
 					<p class="m-reply">{{ badWordsFilter($data->content) }}</p>
 
 					<ul class="reply">
-						<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
-						<li>1楼</li>
+						<li><a href="{{ route('support.index') }}" class="a-color-grey">{{ Lang::get('forum/post.report') }}</a></li>
+						<li>1{{ Lang::get('forum/post.floor') }}</li>
 						<li>{{ date("Y-m-d G:i",strtotime($data->created_at)) }}</li>
-						<li><a href="#create_comment" class="a-color-pink smooth">回复</a></li>
+						<li><a href="#create_comment" class="a-color-pink smooth">{{ Lang::get('forum/post.reply') }}</a></li>
 					</ul>
 
 				</div>
@@ -87,7 +87,7 @@
 						<div class="message-re clear">
 
 							@if($user->is_verify == 1)
-								<a href="javascript:void(0);" class="large_icon_verify" title="实名认证" alt="实名认证"><span class="large_icon_approve"></span></a>
+								<a href="javascript:void(0);" class="large_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="large_icon_approve"></span></a>
 							@else
 							@endif
 
@@ -127,10 +127,10 @@
 							<p class="g-reply">{{ badWordsFilter($comment->content) }}</p>
 
 							<ul class="reply">
-								<li><a href="{{ route('support.index') }}" class="a-color-grey">举报</a></li>
-								<li>{{ $floor ++ }}楼</li>
+								<li><a href="{{ route('support.index') }}" class="a-color-grey">{{ Lang::get('forum/post.report') }}</a></li>
+								<li>{{ $floor ++ }}{{ Lang::get('forum/post.floor') }}</li>
 								<li>{{ date("Y-m-d G:i",strtotime($comment->created_at)) }}</li>
-								<li><a href="javascript:void(0);" class="a-color-pink reply_comment">回复</a></li>
+								<li><a href="javascript:void(0);" class="a-color-pink reply_comment">{{ Lang::get('forum/post.reply') }}</a></li>
 							</ul>
 							<section class="form_box_first">
 								{{ Form::open(array(
@@ -158,7 +158,7 @@
 										<span class="imgSpan">
 
 											@if($reply_user->is_verify == 1)
-												<a href="javascript:void(0);" class="small_icon_verify" title="实名认证" alt="实名认证"><span class="small_icon_approve"></span></a>
+												<a href="javascript:void(0);" class="small_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="small_icon_approve"></span></a>
 											@else
 											@endif
 
@@ -193,7 +193,7 @@
 										@endif
 
 										<p class="r-value">{{ date("Y-m-d G:i",strtotime($reply->created_at)) }}  {{ badWordsFilter($reply->content) }}</p>
-										<a class="replay-a reply_inner">回复</a>
+										<a class="replay-a reply_inner">{{ Lang::get('forum/post.reply') }}</a>
 
 										<section class="form_box_second">
 											{{ Form::open(array(
@@ -202,7 +202,7 @@
 												))
 											}}
 											<textarea class="textarea" name="reply_content" id="reply_id_{{ $reply->id }}">{{ Input::old('content', '回复 '.$reply_user->nickname.':') }}</textarea>
-											{{ Form::button('回复', array('class' => 'submit', 'data-nickname' => $reply_user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $reply->id)) }}
+											{{ Form::button(Lang::get('forum/post.reply'), array('class' => 'submit', 'data-nickname' => $reply_user->nickname, 'data-comment-id' => $comment->id, 'data-reply-id' => $reply->id)) }}
 											{{ Form::close() }}
 										</section>
 										<span class="span-line"></span>
@@ -220,7 +220,7 @@
 				<div class="if_error"></div>
 
 				<div class="g-box clear" id="create_comment">
-					<h2 class="color" style="margin: 2em 0 1em 2em;">发表评论</h2>
+					<h2 class="color" style="margin: 2em 0 1em 2em;">{{ Lang::get('forum/post.create') }}</h2>
 					{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 					<div class="g-r-box clear" class="clear">
 						{{ Form::open(array(
@@ -231,7 +231,7 @@
 							{{ Umeditor::css() }}
 							{{ Umeditor::content(Input::old('content'), ['id'=>'create_comment_editor', 'class'=>'g-r-value', 'name' => 'content', 'height' => '220']) }}
 							{{ Umeditor::js() }}
-							{{ Form::button('发表', array('class' => 'g-replay bbs_bottom_btn bbs_bottom_btn', 'id' => 'g-replay')) }}
+							{{ Form::button(Lang::get('forum/post.post'), array('class' => 'g-replay bbs_bottom_btn bbs_bottom_btn', 'id' => 'g-replay')) }}
 						{{ Form::close() }}
 					</div>
 				</div>

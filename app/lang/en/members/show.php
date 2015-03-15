@@ -52,4 +52,6 @@ return array(
 	"reject"			=> "Reject",
 
 	"answer_for_me"		=> " answer for my question:",
+
+	"verify"			=> "Verified Account",
 );

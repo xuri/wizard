@@ -52,4 +52,6 @@ return array(
 	"reject"			=> "拒绝",
 
 	"answer_for_me"		=> "给我的爱情考验答案:",
+
+	"verify"			=> "实名认证用户",
 );
