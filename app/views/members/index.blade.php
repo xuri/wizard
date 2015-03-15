@@ -16,19 +16,19 @@
 			<div class="lu_content_main clear">
 				{{ Form::open(array('method' => 'get', 'class' => 'lu_content_main_tab')) }}
 					<select class="lu_school lu_public" name="university" id="university_select" rel="{{ Session::get('university') }}">
-						<option value="all">所有学校</option>
+						<option value="all">{{ Lang::get('members/index.all_school') }}</option>
 						@foreach($open_universities as $open_university)
 						<option value="{{ $open_university->university }}">{{ $open_university->university }}</option>
 						@endforeach
-						<option value="others">其他学校</option>
+						<option value="others">{{ Lang::get('members/index.other_school') }}</option>
 						@foreach($pending_universities as $pending_university)∂
-						<option vlaue="">{{ $pending_university->university }}（{{ date('m月d日', strtotime($pending_university->created_at)) }}开放）</option>
+						<option vlaue="">{{ $pending_university->university }} ({{ date('m月d日', strtotime($pending_university->created_at)) }} {{ Lang::get('members/index.open') }})</option>
 						@endforeach
 					</select>
 					{{
 						Form::select(
 							'target',
-							array('all' => '性别', 'M' => '男', 'F' => '女'),
+							array('all' => Lang::get('members/index.sex'), 'M' => Lang::get('members/index.male'), 'F' => Lang::get('members/index.female')),
 							Input::get('target', 'sex'),
 							array('class' => 'lu_sex lu_public', 'name' => 'sex', 'id' => 'sex_select', 'rel' => Session::get('sex'))
 						)
@@ -36,20 +36,20 @@
 					{{
 						Form::select(
 							'target',
-							array('all' => '入学年份',
-									'2015' => '2015年',
-									'2014' => '2014年',
-									'2013' => '2013年',
-									'2012' => '2012年',
-									'2011' => '2011年',
-									'2010' => '2010年',
+							array('all' => Lang::get('members/index.select_grade'),
+									'2015' => '2015' . Lang::get('members/index.year'),
+									'2014' => '2014' . Lang::get('members/index.year'),
+									'2013' => '2013' . Lang::get('members/index.year'),
+									'2012' => '2012' . Lang::get('members/index.year'),
+									'2011' => '2011' . Lang::get('members/index.year'),
+									'2010' => '2010' . Lang::get('members/index.year'),
 								),
 							Input::get('target', 'grade'),
 							array('class' => 'lu_school lu_public', 'name' => 'grade', 'id' => 'grade_select', 'rel' => Session::get('grade'))
 						)
 					}}
-					<button type="submit" class="lu_search lu_public">搜索</button>
-					<a href="{{ route('account') }}" class="lu_release lu_public">我也发个</a>
+					<button type="submit" class="lu_search lu_public">{{ Lang::get('members/index.search') }}</button>
+					<a href="{{ route('account') }}" class="lu_release lu_public">{{ Lang::get('members/index.profile') }}</a>
 				{{ Form::close() }}
 
 				<div id="load-ajax">
@@ -63,7 +63,7 @@
 					<div class="lu_resumes clear">
 						<div class="lu_resumes_user clear">
 							@if($data->is_verify == 1)
-							<a href="javascript:void(0);" class="icon_verify" title="实名认证" alt="实名认证"><span class="icon_approve"></span></a>
+							<a href="javascript:void(0);" class="icon_verify" title="{{ Lang::get('members/index.verify') }}" alt="{{ Lang::get('members/index.verify') }}"><span class="icon_approve"></span></a>
 							@else
 							@endif
 							<a href="{{ route('members.show', $data->id) }}">
@@ -95,8 +95,8 @@
 									</p>
 								@endif
 								<p class="lu_te lu_userMessage_p lu_userMessage_school lu_left">{{ $data->school }}</p>
-								<p class="lu_userMessage_p lu_left">{{ $profile->grade }}届</p>
-								<a class="lu_userMessage_detail lu_right" href="{{ route('members.show', $data->id) }}">详细资料</a>
+								<p class="lu_userMessage_p lu_left">{{ $profile->grade }}{{ Lang::get('members/index.grade') }}</p>
+								<a class="lu_userMessage_detail lu_right" href="{{ route('members.show', $data->id) }}">{{ Lang::get('members/index.detail') }}</a>
 								<p class="lu_userMessage_readme lu_left">{{ $profile->self_intro }}</p>
 								<ul class="lu_userMessage_character">
 
@@ -115,8 +115,6 @@
 			</div>
 			<div class="lu_content_right">
 				{{ HTML::image('assets/images/sidebar_1.jpg') }}
-
-
 			</div>
 		</div>
 	</div>

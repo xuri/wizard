@@ -27,9 +27,9 @@
 ?>
 
 <div class="lu_paging">
-	<?php echo $presenter->getPrevious('&larr; 前一页'); ?>
+	<?php echo $presenter->getPrevious(Lang::get('pagination.previous')); ?>
 	<?php echo $presenter->getPageRange($start, $end); ?>
-	<?php echo $presenter->getNext('后一页 &rarr;'); ?>
+	<?php echo $presenter->getNext(Lang::get('pagination.next')); ?>
 </div>
 
 <?php endif; ?>
