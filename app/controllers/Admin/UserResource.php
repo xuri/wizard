@@ -100,7 +100,7 @@ class Admin_UserResource extends BaseResource
 		// Construct query statement
 		$query = $this->model->orderBy($orderColumn, $direction);
 		isset($sex) AND $query->where('sex', $sex);
-		isset($filter) AND $query->where('email', 'like', "%{$filter}%")->orWhere('nickname', 'like', "%{$filter}%")->orWhere('id', 'like', "%{$filter}%");
+		isset($filter) AND $query->where('email', 'like', "%{$filter}%")->orWhere('nickname', 'like', "%{$filter}%")->orWhere('id', 'like', "%{$filter}%")->orWhere('phone', 'like', "%{$filter}%");
 		$datas = $query->paginate(10);
 		return View::make($this->resourceView.'.index')->with(compact('datas', 'provinces'));
 	}
@@ -337,11 +337,12 @@ class Admin_UserResource extends BaseResource
 	 */
 	public function detail($id)
 	{
-		$data	= $this->model->where('id', $id)->first();
-		$sends	= Like::where('sender_id', $id)->get();
-		$inboxs	= Like::where('receiver_id', $id)->get();
-		$count	= 1;
-		return View::make($this->resourceView.'.detail')->with(compact('data', 'sends', 'inboxs', 'count'));
+		$data			= $this->model->where('id', $id)->first();
+		$sends			= Like::where('sender_id', $id)->get();
+		$inboxs			= Like::where('receiver_id', $id)->get();
+		$sent_count		= 1;
+		$inbox_count	= 1;
+		return View::make($this->resourceView.'.detail')->with(compact('data', 'sends', 'inboxs', 'sent_count', 'inbox_count'));
 	}
 
 	/**

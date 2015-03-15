@@ -23,7 +23,7 @@ return array(
 
 	"nickname"		=> "昵称",
 
-	"select_input"	=> "模糊搜索ID、E-mail和昵称",
+	"select_input"	=> "模糊搜索ID、E-mail、手机号码和昵称",
 
 	"select"		=> "筛选",
 

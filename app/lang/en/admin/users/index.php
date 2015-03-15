@@ -23,7 +23,7 @@ return array(
 
 	"nickname"		=> "Nickname",
 
-	"select_input"	=> "Fuzzy search ID, E-mail and nickname",
+	"select_input"	=> "Fuzzy search ID, E-mail, phone number and nickname",
 
 	"select"		=> "Select",
 
