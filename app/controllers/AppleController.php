@@ -133,9 +133,11 @@ class AppleController extends BaseController
 						// Signup from 1 - Android, 2 - iOS
 						$user->from			= Input::get('from');
 						$user->activated_at	= date('Y-m-d G:i:s');
-
-						// $user->sex			= e(Input::get('sex'));
 						$user->password		= md5(Input::get('password'));
+
+						if(isset(Input::get('sex'))) {
+							$user->sex			= e(Input::get('sex'));
+						}
 
 						if ($user->save()) {
 							$profile			= new Profile;

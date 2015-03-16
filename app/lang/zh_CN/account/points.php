@@ -13,7 +13,7 @@ return array(
 
 	"nickname"		=> "昵称",
 
-	"points"		=> "精灵豆",
+	"points"		=> "积分",
 
 	"renew_input"	=> "每天为爱情正能量加油可以获取精灵豆哦",
 

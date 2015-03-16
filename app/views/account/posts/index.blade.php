@@ -51,10 +51,10 @@
 					</div>
 				</div>
 
-				{{-- 资料部分 --}}
+				{{-- Data Section --}}
 				<div id="data">
 					<div class="data_top clear">
-						<span></span> {{--左侧粉块--}}
+						<span></span> {{-- Left border --}}
 						<p>{{ Lang::get('navigation.my_posts') }}</p>
 					</div>
 					<div id="load-ajax">

@@ -32,7 +32,7 @@ $(function(){
 
 	$(".delete-message").click(function(){
 		var postId = $(this).data('post-id'); // Get post ID attribute
-		if (confirm("确定要删除这条帖子吗?")) {
+		if (confirm("{{ Lang::get('account/posts.delete_confirm') }}")) {
 			// Ajax post data
 			var formData = {
 				post_id 	: postId, // Get post title
