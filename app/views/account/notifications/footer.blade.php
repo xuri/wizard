@@ -8,6 +8,7 @@
 	var firstAjaxURL	= "{{ route('account.notifications.type', 'first') }}";
 	var secondAjaxURL	= "{{ route('account.notifications.type', 'second') }}";
 	var thirdAjaxURL	= "{{ route('account.notifications.type', 'third') }}";
+	var lang_has_renew	= "{{ Lang::get('account/complete.has_renew') }}";
 </script>
 
 {{ Minify::javascript(array(

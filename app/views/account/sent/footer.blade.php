@@ -5,6 +5,7 @@
 	// For easemob
 	var curUserId		= '{{ Auth::user()->id }}';
 	var curUserPass		= '{{ Auth::user()->password }}';
+	var lang_has_renew	= "{{ Lang::get('account/complete.has_renew') }}";
 </script>
 
 {{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
