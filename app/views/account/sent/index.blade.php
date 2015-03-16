@@ -84,36 +84,36 @@
 									@endif
 									<span>{{ $user->nickname }}</span></div>
 								<div class="cour_bottom">
-									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> 已追<em>{{ $data->count }}</em>次</span>
-									<span style="margin: 0 15px 0px 10px; line-height: 2em;">已追<em>{{ $Days }}</em>天</span><br />
+									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> {{ Lang::get('account/chat.friend_request') }}<em>{{ $data->count }}</em>{{ Lang::get('account/chat.count') }}</span>
+									<span style="margin: 0 15px 0px 10px; line-height: 2em;">{{ Lang::get('account/chat.friend_request') }}<em>{{ $Days }}</em>{{ Lang::get('account/chat.days') }}</span><br />
 									@if($data->status == 3)
-									<a href="{{ route('members.show', $user->id) }}" class="button-block">对方已经把你拉黑了</a>
+									<a href="{{ route('members.show', $user->id) }}" class="button-block">{{ Lang::get('account/chat.lock_you') }}</a>
 									@elseif($data->status == 1)
 										<input name="status" type="hidden" value="sender_block" />
 										<input type="submit" class="button-resent"
 											@if($user->sex == 'M')
-											value="把他拉黑"
+											value="{{ Lang::get('account/chat.lock_he') }}"
 											@else(Auth::user()->sex == 'F')
-											value="把她拉黑"
+											value="{{ Lang::get('account/chat.lock_she') }}"
 											@endif
 										/>
 									@elseif($data->status == 4)
 										<input name="status" type="hidden" value="sender_recover" />
-										<input type="submit" class="button-unclock" value="取消拉黑"
+										<input type="submit" class="button-unclock" value="{{ Lang::get('account/chat.unlock') }}"
 										/>
 									@else
 									<a href="{{ route('members.show', $user->id) }}" class="button-resent">
-									再追一次</a>
+									{{ Lang::get('account/chat.request_again') }}</a>
 									@endif
 									@if($data->status == 0)
 									<a href="{{ route('members.show', $user->id) }}" class="button-wait">
-									静待缘分</a>
+									{{ Lang::get('account/chat.waiting') }}</a>
 									@elseif($data->status == 1)
-									<a href="javascript:;" class="remodal-bg button-blue chat_start" data-id="{{ $user->id }}" id="chat_start" data-nickname="{{ $user->nickname }}">开始聊天</a>
+									<a href="javascript:;" class="remodal-bg button-blue chat_start" data-id="{{ $user->id }}" id="chat_start" data-nickname="{{ $user->nickname }}">{{ Lang::get('account/chat.start_chat') }}</a>
 									@elseif($data->status == 2)
-									<a href="javascript:;" class="button-block">已经拒绝</a>
+									<a href="javascript:;" class="button-block">{{ Lang::get('account/chat.is_reject') }}</a>
 									@elseif($data->status == 4)
-									<a href="javascript:;" class="button-block">已经拉黑</a>
+									<a href="javascript:;" class="button-block">{{ Lang::get('account/chat.is_lock') }}</a>
 									@endif
 								</div>
 								<input type="hidden" value="" id="{{ $user->id }}"/>

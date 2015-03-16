@@ -357,7 +357,7 @@ body {
 
 #courtship li {
 	padding: 10px;
-	float: left;
+	display: inline-table;
 	margin: 0 0 20px 50px;
 	border: 1px solid #e7e7e7;
 	-webkit-border-radius: 5px;

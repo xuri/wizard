@@ -140,7 +140,7 @@
 						{{ $errors->first('answer', '<div class="callout-warning">:message</div>') }}
 						<textarea name="answer" class="answer" rows="3" placeholder="{{ Lang::get('members/show.answer_input') }}"></textarea>
 						<div class="pi_center_bottom">
-							<button type="submit">再追一次</button>
+							<button type="submit">{{ Lang::get('account/chat.request_again') }}</button>
 						{{ Form::close() }}
 						</div>
 					@endif
