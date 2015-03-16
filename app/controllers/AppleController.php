@@ -135,7 +135,8 @@ class AppleController extends BaseController
 						$user->activated_at	= date('Y-m-d G:i:s');
 						$user->password		= md5(Input::get('password'));
 
-						if(isset(Input::get('sex'))) {
+						// Client set sex
+						if(null !== Input::get('sex')) {
 							$user->sex			= e(Input::get('sex'));
 						}
 
@@ -151,31 +152,45 @@ class AppleController extends BaseController
 							$regChat			= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/users', ['username' => $user->id, 'password' => $user->password])
 								->setHeader('content-type', 'application/json')
 								->setHeader('Accept', 'json')
-								->setHeader('Authorization', 'Bearer '.$easemob->token)
+								->setHeader('Authorization', 'Bearer ' . $easemob->token)
 								->setOptions([CURLOPT_VERBOSE => true])
 								->send();
 
 							// Respond body
 							$result 			= json_decode($regChat->body, true);
-
-							// Determine register status from Easemob
-							if($result['entities']['0']['activated'] == true)
+							if(isset($result['entities']))
 							{
-								// Create floder to store chat record
-								File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+								// Determine register status from Easemob
+								if($result['entities']['0']['activated'] == true)
+								{
+									// Create floder to store chat record
+									File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 
-								// Redirect to a registration page, prompts user to activate
-								// Signin success, redirect to the previous page that was blocked
-								return Response::json(
-									array(
-										'status'	=> 1,
-										'id'		=> $user->id,
-										'password'	=> $user->password
-									)
-								);
+									// Redirect to a registration page, prompts user to activate
+									// Signin success, redirect to the previous page that was blocked
+									return Response::json(
+										array(
+											'status'	=> 1,
+											'id'		=> $user->id,
+											'password'	=> $user->password
+										)
+									);
+								} else {
+									// Add user success, but register fail in Easemob
+									$user->forceDelete();
+									$profile->forceDelete();
+
+									return Response::json(
+										array(
+											'status' 		=> 0
+										)
+									);
+								}
 							} else {
+								// Add user success, but register fail in Easemob
+								$user->forceDelete();
+								$profile->forceDelete();
 
-								// Easemob register fail
 								return Response::json(
 									array(
 										'status' 		=> 0
@@ -183,8 +198,10 @@ class AppleController extends BaseController
 								);
 							}
 						} else {
-
 							// Add user success, but register fail in Easemob
+							$user->forceDelete();
+							$profile->forceDelete();
+
 							return Response::json(
 								array(
 									'status' 		=> 0
@@ -192,8 +209,7 @@ class AppleController extends BaseController
 							);
 						}
 					} else {
-
-						// Add user fail
+						// Verification fail
 						return Response::json(
 							array(
 								'status' 		=> 0

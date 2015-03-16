@@ -51,10 +51,10 @@
 					</div>
 				</div>
 
-				{{-- 资料部分 --}}
+				{{-- Data Section --}}
 				<div id="data">
 					<div class="data_top clear">
-						<span></span> {{-- 左侧粉块 --}}
+						<span></span> {{-- Left Border --}}
 						<p>{{ Lang::get('navigation.inbox') }}</p>
 					</div>
 					<ul class="new_tab clear">

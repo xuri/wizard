@@ -21,7 +21,11 @@
 	<h3 class="new_main_school">{{ $sender->school }}</h6>
 	<span class="new_main_time">{{ date("m-d H:m",strtotime($friendNotification->created_at)) }}</span>
 	<p class="list_1">{{ $notifications['content'] }}</p>
-	<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">查看</a>
+	<div class="option">
+		<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">查看</a>
+		<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">删除</a>
+	</div>
+
 </li>
 @endforeach
 {{ pagination($friendNotifications->appends(Input::except('page')), 'layout.paginator') }}

@@ -57,18 +57,24 @@
 	width: 746px;
 	margin: 0 auto 120px;
 	color: #888a89;
-	font-size: 16px;
+	font-size: 14px;
 }
 
 .new_main li.item {
 	position: relative;
 	width: 100%;
-	padding: 18px 0;
+	padding: 15px 0;
 	border-bottom: 1px solid #c9c9c9;
 }
-
+.option {
+	width: 128px;
+	float: right;
+	margin-top:-1.5em;
+}
 .new_main .unread {
 	color: #ed5565;
+	width: 80px;
+	margin: 0 0.5em 0 0.5em;
 }
 
 .new_main_head {
@@ -99,6 +105,7 @@
 	overflow: hidden;
 	white-space: nowrap;
 	text-overflow: ellipsis;
+	color: #777;
 }
 
 .new_main_time {
@@ -107,7 +114,7 @@
 
 .new_main_school {
 	width: 400px;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: normal;
 }
 
@@ -214,7 +221,7 @@ body {
 	background-color: #ef698a;
 	color: #fff;
 	height: 50px;
-	font-size: 16px;
+	font-size: 14px;
 	line-height: 50px;
 	text-align: center;
 	background-repeat: no-repeat;
@@ -546,9 +553,9 @@ body {
 }
 
 #courtship-mine ul li .date {
-	font-size: 10px;
-	line-height: 18px;
-	height: 18px;
+	font-size: 14px;
+	line-height: 22px;
+	height: 22px;
 	color: #8e8e8e;
 	margin-left: 50px;
 }
