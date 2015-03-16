@@ -384,7 +384,7 @@ class AppleController extends BaseController
 						$last_updated_at	= User::find($last_id)->updated_at;
 
 						//  App client have post last user id, retrieve and skip profile not completed user
-						$query				= User::whereNotNull('portrait')->whereNotNull('nickname');
+						$query				= User::whereNotNull('portrait')->whereNotNull('nickname')->whereNotNull('bio')->whereNotNull('school');
 
 						// Sex filter
 						if($sex_filter){
@@ -462,7 +462,7 @@ class AppleController extends BaseController
 					} else {
 
 						//  First get data from App client, retrieve and skip profile not completed user
-						$query      = User::whereNotNull('portrait')->whereNotNull('nickname');
+						$query      = User::whereNotNull('portrait')->whereNotNull('nickname')->whereNotNull('bio')->whereNotNull('school');
 
 						// Sex filter
 						if($sex_filter){

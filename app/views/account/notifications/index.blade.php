@@ -58,11 +58,11 @@
 						<p>{{ Lang::get('navigation.inbox') }}</p>
 					</div>
 					<ul class="new_tab clear">
-						<li class="active">好友消息<span>{{ $friendNotificationsCount }}</span></li>
+						<li class="active">{{ Lang::get('account/notifications.friend_notifications') }}<span>{{ $friendNotificationsCount }}</span></li>
 						<span></span>
-						<li>论坛消息<span>{{ $forumNotificationsCount }}</span></li>
+						<li>{{ Lang::get('account/notifications.forum_notifications') }}<span>{{ $forumNotificationsCount }}</span></li>
 						<span></span>
-						<li>系统消息<span>{{ $systemNotificationsCount }}</span></li>
+						<li>{{ Lang::get('account/notifications.system_notifications') }}<span>{{ $systemNotificationsCount }}</span></li>
 					</ul>
 
 					<ul id="new_main_mine" class="new_main">

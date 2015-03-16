@@ -22,8 +22,8 @@
 	<span class="new_main_time">{{ date("m-d H:m",strtotime($friendNotification->created_at)) }}</span>
 	<p class="list_1">{{ $notifications['content'] }}</p>
 	<div class="option">
-		<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">查看</a>
-		<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">删除</a>
+		<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">{{ Lang::get('account/notifications.see') }}</a>
+		<a href="{{ route('members.show', $sender->id) }}" class="new_main_state unread">{{ Lang::get('account/notifications.delete') }}</a>
 	</div>
 
 </li>
