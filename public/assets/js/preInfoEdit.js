@@ -42,9 +42,9 @@ $('#submit_btn').bind("mouseover", function(e) {
 	}).done(function(data) {
 		// Here we will handle errors and validation messages
 		if ( ! data.success) {
-			$('#submit').val("资料要填全哦").attr("disabled", true).css({'background-color':'#888'});
+			$('#submit').val(lang_incomplete).attr("disabled", true).css({'background-color':'#888'});
 		} else {
-			$('#submit').val("保存").removeAttr("disabled").css({'background-color':'#de3861'});
+			$('#submit').val(lang_save).removeAttr("disabled").css({'background-color':'#de3861'});
 		}
 	});
 });
@@ -393,7 +393,7 @@ $('#submit_btn').bind("mouseover", function(e) {
 				pillars_auto.style.width = pillars_auto.offsetWidth + 10 + 'px';
 				days.innerHTML = parseInt(days.innerHTML) + 1;
 			} else {
-				$('.renew_error').html('<div class="sgnin_top" style="margin:0 0 10px 0"><div><span><a href="" style="color: #297fb8;">&times; &nbsp; </a>亲，今天已经签到过啦。</span></div></div>');
+				$('.renew_error').html('<div class="sgnin_top" style="margin:0 0 10px 0"><div><span><a href="" style="color: #297fb8;">&times; &nbsp; </a>' + lang_has_renew + '</span></div></div>');
 			}
 		});
 

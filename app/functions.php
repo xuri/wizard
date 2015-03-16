@@ -249,7 +249,7 @@ function getConstellation($constellation)
 	{
 		$constellationInfo = array(
 			'icon' => 'default.png',
-			'name' => '未选择星座'
+			'name' => Lang::get('account/constellation.unset')
 		);
 		return $constellationInfo;
 	} else {
@@ -257,55 +257,55 @@ function getConstellation($constellation)
 		{
 			case "1":
 				$constellationIcon = 'shuipin.png';
-				$constellationName = '水瓶座';
+				$constellationName = Lang::get('account/constellation.aquarius');
 			break;
 			case "2":
 				$constellationIcon = 'shuangyu.png';
-				$constellationName = '双鱼座';
+				$constellationName = Lang::get('account/constellation.pisces');
 			break;
 			case "3":
 				$constellationIcon = 'baiyang.png';
-				$constellationName = '白羊座';
+				$constellationName = Lang::get('account/constellation.aries');
 			break;
 			case "4":
 				$constellationIcon = 'jinniu.png';
-				$constellationName = '金牛座';
+				$constellationName = Lang::get('account/constellation.taurus');
 			break;
 			case "5":
 				$constellationIcon = 'shuangzi.png';
-				$constellationName = '双子座';
+				$constellationName = Lang::get('account/constellation.gemini');
 			break;
 			case "6":
 				$constellationIcon = 'juxie.png';
-				$constellationName = '巨蟹座';
+				$constellationName = Lang::get('account/constellation.cancer');
 			break;
 			case "7":
 				$constellationIcon = 'shizi.png';
-				$constellationName = '狮子座';
+				$constellationName = Lang::get('account/constellation.leo');
 			break;
 			case "8":
 				$constellationIcon = 'chunv.png';
-				$constellationName = '处女座';
+				$constellationName = Lang::get('account/constellation.virgo');
 			break;
 			case "9":
 				$constellationIcon = 'tiancheng.png';
-				$constellationName = '天秤座';
+				$constellationName = Lang::get('account/constellation.libra');
 			break;
 			case "10":
 				$constellationIcon = 'tianxie.png';
-				$constellationName = '天蝎座';
+				$constellationName = Lang::get('account/constellation.scorpio');
 			break;
 			case "11":
 				$constellationIcon = 'sheshou.png';
-				$constellationName = '射手座';
+				$constellationName = Lang::get('account/constellation.sagittarius');
 			break;
 			case "12":
 				$constellationIcon = 'mojie.png';
-				$constellationName = '摩羯座';
+				$constellationName = Lang::get('account/constellation.capricorn');
 			break;
 			default:
 				$constellationIcon = 'default.png';
-				$constellationName = '未选择星座';
+				$constellationName = Lang::get('account/constellation.unset');
 		}
 
 		$constellationInfo = array(

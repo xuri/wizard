@@ -11,14 +11,14 @@
 		<div id="pinai_avatar">
 			@if(Auth::user()->sex == 'M')
 			<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/boy/">
-				聘爱头像{{-- HTML::image('assets/images/preInfoEdit/bgcolor/boy.png') --}}
+				{{ Lang::get('account/complete.pinai_avatar') }}{{-- HTML::image('assets/images/preInfoEdit/bgcolor/boy.png') --}}
 			</a>
-			<a href="javascript:;" class="type_changer">自定义上传</a>
+			<a href="javascript:;" class="type_changer">{{ Lang::get('account/complete.custom_avatar') }}</a>
 			@else
 			<a class="once" href="javascript:;" id="../assets/images/preInfoEdit/girl/">
-				聘爱头像{{-- HTML::image('assets/images/preInfoEdit/bgcolor/girl.png') --}}
+				{{ Lang::get('account/complete.pinai_avatar') }}{{-- HTML::image('assets/images/preInfoEdit/bgcolor/girl.png') --}}
 			</a>
-			<a href="javascript:;" class="type_changer">自定义上传</a>
+			<a href="javascript:;" class="type_changer">{{ Lang::get('account/complete.custom_avatar') }}</a>
 			@endif
 		</div>
 
@@ -58,7 +58,7 @@
 				{{ HTML::image('assets/images/preInfoEdit/bgcolor/btn.png', '', array('title' => 'bgcolor')) }}
 			</div>
 		</div>
-		<a href="javascript:;" id="save_pic">保存</a>
+		<a href="javascript:;" id="save_pic">{{ Lang::get('account/complete.save') }}</a>
 	</div>
 	<div id="upload_panel">
 		<a id="upload_panel_close" href="javascript:;">×</a>
@@ -66,10 +66,10 @@
 			<input type="file" class="cropit-image-input">
 			<div class="cropit-image-preview"></div>
 			<div class="image-size-label">
-			剪裁照片
+			{{ Lang::get('account/complete.crop_avatar') }}
 			</div>
 			<input type="range" class="cropit-image-zoom-input">
-			<a href="javascript:;" id="save_upload_pic" class="export">保存</a>
+			<a href="javascript:;" id="save_upload_pic" class="export">{{ Lang::get('account/complete.save') }}</a>
 		</div>
 	</div>
 	{{-- end Avatar --}}
@@ -77,7 +77,7 @@
 	<div class="vs-Popup" id="vote-school">
 		<div class="vs-Popup-pass" id="vs-pass">×</div>
 		<div class="vs-box clear">
-			<div class="vs-Popup-school">选择学校</div>
+			<div class="vs-Popup-school">{{ Lang::get('account/complete.school_input') }}</div>
 			<!-- <div class="vs-search">搜索：<input type="text"/></div> -->
 			<div class="vs-shcoollist clear" id="provinces">
 				@foreach($provinces as $province)
@@ -92,86 +92,86 @@
 	</div>
 	{{-- end Choose school --}}
 
-	{{-- 选择星座 --}}
+	{{-- Choose Constellation --}}
 	<div class="con-Popup" id="con-Popup">
 		<div class="con-Popup-pass" id="con-pass">×</div>
 		<div class="con-box clear">
-			<div class="con-Popup-school">选择星座</div>
+			<div class="con-Popup-school">{{ Lang::get('account/complete.constellation_input') }}</div>
 			<ul class="con-Constellation clear">
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/shuipin.png') }}
-					<p class="con-name">水瓶座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.aquarius') }}</p>
 					<p class="con-date">1.20~2.18</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/shuangyu.png') }}
-					<p class="con-name">双鱼座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.pisces') }}</p>
 					<p class="con-date">2.19~3.20</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/baiyang.png') }}
-					<p class="con-name">白羊座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.aries') }}</p>
 					<p class="con-date">3.21~4.19</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/jinniu.png') }}
-					<p class="con-name">金牛座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.taurus') }}</p>
 					<p class="con-date">4.20~5.20</p>
 				</li>
 			</ul>
 			<ul class="con-Constellation clear">
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/shuangzi.png') }}
-					<p class="con-name">双子座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.gemini') }}</p>
 					<p class="con-date">5.21~6.21</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/juxie.png') }}
-					<p class="con-name">巨蟹座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.cancer') }}</p>
 					<p class="con-date">6.22~7.22</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/shizi.png') }}
-					<p class="con-name">狮子座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.leo') }}</p>
 					<p class="con-date">7.23~8.22</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/chunv.png') }}
-					<p class="con-name">处女座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.virgo') }}</p>
 					<p class="con-date">8.23~9.22</p>
 				</li>
 			</ul>
 			<ul class="con-Constellation clear">
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/tiancheng.png') }}
-					<p class="con-name">天秤座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.libra') }}</p>
 					<p class="con-date">9.23~10.23</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/tianxie.png') }}
-					<p class="con-name">天蝎座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.scorpio') }}</p>
 					<p class="con-date">10.24~11.22</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/sheshou.png') }}
-					<p class="con-name">射手座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.sagittarius') }}</p>
 					<p class="con-date">11.23~12.21</p>
 				</li>
 				<li>
 					{{ HTML::image('assets/images/preInfoEdit/constellation/mojie.png') }}
-					<p class="con-name">摩羯座</p>
+					<p class="con-name">{{ Lang::get('account/constellation.capricorn') }}</p>
 					<p class="con-date">12.22~1.19</p>
 				</li>
 			</ul>
 		</div>
 	</div>
-	{{-- 选择星座结束 --}}
+	{{-- Choose Constellation End --}}
 
-	{{-- 选择标签弹窗 --}}
+	{{-- Tags Choose Window --}}
 	<div class="tag-Popup" id="tag-Popup">
 		<div class="con-Popup-pass" id="tag-pass">×</div>
 		<div class="tag-box clear">
-			<div class="tag-Popup-school">选择标签</div>
+			<div class="tag-Popup-school">{{ Lang::get('account/complete.tags_input') }}</div>
 			<ul class="tag-list" id="tag-list-r">
 				<li><span>高冷</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
@@ -265,9 +265,9 @@
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
 			</ul>
 		</div>
-		<input type="submit" class="tag-submit" value="完成" id="tag_end"/>
+		<input type="submit" class="tag-submit" value="{{ Lang::get('account/complete.save') }}" id="tag_end"/>
 	</div>
-	{{-- 选择标签弹窗结束 --}}
+	{{-- Choose Tags End --}}
 
 	@include('layout.navigation')
 	@yield('content')
@@ -302,7 +302,7 @@
 						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('id' => 'head_pic'))}}
 						@endif
-						<div id="change_photo">修改头像{{ $errors->first('portrait', '<strong class="error" style="color: #cc0000">:message</strong>') }}</div>
+						<div id="change_photo">{{ Lang::get('account/complete.avatar') }}{{ $errors->first('portrait', '<strong class="error" style="color: #cc0000">:message</strong>') }}</div>
 					</div>
 					<div class="sgnin">
 						@include('account.points')
@@ -312,7 +312,7 @@
 
 				{{-- Profile Section --}}
 				<div id="data">
-					<a href="{{ route('account') }}" class="editor">取消</a>
+					<a href="{{ route('account') }}" class="editor">{{ Lang::get('account/complete.cancel') }}</a>
 					<div class="data_top clear">
 						<span></span>{{-- Left pink section --}}
 						<p>{{ Lang::get('navigation.profile') }}</p>
@@ -330,35 +330,35 @@
 						<input name="school" value="{{ Input::old('school', Auth::user()->school) }}" id="school_str" type="hidden"/>
 						<table>
 							<tr>
-								<td class="data_td1">昵称：{{ $errors->first('nickname', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
-									<input type="text" value="{{ Input::old('nickname', Auth::user()->nickname) }}" name="nickname" placeholder="请输入你的昵称"/>
+								<td class="data_td1">{{ Lang::get('account/index.nickname') }}:{{ $errors->first('nickname', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
+									<input type="text" value="{{ Input::old('nickname', Auth::user()->nickname) }}" name="nickname" placeholder="{{ Lang::get('account/complete.nickname_input') }}"/>
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">性别：{{ $errors->first('sex', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
+								<td class="data_td1">{{ Lang::get('account/index.sex') }}:{{ $errors->first('sex', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									@if(Auth::user()->sex)
 									<input value="{{ Auth::user()->sex }}" type="hidden" name="sex">
 										@if(Auth::user()->sex == 'M')
-										{{ HTML::image('assets/images/symbol.png') }}（性别不能修改）
+										{{ HTML::image('assets/images/symbol.png') }} ({{ Lang::get('account/complete.sex_isset') }})
 										@else(Auth::user()->sex == 'F')
-										{{ HTML::image('assets/images/g.jpg') }}（性别不能修改）
+										{{ HTML::image('assets/images/g.jpg') }} ({{ Lang::get('account/complete.sex_isset') }})
 										@endif
 									@else
 									<select name="sex" id="sex_select">
-										<option value="">请选择</option>
-										<option value="M">男</option>
-										<option value="F">女</option>
+										<option value="">{{ Lang::get('account/complete.sex_input') }}</option>
+										<option value="M">{{ Lang::get('account/complete.male') }}</option>
+										<option value="F">{{ Lang::get('account/complete.female') }}</option>
 									</select>
-									（注意：性别设置后不能修改）
+									{{ Lang::get('account/complete.sex_notify') }}
 									@endif
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">出生年：{{ $errors->first('born_year', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
+								<td class="data_td1">{{ Lang::get('account/index.birth') }}:{{ $errors->first('born_year', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									@if(Auth::user()->born_year)
-									{{ Auth::user()->born_year }} （出生年不能修改了）
+									{{ Auth::user()->born_year }} ({{ Lang::get('account/complete.birth_isset') }})
 									<input value="{{ Auth::user()->born_year }}" type="hidden" name="born_year" id="born_select">
 									@else
 									<select name="born_year" id="born_select">
@@ -371,25 +371,25 @@
 										<option value="1996">1996</option>
 										<option value="1997">1997</option>
 									</select>
-									（注意：出生年设置后不能修改）
+									({{ Lang::get('account/complete.birth_notify') }})
 									@endif
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">学校：{{ $errors->first('school', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
+								<td class="data_td1">{{ Lang::get('account/index.school') }}:{{ $errors->first('school', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									@if(Auth::user()->school)
 									<span type="text" id="check_school">{{ Auth::user()->school }}</span>
 									@else
-									<span type="text" id="check_school">请选择学校</span>
+									<span type="text" id="check_school">{{ Lang::get('account/complete.school_input') }}</span>
 									@endif
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">入学年：{{ $errors->first('grade', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
+								<td class="data_td1">{{ Lang::get('account/index.grade') }}:{{ $errors->first('grade', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2">
 									<select name="grade" id="grade_select" rel="{{ $profile->grade }}">
-										<option value="">请选择</option>
+										<option value="">{{ Lang::get('account/complete.sex_input') }}</option>
 										<option value="2010">2010</option>
 										<option value="2011">2011</option>
 										<option value="2012">2012</option>
@@ -400,47 +400,47 @@
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">星座：{{ $errors->first('constellation', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 constellation">
+								<td class="data_td1">{{ Lang::get('account/index.constellation') }}:{{ $errors->first('constellation', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 constellation">
 								@if($profile->constellation)
 								{{ HTML::image('assets/images/preInfoEdit/constellation/'.$constellationInfo['icon'], '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
 								<span style="margin-left:50px;" id="check_constellation">{{ $constellationInfo['name'] }}</span></td>
 								@else
 								{{ HTML::image('assets/images/preInfoEdit/constellation/default.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
-								<span style="margin-left:50px;" id="check_constellation">请选择星座</span></td>
+								<span style="margin-left:50px;" id="check_constellation">{{ Lang::get('account/complete.constellation_input') }}</span></td>
 								@endif
 
 
 							</tr>
 							<tr>
-								<td class="data_td1 vertical_top">标签：{{ $errors->first('tag_str', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
+								<td class="data_td1 vertical_top">{{ Lang::get('account/index.tags') }}:{{ $errors->first('tag_str', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>
 								<td class="data_td2 character" id="tag_td">
-									<span class="end" id="check_tag"><b>+</b>  标签 </span>
+									<span class="end" id="check_tag"><b>+</b>  {{ Lang::get('account/index.tags') }} </span>
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1">爱好：{{ $errors->first('hobbies', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
-									<input class="lang" name="hobbies" type="text" placeholder="把你的爱好告诉大家吧" value="{{ Input::old('hobbies', $profile->hobbies) }}" />
+								<td class="data_td1">{{ Lang::get('account/index.hobbies') }}:{{ $errors->first('hobbies', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
+									<input class="lang" name="hobbies" type="text" placeholder="{{ Lang::get('account/complete.hobbies_input') }}" value="{{ Input::old('hobbies', $profile->hobbies) }}" />
 								</td>
 							</tr>
 							<tr>
-								<td class="data_td1 vertical_top">个人简介：{{ $errors->first('self_intro', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 vertical_top">
-									<textarea rows="4" name="self_intro" placeholder="这是推销你自己的好机会">{{ Input::old('self_intro', $profile->self_intro) }}</textarea>
+								<td class="data_td1 vertical_top">{{ Lang::get('account/index.intro') }}:{{ $errors->first('self_intro', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 vertical_top">
+									<textarea rows="4" name="self_intro" placeholder="{{ Lang::get('account/complete.intro_input') }}">{{ Input::old('self_intro', $profile->self_intro) }}</textarea>
 								</td>
 							</tr>
 							<tr class="end_tr">
-								<td class="data_td1">真爱寄语：{{ $errors->first('bio', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
-									<input class="lang" name="bio" type="text" placeholder="输入你对真爱的诠释" value="{{ Input::old('bio', Auth::user()->bio) }}">
+								<td class="data_td1">{{ Lang::get('account/index.bio') }}:{{ $errors->first('bio', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2">
+									<input class="lang" name="bio" type="text" placeholder="{{ Lang::get('account/complete.bio_input') }}" value="{{ Input::old('bio', Auth::user()->bio) }}">
 								</td>
 							</tr>
 							<tr class="love_problem">
-								<td class="data_td1 vertical_top">爱情考验：{{ $errors->first('question', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 vertical_top">
-									<input class="lang" type="text" name="question" placeholder="提出你的问题，去等待TA的回答吧，或许TA的答案能让你明白，你要找的就是TA" value="{{ Input::old('question', $profile->question) }}">
+								<td class="data_td1 vertical_top">{{ Lang::get('account/index.question') }}:{{ $errors->first('question', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 vertical_top">
+									<input class="lang" type="text" name="question" placeholder="{{ Lang::get('account/complete.question_input') }}" value="{{ Input::old('question', $profile->question) }}">
 								</td>
 							</tr>
 						</table>
 
 					<div class="btn_box" id="submit_btn">
-						<input id="submit" type="submit" value="保存" />
+						<input id="submit" type="submit" value="{{ Lang::get('account/complete.save') }}" />
 					</div>
 					{{ Form::close() }}
 				</div>

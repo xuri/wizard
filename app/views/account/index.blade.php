@@ -56,14 +56,14 @@
 				{{-- Profile  --}}
 				<div id="data">
 
-					<a href="{{ route('account.complete') }}" class="editor">点击编辑</a>
+					<a href="{{ route('account.complete') }}" class="editor">{{ Lang::get('account/index.edit_profile') }}</a>
 					<div class="data_top clear">
 						<span></span> {{-- Left pink section --}}
 						<p>{{ Lang::get('navigation.profile') }}</p>
 					</div>
 					<table>
 						<tr>
-							<td class="data_td1">昵称：</td><td class="data_td2">
+							<td class="data_td1">{{ Lang::get('account/index.nickname') }}:</td><td class="data_td2">
 								@if(Auth::user()->nickname)
 									{{ Auth::user()->nickname }}
 								@else
@@ -72,7 +72,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="data_td1">性别：</td><td class="data_td2">
+							<td class="data_td1">{{ Lang::get('account/index.sex') }}:</td><td class="data_td2">
 								@if(Auth::user()->sex == 'M')
 								{{ HTML::image('assets/images/symbol.png') }}
 								@elseif(Auth::user()->sex == 'F')
@@ -83,25 +83,25 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="data_td1">出生年：</td><td class="data_td2">
+							<td class="data_td1">{{ Lang::get('account/index.birth') }}:</td><td class="data_td2">
 							{{ Auth::user()->born_year }}
 						</td>
 						</tr>
 						<tr>
-							<td class="data_td1">学校：</td><td class="data_td2">
+							<td class="data_td1">{{ Lang::get('account/index.school') }}:</td><td class="data_td2">
 							{{ Auth::user()->school }}
 						</td>
 						</tr>
 						<tr>
-							<td class="data_td1">入学年：</td><td class="data_td2">{{ $profile->grade }}</td>
+							<td class="data_td1">{{ Lang::get('account/index.grade') }}:</td><td class="data_td2">{{ $profile->grade }}</td>
 						</tr>
 						<tr>
-							<td class="data_td1">星座：</td><td class="data_td2 constellation">
+							<td class="data_td1">{{ Lang::get('account/index.constellation') }}:</td><td class="data_td2 constellation">
 								<img src="{{ route('home') }}/assets/images/preInfoEdit/constellation/{{ $constellationIcon }}" width="30" height="30">
 								<span style="margin-left:50px;">{{ $constellationName }}</span></td>
 						</tr>
 						<tr>
-							<td class="data_td1">标签：</td>
+							<td class="data_td1">{{ Lang::get('account/index.tags') }}:</td>
 							<td class="data_td2 character tags">
 								@foreach($tag_str as $tag)
 								<span>{{ getTagName($tag) }}</span>
@@ -109,20 +109,20 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="data_td1 vertical_c">爱好：</td><td class="data_td2 vertical_c">
+							<td class="data_td1 vertical_c">{{ Lang::get('account/index.hobbies') }}:</td><td class="data_td2 vertical_c">
 								{{ $profile->hobbies }}
 							</td>
 						</tr>
 						<tr>
-							<td class="data_td1">个人简介：</td><td class="data_td2">
+							<td class="data_td1">{{ Lang::get('account/index.intro') }}:</td><td class="data_td2">
 								{{ $profile->self_intro }}
 							</td>
 						</tr>
 						<tr class="end_tr">
-							<td class="data_td1">真爱寄语：</td><td class="data_td2">{{ Auth::user()->bio }}</td>
+							<td class="data_td1">{{ Lang::get('account/index.bio') }}:</td><td class="data_td2">{{ Auth::user()->bio }}</td>
 						</tr>
 						<tr class="love_problem">
-							<td class="data_td1">爱情考验：</td><td class="data_td2">{{ $profile->question }}</td>
+							<td class="data_td1">{{ Lang::get('account/index.question') }}:</td><td class="data_td2">{{ $profile->question }}</td>
 						</tr>
 					</table>
 				</div>

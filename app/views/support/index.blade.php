@@ -23,10 +23,8 @@
 					<li><a href="{{ route('support.index') }}" class="a5 fa fa-life-ring active">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.support') }}</a></li>
 					<li><a href="{{ route('home') }}/article/about.html" class="a5 fa fa-bookmark-o">&nbsp;&nbsp;&nbsp;{{ Lang::get('navigation.about') }}</a></li>
 				</ul>
-				<div id="download">
-					<div>移动客户端下载</div>
-					{{ HTML::image('assets/images/preInfoEdit/app.png') }}
-				</div>
+				@include('account.qrcode')
+				@yield('content')
 			</div>
 			<div class="w_right">
 
