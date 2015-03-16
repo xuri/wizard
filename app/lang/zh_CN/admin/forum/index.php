@@ -45,4 +45,10 @@ return array(
 
 	"show"						=> "查看",
 
+	"forum_cat"					=> "论坛分类",
+
+	"select"					=> "筛选",
+
+	"select_input"				=> "模糊搜索帖子标题和内容",
+
 );

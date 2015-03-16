@@ -44,4 +44,10 @@ return array(
 	"created_at"				=> "Created Time",
 
 	"show"						=> "Show",
+
+	"forum_cat"					=> "Forum Categories",
+
+	"select"					=> "Select",
+
+	"select_input"				=> "Fuzzy search title and content in posts",
 );

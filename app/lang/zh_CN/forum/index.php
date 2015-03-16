@@ -22,4 +22,5 @@ return array(
 	"do_post"		=> "发 表",
 
 	"top"			=> "置顶",
+
 );

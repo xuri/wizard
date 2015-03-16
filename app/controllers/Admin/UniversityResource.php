@@ -66,6 +66,7 @@ class Admin_UniversityResource extends BaseResource
 		// Get sort conditions
 		$orderColumn		= Input::get('sort_up', Input::get('sort_down', 'created_at'));
 		$direction			= Input::get('sort_up') ? 'asc' : 'desc' ;
+
 		// Get search conditions
 		$province_filter	= Input::get('province');
 		$status_filter		= Input::get('status');

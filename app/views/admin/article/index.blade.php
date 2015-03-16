@@ -17,9 +17,9 @@
 						</div>
 					</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					@include('layout.notification')
@@ -91,15 +91,15 @@
 						</div>
 
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 	</div>
-	<!-- /#wrapper -->
+	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}

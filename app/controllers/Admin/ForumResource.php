@@ -58,29 +58,28 @@ class Admin_ForumResource extends BaseResource
 	 */
 	public function index()
 	{
+		// Get all forum categories
+		$categories		= ForumCategories::get();
+
 		// Get sort conditions
 		$orderColumn	= Input::get('sort_up', Input::get('sort_down', 'created_at'));
 		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
+
 		// Get search conditions
-		switch (Input::get('status')) {
-			case '0':
-				$is_admin = 0;
-				break;
-			case '1':
-				$is_admin = 1;
-				break;
-		}
-		switch (Input::get('target')) {
-			case 'email':
-				$email = Input::get('like');
-				break;
-		}
+		$category		= Input::get('category');
+		$from			= Input::get('from');
+		$like			= Input::get('like');
+
 		// Construct query statement
-		$query = $this->model->orderBy($orderColumn, $direction);
-		isset($is_admin) AND $query->where('is_admin', $is_admin);
-		isset($email)    AND $query->where('email', 'like', "%{$email}%");
+		$query			= $this->model->orderBy($orderColumn, $direction);
+
+		if($category){
+			isset($category) AND $query->where('category_id', $category);
+		}
+
+		isset($like) AND $query->where('content', 'like', "%{$like}%");
 		$datas = $query->paginate(10);
-		return View::make($this->resourceView.'.index')->with(compact('datas'));
+		return View::make($this->resourceView.'.index')->with(compact('datas', 'categories'));
 	}
 
 	/**

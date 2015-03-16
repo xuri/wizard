@@ -134,7 +134,7 @@ class AppleController extends BaseController
 						$user->from			= Input::get('from');
 						$user->activated_at	= date('Y-m-d G:i:s');
 
-						$user->sex			= e(Input::get('sex'));
+						// $user->sex			= e(Input::get('sex'));
 						$user->password		= md5(Input::get('password'));
 
 						if ($user->save()) {
