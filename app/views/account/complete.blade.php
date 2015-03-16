@@ -173,95 +173,95 @@
 		<div class="tag-box clear">
 			<div class="tag-Popup-school">选择标签</div>
 			<ul class="tag-list" id="tag-list-r">
-				<li><span>憨厚</span>
+				<li><span>高冷</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>内敛</span>
+				<li><span>颜控</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>潮男</span>
+				<li><span>女神</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>正直</span>
+				<li><span>萌萌哒</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>胖的</span>
+				<li><span>治愈系</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>靠谱</span>
+				<li><span>小清新</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>麦霸</span>
+				<li><span>女王范</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>天然呆</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>萝莉</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
 				<li><span>静待缘分</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>有点发福</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>特别能睡</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>稳重</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>有责任心</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>学霸</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>开朗</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>诚信</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>阳光</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>执着</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>奋斗中</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>爱挑战</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>冷静</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>张扬</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>幽默</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>乐观</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>低调</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>独立</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>健康</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>高大</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>包容</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>完美主义</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>非诚勿扰</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
-				</li>
-				<li><span>宅</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>简单</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>大大咧咧</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>帅</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>孝顺</span>
-					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>话唠</span>
+				<li><span>减肥ing</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
 				<li><span>戒烟ing</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>张扬</span>
+				<li><span>缺爱ing</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>有男人味</span>
+				<li><span>暖男</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
-				<li><span>萌萌的</span>
+				<li><span>创业者</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>直率</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>懒</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>感性</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>理性</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>温柔细心</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>暴脾气</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>技术宅</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>文艺病</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>旅行爱好者</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>健身狂魔</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>考研ing</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>吃货</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>长腿欧巴</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>街舞solo</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>爱音乐</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
+				</li>
+				<li><span>幽默</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>乐观</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>事业型</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>完美主义</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>情商略高</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>阳光</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>学霸</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>执着</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>自信</span>
+					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
+				<li><span>独立型</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}</li>
 			</ul>
 		</div>

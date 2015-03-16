@@ -326,124 +326,124 @@ function getTagName($tag)
 	switch ($tag)
 	{
 		case "1":
-			$tagName = '憨厚';
+			$tagName = '高冷';
 		break;
 		case "2":
-			$tagName = '内敛';
+			$tagName = '颜控';
 		break;
 		case "3":
-			$tagName = '潮男';
+			$tagName = '女神';
 		break;
 		case "4":
-			$tagName = '正直';
+			$tagName = '萌萌哒';
 		break;
 		case "5":
-			$tagName = '胖的';
+			$tagName = '治愈系';
 		break;
 		case "6":
-			$tagName = '靠谱';
+			$tagName = '小清新';
 		break;
 		case "7":
-			$tagName = '麦霸';
+			$tagName = '女王范';
 		break;
 		case "8":
-			$tagName = '静待缘分';
+			$tagName = '天然呆';
 		break;
 		case "9":
-			$tagName = '有点发福';
+			$tagName = '萝莉';
 		break;
 		case "10":
-			$tagName = '特别能睡';
+			$tagName = '静待缘分';
 		break;
 		case "11":
-			$tagName = '稳重';
+			$tagName = '减肥ing';
 		break;
 		case "12":
-			$tagName = '有责任心';
-		break;
-		case "13":
-			$tagName = '学霸';
-		break;
-		case "14":
-			$tagName = '开朗';
-		break;
-		case "15":
-			$tagName = '诚信';
-		break;
-		case "16":
-			$tagName = '阳光';
-		break;
-		case "17":
-			$tagName = '执着';
-		break;
-		case "18":
-			$tagName = '奋斗中';
-		break;
-		case "19":
-			$tagName = '爱挑战';
-		break;
-		case "20":
-			$tagName = '冷静';
-		break;
-		case "21":
-			$tagName = '张扬';
-		break;
-		case "22":
-			$tagName = '幽默';
-		break;
-		case "23":
-			$tagName = '乐观';
-		break;
-		case "24":
-			$tagName = '低调';
-		break;
-		case "25":
-			$tagName = '独立';
-		break;
-		case "26":
-			$tagName = '健康';
-		break;
-		case "27":
-			$tagName = '高大';
-		break;
-		case "28":
-			$tagName = '包容';
-		break;
-		case "29":
-			$tagName = '完美主义';
-		break;
-		case "30":
-			$tagName = '非诚勿扰';
-		break;
-		case "31":
-			$tagName = '宅';
-		break;
-		case "32":
-			$tagName = '简单';
-		break;
-		case "33":
-			$tagName = '大大咧咧';
-		break;
-		case "34":
-			$tagName = '帅';
-		break;
-		case "35":
-			$tagName = '孝顺';
-		break;
-		case "36":
-			$tagName = '话唠';
-		break;
-		case "37":
 			$tagName = '戒烟ing';
 		break;
+		case "13":
+			$tagName = '缺爱ing';
+		break;
+		case "14":
+			$tagName = '暖男';
+		break;
+		case "15":
+			$tagName = '创业者';
+		break;
+		case "16":
+			$tagName = '直率';
+		break;
+		case "17":
+			$tagName = '懒';
+		break;
+		case "18":
+			$tagName = '感性';
+		break;
+		case "19":
+			$tagName = '理性';
+		break;
+		case "20":
+			$tagName = '温柔细心';
+		break;
+		case "21":
+			$tagName = '暴脾气';
+		break;
+		case "22":
+			$tagName = '技术宅';
+		break;
+		case "23":
+			$tagName = '文艺病';
+		break;
+		case "24":
+			$tagName = '旅行爱好者';
+		break;
+		case "25":
+			$tagName = '健身狂魔';
+		break;
+		case "26":
+			$tagName = '考研ing';
+		break;
+		case "27":
+			$tagName = '吃货';
+		break;
+		case "28":
+			$tagName = '长腿欧巴';
+		break;
+		case "29":
+			$tagName = '街舞solo';
+		break;
+		case "30":
+			$tagName = '爱音乐';
+		break;
+		case "31":
+			$tagName = '幽默';
+		break;
+		case "32":
+			$tagName = '乐观';
+		break;
+		case "33":
+			$tagName = '事业型';
+		break;
+		case "34":
+			$tagName = '完美主义';
+		break;
+		case "35":
+			$tagName = '情商略高';
+		break;
+		case "36":
+			$tagName = '阳光';
+		break;
+		case "37":
+			$tagName = '学霸';
+		break;
 		case "38":
-			$tagName = '张扬';
+			$tagName = '执着';
 		break;
 		case "39":
-			$tagName = '有男人味';
+			$tagName = '自信';
 		break;
 		case "40":
-			$tagName = '萌萌的';
+			$tagName = '独立型';
 		break;
 		default:
 			$tagName = '无标签';
