@@ -23,4 +23,6 @@ return array(
 
 	"top"			=> "TOP",
 
+	"pending"		=> "This part will be open at 21:00 to 22:00 every night."
+
 );

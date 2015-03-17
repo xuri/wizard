@@ -53,7 +53,7 @@ class SupportController extends BaseController {
 		);
 		// Custom validation message
 		$messages = array(
-			'content.required'     => '请填写反馈问题。',
+			'content.required'     => Lang::get('support/index.send_warning'),
 			'content.min'          => '至少要写:min个字哦。',
 		);
 
@@ -68,11 +68,11 @@ class SupportController extends BaseController {
 				// Create successful
 				return Redirect::back()
 						->withInput()
-						->with('success', '您的反馈已经收到，我们会及时为您解决。');
+						->with('success', Lang::get('support/index.send_success'));
 			} else {
 				return Redirect::back()
 						->withInput()
-						->with('error', '提交失败，请尝试重新提交。');
+						->with('error', Lang::get('support/index.send_error'));
 			}
 		} else {
 			return Redirect::back()

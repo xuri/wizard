@@ -95,7 +95,7 @@
 				</div>
 				@else
 				<div style="display: none;" id="second">
-					<div class="callout-warning">这个版块会在每晚9点到10点开放哦。</div>
+					<div class="callout-warning">{{ Lang::get('forum/index.pending') }}</div>
 					{{ HTML::image('assets/images/cat2_close.jpg') }}
 				</div>
 				@endif
@@ -129,7 +129,7 @@
 				</div>
 				@else
 				<div style="display: none;" id="third">
-					<div class="callout-warning">这个版块会在每晚9点到10点开放哦。</div>
+					<div class="callout-warning">{{ Lang::get('forum/index.pending') }}</div>
 					{{ HTML::image('assets/images/cat3_close.jpg') }}
 				</div>
 				@endif
