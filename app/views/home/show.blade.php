@@ -5,7 +5,7 @@
 		@if(Agent::isMobile())
 			<style type="text/css">
 				img {
-					max-width: 320px;
+					max-width: 290px;
 				}
 			</style>
 		@else

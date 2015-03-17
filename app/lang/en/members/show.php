@@ -35,6 +35,8 @@ return array(
 
 	"my_question"		=> "My question",
 
+	"s_question"		=> " set an question",
+
 	"his"				=> "His",
 
 	"her"				=> "Her",
@@ -51,7 +53,14 @@ return array(
 
 	"reject"			=> "Reject",
 
-	"answer_for_me"		=> " answer for my question:",
+	"answer_for_me"		=> " answer for my question",
 
 	"verify"			=> "Verified Account",
+
+	"blocked_you"		=> " blocked you",
+
+	"you_accepted"		=> "You Accepted ",
+
+	"s_request"			=> " Add Friend Request",
+
 );

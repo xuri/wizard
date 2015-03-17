@@ -82,7 +82,8 @@
 									@else(Auth::user()->sex == 'F')
 									{{ HTML::image('assets/images/g.jpg') }}
 									@endif
-									<span>{{ $user->nickname }}</span></div>
+									<a href="{{ route('members.show', $user->id) }}"><span>{{ $user->nickname }}</span></a>
+								</div>
 								<div class="cour_bottom">
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;"> {{ Lang::get('account/chat.friend_request') }}<em>{{ $data->count }}</em>{{ Lang::get('account/chat.count') }}</span>
 									<span style="margin: 0 15px 0px 10px; line-height: 2em;">{{ Lang::get('account/chat.friend_request') }}<em>{{ $Days }}</em>{{ Lang::get('account/chat.days') }}</span><br />
@@ -117,7 +118,6 @@
 									@endif
 								</div>
 								<input type="hidden" value="" id="{{ $user->id }}"/>
-
 							</li>
 							{{ Form::close() }}
 							@endforeach

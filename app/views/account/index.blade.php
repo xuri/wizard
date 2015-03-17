@@ -97,8 +97,8 @@
 						</tr>
 						<tr>
 							<td class="data_td1">{{ Lang::get('account/index.constellation') }}:</td><td class="data_td2 constellation">
-								<img src="{{ route('home') }}/assets/images/preInfoEdit/constellation/{{ $constellationIcon }}" width="30" height="30">
-								<span style="margin-left:50px;">{{ $constellationName }}</span></td>
+								<img src="{{ route('home') }}/assets/images/preInfoEdit/constellation/{{ $constellationIcon }}" width="30" height="30" style="margin: -6px 0 0 0px; -webkit-border-radius: 2px; -moz-border-radius: 2px; border-radius: 2px;">
+								<span style="margin-left: 0.5em;">{{ $constellationName }}</span></td>
 						</tr>
 						<tr>
 							<td class="data_td1">{{ Lang::get('account/index.tags') }}:</td>

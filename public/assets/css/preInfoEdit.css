@@ -445,8 +445,7 @@ input, textarea {
 	text-align: center;
 	line-height: 1.5em;
 	color: #fff;
-	margin-left: 5px;
-	margin-bottom: 5px;
+	margin: 0 5px 5px 0;
 	border: none;
 	-webkit-border-radius: 2px;
 	-moz-border-radius: 2px;
@@ -496,7 +495,10 @@ input, textarea {
 
 #data table tr .constellation_img {
 	position: absolute;
-	top: 6px;
+	top: 0.8em;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 #data table .end_tr {

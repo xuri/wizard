@@ -115,7 +115,7 @@
 								{{ $sex }}{{ Lang::get('members/show.question') }}:{{ $profile->question }}</span>
 							</li>
 						</ul>
-						<div class="callout-warning">{{ $sex }}已经把你拉黑了。</div>
+						<div class="callout-warning">{{ $sex }}{{ Lang::get('members/show.blocked_you') }}</div>
 
 					{{-- Sender block receiver user --}}
 
@@ -132,7 +132,7 @@
 					@else
 							<li>
 								<span class="pi_trial">
-								{{ $sex }}的爱情考验：{{ $profile->question }}</span>
+								{{ $sex }}{{ Lang::get('members/show.s_question') }}: {{ $profile->question }}</span>
 							</li>
 						</ul>
 						{{ Form::open() }}
@@ -158,7 +158,7 @@
 								{{ $sex }}{{ Lang::get('members/show.question') }}:{{ $profile->question }}</span>
 							</li>
 						</ul>
-						<div class="callout-warning">{{ $sex }}已经把你拉黑了。</div>
+						<div class="callout-warning">{{ $sex }}{{ Lang::get('members/show.blocked_you') }}</div>
 
 					{{-- Sender block receiver user --}}
 
@@ -178,7 +178,7 @@
 								{{ $sex }}{{ Lang::get('members/show.question') }}:{{ $profile->question }}</span>
 							</li>
 						</ul>
-						<div class="callout-warning">你已接受{{ $sex }}的邀请。</div>
+						<div class="callout-warning">{{ Lang::get('members/show.you_accepted') }}{{ $sex }}{{ Lang::get('members/show.s_request') }}</div>
 					@else
 
 							<li>
@@ -186,7 +186,7 @@
 								{{ $sex }}{{ Lang::get('members/show.question') }}:{{ $profile->question }}</span>
 							</li>
 						</ul>
-						<div class="callout-warning">{{ $sex }}{{ Lang::get('members/show.answer_for_me') }} {{ $like_me->answer }}</div>
+						<div class="callout-warning">{{ $sex }}{{ Lang::get('members/show.answer_for_me') }}: {{ $like_me->answer }}</div>
 						<div class="pi_center_bottom">
 						{{ Form::open() }}
 							<input name="status" type="hidden" value="accept" />

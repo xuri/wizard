@@ -71,7 +71,6 @@ body {
 	margin-top: 6px;
 	margin-left: 14px;
 	width: 474px;
-	text-indent: 2em;
 	font-size: 14px;
 	color: #8c8a8a;
 }
@@ -118,6 +117,9 @@ body {
 	bottom: 1em;
 	height: 30px;
 	margin-right: 4px;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .pi_center_main .pi_line {

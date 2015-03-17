@@ -403,13 +403,11 @@
 								<td class="data_td1">{{ Lang::get('account/index.constellation') }}:{{ $errors->first('constellation', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td><td class="data_td2 constellation">
 								@if($profile->constellation)
 								{{ HTML::image('assets/images/preInfoEdit/constellation/'.$constellationInfo['icon'], '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
-								<span style="margin-left:50px;" id="check_constellation">{{ $constellationInfo['name'] }}</span></td>
+								<span style="margin-left:40px;" id="check_constellation">{{ $constellationInfo['name'] }}</span></td>
 								@else
 								{{ HTML::image('assets/images/preInfoEdit/constellation/default.png', '', array('width' => '30', 'height' => '30', 'class' => 'constellation_img', 'id' => 'con_img')) }}
-								<span style="margin-left:50px;" id="check_constellation">{{ Lang::get('account/complete.constellation_input') }}</span></td>
+								<span style="margin-left:40px;" id="check_constellation">{{ Lang::get('account/complete.constellation_input') }}</span></td>
 								@endif
-
-
 							</tr>
 							<tr>
 								<td class="data_td1 vertical_top">{{ Lang::get('account/index.tags') }}:{{ $errors->first('tag_str', '<strong class="error" style="color: #cc0000">:message</strong>') }}</td>

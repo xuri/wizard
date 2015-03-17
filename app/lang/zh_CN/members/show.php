@@ -35,6 +35,8 @@ return array(
 
 	"my_question"		=> "我的爱情考验",
 
+	"s_question"		=> "的爱情考验",
+
 	"his"				=> "他的",
 
 	"her"				=> "她的",
@@ -51,7 +53,13 @@ return array(
 
 	"reject"			=> "拒绝",
 
-	"answer_for_me"		=> "给我的爱情考验答案:",
+	"answer_for_me"		=> "给我的爱情考验答案",
 
 	"verify"			=> "实名认证用户",
+
+	"blocked_you"		=> "已经把你拉黑了。",
+
+	"you_accepted"		=> "你已接受",
+
+	"s_request"			=> "的邀请",
 );
