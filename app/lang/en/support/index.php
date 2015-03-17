@@ -11,7 +11,7 @@ return array(
 
 	"phone"			=> "Contact Phone",
 
-	"phone_text"	=> "Welcome contact us via phone to tell us your suggestions about our products. Hours: Eeekdays 8：00 - 18：00. ",
+	"phone_text"	=> "Welcome contact us via phone to tell us your suggestions about our products. Hours: Weekdays 8：00 - 18：00. ",
 
 	"qq"			=> "Tencent QQ",
 

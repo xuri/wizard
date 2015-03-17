@@ -53,7 +53,9 @@
 					</div>
 					<div class="data_top clear">
 						<span></span> {{-- Left pink border --}}
-						<p><a class="fa fa-qq"></a> {{ Lang::get('support/index.qq') }}: 523591643</p>
+						<p>
+							<a target="_blank" class="qq_chat" href="http://wpa.qq.com/msgrd?v=3&uin=523591643&site=qq&menu=yes"><i class="fa fa-qq"></i> {{ Lang::get('support/index.qq') }}: 523591643</a>
+						</p>
 					</div>
 					<div class="content">
 						<p>{{ Lang::get('support/index.qq_text') }}</p>
