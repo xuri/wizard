@@ -81,9 +81,9 @@ return array(
 
 	"admin_news_management"			=> "News Management",
 
-	"admin_news_category"			=> "Category",
+	"admin_news_category"			=> "Category Management",
 
-	"admin_news_post"				=> "Posts",
+	"admin_news_post"				=> "Posts Management",
 
-	"admin_support_management"		=> "Support Management",
+	"admin_support_management"		=> "Feedback Management",
 );

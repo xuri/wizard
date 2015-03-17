@@ -40,7 +40,7 @@
 		<span class="bbs_main_look">{{ badWordsFilter($comments_and_replies) }}</span>
 		<span class="bbs_main_time">{{ date("m-d G:i",strtotime($post->created_at)) }}</span>
 		<?php
-			// Using expression get all picture attachments (Only with pictures stored on this server.)
+			// Using expression get all picture attachments聽(Only with pictures stored on this server.)
 			preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $post->content, $match );
 			$thumbnails = join(',', array_pop($match));
 

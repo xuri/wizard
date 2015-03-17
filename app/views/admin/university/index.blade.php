@@ -62,10 +62,10 @@
 									<thead>
 										<tr>
 											<th>ID {{ order_by('id', 'desc') }}</th>
-											<th style="text-align:center;">{{ Lang::get('admin/university/index.school') }} {{ order_by('university', 'desc') }}</th>
+											<th style="text-align:center;">{{ Lang::get('admin/university/index.school') }} {{ order_by('university') }}</th>
 											<th>{{ Lang::get('admin/university/index.users') }} <a href="{{ route('admin.university.order_by_users_desc') }}" class="glyphicon glyphicon-random"></a></th>
-											<th>{{ Lang::get('admin/university/index.date') }} {{ order_by('created_at', 'desc') }}</th>
-											<th style="width:7em;text-align:center;">{{ Lang::get('admin/university/index.status') }} {{ order_by('status', 'desc') }}</th>
+											<th>{{ Lang::get('admin/university/index.date') }} {{ order_by('created_at') }}</th>
+											<th style="width:7em;text-align:center;">{{ Lang::get('admin/university/index.status') }} {{ order_by('status') }}</th>
 											<th style="width:8em;text-align:center;">{{ Lang::get('admin/university/index.operating') }}</th>
 										</tr>
 									</thead>

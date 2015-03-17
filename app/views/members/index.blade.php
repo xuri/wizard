@@ -63,7 +63,7 @@
 					<div class="lu_resumes clear">
 						<div class="lu_resumes_user clear">
 							@if($data->is_verify == 1)
-							<a href="javascript:void(0);" class="icon_verify" title="{{ Lang::get('members/index.verify') }}" alt="{{ Lang::get('members/index.verify') }}"><span class="icon_approve"></span></a>
+							<a href="{{ str_finish(URL::to('/article'), '/verified-accounts.html') }}" target="_blank" class="icon_verify" title="{{ Lang::get('members/index.verify') }}" alt="{{ Lang::get('members/index.verify') }}"><span class="icon_approve"></span></a>
 							@else
 							@endif
 							<a href="{{ route('members.show', $data->id) }}">

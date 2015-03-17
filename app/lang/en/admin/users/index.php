@@ -53,5 +53,6 @@ return array(
 
 	"female"		=> "Female",
 
+	"status"		=> "Status",
 
 );

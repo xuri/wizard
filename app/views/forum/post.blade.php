@@ -25,7 +25,7 @@
 				<div class="message-re message-border clear">
 
 					@if($author->is_verify == 1)
-						<a href="javascript:void(0);" class="large_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="large_icon_approve"></span></a>
+						<a href="{{ str_finish(URL::to('/article'), '/verified-accounts.html') }}" target="_blank" class="large_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="large_icon_approve"></span></a>
 					@else
 					@endif
 					<div class="re-headImg-box">
@@ -87,7 +87,7 @@
 						<div class="message-re clear">
 
 							@if($user->is_verify == 1)
-								<a href="javascript:void(0);" class="large_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="large_icon_approve"></span></a>
+								<a href="{{ str_finish(URL::to('/article'), '/verified-accounts.html') }}" target="_blank" class="large_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="large_icon_approve"></span></a>
 							@else
 							@endif
 
@@ -130,7 +130,7 @@
 								<li><a href="{{ route('support.index') }}" class="a-color-grey">{{ Lang::get('forum/post.report') }}</a></li>
 								<li>{{ $floor ++ }}{{ Lang::get('forum/post.floor') }}</li>
 								<li>{{ date("Y-m-d G:i",strtotime($comment->created_at)) }}</li>
-								<li><a href="javascript:void(0);" class="a-color-pink reply_comment">{{ Lang::get('forum/post.reply') }}</a></li>
+								<li><a href="{{ str_finish(URL::to('/article'), '/verified-accounts.html') }}" target="_blank" class="a-color-pink reply_comment">{{ Lang::get('forum/post.reply') }}</a></li>
 							</ul>
 							<section class="form_box_first">
 								{{ Form::open(array(
@@ -158,7 +158,7 @@
 										<span class="imgSpan">
 
 											@if($reply_user->is_verify == 1)
-												<a href="javascript:void(0);" class="small_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="small_icon_approve"></span></a>
+												<a href="{{ str_finish(URL::to('/article'), '/verified-accounts.html') }}" target="_blank" class="small_icon_verify" title="{{ Lang::get('forum/post.verify') }}" alt="{{ Lang::get('forum/post.verify') }}"><span class="small_icon_approve"></span></a>
 											@else
 											@endif
 

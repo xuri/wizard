@@ -62,7 +62,7 @@
 									<thead>
 										<tr>
 											<th>ID <a href="{{ route('admin.university.index') }}?sort_up=id" class="glyphicon glyphicon-random"></a></th>
-											<th style="text-align:center;">{{ Lang::get('admin/university/index.school') }} {{ order_by('university', 'desc') }}</th>
+											<th style="text-align:center;">{{ Lang::get('admin/university/index.school') }} {{ order_by('university') }}</th>
 											<th>{{ Lang::get('admin/university/index.users') }} <a href="{{ route('admin.university.index') }}" class="glyphicon glyphicon-chevron-down"></a></th>
 											<th>{{ Lang::get('admin/university/index.date') }} <a href="{{ route('admin.university.index') }}?sort_up=created_at" class="glyphicon glyphicon-random"></a></th>
 											<th style="width:7em;text-align:center;">{{ Lang::get('admin/university/index.status') }} <a href="{{ route('admin.university.index') }}?sort_up=status" class="glyphicon glyphicon-random"></a></th>

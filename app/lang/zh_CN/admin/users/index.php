@@ -53,4 +53,6 @@ return array(
 
 	"female"		=> "女",
 
+	"status"		=> "状态",
+
 );

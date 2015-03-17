@@ -62,14 +62,15 @@
 								<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 									<thead>
 										<tr>
-											<th>ID</th>
+											<th>ID {{ order_by('id', 'desc') }}</th>
 											<th>{{ Lang::get('admin/users/index.identity') }} {{ order_by('is_admin') }}</th>
 											<th style="text-align:center;">{{ Lang::get('admin/users/index.portrait') }}</th>
 											<th>{{ Lang::get('admin/users/index.account') }}</th>
 											<th>{{ Lang::get('admin/users/index.nickname') }} {{ order_by('nickname') }}</th>
-											<th>{{ Lang::get('admin/users/index.created_at') }} {{ order_by('created_at', 'desc') }}</th>
+											<th>{{ Lang::get('admin/users/index.created_at') }} {{ order_by('created_at') }}</th>
 											<th>{{ Lang::get('admin/users/index.signin_at') }} {{ order_by('signin_at') }}</th>
-											<th style="width:11em;text-align:center;">{{ Lang::get('admin/users/index.operating') }}</th>
+											<th style="width:6em;text-align:center;">{{ Lang::get('admin/users/index.status') }} {{ order_by('block') }}</th>
+											<th style="width:7.5em;text-align:center;">{{ Lang::get('admin/users/index.operating') }}</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -96,7 +97,7 @@
 
 											<td class="center">{{ $data->created_at }}</td>
 											<td class="center">{{ $data->signin_at }}</td>
-											<td class="center" style="text-align:center;">
+
 												@if($data->block)
 													{{ Form::open(array(
 														'autocomplete'	=> 'off',
@@ -104,10 +105,14 @@
 														))
 													}}
 													@if($data->id!=$currentId)
-													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
-													{{ Form::hidden('id', $data->id) }}
-													<button type="submit" class="btn btn-xs btn-success">{{ Lang::get('admin/users/index.unlock') }}</button>
-													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
+													<td class="center" style="text-align:center;">
+														<button type="submit" class="btn btn-xs btn-success">{{ Lang::get('admin/users/index.unlock') }}</button>
+													</td>
+													<td class="center" style="text-align:center;">
+														<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
+														{{ Form::hidden('id', $data->id) }}
+														<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
+													</td>
 													@endif
 													{{ Form::close() }}
 												@else
@@ -117,14 +122,17 @@
 														))
 													}}
 													@if($data->id!=$currentId)
-													<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
+													<td class="center" style="text-align:center;">
+														<button type="submit" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/index.lock') }}</button>
+													</td>
 													{{ Form::hidden('id', $data->id) }}
-													<button type="submit" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/index.lock') }}</button>
-													<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
+													<td class="center" style="text-align:center;">
+														<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
+														<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
+													</td>
 													@endif
 													{{ Form::close() }}
 												@endif
-											</td>
 										</tr>
 										@endforeach
 									</tbody>
