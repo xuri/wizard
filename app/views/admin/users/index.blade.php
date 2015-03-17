@@ -13,7 +13,7 @@
 				</div>
 				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					@include('layout.notification')
@@ -172,16 +172,16 @@
 	</script>
 
 	<?php
-	$modalData['modal'] = array(
-		'id'      => 'myModal',
-		'title'   => Lang::get('system.system_prompt'),
-		'message' => Lang::get('system.delete_confirm') . Lang::get('admin/users/index.user') . '?',
-		'footer'  =>
-			Form::open(array('id' => 'real-delete', 'method' => 'delete')).'
-				<button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">' . Lang::get('system.cancel') . '</button>
-				<button type="submit" class="btn btn-sm btn-danger">' . Lang::get('system.delete_confirm') . '</button>'.
-			Form::close(),
-	);
+		$modalData['modal'] = array(
+			'id'      => 'myModal',
+			'title'   => Lang::get('system.system_prompt'),
+			'message' => Lang::get('system.delete_confirm') . Lang::get('admin/users/index.user') . '?',
+			'footer'  =>
+				Form::open(array('id' => 'real-delete', 'method' => 'delete')).'
+					<button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">' . Lang::get('system.cancel') . '</button>
+					<button type="submit" class="btn btn-sm btn-danger">' . Lang::get('system.delete_confirm') . '</button>'.
+				Form::close(),
+		);
 	?>
 	@include('layout.modal', $modalData)
 	<script>

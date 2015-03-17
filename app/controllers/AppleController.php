@@ -143,6 +143,7 @@ class AppleController extends BaseController
 						if ($user->save()) {
 							$profile			= new Profile;
 							$profile->user_id	= $user->id;
+							$profile->tag_str	= ',40';
 							$profile->save();
 
 							// Add user success and chat Register
