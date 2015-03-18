@@ -143,7 +143,7 @@
 									<?php
 										// first/prev pagination hyperlinks
 										if ($pageno == 1) {
-										   echo ' <li class="disabled"><span>芦</span></li> ';
+										   echo ' <li class="disabled"><span>&laquo;</span></li> ';
 										} else {
 										   echo " <li><a href='?pageno=1'>" . Lang::get('admin/university/index.first') . "</a></li> ";
 										   $prevpage = $pageno-1;
@@ -155,7 +155,7 @@
 
 										// next/last pagination hyperlinks
 										if ($pageno == $lastpage) {
-										   echo '<li class="disabled"><span>禄</span></li>';
+										   echo '<li class="disabled"><span>&raquo;</span></li>';
 										} else {
 										   $nextpage = $pageno+1;
 										   echo " <li><a href='?pageno=$nextpage'>" . Lang::get('admin/university/index.next') ."</a></li> ";
