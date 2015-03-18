@@ -405,9 +405,9 @@ class Admin_UserResource extends BaseResource
 	{
 
 		// Retrieve all add friends request not responsed
-		$datas			= Like::where('status', 0)->get();
+		$datas			= Like::where('status', 0)->paginate(10);
 
-		return View::make($this->resourceView.'.noactive')->with(compact('datas'));
+		return View::make($this->resourceView . '.noactive')->with(compact('datas'));
 	}
 
 	/**
