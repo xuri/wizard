@@ -283,7 +283,6 @@ class AuthorityController extends BaseController
 		return View::make('authority.signup');
 	}
 
-
 	/**
 	 * Action: Signup
 	 * @return Response

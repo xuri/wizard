@@ -35,4 +35,16 @@ return array(
 
 	"cancel"						=> "Cancel",
 
+	"maintenance"					=> "Maintenance",
+
+	"maintenance_text"				=> "Service Unavailable - Whoops, site is in maintenance, be right back!",
+
+	"error"							=> "Internal Server Error",
+
+	"error_text"					=> "Internal Server Error - Sorry, we will soon fix this problem!",
+
+	"forbidden"						=> "Forbidden",
+
+	"forbidden_text"				=> "Contact the administrator to resolve this problem.",
+
 );
