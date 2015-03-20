@@ -278,15 +278,28 @@ class ForumController extends BaseController {
 			$post->content		= Input::get('content');
 			if($post->save())
 			{
+				// Using expression get all picture attachments (Only with pictures stored on this server.)
+				preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $post->content, $match );
+				$thumbnails = join(',', array_pop($match));
+
+				$i = 0;
+				$post_thumbnails = null;
+				foreach($match[0] as $thumbnail){
+					$post_thumbnails = '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>' . $post_thumbnails;
+				$i ++;
+				if($i == 3) break;
+				}
+
 				return Response::json(
 					array(
-						'success'		=> true,
-						'success_info'	=> '发帖成功！',
-						'post_content'	=> Input::get('content'),
-						'post_id'		=> $post->id,
-						'post_title'	=> htmlentities(Input::get('title')),
-						'post_comments'	=> ForumComments::where('post_id', $post->id)->count(),
-						'post_created'	=> date("m-d H:m",strtotime($post->created_at))
+						'success'			=> true,
+						'success_info'		=> '发帖成功！',
+						'post_content'		=> badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200))),
+						'post_id'			=> $post->id,
+						'post_title'		=> htmlentities(Input::get('title')),
+						'post_comments'		=> ForumComments::where('post_id', $post->id)->count(),
+						'post_thumbnails'	=> $post_thumbnails,
+						'post_created'		=> date("m-d H:m",strtotime($post->created_at))
 					)
 				);
 			} else {

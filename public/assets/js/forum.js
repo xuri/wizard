@@ -62,7 +62,7 @@
 
 			} else { // Ajax success
 				// Ajax prepend new post in current tab
-				$('ul.bbs_main_' + categoryId).prepend('<li class="bbs_main_boy"><a href="' + forumShowRoute + data.post_id + '" target="_blank">' + data.post_title + '</a><p>' + data.post_content + '</p><span class="bbs_main_look">' + data.post_comments + '</span><span class="bbs_main_time">' + data.post_created + '</span></li>');
+				$('ul.bbs_main_' + categoryId).prepend('<li class="bbs_main_boy"><a href="' + forumShowRoute + data.post_id + '" target="_blank">' + data.post_title + '</a><p>' + data.post_content + '</p><span class="bbs_main_look">' + data.post_comments + '</span><span class="bbs_main_time">' + data.post_created + '</span>' + data.post_thumbnails + '</li>');
 				// Flush old error messages
 				if($('.callout-warning')) {
 					$('.callout-warning').remove();

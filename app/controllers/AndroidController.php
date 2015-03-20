@@ -283,7 +283,7 @@ class AndroidController extends BaseController
 						// Update account
 						$user                   = User::where('id', Input::get('id'))->first();
 						$oldPortrait			= $user->portrait;
-						$user->nickname         = htmlentities(Input::get('nickname'));
+						$user->nickname         = app_input_filter(Input::get('nickname'));
 
 						// Protrait section
 						$portrait               = Input::get('portrait');
@@ -303,17 +303,17 @@ class AndroidController extends BaseController
 						{
 							$user->born_year    = Input::get('born_year');
 						}
-						$user->bio              = htmlentities(Input::get('bio'));
+						$user->bio              = app_input_filter(Input::get('bio'));
 						$user->school           = Input::get('school');
 
 						// Update profile information
 						$profile                = Profile::where('user_id', $user->id)->first();
 						$profile->tag_str       = Input::get('tag_str');
 						$profile->grade         = Input::get('grade');
-						$profile->hobbies       = htmlentities(Input::get('hobbies'));
-						$profile->constellation = htmlentities(Input::get('constellation'));
-						$profile->self_intro    = htmlentities(Input::get('self_intro'));
-						$profile->question      = htmlentities(Input::get('question'));
+						$profile->hobbies       = app_input_filter(Input::get('hobbies'));
+						$profile->constellation = app_input_filter(Input::get('constellation'));
+						$profile->self_intro    = app_input_filter(Input::get('self_intro'));
+						$profile->question      = app_input_filter(Input::get('question'));
 
 						if ($user->save() && $profile->save()) {
 
@@ -732,7 +732,7 @@ class AndroidController extends BaseController
 								// This user already sent like
 								if($have_like)
 								{
-									$have_like->answer	= htmlentities(Input::get('answer'));
+									$have_like->answer	= app_input_filter(Input::get('answer'));
 									$have_like->count	= $have_like->count + 1;
 									$user->points		= $user->points - 1;
 									if($have_like->save() && $user->save())
@@ -766,7 +766,7 @@ class AndroidController extends BaseController
 									$like->sender_id	= $user->id;
 									$like->receiver_id	= $receiver_id;
 									$like->status		= 0; // User send like, pending accept
-									$like->answer		= htmlentities(Input::get('answer'));
+									$like->answer		= app_input_filter(Input::get('answer'));
 									$like->count		= 1;
 									$user->points		= $user->points - 1;
 									if($like->save() && $user->save())
@@ -2329,7 +2329,7 @@ class AndroidController extends BaseController
 				case 'forum_postcomment' :
 					$user_id	= Input::get('userid');
 					$post_id	= Input::get('postid');
-					$content	= htmlentities(nl2br(Input::get('content'), true));
+					$content	= app_input_filter(Input::get('content'));
 					$forum_post	= ForumPost::where('id', $post_id)->first();
 
 					// Select post type
@@ -2394,7 +2394,7 @@ class AndroidController extends BaseController
 
 						// Post reply
 						$reply_id			= Input::get('replyid');
-						$comments_id		= htmlentities(nl2br(Input::get('commentid'), true));
+						$comments_id		= app_input_filter(Input::get('commentid'));
 
 						// Create comments reply
 						$reply				= new ForumReply;
@@ -2471,9 +2471,9 @@ class AndroidController extends BaseController
 					// Create new post
 					$post				= new ForumPost;
 					$post->category_id	= Input::get('catid');
-					$post->title		= htmlentities(Input::get('title'));
 					$post->user_id		= Input::get('userid');
-					$post->content		= htmlentities(nl2br(Input::get('content'), true));
+					$post->title		= app_input_filter(Input::get('title'));
+					$post->content		= app_input_filter(Input::get('content'));
 
 					if($post->save()) {
 						// Create successful
@@ -2918,7 +2918,7 @@ class AndroidController extends BaseController
 				case 'support' :
 					$support			= new Support;
 					$support->user_id 	= Input::get('id');
-					$support->content	= htmlentities(Input::get('content'));
+					$support->content	= app_input_filter(Input::get('content'));
 					if($support->save()) {
 						return Response::json(
 							array(
