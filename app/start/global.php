@@ -51,19 +51,19 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 
 	switch ($code)
-    {
-        case 403:
-            return Response::view('system.forbidden', array(), 403);
+	{
+		case 403:
+			return Response::view('system.forbidden', array(), 403);
 
-        case 404:
-            return Response::view('system.missing', array(), 404);
+		case 404:
+			return Response::view('system.missing', array(), 404);
 
-        case 500:
-            return Response::view('system.error', array(), 500);
+		case 500:
+			return Response::view('system.error', array(), 500);
 
-        default:
-            return Response::view('system.missing', array(), $code);
-    }
+		default:
+			return Response::view('system.missing', array(), $code);
+	}
 });
 
 /*

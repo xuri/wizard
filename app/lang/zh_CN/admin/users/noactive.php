@@ -35,4 +35,14 @@ return array(
 
 	"re_notify"				=> "再次通知",
 
+	"has_notified"			=> "已经通知",
+
+	"not_notified"			=> "尚未通知",
+
+	"all_status"			=> "所有状态",
+
+	"select"				=> "筛选",
+
+	"select_input"			=> "模糊搜索好友请求ID、发送方ID和接收方ID",
+
 );

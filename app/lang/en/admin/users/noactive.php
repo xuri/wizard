@@ -35,4 +35,14 @@ return array(
 
 	"re_notify"				=> "Notify Again",
 
+	"has_notified"			=> "Has Notified",
+
+	"not_notified"			=> "Not Notified",
+
+	"all_status"			=> "All Status",
+
+	"select"				=> "Select",
+
+	"select_input"			=> "Fuzzy search in request ID, sender ID and receiver id",
+
 );

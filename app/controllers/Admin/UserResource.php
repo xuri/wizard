@@ -404,10 +404,54 @@ class Admin_UserResource extends BaseResource
 	public function noactive()
 	{
 
-		// Retrieve all add friends request not responsed
-		$datas			= Like::where('status', 0)->get();
+		// Get sort conditions
+		$orderColumn	= Input::get('sort_up', Input::get('sort_down', 'id'));
+		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
 
-		return View::make($this->resourceView . '.noactive')->with(compact('datas'));
+		// Retrieve all add friends request not responsed
+		$query			= Like::where('status', 0);
+
+		// Fuzzy search conditions
+		if(Input::get('like')) {
+			$filter 	= Input::get('like');
+		}
+
+		// Notify status filter
+		if(Input::get('is_notify')) {
+			$is_notify	= Input::get('is_notify');
+
+			if($is_notify == '1') {
+
+				// All notified add friend requests
+				$query->where('is_notify', 1)->orderBy($orderColumn, $direction);
+				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
+				$all_notify	= true;
+				$datas		= $query->paginate(10);
+			} elseif ($is_notify == '0') {
+
+				// All not notify add friend requests
+				$query->where('is_notify', '!=', 1)->orderBy($orderColumn, $direction);
+				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
+				$all_notify	= false;
+				$datas		= $query->get();
+			} else {
+
+				// All no active add friend requests
+				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
+				$all_notify	= false;
+				$datas		= $query->orderBy($orderColumn, $direction)->get();
+			}
+
+		} else {
+
+			// All not notify add friend requests
+			$query->where('is_notify', '!=', 1)->orderBy($orderColumn, $direction);
+			isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
+			$all_notify		= false;
+			$datas			= $query->get();
+		}
+
+		return View::make($this->resourceView . '.noactive')->with(compact('datas', 'all_notify'));
 	}
 
 	/**
