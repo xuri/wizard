@@ -75,7 +75,18 @@
 											<td>{{ $data->id }}</td>
 											<td style="text-align:center;">{{ $data->university }}</td>
 											<td class="center">{{ User::where('school', $data->university)->count() }}</td>
-											<td class="center">{{ $data->created_at }}</td>
+											<td class="center">
+												@if($data->status == 2)
+													{{ $data->created_at }}
+														@if($data->open_at)
+															({{ $data->open_at }})
+														@endif
+												@elseif($data->status == 1)
+													{{ $data->created_at }} ({{ $data->open_at }})
+												@elseif($data->status == 0 || $data->status = 0)
+													{{ $data->created_at }}
+												@endif
+											</td>
 											<td class="center" style="text-align:center;">
 												@if($data->status == 2)
 												<a href="{{ route($resource.'.close', $data->id) }}" class="btn btn-xs btn-success">{{ Lang::get('admin/university/index.opening') }}</a>

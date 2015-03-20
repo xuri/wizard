@@ -22,7 +22,7 @@
 						@endforeach
 						<option value="others">{{ Lang::get('members/index.other_school') }}</option>
 						@foreach($pending_universities as $pending_university)∂
-						<option vlaue="">{{ $pending_university->university }} ({{ date('m月d日', strtotime($pending_university->created_at)) }} {{ Lang::get('members/index.open') }})</option>
+						<option vlaue="">{{ $pending_university->university }} ({{ date('m月d日', strtotime($pending_university->open_at)) }} {{ Lang::get('members/index.open') }})</option>
 						@endforeach
 					</select>
 					{{
