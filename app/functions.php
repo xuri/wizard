@@ -1001,9 +1001,20 @@ function badWordsFilter($text) {
 
 /**
  * String to array
- * @param  string &$string      App input string filter
- * @return string               result
+ * @param  string 		App input string filter
+ * @return string       result
  */
-function app_input_filter($string) {
-	return badWordsFilter(strip_tags(trim(nl2br($string), true), '<img><br>'));
+function app_input_filter($input_filter_string) {
+	return badWordsFilter(strip_tags(trim(nl2br($input_filter_string), true), '<img><br>'));
+}
+
+/**
+ * String to array
+ * @param  string 		App output string filter
+ * @return string 		result
+ */
+function app_out_filter($out_filter_string) {
+	// Define breaks convert rules
+	$breaks		= array("<br />","<br>","<br/>","<p>","</p>");
+	return html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $out_filter_string)))), ENT_QUOTES, 'utf-8');
 }
