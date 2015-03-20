@@ -33,6 +33,10 @@ return array(
 
 	"cpu_usage"			=> "CPU Usage",
 
+	"cpu_frequency"		=> "Frequency",
+
+	"cpu_l2_cache"		=> "L2 Cache",
+
 	"hdd_usage"			=> "Storge Usage",
 
 	"hdd_used"			=> "Used",
@@ -53,6 +57,10 @@ return array(
 
 	"memory_percent"	=> "Percent",
 
+	"memory_cached"		=> "Cache Memory",
+
+	"memory_buffers"	=> "Buffers Memory",
+
 	"network_usage"		=> "Network Usages",
 
 	"network_received"	=> "Data received",
@@ -60,5 +68,13 @@ return array(
 	"network_sent"		=> "Data sent",
 
 	"network_real_time"	=> "Real-time",
+
+	"linux_support"		=> "OS not support",
+
+	"day"				=> " Days ",
+
+	"hour"				=> " Hours ",
+
+	"minute"			=> " Minutes",
 
 );

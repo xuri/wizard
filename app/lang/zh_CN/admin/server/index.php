@@ -33,6 +33,10 @@ return array(
 
 	"cpu_usage"			=> "CPU负载",
 
+	"cpu_frequency"		=> "频率",
+
+	"cpu_l2_cache"		=> "二级缓存",
+
 	"hdd_usage"			=> "存储系统概览",
 
 	"hdd_used"			=> "已用",
@@ -53,6 +57,10 @@ return array(
 
 	"memory_percent"	=> "使用率",
 
+	"memory_cached"		=> "Cache 化内存为",
+
+	"memory_buffers"	=> "Buffers 缓冲为",
+
 	"network_usage"		=> "网络使用状况",
 
 	"network_received"	=> "入网",
@@ -60,5 +68,13 @@ return array(
 	"network_sent"		=> "出网",
 
 	"network_real_time"	=> "实时",
+
+	"linux_support"		=> "暂时只支持Linux系统",
+
+	"day"				=> "天",
+
+	"hour"				=> "小时",
+
+	"minute"			=> "分钟",
 
 );

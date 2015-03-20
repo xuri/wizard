@@ -346,49 +346,136 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="table-responsive">
-						<table class="table table-hover">
+						<table class="table">
 							<tbody>
 								<tr>
-									<th colspan="4">{{ Lang::get('navigation.admin_server') }}</th>
+									<th colspan="5">{{ Lang::get('navigation.admin_server') }}</th>
 								</tr>
 								<tr>
 									<td width="15%">{{ Lang::get('admin/server/index.domain_ip') }}</td>
-									<td><?php echo @get_current_user();?> - <?php echo $_SERVER['SERVER_NAME'];?>(<?php if('/'==DIRECTORY_SEPARATOR){echo $_SERVER['SERVER_ADDR'];}else{echo @gethostbyname($_SERVER['SERVER_NAME']);} ?>)&nbsp;&nbsp;{{ Lang::get('admin/server/index.your_ip') }}<?php echo @$_SERVER['REMOTE_ADDR'];?></td>
+									<td>
+										<?php
+											echo @get_current_user();
+										?> -
+										<?php
+											echo $_SERVER['SERVER_NAME'];
+										?>
+										(
+										<?php
+											if('/' == DIRECTORY_SEPARATOR) {
+												echo $_SERVER['SERVER_ADDR'];
+											} else {
+												echo @gethostbyname($_SERVER['SERVER_NAME']);
+											}
+										?>
+										)&nbsp;&nbsp;{{ Lang::get('admin/server/index.your_ip') }}
+										<?php
+											echo @$_SERVER['REMOTE_ADDR'];
+										?>
+									</td>
 									<td>{{ Lang::get('admin/server/index.admin_email') }}</td>
-									<td><?php echo $_SERVER['SERVER_ADMIN'];?></td>
+									<td colspan="2">
+										<?php
+											echo $_SERVER['SERVER_ADMIN'];
+										?>
+									</td>
 								</tr>
 								<tr>
 									<td>{{ Lang::get('admin/server/index.server_os') }}</td>
-									<td><?php $os = explode(" ", php_uname()); echo $os[0];?> &nbsp;{{ Lang::get('admin/server/index.kernel_version') }}: <?php if('/'==DIRECTORY_SEPARATOR){echo $os[2];}else{echo $os[1];} ?></td>
+									<td>
+										<?php
+											$os = explode(" ", php_uname());
+											echo $os[0];
+										?>
+										&nbsp;{{ Lang::get('admin/server/index.kernel_version') }}:
+										<?php
+											if('/' == DIRECTORY_SEPARATOR) {
+												echo $os[2];
+											} else {
+												echo $os[1];
+											}
+										?>
+									</td>
 									<td>{{ Lang::get('admin/server/index.web_service') }}</td>
-									<td><?php echo $_SERVER['SERVER_SOFTWARE'];?></td>
+									<td colspan="2">
+										<?php
+											echo $_SERVER['SERVER_SOFTWARE'];
+										?>
+									</td>
 								</tr>
-								<?if("show"==$sysReShow){?>
+								<? if("show" == $sysReShow) { ?>
 								<tr>
-									<th colspan="4">{{ Lang::get('admin/server/index.real_time') }}</th>
+									<th colspan="5">{{ Lang::get('admin/server/index.real_time') }}</th>
 								</tr>
 								<tr>
 									<td width="15%">{{ Lang::get('admin/server/index.local_time') }}</td>
-									<td><span id="stime"><?php echo $stime;?></span>
+									<td><span id="stime">
+										<?php
+											echo $stime;
+										?>
+									</span>
 									</td>
 									<td>{{ Lang::get('admin/server/index.run_time') }}</td>
-									<td><span id="uptime"><?php echo $uptime;?></span>
+									<td colspan="2">
+										<span id="uptime">
+											<?php
+												echo $uptime;
+											?>
+										</span>
 									</td>
 								</tr>
 								<tr>
-									<td>{{ Lang::get('admin/server/index.cpu_model') }} [<?php echo $sysInfo['cpu']['num'];?>{{ Lang::get('admin/server/index.core') }}]</td>
-									<td><?php echo $sysInfo['cpu']['model'];?></td>
+									<td>{{ Lang::get('admin/server/index.cpu_model') }} [
+										<?php
+											echo $sysInfo['cpu']['num'];
+										?>
+										{{ Lang::get('admin/server/index.core') }}]</td>
+									<td>
+										<?php
+											echo $sysInfo['cpu']['model'];
+										?>
+									</td>
 									<td>{{ Lang::get('admin/server/index.cpu_usage') }}</td>
-									<td><?php if('/'==DIRECTORY_SEPARATOR){echo $cpu_show." ";}else{echo "暂时只支持Linux系统";}?>
+									<td colspan="2">
+										<?php
+											if('/' == DIRECTORY_SEPARATOR) {
+												echo $cpu_show . " ";
+											} else {
+												echo Lang::get('admin/server/index.linux_support');
+											}
+										?>
 									</td>
 								</tr>
 								<tr>
 									<td>{{ Lang::get('admin/server/index.hdd_usage') }}</td>
-									<td colspan="3">
-										{{ Lang::get('admin/server/index.hdd_total') }} <?php echo $dt;?>&nbsp;G，
-										{{ Lang::get('admin/server/index.hdd_used') }} <font color='#333333'><span id="useSpace"><?php echo $du;?></span></font>&nbsp;G，
-										{{ Lang::get('admin/server/index.hdd_free') }} <font color='#333333'><span id="freeSpace"><?php echo $df;?></span></font>&nbsp;G，
-										{{ Lang::get('admin/server/index.hdd_percent') }} <span id="hdPercent"><?php echo $hdPercent;?></span>%
+									<td colspan="4">
+										{{ Lang::get('admin/server/index.hdd_total') }}
+										<?php
+											echo $dt;
+										?>
+										&nbsp;G，
+										{{ Lang::get('admin/server/index.hdd_used') }}
+										<font color='#333333'>
+											<span id="useSpace">
+												<?php
+													echo $du;
+												?>
+											</span>
+										</font>&nbsp;G,
+										{{ Lang::get('admin/server/index.hdd_free') }}
+										<font color='#333333'>
+												<span id="freeSpace">
+												<?php
+													echo $df;
+												?>
+											</span>
+										</font>&nbsp;G,
+										{{ Lang::get('admin/server/index.hdd_percent') }}
+										<span id="hdPercent">
+											<?php
+												echo $hdPercent;
+											?>
+										</span>%
 
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
 											<div class="progress-bar progress-bar-info active" role="progressbar" aria-valuenow="<?php echo $hdPercent;?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $hdPercent;?>%">
@@ -399,16 +486,23 @@
 								</tr>
 								<tr>
 									<td>{{ Lang::get('admin/server/index.memory_usage') }}</td>
-									<td colspan="3">
+									<td colspan="4">
 										<?php
-										$tmp = array(
-											'memTotal', 'memUsed', 'memFree', 'memPercent',
-											'memCached', 'memRealPercent',
-											'swapTotal', 'swapUsed', 'swapFree', 'swapPercent'
-										);
-										foreach ($tmp AS $v) {
-											$sysInfo[$v] = $sysInfo[$v] ? $sysInfo[$v] : 0;
-										}
+											$tmp = array(
+												'memTotal',
+												'memUsed',
+												'memFree',
+												'memPercent',
+												'memCached',
+												'memRealPercent',
+												'swapTotal',
+												'swapUsed',
+												'swapFree',
+												'swapPercent'
+											);
+											foreach ($tmp AS $v) {
+												$sysInfo[$v] = $sysInfo[$v] ? $sysInfo[$v] : 0;
+											}
 										?>
 										{{ Lang::get('admin/server/index.memory_total') }}
 										<font color='#CC0000'><?php echo $memTotal;?> </font>
@@ -424,21 +518,23 @@
 											</div>
 										</div>
 										<?php
-										// Determine if the cache is 0, don't show
-										if($sysInfo[ 'memCached']>0) { ?> Cache化内存为 <span id="CachedMemory"><?php echo $mc;?></span>
-										, 使用率
+											// Determine if the cache is 0, don't show
+											if($sysInfo[ 'memCached']>0) {
+										?>
+										{{ Lang::get('admin/server/index.memory_cached') }}
+										<span id="CachedMemory"><?php echo $mc;?></span>, {{ Lang::get('admin/server/index.memory_percent') }}
 										<span id="memCachedPercent"><?php echo $memCachedPercent;?></span>
-										% | Buffers缓冲为 <span id="Buffers"><?php echo $mb;?></span>
+										% | {{ Lang::get('admin/server/index.memory_buffers') }} <span id="Buffers"><?php echo $mb;?></span>
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
 											<div class="progress-bar progress-bar-warning active" role="progressbar" aria-valuenow="<?php echo $memCachedPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memCachedPercent?>%">
 												<span class="sr-only"><?php echo $memCachedPercent?>% Complete (success)</span>
 											</div>
 										</div>
-										真实内存使用
+										{{ Lang::get('admin/server/index.memory_used') }}
 										<span id="memRealUsed"><?php echo $memRealUsed;?></span>
-										, 真实内存空闲
+										, {{ Lang::get('admin/server/index.memory_free') }}
 										<span id="memRealFree"><?php echo $memRealFree;?></span>
-										, 使用率
+										, {{ Lang::get('admin/server/index.memory_percent') }}
 										<span id="memRealPercent"><?php echo $memRealPercent;?></span>
 										%
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
@@ -446,34 +542,57 @@
 												<span class="sr-only"><?php echo $memRealPercent?>% Complete (success)</span>
 											</div>
 										</div>
-										<?php }
+										<?php
+										}
 
 										// Determine if the SWAP is 0, don't show
-										if($sysInfo[ 'swapTotal']>0)
-										{
+										if($sysInfo[ 'swapTotal']>0) {
 										?>
 										SWAP区：共
-										<?php echo $st;?>, 已使用
-										<span id="swapUsed"><?php echo $su;?></span>
+										<?php
+											echo $st;
+										?>
+										, 已使用
+										<span id="swapUsed">
+											<?php
+												echo $su;
+											?>
+										</span>
 										, 空闲
-										<span id="swapFree"><?php echo $sf;?></span>
+										<span id="swapFree">
+											<?php
+												echo $sf;
+											?>
+										</span>
 										, 使用率
-										<span id="swapPercent"><?php echo $swapPercent;?></span>
+										<span id="swapPercent">
+											<?php
+												echo $swapPercent;
+											?>
+										</span>
 										%
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
 											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $swapPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $swapPercent?>%">
 												<span class="sr-only"><?php echo $swapPercent?>% Complete (success)</span>
 											</div>
 										</div>
-										<?php } ?>
+										<?php
+											}
+										?>
 									</td>
 								</tr>
 								<?}?>
-								<?php if (false !== ($strs = @file("/proc/net/dev"))) : ?>
+								<?php
+									if (false !== ($strs = @file("/proc/net/dev"))) :
+								?>
 								<tr>
 									<th colspan="4">{{ Lang::get('admin/server/index.network_usage') }}</th></tr>
-								<?php for ($i = 2; $i < count($strs); $i++ ) : ?>
-								<?php preg_match_all( "/([^\s]+):[\s]{0,}(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/", $strs[$i], $info );?>
+								<?php
+									for ($i = 2; $i < count($strs); $i++ ) :
+								?>
+								<?php
+									preg_match_all( "/([^\s]+):[\s]{0,}(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s+(\d+)/", $strs[$i], $info );
+								?>
 								<tr>
 									<td><?php echo $info[1][0]?> : </td>
 									<td width="29%">{{ Lang::get('admin/server/index.network_received') }}: <font color='#CC0000'><span id="NetInput<?php echo $i?>"><?php echo $NetInput[$i]?></span></font></td>
