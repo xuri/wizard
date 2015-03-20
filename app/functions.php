@@ -1015,6 +1015,6 @@ function app_input_filter($input_filter_string) {
  */
 function app_out_filter($out_filter_string) {
 	// Define breaks convert rules
-	$breaks		= array("<br />","<br>","<br/>","<p>","</p>");
-	return html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $out_filter_string)))), ENT_QUOTES, 'utf-8');
+	$breaks		= array("<br />","<br>","<br/>");
+	return strip_tags(html_entity_decode(e(badWordsFilter(str_replace("&nbsp;", " ", str_ireplace($breaks, '\\n', $out_filter_string)))), ENT_QUOTES, 'utf-8'), '<img>');
 }
