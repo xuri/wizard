@@ -52,7 +52,10 @@
 					{{-- /input-group --}}
 				</li>
 				<li>
-					<a class="active" href="{{ route('admin') }}"><i class="fa fa-dashboard fa-fw"></i> {{ Lang::get('navigation.dashboard') }}</a>
+					<a href="{{ route('admin') }}"><i class="fa fa-dashboard fa-fw"></i> {{ Lang::get('navigation.dashboard') }}</a>
+				</li>
+				<li>
+					<a href="{{ route('admin.server') }}"><i class="fa fa-sliders fa-fw"></i> {{ Lang::get('navigation.admin_server') }}</a>
 				</li>
 				<li>
 					<a href="javascript:void();"><i class="fa fa-users fa-fw"></i> {{ Lang::get('navigation.admin_user_management') }}<span class="fa arrow"></span></a>

@@ -21,7 +21,7 @@ return array(
 
 	"see_detail"				=> "查看详情",
 
-	"other_options"				=>	"其它选项",
+	"other_options"				=> "其它选项",
 
 	"users"						=> "用户",
 

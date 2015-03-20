@@ -124,5 +124,13 @@ class AdminController extends BaseController
         return View::make('admin.index')->with(compact('unreadSupport', 'totalUser', 'maleUser', 'femaleUser', 'userBasicAnalytics'));
     }
 
+    /**
+     * Server Monitor
+     * @return response
+     */
+    public function getServer()
+    {
+    	return View::make('admin.server.index');
+    }
 
 }

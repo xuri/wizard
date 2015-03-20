@@ -51,6 +51,8 @@ return array(
 
 	"dashboard"						=> "Dashboard",
 
+	"admin_server"					=> "Server Information",
+
 	"admin_user_management"			=> "Users Management",
 
 	"admin_user_all"				=> "All Users Management",

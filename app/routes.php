@@ -175,8 +175,13 @@ Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated|is.mobi
 
 Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|is.mobile'), function () {
 	$Admin = 'AdminController@';
-	# Admin index
-	Route::get('/'		, array('as' => 'admin', 'uses' => $Admin.'getIndex'));
+
+	# Admin Index
+	Route::get('/'				, array('as' => 'admin'		  , 'uses' => $Admin . 'getIndex'));
+
+	# Server Index
+	Route::get('/server'		, array('as' => 'admin.server', 'uses' => $Admin . 'getServer'));
+
 	# User Managment
 	Route::group(array('prefix' => 'users'), function () {
 		$resource   = 'users';
@@ -271,6 +276,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|i
 		Route::get(  	'/open/{id}', array('as' => $resource.'.open'    , 'uses' => $controller.'open'   ));
 		Route::get(    '/close/{id}', array('as' => $resource.'.close'   , 'uses' => $controller.'close'  ));
 	});
+
 });
 
 /*
