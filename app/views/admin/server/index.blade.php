@@ -391,7 +391,7 @@
 										{{ Lang::get('admin/server/index.hdd_percent') }} <span id="hdPercent"><?php echo $hdPercent;?></span>%
 
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
-											<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<?php echo $hdPercent;?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $hdPercent;?>%">
+											<div class="progress-bar progress-bar-info active" role="progressbar" aria-valuenow="<?php echo $hdPercent;?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $hdPercent;?>%">
 												<span class="sr-only"><?php echo $hdPercent;?>% Complete (success)</span>
 											</div>
 										</div>
@@ -419,7 +419,7 @@
 										, {{ Lang::get('admin/server/index.memory_percent') }}
 										<span id="memPercent"><?php echo $memPercent;?></span>
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
-											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $memPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memPercent?>%">
+											<div class="progress-bar progress-bar-success active" role="progressbar" aria-valuenow="<?php echo $memPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memPercent?>%">
 												<span class="sr-only"><?php echo $memPercent?>% Complete (success)</span>
 											</div>
 										</div>
@@ -430,7 +430,7 @@
 										<span id="memCachedPercent"><?php echo $memCachedPercent;?></span>
 										% | Buffers缓冲为 <span id="Buffers"><?php echo $mb;?></span>
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
-											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $memCachedPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memCachedPercent?>%">
+											<div class="progress-bar progress-bar-warning active" role="progressbar" aria-valuenow="<?php echo $memCachedPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memCachedPercent?>%">
 												<span class="sr-only"><?php echo $memCachedPercent?>% Complete (success)</span>
 											</div>
 										</div>
@@ -442,7 +442,7 @@
 										<span id="memRealPercent"><?php echo $memRealPercent;?></span>
 										%
 										<div class="progress progress-striped" style="margin: 10px 0 5px 0;">
-											<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="<?php echo $memRealPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memRealPercent?>%">
+											<div class="progress-bar progress-bar-danger active" role="progressbar" aria-valuenow="<?php echo $memRealPercent?>" aria-valuemin="0" aria-valuemax="100" style="width:<?php echo $memRealPercent?>%">
 												<span class="sr-only"><?php echo $memRealPercent?>% Complete (success)</span>
 											</div>
 										</div>

@@ -53,7 +53,7 @@ return array(
 
 	"memory_percent"	=> "使用率",
 
-	"network"			=> "网络使用状况",
+	"network_usage"		=> "网络使用状况",
 
 	"network_received"	=> "入网",
 

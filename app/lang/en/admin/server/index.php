@@ -53,7 +53,7 @@ return array(
 
 	"memory_percent"	=> "Percent",
 
-	"network"			=> "Network Usages",
+	"network_usage"		=> "Network Usages",
 
 	"network_received"	=> "Data received",
 
