@@ -188,7 +188,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|i
 		$controller = 'Admin_UserResource@';
 		Route::get(  		      '/', array('as' => $resource.'.index'  	, 'uses' => $controller.'index'  	));
 		Route::get(			 'create', array('as' => $resource.'.create' 	, 'uses' => $controller.'create' 	));
-		Route::post( 		      '/', array('as' => $resource.'.store'  	, 'uses' => $controller.'store'  	));
+		Route::post( 		 'create', array('as' => $resource.'.store'  	, 'uses' => $controller.'store'  	));
 		Route::get(	   '{id}/chatdir', array('as' => $resource.'.chatdir'	, 'uses' => $controller.'chatdir'	));
 		Route::get('/chatrecord/{id}', array('as' => $resource.'.chatrecord', 'uses' => $controller.'chatrecord'));
 		Route::get(		   'noactive', array('as' => $resource.'.noactive'	, 'uses' => $controller.'noactive'	));

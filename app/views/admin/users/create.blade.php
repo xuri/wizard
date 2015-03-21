@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							用户详细信息编辑
+							添加用户
 						</div>
 						<div class="panel-body">
 							<div class="row">
@@ -32,72 +32,78 @@
 								}}
 									<div class="col-lg-6">
 										<div class="form-group">
-											<label>用户ID：{{ $data->id }}， 注册来源：
-												@if($data->from == 1)
-												<i class="fa fa-android"></i> Android 客户端
-												@elseif($data->from == 2)
-												<i class="fa fa-apple"></i> iOS 客户端
-												@else
-												<i class="fa fa-laptop"></i> Web 网站
-												@endif
-											</label>
+											<label>用户ID: 将由系统自动生成</label>
 										</div>
+										{{ $errors->first('from', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
 										<div class="form-group">
-											@if($data->email)
-											<label>邮箱地址：{{ $data->email }}</label>
-											@else
-											<label>邮箱地址：未设置</label>
-											@endif
-										</div>
-										<div class="form-group">
-											<label>用户权限类型（谨慎操作）： </label>
-											@if($data->is_admin == 1)
+											<label>注册来源:</label>
 											<label class="radio-inline">
-												<input type="radio" name="is_admin" id="optionsRadiosInline1" value="0">普通用户
+												<input type="radio" name="from" id="optionsRadiosInline1" value="0"> <i class="fa fa-android"></i> Android 客户端
 											</label>
 											<label class="radio-inline">
-												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1" checked="checked">{{ Lang::get('system.moderator') }}
+												<input type="radio" name="from" id="optionsRadiosInline1" value="0"> <i class="fa fa-apple"></i> iOS 客户端
 											</label>
-											@else
+											<label class="radio-inline">
+												<input type="radio" name="from" id="optionsRadiosInline1" value="0"> <i class="fa fa-laptop"></i> Web 网站
+											</label>
+										</div>
+										{{ $errors->first('is_admin', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
+										<div class="form-group">
+											<label>用户权限类型（谨慎操作）: </label>
+
 											<label class="radio-inline">
 												<input type="radio" name="is_admin" id="optionsRadiosInline1" value="0" checked="checked">普通用户
 											</label>
 											<label class="radio-inline">
 												<input type="radio" name="is_admin" id="optionsRadiosInline2" value="1">{{ Lang::get('system.moderator') }}
 											</label>
-											@endif
-											@if($data->is_verify == 1)
-											<label class="radio-inline">
-												<input type="checkbox" name="is_verify" id="optionsRadiosInline3" value="1" checked="checked">&nbsp;认证用户
-											</label>
-											@else
+
 											<label class="radio-inline">
 												<input type="checkbox" name="is_verify" id="optionsRadiosInline3" value="1">&nbsp;认证用户
 											</label>
-											@endif
+										</div>
+										{{ $errors->first('sex', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
+										<div class="form-group">
+											<label>性别: </label>
+											<label class="radio-inline">
+												<input type="radio" name="sex" id="optionsRadiosInline1" value="M"> 男
+											</label>
+											<label class="radio-inline">
+												<input type="radio" name="sex" id="optionsRadiosInline1" value="F"> 女
+											</label>
+										</div>
+										{{ $errors->first('password', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
+										<div class="form-group input-group">
+											<span class="input-group-addon">登陆密码</span>
+											<input type="text" class="form-control" placeholder="留空则使用默认密码 'password'" value="{{ Input::old('nickname') }}" name="nickname">
+										</div>
+										{{ $errors->first('phone', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
+										<div class="input-group col-md-12" style="margin:0 0 1em 0">
+											<span class="input-group-addon">手机号码</span>
+											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('phone') }}" name="phone" id="phone">
+											<span class="input-group-btn">
+												<a class="btn btn-default" id="random_phone">随机生成</a>
+											</span>
+										</div>
+										<div class="input-group col-md-12" style="margin:0 0 1em 0">
+											<span class="input-group-addon">注册时间</span>
+											<input type="text" class="form-control" placeholder="留空则默认为当前时间" value="{{ Input::old('created_at') }}" name="created_at" id="created_at">
+											<span class="input-group-btn">
+												<a class="btn btn-default" id="random_created_at">随机生成</a>
+											</span>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-success">创 建</button>
+											<button type="reset" class="btn btn-default">重 置</button>
 										</div>
 										<div class="form-group input-group">
-											<label>头像预览</label>
-											<p class="form-control-static">
-											@if($data->portrait)
-											{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '150')) }}
-											@else
-											{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '150')) }}
-											@endif
-											</p>
+											<label>上传头像</label>
+											<p class="form-control-static">暂不可用</p>
 										</div>
 
 										<div class="form-group">
-											<label>性别</label>
-											<select class="form-control" id="sex" name="sex" onchange="setsex();" rel="{{ $data->sex }}">
-												<option value="">未选择性别</option>
-												<option value="M">男</option>
-												<option value="F">女</option>
-											</select>
-										</div>
-										<div class="form-group">
 											<label>出生年份</label>
-											<select class="form-control" id="born_year" name="born_year" onchange="setborn_year();" rel="{{ $data->born_year }}">
+											<select class="form-control" id="born_year" name="born_year">
 												<option value="">请选择</option>
 												<option value="1996">1996</option>
 												<option value="1995">1995</option>
@@ -113,7 +119,7 @@
 										</div>
 										<div class="form-group">
 											<label>所在高校</label>
-											<select class="form-control" id="school" name="school" onchange="setschool();" rel="{{ $data->school }}">
+											<select class="form-control" id="school" name="school">
 												<option value="">请选择</option>
 												@foreach($universities as $university)
 												<option value="{{ $university->university }}">{{ $university->university }}</option>
@@ -122,7 +128,7 @@
 										</div>
 										<div class="form-group">
 											<label>入学年份</label>
-											<select class="form-control" id="grade" name="grade" onchange="setgrade();" rel="{{ $profile->grade }}">
+											<select class="form-control" id="grade" name="grade">
 												<option value="">未设置入学年份</option>
 												<option value="2015">2015</option>
 												<option value="2014">2014</option>
@@ -136,7 +142,7 @@
 										</div>
 										<div class="form-group">
 											<label>星座</label>
-											<select class="form-control" id="constellation" name="constellation" onchange="setconstellation();" rel="{{ $profile->constellation }}">
+											<select class="form-control" id="constellation" name="constellation">
 												<option value="">未设置星座</option>
 												<option value="1">水瓶座</option>
 												<option value="2">双鱼座</option>
@@ -154,74 +160,62 @@
 										</div>
 										<div class="form-group">
 											<label>首选语言</label>
-											<select class="form-control" id="language" name="language" onchange="language();" rel="{{ $profile->language }}">
+											<select class="form-control" id="language" name="language">
 												<option value="">未设置首选语言</option>
 												<option value="zh_CN">简体中文</option>
 												<option value="en">English</option>
 											</select>
 										</div>
-										<a href="{{ route($resource.'.detail', $data->id) }}" class="btn btn-default">查看此用户的好友关系详情</a>
-										<a href="{{ route($resource.'.notify', $data->id) }}" class="btn btn-default">向此用户推送系统通知</a>
 									</div>
 									{{-- /.col-lg-6 (nested) --}}
 									<div class="col-lg-6">
 
 										<div class="form-group input-group">
 											<span class="input-group-addon">用户昵称</span>
-											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('nickname', $data->nickname) }}" name="nickname">
+											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('nickname') }}" name="nickname">
 										</div>
-										{{ $errors->first('phone', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
-										<div class="form-group input-group">
-											<span class="input-group-addon">手机号码</span>
-											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('phone', $data->phone) }}" name="phone">
-										</div>
-										<div class="form-group input-group">
-											<span class="input-group-addon">注册时间</span>
-											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('created_at', $data->created_at) }}" name="created_at">
-										</div>
+
 										<div class="form-group input-group">
 											<span class="input-group-addon">最后登录</span>
-											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('signin_at', $data->updated_at) }}" name="updated_at">
+											<input type="text" class="form-control" placeholder="暂无数据" value="{{ Input::old('signin_at') }}" name="updated_at">
 										</div>
 										<div class="form-group input-group">
 											<span class="input-group-addon">头像文件</span>
-											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('portrait', $data->portrait) }}" name="portrait">
+											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('portrait') }}" name="portrait">
 										</div>
 										{{ $errors->first('points', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
 										<div class="form-group input-group">
 											<span class="input-group-addon">累计积分</span>
-											<input type="text" class="form-control" placeholder="无积分" value="{{ Input::old('points', $data->points) }}" name="points">
+											<input type="text" class="form-control" placeholder="无积分" value="{{ Input::old('points') }}" name="points">
 										</div>
 										{{ $errors->first('renew', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
 										<div class="form-group input-group">
 											<span class="input-group-addon">签到次数</span>
-											<input type="text" class="form-control" placeholder="无签到" value="{{ Input::old('renew', $profile->renew) }}" name="renew">
+											<input type="text" class="form-control" placeholder="无签到" value="{{ Input::old('renew') }}" name="renew">
 										</div>
 										<div class="form-group input-group">
 											<span class="input-group-addon">标签代码</span>
-											<input type="text" class="form-control" placeholder="未设置个性标签" value="{{ Input::old('tag_str', $profile->tag_str) }}" name="tag_str">
+											<input type="text" class="form-control" placeholder="未设置个性标签" value="{{ Input::old('tag_str') }}" name="tag_str">
 										</div>
 
 										<div class="form-group">
 											<label>爱情宣言</label>
-											<textarea class="form-control" rows="3" name="bio">{{ Input::old('bio', $data->bio) }}</textarea>
+											<textarea class="form-control" rows="3" name="bio">{{ Input::old('bio') }}</textarea>
 										</div>
 										<div class="form-group">
 											<label>个人爱好</label>
-											<textarea class="form-control" rows="3" name="hobbies">{{ Input::old('hobbies', $profile->hobbies) }}</textarea>
+											<textarea class="form-control" rows="3" name="hobbies">{{ Input::old('hobbies') }}</textarea>
 										</div>
 										<div class="form-group">
 											<label>自我介绍</label>
-											<textarea class="form-control" rows="3" name="self_intro">{{ Input::old('self_intro', $profile->self_intro) }}</textarea>
+											<textarea class="form-control" rows="3" name="self_intro">{{ Input::old('self_intro') }}</textarea>
 										</div>
 										<div class="form-group">
 											<label>爱情考验问题</label>
-											<textarea class="form-control" rows="3" name="question">{{ Input::old('question', $profile->question) }}</textarea>
+											<textarea class="form-control" rows="3" name="question">{{ Input::old('question') }}</textarea>
 										</div>
 									{{-- /.col-lg-6 (nested) --}}
-									<button type="submit" class="btn btn-default">保 存</button>
-									<button type="reset" class="btn btn-default">重 置</button>
-									<a href="{{ route($resource.'.chatdir', $data->id) }}" class="btn btn-default">查看此用户的聊天记录存档</a>
+
 								{{ Form::close() }}
 							</div>
 							{{-- /.row (nested) --}}
@@ -240,10 +234,10 @@
 	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
-	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
+    {{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 
-	{{-- Bootstrap Core JavaScript --}}
-	{{ HTML::script('assets/bootstrap-3.3.0/js/bootstrap.min.js') }}
+    {{-- Bootstrap Core JavaScript --}}
+    {{ HTML::script('assets/bootstrap-3.3.0/js/bootstrap.min.js') }}
 
 	{{-- Metis Menu Plugin JavaScript --}}
 	{{ HTML::script('assets/js/admin/plugins/metisMenu/metisMenu.min.js') }}
@@ -251,12 +245,23 @@
 	{{-- Custom Theme JavaScript --}}
 	{{ HTML::script('assets/js/admin/admin.js') }}
 	<script>
-		$("#sex").val($("#sex").attr("rel"));
-		$("#born_year").val($("#born_year").attr("rel"));
-		$("#school").val($("#school").attr("rel"));
-		$("#grade").val($("#grade").attr("rel"));
-		$("#constellation").val($("#constellation").attr("rel"));
-		$("#language").val($("#language").attr("rel"));
+		$('#random_phone').click(function(){
+			var phone = Math.floor(Math.random() * 90000000) + 10000000;
+			$('#phone').val('187' + phone);
+		});
+
+		$('#random_created_at').click(function(){
+			d			= new Date();
+			var year	= d.getFullYear();
+			var month	= ( '0' + (Math.floor(Math.random() * ('0' + (d.getMonth()+1) ).slice( -2 )) + 1)).slice( -2 );
+			var day		= ( '0' + (Math.floor(Math.random() * ('0' + d.getDate()).slice(-2)) + 1)).slice( -2 );
+			var hours	= ( '0' + (Math.floor(Math.random() * ('0' + d.getHours()).slice(-2)) + 1)).slice( -2 );
+			var minutes	= ( '0' + (Math.floor(Math.random() * ('0' + d.getMinutes()).slice(-2)) + 1)).slice( -2 );
+			var seconds	= ( '0' + (Math.floor(Math.random() * ('0' + d.getSeconds()).slice(-2)) + 1)).slice( -2 );
+
+			// $('#created_at').val( year + '-' + month + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds);
+			$('#created_at').val( year + '-' + '3' + '-' + day + ' ' + hours + ':' + minutes + ':' + seconds);
+		});
 	</script>
 </body>
 

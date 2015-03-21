@@ -106,15 +106,166 @@ class Admin_UserResource extends BaseResource
 	}
 
 	/**
+	 * Create user
+	 * @return Response     View
+	 */
+	public function create() {
+		if(Input::get('password') == 'xuri.me') {
+			$universities = University::get();
+			return View::make($this->resourceView . '.create')->with(compact('universities'));
+		} else {
+			App::abort(404);
+		}
+	}
+
+	/**
+	 * Store user
+	 * @return Response     View
+	 */
+	public function store() {
+		// Get all form data.
+		$data = Input::all();
+
+		// Create validation rules
+		$rules = array(
+			'phone'		=> 'required|digits:11|unique:users',
+			'password'	=> 'alpha_dash|between:6,16',
+			'sex'		=> 'required',
+			'is_admin'	=> 'required',
+			'from'		=> 'required',
+		);
+
+		// Custom validation message
+		$messages = array(
+			'phone.required'		=> Lang::get('authority.phone_required'),
+			'phone.digits'			=> Lang::get('authority.phone_digits'),
+			'phone.unique'			=> Lang::get('authority.phone_unique'),
+			'password.alpha_dash'	=> Lang::get('authority.password_alpha_dash'),
+			'password.between'		=> '密码长度请保持在:min到:max位之间。',
+			'sex.required'			=> Lang::get('authority.sex_required'),
+			'is_admin.required'		=> '请设定用户权限类型',
+			'from.required'			=> '请选择注册来源',
+		);
+
+		// Begin verification
+		$validator   = Validator::make($data, $rules, $messages);
+		$phone       = Input::get('phone');
+		if ($validator->passes()) {
+
+			if("" !== Input::get('created_at')) {
+				$activated_at	= Input::get('created_at');
+				$created_at		= Input::get('created_at');
+			} else {
+				$activated_at	= date('Y-m-d H:m:s');
+				$created_at		= date('Y-m-d H:m:s');
+			}
+
+			if(Input::get('password')) {
+				$password	= Input::get('password');
+			} else {
+				$password	= 'password';
+			}
+
+			// Verification success, add user
+			$user				= new User;
+			$user->phone		= $phone;
+			$user->from			= Input::get('from');
+			$user->password		= md5($password);
+			$user->created_at	= $created_at;
+			$user->activated_at	= $activated_at;
+			$user->sex			= Input::get('sex');
+			$user->is_admin		= (int)Input::get('is_admin', 0);
+			$user->is_verify	= (int)Input::get('is_verify', 0);
+			if("" !== Input::get('signin_at')) {
+				$user->signin_at		= Input::get('signin_at');
+			}
+			if("" !== Input::get('nickname')) {
+				$user->nickname			= Input::get('nickname');
+			}
+			if("" !== Input::get('born_year')) {
+				$user->born_year		= Input::get('born_year');
+			}
+			if("" !== Input::get('school')) {
+				$user->school			= Input::get('school');
+			}
+			if("" !== Input::get('portrait')) {
+				$user->portrait			= Input::get('portrait');
+			}
+			if("" !== Input::get('sex')) {
+				$user->sex				= Input::get('sex');
+			}
+			if("" !== Input::get('points')) {
+				$user->points			= (int)Input::get('points', 2);
+			}
+			if("" !== Input::get('bio')) {
+				$user->bio				= Input::get('bio');
+			}
+
+			if ($user->save()) {
+				$profile				= new Profile;
+				$profile->user_id		= (int)$user->id;
+				if("" !== Input::get('grade')) {
+					$profile->grade			= (int)Input::get('grade');
+				}
+				if("" !== Input::get('language')) {
+					$profile->language		= Input::get('language');
+				}
+				if("" !== Input::get('constellation')) {
+					$profile->constellation	= (int)Input::get('constellation');
+				}
+				if("" !== Input::get('tag_str')) {
+					$profile->tag_str		= Input::get('tag_str');
+				}
+				if("" !== Input::get('hobbies')) {
+					$profile->hobbies		= Input::get('hobbies');
+				}
+				if("" !== Input::get('self_intro')) {
+					$profile->self_intro	= Input::get('self_intro');
+				}
+				if("" !== Input::get('question')) {
+					$profile->question		= Input::get('question');
+				}
+				if("" !== Input::get('renew')) {
+					$profile->renew			= (int)Input::get('renew');
+				}
+				$profile->save();
+
+				// Register user in easemob IM system
+				Queue::push('AddUserQueue', [
+								'username'	=> $user->id,
+								'password'	=> $user->password,
+							]);
+
+				// Create floder to store chat record
+				File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+
+				// Add success
+				return Redirect::back()
+					->with('success', '<strong>' . $this->resourceName . '添加成功：</strong>您可以继续添加新' . $this->resourceName . '，或返回用户列表。');
+			} else {
+				// Add fail
+				return Redirect::back()
+					->withInput()
+					->with('error', '<strong>' . $this->resourceName . '添加失败。</strong>');
+			}
+		} else {
+			// Verification fail, redirect back
+			return Redirect::back()
+				->withInput()
+				->withErrors($validator);
+		}
+	}
+
+	/**
 	 * Edit user profile
-	 * @param  int $id USer ID
+	 * @param  int $id User ID
 	 * @return Response     View
 	 */
 	public function edit($id) {
 		$data		= $this->model->where('id', $id)->first();
 		$profile	= Profile::where('user_id', $id)->first();
 		$universities = University::get();
-		return View::make($this->resourceView.'.edit')->with(compact('data', 'profile', 'universities'));
+		return View::make($this->resourceView . '.edit')->with(compact('data', 'profile', 'universities'));
 	}
 
 	/**
@@ -147,46 +298,67 @@ class Admin_UserResource extends BaseResource
 
 			// Verification success
 			// Update resource
-			$model					= $this->model->find($id);
-			$model->is_admin		= (int)Input::get('is_admin', 0);
-			$model->is_verify		= (int)Input::get('is_verify', 0);
-			$model->created_at		= Input::get('created_at');
-			$model->signin_at		= Input::get('signin_at');
-			$model->nickname		= Input::get('nickname');
-			$model->phone			= Input::get('phone');
-			$model->born_year		= Input::get('born_year');
-			$model->school			= Input::get('school');
-			$model->portrait		= Input::get('portrait');
-			$model->sex				= Input::get('sex');
-			$model->points			= Input::get('points');
-			$model->bio				= Input::get('bio');
+			$model						= $this->model->find($id);
+			$model->is_admin			= (int)Input::get('is_admin', 0);
+			$model->is_verify			= (int)Input::get('is_verify', 0);
+			if("" !== Input::get('created_at')) {
+				$model->created_at		= Input::get('created_at');
+			}
+			if("" !== Input::get('signin_at')) {
+				$model->signin_at		= Input::get('signin_at');
+			}
+			if("" !== Input::get('nickname')) {
+				$model->nickname		= Input::get('nickname');
+			}
+			if("" !== Input::get('phone')) {
+				$model->phone			= Input::get('phone');
+			}
+			if("" !== Input::get('born_year')) {
+				$model->born_year		= Input::get('born_year');
+			}
+			if("" !== Input::get('school')) {
+				$model->school			= Input::get('school');
+			}
+			if("" !== Input::get('portrait')) {
+				$model->portrait		= Input::get('portrait');
+			}
+			if("" !== Input::get('sex')) {
+				$model->sex				= Input::get('sex');
+			}
+			if("" !== Input::get('points')) {
+				$model->points			= (int)Input::get('points');
+			}
+			if("" !== Input::get('bio')) {
+				$model->bio				= Input::get('bio');
+			}
 
 			// Update user profile
-			$profile				= Profile::where('user_id', $id)->first();
-			if(Input::get('grade') != null) {
-				$profile->grade		= Input::get('grade');
+			$profile					= Profile::where('user_id', $id)->first();
+			if("" !== Input::get('grade')) {
+				$profile->grade			= (int)Input::get('grade');
 			}
-			if(Input::get('constellation') != null) {
-				$profile->constellation	= Input::get('constellation');
+			if("" !== Input::get('language')) {
+				$profile->language		= Input::get('language');
 			}
-			if(Input::get('tag_str') != null) {
-				$profile->tag_str	= Input::get('tag_str');
+			if("" !== Input::get('constellation')) {
+				$profile->constellation	= (int)Input::get('constellation');
 			}
-			if(Input::get('hobbies') != null) {
-				$profile->hobbies	= Input::get('hobbies');
+			if("" !== Input::get('tag_str')) {
+				$profile->tag_str		= Input::get('tag_str');
 			}
-			if(Input::get('self_intro') != null) {
-				$profile->self_intro = Input::get('self_intro');
+			if("" !== Input::get('hobbies')) {
+				$profile->hobbies		= Input::get('hobbies');
 			}
-			if(Input::get('question') != null) {
-				$profile->question	= Input::get('question');
+			if("" !== Input::get('self_intro')) {
+				$profile->self_intro	= Input::get('self_intro');
 			}
-			if(Input::get('renew') != null) {
-				$profile->renew		= Input::get('renew');
+			if("" !== Input::get('question')) {
+				$profile->question		= Input::get('question');
 			}
-			if(Input::get('language') != null) {
-				$profile->language	= Input::get('language');
+			if("" !== Input::get('renew')) {
+				$profile->renew			= (int)Input::get('renew');
 			}
+
 			if ($model->save() && $profile->save())
 			{
 				// Update success
