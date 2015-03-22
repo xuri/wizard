@@ -9,7 +9,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">用户管理</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_user_all') }}</h1>
 				</div>
 				{{-- /.col-lg-12 --}}
 			</div>
@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							添加用户
+							{{ Lang::get('admin/users/index.new') }}
 						</div>
 						<div class="panel-body">
 							<div class="row">
@@ -82,14 +82,14 @@
 											<span class="input-group-addon">手机号码</span>
 											<input type="text" class="form-control" placeholder="未设置" value="{{ Input::old('phone') }}" name="phone" id="phone">
 											<span class="input-group-btn">
-												<a class="btn btn-default" id="random_phone">随机生成</a>
+												<a class="btn btn-default" id="random_phone">{{ Lang::get('admin/users/create.generate') }}</a>
 											</span>
 										</div>
 										<div class="input-group col-md-12" style="margin:0 0 1em 0">
 											<span class="input-group-addon">注册时间</span>
 											<input type="text" class="form-control" placeholder="留空则默认为当前时间" value="{{ Input::old('created_at') }}" name="created_at" id="created_at">
 											<span class="input-group-btn">
-												<a class="btn btn-default" id="random_created_at">随机生成</a>
+												<a class="btn btn-default" id="random_created_at">{{ Lang::get('admin/users/create.generate') }}</a>
 											</span>
 										</div>
 										<div class="form-group">

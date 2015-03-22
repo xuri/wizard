@@ -55,4 +55,8 @@ return array(
 
 	"status"		=> "状态",
 
+	"new"			=> "添加新用户",
+
+	"generate"		=> "随即生成",
+
 );

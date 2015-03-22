@@ -110,12 +110,8 @@ class Admin_UserResource extends BaseResource
 	 * @return Response     View
 	 */
 	public function create() {
-		if(Input::get('password') == 'xuri.me') {
-			$universities = University::get();
-			return View::make($this->resourceView . '.create')->with(compact('universities'));
-		} else {
-			App::abort(404);
-		}
+		$universities = University::get();
+		return View::make($this->resourceView . '.create')->with(compact('universities'));
 	}
 
 	/**

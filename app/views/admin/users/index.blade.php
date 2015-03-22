@@ -9,7 +9,13 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">{{ Lang::get('navigation.admin_user_all') }}</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_user_all') }}
+						<div class="pull-right">
+							<a href="{{ route($resource.'.create') }}" class="btn btn-sm btn-primary">
+								{{ Lang::get('admin/users/index.new') }}
+							</a>
+						</div>
+					</h1>
 				</div>
 				{{-- /.col-lg-12 --}}
 			</div>

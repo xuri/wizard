@@ -55,4 +55,8 @@ return array(
 
 	"status"		=> "Status",
 
+	"new"			=> "Add New User",
+
+	"generate"		=> "Generate",
+
 );
