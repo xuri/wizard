@@ -222,7 +222,7 @@ class AndroidController extends BaseController
 						return Response::json(
 							array(
 								'status' 		=> 0,
-								'error'			=> $validator->getMessageBag()->toArray();
+								'error'			=> $validator->getMessageBag()->toArray()
 							)
 						);
 					}
