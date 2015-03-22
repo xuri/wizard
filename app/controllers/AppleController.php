@@ -2938,7 +2938,7 @@ class AppleController extends BaseController
 										->toArray();
 
 					$friend_notifications = Notification::where('receiver_id', $id)
-										->whereIn('category', array(1, 2, 3))
+										->whereIn('category', array(1, 2))
 										->orderBy('created_at' , 'desc')
 										->select('id', 'sender_id', 'created_at', 'receiver_id', 'category')
 										->where('status', 0)
