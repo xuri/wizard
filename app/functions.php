@@ -744,7 +744,7 @@ function getTagName($tag)
 			$tagName = '文艺病';
 		break;
 		case "24":
-			$tagName = '旅行爱好者';
+			$tagName = '爱旅行';
 		break;
 		case "25":
 			$tagName = '健身狂魔';

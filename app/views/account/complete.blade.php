@@ -222,7 +222,7 @@
 				<li><span>文艺病</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
 				</li>
-				<li><span>旅行爱好者</span>
+				<li><span>爱旅行</span>
 					{{ HTML::image('assets/images/preInfoEdit/Y.png', '', array('class' => 'Y')) }}
 				</li>
 				<li><span>健身狂魔</span>
