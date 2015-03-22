@@ -213,7 +213,8 @@ class AppleController extends BaseController
 						// Verification fail
 						return Response::json(
 							array(
-								'status' 		=> 0
+								'status' 		=> 0,
+								'error'			=> $validator->getMessageBag()->toArray();
 							)
 						);
 					}
@@ -695,120 +696,133 @@ class AppleController extends BaseController
 					// Retrieve user
 					$user	= User::find(Input::get('id'));
 
-					// Determin user profile is complete
-					if (isset($user->nickname) && isset($user->portrait) && isset($user->school) && isset($user->bio))
-					{
-						// Create validation rules
-						$rules	= array(
-							'id'			=> 'required',
-							'receiverid'	=> 'required',
-							//'answer'		=> 'required|min:3',
-						);
-						// Custom validation message
-						$messages = array(
-							'answer.required'     => '请回答爱情考验问题。',
-							//'answer.min'          => '至少要写:min个字哦。',
-						);
+					// Determin user portrait is set
+					if(isset($user->portrait)) {
 
-						// Begin verification
-						$validator   = Validator::make($data, $rules, $messages);
+						// Determin user profile is complete
+						if (isset($user->nickname) && isset($user->school) && isset($user->bio)) {
 
-						if ($validator->passes())
-						{
-							$user			= User::find(Input::get('id'));
-							$receiver_id	= Input::get('receiverid');
-							if($user->points > 0)
+							// Create validation rules
+							$rules	= array(
+								'id'			=> 'required',
+								'receiverid'	=> 'required',
+								// 'answer'		=> 'required|min:3',
+							);
+
+							// Custom validation message
+							$messages = array(
+								'answer.required'	=> '请回答爱情考验问题。',
+								// 'answer.min'		=> '至少要写:min个字哦。',
+							);
+
+							// Begin verification
+							$validator   = Validator::make($data, $rules, $messages);
+
+							if ($validator->passes())
 							{
-								$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
-
-								// This user already sent like
-								if($have_like)
+								$user			= User::find(Input::get('id'));
+								$receiver_id	= Input::get('receiverid');
+								if($user->points > 0)
 								{
-									$have_like->answer	= app_input_filter(Input::get('answer'));
-									$have_like->count	= $have_like->count + 1;
-									$user->points		= $user->points - 1;
-									if($have_like->save() && $user->save())
+									$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
+
+									// This user already sent like
+									if($have_like)
 									{
-										// Some user re-liked you
-										$notification = Notification(2, $user->id, $receiver_id);
+										$have_like->answer	= app_input_filter(Input::get('answer'));
+										$have_like->count	= $have_like->count + 1;
+										$user->points		= $user->points - 1;
+										if($have_like->save() && $user->save())
+										{
+											// Some user re-liked you
+											$notification = Notification(2, $user->id, $receiver_id);
 
-										// Add push notifications for App client to queue
-										Queue::push('LikeQueue', [
-																	'target'	=> $receiver_id,
-																	'action'	=> 2,
-																	'from'		=> $user->id,
+											// Add push notifications for App client to queue
+											Queue::push('LikeQueue', [
+																		'target'	=> $receiver_id,
+																		'action'	=> 2,
+																		'from'		=> $user->id,
 
-																	// Notification ID
-																	'id' 		=> e($notification->id),
-																	'content'	=> app_out_filter($user->nickname) . '再次追你了，快去查看一下吧',
-																	'sender_id'	=> e(Input::get('id')),
-																	'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																	'nickname'	=> app_out_filter($user->nickname),
-																	'answer'	=> app_out_filter(Input::get('answer'))
-																]);
+																		// Notification ID
+																		'id' 		=> e($notification->id),
+																		'content'	=> app_out_filter($user->nickname) . '再次追你了，快去查看一下吧',
+																		'sender_id'	=> e(Input::get('id')),
+																		'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
+																		'nickname'	=> app_out_filter($user->nickname),
+																		'answer'	=> app_out_filter(Input::get('answer'))
+																	]);
 
-										return Response::json(
-											array(
-												'status' 		=> 1
-											)
-										);
+											return Response::json(
+												array(
+													'status' 		=> 1
+												)
+											);
+										}
+									} else { // First like
+										$like				= new Like();
+										$like->sender_id	= $user->id;
+										$like->receiver_id	= $receiver_id;
+										$like->status		= 0; // User send like, pending accept
+										$like->answer		= app_input_filter(Input::get('answer'));
+										$like->count		= 1;
+										$user->points		= $user->points - 1;
+										if($like->save() && $user->save())
+										{
+											$notification = Notification(1, $user->id, $receiver_id); // Some user first like you
+
+											// Add push notifications for App client to queue
+											Queue::push('LikeQueue', [
+																		'target'	=> $receiver_id,
+																		'action'	=> 1,
+																		'from'		=> $user->id,
+																		'content'	=> app_out_filter($user->nickname) . '追你了，快去查看一下吧',
+
+																		// Notification ID
+																		'id'		=> e($notification->id),
+																		'sender_id'	=> e(Input::get('id')),
+																		'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
+																		'nickname'	=> app_out_filter($user->nickname),
+																		'answer'	=> app_out_filter(Input::get('answer'))
+																	]);
+
+											return Response::json(
+												array(
+													'status' 		=> 1
+												)
+											);
+										}
 									}
-								} else { // First like
-									$like				= new Like();
-									$like->sender_id	= $user->id;
-									$like->receiver_id	= $receiver_id;
-									$like->status		= 0; // User send like, pending accept
-									$like->answer		= app_input_filter(Input::get('answer'));
-									$like->count		= 1;
-									$user->points		= $user->points - 1;
-									if($like->save() && $user->save())
-									{
-										$notification = Notification(1, $user->id, $receiver_id); // Some user first like you
-
-										// Add push notifications for App client to queue
-										Queue::push('LikeQueue', [
-																	'target'	=> $receiver_id,
-																	'action'	=> 1,
-																	'from'		=> $user->id,
-																	'content'	=> app_out_filter($user->nickname) . '追你了，快去查看一下吧',
-
-																	// Notification ID
-																	'id'		=> e($notification->id),
-																	'sender_id'	=> e(Input::get('id')),
-																	'portrait'	=> route('home') . '/' . 'portrait/' . $user->portrait,
-																	'nickname'	=> app_out_filter($user->nickname),
-																	'answer'	=> app_out_filter(Input::get('answer'))
-																]);
-
-										return Response::json(
-											array(
-												'status' 		=> 1
-											)
-										);
-									}
+								} else {
+									return Response::json(
+										array(
+											'status' 	=> 2 // User's point required
+										)
+									);
 								}
 							} else {
 								return Response::json(
 									array(
-										'status' 	=> 2 // User's point required
+										'status' 		=> 0
 									)
 								);
 							}
 						} else {
 							return Response::json(
 								array(
-									'status' 		=> 0
+									// User profile uncompleted
+									'status' 		=> 3
 								)
 							);
 						}
 					} else {
 						return Response::json(
 							array(
-								// User profile uncompleted
-								'status' 		=> 3
+								// User portrait not set
+								'status' 		=> 4
 							)
 						);
 					}
+
 				break;
 
 				// Sent
