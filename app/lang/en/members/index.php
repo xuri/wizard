@@ -9,33 +9,52 @@ return array(
 	|
 	*/
 
-	"all_school"	=> "School",
+	"all_school"		=> "School",
 
-	"other_school"	=> "Others",
+	"other_school"		=> "Others",
 
-	"sex"			=> "Sex",
+	"sex"				=> "Sex",
 
-	"select_grade"	=> "Grade",
+	"select_grade"		=> "Grade",
 
-	"search"		=> "Search",
+	"search"			=> "Search",
 
-	"profile"		=> "Join",
+	"profile"			=> "Join",
 
-	"grade"			=> " Grade",
+	"grade"				=> " Grade",
 
-	"open"			=> "Open",
+	"open"				=> "Open",
 
-	"year"			=> "",
+	"year"				=> "",
 
-	"month"			=> " month",
+	"month"				=> " month",
 
-	"day"			=> " day",
+	"day"				=> " day",
 
-	"male"			=> "Boy",
+	"male"				=> "Boy",
 
-	"female"		=> "Girl",
+	"female"			=> "Girl",
 
-	"detail"		=> "Detail",
+	"detail"			=> "Detail",
 
-	"verify"		=> "Verified Account",
+	"verify"			=> "Verified Account",
+
+	"error"				=> "System Error",
+
+	"reject_success"	=> "You have reject add friend request",
+
+	"points_require"	=> "You points is not enough, earn points everyday.",
+
+	"accept_success"	=> "Add friends success!",
+
+	"accept_error"		=> "Add friend fail, please try again.",
+
+	"lock_success"		=> "Lock friend success!",
+
+	"lock_error"		=> "Lock friend fail, please try again.",
+
+	"unlock_success"	=> "Unlock success!",
+
+	"unclock_error"		=> "Unlock fail, please try again.",
+
 );

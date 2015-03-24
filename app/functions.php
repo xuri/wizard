@@ -2,10 +2,10 @@
 
 /*
 |--------------------------------------------------------------------------
-| 复写官方函数
+| Override Official Functions Library
 |--------------------------------------------------------------------------
 |
-| 官方函数库路径
+| Official functions library path
 | Illuminate/Support/helpers.php
 |
 */
@@ -45,15 +45,15 @@ function link_to_route($name, $title = null, $parameters = array(), $attributes 
 
 /*
 |--------------------------------------------------------------------------
-| 延伸自拓展配置文件
+| Extends Custom Configuration File
 |--------------------------------------------------------------------------
 |
 */
 
 /**
- * 样式别名加载（支持批量加载）
- * @param  string|array $aliases    配置文件中的别名
- * @param  array        $attributes 标签中需要加入的其它参数的数组
+ * Style Sheet Alias Load (Batches load support)
+ * @param  string|array $aliases    Alias in configuration files
+ * @param  array        $attributes Add param array in tags required
  * @return string
  */
 function style($aliases, $attributes = array(), $interim = '')
@@ -70,9 +70,9 @@ function style($aliases, $attributes = array(), $interim = '')
 }
 
 /**
- * 脚本别名加载（支持批量加载）
- * @param  string|array $aliases    配置文件中的别名
- * @param  array        $attributes 标签中需要加入的其它参数的数组
+ * Script Alias Load (Batches load support)
+ * @param  string|array $aliases    Alias in configuration files
+ * @param  array        $attributes Add param array in tags required
  * @return string
  */
 function script($aliases, $attributes = array(), $interim = '')
@@ -89,9 +89,9 @@ function script($aliases, $attributes = array(), $interim = '')
 }
 
 /**
- * 脚本别名加载（补充）用于 js 的 document.write(）中
- * @param  string $aliases    配置文件中的别名
- * @param  array  $attributes 标签中需要加入的其它参数的数组
+ * Script Alias Load (Supplement) For document.write(）in JavaScript
+ * @param  string $aliases    Alias in configuration files
+ * @param  array  $attributes Add param array in tags required
  * @return string
  */
 function or_script($aliases, $attributes = array())
@@ -104,14 +104,14 @@ function or_script($aliases, $attributes = array())
 
 /*
 |--------------------------------------------------------------------------
-| 自定义核心函数
+| Custom Core Functions
 |--------------------------------------------------------------------------
 |
 */
 
 /**
- * 批量定义常量
- * @param  array  $define 常量和值的数组
+ * Batches Define Constant
+ * @param  array  $define Constant and array of value
  * @return void
  */
 function define_array($define = array())
@@ -121,9 +121,9 @@ function define_array($define = array())
 }
 
 /**
- * 友好的日期输出
- * @param  string|\Carbon\Carbon $theDate 待处理的时间字符串 | \Carbon\Carbon 实例
- * @return string                         友好的时间字符串
+ * Friendly date output
+ * @param  string|\Carbon\Carbon $theDate Date string before handle | \Carbon\Carbon
+ * @return string                         Friendly date string
  */
 function friendly_date($theDate)
 {
@@ -137,7 +137,7 @@ function friendly_date($theDate)
 	$friendlyDateString = $friendlyDateArray[0]
 		.Lang::get('friendlyDate.'.$friendlyDateArray[1])
 		.Lang::get('friendlyDate.'.$friendlyDateArray[2]);
-	// 数据返回
+	// Return data
 	return $friendlyDateString;
 }
 
@@ -156,8 +156,8 @@ function pagination(Illuminate\Pagination\Paginator $paginator, $viewName = null
 
 /**
  * 反引用一个经过 e（htmlentities）和 addslashes 处理的字符串
- * @param  string $string 待处理的字符串
- * @return 转义后的字符串
+ * @param  string $string String before convert
+ * @return String after convert
  */
 function strip($string)
 {

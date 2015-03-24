@@ -289,7 +289,7 @@ class MemberController extends BaseController {
 					} else {
 						return Redirect::back()
 						->withInput()
-						->with('error', '你的积分不足，每天签到可获取积分哦。');
+						->with('error', Lang::get('members/index.points_require'));
 					}
 				} else { // Validation fail
 					return Redirect::back()
@@ -305,11 +305,11 @@ class MemberController extends BaseController {
 					Notification(4, Auth::user()->id, $id); // Some user reject you like
 					return Redirect::route('account.inbox')
 						->withInput()
-						->with('success', '你已经拒绝对方邀请。');
+						->with('success', Lang::get('members/index.reject_success'));
 				} else {
 					return Redirect::route('account.inbox')
 						->withInput()
-						->with('error', '系统发生错误。');
+						->with('error', Lang::get('members/index.error'));
 				}
 			case 'accept' :
 				$like			= Like::where('sender_id', $id)->where('receiver_id', Auth::user()->id)->first();
@@ -348,11 +348,11 @@ class MemberController extends BaseController {
 
 					return Redirect::route('account.inbox')
 						->withInput()
-						->with('success', '添加好友成功！');
+						->with('success', Lang::get('members/index.accept_success'));
 				} else {
 					return Redirect::route('account.inbox')
 						->withInput()
-						->with('error', '添加好友失败，请重试！');
+						->with('error', Lang::get('members/index.accept_error'));
 				}
 			break;
 			case 'block' :
@@ -389,11 +389,11 @@ class MemberController extends BaseController {
 
 					return Redirect::back()
 						->withInput()
-						->with('success', '拉黑成功。');
+						->with('success', Lang::get('members/index.lock_success'));
 				} else {
 					return Redirect::back()
 						->withInput()
-						->with('error', '拉黑失败，请重试。');
+						->with('error', Lang::get('members/index.lock_error'));
 				}
 			break;
 			case 'sender_block' :
@@ -417,11 +417,11 @@ class MemberController extends BaseController {
 					Notification(5, Auth::user()->id, $id); // Some user blocked you
 					return Redirect::back()
 						->withInput()
-						->with('success', '拉黑成功。');
+						->with('success', Lang::get('members/index.lock_success'));
 				} else {
 					return Redirect::back()
 						->withInput()
-						->with('error', '拉黑失败，请重试。');
+						->with('error', Lang::get('members/index.lock_error'));
 				}
 			break;
 			case 'recover' :
@@ -432,11 +432,11 @@ class MemberController extends BaseController {
 					Notification(10, Auth::user()->id, $id); // Some user recover blocked you
 					return Redirect::back()
 						->withInput()
-						->with('success', '取消拉黑成功。');
+						->with('success', Lang::get('members/index.unlock_success'));
 				} else {
 					return Redirect::back()
 						->withInput()
-						->with('error', '取消拉黑失败，请重试。');
+						->with('error', Lang::get('members/index.unlock_error'));
 				}
 			break;
 			case 'sender_recover' :
@@ -447,11 +447,11 @@ class MemberController extends BaseController {
 					Notification(10, Auth::user()->id, $id); // Some user recover blocked you
 					return Redirect::back()
 						->withInput()
-						->with('success', '取消拉黑成功。');
+						->with('success', Lang::get('members/index.unlock_success'));
 				} else {
 					return Redirect::back()
 						->withInput()
-						->with('error', '取消拉黑失败，请重试。');
+						->with('error', Lang::get('members/index.unlock_error'));
 				}
 			break;
 		}

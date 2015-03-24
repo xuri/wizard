@@ -262,9 +262,9 @@ class ForumController extends BaseController {
 
 		// Custom validation message
 		$messages = array(
-			'title.required'	=> '请填写帖子标题。',
+			'title.required'	=> Lang::get('forum/index.title_required'),
 			'title.max'			=> '帖子标题不超过:max个字。',
-			'content.required'	=> '请输入内容。',
+			'content.required'	=> Lang::get('forum/index.content_required')
 		);
 
 		// Begin verification
@@ -293,7 +293,7 @@ class ForumController extends BaseController {
 				return Response::json(
 					array(
 						'success'			=> true,
-						'success_info'		=> '发帖成功！',
+						'success_info'		=> Lang::get('forum/index.post_success'),
 						'post_content'		=> badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200))),
 						'post_id'			=> $post->id,
 						'post_title'		=> htmlentities(Input::get('title')),
@@ -305,7 +305,7 @@ class ForumController extends BaseController {
 			} else {
 				return Redirect::back()
 					->withInput()
-					->with('error', '发帖失败，请重试。');
+					->with('error', Lang::get('forum/index.post_error'));
 			}
 		} else {
 			return Response::json(
@@ -359,7 +359,7 @@ class ForumController extends BaseController {
 			);
 			// Custom validation message
 			$messages = array(
-				'content.required'	=> '请输入评论内容。',
+				'content.required'	=> Lang::get('forum/index.comments_required'),
 			);
 
 			// Begin verification
@@ -405,7 +405,7 @@ class ForumController extends BaseController {
 					return Response::json(
 						array(
 							'success'		=> true,
-							'success_info'	=> '评论成功'
+							'success_info'	=> Lang::get('forum/index.comments_success')
 						)
 					);
 				} else {
@@ -438,7 +438,7 @@ class ForumController extends BaseController {
 
 			// Custom validation message
 			$messages = array(
-				'reply_content.required'	=> '请输入回复内容。',
+				'reply_content.required'	=> Lang::get('forum/index.reply_required'),
 			);
 
 			// Begin verification
@@ -492,7 +492,7 @@ class ForumController extends BaseController {
 						return Response::json(
 							array(
 								'success'		=> true,
-								'success_info'	=> '回复成功' // Success information
+								'success_info'	=> Lang::get('forum/index.reply_success') // Success information
 							)
 						);
 					} else {
@@ -500,7 +500,7 @@ class ForumController extends BaseController {
 						return Response::json(
 							array(
 								'error'			=> true,
-								'error_info'	=> '回复失败，请重试！' // Error infrmation
+								'error_info'	=>Lang::get('forum/index.reply_error') // Error infrmation
 							)
 						);
 					}
@@ -509,7 +509,7 @@ class ForumController extends BaseController {
 						// Reply fail
 						array(
 							'error'			=> true,
-							'error_info'	=> '请输入回复内容。' // Error infrmation
+							'error_info'	=> Lang::get('forum/index.reply_required') // Error infrmation
 						)
 					);
 				}
