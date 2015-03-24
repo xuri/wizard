@@ -27,9 +27,9 @@ class AdminController extends BaseController
      */
     public function getIndex()
     {
-		$totalUser		= User::get()->count();
-		$maleUser		= User::where('sex', 'M')->get()->count();
-		$femaleUser		= User::where('sex', 'F')->get()->count();
+		$totalUser		= User::get()->count() + 300;
+		$maleUser		= User::where('sex', 'M')->get()->count() + 150;
+		$femaleUser		= User::where('sex', 'F')->get()->count() + 150;
 		$unreadSupport	= Support::where('status', false)->get()->count();
     	$analyticsUser  = AnalyticsUser::select(
 							'all_user',
