@@ -49,7 +49,7 @@ class AdminController extends BaseController
 							'from_android',
 							'from_ios',
 							'created_at'
-						)->where('created_at', '>', Carbon::now()->subDays(30))->get()->toArray(); // Retrive analytics data
+						)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
 
 		/*
 		|--------------------------------------------------------------------------
