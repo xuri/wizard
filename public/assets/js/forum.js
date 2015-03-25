@@ -15,8 +15,8 @@
  */
 
 	// Ajax post section
-
-	$('.bbs_bottom_btn').click(function(){ // Post submit onclick event
+	$('.bbs_bottom_btn').unbind('click').bind('click', function (e) { // Post submit onclick event
+		e.preventDefault();
 		var categoryId = $(this).data('action-id'); // Get category ID attribute
 		// Get umeditor content HTML
 		if(categoryId == 1) {
