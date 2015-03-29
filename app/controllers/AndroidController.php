@@ -2404,8 +2404,8 @@ class AndroidController extends BaseController
 					} else {
 
 						// Post reply
-						$reply_id			= Input::get('replyid');
-						$comments_id		= app_input_filter(Input::get('commentid'));
+						$reply_id			= e(Input::get('replyid'));
+						$comments_id		= e(Input::get('commentid'));
 
 						// Create comments reply
 						$reply				= new ForumReply;
