@@ -12,122 +12,122 @@
  */
 
 .lu_left {
-	float: left;
+    float: left;
 }
 
 .lu_right {
-	float: right;
+    float: right;
 }
 
 .lu_te {
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 #lu_content {
-	height: 514px;
-	margin: 60px auto 0;
+    height: 514px;
+    margin: 60px auto 0;
 }
 
 #lu_content .lu_con_title {
-	height: 88px;
-	line-height: 88px;
-	text-align: center;
-	font-size: 22px;
-	color: #4c4d4d;
+    height: 88px;
+    line-height: 88px;
+    text-align: center;
+    font-size: 22px;
+    color: #4c4d4d;
 }
 
 #lu_content .lu_con_img {
-	position: relative;
-	text-align: center;
-	margin-top: -10px;
+    position: relative;
+    text-align: center;
+    margin-top: -10px;
 }
 
 #lu_content .lu_con_img span {
-	position: absolute;
-	height: 1px;
-	width: 44px;
-	background: #000;
-	left: 50%;
-	top: 50%;
+    position: absolute;
+    height: 1px;
+    width: 44px;
+    background: #000;
+    left: 50%;
+    top: 50%;
 }
 
 #lu_content .lu_line1 {
-	margin-left: -80px;
+    margin-left: -80px;
 }
 
 #lu_content .lu_line2 {
-	margin-left: 38px;
+    margin-left: 38px;
 }
 
 .lu_content_box {
-	padding: 1em;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	background-color: #FFF;
-	margin: 30px auto 0 auto;
-	width: 1015px;
-	margin-top: 30px;
+    padding: 1em;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: #FFF;
+    margin: 30px auto 0 auto;
+    width: 1015px;
+    margin-top: 30px;
 }
 
 .lu_content_main {
-	border-radius: 5px;
-	border: 1px solid #eee;
-	width: 730px;
-	float: left;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    width: 730px;
+    float: left;
 }
 
 .lu_content_right {
-	width: 250px;
-	border-radius: 5px;
-	/*border: 1px solid #f0f0f0;*/
-	/*height:1000px;*/
-	margin-left: 30px;
-	float: left;
+    width: 250px;
+    border-radius: 5px;
+    /*border: 1px solid #f0f0f0;*/
+    /*height:1000px;*/
+
+    margin-left: 30px;
+    float: left;
 }
 
 .lu_content_right img {
-	-webkit-border-radius: 8px;
-	-moz-border-radius: 8px;
-	border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
 }
 
 .lu_content_main_tab {
-	width: 700px;
-	height: 30px;
-	margin: 30px auto;
+    width: 700px;
+    height: 30px;
+    margin: 30px auto;
 }
 
 .lu_content_main_tab .lu_public {
-	padding: 0 1.5em;
-	-moz-appearance: none;
-	font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
-	height: 30px;
-	float: left;
-	line-height: 28px;
-	text-align: center;
-	color: #fff;
-	font-size: 15px;
-	-webkit-appearance:none;
-	border: none;
+    padding: 0 1.5em;
+    -moz-appearance: none;
+    font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
+    height: 30px;
+    float: left;
+    line-height: 28px;
+    text-align: center;
+    color: #fff;
+    font-size: 15px;
+    -webkit-appearance: none;
+    border: none;
 }
 
 .lu_content_main_tab .lu_school {
-	-moz-appearance: none;
-	font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
-	width: 120px;
-	background: #ef698a;
-	margin-left: 1.5em;
-	letter-spacing: 2px;
-	text-align: center;
-	border: none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-appearance:none;
-
+    -moz-appearance: none;
+    font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
+    width: 120px;
+    background: #ef698a;
+    margin-left: 1.5em;
+    letter-spacing: 2px;
+    text-align: center;
+    border: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-appearance: none;
 }
 
 select::-ms-expand {
@@ -135,300 +135,302 @@ select::-ms-expand {
 }
 
 .lu_content_main_tab .lu_sex {
-	-moz-appearance: none;
-	font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
-	width: 90px;
-	background: #ef698a;
-	margin-left: 20px;
-	text-align: center;
-	border: none;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	-webkit-appearance:none;
+    -moz-appearance: none;
+    font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
+    width: 90px;
+    background: #ef698a;
+    margin-left: 20px;
+    text-align: center;
+    border: none;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-appearance: none;
 }
 
 .lu_content_main_tab .lu_search {
-	font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
-	width: 100px;
-	background: #ed5565;
-	margin-left: 1em;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
-	color: #ffffff;
-	border: none;
-	cursor: pointer;
+    font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
+    width: 100px;
+    background: #ed5565;
+    margin-left: 1em;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
 }
 
 .lu_content_main_tab .lu_release {
-	font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
-	width: 80px;
-	background: #697fef;
-	margin-left: 20px;
-	letter-spacing: 2px;
-	text-indent: 2px;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+    font-family: 'Microsoft YaHei', '微软雅黑', 'STHeiti';
+    width: 80px;
+    background: #697fef;
+    margin-left: 20px;
+    letter-spacing: 2px;
+    text-indent: 2px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .lu_resumes_user .lu_img {
-	width: 60px;
-	height: 60px;
-	margin: 20px 0 0 35px;
-	float: left;
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+    width: 60px;
+    height: 60px;
+    margin: 20px 0 0 35px;
+    float: left;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
 }
 
 .lu_resumes_user .lu_userMessage {
-	padding: 15px 20px;
-	width: 535px;
-	border: 1px solid #e0e0e0;
-	border-radius: 3px;
-	float: left;
-	margin: 20px 0 0 20px;
+    padding: 15px 20px;
+    width: 535px;
+    border: 1px solid #e0e0e0;
+    border-radius: 3px;
+    float: left;
+    margin: 20px 0 0 20px;
 }
 
 .lu_resumes_user .lu_userMessage_name {
-	width: 110px;
-	height: 20px;
-	font-size: 14px;
-	line-height: 20px;
-	margin-left: 10px;
-	color: #777978;
+    width: 110px;
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 10px;
+    color: #777978;
 }
 
 a.nickname {
-	color: #777978;
+    color: #777978;
 }
 
 span.admin a {
-	color: #FFF;
+    color: #FFF;
 }
 
 .lu_resumes_user .lu_userMessage_p {
-	height: 20px;
-	font-size: 14px;
-	color: #777978;
-	line-height: 20px;
-	margin-left: 20px;
+    height: 20px;
+    font-size: 14px;
+    color: #777978;
+    line-height: 20px;
+    margin-left: 20px;
 }
 
 .lu_resumes_user .lu_userMessage_school {
-	width: 220px;
+    width: 220px;
 }
 
 .lu_resumes_user .lu_userMessage_detail {
-	color: #ef698a;
-	height: 20px;
-	font-size: 14px;
-	line-height: 20px;
-	margin-left: 15px;
+    color: #ef698a;
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 15px;
 }
 
 .lu_resumes_user .lu_userMessage_readme {
-	color: #777978;
-	font-size: 14px;
-	line-height: 20px;
-	margin-top: 10px;
-	width: 535px;
-	text-overflow: ellipsis;
-	overflow: hidden;
+    color: #777978;
+    font-size: 14px;
+    line-height: 20px;
+    margin-top: 10px;
+    width: 535px;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 
 .lu_resumes_user .lu_userMessage_character li {
-	width: 70px;
-	height: 21px;
-	float: left;
-	margin-right: 5px;
-	margin-top: 5px;
-	text-align: center;
-	line-height: 21px;
-	color: #fff;
-	-webkit-border-radius: 2px;
-	-moz-border-radius: 2px;
-	border-radius: 2px;
+    width: 70px;
+    height: 21px;
+    float: left;
+    margin-right: 5px;
+    margin-top: 5px;
+    text-align: center;
+    line-height: 21px;
+    color: #fff;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
 }
 
 .lu_sex {
-	margin-left: -20px;
+    margin-left: -20px;
 }
 
 .lu_paging {
-	width: 500px;
-	height: 20px;
-	padding: 10px;
-	margin: 10px auto;
+    width: 500px;
+    height: 20px;
+    padding: 10px;
+    margin: 10px auto;
 }
 
 .lu_paging span {
-	height: 20px;
-	text-align: center;
-	color: #777978;
-	border: 1px solid #e0e0e0;
-	display: block;
-	float: left;
-	margin-left: 15px;
-	line-height: 20px;
-	cursor: pointer;
-	transition: .5s ease;
+    height: 20px;
+    text-align: center;
+    color: #777978;
+    border: 1px solid #e0e0e0;
+    display: block;
+    float: left;
+    margin-left: 15px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: .5s ease;
 }
 
 .lu_paging li.disabled span {
-	border-radius: 3px;
-	border: solid 1px #c0c0c0;
-	padding: 3px 10px;
-	font: 12px;
-	cursor: not-allowed;
+    border-radius: 3px;
+    border: solid 1px #c0c0c0;
+    padding: 3px 10px;
+    font: 12px;
+    cursor: not-allowed;
 }
 
-.lu_paging li a, .lu_paging li.active span {
-	border-radius: 3px;
-	border: solid 1px #c0c0c0;
-	padding: 3px 10px;
-	font: 12px;
-	-webkit-transition: all 0.2s ease-in-out;
-	-moz-transition: all 0.2s ease-in-out;
-	-o-transition: all 0.2s ease-in-out;
-	-ms-transition: all 0.2s ease-in-out;
-	transition: all 0.2s ease-in-out;
+.lu_paging li a,
+.lu_paging li.active span {
+    border-radius: 3px;
+    border: solid 1px #c0c0c0;
+    padding: 3px 10px;
+    font: 12px;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .lu_paging li.active span {
-	background: #ddd;
-	border-radius: 3px;
-	border: solid 1px #bbb;
+    background: #ddd;
+    border-radius: 3px;
+    border: solid 1px #bbb;
 }
 
-.lu_paging li a:hover, .lu_paging li.active span:hover {
-	border: solid 1px #f53463;
-	border-radius: 3px;
-	background: #ef698a;
-	color: #fff;
-	-webkit-transition: all 0.2s ease-in-out;
-	-moz-transition: all 0.2s ease-in-out;
-	-o-transition: all 0.2s ease-in-out;
-	-ms-transition: all 0.2s ease-in-out;
-	transition: all 0.2s ease-in-out;
+.lu_paging li a:hover,
+.lu_paging li.active span:hover {
+    border: solid 1px #f53463;
+    border-radius: 3px;
+    background: #ef698a;
+    color: #fff;
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    -ms-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
 .lu_paging span:hover {
-	border: 1px solid #eb95aa;
+    border: 1px solid #eb95aa;
 }
 
 .lu_paging .lu_active {
-	background: #ef698a;
-	color: #fff;
-	border: 1px solid #eb95aa;
+    background: #ef698a;
+    color: #fff;
+    border: 1px solid #eb95aa;
 }
 
 .lu_paging a {
-	height: 20px;
-	text-align: center;
-	color: #777978;
-	border: 1px solid #f0f0f0;
-	float: left;
-	margin-left: 15px;
-	line-height: 20px;
-	cursor: pointer;
+    height: 20px;
+    text-align: center;
+    color: #777978;
+    border: 1px solid #f0f0f0;
+    float: left;
+    margin-left: 15px;
+    line-height: 20px;
+    cursor: pointer;
 }
 
 .lu_content_right .lu_img {
-	float: left;
-	margin: 15px 0 0 10px;
-	width: 75px;
-	height: 75px;
+    float: left;
+    margin: 15px 0 0 10px;
+    width: 75px;
+    height: 75px;
 }
 
 .lu_content_right .lu_up .lu_name {
-	width: 120px;
-	height: 20px;
-	font-size: 15px;
-	line-height: 18px;
-	margin: 10px 0 0 10px;
-	color: #777978;
+    width: 120px;
+    height: 20px;
+    font-size: 15px;
+    line-height: 18px;
+    margin: 10px 0 0 10px;
+    color: #777978;
 }
 
 .lu_content_right .lu_up .lu_name img {
-	margin: 0 8px 0 0;
+    margin: 0 8px 0 0;
 }
 
 .lu_content_right .lu_up {
-	width: 137px;
-	height: 75px;
-	border: 1px solid #ebebeb;
-	background: #f7f9f9;
-	float: left;
-	margin: 15px 0 0 15px;
+    width: 137px;
+    height: 75px;
+    border: 1px solid #ebebeb;
+    background: #f7f9f9;
+    float: left;
+    margin: 15px 0 0 15px;
 }
 
 .lu_bin {
-	color: #297fb8;
-	font-size: 16px;
-	margin-left: 10px;
-	margin-top: 15px;
+    color: #297fb8;
+    font-size: 16px;
+    margin-left: 10px;
+    margin-top: 15px;
 }
 
 .lu_bin a {
-	color: #ed5565;
+    color: #ed5565;
 }
 
 .lu_userMessage_arrow {
-	float: left;
-	margin-left: -34px;
+    float: left;
+    margin-left: -34px;
 }
 
 .icon_approve {
-	background-image: url(../images/verified-20x20.png);
-	background-repeat: no-repeat;
-	background-color: #FFF;
-	width: 20px;
-	position: absolute;
-	display: inline-block;
-	top: 10px;
-	height: 20px;
-	border-radius: 50%;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	box-shadow: 0 0 3px rgba(0,0,0,0.3);
-	vertical-align: -2px;
+    background-image: url(../images/verified-20x20.png);
+    background-repeat: no-repeat;
+    background-color: #FFF;
+    width: 20px;
+    position: absolute;
+    display: inline-block;
+    top: 10px;
+    height: 20px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    vertical-align: -2px;
 }
 
 .icon_verify {
-	position: relative;
-	left: 80px;
-	top: 57px;
-	display: inherit;
+    position: relative;
+    left: 80px;
+    top: 57px;
+    display: inherit;
 }
 
 span.admin {
-	background-color: #FF9900;
-	font-size: 11px;
-	padding: 3px;
-	height: 28px;
-	color: #FFF;
-	-webkit-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
+    background-color: #FF9900;
+    font-size: 11px;
+    padding: 3px;
+    height: 28px;
+    color: #FFF;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
 }
 
 div.footer {
-	text-align: center;
-	color: #FFF;
-	width: 100%;
-	height: 20px;
-	padding: 15px 0;
-	background: #6E6E86;
-	float: left;
-	margin: 5em 0 0 0;
-	display: inline;
+    text-align: center;
+    color: #FFF;
+    width: 100%;
+    height: 20px;
+    padding: 15px 0;
+    background: #6E6E86;
+    float: left;
+    margin: 5em 0 0 0;
+    display: inline;
 }
 
 div.footer a {
-	color: #FFF;
-	font-size: 12px;
-	margin: 0 auto;
+    color: #FFF;
+    font-size: 12px;
+    margin: 0 auto;
 }
