@@ -387,7 +387,15 @@ class AppleController extends BaseController
 						$last_updated_at	= User::find($last_id)->updated_at;
 
 						//  App client have post last user id, retrieve and skip profile not completed user
-						$query				= User::whereNotNull('portrait')->whereNotNull('nickname')->whereNotNull('bio')->whereNotNull('school');
+						$query				= User::whereNotNull('portrait')
+													->whereNotNull('nickname')
+													->whereNotNull('bio')
+													->whereNotNull('school');
+
+						// Ruled out not set tags user
+						$query->whereHas('hasOneProfile', function($hasTagStr) {
+									$hasTagStr->where('tag_str', '!=', ',');
+								});
 
 						// Sex filter
 						if($sex_filter){

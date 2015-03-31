@@ -78,6 +78,11 @@ class MemberController extends BaseController {
 											->where('block', 0)
 											->whereNotNull('nickname')
 											->orderBy('updated_at', 'desc');
+		// Ruled out not set tags user
+		$query->whereHas('hasOneProfile', function($hasTagStr) {
+					$hasTagStr->where('tag_str', '!=', ',');
+				});
+
 		$open_universities		= University::where('status', 2)->select('id', 'university')->get();
 		$pending_universities	= University::where('status', 1)->select('id', 'university', 'open_at')->get();
 
