@@ -205,6 +205,10 @@ a.nickname {
     color: #777978;
 }
 
+.crenew-nickname a {
+    color: #FF9900;
+}
+
 span.admin a {
     color: #FFF;
 }

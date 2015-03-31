@@ -83,7 +83,7 @@
 										<span class="admin"><a href="{{ route('members.show', $data->id) }}">{{ Lang::get('system.moderator') }}</a></span>
 										@else
 										@endif
-										<span style="color: #FF9900;"><a href="{{ route('members.show', $data->id) }}" class="nickname">{{ $data->nickname }}</a></span>
+										<span class="crenew-nickname"><a href="{{ route('members.show', $data->id) }}" class="nickname">{{ $data->nickname }}</a></span>
 									</p>
 								@else
 									<p class="lu_te lu_userMessage_name lu_left">
