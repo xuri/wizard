@@ -333,6 +333,9 @@ class ForumController extends BaseController {
 		$author_profile	= Profile::where('user_id', $data->user_id)->first();
 
 		if (Request::ajax()) {
+
+			// Calculate floor number for Ajax pagination
+			$floor = (Input::get('page') - 1) * 10 + 2;
 			return Response::json(View::make($this->resource.'.post-ajax')->with(compact('data', 'author', 'author_profile', 'comments', 'floor'))->render());
 		}
 
