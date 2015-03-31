@@ -479,7 +479,15 @@ class AndroidController extends BaseController
 					} else {
 
 						//  First get data from App client, retrieve and skip profile not completed user
-						$query      = User::whereNotNull('portrait')->whereNotNull('nickname')->whereNotNull('bio')->whereNotNull('school');
+						$query      = User::whereNotNull('portrait')
+											->whereNotNull('nickname')
+											->whereNotNull('bio')
+											->whereNotNull('school');
+
+						// Ruled out not set tags user
+						$query->whereHas('hasOneProfile', function($hasTagStr) {
+									$hasTagStr->where('tag_str', '!=', ',');
+								});
 
 						// Sex filter
 						if($sex_filter){
