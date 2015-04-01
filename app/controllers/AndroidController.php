@@ -398,10 +398,10 @@ class AndroidController extends BaseController
 													->whereNotNull('nickname')
 													->whereNotNull('bio')
 													->whereNotNull('school');
-						// Ruled out not set tags user
+						// Ruled out not set tags and select has correct format constellation user
 						$query->whereHas('hasOneProfile', function($hasTagStr) {
-									$hasTagStr->where('tag_str', '!=', ',');
-								});
+							$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+						});
 
 						// Sex filter
 						if($sex_filter){
@@ -484,10 +484,10 @@ class AndroidController extends BaseController
 											->whereNotNull('bio')
 											->whereNotNull('school');
 
-						// Ruled out not set tags user
+						// Ruled out not set tags and select has correct format constellation user
 						$query->whereHas('hasOneProfile', function($hasTagStr) {
-									$hasTagStr->where('tag_str', '!=', ',');
-								});
+							$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+						});
 
 						// Sex filter
 						if($sex_filter){
@@ -638,7 +638,7 @@ class AndroidController extends BaseController
 								'is_verify'		=> e($data->is_verify),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> $tag_str,
+								'tag_str'		=> implode(',', array_unique(explode(',', $tag_str))),
 								'hobbies'		=> app_out_filter($profile->hobbies),
 								'grade'			=> e($profile->grade),
 								'question'		=> app_out_filter($profile->question),

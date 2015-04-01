@@ -78,10 +78,10 @@ class MemberController extends BaseController {
 											->where('block', 0)
 											->whereNotNull('nickname')
 											->orderBy('updated_at', 'desc');
-		// Ruled out not set tags user
+		// Ruled out not set tags and select has correct format constellation user
 		$query->whereHas('hasOneProfile', function($hasTagStr) {
-					$hasTagStr->where('tag_str', '!=', ',');
-				});
+			$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+		});
 
 		$open_universities		= University::where('status', 2)->select('id', 'university')->get();
 		$pending_universities	= University::where('status', 1)->select('id', 'university', 'open_at')->get();
@@ -184,7 +184,7 @@ class MemberController extends BaseController {
 
 		// Get user's constellation
 		$constellationInfo = getConstellation($profile->constellation);
-		$tag_str           = explode(',', substr($profile->tag_str, 1));
+		$tag_str           = array_unique(explode(',', substr($profile->tag_str, 1)));
 
 		if($data->sex == 'M')
 		{
