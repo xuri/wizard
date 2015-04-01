@@ -316,16 +316,8 @@ class AndroidController extends BaseController
 						$profile->question      = app_input_filter(Input::get('question'));
 
 						// User's constellation filter
-						if(is_null($profile->constellation)) {
-							if(Input::get('constellation') == 0) {
-								$profile->constellation = NULL;
-							} else {
-								$profile->constellation = e(Input::get('constellation'));
-							}
-						} else {
-							if(Input::get('constellation') !=== 0) {
-								$profile->constellation = e(Input::get('constellation'));
-							}
+						if(Input::get('constellation') !=== 0) {
+							$profile->constellation = e(Input::get('constellation'));
 						}
 
 						if ($user->save() && $profile->save()) {
