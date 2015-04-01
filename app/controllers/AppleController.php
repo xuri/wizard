@@ -616,7 +616,7 @@ class AppleController extends BaseController
 						if(is_null($profile->tag_str)){
 							$tag_str = e(null);
 						} else {
-							$tag_str = explode(',', substr($profile->tag_str, 1));
+							$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
 						}
 
 						return Response::json(
@@ -632,7 +632,7 @@ class AppleController extends BaseController
 								'is_verify'		=> e($data->is_verify),
 								'portrait'		=> route('home') . '/' . 'portrait/' . $data->portrait,
 								'constellation'	=> $constellationInfo['name'],
-								'tag_str'		=> implode(',', array_unique(explode(',', $tag_str))),
+								'tag_str'		=> $tag_str,
 								'hobbies'		=> app_out_filter($profile->hobbies),
 								'grade'			=> e($profile->grade),
 								'question'		=> app_out_filter($profile->question),

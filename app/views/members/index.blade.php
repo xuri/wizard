@@ -57,7 +57,7 @@
 					@if($data->portrait)
 					<?php
 						$profile = Profile::where('user_id', $data->id)->first();
-						$tag_str = explode(',', substr($profile->tag_str, 1));
+						$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
 					?>
 
 					<div class="lu_resumes clear">
