@@ -308,14 +308,15 @@ class AppleController extends BaseController
 						$profile->self_intro    = app_input_filter(Input::get('self_intro'));
 						$profile->question      = app_input_filter(Input::get('question'));
 
+						// User's constellation filter
 						if(is_null($profile->constellation)) {
-							if(Input::get('constellation') == 0) {
+							if(Input::get('constellation') === 0) {
 								$profile->constellation = NULL;
 							} else {
 								$profile->constellation = e(Input::get('constellation'));
 							}
 						} else {
-							if(Input::get('constellation') !== 0) {
+							if(Input::get('constellation') !=== 0) {
 								$profile->constellation = e(Input::get('constellation'));
 							}
 						}
