@@ -312,9 +312,20 @@ class AndroidController extends BaseController
 						$profile->tag_str       = implode(',', array_unique(explode(',', Input::get('tag_str'))));
 						$profile->grade         = Input::get('grade');
 						$profile->hobbies       = app_input_filter(Input::get('hobbies'));
-						$profile->constellation = app_input_filter(Input::get('constellation'));
 						$profile->self_intro    = app_input_filter(Input::get('self_intro'));
 						$profile->question      = app_input_filter(Input::get('question'));
+
+						if(is_null($user->constellation)) {
+							if(Input::get('constellation') == 0) {
+								$profile->constellation = NULL;
+							} else {
+								$profile->constellation = e(Input::get('constellation'));
+							}
+						} else {
+							if(Input::get('constellation') !== 0) {
+								$profile->constellation = e(Input::get('constellation'));
+							}
+						}
 
 						if ($user->save() && $profile->save()) {
 
