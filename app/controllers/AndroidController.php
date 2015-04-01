@@ -309,7 +309,7 @@ class AndroidController extends BaseController
 
 						// Update profile information
 						$profile                = Profile::where('user_id', $user->id)->first();
-						$profile->tag_str       = Input::get('tag_str');
+						$profile->tag_str       = implode(',', array_unique(explode(',', Input::get('tag_str'))));
 						$profile->grade         = Input::get('grade');
 						$profile->hobbies       = app_input_filter(Input::get('hobbies'));
 						$profile->constellation = app_input_filter(Input::get('constellation'));
@@ -622,6 +622,7 @@ class AndroidController extends BaseController
 						if(is_null($profile->tag_str)){
 							$tag_str = e(null);
 						} else {
+							// Convert string to array and remove duplicate tags code
 							$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
 						}
 
@@ -680,7 +681,8 @@ class AndroidController extends BaseController
 						if(is_null($profile->tag_str)){
 							$tag_str = e(null);
 						} else {
-							$tag_str = explode(',', substr($profile->tag_str, 1));
+							// Convert string to array and remove duplicate tags code
+							$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
 						}
 
 						$data = array(
