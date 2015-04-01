@@ -310,7 +310,7 @@ class AppleController extends BaseController
 
 						// User's constellation filter
 						if(is_null($profile->constellation)) {
-							if(Input::get('constellation') === 0) {
+							if(Input::get('constellation') == 0) {
 								$profile->constellation = NULL;
 							} else {
 								$profile->constellation = e(Input::get('constellation'));
