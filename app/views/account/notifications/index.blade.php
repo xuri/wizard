@@ -58,11 +58,26 @@
 						<p>{{ Lang::get('navigation.inbox') }}</p>
 					</div>
 					<ul class="new_tab clear">
-						<li class="active">{{ Lang::get('account/notifications.friend_notifications') }}<span>{{ $friendNotificationsCount }}</span></li>
+						<li class="active">
+							{{ Lang::get('account/notifications.friend_notifications') }}
+							@if($friendNotificationsCount != 0)
+								<span>{{ $friendNotificationsCount }}</span>
+							@endif
+						</li>
 						<span></span>
-						<li>{{ Lang::get('account/notifications.forum_notifications') }}<span>{{ $forumNotificationsCount }}</span></li>
+						<li>
+							{{ Lang::get('account/notifications.forum_notifications') }}
+							@if($forumNotificationsCount != 0)
+								<span>{{ $forumNotificationsCount }}</span>
+							@endif
+						</li>
 						<span></span>
-						<li>{{ Lang::get('account/notifications.system_notifications') }}<span>{{ $systemNotificationsCount }}</span></li>
+						<li>
+							{{ Lang::get('account/notifications.system_notifications') }}
+							@if($systemNotificationsCount != 0)
+								<span>{{ $systemNotificationsCount }}</span>
+							@endif
+						</li>
 					</ul>
 
 					<ul id="new_main_mine" class="new_main">
