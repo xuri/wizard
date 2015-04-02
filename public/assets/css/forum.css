@@ -74,7 +74,7 @@
 .bbs_main p {
     margin-top: 9px;
     color: #777978;
-    width: 510px;
+    width: 500px;
     overflow: hidden;
 }
 
@@ -114,6 +114,8 @@
 
 .bbs_main_boy a {
     color: #73b3dd;
+    width: 450px;
+    display: inline-block;
 }
 
 .bbs_main_girl a {
@@ -277,6 +279,9 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
     padding: 2px 0.4em;
+    float: left;
+    display: inline-block;
+    margin: 0 1em 0 0;
 }
 
 img.post_thumbnails {
