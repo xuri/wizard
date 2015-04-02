@@ -15,7 +15,7 @@ return array(
 
 	"points"		=> "积分",
 
-	"renew_input"	=> "每天为爱情正能量加油可以获取精灵豆哦",
+	"renew_input"	=> "每天获取精灵豆，为爱情正能量加油!",
 
 	"renew_title"	=> "为爱情正能量加油",
 

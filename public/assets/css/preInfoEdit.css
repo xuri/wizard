@@ -236,7 +236,8 @@ input, textarea {
 	color: #ef698a;
 	font-size: 16px;
 	top: 5px;
-	left: 5px;
+	left: 1.2em;
+    width: 100%;
 }
 
 #wrap .sgnin_con a {

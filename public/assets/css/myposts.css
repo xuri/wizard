@@ -344,7 +344,8 @@ body {
     color: #ef698a;
     font-size: 16px;
     top: 4px;
-    left: 5px;
+    left: 1.2em;
+    width: 100%;
 }
 
 #wrap .sgnin_con a {
@@ -520,7 +521,7 @@ body {
     height: 18px;
     line-height: 18px;
     float: left;
-    margin-left: 10px;
+    margin: 5px 0 0 10px;
     color: #d65679;
     transition: .3s ease;
     font-size: 14px;
@@ -643,6 +644,7 @@ body {
     float: left;
     display: inline-block;
     width: 2.5em;
+    margin: 5px 0 0 0;
 }
 
 div.footer {
