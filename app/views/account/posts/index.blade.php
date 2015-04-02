@@ -67,7 +67,7 @@
 										$comments = ForumComments::where('post_id', $post->id)->count();
 									?>
 									<li class="clear">
-										<a href="{{ route('forum.show', $post->id) }}" title="这条帖子有{{ $comments }}条回复。" alt="这条帖子有{{ $comments }}条回复。">
+										<a href="{{ route('forum.show', $post->id) }}" class="comments-count" title="这条帖子有{{ $comments }}条回复。" alt="这条帖子有{{ $comments }}条回复。">
 											<span>{{ $comments }}</span>
 										</a>
 										<a href="{{ route('forum.show', $post->id) }}" title="查看我的帖子：{{ $post->title }}" alt="查看我的帖子：{{ $post->title }}">

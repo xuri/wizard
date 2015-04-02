@@ -524,7 +524,7 @@ body {
     color: #d65679;
     transition: .3s ease;
     font-size: 14px;
-    width: 500px;
+    width: 480px;
     overflow: hidden;
     /* 超出的部分隐藏起来 */
 
@@ -637,6 +637,12 @@ body {
     margin-left: 15px;
     line-height: 20px;
     cursor: pointer;
+}
+
+.comments-count {
+    float: left;
+    display: inline-block;
+    width: 2.5em;
 }
 
 div.footer {

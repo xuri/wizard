@@ -9,13 +9,13 @@ return array(
 	|
 	*/
 
-	"welcome"		=> "Welcome to PINAI",
+	"welcome"		=> "Welcome",
 
 	"nickname"		=> "Nickname",
 
 	"points"		=> "Points",
 
-	"renew_input"	=> "Get points everyday for more privileged",
+	"renew_input"	=> "More points, more privileged",
 
 	"renew_title"	=> "Come on!",
 
