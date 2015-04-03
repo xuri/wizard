@@ -25,7 +25,15 @@
 
 			$top_i = 0;
 			foreach($top_match[0] as $top_thumbnail){
-				echo '<a ' . str_replace('_src=', 'href=', $top_thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $top_thumbnail) . ' /></a>';
+
+				// Recovery origional file path
+				$top_thumbnail_file_path = substr(str_replace('_src="' . route('home') . '/', '', $top_thumbnail), 0, -1);
+
+				// Determin file exists
+				if(File::exists($top_thumbnail_file_path)) {
+					// Image exists can be display
+					echo '<a ' . str_replace('_src=', 'href=', $top_thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $top_thumbnail) . ' /></a>';
+				}
 			$top_i ++;
 			if($top_i == 3) break;
 			}
@@ -57,8 +65,15 @@
 			$thumbnails = join(',', array_pop($match));
 
 			$i = 0;
-			foreach($match[0] as $thumbnail){
-				echo '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>';
+			foreach($match[0] as $thumbnail) {
+
+				// Recovery origional file path
+				$thumbnail_file_path = substr(str_replace('_src="' . route('home') . '/', '', $thumbnail), 0, -1);
+
+				// Determin file exists
+				if(File::exists($thumbnail_file_path)) {
+					echo '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>';
+				}
 			$i ++;
 			if($i == 3) break;
 			}

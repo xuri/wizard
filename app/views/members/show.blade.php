@@ -27,7 +27,11 @@
 						@else
 						@endif
 						@if($data->portrait)
-						{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
+							@if (File::exists('portrait/'.$data->portrait))
+								{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
+							@else
+								{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('class' => 'pi_userhead lu_left')) }}
+							@endif
 						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('class' => 'pi_userhead lu_left')) }}
 						@endif
