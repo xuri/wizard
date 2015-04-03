@@ -27,10 +27,13 @@
 			foreach($top_match[0] as $top_thumbnail){
 
 				// Recovery origional file path
-				$top_thumbnail_file_path = substr(str_replace('_src="' . route('home') . '/', '', $top_thumbnail), 0, -1);
+				$top_thumbnail_file_path	= substr(str_replace('_src="' . route('home') . '/', '', $top_thumbnail), 0, -1);
+
+				// Get file size to determin blank or broken file
+				$top_thumbnail_bytes		= File::size($top_thumbnail_file_path);
 
 				// Determin file exists
-				if(File::exists($top_thumbnail_file_path)) {
+				if(File::exists($top_thumbnail_file_path) && $top_thumbnail_bytes > 0) {
 					// Image exists can be display
 					echo '<a ' . str_replace('_src=', 'href=', $top_thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $top_thumbnail) . ' /></a>';
 				}
@@ -70,8 +73,11 @@
 				// Recovery origional file path
 				$thumbnail_file_path = substr(str_replace('_src="' . route('home') . '/', '', $thumbnail), 0, -1);
 
+				// Get file size to determin blank or broken file
+				$thumbnail_bytes	 = File::size($thumbnail_file_path);
+
 				// Determin file exists
-				if(File::exists($thumbnail_file_path)) {
+				if(File::exists($thumbnail_file_path) && $thumbnail_file_path > 0) {
 					echo '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>';
 				}
 			$i ++;

@@ -21,7 +21,11 @@
 				<div class="re-headImg">
 					<a href="{{ route('members.show', $user->id) }}">
 						@if($user->portrait)
-						{{ HTML::image('portrait/'.$user->portrait) }}
+							@if(File::exists('portrait/' . $user->portrait))
+								{{ HTML::image('portrait/' . $user->portrait) }}
+							@else
+								{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+							@endif
 						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
 						@endif
@@ -91,7 +95,11 @@
 
 							<a href="{{ route('members.show', $reply_user->id) }}">
 								@if($reply_user->portrait)
-								{{ HTML::image('portrait/'.$reply_user->portrait) }}
+									@if(File::exists('portrait/' . $reply_user->portrait))
+										{{ HTML::image('portrait/' . $reply_user->portrait) }}
+									@else
+										{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+									@endif
 								@else
 								{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
 								@endif
