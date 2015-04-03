@@ -38,10 +38,10 @@
 										<div class="form-group">
 											<label>注册来源:</label>
 											<label class="radio-inline">
-												<input type="radio" name="from" id="optionsRadiosInline1" value="0"> <i class="fa fa-android"></i> Android 客户端
+												<input type="radio" name="from" id="optionsRadiosInline1" value="1"> <i class="fa fa-android"></i> Android 客户端
 											</label>
 											<label class="radio-inline">
-												<input type="radio" name="from" id="optionsRadiosInline1" value="0"> <i class="fa fa-apple"></i> iOS 客户端
+												<input type="radio" name="from" id="optionsRadiosInline1" value="2"> <i class="fa fa-apple"></i> iOS 客户端
 											</label>
 											<label class="radio-inline">
 												<input type="radio" name="from" id="optionsRadiosInline1" value="0"> <i class="fa fa-laptop"></i> Web 网站
@@ -75,7 +75,7 @@
 										{{ $errors->first('password', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
 										<div class="form-group input-group">
 											<span class="input-group-addon">登陆密码</span>
-											<input type="text" class="form-control" placeholder="留空则使用默认密码 'password'" value="{{ Input::old('nickname') }}" name="nickname">
+											<input type="text" class="form-control" placeholder="留空则使用默认密码 'password'" value="{{ Input::old('password') }}" name="password">
 										</div>
 										{{ $errors->first('phone', '<strong class="error" style="color: #cc0000;">:message</strong>') }}
 										<div class="input-group col-md-12" style="margin:0 0 1em 0">

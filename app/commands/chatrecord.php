@@ -67,7 +67,7 @@ class chatrecord extends ScheduledCommand {
 			// Initial cursor
 			$cursor = '';
 
-			do{
+			do {
 				$chat_record = cURL::newJsonRequest('GET', 'https://a1.easemob.com/jinglingkj/pinai/chatmessages?ql=select+*+where+from+=+\'' . $user->id . '\'+and+timestamp+%3E+' . strtotime(Carbon::yesterday()) . '000&limit=200&cursor=' . $cursor)
 							->setHeader('content-type', 'application/json')
 							->setHeader('Authorization', 'Bearer '.$easemob->token)

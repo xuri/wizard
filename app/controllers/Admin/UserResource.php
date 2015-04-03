@@ -664,4 +664,188 @@ class Admin_UserResource extends BaseResource
 		}
 	}
 
+	/**
+	 * Batch add user
+	 * @return Response     View
+	 */
+	public function batch() {
+		$universities = University::get();
+		return View::make($this->resourceView . '.batch')->with(compact('universities'));
+	}
+
+	/**
+	 * Batch add user
+	 * @return Response     View
+	 */
+	public function batchadd() {
+		// Get all form data.
+		$data = Input::all();
+
+		// Create validation rules
+		$rules = array(
+			'm_phone'		=> 'digits:3',
+			'f_phone'		=> 'digits:3',
+			'm_password'	=> 'alpha_dash|between:6,16',
+			'f_password'	=> 'alpha_dash|between:6,16',
+			'm_create'		=> 'required|numeric',
+			'f_create'		=> 'required|numeric',
+			'm_from'		=> 'required',
+			'f_from'		=> 'required',
+		);
+
+		// Custom validation message
+		$messages = array(
+			'm_phone.digits'		=> '手机号段格式不正确。',
+			'f_phone.digits'		=> '手机号段格式不正确。',
+			'm_password.alpha_dash'	=> '密码格式不正确。',
+			'm_password.between'	=> '密码长度请保持在:min到:max位之间。',
+			'f_password.alpha_dash'	=> '密码格式不正确。',
+			'f_password.between'	=> '密码长度请保持在:min到:max位之间。',
+			'm_create.required'		=> '请填写创建男用户的数量',
+			'f_create.required'		=> '请填写创建女用户的数量',
+			'f_create.numeric'		=> '数量格式不正确',
+			'f_create.numeric'		=> '数量格式不正确',
+			'm_from.required'		=> '请选择注册来源',
+			'f_from.required'		=> '请选择注册来源',
+		);
+
+		// Custom validation message
+		$messages	= $this->validatorMessages;
+
+		// Begin verification
+		$validator	= Validator::make($data, $rules, $messages);
+
+		// Validation success
+		if ($validator->passes()) {
+
+			// Add male users
+			for ($m_create=0; $m_create < Input::get('m_create'); $m_create++) {
+
+				// Get phone number set
+				if("" !== Input::get('m_phone')) {
+					// Custom number
+					$m_phone = Input::get('m_phone', 187) . rand(10000000,99999999);
+				} else {
+					// Default number
+					$m_phone = '187' . rand(10000000,99999999);
+				}
+
+				// Get phone password set
+				if("" !== Input::get('m_password')) {
+					// Custom password
+					$m_password = Input::get('m_password');
+				} else {
+					// Default password
+					$m_password = 'password';
+				}
+
+				// Determin male user phone number exists
+				while (User::where('phone', $m_phone)->first()) {
+
+					// Generate number
+					if("" !== Input::get('m_phone')) {
+					// Custom number
+						$m_phone = Input::get('m_phone', 187) . rand(10000000,99999999);
+					} else {
+						// Default number
+						$m_phone = '187' . rand(10000000,99999999);
+					}
+
+				}
+
+				// Verification success, add user
+				$m_user					= new User;
+				$m_user->phone			= $m_phone;
+				$m_user->from			= Input::get('m_from');
+				$m_user->password		= md5($m_password);
+				$m_user->created_at		= date('Y-m-d H:m:s');
+				$m_user->activated_at	= date('Y-m-d H:m:s');
+				$m_user->sex			= 'M';
+				$m_user->is_admin		= (int)Input::get('is_admin', 0);
+				$m_user->is_verify		= (int)Input::get('is_verify', 0);
+				$m_user->save();
+
+				// Create user profile
+				$m_profile				= new Profile;
+				$m_profile->user_id		= (int)$m_user->id;
+				$m_profile->save();
+
+				// Register user in easemob IM system
+				Queue::push('AddUserQueue', [
+								'username'	=> $m_user->id,
+								'password'	=> $m_user->password,
+							]);
+
+				// Create floder to store chat record
+				File::makeDirectory(app_path('chatrecord/user_' . $m_user->id, 0777, true));
+
+			}
+
+			for ($f_create=0; $f_create < Input::get('f_create'); $f_create++) {
+				// Get phone number set
+				if("" !== Input::get('f_phone')) {
+					// Custom number
+					$f_phone = Input::get('f_phone', 187) . rand(10000000,99999999);
+				} else {
+					// Default number
+					$f_phone = '187' . rand(10000000,99999999);
+				}
+
+				// Get phone password set
+				if("" !== Input::get('f_password')) {
+					// Custom password
+					$f_password = Input::get('f_password');
+				} else {
+					// Default password
+					$f_password = 'password';
+				}
+
+				// Determin male user phone number exists
+				while (User::where('phone', $f_phone)->first()) {
+
+					// Generate phone number
+					if("" !== Input::get('f_phone')) {
+						// Custom number
+						$f_phone = Input::get('f_phone', 187) . rand(10000000,99999999);
+					} else {
+						// Default number
+						$f_phone = '187' . rand(10000000,99999999);
+					}
+				}
+
+				// Verification success, add user
+				$f_user					= new User;
+				$f_user->phone			= $f_phone;
+				$f_user->from			= Input::get('f_from');
+				$f_user->password		= md5($f_password);
+				$f_user->created_at		= date('Y-m-d H:m:s');
+				$f_user->activated_at	= date('Y-m-d H:m:s');
+				$f_user->sex			= 'F';
+				$f_user->is_admin		= (int)Input::get('is_admin', 0);
+				$f_user->is_verify		= (int)Input::get('is_verify', 0);
+				$f_user->save();
+
+				// Create user profile
+				$f_profile				= new Profile;
+				$f_profile->user_id		= (int)$f_user->id;
+				$f_profile->save();
+
+				// Register user in easemob IM system
+				Queue::push('AddUserQueue', [
+								'username'	=> $f_user->id,
+								'password'	=> $f_user->password,
+							]);
+
+				// Create floder to store chat record
+				File::makeDirectory(app_path('chatrecord/user_' . $f_user->id, 0777, true));
+			}
+
+			// Update success
+			return Redirect::back()
+				->with('success', '成功添加了 ' . Input::get('m_create') . ' 个男' . $this->resourceName . '，'  . Input::get('f_create') . ' 个女' . $this->resourceName . '。 您可以继续编辑'.$this->resourceName.'，或返回'.$this->resourceName.'列表。');
+		} else {
+			// Verification fail
+			return Redirect::back()->withInput()->withErrors($validator);
+		}
+	}
 }
