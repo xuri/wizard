@@ -432,8 +432,8 @@ class Admin_UserResource extends BaseResource
 		$data->block	= 1;
 		if (is_null($data)) {
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
-		}
-		elseif ($data->save()){
+		} elseif ($data->save()){
+			ForumPost::where('user_id', Input::get('id'))->update(array('block' => 1));
 			return Redirect::back()->with('success', $this->resourceName.'锁定成功。');
 		} else{
 			return Redirect::back()->with('warning', $this->resourceName.'锁定失败。');
@@ -454,6 +454,7 @@ class Admin_UserResource extends BaseResource
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
 		}
 		elseif ($data->save()){
+			ForumPost::where('user_id', Input::get('id'))->update(array('block' => 0));
 			return Redirect::back()->with('success', $this->resourceName.'解锁成功。');
 		} else{
 			return Redirect::back()->with('warning', $this->resourceName.'解锁失败。');

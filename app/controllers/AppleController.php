@@ -1617,6 +1617,7 @@ class AppleController extends BaseController
 									->orderBy('updated_at' , 'desc')
 									->where('updated_at', '<', $last_updated_at)
 									->where('top', 0)
+									->where('block', 0)
 									->select('id', 'user_id', 'title', 'content', 'created_at')
 									->take($per_page)
 									->get()
@@ -1692,6 +1693,7 @@ class AppleController extends BaseController
 											->orderBy('updated_at' , 'desc')
 											->where('updated_at', '<=', $lastRecord->updated_at)
 											->where('top', 1)
+											->where('block', 0)
 											->select('id', 'user_id', 'title', 'content', 'created_at')
 											->take('5')
 											->get()
@@ -1747,6 +1749,7 @@ class AppleController extends BaseController
 											->orderBy('updated_at' , 'desc')
 											->where('updated_at', '<=', $lastRecord->updated_at)
 											->where('top', 0)
+											->where('block', 0)
 											->select('id', 'user_id', 'title', 'content', 'created_at')
 											->take($per_page)
 											->get()
@@ -1837,6 +1840,7 @@ class AppleController extends BaseController
 													->orderBy('updated_at' , 'desc')
 													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 1)
+													->where('block', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take('5')
 													->get()
@@ -1892,6 +1896,7 @@ class AppleController extends BaseController
 													->orderBy('updated_at' , 'desc')
 													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 0)
+													->where('block', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take($per_page)
 													->get()
@@ -1915,7 +1920,7 @@ class AppleController extends BaseController
 											}
 
 											// Retrieve user
-											$post_user						= User::where('id', $items[$key]['user_id'])->first();
+											$post_user						= User::find($items[$key]['user_id']);
 
 											// Get post user portrait real storage path and user porirait key to array
 											$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
@@ -1978,6 +1983,7 @@ class AppleController extends BaseController
 													->orderBy('updated_at' , 'desc')
 													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 1)
+													->where('block', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take('5')
 													->get()
@@ -2033,6 +2039,7 @@ class AppleController extends BaseController
 													->orderBy('updated_at' , 'desc')
 													->where('updated_at', '<=', $lastRecord->updated_at)
 													->where('top', 0)
+													->where('block', 0)
 													->select('id', 'user_id', 'title', 'content', 'created_at')
 													->take($per_page)
 													->get()
