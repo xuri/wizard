@@ -2982,7 +2982,7 @@ class AppleController extends BaseController
 				case 'support' :
 					$support			= new Support;
 					$support->user_id 	= Input::get('id');
-					$support->content	= strip_tags(Input::get('content'));
+					$support->content	= html_entity_decode(e(Input::get('content')), ENT_QUOTES, 'utf-8');
 					if($support->save()) {
 						return Response::json(
 							array(

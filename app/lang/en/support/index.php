@@ -33,4 +33,5 @@ return array(
 
 	"send_error"	=> "Sorry, submit fails, try to resubmit please.",
 
+	"summary"		=> "摘要",
 );

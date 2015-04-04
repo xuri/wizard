@@ -34,6 +34,7 @@
 											<th style="text-align:center;">{{ Lang::get('admin/support/index.category') }} {{ order_by('category') }}</th>
 											<th>{{ Lang::get('admin/support/index.user') }} {{ order_by('user_id') }}</th>
 											<th>{{ Lang::get('admin/support/index.title') }} {{ order_by('title') }}</th>
+											<th>{{ Lang::get('admin/support/index.summary') }}</th>
 											<th>{{ Lang::get('admin/support/index.created_at') }} {{ order_by('created_at') }}</th>
 											<th style="width:6em;text-align:center;">{{ Lang::get('admin/support/index.status') }} {{ order_by('status') }}</th>
 											<th style="width:7.5em;text-align:center;">{{ Lang::get('admin/support/index.operating') }}</th>
@@ -58,6 +59,7 @@
 											<td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->id }}</a></td>
 											@endif
 											<td class="center">{{ $data->title }}</td>
+											<td class="center">{{ Str::limit($data->content, 10) }}</td>
 											<td class="center">{{ $data->created_at }}</td>
 											<td class="center" style="text-align:center;">
 												@if($data->status)

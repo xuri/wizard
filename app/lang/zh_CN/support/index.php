@@ -33,4 +33,5 @@ return array(
 
 	"send_error"	=> "提交失败，请尝试重新提交。",
 
+	"summary"		=> "摘要",
 );
