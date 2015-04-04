@@ -2360,169 +2360,195 @@ class AppleController extends BaseController
 
 				// Forum Post Comments
 				case 'forum_postcomment' :
-					$user_id	= Input::get('userid');
-					$post_id	= Input::get('postid');
-					$content	= app_input_filter(Input::get('content'));
-					$forum_post	= ForumPost::where('id', $post_id)->first();
 
-					// Select post type
-					if(Input::get('type') == 'comments')
-					{
-						$forum_post->updated_at	= Carbon::now();
-						$forum_post->save();
-						// Post comments
-						$comment				= new ForumComments;
-						$comment->post_id		= $post_id;
-						$comment->content		= $content;
-						$comment->user_id		= $user_id;
+					// Determin user block status
+					if(User::find(Input::get('userid'))->block = 1) {
 
-						// Calculate this comment in which floor
-						$comment->floor			= ForumComments::where('post_id', $post_id)->count() + 2;
+						// User is blocked forbidden post
+						return Response::json(
+							array(
+								'status' 		=> 0
+							)
+						);
 
-						if($comment->save())
-						{
-							// Determine sender and receiver
-							if($user_id != $forum_post->user_id) {
-
-								// Retrieve author of post
-								$post_author				= ForumPost::where('id', $post_id)->first();
-
-								// Retrieve forum notifications of post author
-								$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->where('status', 0);
-
-								$unread = $post_author_notifications->count() + 1;
-
-								// Add push notifications for App client to queue
-								Queue::push('ForumQueue', [
-															'target'	=> $post_author->user_id,
-															'action'	=> 6,
-															'from'		=> $user_id,
-
-															// Notification content
-															'content'	=> '有人评论了你的帖子，快去看看吧',
-
-															// Sender user ID
-															'id'		=> $user_id,
-
-															// Count unread notofications of receiver user
-															'unread'	=> $unread
-														]);
-
-								// Create notifications
-								Notifications(6, $user_id, $forum_post->user_id, $forum_post->category_id, $post_id, $comment->id, null);
-							}
-							return Response::json(
-								array(
-									'status'	=> 1
-								)
-							);
-						} else {
-							return Response::json(
-								array(
-									'status'	=> 0
-								)
-							);
-						}
 					} else {
 
-						// Post reply
-						$reply_id			= e(Input::get('replyid'));
-						$comments_id		= e(Input::get('commentid'));
+						$user_id	= Input::get('userid');
+						$post_id	= Input::get('postid');
+						$content	= app_input_filter(Input::get('content'));
+						$forum_post	= ForumPost::where('id', $post_id)->first();
 
-						// Create comments reply
-						$reply				= new ForumReply;
-						$reply->content		= $content;
-						$reply->reply_id	= $reply_id;
-						$reply->comments_id	= $comments_id;
-						$reply->user_id		= $user_id;
-
-						// Calculate this reply in which floor
-						$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1;
-
-						if($reply->save())
+						// Select post type
+						if(Input::get('type') == 'comments')
 						{
+							$forum_post->updated_at	= Carbon::now();
+							$forum_post->save();
+							// Post comments
+							$comment				= new ForumComments;
+							$comment->post_id		= $post_id;
+							$comment->content		= $content;
+							$comment->user_id		= $user_id;
 
-							// Retrieve comments
-							$comment						= ForumComments::where('id', $comments_id)->first();
+							// Calculate this comment in which floor
+							$comment->floor			= ForumComments::where('post_id', $post_id)->count() + 2;
 
-							// Retrieve author of comment
-							$comment_author					= User::where('id', $comment->user_id)->first();
+							if($comment->save())
+							{
+								// Determine sender and receiver
+								if($user_id != $forum_post->user_id) {
 
-							// Retrieve forum notifications of comment author
-							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->where('status', 0);
+									// Retrieve author of post
+									$post_author				= ForumPost::where('id', $post_id)->first();
 
-							$unread = $comment_author_notifications->count() + 1;
+									// Retrieve forum notifications of post author
+									$post_author_notifications	= Notification::where('receiver_id', $post_author->user_id)->whereIn('category', array(6, 7))->where('status', 0);
 
-							// Determine sender and receiver
-							if($user_id != $comment_author->id) {
+									$unread = $post_author_notifications->count() + 1;
 
-								// Add push notifications for App client to queue
-								Queue::push('ForumQueue', [
-															'target'	=> $comment_author->id,
-															// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+									// Add push notifications for App client to queue
+									Queue::push('ForumQueue', [
+																'target'	=> $post_author->user_id,
+																'action'	=> 6,
+																'from'		=> $user_id,
 
-															'action'	=> 7,
-															// Sender user ID
+																// Notification content
+																'content'	=> '有人评论了你的帖子，快去看看吧',
 
-															'from'		=> $user_id,
-															// Notification content
+																// Sender user ID
+																'id'		=> $user_id,
 
-															'content'	=> '有人回复了你的评论，快去看看吧',
-															// Sender user ID
+																// Count unread notofications of receiver user
+																'unread'	=> $unread
+															]);
 
-															'id'		=> $user_id,
-															// Count unread notofications of receiver user
-															'unread'	=> $unread
-														]);
+									// Create notifications
+									Notifications(6, $user_id, $forum_post->user_id, $forum_post->category_id, $post_id, $comment->id, null);
+								}
+								return Response::json(
+									array(
+										'status'	=> 1
+									)
+								);
+							} else {
+								return Response::json(
+									array(
+										'status'	=> 0
+									)
+								);
+							}
+						} else {
 
-								// Create notifications
-								Notifications(7, $user_id, $comment_author->id, $forum_post->category_id, $post_id, $comment->id, $reply->id);
+							// Post reply
+							$reply_id			= e(Input::get('replyid'));
+							$comments_id		= e(Input::get('commentid'));
+
+							// Create comments reply
+							$reply				= new ForumReply;
+							$reply->content		= $content;
+							$reply->reply_id	= $reply_id;
+							$reply->comments_id	= $comments_id;
+							$reply->user_id		= $user_id;
+
+							// Calculate this reply in which floor
+							$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1;
+
+							if($reply->save())
+							{
+
+								// Retrieve comments
+								$comment						= ForumComments::where('id', $comments_id)->first();
+
+								// Retrieve author of comment
+								$comment_author					= User::where('id', $comment->user_id)->first();
+
+								// Retrieve forum notifications of comment author
+								$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->where('status', 0);
+
+								$unread = $comment_author_notifications->count() + 1;
+
+								// Determine sender and receiver
+								if($user_id != $comment_author->id) {
+
+									// Add push notifications for App client to queue
+									Queue::push('ForumQueue', [
+																'target'	=> $comment_author->id,
+																// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+
+																'action'	=> 7,
+																// Sender user ID
+
+																'from'		=> $user_id,
+																// Notification content
+
+																'content'	=> '有人回复了你的评论，快去看看吧',
+																// Sender user ID
+
+																'id'		=> $user_id,
+																// Count unread notofications of receiver user
+																'unread'	=> $unread
+															]);
+
+									// Create notifications
+									Notifications(7, $user_id, $comment_author->id, $forum_post->category_id, $post_id, $comment->id, $reply->id);
+								}
+
+								// Reply success
+								return Response::json(
+									array(
+										'status'	=> 1
+									)
+								);
+							} else {
+								// Reply fail
+								return Response::json(
+									array(
+										'status'	=> 0
+									)
+								);
 							}
 
-							// Reply success
-							return Response::json(
-								array(
-									'status'	=> 1
-								)
-							);
-						} else {
-							// Reply fail
-							return Response::json(
-								array(
-									'status'	=> 0
-								)
-							);
-						}
-
-					} // End of select post type
+						} // End of select post type
+					} // End of determin user block status
 				break;
 
 				// Forum Post New
 
 				case 'forum_postnew' :
 
-					// Create new post
-					$post				= new ForumPost;
-					$post->category_id	= Input::get('catid');
-					$post->user_id		= Input::get('userid');
-					$post->title		= app_input_filter(Input::get('title'));
-					$post->content		= app_input_filter(Input::get('content'));
+					// Determin user block status
+					if(User::find(Input::get('userid'))->block = 1) {
 
-					if($post->save()) {
-						// Create successful
-						return Response::json(
-							array(
-								'status' 		=> 1
-							)
-						);
-					} else {
-						// Create fail
+						// User is blocked forbidden post
 						return Response::json(
 							array(
 								'status' 		=> 0
 							)
 						);
-					}
+
+					} else {
+						// Create new post
+						$post				= new ForumPost;
+						$post->category_id	= Input::get('catid');
+						$post->user_id		= Input::get('userid');
+						$post->title		= app_input_filter(Input::get('title'));
+						$post->content		= app_input_filter(Input::get('content'));
+
+						if($post->save()) {
+							// Create successful
+							return Response::json(
+								array(
+									'status' 		=> 1
+								)
+							);
+						} else {
+							// Create fail
+							return Response::json(
+								array(
+									'status' 		=> 0
+								)
+							);
+						}
+					} // End of determin user block status
 
 				break;
 
