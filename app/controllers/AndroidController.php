@@ -2158,7 +2158,7 @@ class AndroidController extends BaseController
 									'user_id'		=> $author->id,
 
 									// Post comments count
-									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(),
+									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', 0)->get()->count(),
 
 									// Post created date
 									'created_at'	=> $post->created_at->toDateTimeString(),
@@ -2183,6 +2183,7 @@ class AndroidController extends BaseController
 								$comments	= ForumComments::where('post_id', $postid)
 													->orderBy('created_at' , 'asc')
 													->where('id', '<=', $lastRecord->id)
+													->where('block', 0)
 													->select('id', 'user_id', 'content', 'created_at')
 													->take($perpage)
 													->get()
@@ -2212,12 +2213,13 @@ class AndroidController extends BaseController
 									$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 												->select('id', 'user_id', 'content', 'created_at')
 												->orderBy('created_at' , 'asc')
+												->where('block', 0)
 												->take(3)
 												->get()
 												->toArray();
 
 									// Calculate total replies of this post
-									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', 0)->count();
 
 									// Build reply array
 									foreach($replies as $keys => $field) {
@@ -2256,7 +2258,7 @@ class AndroidController extends BaseController
 									'user_id'		=> $author->id,
 
 									// Post comments count
-									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(),
+									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', 0)->get()->count(),
 
 									// Post created date
 									'created_at'	=> $post->created_at->toDateTimeString(),
@@ -2294,6 +2296,7 @@ class AndroidController extends BaseController
 							$comments	= ForumComments::where('post_id', $postid)
 												->orderBy('id' , 'asc')
 												->where('id', '>', $lastid)
+												->where('block', 0)
 												->select('id', 'user_id', 'content', 'created_at')
 												->take($perpage)
 												->get()
@@ -2324,12 +2327,13 @@ class AndroidController extends BaseController
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 											->select('id', 'user_id', 'content', 'created_at')
 											->orderBy('created_at' , 'desc')
+											->where('block', 0)
 											->take(3)
 											->get()
 											->toArray();
 
 								// Calculate total replies of this post
-								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', 0)->count();
 
 								// Build reply array
 								foreach($replies as $keys => $field) {
@@ -2711,6 +2715,7 @@ class AndroidController extends BaseController
 					$replies = ForumReply::where('comments_id', $comment_id)
 									->select('id', 'user_id', 'content', 'created_at')
 									->orderBy('created_at' , 'asc')
+									->where('block', 0)
 									->get()
 									->toArray();
 
@@ -2762,6 +2767,7 @@ class AndroidController extends BaseController
 					$posts		= ForumPost::where('user_id', $user_id)
 									->orderBy('created_at', 'desc')
 									->select('id', 'title', 'created_at')
+									->where('block', 0)
 									->get()
 									->toArray();
 
@@ -2769,7 +2775,7 @@ class AndroidController extends BaseController
 					foreach ($posts as $key => $value) {
 
 						// Query how many comment of this post
-						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->count();
+						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->where('block', 0)->count();
 					}
 
 					// Build format

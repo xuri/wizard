@@ -390,12 +390,11 @@ class AppleController extends BaseController
 						// User last signin at time
 						$last_updated_at	= User::find($last_id)->updated_at;
 
-						//  App client have post last user id, retrieve and skip profile not completed user
+						// App client have post last user id, retrieve and skip profile not completed user
 						$query				= User::whereNotNull('portrait')
 													->whereNotNull('nickname')
 													->whereNotNull('bio')
 													->whereNotNull('school');
-
 						// Ruled out not set tags and select has correct format constellation user
 						$query->whereHas('hasOneProfile', function($hasTagStr) {
 							$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
@@ -1920,7 +1919,7 @@ class AppleController extends BaseController
 											}
 
 											// Retrieve user
-											$post_user						= User::find($items[$key]['user_id']);
+											$post_user						= User::where('id', $items[$key]['user_id'])->first();
 
 											// Get post user portrait real storage path and user porirait key to array
 											$items[$key]['portrait']		= route('home') . '/' . 'portrait/' . $post_user->portrait;
@@ -2152,7 +2151,7 @@ class AppleController extends BaseController
 									'user_id'		=> $author->id,
 
 									// Post comments count
-									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(),
+									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', 0)->get()->count(),
 
 									// Post created date
 									'created_at'	=> $post->created_at->toDateTimeString(),
@@ -2177,6 +2176,7 @@ class AppleController extends BaseController
 								$comments	= ForumComments::where('post_id', $postid)
 													->orderBy('created_at' , 'asc')
 													->where('id', '<=', $lastRecord->id)
+													->where('block', 0)
 													->select('id', 'user_id', 'content', 'created_at')
 													->take($perpage)
 													->get()
@@ -2206,12 +2206,13 @@ class AppleController extends BaseController
 									$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 												->select('id', 'user_id', 'content', 'created_at')
 												->orderBy('created_at' , 'asc')
+												->where('block', 0)
 												->take(3)
 												->get()
 												->toArray();
 
 									// Calculate total replies of this post
-									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', 0)->count();
 
 									// Build reply array
 									foreach($replies as $keys => $field) {
@@ -2250,7 +2251,7 @@ class AppleController extends BaseController
 									'user_id'		=> $author->id,
 
 									// Post comments count
-									'comment_count'	=> ForumComments::where('post_id', $postid)->get()->count(),
+									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', 0)->get()->count(),
 
 									// Post created date
 									'created_at'	=> $post->created_at->toDateTimeString(),
@@ -2288,6 +2289,7 @@ class AppleController extends BaseController
 							$comments	= ForumComments::where('post_id', $postid)
 												->orderBy('id' , 'asc')
 												->where('id', '>', $lastid)
+												->where('block', 0)
 												->select('id', 'user_id', 'content', 'created_at')
 												->take($perpage)
 												->get()
@@ -2318,12 +2320,13 @@ class AppleController extends BaseController
 								$replies = ForumReply::where('comments_id', $comments[$key]['id'])
 											->select('id', 'user_id', 'content', 'created_at')
 											->orderBy('created_at' , 'desc')
+											->where('block', 0)
 											->take(3)
 											->get()
 											->toArray();
 
 								// Calculate total replies of this post
-								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->count();
+								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', 0)->count();
 
 								// Build reply array
 								foreach($replies as $keys => $field) {
@@ -2705,6 +2708,7 @@ class AppleController extends BaseController
 					$replies = ForumReply::where('comments_id', $comment_id)
 									->select('id', 'user_id', 'content', 'created_at')
 									->orderBy('created_at' , 'asc')
+									->where('block', 0)
 									->get()
 									->toArray();
 
@@ -2756,6 +2760,7 @@ class AppleController extends BaseController
 					$posts		= ForumPost::where('user_id', $user_id)
 									->orderBy('created_at', 'desc')
 									->select('id', 'title', 'created_at')
+									->where('block', 0)
 									->get()
 									->toArray();
 
@@ -2763,7 +2768,7 @@ class AppleController extends BaseController
 					foreach ($posts as $key => $value) {
 
 						// Query how many comment of this post
-						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->count();
+						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->where('block', 0)->count();
 					}
 
 					// Build format
