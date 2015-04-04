@@ -13,7 +13,11 @@
 				@endif
 
 				<a href="{{ route('members.show', $data->id) }}">
-					{{ HTML::image('portrait/' . $data->portrait, '', array('class' => 'lu_img')) }}
+					@if(File::exists('portrait/' . $data->portrait) && File::size('portrait/' . $data->portrait) > 0)
+						{{ HTML::image('portrait/' . $data->portrait, '', array('class' => 'lu_img')) }}
+					@else
+						{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('class' => 'lu_img')) }}
+					@endif
 				</a>
 
 				<div class="lu_userMessage">

@@ -27,7 +27,7 @@
 						@else
 						@endif
 						@if($data->portrait)
-							@if (File::exists('portrait/'.$data->portrait))
+							@if (File::exists('portrait/'.$data->portrait) && File::size('portrait/' . $data->portrait) > 0)
 								{{ HTML::image('portrait/'.$data->portrait, '', array('class' => 'pi_userhead lu_left')) }}
 							@else
 								{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('class' => 'pi_userhead lu_left')) }}
