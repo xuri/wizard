@@ -2368,7 +2368,7 @@ class AndroidController extends BaseController
 				case 'forum_postcomment' :
 
 					// Determin user block status
-					if(User::find(Input::get('userid'))->block = 1) {
+					if(User::find(Input::get('userid'))->block == 1) {
 
 						// User is blocked forbidden post
 						return Response::json(
@@ -2520,7 +2520,7 @@ class AndroidController extends BaseController
 				// Forum Post New
 
 				case 'forum_postnew' :
-					if(User::find(Input::get('userid'))->block = 1) {
+					if(User::find(Input::get('userid'))->block == 1) {
 
 						// User is blocked forbidden post
 						return Response::json(

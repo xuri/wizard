@@ -2362,7 +2362,7 @@ class AppleController extends BaseController
 				case 'forum_postcomment' :
 
 					// Determin user block status
-					if(User::find(Input::get('userid'))->block = 1) {
+					if(User::find(Input::get('userid'))->block == 1) {
 
 						// User is blocked forbidden post
 						return Response::json(
@@ -2516,7 +2516,7 @@ class AppleController extends BaseController
 				case 'forum_postnew' :
 
 					// Determin user block status
-					if(User::find(Input::get('userid'))->block = 1) {
+					if(User::find(Input::get('userid'))->block == 1) {
 
 						// User is blocked forbidden post
 						return Response::json(
