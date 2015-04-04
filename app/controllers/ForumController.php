@@ -259,7 +259,7 @@ class ForumController extends BaseController {
 			return Response::json(
 				array(
 					'fail'      => true,
-					'errors'    => array('title' =>  '不好意思，您的账号已被系统锁定，如有疑问请联系客服。');
+					'errors'    => array('title' =>  '不好意思，您的账号已被系统锁定，如有疑问请联系客服。')
 				)
 			);
 		} else {
