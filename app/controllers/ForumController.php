@@ -308,7 +308,7 @@ class ForumController extends BaseController {
 							'post_content'		=> badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200))),
 							'post_id'			=> $post->id,
 							'post_title'		=> htmlentities(Input::get('title')),
-							'post_comments'		=> ForumComments::where('post_id', $post->id)->count(),
+							'post_comments'		=> ForumComments::where('post_id', $post->id)->where('block', false)->count(),
 							'post_thumbnails'	=> $post_thumbnails,
 							'post_created'		=> date("m-d H:m",strtotime($post->created_at))
 						)
@@ -338,7 +338,10 @@ class ForumController extends BaseController {
 	{
 		$data			= ForumPost::where('id', $id)->first();
 		$author			= User::where('id', $data->user_id)->first();
-		$comments		= ForumComments::where('post_id', $id)->orderBy('created_at' , 'asc')->paginate(10);
+		$comments		= ForumComments::where('post_id', $id)
+							->orderBy('created_at' , 'asc')
+							->where('block', false)
+							->paginate(10);
 		$floor			= 2;
 
 		// Get user's profile
@@ -402,7 +405,7 @@ class ForumController extends BaseController {
 					$comment->user_id		= Auth::user()->id;
 
 					// Calculate this comment in which floor
-					$comment->floor			= ForumComments::where('post_id', $id)->count() + 2;
+					$comment->floor			= ForumComments::where('post_id', $id)->where('block', false)->count() + 2;
 
 
 					if($comment->save())
@@ -484,7 +487,7 @@ class ForumController extends BaseController {
 						$reply->reply_id	= Input::get('reply_id');
 						$reply->comments_id	= Input::get('comments_id');
 						$reply->user_id		= Auth::user()->id;
-						$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
+						$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->where('block', false)->count() + 1; // Calculate this reply in which floor
 						if($reply->save())
 						{
 							// Retrieve comments

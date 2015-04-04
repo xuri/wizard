@@ -8,11 +8,17 @@
 		<p>{{ badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($top->content, 200))) }}</p>
 
 		<?php
-			$comments_count	= ForumComments::where('post_id', $top->id)->count();
-			$comments_array	= ForumComments::where('post_id', $top->id)->select('id')->get()->toArray();
+			$comments_count	= ForumComments::where('post_id', $top->id)
+								->where('block', false)
+								->count();
+			$comments_array	= ForumComments::where('post_id', $top->id)
+								->where('block', false)
+								->select('id')
+								->get()
+								->toArray();
 			$replies_count	= 0;
 			foreach ($comments_array as $key => $value) {
-				$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+				$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 			}
 			$comments_and_replies = $comments_count + $replies_count;
 		?>
@@ -49,8 +55,14 @@
 		<a href="{{ route('forum.show', $post->id) }}" target="_blank">{{ badWordsFilter(Str::limit($post->title, 35)) }}</a>
 
 		<?php
-			$comments_count	= ForumComments::where('post_id', $post->id)->count();
-			$comments_array	= ForumComments::where('post_id', $post->id)->select('id')->get()->toArray();
+			$comments_count	= ForumComments::where('post_id', $post->id)
+								->where('block', false)
+								->count();
+			$comments_array	= ForumComments::where('post_id', $post->id)
+								->where('block', false)
+								->select('id')
+								->get()
+								->toArray();
 			$replies_count	= 0;
 			foreach ($comments_array as $key => $value) {
 				$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();

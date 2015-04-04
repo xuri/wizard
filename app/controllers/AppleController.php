@@ -1626,17 +1626,17 @@ class AppleController extends BaseController
 						foreach($items as $key => $field){
 
 							// Count how many comments of this post
-							$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+							$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
 
 							// Retrieve all comments to array
-							$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+							$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->select('id')->get()->toArray();
 
 							// Init replies count
 							$replies_count					= 0;
 
 							// Calculate total replies of this post
 							foreach ($comments_array as $comments_array_key => $value) {
-								$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+								$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 							}
 
 							// Retrieve user
@@ -1702,17 +1702,17 @@ class AppleController extends BaseController
 								foreach($top as $key => $field){
 
 									// Count how many comments of this post
-									$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->count();
+									$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->count();
 
 									// Retrieve all comments to array
-									$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->select('id')->get()->toArray();
+									$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->select('id')->get()->toArray();
 
 									// Init replies count
 									$replies_count					= 0;
 
 									// Calculate total replies of this post
 									foreach ($comments_array as $comments_array_key => $value) {
-										$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+										$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 									}
 
 									// Retrieve user
@@ -1758,17 +1758,17 @@ class AppleController extends BaseController
 								foreach($items as $key => $field){
 
 									// Count how many comments of this post
-									$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+									$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
 
 									// Retrieve all comments to array
-									$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+									$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->select('id')->get()->toArray();
 
 									// Init replies count
 									$replies_count					= 0;
 
 									// Calculate total replies of this post
 									foreach ($comments_array as $comments_array_key => $value) {
-										$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+										$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 									}
 
 									// Retrieve user
@@ -1849,17 +1849,17 @@ class AppleController extends BaseController
 										foreach($top as $key => $field){
 
 											// Count how many comments of this post
-											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->count();
+											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->count();
 
 											// Retrieve all comments to array
-											$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->select('id')->get()->toArray();
+											$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->select('id')->get()->toArray();
 
 											// Init replies count
 											$replies_count					= 0;
 
 											// Calculate total replies of this post
 											foreach ($comments_array as $comments_array_key => $value) {
-												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 											}
 
 											// Retrieve user
@@ -1905,17 +1905,17 @@ class AppleController extends BaseController
 										foreach($items as $key => $field){
 
 											// Count how many comments of this post
-											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
 
 											// Retrieve all comments to array
-											$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+											$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->select('id')->get()->toArray();
 
 											// Init replies count
 											$replies_count					= 0;
 
 											// Calculate total replies of this post
 											foreach ($comments_array as $comments_array_key => $value) {
-												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 											}
 
 											// Retrieve user
@@ -1992,17 +1992,17 @@ class AppleController extends BaseController
 										foreach($top as $key => $field){
 
 											// Count how many comments of this post
-											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->count();
+											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->count();
 
 											// Retrieve all comments to array
-											$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->select('id')->get()->toArray();
+											$comments_array					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->select('id')->get()->toArray();
 
 											// Init replies count
 											$replies_count					= 0;
 
 											// Calculate total replies of this post
 											foreach ($comments_array as $comments_array_key => $value) {
-												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 											}
 
 											// Retrieve user
@@ -2048,17 +2048,17 @@ class AppleController extends BaseController
 										foreach($items as $key => $field){
 
 											// Count how many comments of this post
-											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->count();
+											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
 
 											// Retrieve all comments to array
-											$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->select('id')->get()->toArray();
+											$comments_array					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->select('id')->get()->toArray();
 
 											// Init replies count
 											$replies_count					= 0;
 
 											// Calculate total replies of this post
 											foreach ($comments_array as $comments_array_key => $value) {
-												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->count();
+												$replies_count	= $replies_count + ForumReply::where('comments_id', $value['id'])->where('block', false)->count();
 											}
 
 											// Retrieve user
@@ -2151,7 +2151,7 @@ class AppleController extends BaseController
 									'user_id'		=> $author->id,
 
 									// Post comments count
-									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', 0)->get()->count(),
+									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', false)->get()->count(),
 
 									// Post created date
 									'created_at'	=> $post->created_at->toDateTimeString(),
@@ -2212,7 +2212,7 @@ class AppleController extends BaseController
 												->toArray();
 
 									// Calculate total replies of this post
-									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', 0)->count();
+									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', false)->count();
 
 									// Build reply array
 									foreach($replies as $keys => $field) {
@@ -2251,7 +2251,7 @@ class AppleController extends BaseController
 									'user_id'		=> $author->id,
 
 									// Post comments count
-									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', 0)->get()->count(),
+									'comment_count'	=> ForumComments::where('post_id', $postid)->where('block', false)->get()->count(),
 
 									// Post created date
 									'created_at'	=> $post->created_at->toDateTimeString(),
@@ -2326,7 +2326,7 @@ class AppleController extends BaseController
 											->toArray();
 
 								// Calculate total replies of this post
-								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', 0)->count();
+								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', false)->count();
 
 								// Build reply array
 								foreach($replies as $keys => $field) {
@@ -2393,7 +2393,7 @@ class AppleController extends BaseController
 							$comment->user_id		= $user_id;
 
 							// Calculate this comment in which floor
-							$comment->floor			= ForumComments::where('post_id', $post_id)->count() + 2;
+							$comment->floor			= ForumComments::where('post_id', $post_id)->where('block', false)->count() + 2;
 
 							if($comment->save())
 							{
@@ -2453,7 +2453,7 @@ class AppleController extends BaseController
 							$reply->user_id		= $user_id;
 
 							// Calculate this reply in which floor
-							$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->count() + 1;
+							$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->where('block', false)->count() + 1;
 
 							if($reply->save())
 							{
@@ -2768,14 +2768,14 @@ class AppleController extends BaseController
 					foreach ($posts as $key => $value) {
 
 						// Query how many comment of this post
-						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->where('block', 0)->count();
+						$posts[$key]['comments_count'] = ForumComments::where('post_id', $posts[$key]['id'])->where('block', false)->count();
 					}
 
 					// Build format
 					$data = array(
 							'portrait'		=> route('home') . '/' . 'portrait/' . $user->portrait,
 							'nickname'		=> app_out_filter($user->nickname),
-							'posts_count'	=> ForumPost::where('user_id', $user_id)->count(),
+							'posts_count'	=> ForumPost::where('user_id', $user_id)->where('block', false)->count(),
 							'posts'			=> $posts
 						);
 

@@ -153,7 +153,7 @@
 							<div class="message-other">
 								<div class="o-others">
 									<?php
-										$replies = ForumReply::where('comments_id', $comment->id)->get();
+										$replies = ForumReply::where('comments_id', $comment->id)->where('block', false)->get();
 									?>
 									@foreach($replies as $reply)
 									<?php
