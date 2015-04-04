@@ -259,7 +259,7 @@ class ForumController extends BaseController {
 			return Response::json(
 				array(
 					'fail'      => true,
-					'errors'    => array('title' =>  '不好意思，您的账号已被系统锁定，如有疑问请联系客服。')
+					'errors'    => array('title' => Lang::get('forum/index.block_post'))
 				)
 			);
 		} else {
@@ -367,8 +367,10 @@ class ForumController extends BaseController {
 			// User is blocked forbidden post
 			return Response::json(
 				array(
-					'success'		=> true,
-					'success_info'	=> '不好意思，您的账号已被系统锁定，如有疑问请联系客服。' // Success information
+					'error'			=> true,
+					'error_info'	=> Lang::get('forum/index.block_post'), // Error infrmation
+					'fail'			=> true,
+					'errors'		=> array('content' => Lang::get('forum/index.block_post'))
 				)
 			);
 		} else {
