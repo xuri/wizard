@@ -252,69 +252,78 @@ class ForumController extends BaseController {
 	 */
 	public function postNew()
 	{
-		// Get all form data.
-		$data = Input::all();
-		// Create validation rules
-		$rules = array(
-			'title'		=> 'required|max:30',
-			'content'	=> 'required',
-		);
+		// Determin user block status
+		if(Auth::user()->block == 1) {
 
-		// Custom validation message
-		$messages = array(
-			'title.required'	=> Lang::get('forum/index.title_required'),
-			'title.max'			=> '帖子标题不超过:max个字。',
-			'content.required'	=> Lang::get('forum/index.content_required')
-		);
-
-		// Begin verification
-		$validator		= Validator::make($data, $rules, $messages);
-		if ($validator->passes())
-		{
-			$post				= new ForumPost;
-			$post->category_id	= Input::get('category_id');
-			$post->title		= htmlentities(Input::get('title'));
-			$post->user_id		= Auth::user()->id;
-			$post->content		= Input::get('content');
-			if($post->save())
-			{
-				// Using expression get all picture attachments (Only with pictures stored on this server.)
-				preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $post->content, $match );
-				$thumbnails = join(',', array_pop($match));
-
-				$i = 0;
-				$post_thumbnails = null;
-				foreach($match[0] as $thumbnail){
-					$post_thumbnails = '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>' . $post_thumbnails;
-				$i ++;
-				if($i == 3) break;
-				}
-
-				return Response::json(
-					array(
-						'success'			=> true,
-						'success_info'		=> Lang::get('forum/index.post_success'),
-						'post_content'		=> badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200))),
-						'post_id'			=> $post->id,
-						'post_title'		=> htmlentities(Input::get('title')),
-						'post_comments'		=> ForumComments::where('post_id', $post->id)->count(),
-						'post_thumbnails'	=> $post_thumbnails,
-						'post_created'		=> date("m-d H:m",strtotime($post->created_at))
-					)
-				);
-			} else {
-				return Redirect::back()
+			// User is blocked forbidden post
+			return Redirect::back()
 					->withInput()
-					->with('error', Lang::get('forum/index.post_error'));
-			}
+					->with('error', '不好意思，您的账号已被系统锁定，如有疑问请联系客服。');
 		} else {
-			return Response::json(
-					array(
-						'fail'      => true,
-						'errors'    => $validator->getMessageBag()->toArray()
-					)
-				);
-		}
+			// Get all form data.
+			$data = Input::all();
+			// Create validation rules
+			$rules = array(
+				'title'		=> 'required|max:30',
+				'content'	=> 'required',
+			);
+
+			// Custom validation message
+			$messages = array(
+				'title.required'	=> Lang::get('forum/index.title_required'),
+				'title.max'			=> '帖子标题不超过:max个字。',
+				'content.required'	=> Lang::get('forum/index.content_required')
+			);
+
+			// Begin verification
+			$validator		= Validator::make($data, $rules, $messages);
+			if ($validator->passes())
+			{
+				$post				= new ForumPost;
+				$post->category_id	= Input::get('category_id');
+				$post->title		= htmlentities(Input::get('title'));
+				$post->user_id		= Auth::user()->id;
+				$post->content		= Input::get('content');
+				if($post->save())
+				{
+					// Using expression get all picture attachments (Only with pictures stored on this server.)
+					preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $post->content, $match );
+					$thumbnails = join(',', array_pop($match));
+
+					$i = 0;
+					$post_thumbnails = null;
+					foreach($match[0] as $thumbnail){
+						$post_thumbnails = '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>' . $post_thumbnails;
+					$i ++;
+					if($i == 3) break;
+					}
+
+					return Response::json(
+						array(
+							'success'			=> true,
+							'success_info'		=> Lang::get('forum/index.post_success'),
+							'post_content'		=> badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200))),
+							'post_id'			=> $post->id,
+							'post_title'		=> htmlentities(Input::get('title')),
+							'post_comments'		=> ForumComments::where('post_id', $post->id)->count(),
+							'post_thumbnails'	=> $post_thumbnails,
+							'post_created'		=> date("m-d H:m",strtotime($post->created_at))
+						)
+					);
+				} else {
+					return Redirect::back()
+						->withInput()
+						->with('error', Lang::get('forum/index.post_error'));
+				}
+			} else {
+				return Response::json(
+						array(
+							'fail'      => true,
+							'errors'    => $validator->getMessageBag()->toArray()
+						)
+					);
+			}
+		} // End of determin user block status
 	}
 
 	/**
@@ -349,183 +358,195 @@ class ForumController extends BaseController {
 	 */
 	public function postComment($id)
 	{
-		$forum_post = ForumPost::where('id', $id)->first();
+		// Determin user block status
+		if(Auth::user()->block == 1) {
 
-		// Select post type
-		if(Input::get('type') == 'comments') // Post comments
-		{
-			// Get all form data.
-			$data = Input::all();
-			// Create validation rules
-			$rules = array(
-				'content'	=> 'required',
+			// User is blocked forbidden post
+			return Response::json(
+				array(
+					'error'			=> true,
+					'error_info'	=> Lang::get('forum/index.reply_required') // Error infrmation
+				)
 			);
-			// Custom validation message
-			$messages = array(
-				'content.required'	=> Lang::get('forum/index.comments_required'),
-			);
+		} else {
+			$forum_post = ForumPost::where('id', $id)->first();
 
-			// Begin verification
-			$validator		= Validator::make($data, $rules, $messages);
-			if ($validator->passes())
+			// Select post type
+			if(Input::get('type') == 'comments') // Post comments
 			{
-				$forum_post->updated_at	= Carbon::now();
-				$forum_post->save();
-				$comment				= new ForumComments;
-				$comment->post_id		= $id;
-				$comment->content		= Input::get('content');
-				$comment->user_id		= Auth::user()->id;
-
-				// Calculate this comment in which floor
-				$comment->floor			= ForumComments::where('post_id', $id)->count() + 2;
-
-
-				if($comment->save())
-				{
-					// Determine sender and receiver
-					if(Auth::user()->id != $forum_post->user_id) {
-
-						// Retrieve forum notifications of post author
-						$post_author_notifications	= Notification::where('receiver_id', $forum_post->user_id)->whereIn('category', array(6, 7))->get();
-
-						// Add push notifications for App client to queue
-						Queue::push('ForumQueue', [
-													'target'	=> $forum_post->user_id,
-													'action'	=> 6,
-													'from'		=> Auth::user()->id,
-													// Notification content
-													'content'	=> '有人评论了你的帖子，快去看看吧',
-													// Sender user ID
-													'id'		=> Auth::user()->id,
-													// Count unread notofications of receiver user
-													'unread'	=> $post_author_notifications->count()
-												]);
-
-						// Create notifications
-						Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
-					}
-
-					return Response::json(
-						array(
-							'success'		=> true,
-							'success_info'	=> Lang::get('forum/index.comments_success')
-						)
-					);
-				} else {
-					return Response::json(
-						array(
-							'fail'      => true
-						)
-					);
-				}
-			} else {
-				// Validation fail
-				return Response::json(
-					array(
-						'fail'      => true,
-						'errors'    => $validator->getMessageBag()->toArray()
-					)
+				// Get all form data.
+				$data = Input::all();
+				// Create validation rules
+				$rules = array(
+					'content'	=> 'required',
 				);
-			}
-		} else { // Post reply
+				// Custom validation message
+				$messages = array(
+					'content.required'	=> Lang::get('forum/index.comments_required'),
+				);
 
-			// Get all form data.
-			$data = Input::all();
-
-			// Create validation rules
-			$rules = array(
-				'reply_content'	=> 'required',
-				'reply_id'		=> 'required',
-				'comments_id'	=> 'required'
-			);
-
-			// Custom validation message
-			$messages = array(
-				'reply_content.required'	=> Lang::get('forum/index.reply_required'),
-			);
-
-			// Begin verification
-			$validator		= Validator::make($data, $rules, $messages);
-
-			// Remove default string on reply textarea
-			$reply_content	= str_replace('回复 ' . Input::get('data_nickname') . ':', '', htmlentities(Input::get('reply_content')));
-
-			if($validator->passes())
-			{
-				if($reply_content != null) // Verify again
+				// Begin verification
+				$validator		= Validator::make($data, $rules, $messages);
+				if ($validator->passes())
 				{
-					$reply				= new ForumReply; // Create comments reply
-					$reply->content		= htmlentities(Input::get('reply_content'));
-					$reply->reply_id	= Input::get('reply_id');
-					$reply->comments_id	= Input::get('comments_id');
-					$reply->user_id		= Auth::user()->id;
-					$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
-					if($reply->save())
-					{
-						// Retrieve comments
-						$comment						= ForumComments::where('id', Input::get('comments_id'))->first();
-						// Retrieve author of comment
-						$comment_author					= User::where('id', $comment->user_id)->first();
-						// Retrieve forum notifications of comment author
-						$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+					$forum_post->updated_at	= Carbon::now();
+					$forum_post->save();
+					$comment				= new ForumComments;
+					$comment->post_id		= $id;
+					$comment->content		= Input::get('content');
+					$comment->user_id		= Auth::user()->id;
 
+					// Calculate this comment in which floor
+					$comment->floor			= ForumComments::where('post_id', $id)->count() + 2;
+
+
+					if($comment->save())
+					{
 						// Determine sender and receiver
-						if(Auth::user()->id != $comment_author->id) {
+						if(Auth::user()->id != $forum_post->user_id) {
+
+							// Retrieve forum notifications of post author
+							$post_author_notifications	= Notification::where('receiver_id', $forum_post->user_id)->whereIn('category', array(6, 7))->get();
 
 							// Add push notifications for App client to queue
 							Queue::push('ForumQueue', [
-														'target'	=> $comment_author->id,
-														// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
-														'action'	=> 7,
-														// Sender user ID
+														'target'	=> $forum_post->user_id,
+														'action'	=> 6,
 														'from'		=> Auth::user()->id,
 														// Notification content
-														'content'	=> '有人回复了你的评论，快去看看吧',
+														'content'	=> '有人评论了你的帖子，快去看看吧',
 														// Sender user ID
 														'id'		=> Auth::user()->id,
 														// Count unread notofications of receiver user
-														'unread'	=> $comment_author_notifications->count()
+														'unread'	=> $post_author_notifications->count()
 													]);
 
 							// Create notifications
-							Notifications(7, Auth::user()->id, $comment_author->id, $forum_post->category_id, $id, Input::get('comments_id'), $reply->id);
+							Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
 						}
 
-						// Reply success
 						return Response::json(
 							array(
 								'success'		=> true,
-								'success_info'	=> Lang::get('forum/index.reply_success') // Success information
+								'success_info'	=> Lang::get('forum/index.comments_success')
 							)
 						);
 					} else {
-						// Reply fail
 						return Response::json(
 							array(
-								'error'			=> true,
-								'error_info'	=>Lang::get('forum/index.reply_error') // Error infrmation
+								'fail'      => true
 							)
 						);
 					}
 				} else {
+					// Validation fail
 					return Response::json(
-						// Reply fail
 						array(
-							'error'			=> true,
-							'error_info'	=> Lang::get('forum/index.reply_required') // Error infrmation
+							'fail'      => true,
+							'errors'    => $validator->getMessageBag()->toArray()
 						)
 					);
 				}
-			} else {
-				// Validation fail
-				return Response::json(
-					array(
-						'fail'      => true,
-						'errors'    => $validator->getMessageBag()->toArray() // Error infrmation to array
-					)
+			} else { // Post reply
+
+				// Get all form data.
+				$data = Input::all();
+
+				// Create validation rules
+				$rules = array(
+					'reply_content'	=> 'required',
+					'reply_id'		=> 'required',
+					'comments_id'	=> 'required'
 				);
-			} // End of post reply
-		} // End of select post type
-	} // End of postComments
+
+				// Custom validation message
+				$messages = array(
+					'reply_content.required'	=> Lang::get('forum/index.reply_required'),
+				);
+
+				// Begin verification
+				$validator		= Validator::make($data, $rules, $messages);
+
+				// Remove default string on reply textarea
+				$reply_content	= str_replace('回复 ' . Input::get('data_nickname') . ':', '', htmlentities(Input::get('reply_content')));
+
+				if($validator->passes())
+				{
+					if($reply_content != null) // Verify again
+					{
+						$reply				= new ForumReply; // Create comments reply
+						$reply->content		= htmlentities(Input::get('reply_content'));
+						$reply->reply_id	= Input::get('reply_id');
+						$reply->comments_id	= Input::get('comments_id');
+						$reply->user_id		= Auth::user()->id;
+						$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->count() + 1; // Calculate this reply in which floor
+						if($reply->save())
+						{
+							// Retrieve comments
+							$comment						= ForumComments::where('id', Input::get('comments_id'))->first();
+							// Retrieve author of comment
+							$comment_author					= User::where('id', $comment->user_id)->first();
+							// Retrieve forum notifications of comment author
+							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+
+							// Determine sender and receiver
+							if(Auth::user()->id != $comment_author->id) {
+
+								// Add push notifications for App client to queue
+								Queue::push('ForumQueue', [
+															'target'	=> $comment_author->id,
+															// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+															'action'	=> 7,
+															// Sender user ID
+															'from'		=> Auth::user()->id,
+															// Notification content
+															'content'	=> '有人回复了你的评论，快去看看吧',
+															// Sender user ID
+															'id'		=> Auth::user()->id,
+															// Count unread notofications of receiver user
+															'unread'	=> $comment_author_notifications->count()
+														]);
+
+								// Create notifications
+								Notifications(7, Auth::user()->id, $comment_author->id, $forum_post->category_id, $id, Input::get('comments_id'), $reply->id);
+							}
+
+							// Reply success
+							return Response::json(
+								array(
+									'success'		=> true,
+									'success_info'	=> Lang::get('forum/index.reply_success') // Success information
+								)
+							);
+						} else {
+							// Reply fail
+							return Response::json(
+								array(
+									'error'			=> true,
+									'error_info'	=>Lang::get('forum/index.reply_error') // Error infrmation
+								)
+							);
+						}
+					} else {
+						return Response::json(
+							// Reply fail
+							array(
+								'error'			=> true,
+								'error_info'	=> Lang::get('forum/index.reply_required') // Error infrmation
+							)
+						);
+					}
+				} else {
+					// Validation fail
+					return Response::json(
+						array(
+							'fail'      => true,
+							'errors'    => $validator->getMessageBag()->toArray() // Error infrmation to array
+						)
+					);
+				} // End of post reply
+			} // End of select post type
+		} // End of postComments
+	} // End of determin user block status
 
 }

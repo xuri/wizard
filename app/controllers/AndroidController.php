@@ -2520,6 +2520,8 @@ class AndroidController extends BaseController
 				// Forum Post New
 
 				case 'forum_postnew' :
+
+					// Determin user block status
 					if(User::find(Input::get('userid'))->block == 1) {
 
 						// User is blocked forbidden post
@@ -2552,7 +2554,7 @@ class AndroidController extends BaseController
 								)
 							);
 						}
-					}
+					} // End of determin user block status
 
 				break;
 
