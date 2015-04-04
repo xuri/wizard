@@ -41,4 +41,6 @@ return array(
 
 	"phone"				=> "手机",
 
+	"summary"			=> "摘要",
+
 );

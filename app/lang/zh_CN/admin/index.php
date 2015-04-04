@@ -32,4 +32,5 @@ return array(
 	"users_analytics_charts"	=> "注册用户数据分析趋势图",
 
 	"total"						=> "总用户",
+
 );

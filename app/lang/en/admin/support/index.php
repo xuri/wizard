@@ -41,4 +41,5 @@ return array(
 
 	"phone"				=> "Phone",
 
+	"summary"			=> "Summary",
 );
