@@ -2989,7 +2989,7 @@ class AndroidController extends BaseController
 				case 'support' :
 					$support			= new Support;
 					$support->user_id 	= Input::get('id');
-					$support->content	= app_input_filter(Input::get('content'));
+					$support->content	= strip_tags(Input::get('content'));
 					if($support->save()) {
 						return Response::json(
 							array(
