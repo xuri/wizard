@@ -758,6 +758,10 @@ class Admin_UserResource extends BaseResource
 
 				}
 
+				// Rand created time
+				$m_rand_timestamp		= rand(strtotime('-20 day'), strtotime('-10 day'));
+				$m_date					= date('Y-m-d H:i:s', $m_rand_timestamp);
+
 				// Verification success, add user
 				$m_user					= new User;
 				$m_user->phone			= $m_phone;
@@ -768,16 +772,21 @@ class Admin_UserResource extends BaseResource
 				$m_user->sex			= 'M';
 				$m_user->is_admin		= (int)Input::get('is_admin', 0);
 				$m_user->is_verify		= (int)Input::get('is_verify', 0);
+				$m_user->created_at		= $m_date;
+				$m_user->updated_at		= $m_date;
+				$m_user->activated_at	= $m_date;
 				$m_user->save();
 
 				// Create user profile
 				$m_profile				= new Profile;
 				$m_profile->user_id		= (int)$m_user->id;
+				$m_profile->created_at	= $m_date;
+				$m_profile->updated_at	= $m_date;
 				$m_profile->save();
 
 				// Register user in easemob IM system
 				Queue::push('AddUserQueue', [
-								'username'	=> $m_user->id,
+								'username'    => $m_user->id,
 								'password'	=> $m_user->password,
 							]);
 
@@ -818,6 +827,10 @@ class Admin_UserResource extends BaseResource
 					}
 				}
 
+				// Rand created time
+				$f_rand_timestamp		= rand(strtotime('-20 day'), strtotime('-10 day'));
+				$f_date					= date('Y-m-d H:i:s', $f_rand_timestamp);
+
 				// Verification success, add user
 				$f_user					= new User;
 				$f_user->phone			= $f_phone;
@@ -828,11 +841,16 @@ class Admin_UserResource extends BaseResource
 				$f_user->sex			= 'F';
 				$f_user->is_admin		= (int)Input::get('is_admin', 0);
 				$f_user->is_verify		= (int)Input::get('is_verify', 0);
+				$f_user->created_at		= $f_date;
+				$f_user->updated_at		= $f_date;
+				$f_user->activated_at	= $f_date;
 				$f_user->save();
 
 				// Create user profile
 				$f_profile				= new Profile;
 				$f_profile->user_id		= (int)$f_user->id;
+				$f_profile->created_at	= $f_date;
+				$f_profile->updated_at	= $f_date;
 				$f_profile->save();
 
 				// Register user in easemob IM system
