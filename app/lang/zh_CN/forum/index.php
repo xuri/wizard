@@ -44,4 +44,7 @@ return array(
 	"reply_error"		=> "回复失败，请重试。",
 
 	"block_post"		=> "不好意思，您的账号已被系统锁定，如有疑问请联系客服。",
+
+	"repeat_post"		=> "请不要重复发帖。",
+
 );

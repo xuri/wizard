@@ -44,4 +44,7 @@ return array(
 	"reply_error"		=> "Reply fail, please try again.",
 
 	"block_post"		=> "Sorry, your account has been locked by the system, if in doubt please contact customer service.",
+
+	"repeat_post"		=> "Please do not repeat post.",
+
 );

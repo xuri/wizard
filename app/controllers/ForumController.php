@@ -282,41 +282,60 @@ class ForumController extends BaseController {
 			$validator		= Validator::make($data, $rules, $messages);
 			if ($validator->passes())
 			{
-				$post				= new ForumPost;
-				$post->category_id	= Input::get('category_id');
-				$post->title		= htmlentities(Input::get('title'));
-				$post->user_id		= Auth::user()->id;
-				$post->content		= Input::get('content');
-				if($post->save())
-				{
-					// Using expression get all picture attachments (Only with pictures stored on this server.)
-					preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $post->content, $match );
-					$thumbnails = join(',', array_pop($match));
+				// Determin repeat post
+				$posts_exist = ForumPost::where('user_id', Auth::user()->id)
+								->where('title', htmlentities(Input::get('title')))
+								->where('category_id', Input::get('category_id'))
+								->where('content', Input::get('content'))
+								->where('created_at', '>=', Carbon::today())
+								->count();
 
-					$i = 0;
-					$post_thumbnails = null;
-					foreach($match[0] as $thumbnail){
-						$post_thumbnails = '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>' . $post_thumbnails;
-					$i ++;
-					if($i == 3) break;
-					}
+				if($posts_exist >= 1) {
 
+					// User repeat post
 					return Response::json(
 						array(
-							'success'			=> true,
-							'success_info'		=> Lang::get('forum/index.post_success'),
-							'post_content'		=> badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200))),
-							'post_id'			=> $post->id,
-							'post_title'		=> htmlentities(Input::get('title')),
-							'post_comments'		=> ForumComments::where('post_id', $post->id)->where('block', false)->count(),
-							'post_thumbnails'	=> $post_thumbnails,
-							'post_created'		=> date("m-d H:m",strtotime($post->created_at))
+							'fail'      => true,
+							'errors'    => array('title' => Lang::get('forum/index.repeat_post'))
 						)
 					);
 				} else {
-					return Redirect::back()
-						->withInput()
-						->with('error', Lang::get('forum/index.post_error'));
+					$post				= new ForumPost;
+					$post->category_id	= Input::get('category_id');
+					$post->title		= htmlentities(Input::get('title'));
+					$post->user_id		= Auth::user()->id;
+					$post->content		= Input::get('content');
+					if($post->save())
+					{
+						// Using expression get all picture attachments (Only with pictures stored on this server.)
+						preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $post->content, $match );
+						$thumbnails = join(',', array_pop($match));
+
+						$i = 0;
+						$post_thumbnails = null;
+						foreach($match[0] as $thumbnail){
+							$post_thumbnails = '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>' . $post_thumbnails;
+						$i ++;
+						if($i == 3) break;
+						}
+
+						return Response::json(
+							array(
+								'success'			=> true,
+								'success_info'		=> Lang::get('forum/index.post_success'),
+								'post_content'		=> badWordsFilter(str_ireplace("\n", '', getplaintextintrofromhtml($post->content, 200))),
+								'post_id'			=> $post->id,
+								'post_title'		=> htmlentities(Input::get('title')),
+								'post_comments'		=> ForumComments::where('post_id', $post->id)->where('block', false)->count(),
+								'post_thumbnails'	=> $post_thumbnails,
+								'post_created'		=> date("m-d H:m",strtotime($post->created_at))
+							)
+						);
+					} else {
+						return Redirect::back()
+							->withInput()
+							->with('error', Lang::get('forum/index.post_error'));
+					}
 				}
 			} else {
 				return Response::json(
