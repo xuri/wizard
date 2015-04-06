@@ -433,9 +433,9 @@ class Admin_UserResource extends BaseResource
 		if (is_null($data)) {
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
 		} elseif ($data->save()){
-			ForumPost::where('user_id', Input::get('id'))->update(array('block' => 1));
-			ForumComments::where('user_id', Input::get('id'))->update(array('block' => 1));
-			ForumReply::where('user_id', Input::get('id'))->update(array('block' => 1));
+			DB::table('forum_posts')->where('user_id', Input::get('id'))->update(array('block' => 1));
+			DB::table('forum_comments')->where('user_id', Input::get('id'))->update(array('block' => 1));
+			DB::table('forum_reply')->where('user_id', Input::get('id'))->update(array('block' => 1));
 			return Redirect::back()->with('success', $this->resourceName.'锁定成功。');
 		} else{
 			return Redirect::back()->with('warning', $this->resourceName.'锁定失败。');
@@ -456,9 +456,9 @@ class Admin_UserResource extends BaseResource
 			return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
 		}
 		elseif ($data->save()){
-			ForumPost::where('user_id', Input::get('id'))->update(array('block' => 0));
-			ForumComments::where('user_id', Input::get('id'))->update(array('block' => 0));
-			ForumReply::where('user_id', Input::get('id'))->update(array('block' => 0));
+			DB::table('forum_posts')->where('user_id', Input::get('id'))->update(array('block' => 0));
+			DB::table('forum_comments')->where('user_id', Input::get('id'))->update(array('block' => 0));
+			DB::table('forum_reply')->where('user_id', Input::get('id'))->update(array('block' => 0));
 			return Redirect::back()->with('success', $this->resourceName.'解锁成功。');
 		} else{
 			return Redirect::back()->with('warning', $this->resourceName.'解锁失败。');
@@ -600,6 +600,9 @@ class Admin_UserResource extends BaseResource
 				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
 				$all_notify	= true;
 				$datas		= $query->paginate(10);
+
+				return View::make($this->resourceView . '.isnotify')->with(compact('datas', 'all_notify'));
+
 			} elseif ($is_notify == '0') {
 
 				// All not notify add friend requests
@@ -613,6 +616,8 @@ class Admin_UserResource extends BaseResource
 				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
 				$all_notify	= false;
 				$datas		= $query->orderBy($orderColumn, $direction)->get();
+
+				return View::make($this->resourceView . '.isnotify')->with(compact('datas', 'all_notify'));
 			}
 
 		} else {
