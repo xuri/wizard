@@ -47,4 +47,8 @@ return array(
 
 	"repeat_post"		=> "请不要重复发帖。",
 
+	"repeat_comment"	=> "请不要重复评论。",
+
+	"repeat_reply"		=> "请不要重复回复。",
+
 );

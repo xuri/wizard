@@ -416,55 +416,74 @@ class ForumController extends BaseController {
 				$validator		= Validator::make($data, $rules, $messages);
 				if ($validator->passes())
 				{
-					$forum_post->updated_at	= Carbon::now();
-					$forum_post->save();
-					$comment				= new ForumComments;
-					$comment->post_id		= $id;
-					$comment->content		= Input::get('content');
-					$comment->user_id		= Auth::user()->id;
+					// Determin repeat comment
+					$comment_exist = ForumComments::where('user_id', Auth::user()->id)
+									->where('post_id', $id)
+									->where('content', Input::get('content'))
+									->where('created_at', '>=', Carbon::today())
+									->count();
 
-					// Calculate this comment in which floor
-					$comment->floor			= ForumComments::where('post_id', $id)->where('block', false)->count() + 2;
+					if($comment_exist >= 1) {
 
-
-					if($comment->save())
-					{
-						// Determine sender and receiver
-						if(Auth::user()->id != $forum_post->user_id) {
-
-							// Retrieve forum notifications of post author
-							$post_author_notifications	= Notification::where('receiver_id', $forum_post->user_id)->whereIn('category', array(6, 7))->get();
-
-							// Add push notifications for App client to queue
-							Queue::push('ForumQueue', [
-														'target'	=> $forum_post->user_id,
-														'action'	=> 6,
-														'from'		=> Auth::user()->id,
-														// Notification content
-														'content'	=> '有人评论了你的帖子，快去看看吧',
-														// Sender user ID
-														'id'		=> Auth::user()->id,
-														// Count unread notofications of receiver user
-														'unread'	=> $post_author_notifications->count()
-													]);
-
-							// Create notifications
-							Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
-						}
-
+						// Rpeat comment
 						return Response::json(
 							array(
-								'success'		=> true,
-								'success_info'	=> Lang::get('forum/index.comments_success')
+								'fail'		=> true,
+								'errors'	=> array('content' => Lang::get('forum/index.repeat_comment')) // Error infrmation
 							)
 						);
+
 					} else {
-						return Response::json(
-							array(
-								'fail'      => true
-							)
-						);
-					}
+						$forum_post->updated_at	= Carbon::now();
+						$forum_post->save();
+						$comment				= new ForumComments;
+						$comment->post_id		= $id;
+						$comment->content		= Input::get('content');
+						$comment->user_id		= Auth::user()->id;
+
+						// Calculate this comment in which floor
+						$comment->floor			= ForumComments::where('post_id', $id)->where('block', false)->count() + 2;
+
+
+						if($comment->save())
+						{
+							// Determine sender and receiver
+							if(Auth::user()->id != $forum_post->user_id) {
+
+								// Retrieve forum notifications of post author
+								$post_author_notifications	= Notification::where('receiver_id', $forum_post->user_id)->whereIn('category', array(6, 7))->get();
+
+								// Add push notifications for App client to queue
+								Queue::push('ForumQueue', [
+															'target'	=> $forum_post->user_id,
+															'action'	=> 6,
+															'from'		=> Auth::user()->id,
+															// Notification content
+															'content'	=> '有人评论了你的帖子，快去看看吧',
+															// Sender user ID
+															'id'		=> Auth::user()->id,
+															// Count unread notofications of receiver user
+															'unread'	=> $post_author_notifications->count()
+														]);
+
+								// Create notifications
+								Notifications(6, Auth::user()->id, $forum_post->user_id, $forum_post->category_id, $id, $comment->id, null);
+							}
+
+							return Response::json(
+								array(
+									'success'		=> true,
+									'success_info'	=> Lang::get('forum/index.comments_success')
+								)
+							);
+						} else {
+							return Response::json(
+								array(
+									'fail'      => true
+								)
+							);
+						}
+					} // End of repeat comment check
 				} else {
 					// Validation fail
 					return Response::json(
@@ -501,59 +520,79 @@ class ForumController extends BaseController {
 				{
 					if($reply_content != null) // Verify again
 					{
-						$reply				= new ForumReply; // Create comments reply
-						$reply->content		= htmlentities(Input::get('reply_content'));
-						$reply->reply_id	= Input::get('reply_id');
-						$reply->comments_id	= Input::get('comments_id');
-						$reply->user_id		= Auth::user()->id;
-						$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->where('block', false)->count() + 1; // Calculate this reply in which floor
-						if($reply->save())
-						{
-							// Retrieve comments
-							$comment						= ForumComments::where('id', Input::get('comments_id'))->first();
-							// Retrieve author of comment
-							$comment_author					= User::where('id', $comment->user_id)->first();
-							// Retrieve forum notifications of comment author
-							$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+						// Determin repeat reply
+						$reply_exist = ForumReply::where('user_id', Auth::user()->id)
+										->where('reply_id', Input::get('reply_id'))
+										->where('comments_id', Input::get('comments_id'))
+										->where('content', htmlentities(Input::get('reply_content')))
+										->where('created_at', '>=', Carbon::today())
+										->count();
 
-							// Determine sender and receiver
-							if(Auth::user()->id != $comment_author->id) {
+						if($reply_exist >= 1) {
 
-								// Add push notifications for App client to queue
-								Queue::push('ForumQueue', [
-															'target'	=> $comment_author->id,
-															// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
-															'action'	=> 7,
-															// Sender user ID
-															'from'		=> Auth::user()->id,
-															// Notification content
-															'content'	=> '有人回复了你的评论，快去看看吧',
-															// Sender user ID
-															'id'		=> Auth::user()->id,
-															// Count unread notofications of receiver user
-															'unread'	=> $comment_author_notifications->count()
-														]);
-
-								// Create notifications
-								Notifications(7, Auth::user()->id, $comment_author->id, $forum_post->category_id, $id, Input::get('comments_id'), $reply->id);
-							}
-
-							// Reply success
-							return Response::json(
-								array(
-									'success'		=> true,
-									'success_info'	=> Lang::get('forum/index.reply_success') // Success information
-								)
-							);
-						} else {
-							// Reply fail
+							// Rpeat reply
 							return Response::json(
 								array(
 									'error'			=> true,
-									'error_info'	=> Lang::get('forum/index.reply_error') // Error infrmation
+									'error_info'	=> Lang::get('forum/index.repeat_reply') // Error infrmation
 								)
 							);
-						}
+
+						} else {
+							$reply				= new ForumReply; // Create comments reply
+							$reply->content		= htmlentities(Input::get('reply_content'));
+							$reply->reply_id	= Input::get('reply_id');
+							$reply->comments_id	= Input::get('comments_id');
+							$reply->user_id		= Auth::user()->id;
+							$reply->floor		= ForumReply::where('comments_id', Input::get('comments_id'))->where('block', false)->count() + 1; // Calculate this reply in which floor
+							if($reply->save())
+							{
+								// Retrieve comments
+								$comment						= ForumComments::where('id', Input::get('comments_id'))->first();
+								// Retrieve author of comment
+								$comment_author					= User::where('id', $comment->user_id)->first();
+								// Retrieve forum notifications of comment author
+								$comment_author_notifications	= Notification::where('receiver_id', $comment_author->id)->whereIn('category', array(6, 7))->get();
+
+								// Determine sender and receiver
+								if(Auth::user()->id != $comment_author->id) {
+
+									// Add push notifications for App client to queue
+									Queue::push('ForumQueue', [
+																'target'	=> $comment_author->id,
+																// category = 7 Some user reply your comments in forum (Get more info from app/controllers/MemberController.php)
+																'action'	=> 7,
+																// Sender user ID
+																'from'		=> Auth::user()->id,
+																// Notification content
+																'content'	=> '有人回复了你的评论，快去看看吧',
+																// Sender user ID
+																'id'		=> Auth::user()->id,
+																// Count unread notofications of receiver user
+																'unread'	=> $comment_author_notifications->count()
+															]);
+
+									// Create notifications
+									Notifications(7, Auth::user()->id, $comment_author->id, $forum_post->category_id, $id, Input::get('comments_id'), $reply->id);
+								}
+
+								// Reply success
+								return Response::json(
+									array(
+										'success'		=> true,
+										'success_info'	=> Lang::get('forum/index.reply_success') // Success information
+									)
+								);
+							} else {
+								// Reply fail
+								return Response::json(
+									array(
+										'error'			=> true,
+										'error_info'	=> Lang::get('forum/index.reply_error') // Error infrmation
+									)
+								);
+							}
+						} // End of repeat reply check
 					} else {
 						return Response::json(
 							// Reply fail

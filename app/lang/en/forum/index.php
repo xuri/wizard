@@ -47,4 +47,8 @@ return array(
 
 	"repeat_post"		=> "Please do not repeat post.",
 
+	"repeat_comment"	=> "Please do not repeat comment.",
+
+	"repeat_reply"		=> "Please do not repeat reply.",
+
 );
