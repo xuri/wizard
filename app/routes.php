@@ -233,11 +233,12 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|i
 	Route::group(array('prefix' => 'support'), function () {
 		$resource   = 'admin.support';
 		$controller = 'Admin_SupportResource@';
-		Route::get(  		     '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'   	 ));
-		Route::get(  	'/show/{id}', array('as' => $resource.'.show'    , 'uses' => $controller.'show'   	 ));
-		Route::get(     '/read/{id}', array('as' => $resource.'.read'    , 'uses' => $controller.'read'		 ));
-		Route::get(   '/unread/{id}', array('as' => $resource.'.unread'  , 'uses' => $controller.'unread' 	 ));
-		Route::delete(		  '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'	 ));
+		Route::get(  		     '/', array('as' => $resource.'.index'   	, 'uses' => $controller.'index'   	 ));
+		Route::get(  	'/promotion', array('as' => $resource.'.promotion'  , 'uses' => $controller.'promotion'  ));
+		Route::get(  	'/show/{id}', array('as' => $resource.'.show'    	, 'uses' => $controller.'show'   	 ));
+		Route::get(     '/read/{id}', array('as' => $resource.'.read'    	, 'uses' => $controller.'read'		 ));
+		Route::get(   '/unread/{id}', array('as' => $resource.'.unread'  	, 'uses' => $controller.'unread' 	 ));
+		Route::delete(		  '{id}', array('as' => $resource.'.destroy' 	, 'uses' => $controller.'destroy'	 ));
 	});
 
 	# University Management

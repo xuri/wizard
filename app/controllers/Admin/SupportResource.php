@@ -167,4 +167,54 @@ class Admin_SupportResource extends BaseResource
 			return Redirect::back()->with('warning', $this->resourceName.'删除失败。');
 		}
 	}
+
+	/**
+	 * Resource promotion action
+	 * GET      /resource/promotion
+	 * @return Response
+	 */
+	public function promotion()
+	{
+		// Query all support content is 3 or 4 digits with complete profile user
+		$completeProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+									->groupBy('user_id')
+									->whereHas('hasOneUser', function($hasProfile) {
+										$hasProfile->whereNotNull('school')
+												->whereNotNull('bio')
+												->whereNotNull('portrait')
+												->whereNotNull('born_year');
+										})
+									->get()
+									->toArray();
+
+		// Foreach new array from query result array content key
+		foreach($completeProfileUser as $completeProfileUserKey => $completeProfileUserItem){
+			$completeProfileUserArray[$completeProfileUserKey] =  $completeProfileUserItem['content'];
+		}
+
+		// Remove duplicate keys in array
+		$completeProfileUserList = array_unique($completeProfileUserArray);
+
+		// Query all support content is 3 or 4 digits with uncomplete profile user
+		$uncompleteProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+									->groupBy('user_id')
+									->whereHas('hasOneUser', function($hasUncompleteProfile) {
+										$hasUncompleteProfile->whereNull('school')
+												->whereNull('bio')
+												->whereNull('portrait')
+												->whereNull('born_year');
+										})
+									->get()
+									->toArray();
+
+		// Foreach new array from query result array content key
+		foreach($uncompleteProfileUser as $uncompleteProfileUserKey => $uncompleteProfileUserItem){
+			$uncompleteProfileUserArray[$uncompleteProfileUserKey] =  $uncompleteProfileUserItem['content'];
+		}
+
+		// Remove duplicate keys in array
+		$uncompleteProfileUserList = array_unique($uncompleteProfileUserArray);
+
+		return View::make($this->resourceView . '.promotion')->with(compact('completeProfileUserList', 'uncompleteProfileUserList'));
+	}
 }

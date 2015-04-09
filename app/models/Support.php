@@ -36,4 +36,8 @@ class Support extends BaseModel
      */
     protected $table = 'support';
 
+    public function hasOneUser()
+    {
+        return $this->hasOne('User', 'id', 'user_id', 'grade');
+    }
 }

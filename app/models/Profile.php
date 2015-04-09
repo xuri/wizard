@@ -40,4 +40,9 @@ class Profile extends BaseModel
 	{
 		return $this->belongsToMany('User', 'user_id', 'id');
 	}
+
+	public function belongsToSupport()
+	{
+		return $this->belongsToMany('User', 'user_id', 'id');
+	}
 }

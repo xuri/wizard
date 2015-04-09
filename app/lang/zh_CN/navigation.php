@@ -87,6 +87,10 @@ return array(
 
 	"admin_news_post"				=> "文章管理",
 
-	"admin_support_management"		=> "反馈管理",
+	"admin_support_management"		=> "反馈和推广",
+
+	"admin_feedback_management"		=> "反馈管理",
+
+	"admin_promotion_management"	=> "推广分析",
 
 );

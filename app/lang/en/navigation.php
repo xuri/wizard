@@ -87,5 +87,10 @@ return array(
 
 	"admin_news_post"				=> "Posts Management",
 
-	"admin_support_management"		=> "Feedback Management",
+	"admin_support_management"		=> "Feedback & Promotion",
+
+	"admin_feedback_management"		=> "Feedback Management",
+
+	"admin_promotion_management"	=> "Promotion Management",
+
 );

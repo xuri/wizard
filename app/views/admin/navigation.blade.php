@@ -122,7 +122,15 @@
 					</ul>
 				</li>
 				<li>
-					<a href="{{ route('admin.support.index') }}"><i class="fa fa-support fa-fw"></i> {{ Lang::get('navigation.admin_support_management') }}</a>
+					<a href="javascript:void();"><i class="fa fa-support fa-fw"></i> {{ Lang::get('navigation.admin_support_management') }}<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="{{ route('admin.support.index') }}">{{ Lang::get('navigation.admin_feedback_management') }}</a>
+						</li>
+						<li>
+							<a href="{{ route('admin.support.promotion') }}">{{ Lang::get('navigation.admin_promotion_management') }}</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a href="#"><i class="fa fa-list fa-fw"></i> {{ Lang::get('navigation.navigation') }}<span class="fa arrow"></span></a>
