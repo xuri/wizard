@@ -177,6 +177,7 @@ class Admin_SupportResource extends BaseResource
 	{
 		// Query all support content is 3 or 4 digits with complete profile user
 		$completeProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+									->orderBy('content')
 									->groupBy('user_id')
 									->whereHas('hasOneUser', function($hasProfile) {
 										$hasProfile->whereNotNull('school')
@@ -195,6 +196,7 @@ class Admin_SupportResource extends BaseResource
 
 		// Query all support content is 3 or 4 digits with uncomplete profile user
 		$uncompleteProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+									->orderBy('content')
 									->groupBy('user_id')
 									->whereHas('hasOneUser', function($hasUncompleteProfile) {
 										$hasUncompleteProfile->orWhereNull('school')
