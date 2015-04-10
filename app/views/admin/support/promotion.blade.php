@@ -35,7 +35,17 @@
 								@foreach ($completeProfileUserList as $completeProfileUserListKey => $completeProfileUserListVaule)
 								<tr class="odd gradeX">
 									<td>{{ $completeProfileUserList[$completeProfileUserListKey] }}</td>
-									<td>{{ Support::whereRaw("content regexp '^[0-9]{3,4}$'")->groupBy('user_id')->where('content', $completeProfileUserList[$completeProfileUserListKey])->count() }}</td>
+									<td>{{ Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+										->where('content', $completeProfileUserList[$completeProfileUserListKey])
+										->whereHas('hasOneUser', function($hasUncompleteProfile) {
+										$hasUncompleteProfile->whereNotNull('school')
+												->whereNotNull('bio')
+												->whereNotNull('portrait')
+												->whereNotNull('born_year');
+										})
+										->distinct()
+										->get(array('user_id'))
+										->count() }}</td>
 								</tr>
 								@endforeach
 							</tbody>
@@ -62,7 +72,17 @@
 								@foreach ($uncompleteProfileUserList as $uncompleteProfileUserListKey => $uncompleteProfileUserListVaule)
 								<tr class="odd gradeX">
 									<td>{{ $uncompleteProfileUserList[$uncompleteProfileUserListKey] }}</td>
-									<td>{{ Support::whereRaw("content regexp '^[0-9]{3,4}$'")->groupBy('user_id')->where('content', $uncompleteProfileUserList[$uncompleteProfileUserListKey])->count() }}</td>
+									<td>{{ Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+										->where('content', $uncompleteProfileUserList[$uncompleteProfileUserListKey])
+										->whereHas('hasOneUser', function($hasUncompleteProfile) {
+										$hasUncompleteProfile->whereNull('school')
+												->whereNull('bio')
+												->whereNull('portrait')
+												->whereNull('born_year');
+										})
+										->distinct()
+										->get(array('user_id'))
+										->count() }}</td>
 								</tr>
 								@endforeach
 							</tbody>
