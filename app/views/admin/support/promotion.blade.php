@@ -74,14 +74,19 @@
 									<td>{{ $uncompleteProfileUserList[$uncompleteProfileUserListKey] }}</td>
 									<td>{{ Support::whereRaw("content regexp '^[0-9]{3,4}$'")
 										->where('content', $uncompleteProfileUserList[$uncompleteProfileUserListKey])
-										->whereHas('hasOneUser', function($hasUncompleteProfile) {
-										$hasUncompleteProfile->orWhereNull('school')
-												->orWhereNull('portrait')
-												->orWhereNull('born_year');
-										})
 										->distinct()
 										->get(array('user_id'))
-										->count() }}</td>
+										->count() -
+										Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+											->where('content', $uncompleteProfileUserList[$uncompleteProfileUserListKey])
+											->whereHas('hasOneUser', function($hasUncompleteProfile) {
+											$hasUncompleteProfile->whereNotNull('school')
+													->whereNotNull('portrait')
+													->whereNotNull('born_year');
+											})
+											->distinct()
+											->get(array('user_id'))
+											->count() }}</td>
 								</tr>
 								@endforeach
 							</tbody>
