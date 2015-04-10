@@ -75,10 +75,9 @@
 									<td>{{ Support::whereRaw("content regexp '^[0-9]{3,4}$'")
 										->where('content', $uncompleteProfileUserList[$uncompleteProfileUserListKey])
 										->whereHas('hasOneUser', function($hasUncompleteProfile) {
-										$hasUncompleteProfile->whereNull('school')
-												->whereNull('bio')
-												->whereNull('portrait')
-												->whereNull('born_year');
+										$hasUncompleteProfile->orWhereNull('school')
+												->orWhereNull('portrait')
+												->orWhereNull('born_year');
 										})
 										->distinct()
 										->get(array('user_id'))

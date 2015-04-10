@@ -180,9 +180,7 @@ class Admin_SupportResource extends BaseResource
 									->groupBy('user_id')
 									->whereHas('hasOneUser', function($hasProfile) {
 										$hasProfile->whereNotNull('school')
-												->whereNotNull('bio')
-												->whereNotNull('portrait')
-												->whereNotNull('born_year');
+												->whereNotNull('portrait');
 										})
 									->get()
 									->toArray();
@@ -199,10 +197,10 @@ class Admin_SupportResource extends BaseResource
 		$uncompleteProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
 									->groupBy('user_id')
 									->whereHas('hasOneUser', function($hasUncompleteProfile) {
-										$hasUncompleteProfile->whereNull('school')
-												->whereNull('bio')
-												->whereNull('portrait')
-												->whereNull('born_year');
+										$hasUncompleteProfile->orWhereNull('school')
+												->orWhereNull('bio')
+												->orWhereNull('portrait')
+												->orWhereNull('born_year');
 										})
 									->get()
 									->toArray();
