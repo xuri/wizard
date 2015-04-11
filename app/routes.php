@@ -45,11 +45,11 @@ Route::group(array(), function () {
 	});
 
 	// Wechat Advertising
-	Route::group(array('prefix' => 'wechat'), function () use ($controller) {
+	Route::group(array('prefix' => 'wechat-ad'), function () use ($controller) {
 		# Members Center
-		Route::get(		'/', array('as' => 'index', 'uses' => $controller.'getWechatIndex'));
+		Route::get(		'/', array('as' => 'wechat.index', 'uses' => $controller.'getWechatIndex'));
 		# Show Profile
-		Route::get(	'/{id}', array('as' => 'show' , 'uses' => $controller.'getWechatShow' ));
+		Route::get(	'/{id}', array('as' => 'wechat.show' , 'uses' => $controller.'getWechatShow' ));
 	});
 });
 

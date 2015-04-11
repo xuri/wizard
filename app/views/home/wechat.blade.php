@@ -135,7 +135,6 @@ body{
 	color:#ffffff;
 }
 
-
 .list_lable span:nth-of-type(1){ background:#febe4d; }
 .list_lable span:nth-of-type(2){ background:#fbe539; }
 .list_lable span:nth-of-type(3){ background:#3c92e9; }
@@ -177,7 +176,7 @@ body{
 			$constellationInfo	= getConstellation($profile->constellation);
 			$tag_str			= array_unique(explode(',', substr($profile->tag_str, 1)));
 		?>
-		<a href="{{ route('members.show', $data->id) }}">
+		<a href="{{ route('wechat.show', $data->id) }}">
 			<li class="clear">
 				<span class="list_head">
 					@if($data->portrait)
