@@ -34,15 +34,23 @@
 Route::group(array(), function () {
 	$controller = 'HomeController@';
 	# Homepage
-	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   ));
+	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   		));
 
+	// Articles
 	Route::group(array('prefix' => 'article'), function () use ($controller) {
 		# Articles Catrgory
-		Route::get('/category/{id}', array('as' => 'category' , 'uses' => $controller.'getCategory'));
+		Route::get('/category/{id}', array('as' => 'category' , 'uses' => $controller.'getCategory' ));
 		# Show Article
-		Route::get(        '{slug}', array('as' => 'show'     , 'uses' => $controller.'getShow' 	  ));
+		Route::get(        '{slug}', array('as' => 'show'     , 'uses' => $controller.'getShow' 	));
 	});
 
+	// Wechat Advertising
+	Route::group(array('prefix' => 'wechat'), function () use ($controller) {
+		# Members Center
+		Route::get(		'/', array('as' => 'index', 'uses' => $controller.'getWechatIndex'));
+		# Show Profile
+		Route::get(	'/{id}', array('as' => 'show' , 'uses' => $controller.'getWechatShow' ));
+	});
 });
 
 

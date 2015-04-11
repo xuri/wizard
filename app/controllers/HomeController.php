@@ -122,4 +122,29 @@ class HomeController extends BaseController {
 		return View::make('home.show')->with(compact('article', 'categories'));
 	}
 
+	/**
+	 * Wechat advertising index
+	 * @return response
+	 */
+	public function getWechatIndex()
+	{
+		$users = array(758,8,2346,1341,319,1745,419,2321,2563,1774,2724,15,1730,77,2708,1533,1621,1,1591,317);
+		return View::make('home.wechat')->with(compact('users', 'categories'));
+	}
+
+	/**
+	 * Show members profile
+	 * @param  int $id
+	 * @return response
+	 */
+	public function getWechatShow($id)
+	{
+		$data              = User::where('id', $id)->first();
+		$profile           = Profile::where('user_id', $id)->first();
+
+		// Get user's constellation
+		$constellationInfo = getConstellation($profile->constellation);
+		$tag_str           = array_unique(explode(',', substr($profile->tag_str, 1)));
+		return View::make('home.show-profile')->with(compact('data', 'profile', 'constellationInfo', 'tag_str'));
+	}
 }
