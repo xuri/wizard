@@ -111,8 +111,16 @@ body{
 	font-size:1.5em;
 	border-radius:8px;
 }
-</Style>
+#back {
+	position: fixed;
+	top: 40px;
+	left: 40px;
+	font-size: 12px;
+	border-radius: 3px;
+}
+</style>
 <body>
+	<span id="back">← 返回</span>
 	<div id="top">
 		<div class="center">
 			<span id="head">

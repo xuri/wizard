@@ -162,10 +162,6 @@ body{
 		<span id="top_slogans"><h3>聘爱</h3>让你的大学不留白</span>
 		<a id="top_download" href="http://www.pinai521.com">下载聘爱</a>
 	</div>
-	<!-- <div class="tab">
-		<a id="girl" href="#">女生<span></span></a>
-		<a id="boy" class="on" href="#">男生<span></span></a>
-	</div> -->
 	<ul id="list">
 		@foreach($users as $id)
 		<?php
@@ -209,19 +205,4 @@ body{
 		@endforeach
 	</ul>
 </body>
-<script type="text/javascript">
-var oUl = document.getElementsByClassName("tab")[0];
-var aLi = oUl.getElementsByTagName("a");
-for (var i = 0; i < aLi.length; i++) {
-	aLi[i].index = i;
-	aLi[i].onclick = function(){
-		for (var j = 0; j < aLi.length; j++) {
-			if (j != this.index) {
-				aLi[j].className = "";
-			};
-		};
-		this.className = "on";
-	};
-};
-</script>
 </html>
