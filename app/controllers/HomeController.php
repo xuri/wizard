@@ -128,7 +128,7 @@ class HomeController extends BaseController {
 	 */
 	public function getWechatIndex()
 	{
-		$users = array(758,8,2346,1341,319,1745,419,2321,2563,1774,2724,15,1730,77,2708,1533,1621,1,1591,317);
+		$users = array(758,2724,8,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
 		return View::make('home.wechat')->with(compact('users', 'categories'));
 	}
 

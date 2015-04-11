@@ -103,6 +103,7 @@ body{
 	float:left;
 	margin-left:11px;
 	margin-top:4px;
+	color: #333;
 }
 .list_introduction img{
 	width:12px;
@@ -176,34 +177,36 @@ body{
 			$constellationInfo	= getConstellation($profile->constellation);
 			$tag_str			= array_unique(explode(',', substr($profile->tag_str, 1)));
 		?>
-		<li class="clear">
-			<span class="list_head">
-				@if($data->portrait)
-					@if (File::exists('portrait/'.$data->portrait) && File::size('portrait/' . $data->portrait) > 0)
-						{{ HTML::image('portrait/'.$data->portrait) }}
+		<a href="{{ route('members.show', $data->id) }}">
+			<li class="clear">
+				<span class="list_head">
+					@if($data->portrait)
+						@if (File::exists('portrait/'.$data->portrait) && File::size('portrait/' . $data->portrait) > 0)
+							{{ HTML::image('portrait/'.$data->portrait) }}
+						@else
+							{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+						@endif
 					@else
-						{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+					{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
 					@endif
-				@else
-				{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
-				@endif
-			</span>
-			<div class="list_introduction">
-				@if($data->sex == 'M')
-				{{ HTML::image('assets/images/wechat/sex.png') }}
-				@else
-				{{ HTML::image('assets/images/wechat/big_girl.png') }}
-				@endif
-				<span>{{ $data->nickname }}</span>
-				<br />
-				<span>{{ $data->school }}</span>
-			</div>
-			<div class="list_lable">
-				@foreach($tag_str as $tag)
-					<span>{{ getTagName($tag) }}</span>
-				@endforeach
-			</div>
-		</li>
+				</span>
+				<div class="list_introduction">
+					@if($data->sex == 'M')
+					{{ HTML::image('assets/images/wechat/sex.png') }}
+					@else
+					{{ HTML::image('assets/images/wechat/big_girl.png') }}
+					@endif
+					<span>{{ $data->nickname }}</span>
+					<br />
+					<span>{{ $data->school }}</span>
+				</div>
+				<div class="list_lable">
+					@foreach($tag_str as $tag)
+						<span>{{ getTagName($tag) }}</span>
+					@endforeach
+				</div>
+			</li>
+		</a>
 		@endforeach
 	</ul>
 </body>
