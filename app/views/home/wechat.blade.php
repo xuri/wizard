@@ -81,7 +81,7 @@ body{
 }
 .on{ color:#44bbfb!important; }
 .on span{ background:#3c92e9; }
-#list{ padding-top:86px; }
+#list{ padding-top:70px; }
 #list li{
 	margin-bottom:1px;
 	padding-top:9px;
