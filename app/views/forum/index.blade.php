@@ -19,7 +19,7 @@
 			{{ $errors->first('content', '<div class="callout-warning">:message</div>') }}
 
 			<div id="bbs_content_main" class="tabs lu_content_main clear">
-				<ul class="tabNavigation bbs_tab">
+				<ul class="tabNavigation bbs_tab" style="display: none;">
 					<a class="lu_left active" href="#first">
 
 							<span style="color: #ef698a;">{{ Lang::get('forum/index.community') }}</span>
