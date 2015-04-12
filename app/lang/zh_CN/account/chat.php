@@ -27,7 +27,7 @@ return array(
 
 	"waiting"			=> "静待缘分",
 
-	"request_again"		=> "在追一次",
+	"request_again"		=> "再追一次",
 
 	"start_chat"		=> "开始聊天",
 
