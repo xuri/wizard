@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <meta charset="utf-8">
 <body style="background-color:#feeff3;">
-    <div style="float:left;font:14px/1.7 tahoma,arial,'Hiragino Sans GB','\005b8b\004f53',sans-serif;width:100%;min-height:100%">
+    <div style="font:14px/1.7 tahoma,arial,'Hiragino Sans GB','\005b8b\004f53',sans-serif;width:800px;margin: auto;min-height:100%;">
         <div style="color:#666;font-size:14px;margin:0 auto;">
-            <div style="float:left;background:#fff url({{ route('home')}}/assets/images/email/top_bg.jpg) no-repeat left top;border:1px solid #e3e3e3;padding:85px 70px 54px 70px;min-height:auto;">
+            <div style="background:#fff url({{ route('home')}}/assets/images/email/top_bg.jpg) no-repeat left top;border:1px solid #e3e3e3;padding:85px 70px 54px 70px;min-height:auto;">
                 <h1 style="color:#D65679;font-size:22px">聘爱 账户激活</h1>
                 <div>
                     {{ HTML::image('assets/images/email/email_logo.png', '', array('height'=>'89', 'width'=>'200')) }}
