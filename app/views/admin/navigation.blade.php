@@ -99,9 +99,9 @@
 				<li>
 					<a href="javascript:void();"><i class="fa fa-line-chart"></i> {{ Lang::get('navigation.admin_analytics_charts') }}<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
-						<li>
-							<a href="{{ route('analytics.usercharts') }}">{{ Lang::get('navigation.admin_analytics_users_charts') }}</a>
-						</li>
+						<!-- <li>
+							<a href="{{-- route('analytics.usercharts') --}}">{{-- Lang::get('navigation.admin_analytics_users_charts') --}}</a>
+						</li> -->
 						<li>
 							<a href="{{ route('analytics.forumcharts') }}">{{ Lang::get('navigation.admin_analytics_forum_charts') }}</a>
 						</li>

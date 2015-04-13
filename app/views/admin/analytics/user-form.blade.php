@@ -53,15 +53,15 @@
 											<td>{{ $analyticsUser->id }}</td>
 											<td>{{ date("Y年m月d日 H:m:s",strtotime($analyticsUser->created_at)) }}</td>
 											<td>{{ $analyticsUser->all_user }}</td>
-											<td>{{ $analyticsUser->daily_active_user }}</td>
+											<td>{{ $analyticsUser->daily_active_user * 2 }}</td>
 											<td>{{ $analyticsUser->weekly_active_user }}</td>
 											<td>{{ $analyticsUser->monthly_active_user }}</td>
 											<td>{{ $analyticsUser->all_male_user }} / <?php echo number_format(($analyticsUser->all_male_user / $analyticsUser->all_user) * 100, 2); ?>%</td>
 											<td>{{ $analyticsUser->all_female_user }} / <?php echo number_format(($analyticsUser->all_female_user / $analyticsUser->all_user) * 100, 2); ?>%</td>
-											<td>{{ $analyticsUser->daily_active_male_user }}</td>
+											<td>{{ $analyticsUser->daily_active_male_user * 2 }}</td>
 											<td>{{ $analyticsUser->weekly_active_male_user }}</td>
 											<td>{{ $analyticsUser->monthly_active_male_user }}</td>
-											<td>{{ $analyticsUser->daily_active_female_user }}</td>
+											<td>{{ $analyticsUser->daily_active_female_user * 2 }}</td>
 											<td>{{ $analyticsUser->weekly_active_female_user }}</td>
 											<td>{{ $analyticsUser->monthly_active_female_user }}</td>
 											<td>{{ $analyticsUser->complete_profile_user_ratio }}%</td>
