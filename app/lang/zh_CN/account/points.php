@@ -9,7 +9,7 @@ return array(
 	|
 	*/
 
-	"welcome"		=> "欢迎来到聘爱网",
+	"welcome"		=> "欢迎来到聘爱",
 
 	"nickname"		=> "昵称",
 

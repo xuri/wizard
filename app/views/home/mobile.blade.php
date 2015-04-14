@@ -16,7 +16,7 @@
 		<center class="nav-content">聘爱 —— 专注于大学生的恋爱平台</center>
 	</div>
 	<center id="content">
-		<p>聘爱网，我们主张“心灵美”, &nbsp; 我们真正为你寻找靠谱的爱</p>
+		<p>聘爱，我们主张“心灵美”, &nbsp; 我们真正为你寻找靠谱的爱</p>
 		<a class="download-app" href="#"><i class="fa fa-apple"></i> &nbsp;苹果客户端下载</a>
 		<a class="download-app ios" href="#"><i class="fa fa-android"></i> &nbsp;安卓客户端下载</a>
 		<div id="iphone">{{ HTML::image('assets/images/mobile-iphone.png', 'alt content', array('width' => '200')); }}</div>

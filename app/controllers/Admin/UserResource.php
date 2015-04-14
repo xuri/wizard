@@ -664,7 +664,7 @@ class Admin_UserResource extends BaseResource
 			Mail::later(10, 'emails.notify.likereminder', $with, function ($message) use ($user) {
 						$message
 							->to($user->email)
-							->subject('聘爱网 好友请求提醒'); // Subject
+							->subject('聘爱 好友请求提醒'); // Subject
 					});
 			if($like->update(array('is_notify' => 1))){
 				return Redirect::back()->with('success', $this->resourceName.'好友请求通知邮件发送成功。');

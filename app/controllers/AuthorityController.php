@@ -351,7 +351,7 @@ class AuthorityController extends BaseController
 					Mail::later(10, 'emails.auth.activation', $with, function ($message) use ($user) {
 						$message
 							->to($user->email)
-							->subject('聘爱网 账号激活邮件'); // Subject
+							->subject('聘爱 账号激活邮件'); // Subject
 					});
 
 					// Redirect to a registration page, prompts user to activate
@@ -533,7 +533,7 @@ class AuthorityController extends BaseController
 	{
 		// Calling the system-provided class
 		$response = Password::remind(Input::only('email'), function ($m, $user, $token) {
-			$m->subject('聘爱网 密码重置邮件'); // Title
+			$m->subject('聘爱 密码重置邮件'); // Title
 		});
 		// Detect mail and send a password reset message
 		switch ($response) {

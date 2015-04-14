@@ -54,7 +54,7 @@ return array(
 	|
 	*/
 
-	'from' => array('address' => 'no-reply@pinai521.com', 'name' => '聘爱网'),
+	'from' => array('address' => 'no-reply@pinai521.com', 'name' => '聘爱'),
 
 	/*
 	|--------------------------------------------------------------------------
