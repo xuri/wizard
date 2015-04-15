@@ -116,20 +116,19 @@
 			// 获取手机号码
 			var phone = $('#phone_number').val();
 			var forgot_password = $('#forgot_password').val();
-			$.post('<?php echo route("verifycode"); ?>',
+			$.post('{{ route("verifycode") }}',
 			{
 			  phone : phone,
-			  forgot_password : forgot_password
+			  forgot_password : true
 			},function(jdata){
 				// send message success
 				if(jdata.length != undefined){
 					var that=$(_this);
 					timeSend(that);
-				}else{
+				} else {
 					// send error
-					$('.phone_error').html(jdata.errors.phone);
+    				$('#push_error').html(jdata.errors.phone);
 				}
-
 			});
 
 		});
@@ -161,7 +160,7 @@
 			var password_val = $("input[name=password]").val();
 			var password_conf_val = $("input[name=password_confirmation]").val();
 			// 发送post请求
-			$.post("<?php echo route('postsmsreset'); ?>", {
+			$.post("{{ route('postsmsreset') }}", {
 				"_token" : token_val,
 				"phone" : phone_val,
 				"sms_code" : sms_code_val,

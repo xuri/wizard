@@ -108,7 +108,7 @@ class AppleController extends BaseController
 					// Create validation rules
 					$rules = array(
 						'phone'               => 'required|digits:11|unique:users',
-						'password'            => 'required|alpha_dash|between:6,16'
+						'password'            => 'required|between:6,16'
 					);
 
 					// Custom validation message
@@ -117,7 +117,6 @@ class AppleController extends BaseController
 						'phone.digits'        => '请输入正确的手机号码。',
 						'phone.unique'        => '此手机号码已被使用。',
 						'password.required'   => '请输入密码。',
-						'password.alpha_dash' => '密码格式不正确。',
 						'password.between'    => '密码长度请保持在:min到:max位之间。'
 					);
 

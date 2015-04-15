@@ -99,49 +99,50 @@ class AuthorityController extends BaseController
 	 */
 	public function postVerifyCode()
 	{
-		if(SimpleCaptcha::check(Input::get('captcha')) == true) {
-			// Send Recovery Password SMS
-			if(Input::get('forgot_password')){
-				$phone       = array (
-					'phone' => Input::get('phone')
-				);
-				// Create validation rules
-				$rules = array(
-					'phone'          => 'required|digits:11|exists:users'
-				);
-				// Custom validation message
-				$messages = array(
-					'phone.required' => Lang::get('authority.phone_required'),
-					'phone.digits'   => Lang::get('authority.phone_digits'),
-					'phone.exists'   => Lang::get('authority.phone_exists')
-				);
-				// Begin verification
-				$validator = Validator::make($phone, $rules, $messages);
-				if ($validator->passes()) {
-					$verify_code = rand(100000,999999);
-					Session::forget('verify_code');
-					Session::put('verify_code', $verify_code);
+		// Send Recovery Password SMS
+		if(Input::get('forgot_password')){
+			$phone       = array (
+				'phone' => Input::get('phone')
+			);
+			// Create validation rules
+			$rules = array(
+				'phone'          => 'required|digits:11|exists:users'
+			);
+			// Custom validation message
+			$messages = array(
+				'phone.required' => Lang::get('authority.phone_required'),
+				'phone.digits'   => Lang::get('authority.phone_digits'),
+				'phone.exists'   => Lang::get('authority.phone_exists')
+			);
+			// Begin verification
+			$validator = Validator::make($phone, $rules, $messages);
+			if ($validator->passes()) {
+				$verify_code = rand(100000,999999);
+				Session::forget('verify_code');
+				Session::put('verify_code', $verify_code);
 
-					Queue::push('SendSMSQueue', [
-						'phone'			=> Input::get('phone'),
-						'verify_code'	=> $verify_code
-					]);
+				Queue::push('SendSMSQueue', [
+					'phone'			=> Input::get('phone'),
+					'verify_code'	=> $verify_code
+				]);
 
-					return Response::json(
-						array(
-							'success'		=> true,
-							'success_info'	=> Lang::get('authority.send_success')
-						)
-					);
-				} else {
-					return Response::json(
-						array(
-							'fail'      => true,
-							'errors'    => $validator->getMessageBag()->toArray()
-						)
-					);
-				}
+				return Response::json(
+					array(
+						'success'		=> true,
+						'success_info'	=> Lang::get('authority.send_success')
+					)
+				);
 			} else {
+				return Response::json(
+					array(
+						'fail'      => true,
+						'errors'    => $validator->getMessageBag()->toArray()
+					)
+				);
+			}
+		} else {
+			if(SimpleCaptcha::check(Input::get('captcha')) == true) {
+
 				$phone       = array (
 					'phone' => Input::get('phone')
 				);
@@ -181,14 +182,14 @@ class AuthorityController extends BaseController
 						)
 					);
 				}
+			} else {
+				return Response::json(
+					array(
+						'fail'			=> true,
+						'captcha_error'	=> Lang::get('authority.captcha_error')
+					)
+				);
 			}
-		} else {
-			return Response::json(
-				array(
-					'fail'			=> true,
-					'captcha_error'	=> Lang::get('authority.captcha_error')
-				)
-			);
 		}
 	}
 
@@ -204,7 +205,7 @@ class AuthorityController extends BaseController
 		// Create validation rules
 		$rules = array(
 			'phone'					=> 'required|digits:11|exists:users',
-			'password'				=> 'required|alpha_dash|between:6,16|confirmed',
+			'password'				=> 'required|between:6,16|confirmed',
 			'password_confirmation'	=> 'required',
 			'sms_code'				=> 'required|digits:6'
 		);
@@ -215,7 +216,6 @@ class AuthorityController extends BaseController
 			'phone.digits'						=> Lang::get('authority.phone_digits'),
 			'phone.exists'						=> Lang::get('authority.phone_exists'),
 			'password.required'					=> Lang::get('authority.password_required'),
-			'password.alpha_dash'				=> Lang::get('authority.password_alpha_dash'),
 			'password.between'					=> '密码长度请保持在:min到:max位之间。',
 			'password.confirmed'				=> Lang::get('authority.password_confirmed'),
 			'password_confirmation.required'	=> Lang::get('authority.password_confirmed_required'),
