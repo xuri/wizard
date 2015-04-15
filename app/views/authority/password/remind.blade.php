@@ -126,8 +126,14 @@
 					var that=$(_this);
 					timeSend(that);
 				} else {
-					// send error
-    				$('#push_error').html(jdata.errors.phone);
+					if(jdata.errors) {
+						// send error
+    					$('#push_error').html(jdata.errors.phone);
+					} else {
+						var that=$(_this);
+						timeSend(that);
+						$('#push_error').html(jdata.success_info);
+					}
 				}
 			});
 
