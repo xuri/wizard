@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration {
 	        $table->tinyInteger('age')->nullable();
 	        $table->string('born_year', 10)->nullable();
 	        $table->string('school', 100)->nullable();
-	        $table->integer('points')->default('2');
+	        $table->integer('points')->default('1000');
 	        $table->string('phone')->nullable();
 	        $table->string('portrait')->nullable();
 	        $table->string('remember_token')->nullable();
