@@ -415,14 +415,15 @@ class AuthorityController extends BaseController
 				if ($validator->passes() && $sms_code == $verify_code) {
 
 					// Verification success, add user
-					$user			= new User;
-					$user->phone	= $phone;
-					$user->password	= md5(Input::get('password'));
-					$user->sex		= Input::get('sex');
+					$user				= new User;
+					$user->phone		= $phone;
+					$user->password		= md5(Input::get('password'));
+					$user->sex			= Input::get('sex');
+					$user->activated_at	= date('Y-m-d H:m:s');
+
 					if ($user->save()) {
 						$profile			= new Profile;
 						$profile->user_id	= $user->id;
-						$user->activated_at	= date('Y-m-d H:m:s');
 						$profile->save();
 
 						Queue::push('AddUserQueue', [
