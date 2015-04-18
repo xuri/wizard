@@ -27,11 +27,11 @@ class AdminController extends BaseController
 	 * @return Response
 	 */
 	public function getIndex() {
-		$totalUser  = User::get()->count();
-		$maleUser  = User::where( 'sex', 'M' )->get()->count();
-		$femaleUser  = User::where( 'sex', 'F' )->get()->count();
-		$unreadSupport = Support::where( 'status', false )->get()->count();
-		$analyticsUser  = AnalyticsUser::select(
+		$totalUser		= User::get()->count();
+		$maleUser		= User::where( 'sex', 'M' )->get()->count();
+		$femaleUser		= User::where( 'sex', 'F' )->get()->count();
+		$unreadSupport	= Support::where( 'status', false )->get()->count();
+		$analyticsUser	= AnalyticsUser::select(
 			'all_user',
 			'daily_active_user',
 			'weekly_active_user',
