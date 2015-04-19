@@ -11,7 +11,11 @@ return array(
 
 	"promotion_management"	=> "分级代理推广数据统计",
 
+	"master_agent"			=> "总代理",
+
 	"agent"					=> "代理",
+
+	"total_users"			=> "当前累计注册人数",
 
 	"users"					=> "当前注册人数",
 

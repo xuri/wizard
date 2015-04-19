@@ -11,7 +11,11 @@ return array(
 
 	"promotion_management"	=> "Graded Agents Promote Statistics",
 
+	"master_agent"			=> "Master Agent",
+
 	"agent"					=> "Agent",
+
+	"total_users"			=> "Total Register Users",
 
 	"users"					=> "Register Users",
 
