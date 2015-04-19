@@ -84,7 +84,7 @@
 										<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 											<thead>
 												<tr>
-													<th colspan="2" style="text-align:center;">{{ Lang::get('admin/support/promotion.complete_profile') }}</th>
+													<th colspan="2" style="text-align:center;">{{ Lang::get('admin/support/promotion.master_complete_profile') }}</th>
 												</tr>
 												<tr>
 													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.master_agent') }} ID</th>
@@ -158,7 +158,7 @@
 										<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 											<thead>
 												<tr>
-													<th colspan="2" style="text-align:center;">{{ Lang::get('admin/support/promotion.complete_profile') }}</th>
+													<th colspan="2" style="text-align:center;">{{ Lang::get('admin/support/promotion.master_uncomplete_profile') }}</th>
 												</tr>
 												<tr>
 													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.master_agent') }} ID</th>

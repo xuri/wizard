@@ -9,18 +9,22 @@ return array(
 	|
 	*/
 
-	"promotion_management"	=> "Graded Agents Promote Statistics",
+	"promotion_management"		=> "Graded Agents Promote Statistics",
 
-	"master_agent"			=> "Master Agent",
+	"master_agent"				=> "Master Agent",
 
-	"agent"					=> "Agent",
+	"agent"						=> "Agent",
 
-	"total_users"			=> "Total Register Users",
+	"total_users"				=> "Total Register Users",
 
-	"users"					=> "Register Users",
+	"users"						=> "Register Users",
 
-	"complete_profile"		=> "Complete Profile Users",
+	"master_complete_profile"	=> "Master Agent Complete Profile Users",
 
-	"uncomplete_profile"	=> "Uncomplete Profile Users",
+	"complete_profile"			=> "Complete Profile Users",
+
+	"master_uncomplete_profile"	=> "Master Agent Uncomplete Profile Users",
+
+	"uncomplete_profile"		=> "Uncomplete Profile Users",
 
 );
