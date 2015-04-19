@@ -72,7 +72,7 @@
 								</div>
 							</div>
 						</div>
-						<a href="{{ route('analytics.usercharts') }}">
+						<a href="{{-- route('analytics.usercharts') --}}">
 							<div class="panel-footer">
 								<span class="pull-left">{{ Lang::get('navigation.admin_analytics_users_charts') }}</span>
 								<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
