@@ -34,7 +34,7 @@
 Route::group(array(), function () {
 	$controller = 'HomeController@';
 	# Homepage
-	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   			));
+	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   					));
 	Route::get(   'promotion', array('as' => 'promotion' , 'uses' => 'Admin_SupportResource@promotionPublic'	));
 
 	// Articles

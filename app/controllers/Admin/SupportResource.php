@@ -275,8 +275,6 @@ class Admin_SupportResource extends BaseResource
 		// Remove duplicate keys in master agent ID index array of uncomplete profile user list
 		$uncompleteProfileUserListAnalyticsIndexArray = array_unique($uncompleteProfileUserListAnalyticsIndex);
 
-
-
 		return View::make($this->resourceView . '.promotion')->with(compact('completeProfileUserList', 'uncompleteProfileUserList', 'completeProfileUserListAnalyticsIndexArray', 'completeProfileUserListAnalytics', 'uncompleteProfileUserListAnalyticsIndexArray', 'uncompleteProfileUserListAnalytics'));
 	}
 
@@ -306,6 +304,34 @@ class Admin_SupportResource extends BaseResource
 		// Remove duplicate keys in array
 		$completeProfileUserList = array_unique($completeProfileUserArray);
 
+		// Define an empty array of complete profile user list
+		$completeProfileUserListAnalytics = [];
+
+		// To make agent ID as key and count as value of complete profile user list
+		foreach ($completeProfileUserList as $completeProfileUserListKey => $completeProfileUserListVaule) {
+			$completeProfileUserListAnalytics[$completeProfileUserList[$completeProfileUserListKey]] = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+												->where('content', $completeProfileUserList[$completeProfileUserListKey])
+												->whereHas('hasOneUser', function($hasUncompleteProfile) {
+												$hasUncompleteProfile->whereNotNull('school')
+														->whereNotNull('bio')
+														->whereNotNull('portrait')
+														->whereNotNull('born_year');
+												})
+												->distinct()
+												->get(array('user_id'))
+												->count();
+		}
+
+		// Define master agent ID index array of complete profile user list
+		foreach ($completeProfileUserListAnalytics as $completeProfileUserListAnalyticsKey => $completeProfileUserListAnalyticsKeyValue)
+		{
+			// Remove last 2 digits of key, that's master agent ID of complete profile user list
+		    $completeProfileUserListAnalyticsIndex[$completeProfileUserListAnalyticsKey] =  substr($completeProfileUserListAnalyticsKey, 0, -2);
+		}
+
+		// Remove duplicate keys in master agent ID index array of complete profile user list
+		$completeProfileUserListAnalyticsIndexArray = array_unique($completeProfileUserListAnalyticsIndex);
+
 		// Query all support content is 3 or 4 digits with uncomplete profile user
 		$uncompleteProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
 									->orderBy('content')
@@ -327,6 +353,38 @@ class Admin_SupportResource extends BaseResource
 		// Remove duplicate keys in array
 		$uncompleteProfileUserList = array_unique($uncompleteProfileUserArray);
 
-		return View::make($this->resourceView . '.promotion_public')->with(compact('completeProfileUserList', 'uncompleteProfileUserList'));
+		// Define an empty array of uncomplete profile user list
+		$uncompleteProfileUserListAnalytics = [];
+
+		// To make agent ID as key and count as value of uncomplete profile user list
+		foreach ($uncompleteProfileUserList as $uncompleteProfileUserListKey => $uncompleteProfileUserListVaule) {
+			$uncompleteProfileUserListAnalytics[$uncompleteProfileUserList[$uncompleteProfileUserListKey]] = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+										->where('content', $uncompleteProfileUserList[$uncompleteProfileUserListKey])
+										->distinct()
+										->get(array('user_id'))
+										->count() -
+										Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+											->where('content', $uncompleteProfileUserList[$uncompleteProfileUserListKey])
+											->whereHas('hasOneUser', function($hasUncompleteProfile) {
+											$hasUncompleteProfile->whereNotNull('school')
+													->whereNotNull('portrait')
+													->whereNotNull('born_year');
+											})
+											->distinct()
+											->get(array('user_id'))
+											->count();
+		}
+
+		// Define master agent ID index array of uncomplete profile user list
+		foreach ($uncompleteProfileUserListAnalytics as $uncompleteProfileUserListAnalyticsKey => $uncompleteProfileUserListAnalyticsKeyValue)
+		{
+			// Remove last 2 digits of key, that's master agent ID of uncomplete profile user list
+		    $uncompleteProfileUserListAnalyticsIndex[$uncompleteProfileUserListAnalyticsKey] =  substr($uncompleteProfileUserListAnalyticsKey, 0, -2);
+		}
+
+		// Remove duplicate keys in master agent ID index array of uncomplete profile user list
+		$uncompleteProfileUserListAnalyticsIndexArray = array_unique($uncompleteProfileUserListAnalyticsIndex);
+
+		return View::make($this->resourceView . '.promotion_public')->with(compact('completeProfileUserList', 'uncompleteProfileUserList', 'completeProfileUserListAnalyticsIndexArray', 'completeProfileUserListAnalytics', 'uncompleteProfileUserListAnalyticsIndexArray', 'uncompleteProfileUserListAnalytics'));
 	}
 }

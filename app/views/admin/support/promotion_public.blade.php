@@ -87,6 +87,42 @@
 													<th colspan="2" style="text-align:center;">{{ Lang::get('admin/support/promotion.complete_profile') }}</th>
 												</tr>
 												<tr>
+													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.master_agent') }} ID</th>
+													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.total_users') }}</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+
+													// Foreach master agent ID index of complete profile user list
+													foreach ($completeProfileUserListAnalyticsIndexArray as $completeProfileUserListAnalyticsIndexArrayKey) {
+
+														// Initialization register user count of complete profile user list
+														$completeProfileUserListAnalyticsSum = 0;
+
+														// Calculate register user count according to master agent ID of complete profile user list
+														foreach ($completeProfileUserListAnalytics as $key => $completeProfileUserListAnalyticsValue)
+														{
+															// Determin masert agent ID is in master agent ID index array
+														    if (substr($key, 0, -2) == $completeProfileUserListAnalyticsIndexArrayKey)
+
+														    	// The cumulative number of users
+														        $completeProfileUserListAnalyticsSum += $completeProfileUserListAnalyticsValue;
+														}
+
+														// Print result
+														echo '<tr class="odd gradeX"><td>' . $completeProfileUserListAnalyticsIndexArrayKey . '</td><td>' . $completeProfileUserListAnalyticsSum . '</td></tr>';
+													}
+												?>
+											</tbody>
+										</table>
+
+										<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
+											<thead>
+												<tr>
+													<th colspan="2" style="text-align:center;">{{ Lang::get('admin/support/promotion.complete_profile') }}</th>
+												</tr>
+												<tr>
 													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.agent') }} ID</th>
 													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.users') }}</th>
 												</tr>
@@ -118,6 +154,43 @@
 
 								<div class="col-lg-6">
 									<div class="table-responsive">
+
+										<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
+											<thead>
+												<tr>
+													<th colspan="2" style="text-align:center;">{{ Lang::get('admin/support/promotion.complete_profile') }}</th>
+												</tr>
+												<tr>
+													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.master_agent') }} ID</th>
+													<th style="text-align:center;">{{ Lang::get('admin/support/promotion.total_users') }}</th>
+												</tr>
+											</thead>
+											<tbody>
+												<?php
+
+													// Foreach master agent ID index of uncomplete profile user list
+													foreach ($uncompleteProfileUserListAnalyticsIndexArray as $uncompleteProfileUserListAnalyticsIndexArrayKey) {
+
+														// Initialization register user count of uncomplete profile user list
+														$uncompleteProfileUserListAnalyticsSum = 0;
+
+														// Calculate register user count according to master agent ID of uncomplete profile user list
+														foreach ($uncompleteProfileUserListAnalytics as $key => $uncompleteProfileUserListAnalyticsValue)
+														{
+															// Determin masert agent ID is in master agent ID index array
+														    if (substr($key, 0, -2) == $uncompleteProfileUserListAnalyticsIndexArrayKey)
+
+														    	// The cumulative number of users
+														        $uncompleteProfileUserListAnalyticsSum += $uncompleteProfileUserListAnalyticsValue;
+														}
+
+														// Print result
+														echo '<tr class="odd gradeX"><td>' . $uncompleteProfileUserListAnalyticsIndexArrayKey . '</td><td>' . $uncompleteProfileUserListAnalyticsSum . '</td></tr>';
+													}
+												?>
+											</tbody>
+										</table>
+
 										<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 											<thead>
 												<tr>
