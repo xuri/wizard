@@ -217,4 +217,54 @@ class Admin_SupportResource extends BaseResource
 
 		return View::make($this->resourceView . '.promotion')->with(compact('completeProfileUserList', 'uncompleteProfileUserList'));
 	}
+
+	/**
+	 * Resource promotion action
+	 * GET      /resource/promotion
+	 * @return Response
+	 */
+	public function promotionPublic()
+	{
+		// Query all support content is 3 or 4 digits with complete profile user
+		$completeProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+									->orderBy('content')
+									->groupBy('user_id')
+									->whereHas('hasOneUser', function($hasProfile) {
+										$hasProfile->whereNotNull('school')
+												->whereNotNull('portrait');
+										})
+									->get()
+									->toArray();
+
+		// Foreach new array from query result array content key
+		foreach($completeProfileUser as $completeProfileUserKey => $completeProfileUserItem){
+			$completeProfileUserArray[$completeProfileUserKey] =  $completeProfileUserItem['content'];
+		}
+
+		// Remove duplicate keys in array
+		$completeProfileUserList = array_unique($completeProfileUserArray);
+
+		// Query all support content is 3 or 4 digits with uncomplete profile user
+		$uncompleteProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
+									->orderBy('content')
+									->groupBy('user_id')
+									->whereHas('hasOneUser', function($hasUncompleteProfile) {
+										$hasUncompleteProfile->orWhereNull('school')
+												->orWhereNull('bio')
+												->orWhereNull('portrait')
+												->orWhereNull('born_year');
+										})
+									->get()
+									->toArray();
+
+		// Foreach new array from query result array content key
+		foreach($uncompleteProfileUser as $uncompleteProfileUserKey => $uncompleteProfileUserItem){
+			$uncompleteProfileUserArray[$uncompleteProfileUserKey] =  $uncompleteProfileUserItem['content'];
+		}
+
+		// Remove duplicate keys in array
+		$uncompleteProfileUserList = array_unique($uncompleteProfileUserArray);
+
+		return View::make($this->resourceView . '.promotion_public')->with(compact('completeProfileUserList', 'uncompleteProfileUserList'));
+	}
 }
