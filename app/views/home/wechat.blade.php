@@ -160,7 +160,7 @@ body{
 	<div id="top">
 		{{ HTML::image('assets/images/wechat/logo.png', '', array('id' => 'top_logo')) }}
 		<span id="top_slogans"><h3>聘爱</h3>让你的大学不留白</span>
-		<a id="top_download" href="http://www.pinai521.com">下载聘爱</a>
+		<a id="top_download" href="{{ route('home') }}">下载聘爱</a>
 	</div>
 	<ul id="list">
 		@foreach($users as $id)
@@ -204,5 +204,9 @@ body{
 		</a>
 		@endforeach
 	</ul>
+
+	@include('layout.analytics')
+	@yield('content')
+
 </body>
 </html>

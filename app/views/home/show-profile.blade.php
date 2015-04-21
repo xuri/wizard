@@ -157,5 +157,9 @@ body{
 			<a id="download" href="{{ route('home') }}">下载聘爱追Ta</a>
 		</div>
 	</div>
+
+	@include('layout.analytics')
+	@yield('content')
+
 </body>
 </html>
