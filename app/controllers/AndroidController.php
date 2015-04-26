@@ -83,7 +83,12 @@ class AndroidController extends BaseController
 						'phone'		=> Input::get('phone'),
 						'password'	=> md5(Input::get('password')
 					));
-					if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
+					$w_id_credentials = array(
+						'w_id'		=> Input::get('phone'),
+						'password'	=> md5(Input::get('password')
+					));
+
+					if (Auth::attempt($credentials) || Auth::attempt($phone_credentials) || Auth::attempt($w_id_credentials)) {
 
 						// Retrieve user
 						$user = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->orWhere('w_id', Input::get('phone'))->first();
