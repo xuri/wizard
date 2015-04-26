@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-	<title>pinai521.com</title>
+	<title>缘分大厅 | {{ Lang::get('navigation.pinai') }}</title>
 </head>
 
 <Style type="text/css">
@@ -159,8 +159,8 @@ body{
 <body>
 	<div id="top">
 		{{ HTML::image('assets/images/wechat/logo.png', '', array('id' => 'top_logo')) }}
-		<span id="top_slogans"><h3>聘爱</h3>让你的大学不留白</span>
-		<a id="top_download" href="{{ route('home') }}">下载聘爱</a>
+		<span id="top_slogans"><h3>{{ Lang::get('navigation.pinai') }}</h3>让你的大学不留白</span>
+		<a id="top_download" href="{{ route('home') }}">下载{{ Lang::get('navigation.pinai') }}</a>
 	</div>
 	<ul id="list">
 		@foreach($users as $id)
@@ -172,7 +172,7 @@ body{
 			$constellationInfo	= getConstellation($profile->constellation);
 			$tag_str			= array_unique(explode(',', substr($profile->tag_str, 1)));
 		?>
-		<a href="{{ route('wechat.show', $data->id) }}">
+		<a href="{{ route('wap.show', $data->id) }}">
 			<li class="clear">
 				<span class="list_head">
 					@if($data->portrait)

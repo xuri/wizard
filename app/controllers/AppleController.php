@@ -77,7 +77,7 @@ class AppleController extends BaseController
 					if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
 
 						// Retrieve user
-						$user = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->first();
+						$user = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->orWhere('w_id', Input::get('phone'))->first();
 
 						// Signin success, redirect to the previous page that was blocked
 						return Response::json(

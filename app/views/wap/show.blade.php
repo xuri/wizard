@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-	<title>message</title>
+	<title>{{ $data->nickname }}的资料 | {{ Lang::get('navigation.pinai') }}</title>
 </head>
 <Style type="text/css">
 body, h2, p{margin:0; padding:0;}
@@ -121,7 +121,7 @@ body{
 }
 </style>
 <body>
-	<span id="back"><a href="{{ route('wechat.index') }}">← 返回</a></span>
+	<span id="back"><a href="{{ route('wap.members') }}">← 返回</a></span>
 	<div id="top">
 		<div class="center">
 			<span id="head">
@@ -154,7 +154,7 @@ body{
 		<span class="line"></span>
 		<p class="introduce">{{ $profile->bio }}</p>
 		<div class="center">
-			<a id="download" href="{{ route('home') }}">下载聘爱追Ta</a>
+			<a id="download" href="{{ route('wap.success') }}">追Ta</a>
 		</div>
 	</div>
 

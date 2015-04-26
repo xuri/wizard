@@ -45,15 +45,23 @@ Route::group(array(), function () {
 		Route::get(        '{slug}', array('as' => 'show'     , 'uses' => $controller.'getShow' 	));
 	});
 
-	// Wechat Advertising
-	Route::group(array('prefix' => 'wechat-ad'), function () use ($controller) {
-		# Members Center
-		Route::get(		'/', array('as' => 'wechat.index', 'uses' => $controller.'getWechatIndex'));
-		# Show Profile
-		Route::get(	'/{id}', array('as' => 'wechat.show' , 'uses' => $controller.'getWechatShow' ));
-	});
+
 });
 
+/*
+|--------------------------------------------------------------------------
+| WAP Routes
+|--------------------------------------------------------------------------
+|
+*/
+Route::group(array('prefix' => 'wap'), function () {
+	$controller = 'WapController@';
+	# Index
+	Route::get(					'/', array('as' => 'wap.index'	, 'uses' => $controller.'getIndex'		));
+	Route::get(			 '/members', array('as' => 'wap.members', 'uses' => $controller.'getMembers'	));
+	Route::get(		'/members/{id}', array('as' => 'wap.show'	, 'uses' => $controller.'getShow'		));
+	Route::get(			 '/success', array('as' => 'wap.success', 'uses' => $controller.'getSuccess'	));
+});
 
 
 /*
