@@ -402,9 +402,9 @@ class AndroidController extends BaseController
 													->whereNotNull('bio')
 													->whereNotNull('school');
 						// Ruled out not set tags and select has correct format constellation user
-						$query->whereHas('hasOneProfile', function($hasTagStr) {
-							$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
-						});
+						// $query->whereHas('hasOneProfile', function($hasTagStr) {
+						// 	$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+						// });
 
 						// Sex filter
 						if($sex_filter){
@@ -488,9 +488,9 @@ class AndroidController extends BaseController
 											->whereNotNull('school');
 
 						// Ruled out not set tags and select has correct format constellation user
-						$query->whereHas('hasOneProfile', function($hasTagStr) {
-							$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
-						});
+						// $query->whereHas('hasOneProfile', function($hasTagStr) {
+						// 	$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+						// });
 
 						// Sex filter
 						if($sex_filter){
