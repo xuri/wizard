@@ -79,9 +79,9 @@ class MemberController extends BaseController {
 											->whereNotNull('nickname')
 											->orderBy('updated_at', 'desc');
 		// Ruled out not set tags and select has correct format constellation user
-		$query->whereHas('hasOneProfile', function($hasTagStr) {
-			$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
-		});
+		// $query->whereHas('hasOneProfile', function($hasTagStr) {
+		// 	$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+		// });
 
 		$open_universities		= University::where('status', 2)->select('id', 'university')->get();
 		$pending_universities	= University::where('status', 1)->select('id', 'university', 'open_at')->get();
