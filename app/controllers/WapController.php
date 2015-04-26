@@ -27,12 +27,17 @@ class WapController extends BaseController
 	 */
 	public function getIndex()
 	{
-		// Determin user sex
-		$cookie = Cookie::get('sex');
-		if($cookie) {
-			return Redirect::to('wap/members');
+		if ( Agent::isMobile() ) {
+			// Determin user sex
+			$cookie = Cookie::get('sex');
+			if($cookie) {
+				return Redirect::to('wap/members');
+			}
+			return View::make('wap.index');
+		} else {
+			return Redirect::route('home');
 		}
-		return View::make('wap.index');
+
 	}
 
 	/**
@@ -41,91 +46,94 @@ class WapController extends BaseController
 	 */
 	public function getMembers()
 	{
-		// Determin user sex
-		$cookie = Cookie::get('sex');
-		if($cookie) {
-			$users = array(758,2724,8,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
-			return View::make('wap.members')->with(compact('users', 'categories'));
-		} else {
-			$sex = Input::get('sex');
+		if ( Agent::isMobile() ) {
+			// Determin user sex
+			$cookie = Cookie::get('sex');
+			if($cookie) {
+				$users = array(758,2724,8,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
+				return View::make('wap.members')->with(compact('users', 'categories'));
+			} else {
+				$sex = Input::get('sex');
 
-			switch ($sex) {
-				case 'M':
-					Cookie::queue('sex', 'M'); // Male
-					// Generate w_id and password
-					$w_id		= rand(100000,999999);
-					$password	= rand(100000,999999);
-					// Determin male user phone number exists
-					while (User::where('w_id', $w_id)->first()) {
-						// Generate w_id
-						$w_id = rand(100000,999999);
-					}
+				switch ($sex) {
+					case 'M':
+						Cookie::queue('sex', 'M'); // Male
+						// Generate w_id and password
+						$w_id		= rand(100000,999999);
+						$password	= rand(100000,999999);
+						// Determin male user phone number exists
+						while (User::where('w_id', $w_id)->first()) {
+							// Generate w_id
+							$w_id = rand(100000,999999);
+						}
 
-					// Verification success, add user
-					$user				= new User;
-					$user->w_id			= $w_id;
-					$user->password		= md5($password);
-					$user->sex			= $sex;
-					$user->from			= 3; // WAP
-					$user->activated_at	= date('Y-m-d H:m:s');
-					$user->save();
+						// Verification success, add user
+						$user				= new User;
+						$user->w_id			= $w_id;
+						$user->password		= md5($password);
+						$user->sex			= $sex;
+						$user->from			= 3; // WAP
+						$user->activated_at	= date('Y-m-d H:m:s');
+						$user->save();
 
-					$profile			= new Profile;
-					$profile->user_id	= $user->id;
-					$profile->save();
+						$profile			= new Profile;
+						$profile->user_id	= $user->id;
+						$profile->save();
 
-					Cookie::queue('w_id', $w_id);
-					Cookie::queue('password', $password);
+						Cookie::queue('w_id', $w_id);
+						Cookie::queue('password', $password);
 
-					Queue::push('AddUserQueue', [
-									'username'	=> $user->id,
-									'password'	=> $user->password,
-								]);
+						Queue::push('AddUserQueue', [
+										'username'	=> $user->id,
+										'password'	=> $user->password,
+									]);
 
-					// Create floder to store chat record
-					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
-				break;
+						// Create floder to store chat record
+						File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+					break;
 
-				default:
-					$cookie = Cookie::queue('sex', 'F'); // Male
-					// Generate w_id and password
-					$w_id		= rand(100000,999999);
-					$password	= rand(100000,999999);
-					// Determin male user phone number exists
-					while (User::where('w_id', $w_id)->first()) {
-						// Generate w_id
-						$w_id = rand(100000,999999);
-					}
+					default:
+						$cookie = Cookie::queue('sex', 'F'); // Male
+						// Generate w_id and password
+						$w_id		= rand(100000,999999);
+						$password	= rand(100000,999999);
+						// Determin male user phone number exists
+						while (User::where('w_id', $w_id)->first()) {
+							// Generate w_id
+							$w_id = rand(100000,999999);
+						}
 
-					// Verification success, add user
-					$user				= new User;
-					$user->w_id			= $w_id;
-					$user->password		= md5($password);
-					$user->sex			= $sex;
-					$user->from			= 3; // WAP
-					$user->activated_at	= date('Y-m-d H:m:s');
-					$user->save();
+						// Verification success, add user
+						$user				= new User;
+						$user->w_id			= $w_id;
+						$user->password		= md5($password);
+						$user->sex			= $sex;
+						$user->from			= 3; // WAP
+						$user->activated_at	= date('Y-m-d H:m:s');
+						$user->save();
 
-					$profile			= new Profile;
-					$profile->user_id	= $user->id;
-					$profile->save();
+						$profile			= new Profile;
+						$profile->user_id	= $user->id;
+						$profile->save();
 
-					Cookie::queue('w_id', $w_id);
-					Cookie::queue('password', $password);
+						Cookie::queue('w_id', $w_id);
+						Cookie::queue('password', $password);
 
-					Queue::push('AddUserQueue', [
-									'username'	=> $user->id,
-									'password'	=> $user->password,
-								]);
+						Queue::push('AddUserQueue', [
+										'username'	=> $user->id,
+										'password'	=> $user->password,
+									]);
 
-					// Create floder to store chat record
-					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
-				break;
+						// Create floder to store chat record
+						File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+					break;
+				}
+				$users = array(758,2724,8,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
+				return View::make('wap.members')->with(compact('users', 'categories'));
 			}
-			$users = array(758,2724,8,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
-			return View::make('wap.members')->with(compact('users', 'categories'));
+		} else {
+			return Redirect::route('home');
 		}
-
 	}
 
 	/**
