@@ -38,8 +38,8 @@ body{
 .corner {
 	position: absolute;
 	width: 30%;
-	left: -8%;
-	top: -8%;
+	left: -7%;
+	top: -5%;
 
 }
 </Style>
