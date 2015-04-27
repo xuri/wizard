@@ -66,7 +66,7 @@ class WapController extends BaseController
 					$user->w_id			= $w_id;
 					$user->password		= md5($password);
 					$user->sex			= $sex;
-					$user->from			= 5; // Signup from WAP
+					$user->from			= 0; // Signup from website
 					$user->activated_at	= date('Y-m-d H:m:s');
 					$user->save();
 
@@ -102,7 +102,7 @@ class WapController extends BaseController
 					$user->w_id			= $w_id;
 					$user->password		= md5($password);
 					$user->sex			= $sex;
-					$user->from			= 5; // Signup from WAP
+					$user->from			= 0; // Signup from website
 					$user->activated_at	= date('Y-m-d H:m:s');
 					$user->save();
 
