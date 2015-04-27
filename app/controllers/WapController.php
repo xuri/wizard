@@ -111,10 +111,10 @@ class WapController extends BaseController
 					Cookie::queue('w_id', $w_id);
 					Cookie::queue('password', $password);
 
-					// Queue::push('AddUserQueue', [
-					// 				'username'	=> $user->id,
-					// 				'password'	=> $user->password,
-					// 			]);
+					Queue::push('AddUserQueue', [
+									'username'	=> $user->id,
+									'password'	=> $user->password,
+								]);
 
 					// Create floder to store chat record
 					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
