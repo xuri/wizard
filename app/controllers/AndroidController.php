@@ -19,6 +19,7 @@
  * - from = 1 				Signup from Android
  * - from = 3 				Signup from iOS Client
  * - from = 4 				Add user by administrator
+ * - from = 5				Signup from WAP
  *
  * Forum Code Explanation
  *

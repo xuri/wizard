@@ -9,7 +9,7 @@
  */
 
 /**
- * Class include main iOS client API
+ * Class include main Android client API
  *
  * Code Explanation
  *
@@ -35,17 +35,26 @@
  * @version 	Release: 0.1 2014-12-25
  */
 
-class AppleController extends BaseController
+class AndroidController extends BaseController
 {
 
 	/**
-	 * Main iOS API
+	 * View: Debug
+	 * @return Response Application debug view.
+	 */
+	public function getDebug()
+	{
+		return View::make('app.index')->with(compact('test'));
+	}
+
+	/**
+	 * Main Android API
 	 *
 	 * @api
 	 *
 	 * @return Json All response are in JSON format.
 	 */
-	public function postApple()
+	public function postAndroid()
 	{
 
 		$token  = Input::get('token');
@@ -148,7 +157,6 @@ class AppleController extends BaseController
 						if ($user->save()) {
 							$profile			= new Profile;
 							$profile->user_id	= $user->id;
-							$profile->tag_str	= ',40';
 							$profile->save();
 
 							// Add user success and chat Register

@@ -90,11 +90,15 @@ Route::filter( 'not.self', function ( $route ) {
 
 // Mobile access redirect
 Route::filter( 'is.mobile', function ( $route ) {
-		// Intercept your user ID
 		if ( Agent::isMobile() )
 		return View::make( 'home.mobilev2' );
 	} );
 
+// WAP access redirect
+Route::filter( 'wap.mobile', function ( $route ) {
+		if ( Agent::isDesktop() )
+		return Redirect::route('home');
+	} );
 /*
 |--------------------------------------------------------------------------
 | [Rear] Filters
@@ -102,7 +106,6 @@ Route::filter( 'is.mobile', function ( $route ) {
 # Route::filter('afterFilter', function ($route, $request, $response) {});
 |
 */
-
 
 
 /*
