@@ -54,12 +54,13 @@ Route::group(array(), function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::group(array('prefix' => 'wap', 'before' => 'wap.mobile'), function () {
+Route::group(array('prefix' => 'wap'), function () {
 	$controller = 'WapController@';
 	# Index
 	Route::get(					'/', array('as' => 'wap.index'	, 'uses' => $controller.'getIndex'		));
 	Route::get(			 '/members', array('as' => 'wap.members', 'uses' => $controller.'getMembers'	));
 	Route::get(		'/members/{id}', array('as' => 'wap.show'	, 'uses' => $controller.'getShow'		));
+	Route::get(				'/more', array('as' => 'wap.more'	, 'uses' => $controller.'getMore'		));
 	Route::get(			 '/success', array('as' => 'wap.success', 'uses' => $controller.'getSuccess'	));
 });
 

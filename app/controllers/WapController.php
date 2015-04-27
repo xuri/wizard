@@ -41,12 +41,10 @@ class WapController extends BaseController
 	 */
 	public function getMembers()
 	{
+		Cookie::queue('sex', Input::get('sex'));
 		// Determin user sex
 		$cookie = Cookie::get('sex');
 		if($cookie) {
-			$users = array(758,2724,8,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
-			return View::make('wap.members')->with(compact('users', 'categories'));
-		} else {
 			$sex = Input::get('sex');
 
 			switch ($sex) {
@@ -113,17 +111,20 @@ class WapController extends BaseController
 					Cookie::queue('w_id', $w_id);
 					Cookie::queue('password', $password);
 
-					Queue::push('AddUserQueue', [
-									'username'	=> $user->id,
-									'password'	=> $user->password,
-								]);
+					// Queue::push('AddUserQueue', [
+					// 				'username'	=> $user->id,
+					// 				'password'	=> $user->password,
+					// 			]);
 
 					// Create floder to store chat record
 					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 				break;
 			}
+
 			$users = array(8,2724,758,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
 			return View::make('wap.members')->with(compact('users', 'categories'));
+		} else {
+			return Redirect::route('wap.index');
 		}
 	}
 
@@ -134,13 +135,40 @@ class WapController extends BaseController
 	 */
 	public function getShow($id)
 	{
-		$data              = User::where('id', $id)->first();
-		$profile           = Profile::where('user_id', $id)->first();
+		// Determin user sex
+		$cookie = Cookie::get('sex');
+		if($cookie) {
+			$data              = User::where('id', $id)->first();
+			$profile           = Profile::where('user_id', $id)->first();
 
-		// Get user's constellation
-		$constellationInfo = getConstellation($profile->constellation);
-		$tag_str           = array_unique(explode(',', substr($profile->tag_str, 1)));
-		return View::make('wap.show')->with(compact('data', 'profile', 'constellationInfo', 'tag_str'));
+			// Get user's constellation
+			$constellationInfo = getConstellation($profile->constellation);
+			$tag_str           = array_unique(explode(',', substr($profile->tag_str, 1)));
+			return View::make('wap.show')->with(compact('data', 'profile', 'constellationInfo', 'tag_str'));
+		} else {
+			return Redirect::route('wap.index');
+		}
+	}
+
+	/**
+	 * Show more members
+	 * @return response view
+	 */
+	public function getMore()
+	{
+		// Determin user sex
+		$cookie = Cookie::get('sex');
+		if($cookie) {
+			$query	= User::whereNotNull('portrait')
+						->where('block', 0)
+						->whereNotNull('nickname')
+						->orderBy('updated_at', 'desc');
+			$datas = $query->paginate(20);
+
+			return View::make('wap.more')->with(compact('datas'));
+		} else {
+			return Redirect::route('wap.index');
+		}
 	}
 
 	/**
@@ -149,7 +177,13 @@ class WapController extends BaseController
 	 */
 	public function getSuccess()
 	{
-		return View::make('wap.success');
+		// Determin user sex
+		$cookie = Cookie::get('sex');
+		if($cookie) {
+			return View::make('wap.success');
+		} else {
+			return Redirect::route('wap.index');
+		}
 	}
 
 }

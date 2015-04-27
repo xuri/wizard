@@ -13,7 +13,7 @@ a{ text-decoration:none; }
 li{ list-style:none; }
 body{
 	max-width:640px;
-	background:#eeeeee;
+	background:#FFF;
 	font-size:8px;
     font-family:Microsoft YaHei,SimHei,Arial,Pro LiHei Pro Medium;
 }
@@ -159,8 +159,10 @@ body{
 .lu_paging {
 	text-align: center;
 }
-
-.lu_paging a {
+.lu_paging a, .lu_paging span {
+	display: none;
+}
+.lu_paging a[rel=next] {
 	margin: 2em auto 2em 42%;
 	display: block;
 	padding: 0.2em 0.5em;
@@ -176,6 +178,7 @@ body{
 	background:#f76c6c;
 	border-radius:3px;
 }
+
 </style>
 <body>
 	<div id="top">
@@ -184,14 +187,10 @@ body{
 		<a id="top_download" href="{{ route('home') }}">下载{{ Lang::get('navigation.pinai') }}</a>
 	</div>
 	<ul id="list">
-		@foreach($users as $id)
+		@foreach($datas as $data)
 		<?php
-			$data				= User::where('id', $id)->first();
-			$profile			= Profile::where('user_id', $id)->first();
-
-			// Get user's constellation
-			$constellationInfo	= getConstellation($profile->constellation);
-			$tag_str			= array_unique(explode(',', substr($profile->tag_str, 1)));
+			$profile = Profile::where('user_id', $data->id)->first();
+			$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
 		?>
 		<a href="{{ route('wap.show', $data->id) }}">
 			<li class="clear">
@@ -225,7 +224,8 @@ body{
 		</a>
 		@endforeach
 	</ul>
-	<div class="lu_paging"><a href="{{ route('wap.more') }}">查看更多</a></div>
+
+	{{ pagination($datas->appends(Input::except('page')), 'layout.paginator') }}
 
 	@include('layout.analytics')
 	@yield('content')
