@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-	<title>{{ Lang::get('navigation.pinai') }}</title>
+	<title>{{ Lang::get('navigation.pinai') }}丨全国首个大学生恋爱APP</title>
 </head>
 
 <Style type="text/css">
@@ -12,7 +12,7 @@ img{border:none; vertical-align:top;}
 a{ text-decoration:none; }
 li{ list-style:none; }
 body{
-	background:#eeeeee;
+	background:#fe949e;
 	font-size:8px;
     font-family:Microsoft YaHei,SimHei,Arial,Pro LiHei Pro Medium;
 }
