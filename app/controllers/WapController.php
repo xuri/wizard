@@ -122,7 +122,7 @@ class WapController extends BaseController
 					File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 				break;
 			}
-			$users = array(758,2724,8,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
+			$users = array(8,2724,758,15,2346,1730,1341,77,319,2708,1745,1533,419,1621,2321,1,2563,1591,1774,317);
 			return View::make('wap.members')->with(compact('users', 'categories'));
 		}
 	}
