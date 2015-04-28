@@ -15,7 +15,7 @@
 
 		@if(Agent::isMobile())
 		@else
-			<div class="row row-offcanvas row-offcanvas-right" style="margin-top: 8%">
+			<div class="row-offcanvas row-offcanvas-right" style="margin-top: 8%">
 		@endif
 		        <div class="col-md-8 col-md-offset-2">
 
