@@ -161,7 +161,7 @@ body{
 }
 
 .lu_paging a {
-	margin: 2em auto 2em 42%;
+	margin: 2em auto;
 	display: block;
 	padding: 0.2em 0.5em;
 	top:14px;

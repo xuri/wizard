@@ -115,7 +115,7 @@ body{
 	position: fixed;
 	top: 40px;
 	left: 40px;
-	font-size: 12px;
+	font-size: 1.4em;
 	border-radius: 3px;
 	color: #FFF;
 }
