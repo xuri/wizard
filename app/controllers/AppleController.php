@@ -569,7 +569,6 @@ class AppleController extends BaseController
 						}
 					}
 				break;
-
 				// Members show profile
 
 				case 'members_show' :

@@ -310,7 +310,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|i
 Route::group(array('prefix' => 'android'), function () {
 	$controller = 'AndroidController@';
 	# Android API
-	// Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
+	Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
 	Route::post('api'              , $controller.'postAndroid');
 
 });
