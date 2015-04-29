@@ -461,19 +461,21 @@ class AppleController extends BaseController
 							$users[$key]['school']		= e($users[$key]['school']);
 						}
 
-						// Encode likes array to json format
-						$users = json_encode($users);
-
 						// If get query success
 						if($users)
 						{
 							// Build Json format
-							return '{ "status" : "1", "data" : ' . $users . '}';
+							return Response::json(
+								array(
+									'status'	=> 1,
+									'data'		=> $users
+								)
+							);
 						} else {
 							// Get query fail
 							return Response::json(
 								array(
-									'status' 		=> 0
+									'status' 	=> 0
 								)
 							);
 						}
@@ -550,16 +552,18 @@ class AppleController extends BaseController
 							$users[$key]['school']		= e($users[$key]['school']);
 						}
 
-						// Encode likes array to json format
-						$users = json_encode($users);
-
 						if($users)
 						{
-							return '{ "status" : "1", "data" : ' . $users . '}';
+							return Response::json(
+								array(
+									'status'	=> 1,
+									'data'		=> $users
+								)
+							);
 						} else {
 							return Response::json(
 								array(
-									'status' 		=> 0
+									'status' 	=> 0
 								)
 							);
 						}
@@ -916,15 +920,18 @@ class AppleController extends BaseController
 							$likes[$key]['created_at']	= $Days;
 						}
 
-						// Encode likes array to json format
-						$like = json_encode($likes);
 						if($allLike)
 						{
-							return '{ "status" : "1", "data" : ' . $like . '}';
+							return Response::json(
+								array(
+									'status'	=> 1,
+									'data'		=> $likes
+								)
+							);
 						} else {
 							return Response::json(
 								array(
-									'status' 		=> 0
+									'status' 	=> 0
 								)
 							);
 						}
@@ -936,7 +943,12 @@ class AppleController extends BaseController
 						// Determin like exist
 						if(is_null($lastRecord))
 						{
-							return '{ "status" : "1", "data" : []}';
+							return Response::json(
+								array(
+									'status'	=> 1,
+									'data'		=> array()
+								)
+							);
 						} else {
 
 							// Query all user liked users
@@ -990,11 +1002,14 @@ class AppleController extends BaseController
 								$likes[$key]['created_at']	= $Days;
 							}
 
-							// Encode likes array to json format
-							$like = json_encode($likes);
 							if($allLike)
 							{
-								return '{ "status" : "1", "data" : ' . $like . '}';
+								return Response::json(
+									array(
+										'status'	=> 1,
+										'data'		=> $likes
+									)
+								);
 							} else {
 								return Response::json(
 									array(
@@ -1068,11 +1083,14 @@ class AppleController extends BaseController
 							$likes[$key]['created_at']	= $Days;
 						}
 
-						// Encode likes array to json format
-						$like = json_encode($likes);
 						if($allLike)
 						{
-							return '{ "status" : "1", "data" : '.$like.'}';
+							return Response::json(
+								array(
+									'status'	=> 1,
+									'data'		=> $likes
+								)
+							);
 						} else {
 							return Response::json(
 								array(
@@ -1131,11 +1149,14 @@ class AppleController extends BaseController
 							$likes[$key]['created_at']	= $Days;
 						}
 
-						// Encode likes array to json format
-						$like = json_encode($likes);
 						if($allLike)
 						{
-							return '{ "status" : "1", "data" : '.$like.'}';
+							return Response::json(
+								array(
+									'status'	=> 1,
+									'data'		=> $likes
+								)
+							);
 						} else {
 							return Response::json(
 								array(
@@ -1444,13 +1465,15 @@ class AppleController extends BaseController
 							}
 						}
 
-					// Convert array to json format
-					$friend = json_encode($friends);
-
 					// Query successful
-					if($friend)
+					if($friends)
 					{
-						return '{ "status" : "1", "data" : ' . $friend . '}';
+						return Response::json(
+							array(
+								'status' 	=> 1,
+								'data'		=> $friends
+							)
+						);
 					} else {
 						return Response::json(
 							array(
@@ -1672,7 +1695,15 @@ class AppleController extends BaseController
 						}
 
 						// Build Json format
-						return '{ "status" : "1", "data" : {"top":[], "items" : ' . json_encode($items) . '}}';
+						return Response::json(
+							array(
+								'status'	=> 1,
+								'data'		=> array(
+													'top'	=> array(),
+													'items'	=> $items
+												)
+							)
+						);
 
 					} else { // First get data from App client
 
@@ -1686,7 +1717,12 @@ class AppleController extends BaseController
 							if(is_null($lastRecord)) {
 
 								// Build Json format
-								return '{ "status" : "1", "data" : []}';
+								return Response::json(
+									array(
+										'status'	=> 1,
+										'data'		=> array()
+									)
+								);
 							} else {
 
 								// Post exists
@@ -1809,8 +1845,12 @@ class AppleController extends BaseController
 									);
 
 								// Build Json format
-								echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
-
+								return Response::json(
+									array(
+										'status'	=> 1,
+										'data'		=> $data
+									)
+								);
 							}
 						} else {
 
@@ -1824,8 +1864,11 @@ class AppleController extends BaseController
 								if($cat_id == 3) {
 
 									// Forum is closed and build Json format
-									echo '{ "status" : "2" }';
-
+									return Response::json(
+										array(
+											'status'	=> 2
+										)
+									);
 								} else {
 
 									// Forum is opening query last user id in database
@@ -1835,7 +1878,12 @@ class AppleController extends BaseController
 									if(is_null($lastRecord)) {
 
 										// Build Json format
-										return '{ "status" : "1", "data" : []}';
+										return Response::json(
+											array(
+												'status'	=> 1,
+												'data'		=> array()
+											)
+										);
 									} else {
 
 										// Post exists and query all items from database
@@ -1956,7 +2004,12 @@ class AppleController extends BaseController
 											);
 
 										// Build Json format
-										echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+										return Response::json(
+											array(
+												'status'	=> 1,
+												'data'		=> $data
+											)
+										);
 									}
 								}
 							} else {
@@ -1965,8 +2018,11 @@ class AppleController extends BaseController
 								if($cat_id == 2) {
 
 									// Forum is closed and build Json format
-									echo '{ "status" : "2" }';
-
+									return Response::json(
+										array(
+											'status'	=> 2
+										)
+									);
 								} else {
 
 									// Forum is opening query last user id in database
@@ -1976,7 +2032,12 @@ class AppleController extends BaseController
 									if(is_null($lastRecord)) {
 
 										// Build Json format
-										return '{ "status" : "1", "data" : []}';
+										return Response::json(
+											array(
+												'status'	=> 1,
+												'data'		=> array()
+											)
+										);
 									} else {
 
 										// Post exists
@@ -2099,7 +2160,12 @@ class AppleController extends BaseController
 											);
 
 										// Build Json format
-										echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+										return Response::json(
+											array(
+												'status'	=> 1,
+												'data'		=> $data
+											)
+										);
 									}
 								}
 							}
@@ -2126,7 +2192,11 @@ class AppleController extends BaseController
 						if(is_null($post)) {
 
 							// Build Json format
-							return '{ "status" : "2" }';
+							return Response::json(
+								array(
+									'status'	=> 2
+								)
+							);
 
 						} else {
 
@@ -2172,7 +2242,12 @@ class AppleController extends BaseController
 								);
 
 								// Build Json format
-								return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+								return Response::json(
+									array(
+										'status'	=> 1,
+										'data'		=> $data
+									)
+								);
 
 							} else {
 
@@ -2272,7 +2347,12 @@ class AppleController extends BaseController
 								);
 
 								// Build Json format
-								return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+								return Response::json(
+									array(
+										'status'	=> 1,
+										'data'		=> $data
+									)
+								);
 							}
 						}
 
@@ -2285,7 +2365,11 @@ class AppleController extends BaseController
 						if(is_null($post)) {
 
 							// Build Json format
-							return '{ "status" : "2" }';
+							return Response::json(
+								array(
+									'status'	=> 2
+								)
+							);
 
 						} else {
 
@@ -2359,7 +2443,12 @@ class AppleController extends BaseController
 							);
 
 							// Build Json format
-							return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+							return Response::json(
+								array(
+									'status'	=> 1,
+									'data'		=> $data
+								)
+							);
 						}
 					}
 
@@ -2682,7 +2771,12 @@ class AppleController extends BaseController
 					if(is_null($check_null)) {
 
 						// Build Json format
-						return '{ "status" : "1", "data" :[]}';
+						return Response::json(
+							array(
+								'status'	=> 1,
+								'data'		=> array()
+							)
+						);
 
 					} else {
 
@@ -2757,7 +2851,12 @@ class AppleController extends BaseController
 						Notification::where('receiver_id', $id)->whereIn('category', array(6, 7))->update(array('status' => 1));
 
 						// Build Json format
-						return '{ "status" : "1", "data" : ' . json_encode($notifications) . '}';
+						return Response::json(
+							array(
+								'status'	=> 1,
+								'data'		=> $notifications
+							)
+						);
 					}
 				break;
 
@@ -2816,7 +2915,12 @@ class AppleController extends BaseController
 					);
 
 					// Build Json format
-					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+					return Response::json(
+						array(
+							'status'	=> 1,
+							'data'		=> $data
+						)
+					);
 				break;
 
 				// Get user posts
@@ -2852,7 +2956,12 @@ class AppleController extends BaseController
 						);
 
 					// Build Json format
-					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+					return Response::json(
+						array(
+							'status'	=> 1,
+							'data'		=> $data
+						)
+					);
 				break;
 
 				// Delete forum post
@@ -2963,7 +3072,12 @@ class AppleController extends BaseController
 					));
 
 					// Build Json format
-					return '{ "status" : "1", "data" : ' . json_encode($universities) . '}';
+					return Response::json(
+						array(
+							'status'	=> 1,
+							'data'		=> $universities
+						)
+					);
 				break;
 
 				// Get forum unread notifications
@@ -2978,11 +3092,21 @@ class AppleController extends BaseController
 					if(is_null($notifications)) {
 
 						// No unread notifications, build Json format
-						return '{ "status" : "1", "num" : "0" }';
+						return Response::json(
+							array(
+								'status'	=> 1,
+								'num'		=> 0
+							)
+						);
 					} else {
 
 						// Build Json format
-						return '{ "status" : "1", "num" : ' . $notifications. '}';
+						return Response::json(
+							array(
+								'status'	=> 1,
+								'num'		=> $notifications
+							)
+						);
 					}
 				break;
 
@@ -3000,7 +3124,12 @@ class AppleController extends BaseController
 					}
 
 					// Build Json format
-					return '{ "status" : "1", "data" : ' . json_encode($articles) . '}';
+					return Response::json(
+						array(
+							'status'	=> 1,
+							'data'		=> $articles
+						)
+					);
 				break;
 
 				// Recovery password
@@ -3151,7 +3280,12 @@ class AppleController extends BaseController
 					Notification::where('receiver_id', $id)->update(array('status' => 1));
 
 					// Build Json format
-					return '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+					return Response::json(
+						array(
+							'status'	=> 1,
+							'data'		=> $data
+						)
+					);
 				break;
 
 				// Signout
