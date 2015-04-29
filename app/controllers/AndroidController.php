@@ -1817,8 +1817,12 @@ class AndroidController extends BaseController
 									);
 
 								// Build Json format
-								echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
-
+								return Response::json(
+									array(
+										'status'	=> 1,
+										'data'		=> json_encode($data)
+									)
+								);
 							}
 						} else {
 
@@ -1832,8 +1836,11 @@ class AndroidController extends BaseController
 								if($cat_id == 3) {
 
 									// Forum is closed and build Json format
-									echo '{ "status" : "2" }';
-
+									return Response::json(
+										array(
+											'status'	=> 2
+										)
+									);
 								} else {
 
 									// Forum is opening query last user id in database
@@ -1964,7 +1971,12 @@ class AndroidController extends BaseController
 											);
 
 										// Build Json format
-										echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+										return Response::json(
+											array(
+												'status'	=> 1,
+												'data'		=> json_encode($data)
+											)
+										);
 									}
 								}
 							} else {
@@ -1973,8 +1985,11 @@ class AndroidController extends BaseController
 								if($cat_id == 2) {
 
 									// Forum is closed and build Json format
-									echo '{ "status" : "2" }';
-
+									return Response::json(
+										array(
+											'status'	=> 2
+										)
+									);
 								} else {
 
 									// Forum is opening query last user id in database
@@ -2107,7 +2122,12 @@ class AndroidController extends BaseController
 											);
 
 										// Build Json format
-										echo '{ "status" : "1", "data" : ' . json_encode($data) . '}';
+										return Response::json(
+											array(
+												'status'	=> 1,
+												'data'		=> json_encode($data)
+											)
+										);
 									}
 								}
 							}
