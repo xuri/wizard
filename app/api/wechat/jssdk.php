@@ -79,7 +79,7 @@ class JSSDK {
 			if ($access_token) {
 				$data->expire_time = time() + 7000;
 				$data->access_token = $access_token;
-				$fp = fopen("access_token.json", "w");
+				$fp = fopen(__DIR__."/access_token.json", "w");
 				fwrite($fp, json_encode($data));
 				fclose($fp);
 			}
