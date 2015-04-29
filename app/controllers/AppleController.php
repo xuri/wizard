@@ -3281,7 +3281,7 @@ class AppleController extends BaseController
 					// Build Json format
 					return Response::json(
 						array(
-							'status'	=> 1,
+							'status'	=> '1',
 							'data'		=> $data
 						)
 					);
