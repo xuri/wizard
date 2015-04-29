@@ -5,7 +5,7 @@
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
 	<title>{{ Lang::get('navigation.pinai') }}丨全国首个大学生恋爱APP</title>
 </head>
-<Style type="text/css">
+<style type="text/css">
 body, h2, p{margin:0; padding:0;}
 a{ text-decoration:none; }
 .clear { zoom:1; }

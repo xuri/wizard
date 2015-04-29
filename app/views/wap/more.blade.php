@@ -6,7 +6,7 @@
 	<title>{{ Lang::get('navigation.pinai') }}丨全国首个大学生恋爱APP</title>
 </head>
 
-<Style type="text/css">
+<style type="text/css">
 body, h3, span, ul{ margin:0; padding:0;}
 img{border:none; vertical-align:top;}
 a{ text-decoration:none; }

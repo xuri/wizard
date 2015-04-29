@@ -2193,7 +2193,7 @@ class AppleController extends BaseController
 							// Build Json format
 							return Response::json(
 								array(
-									'status'	=> 2
+									'status'	=> '2'
 								)
 							);
 
@@ -2243,7 +2243,7 @@ class AppleController extends BaseController
 								// Build Json format
 								return Response::json(
 									array(
-										'status'	=> 1,
+										'status'	=> '1',
 										'data'		=> $data
 									)
 								);
@@ -2348,7 +2348,7 @@ class AppleController extends BaseController
 								// Build Json format
 								return Response::json(
 									array(
-										'status'	=> 1,
+										'status'	=> '1',
 										'data'		=> $data
 									)
 								);
@@ -2366,7 +2366,7 @@ class AppleController extends BaseController
 							// Build Json format
 							return Response::json(
 								array(
-									'status'	=> 2
+									'status'	=> '2'
 								)
 							);
 
@@ -2444,7 +2444,7 @@ class AppleController extends BaseController
 							// Build Json format
 							return Response::json(
 								array(
-									'status'	=> 1,
+									'status'	=> '1',
 									'data'		=> $data
 								)
 							);
