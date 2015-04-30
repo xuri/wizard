@@ -121,7 +121,7 @@ body{
 }
 </style>
 <body>
-	<span id="back"><a href="{{ route('wap.members') }}">← 返回</a></span>
+	<span id="back"><a href="{{ URL::previous() }}">← 返回</a></span>
 	<div id="top">
 		<div class="center">
 			<span id="head">
