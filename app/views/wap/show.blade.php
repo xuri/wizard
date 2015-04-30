@@ -113,8 +113,8 @@ body{
 }
 #back, #back a {
 	position: fixed;
-	top: 30px;
-	left: 30px;
+	top: 1.5em;
+	left: 1.5em;
 	font-size: 1.4em;
 	border-radius: 3px;
 	color: #FFF;
