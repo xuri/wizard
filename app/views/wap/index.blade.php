@@ -48,6 +48,17 @@ body{
 	top: -5%;
 
 }
+
+.agree {
+	color: #FFF;
+	text-align: center;
+	font-size: 1.2em;
+	margin: 0 0 1.5em 0;
+}
+
+.agree a {
+	color: #FFF;
+}
 </style>
 <body>
 	{{ HTML::image('assets/images/wap/corner.png', '', array('class' => 'corner')) }}
@@ -57,7 +68,7 @@ body{
 	<div class="bottom">
 		<a href="{{ route('wap.members') }}/?sex=F">{{ HTML::image('assets/images/wap/female.png', '', array('class' => 'sex_btn')) }}</a>
 	</div>
-
+	<div class="agree">使用聘爱即代表您已同意<a href="{{ route('home') }}/article/privacy.html">《服务条款》</a></div>
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 	<script type="text/javascript">
 	  wx.config({
