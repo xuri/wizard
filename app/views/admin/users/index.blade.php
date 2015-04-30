@@ -86,7 +86,7 @@
 											<td>{{ $data->id }}</td>
 											<td>{{ $data->is_admin ? Lang::get('system.moderator') : Lang::get('admin/users/index.common_user') }}</td>
 											<td style="text-align:center;">
-												<a href="{{ route('members.show', $data->id) }}">
+												<a href="{{ route('members.show', $data->id) }}" target="_blank">
 													@if($data->portrait)
 													{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '20')) }}
 													@else
@@ -96,8 +96,10 @@
 											</td>
 											@if($data->email)
 											<td>邮箱：<a href="mailto:{{ $data->email }}">{{ $data->email }}<a></td>
-											@else
+											@elseif($data->phone)
 											<td>手机：<a href="tel:{{ $data->phone }}" value="{{ $data->phone }}">{{ $data->phone }}</a></td>
+											@else
+											<td>WAP ID：<a href="{{ route('members.show', $data->id) }}" value="{{ $data->phone }}" target="_blank">{{ $data->w_id }}</a></td>
 											@endif
 											<td class="center">{{ $data->nickname }}</td>
 
