@@ -63,10 +63,10 @@ body{
 <body>
 	{{ HTML::image('assets/images/wap/corner.png', '', array('class' => 'corner')) }}
 	<div class="top">
-		<a href="{{ route('wap.members') }}/?sex=M">{{ HTML::image('assets/images/wap/male.png', '', array('class' => 'sex_btn')) }}</a>
+		<a href="{{ route('wap.index') }}/?sex=M">{{ HTML::image('assets/images/wap/male.png', '', array('class' => 'sex_btn')) }}</a>
 	</div>
 	<div class="bottom">
-		<a href="{{ route('wap.members') }}/?sex=F">{{ HTML::image('assets/images/wap/female.png', '', array('class' => 'sex_btn')) }}</a>
+		<a href="{{ route('wap.index') }}/?sex=F">{{ HTML::image('assets/images/wap/female.png', '', array('class' => 'sex_btn')) }}</a>
 	</div>
 	<div class="agree">使用聘爱即代表您已同意<a href="{{ route('home') }}/article/privacy.html">《服务条款》</a></div>
 	<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>

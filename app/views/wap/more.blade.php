@@ -207,9 +207,9 @@ body{
 				</span>
 				<div class="list_introduction">
 					@if($data->sex == 'M')
-					{{ HTML::image('assets/images/wechat/sex.png') }}
+					{{ HTML::image('assets/images/wap/male_icon.png') }}
 					@else
-					{{ HTML::image('assets/images/wechat/big_girl.png') }}
+					{{ HTML::image('assets/images/wap/female_icon.png') }}
 					@endif
 					<span>{{ $data->nickname }}</span>
 					<br />
