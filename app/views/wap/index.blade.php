@@ -53,7 +53,7 @@ body{
 	color: #FFF;
 	text-align: center;
 	font-size: 1.2em;
-	margin: 0 0 1em 0;
+	margin: 0 0 0.5em 0;
 }
 
 .agree a {
