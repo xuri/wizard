@@ -54,7 +54,7 @@ Route::group(array('before' => 'cache', 'after' => 'cache'), function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::group(array('prefix' => 'wap', 'before' => 'cache|wap.mobile', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'wap', 'before' => 'wap.mobile|cache', 'after' => 'cache'), function () {
 	$controller = 'WapController@';
 	# Index
 	Route::get(					'/', array('as' => 'wap.index'	, 'uses' => $controller.'getIndex'		));
@@ -72,7 +72,7 @@ Route::group(array('prefix' => 'wap', 'before' => 'cache|wap.mobile', 'after' =>
 |
 */
 
-Route::group(array('prefix' => 'auth', 'before' => 'cache|is.mobile', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'auth', 'before' => 'is.mobile|cache', 'after' => 'cache'), function () {
 	$Authority = 'AuthorityController@';
 
 	# Signout
@@ -111,7 +111,7 @@ Route::group(array('prefix' => 'auth', 'before' => 'cache|is.mobile', 'after' =>
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'auth|auth.activated|is.mobile|cache', 'after' => 'cache'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -127,7 +127,7 @@ Route::group(array('prefix' => 'members', 'before' => 'cache|auth|auth.activated
 |
 */
 
-Route::group(array('prefix' => 'support', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'support', 'before' => 'auth|auth.activated|is.mobile|cache', 'after' => 'cache'), function () {
 	$resource   = 'support';
 	$controller = 'SupportController@';
 	# Get index
@@ -142,7 +142,7 @@ Route::group(array('prefix' => 'support', 'before' => 'cache|auth|auth.activated
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'account', 'before' => 'auth|auth.activated|is.mobile|cache', 'after' => 'cache'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'							, array('as' => 'account',						'uses' => $Account.'getIndex'				));
@@ -172,7 +172,7 @@ Route::group(array('prefix' => 'account', 'before' => 'cache|auth|auth.activated
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'forum', 'before' => 'auth|auth.activated|is.mobile|cache', 'after' => 'cache'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Type
@@ -191,7 +191,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'cache|auth|auth.activated|i
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'cache|auth|auth.activated|admin|is.mobile', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'admin', 'before' => 'auth|auth.activated|admin|is.mobile|cache', 'after' => 'cache'), function () {
 	$Admin = 'AdminController@';
 
 	# Admin Index
