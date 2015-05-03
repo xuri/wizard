@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration {
 	        $table->string('born_year', 10)->nullable(); // User born year
 	        $table->string('school', 100)->nullable(); // University name
 	        $table->integer('points')->default('1000'); // Points
-	        $table->integer('w_id', 6)->nullable(); // WAP register user ID
+	        $table->integer('w_id')->nullable(); // WAP register user ID
 	        $table->string('phone')->nullable(); // Mobile phone number
 	        $table->string('portrait')->nullable(); // Avatar file name
 	        $table->string('remember_token')->nullable();

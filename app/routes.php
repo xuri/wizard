@@ -34,8 +34,8 @@
 Route::group(array('before' => 'cache', 'after' => 'cache'), function () {
 	$controller = 'HomeController@';
 	# Homepage
-	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   					));
-	Route::get(   'promotion', array('as' => 'promotion' , 'uses' => 'Admin_SupportResource@promotionPublic'	));
+	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   				));
+	Route::get(   'promotion', array('as' => 'promotion' , 'uses' => 'Admin_SupportResource@promotionPublic'));
 
 	// Articles
 	Route::group(array('prefix' => 'article'), function () use ($controller) {
@@ -307,7 +307,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'is.desktop|auth|auth.activa
 |
 */
 
-Route::group(array('prefix' => 'android', 'before' => 'cache', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'android'), function () {
 	$controller = 'AndroidController@';
 	# Android API
 	// Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
@@ -322,7 +322,7 @@ Route::group(array('prefix' => 'android', 'before' => 'cache', 'after' => 'cache
 |
 */
 
-Route::group(array('prefix' => 'ios', 'before' => 'cache', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'ios'), function () {
 	$controller = 'AppleController@';
 	# iOS API
 	Route::post('api', 	$controller . 'postApple');
