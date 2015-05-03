@@ -72,7 +72,7 @@ Route::group(array('prefix' => 'wap', 'before' => 'is.mobile'), function () {
 |
 */
 
-Route::group(array('prefix' => 'auth', 'before' => 'cache|is.desktop', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'auth', 'before' => 'is.desktop|cache', 'after' => 'cache'), function () {
 	$Authority = 'AuthorityController@';
 
 	# Signout
@@ -111,7 +111,7 @@ Route::group(array('prefix' => 'auth', 'before' => 'cache|is.desktop', 'after' =
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'cache|is.desktop|auth|auth.activated', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'is.desktop|auth|auth.activated|cache', 'after' => 'cache'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -142,7 +142,7 @@ Route::group(array('prefix' => 'support', 'before' => 'cache|is.desktop|auth|aut
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'cache|is.desktop|auth|auth.activated', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'account', 'before' => 'is.desktop|auth|auth.activated|cache', 'after' => 'cache'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'							, array('as' => 'account',						'uses' => $Account.'getIndex'				));
@@ -172,7 +172,7 @@ Route::group(array('prefix' => 'account', 'before' => 'cache|is.desktop|auth|aut
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'cache|is.desktop|auth|auth.activated', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'forum', 'before' => 'is.desktop|auth|auth.activated|cache', 'after' => 'cache'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Type
@@ -191,7 +191,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'cache|is.desktop|auth|auth.
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'cache|is.desktop|auth|auth.activated|admin', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'admin', 'before' => 'is.desktop|auth|auth.activated|admin|cache', 'after' => 'cache'), function () {
 	$Admin = 'AdminController@';
 
 	# Admin Index
