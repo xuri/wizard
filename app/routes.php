@@ -31,7 +31,7 @@
 |
 */
 
-Route::group(array('before' => 'cache'), function () {
+Route::group(array('before' => 'cache', 'after' => 'cache'), function () {
 	$controller = 'HomeController@';
 	# Homepage
 	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   					));
@@ -54,7 +54,7 @@ Route::group(array('before' => 'cache'), function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::group(array('prefix' => 'wap', 'before' => 'cache|wap.mobile'), function () {
+Route::group(array('prefix' => 'wap', 'before' => 'cache|wap.mobile', 'after' => 'cache'), function () {
 	$controller = 'WapController@';
 	# Index
 	Route::get(					'/', array('as' => 'wap.index'	, 'uses' => $controller.'getIndex'		));
@@ -72,7 +72,7 @@ Route::group(array('prefix' => 'wap', 'before' => 'cache|wap.mobile'), function 
 |
 */
 
-Route::group(array('prefix' => 'auth', 'before' => 'cache|is.mobile'), function () {
+Route::group(array('prefix' => 'auth', 'before' => 'cache|is.mobile', 'after' => 'cache'), function () {
 	$Authority = 'AuthorityController@';
 
 	# Signout
@@ -111,7 +111,7 @@ Route::group(array('prefix' => 'auth', 'before' => 'cache|is.mobile'), function 
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'cache|auth|auth.activated|is.mobile'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -127,7 +127,7 @@ Route::group(array('prefix' => 'members', 'before' => 'cache|auth|auth.activated
 |
 */
 
-Route::group(array('prefix' => 'support', 'before' => 'cache|auth|auth.activated|is.mobile'), function () {
+Route::group(array('prefix' => 'support', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
 	$resource   = 'support';
 	$controller = 'SupportController@';
 	# Get index
@@ -142,7 +142,7 @@ Route::group(array('prefix' => 'support', 'before' => 'cache|auth|auth.activated
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'cache|auth|auth.activated|is.mobile'), function () {
+Route::group(array('prefix' => 'account', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'							, array('as' => 'account',						'uses' => $Account.'getIndex'				));
@@ -172,7 +172,7 @@ Route::group(array('prefix' => 'account', 'before' => 'cache|auth|auth.activated
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'cache|auth|auth.activated|is.mobile'), function () {
+Route::group(array('prefix' => 'forum', 'before' => 'cache|auth|auth.activated|is.mobile', 'after' => 'cache'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Type
@@ -191,7 +191,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'cache|auth|auth.activated|i
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'cache|auth|auth.activated|admin|is.mobile'), function () {
+Route::group(array('prefix' => 'admin', 'before' => 'cache|auth|auth.activated|admin|is.mobile', 'after' => 'cache'), function () {
 	$Admin = 'AdminController@';
 
 	# Admin Index
@@ -307,7 +307,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'cache|auth|auth.activated|a
 |
 */
 
-Route::group(array('prefix' => 'android', 'before' => 'cache'), function () {
+Route::group(array('prefix' => 'android', 'before' => 'cache', 'after' => 'cache'), function () {
 	$controller = 'AndroidController@';
 	# Android API
 	// Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
@@ -322,7 +322,7 @@ Route::group(array('prefix' => 'android', 'before' => 'cache'), function () {
 |
 */
 
-Route::group(array('prefix' => 'ios', 'before' => 'cache'), function () {
+Route::group(array('prefix' => 'ios', 'before' => 'cache', 'after' => 'cache'), function () {
 	$controller = 'AppleController@';
 	# iOS API
 	Route::post('api', 	$controller . 'postApple');
@@ -342,7 +342,7 @@ Route::group(array('prefix' => 'ios', 'before' => 'cache'), function () {
 // 	 return View::make('tools.migrate');
 // }));
 
-Route::get('browser_not_support', array('as' => 'browser_not_support', 'before' => 'cache', function()
+Route::get('browser_not_support', array('as' => 'browser_not_support', 'before' => 'cache', 'after' => 'cache', function()
 {
 	return View::make('system.browserUpdate');
 }));
