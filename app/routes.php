@@ -31,7 +31,7 @@
 |
 */
 
-Route::group(array('before' => 'cache', 'after' => 'cache'), function () {
+Route::group(array(), function () {
 	$controller = 'HomeController@';
 	# Homepage
 	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   				));
@@ -72,14 +72,14 @@ Route::group(array('prefix' => 'wap', 'before' => 'is.mobile'), function () {
 |
 */
 
-Route::group(array('prefix' => 'auth', 'before' => 'is.desktop|cache', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'auth', 'before' => 'is.desktop'), function () {
 	$Authority = 'AuthorityController@';
 
 	# Signout
 	Route::get('signout', array('as' => 'signout', 'uses' => $Authority.'getSignout'));
 
 	# Route Group
-	Route::group(array('before' => 'cache|guest', 'after' => 'cache'), function () use ($Authority) {
+	Route::group(array('before' => 'guest'), function () use ($Authority) {
 		# Signin
 		Route::get('signin' 					, array('as' => 'signin'		, 'uses' => $Authority.'getSignin'			));
 		Route::post('signin'					, $Authority.'postSignin');
@@ -111,7 +111,7 @@ Route::group(array('prefix' => 'auth', 'before' => 'is.desktop|cache', 'after' =
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'is.desktop|auth|auth.activated|cache', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'members', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -127,7 +127,7 @@ Route::group(array('prefix' => 'members', 'before' => 'is.desktop|auth|auth.acti
 |
 */
 
-Route::group(array('prefix' => 'support', 'before' => 'cache|is.desktop|auth|auth.activated', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'support', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$resource   = 'support';
 	$controller = 'SupportController@';
 	# Get index
@@ -142,7 +142,7 @@ Route::group(array('prefix' => 'support', 'before' => 'cache|is.desktop|auth|aut
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'is.desktop|auth|auth.activated|cache', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'account', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'							, array('as' => 'account',						'uses' => $Account.'getIndex'				));
@@ -172,7 +172,7 @@ Route::group(array('prefix' => 'account', 'before' => 'is.desktop|auth|auth.acti
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'is.desktop|auth|auth.activated|cache', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'forum', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Type
@@ -191,7 +191,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'is.desktop|auth|auth.activa
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'is.desktop|auth|auth.activated|admin|cache', 'after' => 'cache'), function () {
+Route::group(array('prefix' => 'admin', 'before' => 'is.desktop|auth|auth.activated|admin'), function () {
 	$Admin = 'AdminController@';
 
 	# Admin Index
@@ -342,7 +342,7 @@ Route::group(array('prefix' => 'ios'), function () {
 // 	 return View::make('tools.migrate');
 // }));
 
-Route::get('browser_not_support', array('as' => 'browser_not_support', 'before' => 'cache', 'after' => 'cache', function()
+Route::get('browser_not_support', array('as' => 'browser_not_support', function()
 {
 	return View::make('system.browserUpdate');
 }));
