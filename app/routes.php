@@ -54,7 +54,7 @@ Route::group(array('before' => 'cache', 'after' => 'cache'), function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::group(array('prefix' => 'wap', 'before' => 'is.desktop'), function () {
+Route::group(array('prefix' => 'wap', 'before' => 'is.mobile'), function () {
 	$controller = 'WapController@';
 	# Index
 	Route::get(					'/', array('as' => 'wap.index'	, 'uses' => $controller.'getIndex'		));
