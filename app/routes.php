@@ -342,7 +342,7 @@ Route::group(array('prefix' => 'ios', 'before' => 'cache'), function () {
 // 	 return View::make('tools.migrate');
 // }));
 
-Route::get('browser_not_support', array('as' => 'browser_not_support', function()
+Route::get('browser_not_support', array('as' => 'browser_not_support', 'before' => 'cache', function()
 {
 	return View::make('system.browserUpdate');
 }));
