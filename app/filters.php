@@ -103,13 +103,13 @@ Route::filter( 'not.self', function ( $route ) {
 	} );
 
 // Mobile access redirect
-Route::filter( 'is.mobile', function ( $route ) {
+Route::filter( 'is.desktop', function ( $route ) {
 		if ( Agent::isMobile() )
-		return View::make( 'home.mobilev2' );
+		return Redirect::route('home');
 	} );
 
 // WAP access redirect
-Route::filter( 'wap.mobile', function ( $route ) {
+Route::filter( 'is.mobile', function ( $route ) {
 		if ( Agent::isDesktop() )
 		return Redirect::route('home');
 	} );
