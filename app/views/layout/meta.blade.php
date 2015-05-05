@@ -12,9 +12,9 @@
 	<meta property="og:image" content="{{ route('home') }}/assets/images/icons/apple-touch-icon-180x180-precomposed.png"/>
 	<meta property="og:description" content="聘爱是全国首个大学生恋爱平台。用心，寻找真爱。"/>
 	<link rel="dns-prefetch" href="//www.pinai521.com">
-	<link href="http://www.pinai521.com/" rel="prefetch" /> {{-– IE9+ –-}}
+	<link href="http://www.pinai521.com/" rel="prefetch" /> <!– IE9+ –>
 	<link rel="dns-prefetch" href="//c.cnzz.com">
-	<link href="http://c.cnzz.com/" rel="prefetch" /> {{-– IE9+ –-}}
+	<link href="http://c.cnzz.com/" rel="prefetch" /> <!– IE9+ –>
 	<link rel="copyright" href="{{ route('home') }}/article/copyright.html"　/>
 	{{-- Favicons --}}
 	<link rel="shortcut icon" href="{{ route('home') }}/assets/images/icons/favicon.png" sizes="32x32">
