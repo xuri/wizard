@@ -10,20 +10,13 @@
 	{{-- Bootstrap Core CSS --}}
 	{{ HTML::style('assets/bootstrap-3.3.0/css/bootstrap.min.css') }}
 
-
-	{{-- MetisMenu CSS --}}
-	{{ HTML::style('assets/css/admin/plugins/metisMenu/metisMenu.min.css') }}
-
-
-	{{-- Timeline CSS --}}
-	{{ HTML::style('assets/css/admin/plugins/timeline.css') }}
-
-	{{-- Custom CSS --}}
-	{{ HTML::style('assets/css/admin/admin.css') }}
-
-
-	{{-- Morris Charts CSS --}}
-	{{ HTML::style('assets/css/admin/plugins/morris.css') }}
+	{{ Minify::stylesheet(array(
+		'/assets/css/admin/plugins/metisMenu/metisMenu.min.css',
+		'/assets/css/admin/plugins/timeline.css',
+		'/assets/css/admin/admin.css',
+		'/assets/css/admin/plugins/morris.css',
+		'/assets/css/cms-nav.css'
+	)) }}
 
 	{{-- Custom Fonts --}}
 	{{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
@@ -34,10 +27,6 @@
 		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 	<![endif]-->
-
-	{{ Minify::stylesheet(array(
-		'/assets/css/cms-nav.css'
-	)) }}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
