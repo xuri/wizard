@@ -226,12 +226,12 @@ class Admin_SupportResource extends BaseResource
 		$uncompleteProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
 									->orderBy('content')
 									->groupBy('user_id')
-									->whereHas('hasOneUser', function($hasUncompleteProfile) {
-										$hasUncompleteProfile->orWhereNull('school')
-												->orWhereNull('bio')
-												->orWhereNull('portrait')
-												->orWhereNull('born_year');
-										})
+									// ->whereHas('hasOneUser', function($hasUncompleteProfile) {
+									// 	$hasUncompleteProfile->orWhereNull('school')
+									// 			->orWhereNull('bio')
+									// 			->orWhereNull('portrait')
+									// 			->orWhereNull('born_year');
+									// 	})
 									->get()
 									->toArray();
 
