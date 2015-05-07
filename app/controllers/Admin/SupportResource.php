@@ -302,10 +302,10 @@ class Admin_SupportResource extends BaseResource
 		}
 
 		// Remove duplicate keys in array
-		$completeProfileUserList = array_unique($completeProfileUserArray);
+		$completeProfileUserList			= array_unique($completeProfileUserArray);
 
 		// Define an empty array of complete profile user list
-		$completeProfileUserListAnalytics = [];
+		$completeProfileUserListAnalytics	= [];
 
 		// To make agent ID as key and count as value of complete profile user list
 		foreach ($completeProfileUserList as $completeProfileUserListKey => $completeProfileUserListVaule) {
@@ -336,12 +336,12 @@ class Admin_SupportResource extends BaseResource
 		$uncompleteProfileUser = Support::whereRaw("content regexp '^[0-9]{3,4}$'")
 									->orderBy('content')
 									->groupBy('user_id')
-									->whereHas('hasOneUser', function($hasUncompleteProfile) {
-										$hasUncompleteProfile->orWhereNull('school')
-												->orWhereNull('bio')
-												->orWhereNull('portrait')
-												->orWhereNull('born_year');
-										})
+									// ->whereHas('hasOneUser', function($hasUncompleteProfile) {
+									// 	$hasUncompleteProfile->orWhereNull('school')
+									// 			->orWhereNull('bio')
+									// 			->orWhereNull('portrait')
+									// 			->orWhereNull('born_year');
+									// 	})
 									->get()
 									->toArray();
 
@@ -351,10 +351,10 @@ class Admin_SupportResource extends BaseResource
 		}
 
 		// Remove duplicate keys in array
-		$uncompleteProfileUserList = array_unique($uncompleteProfileUserArray);
+		$uncompleteProfileUserList			= array_unique($uncompleteProfileUserArray);
 
 		// Define an empty array of uncomplete profile user list
-		$uncompleteProfileUserListAnalytics = [];
+		$uncompleteProfileUserListAnalytics	= [];
 
 		// To make agent ID as key and count as value of uncomplete profile user list
 		foreach ($uncompleteProfileUserList as $uncompleteProfileUserListKey => $uncompleteProfileUserListVaule) {
