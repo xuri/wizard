@@ -127,9 +127,10 @@
 						<li>
 							<a href="{{ route('admin.support.index') }}">{{ Lang::get('navigation.admin_feedback_management') }}</a>
 						</li>
+						<!--
 						<li>
 							<a href="{{ route('admin.support.promotion') }}">{{-- Lang::get('navigation.admin_promotion_management') --}}</a>
-						</li>
+						</li> -->
 					</ul>
 				</li>
 				<li>
