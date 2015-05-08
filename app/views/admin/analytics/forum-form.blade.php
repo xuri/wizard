@@ -45,12 +45,12 @@
 										@foreach($analyticsForums as $analyticsForum)
 										<tr>
 											<td>{{ $analyticsForum->id }}</td>
-											<td>{{ date("Y年m月d日 H:m:s",strtotime($analyticsForum->created_at)) }}</td>
+											<td>{{ date("Y-m-d H:m:s",strtotime($analyticsForum->created_at)) }}</td>
 											<td>{{ $analyticsForum->all_post }}</td>
 											<td>{{ $analyticsForum->cat1_post }}</td>
 											<td>{{ $analyticsForum->cat2_post }}</td>
 											<td>{{ $analyticsForum->cat3_post }}</td>
-											<td>{{ $analyticsForum->dailypost }}</td>
+											<td>{{ $analyticsForum->daily_post }}</td>
 											<td>{{ $analyticsForum->cat1_daily_post }}</td>
 											<td>{{ $analyticsForum->cat2_daily_post }}</td>
 											<td>{{ $analyticsForum->cat3_daily_post }}</td>
@@ -61,21 +61,21 @@
 									</tbody>
 								</table>
 							</div>
-							<!-- /.table-responsive -->
+							{{-- /.table-responsive --}}
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 					{{ pagination($analyticsForums->appends(Input::except('page')), 'admin.paginator') }}
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 	</div>
-	<!-- /#wrapper -->
+	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}

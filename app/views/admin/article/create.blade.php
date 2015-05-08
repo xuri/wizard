@@ -18,13 +18,13 @@
 						</div>
 					</h3>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 
 				<div class="col-lg-12">
 					@include('layout.notification')
 				</div>
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 
 
 			<ul class="nav nav-tabs">
@@ -40,10 +40,10 @@
 					'class'		=> 'form-horizontal'
  				 ))
 			}}
-				<!-- Tabs Content -->
+				{{-- Tabs Content --}}
 				<div class="tab-content">
 
-					<!-- General tab -->
+					{{-- General tab --}}
 					<div class="tab-pane active" id="tab-general" style="margin:0 1em;">
 
 						<div class="form-group">
@@ -86,7 +86,7 @@
 
 					</div>
 
-					<!-- Meta Data tab -->
+					{{-- Meta Data tab --}}
 					<div class="tab-pane" id="tab-meta-data" style="margin:0 1em;">
 
 						<div class="form-group">
@@ -108,7 +108,7 @@
 
 				</div>
 
-				<!-- Form actions -->
+				{{-- Form actions --}}
 				<div class="control-group">
 					<div class="controls">
 						<button type="reset" class="btn btn-default">清 空</button>
@@ -117,10 +117,10 @@
 				</div>
 			</form>
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 	</div>
-	<!-- /#wrapper -->
+	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}

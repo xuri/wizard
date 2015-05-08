@@ -11,94 +11,94 @@
 				<div class="col-lg-12">
 					<h1 class="page-header">{{ Lang::get('navigation.admin_analytics_users_charts') }}</h1>
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							用户总数及来源趋势图
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-1"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							用户日活动状况趋势图
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-2"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							用户周活动状况趋势图
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-3"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							用户月活动状况趋势图
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-4"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
 							完善资料用户占比状况趋势图
 						</div>
-						<!-- /.panel-heading -->
+						{{-- /.panel-heading --}}
 						<div class="panel-body">
 							<div class="flot-chart">
 								<div class="flot-chart-content" id="flot-line-chart-5"></div>
 							</div>
 						</div>
-						<!-- /.panel-body -->
+						{{-- /.panel-body --}}
 					</div>
-					<!-- /.panel -->
+					{{-- /.panel --}}
 				</div>
-				<!-- /.col-lg-12 -->
+				{{-- /.col-lg-12 --}}
 			</div>
-			<!-- /.row -->
+			{{-- /.row --}}
 		</div>
-		<!-- /#page-wrapper -->
+		{{-- /#page-wrapper --}}
 
 	</div>
-	<!-- /#wrapper -->
+	{{-- /#wrapper --}}
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
