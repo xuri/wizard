@@ -34,7 +34,7 @@
 						<div class="panel-body">
 							{{ Form::open(array('method' => 'get')) }}
 								<div class="input-group col-md-12" style="margin:0 0 1em 0">
-									<span class="input-group-btn" style="width: 20%; padding: 0 10px 0 0;">
+									<span class="input-group-btn" style="width: 12%; padding: 0 10px 0 0;">
 										<select class="form-control input-sm" name="province">
 											<option value="">{{ Lang::get('admin/users/index.all_province') }}</option>
 											@foreach($provinces as $province)
@@ -57,6 +57,22 @@
 											)
 										}}
 									</span>
+
+									<span class="input-group-btn" style="width: 12%; padding: 0 10px 0 0;">
+										{{
+											Form::select(
+												'is_verify',
+												array(
+													''	=> Lang::get('admin/users/index.all_users'),
+													'1'	=> Lang::get('admin/users/index.verified_user'),
+													'0'	=> Lang::get('admin/users/index.common_user')
+												),
+												Input::get('is_verify'),
+												array('class' => 'form-control input-sm')
+											)
+										}}
+									</span>
+
 									<input type="text" class="form-control input-sm" name="like" placeholder="{{ Lang::get('admin/users/index.select_input') }}" value="{{ Input::get('like') }}">
 									<span class="input-group-btn">
 											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">{{ Lang::get('admin/users/index.select') }}</button>
@@ -88,7 +104,11 @@
 											<td style="text-align:center;">
 												<a href="{{ route('members.show', $data->id) }}" target="_blank">
 													@if($data->portrait)
-													{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '20')) }}
+														@if(File::exists('portrait/' . $data->portrait) && File::size('portrait/' . $data->portrait) > 0)
+															{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '20')) }}
+														@else
+															{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '20')) }}
+														@endif
 													@else
 													{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '20')) }}
 													@endif

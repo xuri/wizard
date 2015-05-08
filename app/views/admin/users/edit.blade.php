@@ -80,7 +80,11 @@
 											<label>头像预览</label>
 											<p class="form-control-static">
 											@if($data->portrait)
-											{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '150')) }}
+												@if(File::exists('portrait/' . $data->portrait) && File::size('portrait/' . $data->portrait) > 0)
+													{{ HTML::image('portrait/'.$data->portrait, '', array('width' => '150')) }}
+												@else
+													{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '150')) }}
+												@endif
 											@else
 											{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '150')) }}
 											@endif

@@ -93,6 +93,17 @@ class Admin_UserResource extends BaseResource
 				$sex = 'M';
 				break;
 		}
+
+		// Get search conditions
+		switch (Input::get('is_verify')) {
+			case 0:
+				$is_verify = 0;
+				break;
+			case 1:
+				$is_verify = 1;
+				break;
+		}
+
 		if(Input::get('like')) {
 			$filter = Input::get('like');
 		}
@@ -100,6 +111,7 @@ class Admin_UserResource extends BaseResource
 		// Construct query statement
 		$query = $this->model->orderBy($orderColumn, $direction);
 		isset($sex) AND $query->where('sex', $sex);
+		isset($is_verify) AND $query->where('is_verify', $is_verify);
 		isset($filter) AND $query->where('email', 'like', "%{$filter}%")->orWhere('nickname', 'like', "%{$filter}%")->orWhere('id', 'like', "%{$filter}%")->orWhere('phone', 'like', "%{$filter}%");
 		$datas = $query->paginate(10);
 		return View::make($this->resourceView.'.index')->with(compact('datas', 'provinces'));

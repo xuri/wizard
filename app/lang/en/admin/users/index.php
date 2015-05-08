@@ -13,6 +13,10 @@ return array(
 
 	"common_user"	=> "Common User",
 
+	"verified_user"	=> "Verified User",
+
+	"all_users"		=> "All Users",
+
 	"user"			=> "User",
 
 	"identity"		=> "Identity",

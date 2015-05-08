@@ -13,6 +13,10 @@ return array(
 
 	"common_user"	=> "普通用户",
 
+	"verified_user"	=> "认证用户",
+
+	"all_users"		=> "所有用户",
+
 	"user"			=> "用户",
 
 	"identity"		=> "身份",
