@@ -45,7 +45,6 @@
 										<tr class="odd gradeX">
 											<?php
 												$user = User::where('id', $data->user_id)->first();
-
 											?>
 											<td>{{ $data->id }}</td>
 											<td style="text-align:center;"><a href="{{ route('forum.index') }}">{{ $data->category }}</a></td>

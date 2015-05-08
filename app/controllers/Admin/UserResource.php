@@ -194,7 +194,17 @@ class Admin_UserResource extends BaseResource
 				$user->born_year		= Input::get('born_year');
 			}
 			if("" !== Input::get('school')) {
-				$user->school			= Input::get('school');
+				$user_school 			= Input::get('school');
+				if(is_null($user->school)) {
+					// First set school
+					University::where('university', $user_school)->increment('count');
+				} else {
+					if($user->school != $user_school) {
+						University::where('university', $user_school)->increment('count');
+						University::where('university', $user->school)->decrement('count');
+					}
+				}
+				$user->school       	= $user_school;
 			}
 			if("" !== Input::get('portrait')) {
 				$user->portrait			= Input::get('portrait');
@@ -325,7 +335,17 @@ class Admin_UserResource extends BaseResource
 				$model->born_year		= Input::get('born_year');
 			}
 			if("" !== Input::get('school')) {
-				$model->school			= Input::get('school');
+				$school 				= Input::get('school');
+				if(is_null($model->school)) {
+					// First set school
+					University::where('university', $school)->increment('count');
+				} else {
+					if($model->school != $school) {
+						University::where('university', $school)->increment('count');
+						University::where('university', $model->school)->decrement('count');
+					}
+				}
+				$model->school       	= $school;
 			}
 			if("" !== Input::get('portrait')) {
 				$model->portrait		= Input::get('portrait');
