@@ -63,7 +63,7 @@
 										<tr>
 											<th>ID {{ order_by('id', 'desc') }}</th>
 											<th style="text-align:center;">{{ Lang::get('admin/university/index.school') }} {{ order_by('university') }}</th>
-											<th>{{ Lang::get('admin/university/index.users') }} <a href="{{ route('admin.university.order_by_users_desc') }}" class="glyphicon glyphicon-random"></a></th>
+											<th>{{ Lang::get('admin/university/index.users') }} {{ order_by('count') }}</th>
 											<th>{{ Lang::get('admin/university/index.date') }} {{ order_by('created_at') }}</th>
 											<th style="width:7em;text-align:center;">{{ Lang::get('admin/university/index.status') }} {{ order_by('status') }}</th>
 											<th style="width:8em;text-align:center;">{{ Lang::get('admin/university/index.operating') }}</th>
@@ -74,7 +74,7 @@
 										<tr class="odd gradeX">
 											<td>{{ $data->id }}</td>
 											<td style="text-align:center;">{{ $data->university }}</td>
-											<td class="center">{{ User::where('school', $data->university)->count() }}</td>
+											<td class="center">{{ $data->count }}</td>
 											<td class="center">
 												@if($data->status == 2)
 													{{ $data->created_at }}

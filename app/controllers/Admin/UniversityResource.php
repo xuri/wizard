@@ -89,40 +89,6 @@ class Admin_UniversityResource extends BaseResource
 	}
 
 	/**
-	 * Analytics university status order by register users
-	 * @return response View
-	 */
-	public function order_by_users_desc()
-	{
-		$resourceName		= '高校';
-		$resource			= 'admin.university';
-		$provinces			= Province::get();
-		$universities		= University::get();
-		$universities_list	= array();
-
-		foreach ($universities as $universitiy => $keys) {
-
-			$items['id']			= $keys->id;
-			$items['name']			= $keys->university;
-			$items['male_users']	= User::where('school', $keys->university)->where('sex', 'M')->count();
-			$items['female_users']	= User::where('school', $keys->university)->where('sex', 'F')->count();
-			$items['all_users']		= User::where('school', $keys->university)->count();
-			$universities_list[]	= $items;
-		}
-
-		foreach ($universities_list as $key => $row)
-		{
-			$id[$key]			= $row['id'];
-			$name[$key]			= $row['name'];
-			$male_users[$key]	= $row['male_users'];
-			$female_users[$key]	= $row['female_users'];
-			$all_users[$key]	= $row['all_users'];
-		}
-
-		array_multisort($all_users, SORT_DESC, $universities_list);
-		return View::make($this->resourceView.'.order_by_users_desc')->with(compact('universities_list', 'provinces', 'resourceName', 'resource'));
-	}
-	/**
 	 * Mark open university
 	 * GET /{id}/open
 	 * @param integer $id University ID

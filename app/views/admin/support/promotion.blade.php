@@ -51,7 +51,7 @@
 										}
 
 										// Print result
-										echo '<tr class="odd gradeX"><td>' . $completeProfileUserListAnalyticsIndexArrayKey . '</td><td>' . $completeProfileUserListAnalyticsSum . '</td></tr>';
+										echo '<tr class="odd gradeX"><td>' , $completeProfileUserListAnalyticsIndexArrayKey , '</td><td>' , $completeProfileUserListAnalyticsSum , '</td></tr>';
 									}
 								?>
 							</tbody>
@@ -125,7 +125,7 @@
 										}
 
 										// Print result
-										echo '<tr class="odd gradeX"><td>' . $uncompleteProfileUserListAnalyticsIndexArrayKey . '</td><td>' . $uncompleteProfileUserListAnalyticsSum . '</td></tr>';
+										echo '<tr class="odd gradeX"><td>' , $uncompleteProfileUserListAnalyticsIndexArrayKey , '</td><td>' , $uncompleteProfileUserListAnalyticsSum , '</td></tr>';
 									}
 								?>
 							</tbody>

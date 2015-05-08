@@ -17,6 +17,7 @@ class CreateUniversityTable extends Migration {
 	        $table->increments('id');
 	        $table->integer('province_id')->default(0);
 	        $table->string('university', 255)->nullable();
+	        $table->integer('count')->default(0);
 	        $table->integer('status')->default(0);
 	        $table->timestamp('deleted_at')->nullable();
 	        $table->timestamp('open_at')->nullable();

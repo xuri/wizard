@@ -308,7 +308,18 @@ class AccountController extends BaseController
 				$user->born_year    = htmlentities(Input::get('born_year'));
 			}
 			$user->bio              = htmlentities(Input::get('bio'));
-			$user->school           = htmlentities(Input::get('school'));
+
+			$school 				= htmlentities(Input::get('school'));
+			if(is_null($user->school)) {
+				// First set school
+				University::where('university', $school)->increment('count');
+			} else {
+				if($user->school != $school) {
+					University::where('university', $school)->increment('count');
+					University::where('university', $user->school)->decrement('count');
+				}
+			}
+			$user->school       	= $school;
 
 			// Update profile information
 			$profile                = Profile::where('user_id', Auth::user()->id)->first();

@@ -310,7 +310,18 @@ class AndroidController extends BaseController
 							$user->born_year    = Input::get('born_year');
 						}
 						$user->bio              = app_input_filter(Input::get('bio'));
-						$user->school           = Input::get('school');
+
+						$school 				= Input::get('school');
+						if(is_null($user->school)) {
+							// First set school
+							University::where('university', $school)->increment('count');
+						} else {
+							if($user->school != $school) {
+								University::where('university', $school)->increment('count');
+								University::where('university', $user->school)->decrement('count');
+							}
+						}
+						$user->school       	= $school;
 
 						// Update profile information
 						$profile                = Profile::where('user_id', $user->id)->first();
@@ -918,8 +929,8 @@ class AndroidController extends BaseController
 							$likes[$key]['sex']			= e($user->sex);
 
 							// Convert how long liked
-							$Date_1						= date("Y-m-d"); // Current date and time
-							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+							$Date_1						= date('Y-m-d'); // Current date and time
+							$Date_2						= date('Y-m-d', strtotime($likes[$key]['created_at']));
 							$d1							= strtotime($Date_1);
 							$d2							= strtotime($Date_2);
 
@@ -1000,8 +1011,8 @@ class AndroidController extends BaseController
 
 								// Convert how long liked
 								// Current date and time
-								$Date_1						= date("Y-m-d");
-								$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+								$Date_1						= date('Y-m-d');
+								$Date_2						= date('Y-m-d', strtotime($likes[$key]['created_at']));
 								$d1							= strtotime($Date_1);
 								$d2							= strtotime($Date_2);
 
@@ -1079,10 +1090,10 @@ class AndroidController extends BaseController
 							$likes[$key]['name']		= app_out_filter(User::where('id', $likes[$key]['id'])->first()->nickname);
 
 							// Convert how long liked
-							$Date_1						= date("Y-m-d");
+							$Date_1						= date('Y-m-d');
 
 							// Current date and time
-							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+							$Date_2						= date('Y-m-d', strtotime($likes[$key]['created_at']));
 							$d1							= strtotime($Date_1);
 							$d2							= strtotime($Date_2);
 
@@ -1145,10 +1156,10 @@ class AndroidController extends BaseController
 							$likes[$key]['name']		= app_out_filter(User::where('id', $likes[$key]['id'])->first()->nickname);
 
 							// Convert how long liked
-							$Date_1						= date("Y-m-d");
+							$Date_1						= date('Y-m-d');
 
 							// Current date and time
-							$Date_2						= date("Y-m-d",strtotime($likes[$key]['created_at']));
+							$Date_2						= date('Y-m-d', strtotime($likes[$key]['created_at']));
 							$d1							= strtotime($Date_1);
 							$d2							= strtotime($Date_2);
 

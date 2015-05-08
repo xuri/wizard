@@ -263,13 +263,12 @@ Route::group(array('prefix' => 'admin', 'before' => 'is.desktop|auth|auth.activa
 	Route::group(array('prefix' => 'university'), function () {
 		$resource   = 'admin.university';
 		$controller = 'Admin_UniversityResource@';
-		Route::get(  		 	   	   '/', array('as' => $resource.'.index'   				, 'uses' => $controller.'index'   	 			));
-		Route::get(			  '/open/{id}', array('as' => $resource.'.open'    				, 'uses' => $controller.'open'   	 			));
-		Route::get(   		 '/close/{id}', array('as' => $resource.'.close'   				, 'uses' => $controller.'close'		 			));
-		Route::get(    		  '/edit/{id}', array('as' => $resource.'.edit'    				, 'uses' => $controller.'edit'	 	 			));
-		Route::post( 		  '/edit/{id}', array('as' => $resource.'.update'  				, 'uses' => $controller.'update'				));
-		Route::delete(	 			'{id}', array('as' => $resource.'.destroy' 				, 'uses' => $controller.'destroy'	 			));
-		Route::get(	'/order_by_users_desc', array('as' => $resource.'.order_by_users_desc'  , 'uses' => $controller.'order_by_users_desc'	));
+		Route::get(  		 	   	   '/', array('as' => $resource.'.index'   	, 'uses' => $controller.'index'   	));
+		Route::get(			  '/open/{id}', array('as' => $resource.'.open'    	, 'uses' => $controller.'open'   	));
+		Route::get(   		 '/close/{id}', array('as' => $resource.'.close'   	, 'uses' => $controller.'close'		));
+		Route::get(    		  '/edit/{id}', array('as' => $resource.'.edit'    	, 'uses' => $controller.'edit'	 	));
+		Route::post( 		  '/edit/{id}', array('as' => $resource.'.update'  	, 'uses' => $controller.'update'	));
+		Route::delete(	 			'{id}', array('as' => $resource.'.destroy' 	, 'uses' => $controller.'destroy'	));
 	});
 
 	# Categories Management
