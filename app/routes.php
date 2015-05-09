@@ -24,8 +24,8 @@
 |
 */
 
-$root_domain	= Config::get('app.url');
-$admin_domain	= Config::get('app.admin_url');
+$root_domain	= str_replace('http://', '', Config::get('app.url'));
+$admin_domain	= str_replace('http://', '', Config::get('app.admin_url'));
 
 /*
 |--------------------------------------------------------------------------
@@ -145,7 +145,7 @@ Route::group(array('domain' => $root_domain, 'prefix' => 'support', 'before' => 
 |
 */
 
-Route::group(array('prefix' => 'account', 'before' => 'is.desktop|auth|auth.activated'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'account', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$Account = 'AccountController@';
 	# Account Index
 	Route::get('/'							, array('as' => 'account',						'uses' => $Account.'getIndex'				));
