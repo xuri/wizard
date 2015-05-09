@@ -26,7 +26,8 @@ return array(
 	|
 	*/
 
-	'url' => 'http://www.pinai521.com',
+	'url'		=> 'http://www.pinai521.com',
+	'admin_url'	=> 'http://admin.pinai521.com',
 
 	/*
 	|--------------------------------------------------------------------------

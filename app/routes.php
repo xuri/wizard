@@ -24,6 +24,9 @@
 |
 */
 
+$root_domain	= Config::get('app.url');
+$admin_domain	= Config::get('app.admin_url');
+
 /*
 |--------------------------------------------------------------------------
 | Homepage Routes
@@ -31,7 +34,7 @@
 |
 */
 
-Route::group(array(), function () {
+Route::group(array('domain' => $root_domain), function () {
 	$controller = 'HomeController@';
 	# Homepage
 	Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'   				));
@@ -54,7 +57,7 @@ Route::group(array(), function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::group(array('prefix' => 'wap', 'before' => 'is.mobile'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'wap', 'before' => 'is.mobile'), function () {
 	$controller = 'WapController@';
 	# Index
 	Route::get(					'/', array('as' => 'wap.index'	, 'uses' => $controller.'getIndex'		));
@@ -72,7 +75,7 @@ Route::group(array('prefix' => 'wap', 'before' => 'is.mobile'), function () {
 |
 */
 
-Route::group(array('prefix' => 'auth', 'before' => 'is.desktop'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'auth', 'before' => 'is.desktop'), function () {
 	$Authority = 'AuthorityController@';
 
 	# Signout
@@ -111,7 +114,7 @@ Route::group(array('prefix' => 'auth', 'before' => 'is.desktop'), function () {
 |
 */
 
-Route::group(array('prefix' => 'members', 'before' => 'is.desktop|auth|auth.activated'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'members', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$resource   = 'members';
 	$controller = 'MemberController@';
 	# Get index
@@ -127,7 +130,7 @@ Route::group(array('prefix' => 'members', 'before' => 'is.desktop|auth|auth.acti
 |
 */
 
-Route::group(array('prefix' => 'support', 'before' => 'is.desktop|auth|auth.activated'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'support', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$resource   = 'support';
 	$controller = 'SupportController@';
 	# Get index
@@ -172,7 +175,7 @@ Route::group(array('prefix' => 'account', 'before' => 'is.desktop|auth|auth.acti
 |
 */
 
-Route::group(array('prefix' => 'forum', 'before' => 'is.desktop|auth|auth.activated'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'forum', 'before' => 'is.desktop|auth|auth.activated'), function () {
 	$resource = 'forum';
 	$controller = 'ForumController@';
 	# Forum Type
@@ -191,7 +194,7 @@ Route::group(array('prefix' => 'forum', 'before' => 'is.desktop|auth|auth.activa
 |--------------------------------------------------------------------------
 */
 
-Route::group(array('prefix' => 'admin', 'before' => 'is.desktop|auth|auth.activated|admin'), function () {
+Route::group(array('domain' => $admin_domain, 'before' => 'is.desktop|auth|auth.activated|admin'), function () {
 	$Admin = 'AdminController@';
 
 	# Admin Index
@@ -306,7 +309,7 @@ Route::group(array('prefix' => 'admin', 'before' => 'is.desktop|auth|auth.activa
 |
 */
 
-Route::group(array('prefix' => 'android'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'android'), function () {
 	$controller = 'AndroidController@';
 	# Android API
 	// Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
@@ -321,7 +324,7 @@ Route::group(array('prefix' => 'android'), function () {
 |
 */
 
-Route::group(array('prefix' => 'ios'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'ios'), function () {
 	$controller = 'AppleController@';
 	# iOS API
 	Route::post('api', 	$controller . 'postApple');
@@ -341,7 +344,7 @@ Route::group(array('prefix' => 'ios'), function () {
 // 	 return View::make('tools.migrate');
 // }));
 
-Route::get('browser_not_support', array('as' => 'browser_not_support', function()
+Route::get('browser_not_support', array('domain' => $root_domain, 'as' => 'browser_not_support', function()
 {
 	return View::make('system.browserUpdate');
 }));
