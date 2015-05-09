@@ -47,58 +47,58 @@
 // });
 
 // CSRF protection filters to prevent cross-site request forgery
-Route::filter( 'csrf', function() {
-		if ( Session::token() != Input::get( '_token' ) )
+Route::filter('csrf', function() {
+		if(Session::token() != Input::get( '_token' ))
 		throw new Illuminate\Session\TokenMismatchException;
-	} );
+	});
 
 // You must be an administrator
-Route::filter( 'admin', function () {
+Route::filter('admin', function() {
 		// Blocking users who are not administrators, jump back to the previous page
-		if ( ! Auth::user()->is_admin ) return Redirect::back();
-	} );
+		if(!Auth::user()->is_admin) return Redirect::route('signin');
+	});
 
 // Users must be logged in
-Route::filter( 'auth', function () {
+Route::filter('auth', function() {
 		// Blocking users who are not logged and documented the current URL, go to login page
-		if ( Auth::guest() ) return Redirect::guest( route( 'signin' ) );
-	} );
+		if(Auth::guest()) return Redirect::guest(route('signin'));
+	});
 
 // HTTP-based authentication filter single popup login authentication
-Route::filter( 'auth.basic', function () {
+Route::filter('auth.basic', function() {
 		return Auth::basic();
-	} );
+	});
 
 // Must activated
-Route::filter( 'auth.activated', function () {
-		if ( Auth::user()->activated_at == NULL )
-		return View::make( 'authority.signupSuccess' )->with( 'email', Auth::user()->email );
-	} );
+Route::filter('auth.activated', function() {
+		if(Auth::user()->activated_at == NULL)
+		return View::make('authority.signupSuccess')->with('email', Auth::user()->email);
+	});
 
 // Must be a visitor (less)
-Route::filter( 'guest', function () {
+Route::filter('guest', function() {
 		// Block logged in users
-		if ( Auth::check() ) return Redirect::to( '/' );
-	} );
+		if(Auth::check()) return Redirect::to( '/' );
+	});
 
 // Prevent dangerous operations on your account
-Route::filter( 'not.self', function ( $route ) {
+Route::filter('not.self', function($route) {
 		// Intercept your user ID
-		if ( Auth::user()->id == $route->parameter( 'id' ) )
+		if(Auth::user()->id == $route->parameter('id'))
 		return Redirect::back();
-	} );
+	});
 
 // Mobile access redirect
-Route::filter( 'is.desktop', function ( $route ) {
-		if ( Agent::isMobile() )
+Route::filter('is.desktop', function($route) {
+		if(Agent::isMobile())
 		return Redirect::route('home');
-	} );
+	});
 
 // WAP access redirect
-Route::filter( 'is.mobile', function ( $route ) {
-		if ( Agent::isDesktop() )
+Route::filter('is.mobile', function($route) {
+		if(Agent::isDesktop())
 		return Redirect::route('home');
-	} );
+	});
 /*
 |--------------------------------------------------------------------------
 | [Rear] Filters
@@ -115,13 +115,13 @@ Route::filter( 'is.mobile', function ( $route ) {
 |
 */
 // User signin event
-Event::listen( 'auth.login', function ( $user, $remember ) {
+Event::listen('auth.login', function($user, $remember) {
 		// Store last signin time
 		$user->signin_at = new Carbon;
 		$user->save();
 		// Additional permissions-related operations later
 		// ...
-	} );
+	});
 // User signout event
 // Event::listen('auth.logout', function ($user) {
 //     //
