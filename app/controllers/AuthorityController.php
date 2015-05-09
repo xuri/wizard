@@ -76,6 +76,10 @@ class AuthorityController extends BaseController
 		$remember    = Input::get('remember-me', 1);
 		// Verify signin
 		if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
+
+			// Update receiver_updated_at in like table
+			DB::table('like')->where('receiver_id', Auth::user()->id)->update(array('receiver_updated_at' => Carbon::now()));
+
 			// Signin success, redirect to the previous page that was blocked
 			return Response::json(
 				array(

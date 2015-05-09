@@ -21,6 +21,7 @@ class CreateLikeTable extends Migration {
 			$table->string('answer');
 			$table->tinyInteger('status')->default('0');
 			$table->boolean('is_notify')->default('0');
+			$table->timestamp('receiver_updated_at')->nullable();
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();
 		});

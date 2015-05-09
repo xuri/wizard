@@ -1,4 +1,4 @@
-<?php
+		<?php
 
 /**
  * Licensed under The MIT License
@@ -84,6 +84,9 @@ class AppleController extends BaseController
 
 						// Retrieve user
 						$user = User::where('phone', Input::get('phone'))->orWhere('email', Input::get('phone'))->orWhere('w_id', Input::get('phone'))->first();
+
+						// Update reveiver_updated_at in like table
+						DB::table('like')->where('receiver_id', $user->id)->update(array('receiver_updated_at' => Carbon::now()));
 
 						// Signin success, redirect to the previous page that was blocked
 						return Response::json(

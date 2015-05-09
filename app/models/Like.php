@@ -35,5 +35,4 @@ class Like extends BaseModel
      * @var string
      */
     protected $table = 'like';
-
 }

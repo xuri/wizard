@@ -27,10 +27,10 @@ class AdminController extends BaseController
 	 * @return Response
 	 */
 	public function getIndex() {
-		$totalUser		= User::get()->count();
-		$maleUser		= User::where( 'sex', 'M' )->get()->count();
-		$femaleUser		= User::where( 'sex', 'F' )->get()->count();
-		$unreadSupport	= Support::where( 'status', false )->get()->count();
+		$totalUser		= User::count();
+		$maleUser		= User::where('sex', 'M')->count();
+		$femaleUser		= User::where('sex', 'F')->count();
+		$unreadSupport	= Support::where( 'status', false )->count();
 		$analyticsUser	= AnalyticsUser::select(
 			'all_user',
 			'daily_active_user',
@@ -49,7 +49,7 @@ class AdminController extends BaseController
 			'from_android',
 			'from_ios',
 			'created_at'
-		)->where( 'created_at', '>=', Carbon::now()->subMonth() )->get()->toArray(); // Retrive analytics data
+		)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
 
 		/*
 		|--------------------------------------------------------------------------
@@ -59,69 +59,69 @@ class AdminController extends BaseController
 		*/
 
 		$allUser = array(); // Create all user array
-		foreach ( $analyticsUser as $key ) { // Structure array elements
+		foreach ($analyticsUser as $key) { // Structure array elements
 			$allUser[] = array(
-				date( 'Y', strtotime( $key['created_at'] ) ),
-				date( 'm', strtotime( $key['created_at'] ) ),
-				date( 'd', strtotime( $key['created_at'] ) ),
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
 				$key['all_user'] );
 		}
 
 		$fromWeb = array(); // Create all from web user array
-		foreach ( $analyticsUser as $key ) { // Structure array elements
+		foreach ($analyticsUser as $key) { // Structure array elements
 			$fromWeb[] = array(
-				date( 'Y', strtotime( $key['created_at'] ) ),
-				date( 'm', strtotime( $key['created_at'] ) ),
-				date( 'd', strtotime( $key['created_at'] ) ),
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
 				$key['from_web'] );
 		}
 
 		$fromAndroid = array(); // Create all from Android user array
-		foreach ( $analyticsUser as $key ) { // Structure array elements
+		foreach ($analyticsUser as $key) { // Structure array elements
 			$fromAndroid[] = array(
-				date( 'Y', strtotime( $key['created_at'] ) ),
-				date( 'm', strtotime( $key['created_at'] ) ),
-				date( 'd', strtotime( $key['created_at'] ) ),
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
 				$key['from_android'] );
 		}
 
 		$fromiOS = array(); // Create all from iOS user array
-		foreach ( $analyticsUser as $key ) { // Structure array elements
+		foreach ($analyticsUser as $key) { // Structure array elements
 			$fromiOS[] = array(
-				date( 'Y', strtotime( $key['created_at'] ) ),
-				date( 'm', strtotime( $key['created_at'] ) ),
-				date( 'd', strtotime( $key['created_at'] ) ),
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
 				$key['from_ios'] );
 		}
 
 		$allMaleUser = array(); // Create all male user array
-		foreach ( $analyticsUser as $key ) { // Structure array elements
+		foreach ($analyticsUser as $key) { // Structure array elements
 			$allMaleUser[] = array(
-				date( 'Y', strtotime( $key['created_at'] ) ),
-				date( 'm', strtotime( $key['created_at'] ) ),
-				date( 'd', strtotime( $key['created_at'] ) ),
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
 				$key['all_male_user'] );
 		}
 
 		$allFemaleUser = array(); // Create all female user array
-		foreach ( $analyticsUser as $key ) { // Structure array elements
+		foreach ($analyticsUser as $key) { // Structure array elements
 			$allFemaleUser[] = array(
-				date( 'Y', strtotime( $key['created_at'] ) ),
-				date( 'm', strtotime( $key['created_at'] ) ),
-				date( 'd', strtotime( $key['created_at'] ) ),
+				date('Y', strtotime($key['created_at'])),
+				date('m', strtotime($key['created_at'])),
+				date('d', strtotime($key['created_at'])),
 				$key['all_female_user'] );
 		}
 
 		// Build Json data (remove double quotes from Json return data)
 		$userBasicAnalytics = '{
-			"' . Lang::get( 'admin/index.total' ) .'":'.preg_replace( '/["]/', '' , json_encode( $allUser ) ).
-			', "' . Lang::get( 'admin/index.male_users' ) .'":'.preg_replace( '/["]/', '' , json_encode( $allMaleUser ) ).
-			', "' . Lang::get( 'admin/index.female_users' ) .'":'.preg_replace( '/["]/', '' , json_encode( $allFemaleUser ) ).
-			', "Web ' . Lang::get( 'admin/index.users' ) .'":'.preg_replace( '/["]/', '' , json_encode( $fromWeb ) ).
-			', "Android ' . Lang::get( 'admin/index.users' ) .'":'.preg_replace( '/["]/', '' , json_encode( $fromAndroid ) ).
-			', "iOS ' . Lang::get( 'admin/index.users' ) .'":'.preg_replace( '/["]/', '' , json_encode( $fromiOS ) ).
+			"' . Lang::get('admin/index.total') .'":'.preg_replace( '/["]/', '' , json_encode($allUser)).
+			', "' . Lang::get('admin/index.male_users') .'":'.preg_replace( '/["]/', '' , json_encode($allMaleUser)).
+			', "' . Lang::get('admin/index.female_users') .'":'.preg_replace( '/["]/', '' , json_encode( $allFemaleUser)).
+			', "Web ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode($fromWeb)).
+			', "Android ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode( $fromAndroid)).
+			', "iOS ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode($fromiOS)).
 			'}';
-		return View::make( 'admin.index' )->with( compact( 'unreadSupport', 'totalUser', 'maleUser', 'femaleUser', 'userBasicAnalytics' ) );
+		return View::make('admin.index')->with(compact('unreadSupport', 'totalUser', 'maleUser', 'femaleUser', 'userBasicAnalytics'));
 	}
 
 	/**
@@ -130,7 +130,7 @@ class AdminController extends BaseController
 	 * @return response
 	 */
 	public function getServer() {
-		return View::make( 'admin.server.index' );
+		return View::make('admin.server.index');
 	}
 
 }

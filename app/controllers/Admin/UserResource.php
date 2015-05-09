@@ -621,47 +621,29 @@ class Admin_UserResource extends BaseResource
 			$filter 	= Input::get('like');
 		}
 
+		$is_notify	= Input::get('is_notify', 0);
+
 		// Notify status filter
-		if(Input::get('is_notify')) {
-			$is_notify	= Input::get('is_notify');
-
-			if($is_notify == '1') {
-
-				// All notified add friend requests
-				$query->where('is_notify', 1)->orderBy($orderColumn, $direction);
-				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
-				$all_notify	= true;
-				$datas		= $query->paginate(10);
-
-				return View::make($this->resourceView . '.isnotify')->with(compact('datas', 'all_notify'));
-
-			} elseif ($is_notify == '0') {
-
+		switch ($is_notify) {
+			case '1':
 				// All not notify add friend requests
-				$query->where('is_notify', '!=', 1)->orderBy($orderColumn, $direction);
+				$query->where('is_notify', 1);
+				$query->where(DB::raw('DAY(receiver_updated_at)'), '>=', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction);
 				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
-				$all_notify	= false;
-				$datas		= $query->get();
-			} else {
-
-				// All no active add friend requests
-				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
-				$all_notify	= false;
-				$datas		= $query->orderBy($orderColumn, $direction)->get();
-
+				$datas		= $query->paginate(10);
 				return View::make($this->resourceView . '.isnotify')->with(compact('datas', 'all_notify'));
-			}
+			break;
 
-		} else {
+			default:
+				// All notified add friend requests
+				$query->where('is_notify', '!=', 1)->where(DB::raw('DAY(receiver_updated_at)'), '>=', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction);
 
-			// All not notify add friend requests
-			$query->where('is_notify', '!=', 1)->orderBy($orderColumn, $direction);
-			isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
-			$all_notify		= false;
-			$datas			= $query->get();
+				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
+				$datas			= $query->paginate(10);
+
+				return View::make($this->resourceView . '.noactive')->with(compact('datas'));
+			break;
 		}
-
-		return View::make($this->resourceView . '.noactive')->with(compact('datas', 'all_notify'));
 	}
 
 	/**
