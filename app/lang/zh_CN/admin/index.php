@@ -33,4 +33,6 @@ return array(
 
 	"total"						=> "总用户",
 
+	"overview"					=> "平台状态概览",
+
 );

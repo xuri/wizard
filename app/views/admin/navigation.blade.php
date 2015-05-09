@@ -8,7 +8,7 @@
 			<span class="icon-bar"></span>
 		</button>
 		<a class="navbar-brand" href="{{ route('admin') }}">
-			{{ HTML::image('assets/images/logo.png', '', array('style' => 'width: 30px; float: left; display: inline; margin: -0.3em 1em 0 0;')) }} {{ Lang::get('navigation.pinai') }} · {{ Lang::get('navigation.dashboard') }}</a>
+			{{ HTML::image('assets/images/logo.png', '', array('style' => 'width: 30px; float: left; display: inline; margin: -0.3em 1em 0 0;')) }} {{ Lang::get('navigation.pinai') }} · {{ Lang::get('navigation.dashboard') }} <small style="margin: 0 0 0 1em; font-size: 0.6em">{{ Lang::get('footer.company') }}</small></a>
 	</div>
 	{{-- /.navbar-header --}}
 

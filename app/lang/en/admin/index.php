@@ -33,4 +33,6 @@ return array(
 
 	"total"						=> "Total Users",
 
+	"overview"					=> "Platform status overview",
+
 );
