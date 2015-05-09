@@ -90,7 +90,7 @@
 											<th>{{ Lang::get('admin/users/index.account') }}</th>
 											<th>{{ Lang::get('admin/users/index.nickname') }} {{ order_by('nickname') }}</th>
 											<th>{{ Lang::get('admin/users/index.created_at') }} {{ order_by('created_at') }}</th>
-											<th>{{ Lang::get('admin/users/index.signin_at') }} {{ order_by('signin_at') }}</th>
+											<th>{{ Lang::get('admin/users/index.signin_at') }} {{ order_by('updated_at') }}</th>
 											<th style="width:6em;text-align:center;">{{ Lang::get('admin/users/index.status') }} {{ order_by('block') }}</th>
 											<th style="width:7.5em;text-align:center;">{{ Lang::get('admin/users/index.operating') }}</th>
 										</tr>
@@ -124,7 +124,7 @@
 											<td class="center">{{ $data->nickname }}</td>
 
 											<td class="center">{{ $data->created_at }}</td>
-											<td class="center">{{ $data->signin_at }}</td>
+											<td class="center">{{ $data->updated_at }}</td>
 
 												@if($data->block)
 													{{ Form::open(array(

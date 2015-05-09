@@ -71,7 +71,15 @@
 								$Days	= round(($d1-$d2)/3600/24);
 							?>
 							<li class="preLi">
-								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186','class' => '_headPic')) }}
+								@if($user->portrait)
+									@if(File::exists('portrait/'.$user->portrait) && File::size('portrait/' . $user->portrait) > 0)
+										{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186','class' => '_headPic')) }}
+									@else
+										{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '186', 'height' => '186','class' => '_headPic')) }}
+									@endif
+								@else
+								{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '186', 'height' => '186', 'class' => '_headPic')) }}
+								@endif
 								{{ Form::open(array(
 										'action' => array('MemberController@like', $data->receiver_id)
 									))

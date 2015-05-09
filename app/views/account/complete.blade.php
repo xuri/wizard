@@ -298,7 +298,11 @@
 				<div class="clear">
 					<div class="img">
 						@if(Auth::user()->portrait)
-						<img src="{{ route('home') }}/portrait/{{ Auth::user()->portrait }}" id="head_pic">
+							@if(File::exists('portrait/'.Auth::user()->portrait) && File::size('portrait/' . Auth::user()->portrait) > 0)
+								{{ HTML::image('portrait/'.Auth::user()->portrait, '', array('id' => 'head_pic')) }}
+							@else
+								{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('id' => 'head_pic')) }}
+							@endif
 						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('id' => 'head_pic'))}}
 						@endif

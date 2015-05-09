@@ -71,7 +71,11 @@
 							?>
 							<li class="preLi">
 							@if($user->portrait)
-								{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186', 'class' => '_headPic')) }}
+								@if(File::exists('portrait/'.$user->portrait) && File::size('portrait/' . $user->portrait) > 0)
+									{{ HTML::image('portrait/'.$user->portrait, '', array('width' => '186', 'height' => '186','class' => '_headPic')) }}
+								@else
+									{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '186', 'height' => '186','class' => '_headPic')) }}
+								@endif
 							@else
 							{{ HTML::image('assets/images/preInfoEdit/peo.png', '', array('width' => '186', 'height' => '186', 'class' => '_headPic')) }}
 							@endif
