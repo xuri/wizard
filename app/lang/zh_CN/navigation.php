@@ -53,6 +53,8 @@ return array(
 
 	"admin_server"					=> "系统信息",
 
+	"admin_queue_server"			=> "消息队列",
+
 	"admin_user_management"			=> "用户管理",
 
 	"admin_user_all"				=> "注册用户资料汇总表",

@@ -59,6 +59,9 @@
 					<a href="{{ route('admin.server') }}"><i class="fa fa-sliders fa-fw"></i> {{ Lang::get('navigation.admin_server') }}</a>
 				</li>
 				<li>
+					<a href="http://beanstalkd.pinai521.com" target="_blank"><i class="fa fa-refresh fa-spin"></i> {{ Lang::get('navigation.admin_queue_server') }}</a>
+				</li>
+				<li>
 					<a href="javascript:void();"><i class="fa fa-users fa-fw"></i> {{ Lang::get('navigation.admin_user_management') }}<span class="fa arrow"></span></a>
 					<ul class="nav nav-second-level">
 						<li>
