@@ -44,7 +44,7 @@ class HomeController extends BaseController {
 			if(Agent::isAndroidOS()) {
 				return Redirect::to('http://fir.im/pinai');
 			} elseif (Agent::isiOS()) {
-				return Redirect::to('http://fir.im/pinios');
+				return Redirect::to('http://fir.im/piniost');
 			} else {
 				return View::make('home.mobilev2');
 			}
