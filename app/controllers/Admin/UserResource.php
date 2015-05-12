@@ -654,7 +654,7 @@ class Admin_UserResource extends BaseResource
 	public function sms_notify($id)
 	{
 		// Retrieve like
-		$like = Like::where('receiver_id', $id);
+		$like = DB::table('like')->where('receiver_id', $id);
 
 		// Retrieve user
 		$user = User::find($id);

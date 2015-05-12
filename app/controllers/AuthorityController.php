@@ -83,7 +83,8 @@ class AuthorityController extends BaseController
 			// Signin success, redirect to the previous page that was blocked
 			return Response::json(
 				array(
-					'success'	=> true
+					'success'	=> true,
+					'attempt'	=> URL::previous()
 				)
 			);
 		} else {

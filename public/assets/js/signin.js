@@ -98,7 +98,7 @@ $(function() {
                 if (!data.success) {
                     $('.signin_error').html(data.attempt);
                 } else {
-                    location.reload();
+                    window.location.href = data.attempt;
                 }
             });
         }
