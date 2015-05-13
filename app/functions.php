@@ -1003,7 +1003,7 @@ function badWordsFilter($text) {
  * @return string       result
  */
 function app_input_filter($input_filter_string) {
-	return badWordsFilter(strip_tags(trim(nl2br($input_filter_string), true), '<img><br>'));
+	return badWordsFilter(strip_tags(trim(nl2br($input_filter_string)), '<img><br>'));
 }
 
 /**
