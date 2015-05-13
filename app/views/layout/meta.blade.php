@@ -4,7 +4,7 @@
 	<meta name="description" content="聘爱, 全国首个大学生恋爱平台" />
 	<meta name="keywords" content="聘爱, Pinai,校内,大学,黑工程,哈商大,哈工大,交友,聊天,精灵,校园" />
 	<meta name="author" content="哈尔滨精灵科技有限责任公司" />
-	<meta name="apple-itunes-app" content="app-id=xxxxxxxxx">
+	<meta name="apple-itunes-app" content="app-id=985554599">
 	<meta name="google-play-app" content="app-id=com.android.pinai">
 	<meta property="og:title" content="聘爱 全国首个大学生恋爱平台"/>
 	<meta property="og:type" content="website"/>
