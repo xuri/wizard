@@ -401,6 +401,9 @@ class AppleController extends BaseController
 
 						// Updated user active date
 						$user->updated_at	= Carbon::now();
+
+						// Update reveiver_updated_at in like table
+						DB::table('like')->where('receiver_id', $user->id)->update(array('receiver_updated_at' => Carbon::now()));
 						$user->save();
 					}
 
