@@ -636,7 +636,7 @@ class Admin_UserResource extends BaseResource
 
 			default:
 				// Get all is notified user id to array
-				$is_notified = Like::where('is_notify', 1)->select('id')->get()->toArray();
+				$is_notified = Like::where('is_notify', 1)->select('receiver_id')->get()->toArray();
 
 				// All not notify add friend requests
 				$query->where('is_notify', '!=', 1)->where(DB::raw('DAY(receiver_updated_at)'), '>', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction)->groupBy('like.receiver_id')->whereNotIn('receiver_id', $is_notified);
