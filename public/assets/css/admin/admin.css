@@ -10,6 +10,7 @@ body {
 
 #wrapper {
     width: 100%;
+    overflow-x: hidden;
 }
 
 #page-wrapper {

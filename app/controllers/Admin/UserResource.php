@@ -628,15 +628,18 @@ class Admin_UserResource extends BaseResource
 			case '1':
 				// All notified add friend requests
 				$query->where('is_notify', 1);
-				$query->where(DB::raw('DAY(receiver_updated_at)'), '>', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction);
+				$query->orderBy($orderColumn, $direction);
 				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
 				$datas		= $query->paginate(10);
 				return View::make($this->resourceView . '.isnotify')->with(compact('datas', 'all_notify'));
 			break;
 
 			default:
+				// Get all is notified user id to array
+				$is_notified = Like::where('is_notify', 1)->select('id')->get()->toArray();
+
 				// All not notify add friend requests
-				$query->where('is_notify', '!=', 1)->where(DB::raw('DAY(receiver_updated_at)'), '>', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction);
+				$query->where('is_notify', '!=', 1)->where(DB::raw('DAY(receiver_updated_at)'), '>', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction)->groupBy('like.receiver_id')->whereNotIn('receiver_id', $is_notified);
 
 				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
 				$datas			= $query->paginate(10);
