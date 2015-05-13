@@ -628,7 +628,7 @@ class Admin_UserResource extends BaseResource
 			case '1':
 				// All not notify add friend requests
 				$query->where('is_notify', 1);
-				$query->where(DB::raw('DAY(receiver_updated_at)'), '>=', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction);
+				$query->where(DB::raw('DAY(receiver_updated_at)'), '>', DB::raw('DAY(updated_at) + 3'))->orderBy($orderColumn, $direction);
 				isset($filter) AND $query->where('id', 'like', "%{$filter}%")->orWhere('sender_id', 'like', "%{$filter}%")->orWhere('receiver_id', 'like', "%{$filter}%")->orWhere('answer', 'like', "%{$filter}%");
 				$datas		= $query->paginate(10);
 				return View::make($this->resourceView . '.isnotify')->with(compact('datas', 'all_notify'));
