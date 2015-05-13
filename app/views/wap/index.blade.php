@@ -7,7 +7,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>{{ Lang::get('navigation.pinai') }}丨全国首个大学生恋爱APP</title>
+	<title>{{ Lang::get('navigation.pinai') }} 丨 全国首个大学生恋爱APP</title>
 	@include('layout.meta')
 	@yield('content')
 </head>
