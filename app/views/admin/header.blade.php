@@ -35,6 +35,9 @@
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 
+	<script>
+		var homeuri = "{{ route('home') }}";
+	</script>
 </head>
 
 <body>

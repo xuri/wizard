@@ -209,7 +209,6 @@
 	{{-- Custom Theme JavaScript --}}
 	{{ HTML::script('assets/js/admin/admin.js') }}
 
-
 </body>
 
 </html>
