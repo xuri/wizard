@@ -26,6 +26,44 @@
 						</div>
 						{{-- /.panel-heading --}}
 						<div class="panel-body">
+
+							{{ Form::open(array('method' => 'get')) }}
+								<div class="input-group col-md-12" style="margin:0 0 1em 0">
+									<span class="input-group-btn" style="width: 12%; padding: 0 10px 0 0;">
+										{{
+											Form::select(
+												'status',
+												array(
+													'0'	=> Lang::get('admin/support/index.unread'),
+													'1'	=> Lang::get('admin/support/index.processed')
+												),
+												Input::get('status'),
+												array('class' => 'form-control input-sm')
+											)
+										}}
+									</span>
+
+									<span class="input-group-btn" style="width: 15%; padding: 0 10px 0 0;">
+										{{
+											Form::select(
+												'promotion',
+												array(
+													'0'	=> Lang::get('admin/support/index.select_feedback'),
+													'1'	=> Lang::get('admin/support/index.select_promotion')
+												),
+												Input::get('promotion'),
+												array('class' => 'form-control input-sm')
+											)
+										}}
+									</span>
+
+									<input type="text" class="form-control input-sm" name="like" placeholder="{{ Lang::get('admin/support/index.select_input') }}" value="{{ Input::get('like') }}">
+									<span class="input-group-btn">
+											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">{{ Lang::get('admin/users/index.select') }}</button>
+									</span>
+								</div>
+							{{ Form::close() }}
+
 							<div class="table-responsive">
 								<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
 									<thead>

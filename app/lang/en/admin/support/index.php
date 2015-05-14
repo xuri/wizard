@@ -42,4 +42,11 @@ return array(
 	"phone"				=> "Phone",
 
 	"summary"			=> "Summary",
+
+	"select_input"		=> "Fuzzy search in feedback content",
+
+	"select_feedback"	=> "User Feedback",
+
+	"select_promotion"	=> "Promotion Code",
+
 );

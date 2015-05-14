@@ -43,4 +43,10 @@ return array(
 
 	"summary"			=> "摘要",
 
+	"select_input"		=> "模糊搜索反馈内容",
+
+	"select_feedback"	=> "用户反馈",
+
+	"select_promotion"	=> "代理统计",
+
 );

@@ -61,24 +61,42 @@ class Admin_SupportResource extends BaseResource
 		// Get sort conditions
 		$orderColumn	= Input::get('sort_up', Input::get('sort_down', 'created_at'));
 		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
-		// Get search conditions
-		switch (Input::get('status')) {
-			case '0':
-				$is_admin = 0;
-				break;
-			case '1':
-				$is_admin = 1;
-				break;
-		}
-		switch (Input::get('target')) {
-			case 'email':
-				$email = Input::get('like');
-				break;
-		}
+
 		// Construct query statement
 		$query = $this->model->orderBy($orderColumn, $direction);
-		isset($is_admin) AND $query->where('is_admin', $is_admin);
-		isset($email)    AND $query->where('email', 'like', "%{$email}%");
+
+		// Promotions ID query
+		$promotions		= $this->model->whereRaw("content regexp '^[0-9]{3,4}$'")->select('id')->get()->toArray();
+
+		// Get status filter conditions
+		switch (Input::get('status', 0)) {
+			case '1':
+				$status = 1;
+			break;
+
+			default:
+				$status = 0;
+			break;
+		}
+
+		// Fuzzy search conditions
+		if(Input::get('like')) {
+			$filter 	= Input::get('like');
+		}
+
+		// Get promotions filter conditions
+		switch (Input::get('promotion', 0)) {
+			case '1':
+				$query->whereIn('id', $promotions);
+			break;
+
+			default:
+				$query->whereNotIn('id', $promotions);
+			break;
+		}
+
+		isset($status) AND $query->where('status', $status);
+		isset($filter) AND $query->where('content', 'like', "%{$filter}%");
 		$datas = $query->paginate(10);
 		return View::make($this->resourceView.'.index')->with(compact('datas'));
 	}
