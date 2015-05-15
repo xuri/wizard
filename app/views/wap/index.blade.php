@@ -86,7 +86,7 @@ body{
 	 wx.ready(function () {
 			// 在这里调用 API
 			wx.onMenuShareTimeline({
-			title: '聘爱丨全国首个大学生恋爱APP', // 分享标题
+			title: '黑工程大三学生创办聘爱', // 分享标题
 			link: 'http://www.pinai521.com/wap', // 分享链接
 			imgUrl: "http://www.pinai521.com/assets/images/wechat/boy.jpg", // 分享图标
 			success: function () {
