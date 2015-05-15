@@ -29,7 +29,11 @@
 				<div class="clear">
 					<div class="img">
 						@if(Auth::user()->portrait)
-						{{ HTML::image('portrait/'.Auth::user()->portrait) }}
+							@if(File::exists('portrait/'.Auth::user()->portrait) && File::size('portrait/' . Auth::user()->portrait) > 0)
+								{{ HTML::image('portrait/'.Auth::user()->portrait) }}
+							@else
+								{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+							@endif
 						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
 						@endif

@@ -29,7 +29,11 @@
 				<div class="clear">
 					<div class="img">
 						@if(Auth::user()->portrait)
-						{{ HTML::image('portrait/'.Auth::user()->portrait) }}
+							@if(File::exists('portrait/'.Auth::user()->portrait) && File::size('portrait/' . Auth::user()->portrait) > 0)
+								{{ HTML::image('portrait/'.Auth::user()->portrait) }}
+							@else
+								{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
+							@endif
 						@else
 						{{ HTML::image('assets/images/preInfoEdit/peo.png') }}
 						@endif
@@ -85,9 +89,11 @@
 							}}
 								<div class="courtship_title">
 									@if($user->sex == 'M')
-									{{ HTML::image('assets/images/symbol.png') }}
-									@else(Auth::user()->sex == 'F')
-									{{ HTML::image('assets/images/g.jpg') }}
+										{{ HTML::image('assets/images/sex/male_icon.png', '', array('width' => '18')) }}
+									@elseif($user->sex == 'F')
+										{{ HTML::image('assets/images/sex/female_icon.png', '', array('width' => '18')) }}
+									@else
+										{{ HTML::image('assets/images/sex/no_icon.png', '', array('width' => '18')) }}
 									@endif
 									<a href="{{ route('members.show', $user->id) }}"><span>{{ $user->nickname }}</span></a>
 								</div>

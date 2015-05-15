@@ -42,10 +42,13 @@
 								@endif
 							</a>
 						</div>
+
 						@if($author->sex == 'M')
-						{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
+							{{ HTML::image('assets/images/sex/male_icon.png', '', array('class' => 'lu_left sexImg', 'width' => '18')) }}
+						@elseif($author->sex == 'F')
+							{{ HTML::image('assets/images/sex/female_icon.png', '', array('class' => 'lu_left sexImg', 'width' => '18')) }}
 						@else
-						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left sexImg')) }}
+							{{ HTML::image('assets/images/sex/no_icon.png', '', array('class' => 'lu_left sexImg', 'width' => '18')) }}
 						@endif
 
 						{{--  Determine user renew status --}}
@@ -110,9 +113,11 @@
 									</a>
 								</div>
 								@if($user->sex == 'M')
-								{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left sexImg')) }}
+									{{ HTML::image('assets/images/sex/male_icon.png', '', array('class' => 'lu_left sexImg', 'width' => '18')) }}
+								@elseif($user->sex == 'F')
+									{{ HTML::image('assets/images/sex/female_icon.png', '', array('class' => 'lu_left sexImg', 'width' => '18')) }}
 								@else
-								{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left sexImg')) }}
+									{{ HTML::image('assets/images/sex/no_icon.png', '', array('class' => 'lu_left sexImg', 'width' => '18')) }}
 								@endif
 
 								{{--  Determine user renew status --}}
@@ -182,10 +187,13 @@
 												@endif
 											</a>
 										</span>
+
 										@if($reply_user->sex == 'M')
-										{{ HTML::image('assets/images/symbol.png', '', array('class' => 'o-sexImg')) }}
+											{{ HTML::image('assets/images/sex/male_icon.png', '', array('class' => 'o-sexImg', 'width' => '18')) }}
+										@elseif($reply_user->sex == 'F')
+											{{ HTML::image('assets/images/sex/female_icon.png', '', array('class' => 'o-sexImg', 'width' => '18')) }}
 										@else
-										{{ HTML::image('assets/images/g.jpg', '', array('class' => 'o-sexImg')) }}
+											{{ HTML::image('assets/images/sex/no_icon.png', '', array('class' => 'o-sexImg', 'width' => '18')) }}
 										@endif
 
 										{{--  Determine user renew status --}}

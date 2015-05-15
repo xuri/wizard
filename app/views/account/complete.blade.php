@@ -344,9 +344,9 @@
 									@if(Auth::user()->sex)
 									<input value="{{ Auth::user()->sex }}" type="hidden" name="sex">
 										@if(Auth::user()->sex == 'M')
-										{{ HTML::image('assets/images/symbol.png') }} ({{ Lang::get('account/complete.sex_isset') }})
+											{{ HTML::image('assets/images/sex/male_icon.png', '', array('width' => '18')) }} ({{ Lang::get('account/complete.sex_isset') }})
 										@else(Auth::user()->sex == 'F')
-										{{ HTML::image('assets/images/g.jpg') }} ({{ Lang::get('account/complete.sex_isset') }})
+											{{ HTML::image('assets/images/sex/female_icon.png', '', array('width' => '18')) }} ({{ Lang::get('account/complete.sex_isset') }})
 										@endif
 									@else
 									<select name="sex" id="sex_select">

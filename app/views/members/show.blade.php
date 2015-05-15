@@ -39,13 +39,15 @@
 						<p class="pi_introduce lu_left">{{ $profile->self_intro}}</p>
 					</div>
 					<div class="pi_center_user">
+
 						@if($data->sex == 'M')
-						{{ HTML::image('assets/images/symbol.png', '', array('class' => 'pi_sex')) }}
+							{{ HTML::image('assets/images/sex/male_icon.png', '', array('class' => 'pi_sex', 'width' => '18')) }}
 						@elseif($data->sex == 'F')
-						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'pi_sex')) }}
+							{{ HTML::image('assets/images/sex/female_icon.png', '', array('class' => 'pi_sex', 'width' => '18')) }}
 						@else
-						{{ HTML::image('assets/images/g.jpg', '', array('class' => 'pi_sex')) }}
+							{{ HTML::image('assets/images/sex/no_icon.png', '', array('class' => 'pi_sex', 'width' => '18')) }}
 						@endif
+
 						@if($crenew)
 							@if($data->is_admin)
 							<span class="admin">{{ Lang::get('system.moderator') }}</span>

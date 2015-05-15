@@ -23,9 +23,9 @@
 				<div class="lu_userMessage">
 				{{ HTML::image('assets/images/arrow.png', '', array('class' => 'lu_userMessage_arrow')) }}
 				@if($data->sex == 'M')
-				{{ HTML::image('assets/images/symbol.png', '', array('class' => 'lu_left')) }}
+				{{ HTML::image('assets/images/sex/male_icon.png', '', array('class' => 'lu_left', 'width' => '20')) }}
 				@else
-				{{ HTML::image('assets/images/g.jpg', '', array('class' => 'lu_left')) }}
+				{{ HTML::image('assets/images/sex/female_icon.png', '', array('class' => 'lu_left', 'width' => '20')) }}
 				@endif
 
 				@if($profile->crenew >= 30)

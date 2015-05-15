@@ -207,9 +207,11 @@ body{
 				</span>
 				<div class="list_introduction">
 					@if($data->sex == 'M')
-					{{ HTML::image('assets/images/wap/male_icon.png') }}
+					{{ HTML::image('assets/images/sex/male_icon.png') }}
+					@elseif($data->sex == 'F')
+					{{ HTML::image('assets/images/sex/female_icon.png') }}
 					@else
-					{{ HTML::image('assets/images/wap/female_icon.png') }}
+					{{ HTML::image('assets/images/sex/no_icon.png') }}
 					@endif
 					<span>{{ $data->nickname }}</span>
 					<br />

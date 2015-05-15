@@ -78,11 +78,11 @@
 						<tr>
 							<td class="data_td1">{{ Lang::get('account/index.sex') }}:</td><td class="data_td2">
 								@if(Auth::user()->sex == 'M')
-								{{ HTML::image('assets/images/symbol.png') }}
+									{{ HTML::image('assets/images/sex/male_icon.png', '', array('width' => '18')) }}
 								@elseif(Auth::user()->sex == 'F')
-								{{ HTML::image('assets/images/g.jpg') }}
+									{{ HTML::image('assets/images/sex/female_icon.png', '', array('width' => '18')) }}
 								@else
-								?
+									{{ HTML::image('assets/images/sex/no_icon.png', '', array('width' => '18')) }}
 								@endif
 							</td>
 						</tr>

@@ -78,9 +78,15 @@
 						<div class="form-group">
 							<label for="content">设定移动端 App 轮播图（可选）</label>
 							@if($data->thumbnails)
-							<p>
-								<img src="{{ URL::to('/upload/thumbnails/'.$data->thumbnails) }}" />
-							</p>
+								@if(File::exists('upload/thumbnails/' . $data->thumbnails) && File::size('upload/thumbnails/' . $data->thumbnails) > 0)
+								<p>
+									{{ HTML::image('upload/thumbnails/' . $data->thumbnails, '', array('width' => '640')) }}
+								</p>
+								@else
+								<p>
+									{{ HTML::image('assets/images/thumbnails-default-640x280@2x.png', '', array('width' => '640')) }}
+								</p>
+								@endif
 							@else
 							@endif
 							{{ Form::file('thumbnails') }}

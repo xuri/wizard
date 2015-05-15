@@ -12,9 +12,11 @@
 		@endif
 	</a>
 	@if($sender->sex == 'M')
-	{{ HTML::image('assets/images/symbol.png', '', array('class' => 'new_main_sex')) }}
+		{{ HTML::image('assets/images/sex/male_icon.png', '', array('class' => 'new_main_sex', 'width' => '18')) }}
+	@elseif($sender->sex == 'F')
+		{{ HTML::image('assets/images/sex/female_icon.png', '', array('class' => 'new_main_sex', 'width' => '18')) }}
 	@else
-	{{ HTML::image('assets/images/g.jpg', '', array('class' => 'new_main_sex')) }}
+		{{ HTML::image('assets/images/sex/no_icon.png', '', array('class' => 'new_main_sex', 'width' => '18')) }}
 	@endif
 
 	<a href="{{ route('members.show', $sender->id) }}" class="new_main_name">{{ $sender->nickname }}</a>
