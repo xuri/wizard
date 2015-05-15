@@ -63,7 +63,7 @@ class Admin_SupportResource extends BaseResource
 		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
 
 		// Construct query statement
-		$query = $this->model->orderBy($orderColumn, $direction);
+		$query 			= $this->model->orderBy($orderColumn, $direction);
 
 		// Promotions ID query
 		$promotions		= $this->model->whereRaw("content regexp '^[0-9]{3,4}$'")->select('id')->get()->toArray();

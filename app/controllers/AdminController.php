@@ -30,7 +30,10 @@ class AdminController extends BaseController
 		$totalUser		= User::count();
 		$maleUser		= User::where('sex', 'M')->count();
 		$femaleUser		= User::where('sex', 'F')->count();
-		$unreadSupport	= Support::where( 'status', false )->count();
+
+		// Promotions ID query
+		$promotions		= $this->model->whereRaw("content regexp '^[0-9]{3,4}$'")->select('id')->get()->toArray();
+		$unreadSupport	= Support::where('status', false)->whereNotIn('id', $promotions)->count();
 		$analyticsUser	= AnalyticsUser::select(
 			'all_user',
 			'daily_active_user',
