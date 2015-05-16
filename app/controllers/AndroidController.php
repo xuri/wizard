@@ -463,8 +463,13 @@ class AndroidController extends BaseController
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
 
-							// Retrieve user profile
-							$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+							if(Cache::has('api_user_' . $users[$key]['id'])) {
+								$profile = Cache::get('api_user_' . $users[$key]['id']);
+							} else {
+								// Retrieve user profile
+								$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+								Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+							}
 
 							// Determine user renew status
 							if($profile->crenew >= 30){
@@ -554,8 +559,13 @@ class AndroidController extends BaseController
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
 
-							// Retrieve user profile
-							$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+							if(Cache::has('api_user_' . $users[$key]['id'])) {
+								$profile = Cache::get('api_user_' . $users[$key]['id']);
+							} else {
+								// Retrieve user profile
+								$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+								Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+							}
 
 							// Determine user renew status
 							if($profile->crenew >= 30){

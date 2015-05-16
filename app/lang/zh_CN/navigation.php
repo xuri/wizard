@@ -53,7 +53,11 @@ return array(
 
 	"admin_server"					=> "系统信息",
 
-	"admin_queue_server"			=> "消息队列",
+	"admin_server_info"				=> "服务器状态",
+
+	"admin_queue_server"			=> "消息队列服务",
+
+	"admin_memcached_server"		=> "对象缓存系统",
 
 	"admin_user_management"			=> "用户管理",
 

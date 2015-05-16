@@ -54,10 +54,29 @@
 
 				<div id="load-ajax">
 					@foreach($datas as $data)
+					<?php
+						if(Cache::has('data_' . $data->id)) {
+							$data = Cache::get('data_' . $data->id);
+						} else {
+							Cache::put('data_' . $data->id, $data, 60);
+						}
+					?>
 					@if($data->portrait)
 					<?php
-						$profile = Profile::where('user_id', $data->id)->first();
-						$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
+						if (Cache::has('profile_' . $data->id)) {
+							$profile = Cache::get('profile_' . $data->id);
+						} else {
+							$profile = Profile::where('user_id', $data->id)->first();
+							$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
+							Cache::put('profile_' . $data->id, $profile, 60);
+						}
+
+						if (Cache::has('profile_' . $data->id . '_tag_str')) {
+							$tag_str = Cache::get('profile_' . $data->id . '_tag_str');
+						} else {
+							$tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
+							Cache::put('profile_' . $data->id . '_tag_str', $tag_str, 60);
+						}
 					?>
 
 					<div class="lu_resumes clear">

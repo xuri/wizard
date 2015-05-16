@@ -51,9 +51,13 @@ return array(
 
 	"dashboard"						=> "Dashboard",
 
-	"admin_server"					=> "Server Information",
+	"admin_server"					=> "System Management",
+
+	"admin_server_info"				=> "Server Information",
 
 	"admin_queue_server"			=> "Beanstalkd Queue Console",
+
+	"admin_memcached_server"		=> "Memcached Server Console",
 
 	"admin_user_management"			=> "Users Management",
 

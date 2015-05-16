@@ -56,10 +56,18 @@
 					<a href="{{ route('admin') }}"><i class="fa fa-dashboard fa-fw"></i> {{ Lang::get('navigation.dashboard') }}</a>
 				</li>
 				<li>
-					<a href="{{ route('admin.server') }}"><i class="fa fa-sliders fa-fw"></i> {{ Lang::get('navigation.admin_server') }}</a>
-				</li>
-				<li>
-					<a href="http://beanstalkd.pinai521.com" target="_blank"><i class="fa fa-refresh fa-spin"></i> {{ Lang::get('navigation.admin_queue_server') }}</a>
+					<a href="javascript:void();"><i class="fa fa-sliders fa-fw"></i> {{ Lang::get('navigation.admin_server') }}<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li>
+							<a href="{{ route('admin.server') }}"> {{ Lang::get('navigation.admin_server_info') }}</a>
+						</li>
+						<li>
+							<a href="http://beanstalkd.pinai521.com" target="_blank"> {{ Lang::get('navigation.admin_queue_server') }}</a>
+						</li>
+						<li>
+							<a href="http://beanstalkd.pinai521.com/memcached.php" target="_blank"> {{ Lang::get('navigation.admin_memcached_server') }}</a>
+						</li>
+					</ul>
 				</li>
 				<li>
 					<a href="javascript:void();"><i class="fa fa-users fa-fw"></i> {{ Lang::get('navigation.admin_user_management') }}<span class="fa arrow"></span></a>

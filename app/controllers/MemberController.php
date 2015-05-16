@@ -83,8 +83,8 @@ class MemberController extends BaseController {
 		// 	$hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
 		// });
 
-		$open_universities		= University::where('status', 2)->select('id', 'university')->get();
-		$pending_universities	= University::where('status', 1)->select('id', 'university', 'open_at')->get();
+		$open_universities		= University::where('status', 2)->select('id', 'university')->remember(10)->get();
+		$pending_universities	= University::where('status', 1)->select('id', 'university', 'open_at')->remember(10)->get();
 
 		$university				= Input::get('university');
 		$grade					= Input::get('grade');
