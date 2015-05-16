@@ -468,8 +468,7 @@ function get_key($keyName)
 function find_command($commandName)
 {
 	$path = array('/bin', '/sbin', '/usr/bin', '/usr/sbin', '/usr/local/bin', '/usr/local/sbin');
-	foreach($path as $p)
-	{
+	foreach($path as $p) {
 		if (@is_executable("$p/$commandName")) return "$p/$commandName";
 	}
 	return false;
@@ -484,10 +483,8 @@ function do_command($commandName, $args)
 {
 	$buffer = "";
 	if (false === ($command = find_command($commandName))) return false;
-	if ($fp = @popen("$command $args", 'r'))
-	{
-		while (!@feof($fp))
-		{
+	if ($fp = @popen("$command $args", 'r')) {
+		while (!@feof($fp)) {
 			$buffer .= @fgets($fp, 4096);
 		}
 		return trim($buffer);
@@ -524,7 +521,7 @@ function sys_windows()
 		}
 	*/
 	$cpuinfo[0]['L2CacheSize'] = ' ('.$cpuinfo[0]['L2CacheSize'].')';
-	if($res['cpu']['num']==1)
+	if ($res['cpu']['num']==1)
 		$x1 = '';
 	else
 		$x1 = ' ×'.$res['cpu']['num'];
@@ -563,21 +560,15 @@ function GetWMI($wmi,$strClass, $strValue = array())
 	$objWEBM	= $wmi->Get($strClass);
 	$arrProp	= $objWEBM->Properties_;
 	$arrWEBMCol	= $objWEBM->Instances_();
-	foreach($arrWEBMCol as $objItem)
-	{
+	foreach ($arrWEBMCol as $objItem) {
 		@reset($arrProp);
 		$arrInstance = array();
-		foreach($arrProp as $propItem)
-		{
+		foreach ($arrProp as $propItem) {
 			eval("\$value = \$objItem->" . $propItem->Name . ";");
-			if (empty($strValue))
-			{
+			if (empty($strValue)) {
 				$arrInstance[$propItem->Name] = trim($value);
-			}
-			else
-			{
-				if (in_array($propItem->Name, $strValue))
-				{
+			} else {
+				if (in_array($propItem->Name, $strValue)) {
 					$arrInstance[$propItem->Name] = trim($value);
 				}
 			}
@@ -594,67 +585,66 @@ function GetWMI($wmi,$strClass, $strValue = array())
  */
 function getConstellation($constellation)
 {
-	if($constellation == NULL)
-	{
+	if ($constellation == null) {
 		$constellationInfo = array(
 			'icon' => 'default.png',
 			'name' => Lang::get('account/constellation.unset')
 		);
 		return $constellationInfo;
 	} else {
-		switch ($constellation)
-		{
+		switch ($constellation) {
 			case "1":
 				$constellationIcon = 'shuipin.png';
 				$constellationName = Lang::get('account/constellation.aquarius');
-			break;
+				break;
 			case "2":
 				$constellationIcon = 'shuangyu.png';
 				$constellationName = Lang::get('account/constellation.pisces');
-			break;
+				break;
 			case "3":
 				$constellationIcon = 'baiyang.png';
 				$constellationName = Lang::get('account/constellation.aries');
-			break;
+				break;
 			case "4":
 				$constellationIcon = 'jinniu.png';
 				$constellationName = Lang::get('account/constellation.taurus');
-			break;
+				break;
 			case "5":
 				$constellationIcon = 'shuangzi.png';
 				$constellationName = Lang::get('account/constellation.gemini');
-			break;
+				break;
 			case "6":
 				$constellationIcon = 'juxie.png';
 				$constellationName = Lang::get('account/constellation.cancer');
-			break;
+				break;
 			case "7":
 				$constellationIcon = 'shizi.png';
 				$constellationName = Lang::get('account/constellation.leo');
-			break;
+				break;
 			case "8":
 				$constellationIcon = 'chunv.png';
 				$constellationName = Lang::get('account/constellation.virgo');
-			break;
+				break;
 			case "9":
 				$constellationIcon = 'tiancheng.png';
 				$constellationName = Lang::get('account/constellation.libra');
-			break;
+				break;
 			case "10":
 				$constellationIcon = 'tianxie.png';
 				$constellationName = Lang::get('account/constellation.scorpio');
-			break;
+				break;
 			case "11":
 				$constellationIcon = 'sheshou.png';
 				$constellationName = Lang::get('account/constellation.sagittarius');
-			break;
+				break;
 			case "12":
 				$constellationIcon = 'mojie.png';
 				$constellationName = Lang::get('account/constellation.capricorn');
-			break;
+				break;
 			default:
 				$constellationIcon = 'default.png';
 				$constellationName = Lang::get('account/constellation.unset');
+				break;
 		}
 
 		$constellationInfo = array(
@@ -672,131 +662,130 @@ function getConstellation($constellation)
  */
 function getTagName($tag)
 {
-	switch ($tag)
-	{
+	switch ($tag) {
 		case "1":
 			$tagName = '高冷';
-		break;
+			break;
 		case "2":
 			$tagName = '颜控';
-		break;
+			break;
 		case "3":
 			$tagName = '女神';
-		break;
+			break;
 		case "4":
 			$tagName = '萌萌哒';
-		break;
+			break;
 		case "5":
 			$tagName = '治愈系';
-		break;
+			break;
 		case "6":
 			$tagName = '小清新';
-		break;
+			break;
 		case "7":
 			$tagName = '女王范';
-		break;
+			break;
 		case "8":
 			$tagName = '天然呆';
-		break;
+			break;
 		case "9":
 			$tagName = '萝莉';
-		break;
+			break;
 		case "10":
 			$tagName = '静待缘分';
-		break;
+			break;
 		case "11":
 			$tagName = '减肥ing';
-		break;
+			break;
 		case "12":
 			$tagName = '戒烟ing';
-		break;
+			break;
 		case "13":
 			$tagName = '缺爱ing';
-		break;
+			break;
 		case "14":
 			$tagName = '暖男';
-		break;
+			break;
 		case "15":
 			$tagName = '创业者';
-		break;
+			break;
 		case "16":
 			$tagName = '直率';
-		break;
+			break;
 		case "17":
 			$tagName = '懒';
-		break;
+			break;
 		case "18":
 			$tagName = '感性';
-		break;
+			break;
 		case "19":
 			$tagName = '理性';
-		break;
+			break;
 		case "20":
 			$tagName = '温柔细心';
-		break;
+			break;
 		case "21":
 			$tagName = '暴脾气';
-		break;
+			break;
 		case "22":
 			$tagName = '技术宅';
-		break;
+			break;
 		case "23":
 			$tagName = '文艺病';
-		break;
+			break;
 		case "24":
 			$tagName = '爱旅行';
-		break;
+			break;
 		case "25":
 			$tagName = '健身狂魔';
-		break;
+			break;
 		case "26":
 			$tagName = '考研ing';
-		break;
+			break;
 		case "27":
 			$tagName = '吃货';
-		break;
+			break;
 		case "28":
 			$tagName = '长腿欧巴';
-		break;
+			break;
 		case "29":
 			$tagName = '街舞solo';
-		break;
+			break;
 		case "30":
 			$tagName = '爱音乐';
-		break;
+			break;
 		case "31":
 			$tagName = '幽默';
-		break;
+			break;
 		case "32":
 			$tagName = '乐观';
-		break;
+			break;
 		case "33":
 			$tagName = '事业型';
-		break;
+			break;
 		case "34":
 			$tagName = '完美主义';
-		break;
+			break;
 		case "35":
 			$tagName = '情商略高';
-		break;
+			break;
 		case "36":
 			$tagName = '阳光';
-		break;
+			break;
 		case "37":
 			$tagName = '学霸';
-		break;
+			break;
 		case "38":
 			$tagName = '执着';
-		break;
+			break;
 		case "39":
 			$tagName = '自信';
-		break;
+			break;
 		case "40":
 			$tagName = '独立型';
-		break;
+			break;
 		default:
 			$tagName = '无标签';
-		break;
+			break;
 	}
 	return $tagName;
 }
@@ -811,14 +800,12 @@ function getEasemob()
 	$nowTime			= new DateTime(); // Now time
 	$easemobUpdated		= $nowTime->getTimestamp() - strtotime($easemob->updated_at); // Calculate last update timestamp
 	// Get token
-	if($easemob->token == NULL) // First get token
-	{
+	if ($easemob->token == NULL) { // First get token
 		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
 		$accessToken	= json_decode($accessToken->body, true); // Json decode
 		$easemob->token	= $accessToken['access_token'];
 		$easemob->save(); // Save access token
-	} elseif($easemobUpdated < 172800) // Last update timestamp 2 Days (201600 - 3 days)
-	{
+	} elseif ($easemobUpdated < 172800) { // Last update timestamp 2 Days (201600 - 3 days)
 		$accessToken 	= cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
 		$accessToken	= json_decode($accessToken->body, true); // Json decode
 		$easemob->token	= $accessToken['access_token'];
@@ -856,16 +843,16 @@ function Notifications($category, $senderId, $receiverId, $category_id, $post_id
 	$notification->sender_id	= $senderId;
 	$notification->receiver_id	= $receiverId;
 	$notification->category 	= $category;
-	if($category_id){
+	if ($category_id) {
 		$notification->category_id 	= $category_id;
 	}
-	if($post_id){
+	if ($post_id) {
 		$notification->post_id 		= $post_id;
 	}
-	if($comment_id){
+	if ($comment_id) {
 		$notification->comment_id 	= $comment_id;
 	}
-	if($reply_id){
+	if ($reply_id) {
 		$notification->reply_id 	= $reply_id;
 	}
 	$notification->save();
@@ -943,9 +930,9 @@ function diffBetweenTwoDays ($day1, $day2)
 	$second2 = strtotime($day2);
 
 	if ($second1 < $second2) {
-		$tmp = $second2;
-		$second2 = $second1;
-		$second1 = $tmp;
+		$tmp		= $second2;
+		$second2	= $second1;
+		$second1	= $tmp;
 	}
 
 	return ($second1 - $second2) / 86400;

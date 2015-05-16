@@ -61,8 +61,7 @@ class AndroidController extends BaseController
 		$action = Input::get('action');
 
 		// Define token
-		if($token == 'jciy9ldJ')
-		{
+		if ($token == 'jciy9ldJ') {
 			switch ($action) {
 
 				/*
@@ -114,7 +113,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Signup
 
@@ -153,7 +153,7 @@ class AndroidController extends BaseController
 						$user->password		= md5(Input::get('password'));
 
 						// Client set sex
-						if(null !== Input::get('sex')) {
+						if (null !== Input::get('sex')) {
 							$user->sex			= e(Input::get('sex'));
 						}
 
@@ -175,11 +175,11 @@ class AndroidController extends BaseController
 
 							// Respond body
 							$result 			= json_decode($regChat->body, true);
-							if(isset($result['entities']))
-							{
+
+							if (isset($result['entities'])) {
 								// Determine register status from Easemob
-								if($result['entities']['0']['activated'] == true)
-								{
+								//
+								if ($result['entities']['0']['activated'] == true) {
 									// Create floder to store chat record
 									File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 
@@ -234,7 +234,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Profile complete
 
@@ -286,8 +287,8 @@ class AndroidController extends BaseController
 
 					// Begin verification
 					$validator = Validator::make($info, $rules, $messages);
-					if ($validator->passes()) {
 
+					if ($validator->passes()) {
 						// Verification success
 						// Update account
 						$user                   = User::where('id', Input::get('id'))->first();
@@ -296,30 +297,31 @@ class AndroidController extends BaseController
 
 						// Protrait section
 						$portrait               = Input::get('portrait');
-						if($portrait == null)
-						{
+
+						if ($portrait == null) {
 							$user->portrait 	= $oldPortrait;  // User not update avatar
-						} else{
+						} else {
 							// User update avatar
 							$portraitPath		= public_path('portrait/');
 							$user->portrait     = 'android/' . $portrait; // Save file name to database
 						}
-						if(is_null($user->sex))
-						{
+
+						if (is_null($user->sex)) {
 							$user->sex          = Input::get('sex');
 						}
-						if(is_null($user->born_year))
-						{
+
+						if (is_null($user->born_year)) {
 							$user->born_year    = Input::get('born_year');
 						}
-						$user->bio              = app_input_filter(Input::get('bio'));
 
+						$user->bio              = app_input_filter(Input::get('bio'));
 						$school 				= Input::get('school');
-						if(is_null($user->school)) {
+
+						if (is_null($user->school)) {
 							// First set school
 							University::where('university', $school)->increment('count');
 						} else {
-							if($user->school != $school) {
+							if ($user->school != $school) {
 								University::where('university', $school)->increment('count');
 								University::where('university', $user->school)->decrement('count');
 							}
@@ -335,20 +337,19 @@ class AndroidController extends BaseController
 						$profile->question      = app_input_filter(Input::get('question'));
 
 						// User's constellation filter
-						if(Input::get('constellation') != 0) {
+						if (Input::get('constellation') != 0) {
 							$profile->constellation = e(Input::get('constellation'), NULL);
 						}
 
 						if ($user->save() && $profile->save()) {
 
 							// Update success
-							if($portrait != NULL) // User update avatar
-							{
+							if ($portrait != null) { // User update avatar
 								// Determine user portrait type
 								$asset = strpos($oldPortrait, 'android');
 
 								// Should to use !== false
-								if($asset !== false){
+								if ($asset !== false) {
 									// No nothing
 								} else {
 									// User set portrait from web delete old poritait
@@ -379,7 +380,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Members
 
@@ -403,7 +405,7 @@ class AndroidController extends BaseController
 					// Grade filter
 					$grade				= Input::get('grade');
 
-					if($user_id) {
+					if ($user_id) {
 						// Retrieve user
 						$user				= User::find($user_id);
 
@@ -415,7 +417,7 @@ class AndroidController extends BaseController
 						$user->save();
 					}
 
-					if($last_id){
+					if ($last_id) {
 						// User last signin at time
 						$last_updated_at	= User::find($last_id)->updated_at;
 
@@ -430,13 +432,13 @@ class AndroidController extends BaseController
 						// });
 
 						// Sex filter
-						if($sex_filter){
+						if ($sex_filter) {
 							isset($sex_filter) AND $query->where('sex', $sex_filter);
 						}
 
 						// University filter
-						if($university_filter){
-							if($university_filter == '其他') {
+						if ($university_filter) {
+							if ($university_filter == '其他') {
 								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
 								isset($university_filter) AND $query->whereNotIn('school', $universities_list);
 							} else {
@@ -445,7 +447,7 @@ class AndroidController extends BaseController
 						}
 
 						// Grade filter
-						if($grade) {
+						if ($grade) {
 							$_id = Profile::where('grade', '=', Input::get('grade'))->select('id')->get()->toArray();
 							isset($grade) AND $query->whereIn('id', $_id);
 							// isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
@@ -463,7 +465,7 @@ class AndroidController extends BaseController
 							->toArray();
 
 						// Replace receiver ID to receiver portrait
-						foreach($users as $key => $field){
+						foreach ($users as $key => $field) {
 
 							if(Cache::has('api_user_' . $users[$key]['id'])) {
 								$profile					= Cache::get('api_user_' . $users[$key]['id']);
@@ -490,7 +492,7 @@ class AndroidController extends BaseController
 								Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
 
 								// Determine user renew status
-								if($profile->crenew >= 30){
+								if ($profile->crenew >= 30) {
 									$users[$key]['crenew'] = 1;
 									Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
 								} else {
@@ -520,8 +522,7 @@ class AndroidController extends BaseController
 						}
 
 						// If get query success
-						if($users)
-						{
+						if ($users) {
 							// Build Json format
 							return Response::json(
 								array(
@@ -551,13 +552,13 @@ class AndroidController extends BaseController
 						// });
 
 						// Sex filter
-						if($sex_filter){
+						if ($sex_filter) {
 							isset($sex_filter) AND $query->where('sex', $sex_filter);
 						}
 
 						// University filter
-						if($university_filter){
-							if($university_filter == '其他') {
+						if ($university_filter) {
+							if ($university_filter == '其他') {
 								$universities_list = University::where('status', 2)->select('university')->get()->toArray();
 								isset($university_filter) AND $query->whereNotIn('school', $universities_list);
 							} else {
@@ -566,7 +567,7 @@ class AndroidController extends BaseController
 						}
 
 						// Grade filter
-						if($grade) {
+						if ($grade) {
 							$_id = Profile::where('grade', '=', Input::get('grade'))->select('id')->get()->toArray();
 							isset($grade) AND $query->whereIn('id', $_id);
 							// isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
@@ -587,9 +588,9 @@ class AndroidController extends BaseController
 										->toArray();
 
 						// Replace receiver ID to receiver portrait
-						foreach($users as $key => $field){
+						foreach ($users as $key => $field) {
 
-							if(Cache::has('api_user_' . $users[$key]['id'])) {
+							if (Cache::has('api_user_' . $users[$key]['id'])) {
 								$profile					= Cache::get('api_user_' . $users[$key]['id']);
 
 								// User renew status
@@ -614,7 +615,7 @@ class AndroidController extends BaseController
 								Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
 
 								// Determine user renew status
-								if($profile->crenew >= 30){
+								if ($profile->crenew >= 30) {
 									$users[$key]['crenew'] = 1;
 									Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
 								} else {
@@ -642,8 +643,7 @@ class AndroidController extends BaseController
 							}
 						}
 
-						if($users)
-						{
+						if ($users) {
 							return Response::json(
 								array(
 									'status'	=> 1,
@@ -658,7 +658,8 @@ class AndroidController extends BaseController
 							);
 						}
 					}
-				break;
+
+					break;
 
 				// Members show profile
 
@@ -673,8 +674,8 @@ class AndroidController extends BaseController
 						// Which user want to see
 						'user_id' => Input::get('userid'),
 					);
-					if ($info)
-					{
+
+					if ($info) {
 						// Sender user ID
 						$sender_id	= Input::get('senderid');
 						$user_id	= Input::get('userid');
@@ -682,30 +683,26 @@ class AndroidController extends BaseController
 						$profile	= Profile::where('user_id', $user_id)->first();
 						$like		= Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first();
 						$like_me	= Like::where('sender_id', $user_id)->where('receiver_id', $sender_id)->first();
-						if($like) {
+						if ($like) {
 							$likeCount = $like->count;
 						} else {
 							$likeCount = 0;
 						}
 
 						// Determine user renew status
-						if($profile->crenew >= 30){
+						if ($profile->crenew >= 30) {
 							$crenew = 1;
 						} else {
 							$crenew = 0;
 						}
 
-						if(is_null($like_me)) {
-
+						if (is_null($like_me)) {
 							// This user never liked you
 							$user_like_me	= 5;
 							$answer			= null;
-
 						} else {
-
 							// Determine users relationship, see code explanation in MembersController
 							$user_like_me	= $like_me->status;
-
 							// User liked answer
 							$answer			= $like_me->answer;
 						}
@@ -714,7 +711,7 @@ class AndroidController extends BaseController
 						$constellationInfo = getConstellation($profile->constellation);
 
 						// Get user's tag
-						if(is_null($profile->tag_str)){
+						if (is_null($profile->tag_str)) {
 							$tag_str = e(null);
 						} else {
 							// Convert string to array and remove duplicate tags code
@@ -752,7 +749,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Profile
 
@@ -763,8 +761,7 @@ class AndroidController extends BaseController
 						'id'   => Input::get('id'),
 					);
 
-					if ($info)
-					{
+					if ($info) {
 						// Retrieve user
 						$user				= User::find(Input::get('id'));
 						$profile			= Profile::where('user_id', $user->id)->first();
@@ -773,7 +770,7 @@ class AndroidController extends BaseController
 						$constellationInfo	= getConstellation($profile->constellation);
 
 						// Get user's tag
-						if(is_null($profile->tag_str)){
+						if (is_null($profile->tag_str)) {
 							$tag_str = e(null);
 						} else {
 							// Convert string to array and remove duplicate tags code
@@ -804,7 +801,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Like
 
@@ -817,7 +815,7 @@ class AndroidController extends BaseController
 					$user	= User::find(Input::get('id'));
 
 					// Determin user portrait is set
-					if(isset($user->portrait)) {
+					if (isset($user->portrait)) {
 
 						// Determin user profile is complete
 						if (isset($user->nickname) && isset($user->school) && isset($user->bio)) {
@@ -838,22 +836,20 @@ class AndroidController extends BaseController
 							// Begin verification
 							$validator   = Validator::make($data, $rules, $messages);
 
-							if ($validator->passes())
-							{
+							if ($validator->passes()) {
 								$user			= User::find(Input::get('id'));
 								$receiver_id	= Input::get('receiverid');
-								if($user->points > 0)
-								{
+
+								if ($user->points > 0) {
 									$have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
 
 									// This user already sent like
-									if($have_like)
-									{
+									if ($have_like) {
 										$have_like->answer	= app_input_filter(Input::get('answer'));
 										$have_like->count	= $have_like->count + 1;
 										$user->points		= $user->points - 1;
-										if($have_like->save() && $user->save())
-										{
+
+										if ($have_like->save() && $user->save()) {
 											// Some user re-liked you
 											$notification = Notification(2, $user->id, $receiver_id);
 
@@ -886,8 +882,7 @@ class AndroidController extends BaseController
 										$like->answer		= app_input_filter(Input::get('answer'));
 										$like->count		= 1;
 										$user->points		= $user->points - 1;
-										if($like->save() && $user->save())
-										{
+										if ($like->save() && $user->save()) {
 											$notification = Notification(1, $user->id, $receiver_id); // Some user first like you
 
 											// Add push notifications for App client to queue
@@ -943,7 +938,7 @@ class AndroidController extends BaseController
 						);
 					}
 
-				break;
+					break;
 
 				// Sent
 
@@ -958,8 +953,7 @@ class AndroidController extends BaseController
 					$user_id	= Input::get('id');
 
 					// If App have post last user id
-					if($last_id)
-					{
+					if ($last_id) {
 						// Query all user liked users
 						$allLike    = Like::where('sender_id', $user_id)
 							->orderBy('id', 'desc')
@@ -970,8 +964,8 @@ class AndroidController extends BaseController
 							->toArray();
 
 						// Replace receiver_id key name to portrait
-						foreach($allLike as $key1 => $val1){
-							foreach($val1 as $key => $val){
+						foreach ($allLike as $key1 => $val1) {
+							foreach ($val1 as $key => $val) {
 								$new_key				= str_replace('receiver_id', 'portrait', $key);
 								$new_array[$new_key]	= $val;
 							}
@@ -979,7 +973,7 @@ class AndroidController extends BaseController
 						}
 
 						// Replace receiver ID to receiver portrait
-						foreach($likes as $key => $field){
+						foreach ($likes as $key => $field) {
 
 							// Retrieve receiver user
 							$user						= User::where('id',  $likes[$key]['portrait'])->first();
@@ -1010,8 +1004,7 @@ class AndroidController extends BaseController
 							$likes[$key]['created_at']	= $Days;
 						}
 
-						if($allLike)
-						{
+						if ($allLike) {
 							return Response::json(
 								array(
 									'status'	=> 1,
@@ -1031,8 +1024,7 @@ class AndroidController extends BaseController
 						$lastRecord = Like::where('sender_id', $user_id)->orderBy('id', 'desc')->first();
 
 						// Determin like exist
-						if(is_null($lastRecord))
-						{
+						if (is_null($lastRecord)) {
 							return Response::json(
 								array(
 									'status'	=> 1,
@@ -1051,8 +1043,8 @@ class AndroidController extends BaseController
 								->toArray();
 
 							// Replace receiver_id key name to portrait
-							foreach($allLike as $key1 => $val1){
-								foreach($val1 as $key => $val){
+							foreach ($allLike as $key1 => $val1) {
+								foreach ($val1 as $key => $val) {
 									$new_key				= str_replace('receiver_id', 'portrait', $key);
 									$new_array[$new_key]	= $val;
 								}
@@ -1060,7 +1052,7 @@ class AndroidController extends BaseController
 							}
 
 							// Replace receiver ID to receiver portrait
-							foreach($likes as $key => $field){
+							foreach ($likes as $key => $field) {
 
 								// Retrieve receiver user
 								$user						= User::where('id',  $likes[$key]['portrait'])->first();
@@ -1092,8 +1084,7 @@ class AndroidController extends BaseController
 								$likes[$key]['created_at']	= $Days;
 							}
 
-							if($allLike)
-							{
+							if ($allLike) {
 								return Response::json(
 									array(
 										'status'	=> 1,
@@ -1109,7 +1100,8 @@ class AndroidController extends BaseController
 							}
 						}
 					}
-				break;
+
+					break;
 
 				// Inbox
 
@@ -1125,8 +1117,7 @@ class AndroidController extends BaseController
 					$user_id	= Input::get('id');
 
 					// If App have post last user id
-					if($last_id != 'null')
-					{
+					if ($last_id != 'null') {
 						// Query all user liked users
 						$allLike	= Like::where('receiver_id', $user_id)
 							->orderBy('id', 'desc')
@@ -1137,8 +1128,8 @@ class AndroidController extends BaseController
 							->toArray();
 
 						// Replace sender_id key name to portrait
-						foreach($allLike as $key1 => $val1){
-							foreach($val1 as $key => $val){
+						foreach ($allLike as $key1 => $val1) {
+							foreach ($val1 as $key => $val) {
 								$new_key				= str_replace('sender_id', 'portrait', $key);
 								$new_array[$new_key]	= $val;
 							}
@@ -1146,7 +1137,7 @@ class AndroidController extends BaseController
 						}
 
 						// Replace receiver ID to receiver portrait
-						foreach($likes as $key => $field){
+						foreach ($likes as $key => $field) {
 
 							// Receiver ID
 							$likes[$key]['id']			= $likes[$key]['portrait'];
@@ -1173,8 +1164,7 @@ class AndroidController extends BaseController
 							$likes[$key]['created_at']	= $Days;
 						}
 
-						if($allLike)
-						{
+						if ($allLike) {
 							return Response::json(
 								array(
 									'status'	=> 1,
@@ -1203,8 +1193,8 @@ class AndroidController extends BaseController
 							->toArray();
 
 						// Replace receiver_id key name to portrait
-						foreach($allLike as $key1 => $val1){
-							foreach($val1 as $key => $val){
+						foreach ($allLike as $key1 => $val1) {
+							foreach ($val1 as $key => $val) {
 								$new_key				= str_replace('sender_id', 'portrait', $key);
 								$new_array[$new_key]	= $val;
 							}
@@ -1212,7 +1202,7 @@ class AndroidController extends BaseController
 						}
 
 						// Replace receiver ID to receiver portrait
-						foreach($likes as $key => $field){
+						foreach ($likes as $key => $field) {
 
 							// Receiver ID
 							$likes[$key]['id']			= $likes[$key]['portrait'];
@@ -1239,8 +1229,7 @@ class AndroidController extends BaseController
 							$likes[$key]['created_at']	= $Days;
 						}
 
-						if($allLike)
-						{
+						if ($allLike) {
 							return Response::json(
 								array(
 									'status'	=> 1,
@@ -1255,7 +1244,8 @@ class AndroidController extends BaseController
 							);
 						}
 					}
-				break;
+
+					break;
 
 				// Accept
 
@@ -1283,8 +1273,7 @@ class AndroidController extends BaseController
 											'friend_id'	=> $receiver_id,
 										]);
 
-					if($like->save())
-					{
+					if ($like->save()) {
 						// Save notification in database for website
 						$notification	= Notification(3, $receiver_id, $id); // Some user accept you like
 
@@ -1318,7 +1307,8 @@ class AndroidController extends BaseController
 								)
 							);
 					}
-				break;
+
+					break;
 
 				// Reject
 
@@ -1335,8 +1325,7 @@ class AndroidController extends BaseController
 					// Receiver reject user, remove friend relationship in chat system
 					$like->status	= 2;
 
-					if($like->save())
-					{
+					if ($like->save()) {
 						// Save notification in database for website
 						$notification	= Notification(4, $receiver_id, $id); // Some user reject you like
 
@@ -1371,7 +1360,8 @@ class AndroidController extends BaseController
 								)
 							);
 					}
-				break;
+
+					break;
 
 				// Block
 
@@ -1410,8 +1400,7 @@ class AndroidController extends BaseController
 					// 		->setOptions([CURLOPT_VERBOSE => true])
 					// 		->send();
 
-					if($like->save())
-					{
+					if ($like->save()) {
 						return Response::json(
 							array(
 								'status' 		=> 1
@@ -1424,7 +1413,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Renew
 
@@ -1436,28 +1426,27 @@ class AndroidController extends BaseController
 						$user		= Profile::where('user_id', Input::get('id'))->first();
 						$points		= User::where('id', Input::get('id'))->first();
 
-						if($user->renew_at == '0000-00-00 00:00:00'){ // First renew
+						if ($user->renew_at == '0000-00-00 00:00:00') { // First renew
 							$user->renew_at	= Carbon::now();
 							$user->renew	= $user->renew + 1;
 							$user->crenew	= $user->crenew + 1;
 							$points->points	= $points->points + 5;
 							$user->save();
 							$points->save();
+
 							return Response::json(
 								array(
 									'status' 		=> 1,
 									'renewdays' 	=> $user->renew
 								)
 							);
-						} else if ($today >= $user->renew_at){
+						} elseif ($today >= $user->renew_at) {
 
 							// Check user whether or not renew yesterday
-							if($yesterday <= $user->renew_at){
-
+							if ($yesterday <= $user->renew_at) {
 								// Keep renew
 								$user->crenew	= $user->crenew + 1;
 							} else {
-
 								// Not keep renew, reset renew count
 								$user->crenew	= 0;
 							}
@@ -1468,6 +1457,7 @@ class AndroidController extends BaseController
 							$points->points	= $points->points + 2;
 							$user->save();
 							$points->save();
+
 							return Response::json(
 								array(
 									'status' 		=> 1,
@@ -1475,7 +1465,6 @@ class AndroidController extends BaseController
 								)
 							);
 						} else {
-
 							// You have renew today
 							return Response::json(
 								array(
@@ -1491,14 +1480,15 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Get user friends nickname
 
 				case 'getnickname' :
 
 					// Get query ID from App client
-					$id		= Input::get('id');
+					$id 	 = Input::get('id');
 
 					// Get sender user data
 					$friends = Like::where('receiver_id', $id)->orWhere('sender_id', $id)
@@ -1507,10 +1497,10 @@ class AndroidController extends BaseController
 								->get()
 								->toArray();
 
-					foreach($friends as $key => $field){
+					foreach ($friends as $key => $field) {
 
 							// Determine user is sender or receiver
-							if($friends[$key]['sender_id'] == $id) {
+							if ($friends[$key]['sender_id'] == $id) {
 
 								// User is sender and retrieve receiver user
 								$user = User::where('id', $friends[$key]['receiver_id'])->first();
@@ -1522,7 +1512,7 @@ class AndroidController extends BaseController
 								$friends[$key]['nickname']	= app_out_filter($user->nickname);
 
 								// Determine user portrait
-								if(is_null($user->portrait)){
+								if (is_null($user->portrait)) {
 
 									// Friend portrait
 									$friends[$key]['portrait']	= null;
@@ -1543,7 +1533,7 @@ class AndroidController extends BaseController
 								$friends[$key]['nickname']	= app_out_filter($user->nickname);
 
 								// Determine user portrait
-								if(is_null($user->portrait)){
+								if (is_null($user->portrait)) {
 
 									// Friend portrait
 									$friends[$key]['portrait']	= null;
@@ -1556,8 +1546,7 @@ class AndroidController extends BaseController
 						}
 
 					// Query successful
-					if($friends)
-					{
+					if ($friends) {
 						return Response::json(
 							array(
 								'status' 	=> 1,
@@ -1571,7 +1560,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Set avatar
 
@@ -1587,15 +1577,14 @@ class AndroidController extends BaseController
 					$portrait		= Input::get('portrait');
 
 					// User not update portrait
-					if($portrait == $oldPortrait)
-					{
+					if ($portrait == $oldPortrait) {
 						// Direct return success
 						return Response::json(
 							array(
 								'status' 		=> 1
 							)
 						);
-					} else{
+					} else {
 
 						// User update avatar
 						$portraitPath		= public_path('portrait/');
@@ -1606,8 +1595,7 @@ class AndroidController extends BaseController
 						if ($user->save()) {
 							// Update success
 							$oldAndroidPortrait = strpos($oldPortrait, 'android');
-							if($oldAndroidPortrait === false) // Must use ===
-							{
+							if($oldAndroidPortrait === false) { // Must use ===
 								// Delete old poritait
 								File::delete($portraitPath . $oldPortrait);
 								return Response::json(
@@ -1632,7 +1620,8 @@ class AndroidController extends BaseController
 							);
 						}
 					}
-				break;
+
+					break;
 
 				// Upload portrait
 
@@ -1651,8 +1640,7 @@ class AndroidController extends BaseController
 					$mime			= Input::get('mime');
 
 					// User update avatar
-					if($portrait != NULL)
-					{
+					if ($portrait != null) {
 						$portrait           = str_replace('data:image/' . $mime . ';base64,', '', $portrait);
 						$portrait           = str_replace(' ', '+', $portrait);
 						$portraitData       = base64_decode($portrait);
@@ -1669,12 +1657,12 @@ class AndroidController extends BaseController
 						// Save file name to database
 						$user->portrait     = $portraitFile;
 
-						if ($user->save()){
+						if ($user->save()) {
 							// Determine user portrait type
 							$asset = strpos($oldPortrait, 'android');
 
 							// Should to use !== false
-							if($asset !== false){
+							if ($asset !== false) {
 								// No nothing
 							} else {
 								// User set portrait from web delete old poritait
@@ -1695,7 +1683,8 @@ class AndroidController extends BaseController
 							);
 						}
 					}
-				break;
+
+					break;
 
 				/*
 				|--------------------------------------------------------------------------
@@ -1723,7 +1712,7 @@ class AndroidController extends BaseController
 					$numchars			= Input::get('numchars', 200);
 
 					// If App have post last user id
-					if($last_id != 'null') {
+					if ($last_id != 'null') {
 
 						// Get last post updated at
 						$last_updated_at	= ForumPost::where('id', $last_id)->first()->updated_at;
@@ -1740,7 +1729,7 @@ class AndroidController extends BaseController
 									->toArray();
 
 						// Replace receiver ID to receiver portrait
-						foreach($items as $key => $field){
+						foreach ($items as $key => $field) {
 
 							// Count how many comments of this post
 							$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
@@ -1771,7 +1760,7 @@ class AndroidController extends BaseController
 							// Get post user portrait and add portrait key to array
 							$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-							// Using expression get all picture attachments (Only with pictures stored on this server.)
+							// Using expression get all picture attachments (Only with pictures stored on this server.)
 							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 							// Construct picture attachments list and add thumbnails (array format) to array
@@ -1798,13 +1787,13 @@ class AndroidController extends BaseController
 					} else { // First get data from App client
 
 						// Determine forum open status
-						if(ForumCategories::where('id', 1)->first()->open == 1) {
+						if (ForumCategories::where('id', 1)->first()->open == 1) {
 
 							// Forum is opening query last user id in database
 							$lastRecord = ForumPost::orderBy('updated_at', 'desc')->first();
 
 							// Post not exists
-							if(is_null($lastRecord)) {
+							if (is_null($lastRecord)) {
 
 								// Build Json format
 								return Response::json(
@@ -1829,7 +1818,7 @@ class AndroidController extends BaseController
 											->toArray();
 
 								// Replace receiver ID to receiver portrait
-								foreach($top as $key => $field){
+								foreach ($top as $key => $field) {
 
 									// Count how many comments of this post
 									$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->count();
@@ -1860,7 +1849,7 @@ class AndroidController extends BaseController
 									// Get post user portrait and add portrait key to array
 									$top[$key]['nickname']			= app_out_filter($post_user->nickname);
 
-									// Using expression get all picture attachments (Only with pictures stored on this server.)
+									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
 
 									// Construct picture attachments list and add thumbnails (array format) to array
@@ -1885,7 +1874,7 @@ class AndroidController extends BaseController
 											->toArray();
 
 								// Replace receiver ID to receiver portrait
-								foreach($items as $key => $field){
+								foreach ($items as $key => $field) {
 
 									// Count how many comments of this post
 									$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
@@ -1916,7 +1905,7 @@ class AndroidController extends BaseController
 									// Get post user portrait and add portrait key to array
 									$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-									// Using expression get all picture attachments (Only with pictures stored on this server.)
+									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 									// Construct picture attachments list and add thumbnails (array format) to array
@@ -1948,10 +1937,10 @@ class AndroidController extends BaseController
 							$user = User::find($user_id);
 
 							// Determine user sex
-							if($user->sex == 'M') {
+							if ($user->sex == 'M') {
 
 								// Male user and determine category
-								if($cat_id == 3) {
+								if ($cat_id == 3) {
 
 									// Forum is closed and build Json format
 									return Response::json(
@@ -1965,7 +1954,7 @@ class AndroidController extends BaseController
 									$lastRecord = ForumPost::orderBy('updated_at', 'desc')->first();
 
 									// Post not exists
-									if(is_null($lastRecord)) {
+									if (is_null($lastRecord)) {
 
 										// Build Json format
 										return Response::json(
@@ -1988,7 +1977,7 @@ class AndroidController extends BaseController
 													->toArray();
 
 										// Replace receiver ID to receiver portrait
-										foreach($top as $key => $field){
+										foreach ($top as $key => $field) {
 
 											// Count how many comments of this post
 											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->count();
@@ -2019,7 +2008,7 @@ class AndroidController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$top[$key]['nickname']			= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -2044,7 +2033,7 @@ class AndroidController extends BaseController
 													->toArray();
 
 										// Replace receiver ID to receiver portrait
-										foreach($items as $key => $field){
+										foreach ($items as $key => $field) {
 
 											// Count how many comments of this post
 											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
@@ -2075,7 +2064,7 @@ class AndroidController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -2105,7 +2094,7 @@ class AndroidController extends BaseController
 							} else {
 
 								// Female user and determine category
-								if($cat_id == 2) {
+								if ($cat_id == 2) {
 
 									// Forum is closed and build Json format
 									return Response::json(
@@ -2119,7 +2108,7 @@ class AndroidController extends BaseController
 									$lastRecord = ForumPost::orderBy('updated_at', 'desc')->first();
 
 									// Post not exists
-									if(is_null($lastRecord)) {
+									if (is_null($lastRecord)) {
 
 										// Build Json format
 										return Response::json(
@@ -2144,7 +2133,7 @@ class AndroidController extends BaseController
 													->toArray();
 
 										// Replace receiver ID to receiver portrait
-										foreach($top as $key => $field){
+										foreach ($top as $key => $field) {
 
 											// Count how many comments of this post
 											$comments_count					= ForumComments::where('post_id', $top[$key]['id'])->where('block', false)->count();
@@ -2175,7 +2164,7 @@ class AndroidController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$top[$key]['nickname']			= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -2200,7 +2189,7 @@ class AndroidController extends BaseController
 													->toArray();
 
 										// Replace receiver ID to receiver portrait
-										foreach($items as $key => $field){
+										foreach ($items as $key => $field) {
 
 											// Count how many comments of this post
 											$comments_count					= ForumComments::where('post_id', $items[$key]['id'])->where('block', false)->count();
@@ -2231,7 +2220,7 @@ class AndroidController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -2262,7 +2251,7 @@ class AndroidController extends BaseController
 						}
 					}
 
-				break;
+					break;
 
 				// Forum Get to Show Post
 				case 'forum_getpost' :
@@ -2273,13 +2262,13 @@ class AndroidController extends BaseController
 					$perpage	= Input::get('perpage', 10);
 
 					// If App have post last user id
-					if($lastid == null) {
+					if ($lastid == null) {
 
 						// First get data from App client and Retrieve post data
 						$post		= ForumPost::where('id', $postid)->first();
 
 						// Determine forum post exist
-						if(is_null($post)) {
+						if (is_null($post)) {
 
 							// Build Json format
 							return Response::json(
@@ -2297,7 +2286,7 @@ class AndroidController extends BaseController
 							$lastRecord	= ForumComments::orderBy('id', 'desc')->first();
 
 							// Determine forum comments exist
-							if(is_null($lastRecord)){
+							if (is_null($lastRecord)) {
 
 								// Build Data Array
 								$data = array(
@@ -2352,7 +2341,7 @@ class AndroidController extends BaseController
 													->toArray();
 
 								// Build comments array and include reply information
-								foreach($comments as $key => $field) {
+								foreach ($comments as $key => $field) {
 
 									// Retrieve comments user
 									$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
@@ -2384,7 +2373,7 @@ class AndroidController extends BaseController
 									$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', false)->count();
 
 									// Build reply array
-									foreach($replies as $keys => $field) {
+									foreach ($replies as $keys => $field) {
 
 										// Retrieve reply user
 										$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
@@ -2396,7 +2385,6 @@ class AndroidController extends BaseController
 
 										// Reply user portrait
 										$replies[$keys]['portrait']	= route('home') . '/' . 'portrait/' . $reply_user->portrait;
-
 									}
 
 									// Add comments replies array to post comments_reply array
@@ -2452,7 +2440,7 @@ class AndroidController extends BaseController
 						$post		= ForumPost::where('id', $postid)->first();
 
 						// Determine forum post exist
-						if(is_null($post)) {
+						if (is_null($post)) {
 
 							// Build Json format
 							return Response::json(
@@ -2462,7 +2450,6 @@ class AndroidController extends BaseController
 							);
 
 						} else {
-
 							// Query all comments of this post
 							$comments	= ForumComments::where('post_id', $postid)
 												->orderBy('id' , 'asc')
@@ -2474,7 +2461,7 @@ class AndroidController extends BaseController
 												->toArray();
 
 							// Build comments array and include reply information
-							foreach($comments as $key => $field) {
+							foreach ($comments as $key => $field) {
 
 								// Retrieve comments user
 								$comments_user						= User::where('id', $comments[$key]['user_id'])->first();
@@ -2507,7 +2494,7 @@ class AndroidController extends BaseController
 								$comments[$key]['reply_count'] = ForumReply::where('comments_id', $comments[$key]['id'])->where('block', false)->count();
 
 								// Build reply array
-								foreach($replies as $keys => $field) {
+								foreach ($replies as $keys => $field) {
 
 									// Retrieve reply user
 									$reply_user					= User::where('id', $replies[$keys]['user_id'])->first();
@@ -2542,14 +2529,14 @@ class AndroidController extends BaseController
 						}
 					}
 
-				break;
+					break;
 
 				// Forum Post Comments
 
 				case 'forum_postcomment' :
 
 					// Determin user block status
-					if(User::find(Input::get('userid'))->block == 1) {
+					if (User::find(Input::get('userid'))->block == 1) {
 
 						// User is blocked forbidden post
 						return Response::json(
@@ -2567,8 +2554,7 @@ class AndroidController extends BaseController
 						$forum_post	= ForumPost::where('id', $post_id)->first();
 
 						// Select post type
-						if(Input::get('type') == 'comments')
-						{
+						if (Input::get('type') == 'comments') {
 							// Determin repeat comment
 							$comment_exist = ForumComments::where('user_id', $user_id)
 											->where('post_id', $post_id)
@@ -2576,7 +2562,7 @@ class AndroidController extends BaseController
 											->where('created_at', '>=', Carbon::today())
 											->count();
 
-							if($comment_exist >= 1) {
+							if ($comment_exist >= 1) {
 
 								// Rpeat comment
 								return Response::json(
@@ -2598,10 +2584,9 @@ class AndroidController extends BaseController
 								// Calculate this comment in which floor
 								$comment->floor			= ForumComments::where('post_id', $post_id)->where('block', false)->count() + 2;
 
-								if($comment->save())
-								{
+								if ($comment->save()) {
 									// Determine sender and receiver
-									if($user_id != $forum_post->user_id) {
+									if ($user_id != $forum_post->user_id) {
 
 										// Retrieve author of post
 										$post_author				= ForumPost::where('id', $post_id)->first();
@@ -2659,7 +2644,7 @@ class AndroidController extends BaseController
 											->where('created_at', '>=', Carbon::today())
 											->count();
 
-							if($reply_exist >= 1) {
+							if ($reply_exist >= 1) {
 
 								// Rpeat reply
 								return Response::json(
@@ -2680,8 +2665,7 @@ class AndroidController extends BaseController
 								// Calculate this reply in which floor
 								$reply->floor		= ForumReply::where('comments_id', Input::get('commentid'))->where('block', false)->count() + 1;
 
-								if($reply->save())
-								{
+								if ($reply->save()) {
 
 									// Retrieve comments
 									$comment						= ForumComments::where('id', $comments_id)->first();
@@ -2695,7 +2679,7 @@ class AndroidController extends BaseController
 									$unread = $comment_author_notifications->count() + 1;
 
 									// Determine sender and receiver
-									if($user_id != $comment_author->id) {
+									if ($user_id != $comment_author->id) {
 
 										// Add push notifications for App client to queue
 										Queue::push('ForumQueue', [
@@ -2740,14 +2724,15 @@ class AndroidController extends BaseController
 
 						} // End of select post type
 					} // End of determin user block status
-				break;
+
+					break;
 
 				// Forum Post New
 
 				case 'forum_postnew' :
 
 					// Determin user block status
-					if(User::find(Input::get('userid'))->block == 1) {
+					if (User::find(Input::get('userid'))->block == 1) {
 
 						// User is blocked forbidden post
 						return Response::json(
@@ -2766,7 +2751,7 @@ class AndroidController extends BaseController
 										->where('created_at', '>=', Carbon::today())
 										->count();
 
-						if($posts_exist >= 1) {
+						if ($posts_exist >= 1) {
 							// User repeat post
 							return Response::json(
 								array(
@@ -2803,7 +2788,7 @@ class AndroidController extends BaseController
 						} // End of determin user block status
 					} // End of determin user block status
 
-				break;
+					break;
 
 				// Upload Images
 
@@ -2816,7 +2801,7 @@ class AndroidController extends BaseController
 					$path	= array();
 
 					// Foreach upload data
-					foreach($items as $key => $item) {
+					foreach ($items as $key => $item) {
 						$image			= str_replace('data:image/' . $item['0'] . ';base64,', '', $item['1']);
 						$image			= str_replace(' ', '+', $image);
 
@@ -2840,7 +2825,8 @@ class AndroidController extends BaseController
 							'path'		=> $path
 						)
 					);
-				break;
+
+					break;
 
 				// Get Notifications
 				case 'get_notifications' :
@@ -2858,7 +2844,7 @@ class AndroidController extends BaseController
 					$check_null			= Notification::get()->first();
 
 					// Determine notifications exist
-					if(is_null($check_null)) {
+					if (is_null($check_null)) {
 
 						// Build Json format
 						return Response::json(
@@ -2886,7 +2872,7 @@ class AndroidController extends BaseController
 							$sender						= User::where('id', $notifications[$key]['sender_id'])->first();
 
 							// Determine user set portrait
-							if($sender->portrait){
+							if ($sender->portrait) {
 
 								// Get user portrait
 								$notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender->portrait;
@@ -2897,7 +2883,7 @@ class AndroidController extends BaseController
 							}
 
 							// Determine user set nuckname
-							if($sender->nickname) {
+							if ($sender->nickname) {
 
 								// Get user nickname
 								$notifications[$key]['nickname'] 	= app_out_filter($sender->nickname);
@@ -2908,7 +2894,7 @@ class AndroidController extends BaseController
 							}
 
 							// Determine category
-							if($notifications[$key]['category'] == 6) {
+							if ($notifications[$key]['category'] == 6) {
 
 								// Comment
 								$post										= ForumPost::where('id', $notifications[$key]['post_id'])->first();
@@ -2948,7 +2934,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Forum Get Reply
 				case 'forum_getreply' :
@@ -3011,7 +2998,8 @@ class AndroidController extends BaseController
 							'data'		=> $data
 						)
 					);
-				break;
+
+					break;
 
 				// Get user posts
 				case 'get_userposts' :
@@ -3052,7 +3040,8 @@ class AndroidController extends BaseController
 							'data'		=> $data
 						)
 					);
-				break;
+
+					break;
 
 				// Delete forum post
 				case 'delete_userpost';
@@ -3063,17 +3052,16 @@ class AndroidController extends BaseController
 					// Retrieve post
 					$forumPost	= ForumPost::where('id', $postId)->first();
 
-					// Using expression get all picture attachments (Only with pictures stored on this server.)
+					// Using expression get all picture attachments (Only with pictures stored on this server.)
 					preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $forumPost->content, $match );
 
 					// Construct picture attachments list
 					$srcArray 	= array_pop($match);
 
 					// This post have picture attachments
-					if(!empty( $srcArray ))
-					{
+					if (!empty( $srcArray )) {
 						// Foreach picture attachments list array
-						foreach($srcArray as $key => $field){
+						foreach ($srcArray as $key => $field) {
 
 							// Convert to correct real storage path
 							$srcArray[$key]	= str_replace(route('home'), '', $srcArray[$key]);
@@ -3083,7 +3071,7 @@ class AndroidController extends BaseController
 						}
 
 						// Delete post in forum
-						if($forumPost->delete()) {
+						if ($forumPost->delete()) {
 							return Response::json(
 								array(
 									'status'	=> 1
@@ -3099,7 +3087,7 @@ class AndroidController extends BaseController
 					} else {
 
 						// Delete post in forum
-						if($forumPost->delete()) {
+						if ($forumPost->delete()) {
 							return Response::json(
 								array(
 									'status'	=> 1
@@ -3114,7 +3102,8 @@ class AndroidController extends BaseController
 						}
 
 					}
-				break;
+
+					break;
 
 				// Get User Portrait
 				case 'get_portrait' :
@@ -3122,7 +3111,7 @@ class AndroidController extends BaseController
 					// Retrieve
 					$user = User::find(Input::get('id'));
 
-					if($user) {
+					if ($user) {
 						// User exist
 						return Response::json(
 							array(
@@ -3141,7 +3130,7 @@ class AndroidController extends BaseController
 						);
 					}
 
-				break;
+					break;
 
 				// Open university
 				case 'open_university' :
@@ -3168,7 +3157,8 @@ class AndroidController extends BaseController
 							'data'		=> $universities
 						)
 					);
-				break;
+
+					break;
 
 				// Get forum unread notifications
 				case 'get_forumunread' :
@@ -3179,7 +3169,7 @@ class AndroidController extends BaseController
 												->whereIn('category', array(6, 7))
 												->where('status', 0)
 												->count();
-					if(is_null($notifications)) {
+					if (is_null($notifications)) {
 
 						// No unread notifications, build Json format
 						return Response::json(
@@ -3198,7 +3188,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Get open articles
 				case 'get_openarticles' :
@@ -3220,19 +3211,20 @@ class AndroidController extends BaseController
 							'data'		=> $articles
 						)
 					);
-				break;
+
+					break;
 
 				// Recovery password
 				case 'recovery_password' :
 
 					// Retrieve user
-					if($user = User::where('phone', Input::get('phone'))->first()){
+					if ($user = User::where('phone', Input::get('phone'))->first()) {
 
 						// Update user password
 						$user->password = md5(Input::get('password'));
 
 						// Update successful
-						if($user->save()) {
+						if ($user->save()) {
 
 							// Update user password in easemob
 							$easemob			= getEasemob();
@@ -3267,7 +3259,8 @@ class AndroidController extends BaseController
 							)
 						);
 					}
-				break;
+
+					break;
 
 				// Support
 				case 'support' :
@@ -3285,7 +3278,7 @@ class AndroidController extends BaseController
 											->count();
 
 					// User already send feedback today
-					if($feedback_exist >= 1) {
+					if ($feedback_exist >= 1) {
 						return Response::json(
 							array(
 								'status' 			=> 0,
@@ -3294,11 +3287,11 @@ class AndroidController extends BaseController
 							)
 						);
 					} else {
-						if($feedback != "") {
+						if ($feedback != "") {
 							$support			= new Support;
 							$support->user_id 	= $user_id;
 							$support->content	= $feedback;
-							if($support->save()) {
+							if ($support->save()) {
 								return Response::json(
 									array(
 										'status' 		=> 1,
@@ -3326,7 +3319,7 @@ class AndroidController extends BaseController
 						}
 					}
 
-				break;
+					break;
 
 				// Admin notifications
 				case 'system_notifications' :
@@ -3376,7 +3369,7 @@ class AndroidController extends BaseController
 								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 								$friend_notifications[$key]['answer']	= $like->answer;
 								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
-							break;
+								break;
 
 							case '2' :
 								$sender_user							= User::find($friend_notifications[$key]['sender_id']);
@@ -3386,7 +3379,7 @@ class AndroidController extends BaseController
 								$friend_notifications[$key]['portrait']	= route('home') . '/' . 'portrait/' . $sender_user->portrait;
 								$friend_notifications[$key]['answer']	= e($like->answer);
 								$friend_notifications[$key]['from']		= $friend_notifications[$key]['sender_id'];
-							break;
+								break;
 						}
 					}
 
@@ -3415,7 +3408,8 @@ class AndroidController extends BaseController
 							'data'		=> $data
 						)
 					);
-				break;
+
+					break;
 
 				// Signout
 				case 'signout' :
@@ -3423,8 +3417,7 @@ class AndroidController extends BaseController
 					// USer ID
 					$id = Input::get('id');
 
-					if(User::find($id))
-					{
+					if (User::find($id)) {
 						return Response::json(
 							array(
 								'status' 		=> 1
@@ -3438,7 +3431,7 @@ class AndroidController extends BaseController
 						);
 					}
 
-				break;
+					break;
 			}
 		} else {
 			return Response::json(

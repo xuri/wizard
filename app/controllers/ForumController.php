@@ -315,7 +315,7 @@ class ForumController extends BaseController {
 						$post_thumbnails = null;
 						foreach($match[0] as $thumbnail){
 							$post_thumbnails = '<a ' . str_replace('_src=', 'href=', $thumbnail) . ' class="fancybox" rel="gallery5"><img class="post_thumbnails" ' . str_replace('_src', 'src', $thumbnail) . ' /></a>' . $post_thumbnails;
-						$i ++;
+						++$i;
 						if($i == 3) break;
 						}
 

@@ -746,7 +746,7 @@ class Admin_UserResource extends BaseResource
 		if ($validator->passes()) {
 
 			// Add male users
-			for ($m_create=0; $m_create < Input::get('m_create'); $m_create++) {
+			for ($m_create=0; $m_create < Input::get('m_create'); ++$m_create) {
 
 				// Get phone number set
 				if("" !== Input::get('m_phone')) {
@@ -817,7 +817,7 @@ class Admin_UserResource extends BaseResource
 
 			}
 
-			for ($f_create=0; $f_create < Input::get('f_create'); $f_create++) {
+			for ($f_create=0; $f_create < Input::get('f_create'); ++$f_create) {
 				// Get phone number set
 				if("" !== Input::get('f_phone')) {
 					// Custom number

@@ -1,4 +1,4 @@
-		<?php
+<?php
 
 /**
  * Licensed under The MIT License
@@ -1761,7 +1761,7 @@ class AppleController extends BaseController
 							// Get post user portrait and add portrait key to array
 							$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-							// Using expression get all picture attachments (Only with pictures stored on this server.)
+							// Using expression get all picture attachments (Only with pictures stored on this server.)
 							preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 							// Construct picture attachments list and add thumbnails (array format) to array
@@ -1850,7 +1850,7 @@ class AppleController extends BaseController
 									// Get post user portrait and add portrait key to array
 									$top[$key]['nickname']			= app_out_filter($post_user->nickname);
 
-									// Using expression get all picture attachments (Only with pictures stored on this server.)
+									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
 
 									// Construct picture attachments list and add thumbnails (array format) to array
@@ -1906,7 +1906,7 @@ class AppleController extends BaseController
 									// Get post user portrait and add portrait key to array
 									$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-									// Using expression get all picture attachments (Only with pictures stored on this server.)
+									// Using expression get all picture attachments (Only with pictures stored on this server.)
 									preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 									// Construct picture attachments list and add thumbnails (array format) to array
@@ -2009,7 +2009,7 @@ class AppleController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$top[$key]['nickname']			= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -2065,7 +2065,7 @@ class AppleController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -2165,7 +2165,7 @@ class AppleController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$top[$key]['nickname']			= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $top[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -2221,7 +2221,7 @@ class AppleController extends BaseController
 											// Get post user portrait and add portrait key to array
 											$items[$key]['nickname']		= app_out_filter($post_user->nickname);
 
-											// Using expression get all picture attachments (Only with pictures stored on this server.)
+											// Using expression get all picture attachments (Only with pictures stored on this server.)
 											preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $items[$key]['content'], $match );
 
 											// Construct picture attachments list and add thumbnails (array format) to array
@@ -3053,7 +3053,7 @@ class AppleController extends BaseController
 					// Retrieve post
 					$forumPost	= ForumPost::where('id', $postId)->first();
 
-					// Using expression get all picture attachments (Only with pictures stored on this server.)
+					// Using expression get all picture attachments (Only with pictures stored on this server.)
 					preg_match_all( '@_src="(' . route('home') . '/upload/image[^"]+)"@' , $forumPost->content, $match );
 
 					// Construct picture attachments list
