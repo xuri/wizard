@@ -311,6 +311,7 @@ class Admin_SupportResource extends BaseResource
 										$hasProfile->whereNotNull('school')
 												->whereNotNull('portrait');
 										})
+									->remember(60)
 									->get()
 									->toArray();
 

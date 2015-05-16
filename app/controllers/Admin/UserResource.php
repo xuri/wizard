@@ -614,7 +614,7 @@ class Admin_UserResource extends BaseResource
 		$direction		= Input::get('sort_up') ? 'asc' : 'desc' ;
 
 		// Retrieve all add friends request not responsed
-		$query			= Like::where('status', 0);
+		$query			= Like::where('status', 0)->remember(60);
 
 		// Fuzzy search conditions
 		if(Input::get('like')) {

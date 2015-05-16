@@ -58,7 +58,7 @@ class Admin_AnalyticsResource extends BaseResource
 	 */
 	public function userForm()
 	{
-		$analyticsUsers = AnalyticsUser::orderby('id', 'desc')->paginate(10);
+		$analyticsUsers = AnalyticsUser::orderby('id', 'desc')->remember(60)->paginate(10);
 		return View::make($this->resourceView.'.user-form')->with(compact('analyticsUsers'));
 	}
 
@@ -69,7 +69,7 @@ class Admin_AnalyticsResource extends BaseResource
 	 */
 	public function forumForm()
 	{
-		$analyticsForums = AnalyticsForum::orderby('id', 'desc')->paginate(10);
+		$analyticsForums = AnalyticsForum::orderby('id', 'desc')->remember(60)->paginate(10);
 		return View::make($this->resourceView.'.forum-form')->with(compact('analyticsForums'));
 	}
 
@@ -80,7 +80,7 @@ class Admin_AnalyticsResource extends BaseResource
 	 */
 	public function likeForm()
 	{
-		$analyticsLikes = AnalyticsLike::orderby('id', 'desc')->paginate(10);
+		$analyticsLikes = AnalyticsLike::orderby('id', 'desc')->remember(60)->paginate(10);
 		return View::make($this->resourceView.'.like-form')->with(compact('analyticsLikes'));
 	}
 
@@ -335,23 +335,30 @@ class Admin_AnalyticsResource extends BaseResource
 	 */
 	public function likeCharts()
 	{
-		$analyticsLike = AnalyticsLike::select(
-							'daily_like',
-							'weekly_like',
-							'monthly_like',
-							'all_male_like',
-							'all_female_like',
-							'daily_male_like',
-							'daily_female_like',
-							'weekly_male_like',
-							'weekly_female_like',
-							'monthly_male_like',
-							'monthly_female_like',
-							'all_male_accept_ratio',
-							'all_female_accept_ratio',
-							'average_like_duration',
-							'created_at'
-			)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
+		if (Cache::has('analyticsLike')) {
+			$analyticsLike = Cache::get('analyticsLike');
+		} else {
+
+			$analyticsLike = AnalyticsLike::select(
+								'daily_like',
+								'weekly_like',
+								'monthly_like',
+								'all_male_like',
+								'all_female_like',
+								'daily_male_like',
+								'daily_female_like',
+								'weekly_male_like',
+								'weekly_female_like',
+								'monthly_male_like',
+								'monthly_female_like',
+								'all_male_accept_ratio',
+								'all_female_accept_ratio',
+								'average_like_duration',
+								'created_at'
+				)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
+
+			Cache::put('analyticsLike', $analyticsLike, 60);
+		}
 
 		/*
 		|--------------------------------------------------------------------------
@@ -360,29 +367,35 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$allMaleLike = array(); // Create all male likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$allMaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_male_like']);
-		}
+		if (Cache::has('basicLikes')) {
+			$basicLikes = Cache::get('basicLikes');
+		} else {
 
-		$allFemaleLike = array(); // Create all female likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$allFemaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_female_like']);
-		}
+			$allMaleLike = array(); // Create all male likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$allMaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_male_like']);
+			}
 
-		// Build Json data (remove double quotes from Json return data)
-		$basicLikes = '{
-			"累计男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($allMaleLike)).
-			', "累计女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($allFemaleLike)).
-			'}';
+			$allFemaleLike = array(); // Create all female likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$allFemaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_female_like']);
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$basicLikes = '{
+				"累计男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($allMaleLike)).
+				', "累计女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($allFemaleLike)).
+				'}';
+			Cache::put('basicLikes', $basicLikes, 60);
+		}
 
 		/*
 		|--------------------------------------------------------------------------
@@ -391,40 +404,46 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$dailyLike = array(); // Create daily likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$dailyLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['daily_like']);
+		if (Cache::has('dailyLikes')) {
+			$dailyLikes = Cache::get('dailyLikes');
+		} else {
+
+			$dailyLike = array(); // Create daily likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$dailyLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['daily_like']);
+			}
+
+			$dailyMaleLike = array(); // Create daily male likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$dailyMaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['daily_male_like']);
+			}
+
+			$dailyFemaleLike = array(); // Create daily female likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$dailyFemaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['daily_female_like']);
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$dailyLikes = '{
+				"每日用户互动次数":'.preg_replace('/["]/', '' ,json_encode($dailyLike)).
+				', "每日男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($dailyMaleLike)).
+				', "每日女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($dailyFemaleLike)).
+				'}';
+
+			Cache::put('dailyLikes', $dailyLikes, 60);
 		}
-
-		$dailyMaleLike = array(); // Create daily male likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$dailyMaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['daily_male_like']);
-		}
-
-		$dailyFemaleLike = array(); // Create daily female likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$dailyFemaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['daily_female_like']);
-		}
-
-		// Build Json data (remove double quotes from Json return data)
-		$dailyLikes = '{
-			"每日用户互动次数":'.preg_replace('/["]/', '' ,json_encode($dailyLike)).
-			', "每日男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($dailyMaleLike)).
-			', "每日女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($dailyFemaleLike)).
-			'}';
-
 		/*
 		|--------------------------------------------------------------------------
 		| Weekly Likes Analytics Section
@@ -432,39 +451,45 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$weeklyLike = array(); // Create weekly likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$weeklyLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['weekly_like']);
-		}
+		if (Cache::has('weeklyLikes')) {
+			$weeklyLikes = Cache::get('weeklyLikes');
+		} else {
 
-		$weeklyMaleLike = array(); // Create weekly male likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$weeklyMaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['weekly_male_like']);
-		}
+			$weeklyLike = array(); // Create weekly likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$weeklyLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['weekly_like']);
+			}
 
-		$weeklyFemaleLike = array(); // Create weekly female likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$weeklyFemaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['weekly_female_like']);
-		}
+			$weeklyMaleLike = array(); // Create weekly male likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$weeklyMaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['weekly_male_like']);
+			}
 
-		// Build Json data (remove double quotes from Json return data)
-		$weeklyLikes = '{
-			"每周用户互动次数":'.preg_replace('/["]/', '' ,json_encode($weeklyLike)).
-			', "每周男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($weeklyMaleLike)).
-			', "每周女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($weeklyFemaleLike)).
-			'}';
+			$weeklyFemaleLike = array(); // Create weekly female likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$weeklyFemaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['weekly_female_like']);
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$weeklyLikes = '{
+				"每周用户互动次数":'.preg_replace('/["]/', '' ,json_encode($weeklyLike)).
+				', "每周男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($weeklyMaleLike)).
+				', "每周女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($weeklyFemaleLike)).
+				'}';
+			Cache::put('weeklyLikes', $weeklyLikes, 60);
+		}
 
 		/*
 		|--------------------------------------------------------------------------
@@ -473,39 +498,45 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$monthlyLike = array(); // Create monthly likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$monthlyLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['monthly_like']);
-		}
+		if (Cache::has('monthlyLikes')) {
+			$monthlyLikes = Cache::get('monthlyLikes');
+		} else {
 
-		$monthlyMaleLike = array(); // Create monthly male likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$monthlyMaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['monthly_male_like']);
-		}
+			$monthlyLike = array(); // Create monthly likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$monthlyLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['monthly_like']);
+			}
 
-		$monthlyFemaleLike = array(); // Create monthly female likes array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$monthlyFemaleLike[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['monthly_female_like']);
-		}
+			$monthlyMaleLike = array(); // Create monthly male likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$monthlyMaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['monthly_male_like']);
+			}
 
-		// Build Json data (remove double quotes from Json return data)
-		$monthlyLikes = '{
-			"每月用户互动次数":'.preg_replace('/["]/', '' ,json_encode($monthlyLike)).
-			', "每月男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyMaleLike)).
-			', "每月女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyFemaleLike)).
-			'}';
+			$monthlyFemaleLike = array(); // Create monthly female likes array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$monthlyFemaleLike[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['monthly_female_like']);
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$monthlyLikes = '{
+				"每月用户互动次数":'.preg_replace('/["]/', '' ,json_encode($monthlyLike)).
+				', "每月男生追女生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyMaleLike)).
+				', "每月女生追男生次数":'.preg_replace('/["]/', '' ,json_encode($monthlyFemaleLike)).
+				'}';
+			Cache::put('monthlyLikes', $monthlyLikes, 60);
+		}
 
 		/*
 		|--------------------------------------------------------------------------
@@ -514,29 +545,36 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$allMaleAcceptRatio = array(); // Create all male accept ratio array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$allMaleAcceptRatio[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_male_accept_ratio']);
-		}
+		if (Cache::has('allUsersAcceptRatio')) {
+			$allUsersAcceptRatio = Cache::get('allUsersAcceptRatio');
+		} else {
 
-		$allFemaleAcceptRatio = array(); // Create all female accept ratio array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$allFemaleAcceptRatio[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_female_accept_ratio']);
-		}
+			$allMaleAcceptRatio = array(); // Create all male accept ratio array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$allMaleAcceptRatio[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_male_accept_ratio']);
+			}
 
-		// Build Json data (remove double quotes from Json return data)
-		$allUsersAcceptRatio = '{
-			"女生追男生成功比率":'.preg_replace('/["]/', '' ,json_encode($allFemaleAcceptRatio)).
-			', "男生追女生成功比率":'.preg_replace('/["]/', '' ,json_encode($allMaleAcceptRatio)).
-			'}';
+			$allFemaleAcceptRatio = array(); // Create all female accept ratio array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$allFemaleAcceptRatio[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_female_accept_ratio']);
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$allUsersAcceptRatio = '{
+				"女生追男生成功比率":'.preg_replace('/["]/', '' ,json_encode($allFemaleAcceptRatio)).
+				', "男生追女生成功比率":'.preg_replace('/["]/', '' ,json_encode($allMaleAcceptRatio)).
+				'}';
+
+			Cache::put('allUsersAcceptRatio', $allUsersAcceptRatio, 60);
+		}
 
 		/*
 		|--------------------------------------------------------------------------
@@ -545,19 +583,24 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$averageLikeDuration = array(); // Create average like duration ratio array
-		foreach($analyticsLike as $key){ // Structure array elements
-			$averageLikeDuration[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['average_like_duration']);
+		if (Cache::has('averageLikeDurations')) {
+			$averageLikeDurations = Cache::get('averageLikeDurations');
+		} else {
+
+			$averageLikeDuration = array(); // Create average like duration ratio array
+			foreach($analyticsLike as $key){ // Structure array elements
+				$averageLikeDuration[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['average_like_duration']);
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$averageLikeDurations = '{"平均交友历经时长":'.preg_replace('/["]/', '' ,json_encode($averageLikeDuration)).'}';
+
+			Cache::put('averageLikeDurations', $averageLikeDurations, 60);
 		}
-
-		// Build Json data (remove double quotes from Json return data)
-		$averageLikeDurations = '{"平均交友历经时长":'.preg_replace('/["]/', '' ,json_encode($averageLikeDuration)).'}';
-
-
 
 		return View::make($this->resourceView.'.like-charts')->with(compact(
 			'basicLikes',
@@ -576,19 +619,26 @@ class Admin_AnalyticsResource extends BaseResource
 	 */
 	public function forumCharts()
 	{
-		$analyticsForum = AnalyticsForum::select(
-							'all_post',
-							'cat1_post',
-							'cat2_post',
-							'cat3_post',
-							'daily_post',
-							'cat1_daily_post',
-							'cat2_daily_post',
-							'cat3_daily_post',
-							'daily_male_post',
-							'daily_female_post',
-							'created_at'
-			)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
+		if (Cache::has('analyticsForum')) {
+			$analyticsForum = Cache::get('analyticsForum');
+		} else {
+
+			$analyticsForum = AnalyticsForum::select(
+								'all_post',
+								'cat1_post',
+								'cat2_post',
+								'cat3_post',
+								'daily_post',
+								'cat1_daily_post',
+								'cat2_daily_post',
+								'cat3_daily_post',
+								'daily_male_post',
+								'daily_female_post',
+								'created_at'
+				)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
+
+			Cache::put('analyticsForum', $analyticsForum, 60);
+		}
 
 		/*
 		|--------------------------------------------------------------------------
@@ -597,49 +647,56 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$allPost = array(); // Create all posts array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$allPost[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_post']);
-		}
+		if (Cache::has('basicForumPosts')) {
+			$basicForumPosts = Cache::get('basicForumPosts');
+		} else {
 
-		$cat1Post = array(); // Create category 1 post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$cat1Post[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['cat1_post']);
-		}
+			$allPost = array(); // Create all posts array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$allPost[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_post']);
+			}
 
-		$cat2Post = array(); // Create category 2 post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$cat2Post[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['cat2_post']);
-		}
+			$cat1Post = array(); // Create category 1 post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$cat1Post[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['cat1_post']);
+			}
 
-		$cat3Post = array(); // Create category 3 post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$cat3Post[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['cat3_post']);
-		}
+			$cat2Post = array(); // Create category 2 post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$cat2Post[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['cat2_post']);
+			}
 
-		// Build Json data (remove double quotes from Json return data)
-		$basicForumPosts = '{
-			"累计发帖量":'.preg_replace('/["]/', '' ,json_encode($allPost)).
-			', "'.ForumCategories::where('id', 1)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat1Post)).
-			', "'.ForumCategories::where('id', 2)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat2Post)).
-			', "'.ForumCategories::where('id', 3)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat3Post)).
-			'}';
+			$cat3Post = array(); // Create category 3 post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$cat3Post[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['cat3_post']);
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$basicForumPosts = '{
+				"累计发帖量":'.preg_replace('/["]/', '' ,json_encode($allPost)).
+				', "'.ForumCategories::where('id', 1)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat1Post)).
+				', "'.ForumCategories::where('id', 2)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat2Post)).
+				', "'.ForumCategories::where('id', 3)->first()->name.'发帖量":'.preg_replace('/["]/', '' ,json_encode($cat3Post)).
+				'}';
+
+			Cache::put('basicForumPosts', $basicForumPosts, 60);
+		}
 
 		/*
 		|--------------------------------------------------------------------------
@@ -648,68 +705,75 @@ class Admin_AnalyticsResource extends BaseResource
 		|
 		*/
 
-		$allDailyPost = array(); // Create all daily posts array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$allDailyPost[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['daily_post']);
-		}
+		if (Cache::has('dailyForumPosts')) {
+			$dailyForumPosts = Cache::get('dailyForumPosts');
+		} else {
 
-		$cat1DailyPost = array(); // Create category 1 daily post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$cat1DailyPost[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['cat1_daily_post']);
-		}
+			$allDailyPost = array(); // Create all daily posts array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$allDailyPost[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['daily_post']);
+			}
 
-		$cat2DailyPost = array(); // Create category 2 daily post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$cat2DailyPost[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['cat2_daily_post']);
-		}
+			$cat1DailyPost = array(); // Create category 1 daily post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$cat1DailyPost[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['cat1_daily_post']);
+			}
 
-		$cat3DailyPost = array(); // Create category 3 daily post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$cat3DailyPost[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['cat3_daily_post']);
-		}
+			$cat2DailyPost = array(); // Create category 2 daily post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$cat2DailyPost[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['cat2_daily_post']);
+			}
 
-		$dailyMalePost = array(); // Create category 3 daily post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$dailyMalePost[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['daily_male_post']);
-		}
+			$cat3DailyPost = array(); // Create category 3 daily post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$cat3DailyPost[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['cat3_daily_post']);
+			}
 
-		$dailyFemalePost = array(); // Create category 3 daily post array
-		foreach($analyticsForum as $key){ // Structure array elements
-			$dailyFemalePost[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['daily_female_post']);
+			$dailyMalePost = array(); // Create category 3 daily post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$dailyMalePost[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['daily_male_post']);
+			}
+
+			$dailyFemalePost = array(); // Create category 3 daily post array
+			foreach($analyticsForum as $key){ // Structure array elements
+				$dailyFemalePost[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['daily_female_post']);
+			}
+			// Build Json data (remove double quotes from Json return data)
+			$dailyForumPosts = '{
+				"累计日发帖量":'.preg_replace('/["]/', '' ,json_encode($allDailyPost)).
+				', "'.ForumCategories::where('id', 1)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat1DailyPost)).
+				', "'.ForumCategories::where('id', 2)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat2DailyPost)).
+				', "'.ForumCategories::where('id', 3)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat3DailyPost)).
+				', "男用户日发帖量":'.preg_replace('/["]/', '' ,json_encode($dailyMalePost)).
+				', "女用户日发帖量":'.preg_replace('/["]/', '' ,json_encode($dailyFemalePost)).
+				'}';
+
+			Cache::put('dailyForumPosts', $dailyForumPosts, 60);
 		}
-		// Build Json data (remove double quotes from Json return data)
-		$dailyForumPosts = '{
-			"累计日发帖量":'.preg_replace('/["]/', '' ,json_encode($allDailyPost)).
-			', "'.ForumCategories::where('id', 1)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat1DailyPost)).
-			', "'.ForumCategories::where('id', 2)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat2DailyPost)).
-			', "'.ForumCategories::where('id', 3)->first()->name.'日发帖量":'.preg_replace('/["]/', '' ,json_encode($cat3DailyPost)).
-			', "男用户日发帖量":'.preg_replace('/["]/', '' ,json_encode($dailyMalePost)).
-			', "女用户日发帖量":'.preg_replace('/["]/', '' ,json_encode($dailyFemalePost)).
-			'}';
 
 		return View::make($this->resourceView.'.forum-charts')->with(compact('basicForumPosts', 'dailyForumPosts'));
 	}

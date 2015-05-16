@@ -27,103 +27,111 @@ class AdminController extends BaseController
 	 * @return Response
 	 */
 	public function getIndex() {
-		$totalUser		= User::count();
-		$maleUser		= User::where('sex', 'M')->count();
-		$femaleUser		= User::where('sex', 'F')->count();
+		$totalUser		= User::remember(1)->count();
+		$maleUser		= User::where('sex', 'M')->remember(1)->count();
+		$femaleUser		= User::where('sex', 'F')->remember(1)->count();
 
 		// Promotions ID query
 		$promotions		= Support::whereRaw("content regexp '^[0-9]{3,4}$'")->select('id')->get()->toArray();
 		$unreadSupport	= Support::where('status', false)->whereNotIn('id', $promotions)->count();
-		$analyticsUser	= AnalyticsUser::select(
-			'all_user',
-			'daily_active_user',
-			'weekly_active_user',
-			'monthly_active_user',
-			'all_male_user',
-			'daily_active_male_user',
-			'weekly_active_male_user',
-			'monthly_active_male_user',
-			'all_female_user',
-			'daily_active_female_user',
-			'weekly_active_female_user',
-			'monthly_active_female_user',
-			'complete_profile_user_ratio',
-			'from_web',
-			'from_android',
-			'from_ios',
-			'created_at'
-		)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
 
-		/*
-		|--------------------------------------------------------------------------
-		| User Basic Analytics Section
-		|--------------------------------------------------------------------------
-		|
-		*/
+		if (Cache::has('userBasicAnalytics')) {
+			$userBasicAnalytics = Cache::get('userBasicAnalytics');
+		} else {
 
-		$allUser = array(); // Create all user array
-		foreach ($analyticsUser as $key) { // Structure array elements
-			$allUser[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_user'] );
+			$analyticsUser	= AnalyticsUser::select(
+				'all_user',
+				'daily_active_user',
+				'weekly_active_user',
+				'monthly_active_user',
+				'all_male_user',
+				'daily_active_male_user',
+				'weekly_active_male_user',
+				'monthly_active_male_user',
+				'all_female_user',
+				'daily_active_female_user',
+				'weekly_active_female_user',
+				'monthly_active_female_user',
+				'complete_profile_user_ratio',
+				'from_web',
+				'from_android',
+				'from_ios',
+				'created_at'
+			)->where('created_at', '>=', Carbon::now()->subMonth())->get()->toArray(); // Retrive analytics data
+
+			/*
+			|--------------------------------------------------------------------------
+			| User Basic Analytics Section
+			|--------------------------------------------------------------------------
+			|
+			*/
+
+			$allUser = array(); // Create all user array
+			foreach ($analyticsUser as $key) { // Structure array elements
+				$allUser[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_user'] );
+			}
+
+			$fromWeb = array(); // Create all from web user array
+			foreach ($analyticsUser as $key) { // Structure array elements
+				$fromWeb[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['from_web'] );
+			}
+
+			$fromAndroid = array(); // Create all from Android user array
+			foreach ($analyticsUser as $key) { // Structure array elements
+				$fromAndroid[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['from_android'] );
+			}
+
+			$fromiOS = array(); // Create all from iOS user array
+			foreach ($analyticsUser as $key) { // Structure array elements
+				$fromiOS[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['from_ios'] );
+			}
+
+			$allMaleUser = array(); // Create all male user array
+			foreach ($analyticsUser as $key) { // Structure array elements
+				$allMaleUser[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_male_user'] );
+			}
+
+			$allFemaleUser = array(); // Create all female user array
+			foreach ($analyticsUser as $key) { // Structure array elements
+				$allFemaleUser[] = array(
+					date('Y', strtotime($key['created_at'])),
+					date('m', strtotime($key['created_at'])),
+					date('d', strtotime($key['created_at'])),
+					$key['all_female_user'] );
+			}
+
+			// Build Json data (remove double quotes from Json return data)
+			$userBasicAnalytics = '{
+				"' . Lang::get('admin/index.total') .'":'.preg_replace( '/["]/', '' , json_encode($allUser)).
+				', "' . Lang::get('admin/index.male_users') .'":'.preg_replace( '/["]/', '' , json_encode($allMaleUser)).
+				', "' . Lang::get('admin/index.female_users') .'":'.preg_replace( '/["]/', '' , json_encode( $allFemaleUser)).
+				', "Web ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode($fromWeb)).
+				', "Android ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode( $fromAndroid)).
+				', "iOS ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode($fromiOS)).
+				'}';
+			Cache::put('userBasicAnalytics', $userBasicAnalytics, 60);
 		}
 
-		$fromWeb = array(); // Create all from web user array
-		foreach ($analyticsUser as $key) { // Structure array elements
-			$fromWeb[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['from_web'] );
-		}
-
-		$fromAndroid = array(); // Create all from Android user array
-		foreach ($analyticsUser as $key) { // Structure array elements
-			$fromAndroid[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['from_android'] );
-		}
-
-		$fromiOS = array(); // Create all from iOS user array
-		foreach ($analyticsUser as $key) { // Structure array elements
-			$fromiOS[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['from_ios'] );
-		}
-
-		$allMaleUser = array(); // Create all male user array
-		foreach ($analyticsUser as $key) { // Structure array elements
-			$allMaleUser[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_male_user'] );
-		}
-
-		$allFemaleUser = array(); // Create all female user array
-		foreach ($analyticsUser as $key) { // Structure array elements
-			$allFemaleUser[] = array(
-				date('Y', strtotime($key['created_at'])),
-				date('m', strtotime($key['created_at'])),
-				date('d', strtotime($key['created_at'])),
-				$key['all_female_user'] );
-		}
-
-		// Build Json data (remove double quotes from Json return data)
-		$userBasicAnalytics = '{
-			"' . Lang::get('admin/index.total') .'":'.preg_replace( '/["]/', '' , json_encode($allUser)).
-			', "' . Lang::get('admin/index.male_users') .'":'.preg_replace( '/["]/', '' , json_encode($allMaleUser)).
-			', "' . Lang::get('admin/index.female_users') .'":'.preg_replace( '/["]/', '' , json_encode( $allFemaleUser)).
-			', "Web ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode($fromWeb)).
-			', "Android ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode( $fromAndroid)).
-			', "iOS ' . Lang::get('admin/index.users') .'":'.preg_replace( '/["]/', '' , json_encode($fromiOS)).
-			'}';
 		return View::make('admin.index')->with(compact('unreadSupport', 'totalUser', 'maleUser', 'femaleUser', 'userBasicAnalytics'));
 	}
 
