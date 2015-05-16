@@ -446,9 +446,11 @@ class AndroidController extends BaseController
 
 						// Grade filter
 						if($grade) {
-							isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
-								$profileQuery->where('grade', '=', Input::get('grade'));
-							});
+							$_id = Profile::where('grade', '=', Input::get('grade'))->select('id')->get()->toArray();
+							isset($grade) AND $query->whereIn('id', $_id);
+							// isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
+							// 	$profileQuery->where('grade', '=', Input::get('grade'));
+							// });
 						}
 
 						$users = $query
@@ -565,9 +567,11 @@ class AndroidController extends BaseController
 
 						// Grade filter
 						if($grade) {
-							isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
-								$profileQuery->where('grade', '=', Input::get('grade'));
-							});
+							$_id = Profile::where('grade', '=', Input::get('grade'))->select('id')->get()->toArray();
+							isset($grade) AND $query->whereIn('id', $_id);
+							// isset($grade) AND $query->whereHas('hasOneProfile', function($profileQuery){
+							// 	$profileQuery->where('grade', '=', Input::get('grade'));
+							// });
 						}
 
 						// Query last user id in database
