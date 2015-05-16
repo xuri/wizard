@@ -455,27 +455,57 @@ class AppleController extends BaseController
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
 
-							// Retrieve user profile
-							$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+							if(Cache::has('api_user_' . $users[$key]['id'])) {
+								$profile					= Cache::get('api_user_' . $users[$key]['id']);
 
-							// Determine user renew status
-							if($profile->crenew >= 30){
-								$users[$key]['crenew'] = 1;
+								// User renew status
+								$users[$key]['crenew']		= Cache::get('api_user_' . $users[$key]['id'] . '_crenew');
+
+								// Convert to real storage path
+								$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+								// Retrieve sex with UTF8 encode
+								$users[$key]['sex']			= Cache::get('api_user_' . $users[$key]['id'] . '_sex');
+
+								// Retrieve nickname with UTF8 encode
+								$users[$key]['nickname']	= Cache::get('api_user_' . $users[$key]['id'] . '_nickname');
+
+								// Retrieve school with UTF8 encode
+								$users[$key]['school']		= Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
 							} else {
-								$users[$key]['crenew'] = 0;
+								// Retrieve user profile
+								$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+
+								Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+
+								// Determine user renew status
+								if($profile->crenew >= 30){
+									$users[$key]['crenew'] = 1;
+									Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
+								} else {
+									$users[$key]['crenew'] = 0;
+									Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+								}
+
+								// Convert to real storage path
+								$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+								// Retrieve sex with UTF8 encode
+								$users[$key]['sex']			= e($users[$key]['sex']);
+
+								Cache::put('api_user_' . $users[$key]['id'] . '_sex', e($users[$key]['sex']), 60);
+
+								// Retrieve nickname with UTF8 encode
+								$users[$key]['nickname']	= app_out_filter($users[$key]['nickname']);
+
+								Cache::put('api_user_' . $users[$key]['id'] . '_nickname', app_out_filter($users[$key]['nickname']), 60);
+
+								// Retrieve school with UTF8 encode
+								$users[$key]['school']		= e($users[$key]['school']);
+
+								Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
 							}
-
-							// Convert to real storage path
-							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
-
-							// Retrieve sex with UTF8 encode
-							$users[$key]['sex']			= e($users[$key]['sex']);
-
-							// Retrieve nickname with UTF8 encode
-							$users[$key]['nickname']	= app_out_filter($users[$key]['nickname']);
-
-							// Retrieve school with UTF8 encode
-							$users[$key]['school']		= e($users[$key]['school']);
 						}
 
 						// If get query success
@@ -546,27 +576,57 @@ class AppleController extends BaseController
 						// Replace receiver ID to receiver portrait
 						foreach($users as $key => $field){
 
-							// Retrieve user profile
-							$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+							if(Cache::has('api_user_' . $users[$key]['id'])) {
+								$profile					= Cache::get('api_user_' . $users[$key]['id']);
 
-							// Determine user renew status
-							if($profile->crenew >= 30){
-								$users[$key]['crenew'] = 1;
+								// User renew status
+								$users[$key]['crenew']		= Cache::get('api_user_' . $users[$key]['id'] . '_crenew');
+
+								// Convert to real storage path
+								$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+								// Retrieve sex with UTF8 encode
+								$users[$key]['sex']			= Cache::get('api_user_' . $users[$key]['id'] . '_sex');
+
+								// Retrieve nickname with UTF8 encode
+								$users[$key]['nickname']	= Cache::get('api_user_' . $users[$key]['id'] . '_nickname');
+
+								// Retrieve school with UTF8 encode
+								$users[$key]['school']		= Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
 							} else {
-								$users[$key]['crenew'] = 0;
+								// Retrieve user profile
+								$profile	= Profile::where('user_id', $users[$key]['id'])->first();
+
+								Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+
+								// Determine user renew status
+								if($profile->crenew >= 30){
+									$users[$key]['crenew'] = 1;
+									Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
+								} else {
+									$users[$key]['crenew'] = 0;
+									Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+								}
+
+								// Convert to real storage path
+								$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+								// Retrieve sex with UTF8 encode
+								$users[$key]['sex']			= e($users[$key]['sex']);
+
+								Cache::put('api_user_' . $users[$key]['id'] . '_sex', e($users[$key]['sex']), 60);
+
+								// Retrieve nickname with UTF8 encode
+								$users[$key]['nickname']	= app_out_filter($users[$key]['nickname']);
+
+								Cache::put('api_user_' . $users[$key]['id'] . '_nickname', app_out_filter($users[$key]['nickname']), 60);
+
+								// Retrieve school with UTF8 encode
+								$users[$key]['school']		= e($users[$key]['school']);
+
+								Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
 							}
-
-							// Convert to real storage path
-							$users[$key]['portrait']	= route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
-
-							// Retrieve sex with UTF8 encode
-							$users[$key]['sex']			= e($users[$key]['sex']);
-
-							// Retrieve nickname with UTF8 encode
-							$users[$key]['nickname']	= app_out_filter($users[$key]['nickname']);
-
-							// Retrieve school with UTF8 encode
-							$users[$key]['school']		= e($users[$key]['school']);
 						}
 
 						if($users)
