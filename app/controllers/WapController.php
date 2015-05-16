@@ -193,7 +193,6 @@ class WapController extends BaseController
 	 */
 	public function getRedirect()
 	{
-		// Determin user sex
 		return View::make('wap.redirect');
 	}
 }

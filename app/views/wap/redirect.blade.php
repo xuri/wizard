@@ -16,7 +16,7 @@
 <body>
 	<div class="weixin-tip">
 		<p>
-			{{ HTML::image('assets/images/live_weixin.png', '微信打开', array()) }}
+			{{ HTML::image('assets/images/wap/live_weixin.png', '微信打开', array()) }}
 		</p>
 	</div>
 	<script type="text/javascript">
@@ -34,17 +34,10 @@
 			if(isWeixin){
 				$(".weixin-tip").css("height",winHeight);
 	            $(".weixin-tip").show();
+			} else {
+				window.location.href = "{{ route('home') }}";
 			}
         })
 	</script>
-	<?php
-		if(Agent::isAndroidOS()) {
-			return Redirect::to('http://fir.im/pinai');
-		} elseif (Agent::isiOS()) {
-			return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
-		} else {
-			return View::make('home.mobilev2');
-		}
-	?>
 </body>
 </html>
