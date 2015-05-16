@@ -60,11 +60,12 @@ Route::group(array('domain' => $root_domain), function () {
 Route::group(array('domain' => $root_domain, 'prefix' => 'wap', 'before' => 'is.mobile'), function () {
 	$controller = 'WapController@';
 	# Index
-	Route::get(					'/', array('as' => 'wap.index'	, 'uses' => $controller.'getIndex'		));
-	Route::get(			 '/members', array('as' => 'wap.members', 'uses' => $controller.'getMembers'	));
-	Route::get(		'/members/{id}', array('as' => 'wap.show'	, 'uses' => $controller.'getShow'		));
-	Route::get(				'/more', array('as' => 'wap.more'	, 'uses' => $controller.'getMore'		));
-	Route::get(			 '/success', array('as' => 'wap.success', 'uses' => $controller.'getSuccess'	));
+	Route::get(					'/', array('as' => 'wap.index'	 , 'uses' => $controller.'getIndex'		));
+	Route::get(			 '/members', array('as' => 'wap.members' , 'uses' => $controller.'getMembers'	));
+	Route::get(		'/members/{id}', array('as' => 'wap.show'	 , 'uses' => $controller.'getShow'		));
+	Route::get(				'/more', array('as' => 'wap.more'	 , 'uses' => $controller.'getMore'		));
+	Route::get(			 '/success', array('as' => 'wap.success' , 'uses' => $controller.'getSuccess'	));
+	Route::get(			'/redirect', array('as' => 'wap.redirect', 'uses' => $controller.'getRedirect'	));
 });
 
 

@@ -187,4 +187,13 @@ class WapController extends BaseController
 		}
 	}
 
+	/**
+	 * Show a tip when download something at wechat app
+	 * @return response
+	 */
+	public function getRedirect()
+	{
+		// Determin user sex
+		return View::make('wap.redirect');
+	}
 }

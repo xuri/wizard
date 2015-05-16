@@ -50,7 +50,7 @@ h2 {
 	{{ HTML::image('assets/images/wap/success.png') }}
 	<h2>账号：{{ Cookie::get('w_id') }}</h2>
 	<h2 class="password">密码：{{ Cookie::get('password') }}</h2>
-	<a href="{{ route('home') }}" class="download">下载{{ Lang::get('navigation.pinai') }}</a>
+	<a href="{{ route('wap.redirect') }}" class="download">下载{{ Lang::get('navigation.pinai') }}</a>
 	@include('layout.analytics')
 	@yield('content')
 
