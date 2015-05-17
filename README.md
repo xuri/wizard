@@ -1,8 +1,11 @@
 ## PINAI ![Chinese version](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/22px-Flag_of_the_People%27s_Republic_of_China.svg.png)
 
 [![Build Status](https://travis-ci.org/Luxurioust/wizard.svg?branch=master)](https://travis-ci.org/Luxurioust/wizard)
-PINAI is the first dating platform particularly for college of China, created by China Harbin Wizard Technology Co., Ltd. This company founded by students of Heilongjiang Institute Technology at Dec, 2013. If you interest in this, you can e-mail me xuri.me[at]gmail.com.
 
+> **Attention:** This repository only for learning to share, not for commercial use.
+
+
+PINAI is the first dating platform particularly for college of China, created by China Harbin Wizard Technology Co., Ltd. This company founded by students of Heilongjiang Institute Technology at Dec, 2013. If you interest in this, you can e-mail me xuri.me[at]gmail.com.
 
 #### Protect Personal Info
 
@@ -22,7 +25,7 @@ git update-index --no-assume-unchanged public/.htaccess
 
 #### Mobile App
 
-* [iOS App available in App Store](https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8)
+* [iOS app available in App Store](https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8)
 * [Android client download](http://fir.im/pinai)
 
 ### Licenses
