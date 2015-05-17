@@ -1,31 +1,10 @@
-## Laravel PHP Framework
+## PINAI ![Chinese version](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/22px-Flag_of_the_People%27s_Republic_of_China.svg.png)
 
-[![Build Status](https://travis-ci.org/laravel/framework.svg)](https://travis-ci.org/laravel/framework)
-[![Total Downloads](https://poser.pugx.org/laravel/framework/downloads.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Stable Version](https://poser.pugx.org/laravel/framework/v/stable.svg)](https://packagist.org/packages/laravel/framework)
-[![Latest Unstable Version](https://poser.pugx.org/laravel/framework/v/unstable.svg)](https://packagist.org/packages/laravel/framework)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/laravel/framework)
-
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable, creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as authentication, routing, sessions, and caching.
-
-Laravel aims to make the development process a pleasing one for the developer without sacrificing application functionality. Happy developers make the best code. To this end, we've attempted to combine the very best of what we have seen in other web frameworks, including frameworks implemented in other languages, such as Ruby on Rails, ASP.NET MVC, and Sinatra.
-
-Laravel is accessible, yet powerful, providing powerful tools needed for large, robust applications. A superb inversion of control container, expressive migration system, and tightly integrated unit testing support give you the tools you need to build any application with which you are tasked.
-
-## Official Documentation
-
-Documentation for the entire framework can be found on the [Laravel website](http://laravel.com/docs).
-
-### Contributing To Laravel
-
-**All issues and pull requests should be filed on the [laravel/framework](http://github.com/laravel/framework) repository.**
-
-### License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
+[![Build Status](https://travis-ci.org/Luxurioust/wizard.svg?branch=master)](https://travis-ci.org/Luxurioust/wizard)
+PINAI is the first dating platform particularly for college of China, created by China Harbin Wizard Technology Co., Ltd. This company founded by students of Heilongjiang Institute Technology at Dec, 2013. If you interest in this, you can e-mail me xuri.me[at]gmail.com.
 
 
-###Protect Personal Info
+#### Protect Personal Info
 
 ```
 git update-index --assume-unchanged app/config/database.php
@@ -37,3 +16,17 @@ git update-index --no-assume-unchanged app/config/mail.php
 git update-index --assume-unchanged public/.htaccess
 git update-index --no-assume-unchanged public/.htaccess
 ```
+
+### Preview
+![PINAI](http://trustworty.github.io/images/201503/pinai521.com.jpg "PINAI")
+
+#### Mobile App
+
+* [iOS App available in App Store](https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8)
+* [Android client download](http://fir.im/pinai)
+
+### Licenses
+
+Copyright &copy; 2013 - 2015 Harbin Wizard Technology Co., Ltd.
+
+This program is commercial software, it under the terms of the GNU Lesser General Public License v3.0. You should have received a copy of the GNU Lesser General Public License along with this program. If not, see <http://www.gnu.org/licenses/lgpl-3.0.txt>.
