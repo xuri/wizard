@@ -23,26 +23,28 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class Profile extends BaseModel
 {
-	/**
-	 * Soft delete
-	 * @var boolean
-	 */
-	use SoftDeletingTrait;
+    /**
+     * Soft delete
+     * @var boolean
+     */
+    use SoftDeletingTrait;
 
-	protected $softDelete = ['deleted_at'];
-	/**
-	 * Database table (without prefix)
-	 * @var string
-	 */
-	protected $table = 'profile';
+    protected $softDelete = ['deleted_at'];
+    /**
+     * Database table (without prefix)
+     * @var string
+     */
+    protected $table = 'profile';
 
-	public function belongsToUser()
-	{
-		return $this->belongsToMany('User', 'user_id', 'id');
-	}
+    public function belongsToUser()
+    {
+        return $this->belongsToMany('User', 'user_id', 'id');
+    }
 
-	public function belongsToSupport()
-	{
-		return $this->belongsToMany('User', 'user_id', 'id');
-	}
+    public function belongsToSupport()
+    {
+        return $this->belongsToMany('User', 'user_id', 'id');
+    }
+
 }
+

@@ -40,4 +40,5 @@ class Support extends BaseModel
     {
         return $this->hasOne('User', 'id', 'user_id', 'grade');
     }
+
 }

@@ -7,7 +7,7 @@ install:
   - travis_retry composer install
 
 before_script:
-  - "mysql -e 'create database `timefragment`;'"
+  - "mysql -e 'create database `pinai`;'"
   - php artisan migrate -n
   - php artisan dump-autoload
 
