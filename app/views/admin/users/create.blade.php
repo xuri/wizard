@@ -162,7 +162,7 @@
 											<label>首选语言</label>
 											<select class="form-control" id="language" name="language">
 												<option value="">未设置首选语言</option>
-												<option value="zh_CN">简体中文</option>
+												<option value="zh">简体中文</option>
 												<option value="en">English</option>
 											</select>
 										</div>
