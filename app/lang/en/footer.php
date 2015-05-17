@@ -2,14 +2,15 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Copyright Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Copyright Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"company"		=> "Harbin Wizard Network Technology Co., Ltd. China",
+    "company"       => "Harbin Wizard Network Technology Co., Ltd. China",
 
-	"icp_license"	=> "China ICP License"
+    "icp_license"   => "China ICP License"
+
 );

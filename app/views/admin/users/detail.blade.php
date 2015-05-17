@@ -71,7 +71,7 @@
 											}
 										?>
 										<tr>
-											<td>{{ $sent_count ++ }}</td>
+											<td>{{ ++$sent_count }}</td>
 											<td>
 												<a href="{{ route('members.show', $receiver->id) }}" title="点击查看用户详细资料" alt="点击查看用户详细资料">{{ $receiver->id }}</a>
 											</td>
@@ -141,7 +141,7 @@
 											}
 										?>
 										<tr>
-											<td>{{ $inbox_count ++ }}</td>
+											<td>{{ ++$inbox_count }}</td>
 											<td>
 												<a href="{{ route('members.show', $sender->id) }}" title="点击查看用户详细资料" alt="点击查看用户详细资料">{{ $sender->id }}</a>
 											</td>

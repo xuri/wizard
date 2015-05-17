@@ -2,101 +2,101 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Navigation Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Navigation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"pinai"							=> "Pinai",
+    "pinai"                         => "Pinai",
 
-	"index"							=> "Home",
+    "index"                         => "Home",
 
-	"discover"						=> "Discover",
+    "discover"                      => "Discover",
 
-	"forum"							=> "Forum",
+    "forum"                         => "Forum",
 
-	"signin"						=> "Signin",
+    "signin"                        => "Signin",
 
-	"signup"						=> "Signup",
+    "signup"                        => "Signup",
 
-	"about"							=> "About",
+    "about"                         => "About",
 
-	"go_home"						=> "Home",
+    "go_home"                       => "Home",
 
-	"admin"							=> "Admin",
+    "admin"                         => "Admin",
 
-	"download_app"					=> "Mobile App",
+    "download_app"                  => "Mobile App",
 
-	"signout"						=> "Exit",
+    "signout"                       => "Exit",
 
-	"profile"						=> "Profile",
+    "profile"                       => "Profile",
 
-	"authority"						=> "Signin & Signup",
+    "authority"                     => "Signin & Signup",
 
-	"privacy"						=> "Privacy",
+    "privacy"                       => "Privacy",
 
-	"support"						=> "Support",
+    "support"                       => "Support",
 
-	"friends"						=> "Friends",
+    "friends"                       => "Friends",
 
-	"followers"						=> "Followers",
+    "followers"                     => "Followers",
 
-	"inbox"							=> "Inbox",
+    "inbox"                         => "Inbox",
 
-	"my_posts"						=> "My Posts",
+    "my_posts"                      => "My Posts",
 
-	"navigation"					=> "Navigation",
+    "navigation"                    => "Navigation",
 
-	"dashboard"						=> "Dashboard",
+    "dashboard"                     => "Dashboard",
 
-	"admin_server"					=> "System Management",
+    "admin_server"                  => "System Management",
 
-	"admin_server_info"				=> "Server Information",
+    "admin_server_info"             => "Server Information",
 
-	"admin_queue_server"			=> "Beanstalkd Queue Console",
+    "admin_queue_server"            => "Beanstalkd Queue Console",
 
-	"admin_memcached_server"		=> "Memcached Server Console",
+    "admin_memcached_server"        => "Memcached Server Console",
 
-	"admin_user_management"			=> "Users Management",
+    "admin_user_management"         => "Users Management",
 
-	"admin_user_all"				=> "All Users Management",
+    "admin_user_all"                => "All Users Management",
 
-	"admin_user_noactive"			=> "No Activities Users",
+    "admin_user_noactive"           => "No Activities Users",
 
-	"admin_forum_management"		=> "Forum Management",
+    "admin_forum_management"        => "Forum Management",
 
-	"admin_forum_post"				=> "Posts in Forum",
+    "admin_forum_post"              => "Posts in Forum",
 
-	"admin_school_management"		=> "University Management",
+    "admin_school_management"       => "University Management",
 
-	"admin_analytics_table"			=> "Analytics Table",
+    "admin_analytics_table"         => "Analytics Table",
 
-	"admin_analytics_users_table"	=> "Users Detail Table",
+    "admin_analytics_users_table"   => "Users Detail Table",
 
-	"admin_analytics_forum_table"	=> "Forum Activities Table",
+    "admin_analytics_forum_table"   => "Forum Activities Table",
 
-	"admin_analytics_active_table"	=> "User Activities Table",
+    "admin_analytics_active_table"  => "User Activities Table",
 
-	"admin_analytics_charts"		=> "Analytics Charts",
+    "admin_analytics_charts"        => "Analytics Charts",
 
-	"admin_analytics_users_charts"	=> "Users Detail Charts",
+    "admin_analytics_users_charts"  => "Users Detail Charts",
 
-	"admin_analytics_forum_charts"	=> "Forum Activities Charts",
+    "admin_analytics_forum_charts"  => "Forum Activities Charts",
 
-	"admin_analytics_active_charts"	=> "User Activities Charts",
+    "admin_analytics_active_charts" => "User Activities Charts",
 
-	"admin_news_management"			=> "News Management",
+    "admin_news_management"         => "News Management",
 
-	"admin_news_category"			=> "Category Management",
+    "admin_news_category"           => "Category Management",
 
-	"admin_news_post"				=> "Posts Management",
+    "admin_news_post"               => "Posts Management",
 
-	"admin_support_management"		=> "Feedback & Promotion",
+    "admin_support_management"      => "Feedback & Promotion",
 
-	"admin_feedback_management"		=> "Feedback Management",
+    "admin_feedback_management"     => "Feedback Management",
 
-	"admin_promotion_management"	=> "Promotion Management",
+    "admin_promotion_management"    => "Promotion Management",
 
 );
