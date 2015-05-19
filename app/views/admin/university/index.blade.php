@@ -74,7 +74,7 @@
 										<tr class="odd gradeX">
 											<td>{{ $data->id }}</td>
 											<td style="text-align:center;">{{ $data->university }}</td>
-											<td class="center">{{ $data->count }}</td>
+											<td class="center">{{ $data->count * 2 }}</td>
 											<td class="center">
 												@if($data->status == 2)
 													{{ $data->created_at }}

@@ -1,30 +1,30 @@
-聘爱网——中国首页面向大学生为群体的恋爱交友平台，是哈尔滨精灵科技有限责任公司旗下产品。哈尔滨精灵科技有限责任公司由黑龙江工程学院2012级学生创办，主营网站外包，安卓，IOS手机应用开发，微信公众运营与技术服务。代表作品有《聘爱》，工程精灵，商大精灵，科大精灵等10所高校微信公众工，黑工程选课系统，吃什么校内订餐APP等。
+聘爱——中国首页面向大学生为群体的恋爱交友平台，是哈尔滨精灵科技有限责任公司旗下产品。哈尔滨精灵科技有限责任公司由黑龙江工程学院2012级学生创办，主营网站外包，安卓，IOS手机应用开发，微信公众运营与技术服务。代表作品有《聘爱》，工程精灵，商大精灵，科大精灵等10所高校微信公众工，黑工程选课系统，吃什么校内订餐APP等。
 
 /* TEAM */
 
-	Yonglin Luo
-	Location: Harbin, China
+    Yonglin Luo
+    Location: Harbin, China
 
-	Chunyang Huo
-	Site: http://hcysun.me
-	Location: Harbin, China
+    Chunyang Huo
+    Site: http://hcysun.me
+    Location: Harbin, China
 
-	Zhiguo Xu
-	Site: http://kimxu.me
-	Location: Harbin, China
+    Zhiguo Xu
+    Site: http://kimxu.me
+    Location: Harbin, China
 
-	Qiongxue Cui
-	Location: Harbin, China
+    Qiongxue Cui
+    Location: Harbin, China
 
-	Chunjian Ma
-	Location: Harbin, China
+    Chunjian Ma
+    Location: Harbin, China
 
-	Jiaqi Wang
-	Location: Harbin, China
+    Jiaqi Wang
+    Location: Harbin, China
 
-	Xue Tao
-	Location: Harbin, China
+    Xue Tao
+    Location: Harbin, China
 
-	Ri Xu (Luxurioust)
-	Site: https://xuri.me
-	Location: Harbin, China
+    Ri Xu (Luxurioust)
+    Site: https://xuri.me
+    Location: Harbin, China

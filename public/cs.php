@@ -63,5 +63,3 @@ function _cnzzTrackPageView($siteId) {
     $cs = new CS($siteId);
     return $cs->trackPageView();
 }
-
-?>

@@ -14,13 +14,13 @@
 */
 
 if(isset($_SERVER['HTTP_USER_AGENT']))
-	{
-	$badAgents = array('FeedDemon','BOT/0.1 (BOT for JCE)','CrawlDaddy ','Java','Feedly','UniversalFeedParser','ApacheBench','Swiftbot','ZmEu','Indy Library','oBot','jaunty','YandexBot','AhrefsBot','YisouSpider','jikeSpider','MJ12bot','WinHttp','EasouSpider','HttpClient','Microsoft URL Control','YYSpider','jaunty','Python-urllib','lightDeckReports Bot');
-	if(in_array($_SERVER['HTTP_USER_AGENT'],$badAgents)) {
-		exit('Go away');
-	}
+    {
+    $badAgents = array('FeedDemon','BOT/0.1 (BOT for JCE)','CrawlDaddy ','Java','Feedly','UniversalFeedParser','ApacheBench','Swiftbot','ZmEu','Indy Library','oBot','jaunty','YandexBot','AhrefsBot','YisouSpider','jikeSpider','MJ12bot','WinHttp','EasouSpider','HttpClient','Microsoft URL Control','YYSpider','jaunty','Python-urllib','lightDeckReports Bot');
+    if(in_array($_SERVER['HTTP_USER_AGENT'],$badAgents)) {
+        exit('Go away');
+    }
 } else {
-	exit('Go away');
+    exit('Go away');
 }
 
 /*
