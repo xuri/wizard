@@ -221,7 +221,10 @@ class AppleController extends BaseController
                         return Response::json(
                             array(
                                 'status'        => 0,
-                                'error'         => $validator->getMessageBag()->toArray()
+                                'error'         => array(
+                                                        'phone'    => implode('', $validator->getMessageBag()->toArray()['phone']),
+                                                        'password' => implode('', $validator->getMessageBag()->toArray()['password'])
+                                                    )
                             )
                         );
                     }
