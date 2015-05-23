@@ -227,12 +227,29 @@ class AndroidController extends BaseController
                         }
                     } else {
                         // Verification fail
+                        $_validator = $validator->getMessageBag()->toArray();
+
+                        //  Checks if the phone key exists in the array
+                        if (array_key_exists('phone', $_validator)) {
+                            $phone_error = implode('', $_validator['phone']);
+                        } else {
+                            $phone_error = null;
+                        }
+
+                        //  Checks if the password key exists in the array
+                        if (array_key_exists('password', $_validator)) {
+                            $password_error = implode('', $_validator['password']);
+                        } else {
+                            $password_error = null;
+                        }
+
+                        // Verification fail
                         return Response::json(
                             array(
                                 'status'        => 0,
                                 'error'         => array(
-                                                        'phone'    => implode('', $validator->getMessageBag()->toArray()['phone']),
-                                                        'password' => implode('', $validator->getMessageBag()->toArray()['password'])
+                                                        'phone'    => $phone_error,
+                                                        'password' => $password_error
                                                     )
                             )
                         );
