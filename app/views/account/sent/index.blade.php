@@ -99,8 +99,8 @@
                                     <a href="{{ route('members.show', $user->id) }}"><span>{{ $user->nickname }}</span></a>
                                 </div>
                                 <div class="cour_bottom">
-                                    <span style="margin: 0 15px 0px 10px; line-height: 2em;"> {{ Lang::get('account/chat.friend_request') }}<em>{{ $data->count }}</em>{{ Lang::get('account/chat.count') }}</span>
-                                    <span style="margin: 0 15px 0px 10px; line-height: 2em;">{{ Lang::get('account/chat.friend_request') }}<em>{{ $Days }}</em>{{ Lang::get('account/chat.days') }}</span><br />
+                                    <span style="margin: 0 15px 0px 10px; line-height: 2em; max-width:57px; max-height: 2em;float:left; display: inline; overflow:hidden;"> {{ Lang::get('account/chat.friend_request') }}<em>{{ $data->count }}</em>{{ Lang::get('account/chat.count') }}</span>
+                                    <span style="margin: 0 15px 0px 10px; line-height: 2em; max-width:57px; max-height: 2em;float:left; display: inline; overflow:hidden;">{{ Lang::get('account/chat.friend_request') }}<em>{{ $Days }}</em>{{ Lang::get('account/chat.days') }}</span><br />
                                     @if($data->status == 3)
                                     <a href="{{ route('members.show', $user->id) }}" class="button-block">{{ Lang::get('account/chat.lock_you') }}</a>
                                     @elseif($data->status == 1)
