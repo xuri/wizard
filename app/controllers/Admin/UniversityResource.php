@@ -73,7 +73,7 @@ class Admin_UniversityResource extends BaseResource
         $university_like    = Input::get('like');
 
         // Construct query statement
-        $query = $this->model->orderBy($orderColumn, $direction)->remember(60);
+        $query = $this->model->orderBy($orderColumn, $direction);
         if ($province_filter) {
             isset($province_filter) AND $query->where('province_id', $province_filter);
         }
