@@ -805,13 +805,18 @@ function getEasemob()
         $accessToken    = json_decode($accessToken->body, true); // Json decode
         $easemob->token = $accessToken['access_token'];
         $easemob->save(); // Save access token
+        return $easemob;
     } elseif ($easemobUpdated < 172800) { // Last update timestamp 2 Days (201600 - 3 days)
         $accessToken    = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
         $accessToken    = json_decode($accessToken->body, true); // Json decode
         $easemob->token = $accessToken['access_token'];
         $easemob->save(); // Save access token
+        $easemob        = System::where('name', 'easemob')->first(); // Get easemod API config
+        return $easemob;
+    } else {
+        return $easemob;
     }
-    return $easemob;
+
 }
 
 /**
