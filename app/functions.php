@@ -792,26 +792,36 @@ function getTagName($tag)
 
 /**
  * Easemob Web IM API
- * @return object easemob configure
+ * @return object Easemob configure
  */
 function getEasemob()
 {
     $easemob            = System::where('name', 'easemob')->first(); // Get easemod API config
     $nowTime            = new DateTime(); // Now time
     $easemobUpdated     = $nowTime->getTimestamp() - strtotime($easemob->updated_at); // Calculate last update timestamp
-    // Get token
+
+    // Get and update token
     if ($easemob->token == NULL) { // First get token
-        $accessToken    = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
-        $accessToken    = json_decode($accessToken->body, true); // Json decode
-        $easemob->token = $accessToken['access_token'];
-        $easemob->save(); // Save access token
+
+        // Send cURL
+        $response            = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send();
+        // Json decode response body
+        $response            = json_decode($response->body, true);
+        $easemob->expires_in = $response['expires_in'];
+        $easemob->token      = $response['access_token'];
+        // Save access token
+        $easemob->save();
         return $easemob;
-    } elseif ($easemobUpdated < 172800) { // Last update timestamp 2 Days (201600 - 3 days)
-        $accessToken    = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
-        $accessToken    = json_decode($accessToken->body, true); // Json decode
-        $easemob->token = $accessToken['access_token'];
-        $easemob->save(); // Save access token
-        $easemob        = System::where('name', 'easemob')->first(); // Get easemod API config
+    } elseif ($easemobUpdated >= $easemob->expires_in) {
+        $response            = cURL::newJsonRequest('post', 'https://a1.easemob.com/jinglingkj/pinai/token', ['grant_type' => 'client_credentials','client_id' => $easemob->sid, 'client_secret' => $easemob->secret])->setHeader('content-type', 'application/json')->send(); // Send cURL
+        // Json decode response body
+        $response            = json_decode($response->body, true);
+        $easemob->expires_in = $response['expires_in'];
+        $easemob->token      = $response['access_token'];
+        // Save access token
+        $easemob->save();
+        // Retrieve Easemob API config
+        $easemob             = System::where('name', 'easemob')->first();
         return $easemob;
     } else {
         return $easemob;
