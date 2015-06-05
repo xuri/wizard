@@ -127,39 +127,25 @@
 											<td class="center">{{ $data->updated_at }}</td>
 
 												@if($data->block)
-													{{ Form::open(array(
-														'autocomplete'	=> 'off',
-														'action'		=> 'Admin_UserResource@unclock'
-														))
-													}}
 													@if($data->id!=$currentId)
 													<td class="center" style="text-align:center;">
-														<button type="submit" class="btn btn-xs btn-success">{{ Lang::get('admin/users/index.unlock') }}</button>
+														<a href="{{ route('users.unlock', $data->id) }}" class="btn btn-xs btn-success">{{ Lang::get('admin/users/index.unlock') }}</a>
 													</td>
 													<td class="center" style="text-align:center;">
 														<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
-														{{ Form::hidden('id', $data->id) }}
 														<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
 													</td>
 													@endif
-													{{ Form::close() }}
 												@else
-													{{ Form::open(array(
-														'autocomplete'	=> 'off',
-														'action'		=> 'Admin_UserResource@block'
-														))
-													}}
 													@if($data->id!=$currentId)
 													<td class="center" style="text-align:center;">
-														<button type="submit" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/index.lock') }}</button>
+														<a href="{{ route('users.block', $data->id) }}" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/index.lock') }}</a>
 													</td>
-													{{ Form::hidden('id', $data->id) }}
 													<td class="center" style="text-align:center;">
 														<a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
 														<a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
 													</td>
 													@endif
-													{{ Form::close() }}
 												@endif
 										</tr>
 										@endforeach

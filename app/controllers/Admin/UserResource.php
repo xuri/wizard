@@ -452,20 +452,19 @@ class Admin_UserResource extends BaseResource
 
     /**
      * Block user
-     * POST /{id}/block
-     * @return Response     View
+     * @param  int $id User ID
+     * @return response     View
      */
-    public function block()
+    public function block($id)
     {
         // Retrieve user
-        $data           = $this->model->find(Input::get('id'));
-        $data->block    = 1;
+        $data           = DB::table('users')->where('id', $id);
         if (is_null($data)) {
             return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
-        } elseif ($data->save()) {
-            DB::table('forum_posts')->where('user_id', Input::get('id'))->update(array('block' => 1));
-            DB::table('forum_comments')->where('user_id', Input::get('id'))->update(array('block' => 1));
-            DB::table('forum_reply')->where('user_id', Input::get('id'))->update(array('block' => 1));
+        } elseif ($data->update(array('block' => 1))) {
+            DB::table('forum_posts')->where('user_id', $id)->update(array('block' => 1));
+            DB::table('forum_comments')->where('user_id', $id)->update(array('block' => 1));
+            DB::table('forum_reply')->where('user_id', $id)->update(array('block' => 1));
             return Redirect::back()->with('success', $this->resourceName.'锁定成功。');
         } else {
             return Redirect::back()->with('warning', $this->resourceName.'锁定失败。');
@@ -473,21 +472,20 @@ class Admin_UserResource extends BaseResource
     }
 
     /**
-     * Unclock user
-     * POST /{id}/unclock
-     * @return Response     View
+     * Unlock user
+     * @param  int $id User ID
+     * @return response     View
      */
-    public function unclock()
+    public function unlock($id)
     {
         // Retrieve user
-        $data           = $this->model->find(Input::get('id'));
-        $data->block    = 0;
+        $data           = DB::table('users')->where('id', $id);
         if (is_null($data)) {
             return Redirect::back()->with('error', '没有找到对应的'.$this->resourceName.'。');
-        } elseif ($data->save()) {
-            DB::table('forum_posts')->where('user_id', Input::get('id'))->update(array('block' => 0));
-            DB::table('forum_comments')->where('user_id', Input::get('id'))->update(array('block' => 0));
-            DB::table('forum_reply')->where('user_id', Input::get('id'))->update(array('block' => 0));
+        } elseif ($data->update(array('block' => 0))) {
+            DB::table('forum_posts')->where('user_id', $id)->update(array('block' => 0));
+            DB::table('forum_comments')->where('user_id', $id)->update(array('block' => 0));
+            DB::table('forum_reply')->where('user_id', $id)->update(array('block' => 0));
             return Redirect::back()->with('success', $this->resourceName.'解锁成功。');
         } else {
             return Redirect::back()->with('warning', $this->resourceName.'解锁失败。');

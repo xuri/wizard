@@ -222,9 +222,10 @@ Route::group(array('domain' => $admin_domain, 'before' => 'is.desktop|auth|auth.
         Route::get(     '{id}/notify', array('as' => $resource.'.notify'    , 'uses' => $controller.'notify'    ))->before('not.self');
         Route::get( '{id}/sms_notify', array('as' => $resource.'.sms_notify', 'uses' => $controller.'sms_notify'))->before('not.self');
         Route::delete(         '{id}', array('as' => $resource.'.destroy'   , 'uses' => $controller.'destroy'   ))->before('not.self');
+        Route::get(      '{id}/block', array('as' => $resource.'.block'     , 'uses' => $controller.'block'     ))->before('not.self');
+        Route::get(     '{id}/unlock', array('as' => $resource.'.unlock'    , 'uses' => $controller.'unlock'    ))->before('not.self');
         Route::post(    '{id}/notify', $controller.'postNotify' )->before('not.self');
-        Route::post(         '/block', $controller.'block'      )->before('not.self');
-        Route::post(       '/unclock', $controller.'unclock'    )->before('not.self');
+
     });
 
     # Data Analytics
