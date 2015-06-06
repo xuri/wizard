@@ -3581,7 +3581,11 @@ class AndroidController extends BaseController
                                     );
                                 } else {
                                     // Retrieve user match count
-                                    $match_count = $profile->match;
+                                    if (is_null($profile->match)) {
+                                        $match_count = 0;
+                                    } else {
+                                        $match_count = $profile->match;
+                                    }
 
                                     switch ($sex) {
                                         case 'M':
