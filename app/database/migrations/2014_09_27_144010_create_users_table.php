@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration {
 	        $table->tinyInteger('age')->nullable(); // User age
 	        $table->string('born_year', 10)->nullable(); // User born year
 	        $table->string('school', 100)->nullable(); // University name
-	        $table->integer('points')->default('1000'); // Points
+	        $table->integer('points')->default('10'); // Points
 	        $table->integer('w_id')->nullable(); // WAP register user ID
 	        $table->string('phone')->nullable(); // Mobile phone number
 	        $table->string('portrait')->nullable(); // Avatar file name

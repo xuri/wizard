@@ -19,6 +19,7 @@ class CreateSystemTable extends Migration {
 			$table->string('secret')->nullable();
 			$table->string('sid')->nullable();
 			$table->string('token')->nullable();
+			$table->string('expires_in')->nullable();
 			$table->timestamp('deleted_at')->nullable();
 			$table->timestamps();
 		});

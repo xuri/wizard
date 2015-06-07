@@ -232,8 +232,10 @@ class MemberController extends BaseController {
                         if ($have_like) { // This user already sent like
                             $have_like->answer      = htmlentities(Input::get('answer'));
                             $have_like->count       = $have_like->count + 1;
-                            Auth::user()->points    = Auth::user()->points - 1;
+                            // Auth::user()->points    = Auth::user()->points - 1;
+
                             if ($have_like->save() && Auth::user()->save()) {
+
                                 // Some user re-liked you
                                 $notification   = Notification(2, Auth::user()->id, $id);
 
@@ -265,6 +267,17 @@ class MemberController extends BaseController {
                             $like->count            = 1;
                             Auth::user()->points    = Auth::user()->points - 1;
                             if ($like->save() && Auth::user()->save()) {
+
+                                // Determin repeat add points
+                                $points_exist = Like::where('receiver_id', $id)
+                                            ->where('created_at', '>=', Carbon::today())
+                                            ->count();
+
+                                // Add points
+                                if ($points_exist < 2) {
+                                    User::find($id)->increment('points', 1);
+                                }
+
                                 // Some user first like you
                                 $notification   = Notification(1, Auth::user()->id, $id);
 

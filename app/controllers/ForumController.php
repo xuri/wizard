@@ -442,6 +442,16 @@ class ForumController extends BaseController {
 
 
                         if ($comment->save()) {
+
+                            // Determin repeat add points
+                            $points_exist = ForumComments::where('user_id', Auth::user()->id)
+                                            ->where('created_at', '>=', Carbon::today())
+                                            ->count();
+                            // Add points
+                            if ($points_exist < 2) {
+                                Auth::user()->increment('points', 1);
+                            }
+
                             // Determine sender and receiver
                             if (Auth::user()->id != $forum_post->user_id) {
 
@@ -539,6 +549,16 @@ class ForumController extends BaseController {
                             $reply->user_id     = Auth::user()->id;
                             $reply->floor       = ForumReply::where('comments_id', Input::get('comments_id'))->where('block', false)->count() + 1; // Calculate this reply in which floor
                             if ($reply->save()) {
+
+                                // Determin repeat add points
+                                $points_exist = ForumReply::where('user_id', Auth::user()->id)
+                                                ->where('created_at', '>=', Carbon::today())
+                                                ->count();
+                                // Add points
+                                if ($points_exist < 2) {
+                                    Auth::user()->increment('points', 1);
+                                }
+
                                 // Retrieve comments
                                 $comment                        = ForumComments::where('id', Input::get('comments_id'))->first();
                                 // Retrieve author of comment

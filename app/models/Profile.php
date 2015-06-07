@@ -29,18 +29,31 @@ class Profile extends BaseModel
      */
     use SoftDeletingTrait;
 
+    /**
+     * softDelete
+     * @var array
+     */
     protected $softDelete = ['deleted_at'];
+
     /**
      * Database table (without prefix)
      * @var string
      */
     protected $table = 'profile';
 
+    /**
+     * belongsToUser
+     * @return void
+     */
     public function belongsToUser()
     {
         return $this->belongsToMany('User', 'user_id', 'id');
     }
 
+    /**
+     * belongsToSupport
+     * @return void
+     */
     public function belongsToSupport()
     {
         return $this->belongsToMany('User', 'user_id', 'id');

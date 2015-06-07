@@ -29,7 +29,12 @@ class ForumReply extends BaseModel
 	 */
 	use SoftDeletingTrait;
 
+	/**
+     * softDelete
+     * @var array
+     */
 	protected $softDelete = ['deleted_at'];
+
 	/**
 	 * Database table (without prefix)
 	 * @var string

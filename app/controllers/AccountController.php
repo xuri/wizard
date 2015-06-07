@@ -107,7 +107,7 @@ class AccountController extends BaseController
             $user->renew_at = Carbon::now();
             $user->renew    = $user->renew + 1;
             $user->crenew   = $user->crenew + 1;
-            $points->points = $points->points + 5;
+            $points->points = $points->points + 1;
             $user->save();
             $points->save();
             return Response::json(
@@ -131,7 +131,7 @@ class AccountController extends BaseController
             // Sign-in user haven't renew today
             $user->renew_at = Carbon::now();
             $user->renew    = $user->renew + 1;
-            $points->points = $points->points + 2;
+            $points->points = $points->points + 1;
             $user->save();
             $points->save();
 

@@ -170,6 +170,7 @@ class AppleController extends BaseController
 
                             if (isset($result['entities'])) {
                                 // Determine register status from Easemob
+                                //
                                 if ($result['entities']['0']['activated'] == true) {
                                     // Create floder to store chat record
                                     File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
@@ -298,8 +299,8 @@ class AppleController extends BaseController
 
                     // Begin verification
                     $validator = Validator::make($info, $rules, $messages);
-                    if ($validator->passes()) {
 
+                    if ($validator->passes()) {
                         // Verification success
                         // Update account
                         $user                   = User::where('id', Input::get('id'))->first();
@@ -308,6 +309,7 @@ class AppleController extends BaseController
 
                         // Protrait section
                         $portrait               = Input::get('portrait');
+
                         if ($portrait == null) {
                             $user->portrait     = $oldPortrait;  // User not update avatar
                         } else {
@@ -477,7 +479,7 @@ class AppleController extends BaseController
                         // Replace receiver ID to receiver portrait
                         foreach ($users as $key => $field) {
 
-                            if (Cache::has('api_user_' . $users[$key]['id'])) {
+                            if(Cache::has('api_user_' . $users[$key]['id'])) {
                                 $profile                    = Cache::get('api_user_' . $users[$key]['id']);
 
                                 // User renew status
@@ -528,6 +530,7 @@ class AppleController extends BaseController
 
                                 Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
                             }
+
                         }
 
                         // If get query success
@@ -683,6 +686,7 @@ class AppleController extends BaseController
                         // Which user want to see
                         'user_id' => Input::get('userid'),
                     );
+
                     if ($info) {
                         // Sender user ID
                         $sender_id  = Input::get('senderid');
@@ -705,11 +709,9 @@ class AppleController extends BaseController
                         }
 
                         if (is_null($like_me)) {
-
                             // This user never liked you
                             $user_like_me   = 5;
                             $answer         = null;
-
                         } else {
                             // Determine users relationship, see code explanation in MembersController
                             $user_like_me   = $like_me->status;
@@ -858,7 +860,9 @@ class AppleController extends BaseController
                                         $have_like->answer  = app_input_filter(Input::get('answer'));
                                         $have_like->count   = $have_like->count + 1;
                                         $user->points       = $user->points - 1;
+
                                         if ($have_like->save() && $user->save()) {
+
                                             // Some user re-liked you
                                             $notification = Notification(2, $user->id, $receiver_id);
 
@@ -891,6 +895,17 @@ class AppleController extends BaseController
                                         $like->answer       = app_input_filter(Input::get('answer'));
                                         $like->count        = 1;
                                         $user->points       = $user->points - 1;
+
+                                        // Determin repeat add points
+                                        $points_exist = Like::where('receiver_id', $receiver_id)
+                                                    ->where('created_at', '>=', Carbon::today())
+                                                    ->count();
+
+                                        // Add points
+                                        if ($points_exist < 2) {
+                                            User::find($receiver_id)->increment('points', 1);
+                                        }
+
                                         if ($like->save() && $user->save()) {
                                             $notification = Notification(1, $user->id, $receiver_id); // Some user first like you
 
@@ -1442,6 +1457,7 @@ class AppleController extends BaseController
                             $points->points = $points->points + 5;
                             $user->save();
                             $points->save();
+
                             return Response::json(
                                 array(
                                     'status'        => 1,
@@ -1452,11 +1468,9 @@ class AppleController extends BaseController
 
                             // Check user whether or not renew yesterday
                             if ($yesterday <= $user->renew_at) {
-
                                 // Keep renew
                                 $user->crenew   = $user->crenew + 1;
                             } else {
-
                                 // Not keep renew, reset renew count
                                 $user->crenew   = 0;
                             }
@@ -1464,9 +1478,10 @@ class AppleController extends BaseController
                             // You haven't renew today
                             $user->renew_at = Carbon::now();
                             $user->renew    = $user->renew + 1;
-                            $points->points = $points->points + 2;
+                            $points->points = $points->points + 1;
                             $user->save();
                             $points->save();
+
                             return Response::json(
                                 array(
                                     'status'        => 1,
@@ -1474,7 +1489,6 @@ class AppleController extends BaseController
                                 )
                             );
                         } else {
-
                             // You have renew today
                             return Response::json(
                                 array(
@@ -1498,7 +1512,7 @@ class AppleController extends BaseController
                 case 'getnickname' :
 
                     // Get query ID from App client
-                    $id     = Input::get('id');
+                    $id      = Input::get('id');
 
                     // Get sender user data
                     $friends = Like::where('receiver_id', $id)->orWhere('sender_id', $id)
@@ -1605,7 +1619,7 @@ class AppleController extends BaseController
                         if ($user->save()) {
                             // Update success
                             $oldAndroidPortrait = strpos($oldPortrait, 'android');
-                            if ($oldAndroidPortrait === false) { // Must use ===
+                            if($oldAndroidPortrait === false) { // Must use ===
                                 // Delete old poritait
                                 File::delete($portraitPath . $oldPortrait);
                                 return Response::json(
@@ -2283,7 +2297,7 @@ class AppleController extends BaseController
                             // Build Json format
                             return Response::json(
                                 array(
-                                    'status'    => '2'
+                                    'status'    => 2
                                 )
                             );
 
@@ -2395,7 +2409,6 @@ class AppleController extends BaseController
 
                                         // Reply user portrait
                                         $replies[$keys]['portrait'] = route('home') . '/' . 'portrait/' . $reply_user->portrait;
-
                                     }
 
                                     // Add comments replies array to post comments_reply array
@@ -2456,12 +2469,11 @@ class AppleController extends BaseController
                             // Build Json format
                             return Response::json(
                                 array(
-                                    'status'    => '2'
+                                    'status'    => 2
                                 )
                             );
 
                         } else {
-
                             // Query all comments of this post
                             $comments   = ForumComments::where('post_id', $postid)
                                                 ->orderBy('id' , 'asc')
@@ -2564,6 +2576,7 @@ class AppleController extends BaseController
                         $post_id    = Input::get('postid');
                         $content    = app_input_filter(Input::get('content'));
                         $forum_post = ForumPost::where('id', $post_id)->first();
+                        $user       = User::find($user_id);
 
                         // Select post type
                         if (Input::get('type') == 'comments') {
@@ -2595,6 +2608,15 @@ class AppleController extends BaseController
 
                                 // Calculate this comment in which floor
                                 $comment->floor         = ForumComments::where('post_id', $post_id)->where('block', false)->count() + 2;
+
+                                // Determin repeat add points
+                                $points_exist = ForumComments::where('user_id', $user_id)
+                                                ->where('created_at', '>=', Carbon::today())
+                                                ->count();
+                                // Add points
+                                if ($points_exist < 2) {
+                                    $user->increment('points', 1);
+                                }
 
                                 if ($comment->save()) {
                                     // Determine sender and receiver
@@ -2677,6 +2699,16 @@ class AppleController extends BaseController
                                 // Calculate this reply in which floor
                                 $reply->floor       = ForumReply::where('comments_id', Input::get('commentid'))->where('block', false)->count() + 1;
 
+                                // Determin repeat add points
+                                $points_exist = ForumReply::where('user_id', $user_id)
+                                            ->where('created_at', '>=', Carbon::today())
+                                            ->count();
+
+                                // Add points
+                                if ($points_exist < 2) {
+                                    $user->increment('points', 1);
+                                }
+
                                 if ($reply->save()) {
 
                                     // Retrieve comments
@@ -2736,7 +2768,8 @@ class AppleController extends BaseController
 
                         } // End of select post type
                     } // End of determin user block status
-                break;
+
+                    break;
 
                 // Forum Post New
 
@@ -2779,7 +2812,7 @@ class AppleController extends BaseController
                             $post->title        = app_input_filter(Input::get('title'));
                             $post->content      = app_input_filter(Input::get('content'));
 
-                            if ($post->save()) {
+                            if($post->save()) {
                                 // Create successful
                                 return Response::json(
                                     array(
@@ -3141,7 +3174,7 @@ class AppleController extends BaseController
                         );
                     }
 
-                break;
+                    break;
 
                 // Open university
                 case 'open_university' :
@@ -3270,7 +3303,8 @@ class AppleController extends BaseController
                             )
                         );
                     }
-                break;
+
+                    break;
 
                 // Support
                 case 'support' :
@@ -3301,7 +3335,6 @@ class AppleController extends BaseController
                             $support            = new Support;
                             $support->user_id   = $user_id;
                             $support->content   = $feedback;
-
                             if ($support->save()) {
                                 return Response::json(
                                     array(
@@ -3415,7 +3448,7 @@ class AppleController extends BaseController
                     // Build Json format
                     return Response::json(
                         array(
-                            'status'    => '1',
+                            'status'    => 1,
                             'data'      => $data
                         )
                     );
@@ -3440,6 +3473,831 @@ class AppleController extends BaseController
                                 'status'        => 0
                             )
                         );
+                    }
+
+                    break;
+
+                // Match user
+                case 'match_users':
+
+                    // Get user ID
+                    $user_id = Input::get('id');
+                    // Retrieve user
+                    $user    = User::find($user_id);
+
+                    if ($user) {
+                        // Retrieve user sex
+                        $sex     = $user->sex;
+                        // Retrieve user profile
+                        $profile =  Profile::where('user_id', $user_id)->first();
+                        // Check user profile complete
+                        if (is_null(Profile::where('user_id', $user->id)->first()->tag_str)) {
+                            return Response::json(
+                                array(
+                                    'status'        => 2 // User's profile is not complete
+                                )
+                            );
+                        } else {
+                            // Calculate how long user last match time from now (more than 3 days)
+                            if (strtotime(Carbon::now()) - strtotime($profile->match_at) >= 86400) {
+                                // Rest match count
+                                $profile->match = 0;
+                                $profile->save();
+                                $match_count    = 0;
+
+                                switch ($sex) {
+                                    case 'M':
+
+                                        if (is_null($profile->match_users)) {
+                                            // Male user, match female user
+                                            $match_users = User::where('sex', 'F')
+                                                                ->whereNotNull('school')
+                                                                ->whereNotNull('born_year')
+                                                                ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                ->take(6)
+                                                                ->get()
+                                                                ->toArray();
+                                        } else {
+                                            $match_users = User::where('sex', 'F')
+                                                                ->whereNotNull('school')
+                                                                ->whereNotNull('born_year')
+                                                                ->whereNotIn('id', array($profile->match_users))
+                                                                ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                ->take(6)
+                                                                ->get()
+                                                                ->toArray();
+                                        }
+
+                                        // Convert
+                                        // foreach ($match_users as $key => $value) {
+                                        //     $match_users_id[]  = $value['id'];
+                                        // }
+
+                                        // if (is_null($profile->match_users)) {
+                                        //     $profile->match_users = implode(',', $match_users_id);
+                                        // } else {
+                                        //     $profile->match_users = $profile->match_users . ',' . implode(',', $match_users_id);
+                                        // }
+
+                                        // $profile->save();
+
+                                        foreach ($match_users as $users => $value) {
+                                            $match_users[$users]['portrait'] = route('home') . '/' . 'portrait/' . $match_users[$users]['portrait'];
+                                            $match_users[$users]['grade']    = $profile->grade;
+                                        }
+
+                                        return Response::json(
+                                            array(
+                                                'status' => 1,
+                                                'users'  => $match_users,
+                                                'match'  => $match_count
+                                            )
+                                        );
+                                        break;
+
+                                    default:
+
+                                        if (is_null($profile->match_users)) {
+                                            // Female user, match male user
+                                            $match_users = User::where('sex', 'M')
+                                                                ->whereNotNull('school')
+                                                                ->whereNotNull('born_year')
+                                                                ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                ->take(6)
+                                                                ->get()
+                                                                ->toArray();
+                                        } else {
+                                            $match_users = User::where('sex', 'M')
+                                                                ->whereNotNull('school')
+                                                                ->whereNotNull('born_year')
+                                                                ->whereNotIn('id', array($profile->match_users))
+                                                                ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                ->take(6)
+                                                                ->get()
+                                                                ->toArray();
+                                        }
+
+                                        foreach ($match_users as $users => $value) {
+                                            $match_users[$users]['portrait'] = route('home') . '/' . 'portrait/' . $match_users[$users]['portrait'];
+                                            $match_users[$users]['grade']    = $profile->grade;
+                                        }
+
+                                        return Response::json(
+                                            array(
+                                                'status' => 1,
+                                                'users'  => $match_users,
+                                                'match'  => $match_count
+                                            )
+                                        );
+
+                                        break;
+                                }
+                            } else {
+                                // User have match other users today
+                                if ($profile->match >= 3) {
+                                    return Response::json(
+                                        array(
+                                            'status'        => 3 // User match other user over 3 times today
+                                        )
+                                    );
+                                } else {
+                                    // Retrieve user match count
+                                    if (is_null($profile->match)) {
+                                        $match_count = 0;
+                                    } else {
+                                        $match_count = $profile->match;
+                                    }
+
+                                    switch ($sex) {
+                                        case 'M':
+
+                                            if (is_null($profile->match_users)) {
+                                                // Male user, match female user
+                                                $match_users = User::where('sex', 'F')
+                                                                    ->whereNotNull('school')
+                                                                    ->whereNotNull('born_year')
+                                                                    ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                    ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                    ->take(6)
+                                                                    ->get()
+                                                                    ->toArray();
+                                            } else {
+                                                $match_users = User::where('sex', 'F')
+                                                                    ->whereNotNull('school')
+                                                                    ->whereNotNull('born_year')
+                                                                    ->whereNotIn('id', array($profile->match_users))
+                                                                    ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                    ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                    ->take(6)
+                                                                    ->get()
+                                                                    ->toArray();
+                                            }
+
+                                            foreach ($match_users as $users => $value) {
+                                                $match_users[$users]['portrait'] = route('home') . '/' . 'portrait/' . $match_users[$users]['portrait'];
+                                                $match_users[$users]['grade']    = $profile->grade;
+                                            }
+
+                                            return Response::json(
+                                                array(
+                                                    'status' => 1,
+                                                    'users'  => $match_users,
+                                                    'match'  => $match_count
+                                                )
+                                            );
+                                            break;
+
+                                        default:
+
+                                            if (is_null($profile->match_users)) {
+                                                 // Female user, match male user
+                                                $match_users = User::where('sex', 'M')
+                                                                    ->whereNotNull('school')
+                                                                    ->whereNotNull('born_year')
+                                                                    ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                    ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                    ->take(6)
+                                                                    ->get()
+                                                                    ->toArray();
+                                            } else {
+                                                $match_users = User::where('sex', 'M')
+                                                                    ->whereNotNull('school')
+                                                                    ->whereNotNull('born_year')
+                                                                    ->whereNotIn('id', array($profile->match_users))
+                                                                    ->where('activated_at', '>=', Carbon::now()->subMonth())
+                                                                    ->select('id', 'portrait', 'nickname', 'sex', 'born_year', 'school')
+                                                                    ->take(6)
+                                                                    ->get()
+                                                                    ->toArray();
+                                            }
+
+                                            foreach ($match_users as $users => $value) {
+                                                $match_users[$users]['portrait'] = route('home') . '/' . 'portrait/' . $match_users[$users]['portrait'];
+                                                $match_users[$users]['grade']    = $profile->grade;
+                                            }
+
+                                            return Response::json(
+                                                array(
+                                                    'status' => 1,
+                                                    'users'  => $match_users,
+                                                    'match'  => $match_count
+                                                )
+                                            );
+
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        return Response::json(
+                            array(
+                                'status'        => 0 // Throw exception
+                            )
+                        );
+                    }
+
+                    break;
+
+                // Macth user record
+                case 'match_users_record':
+                    // Get user ID
+                    $user_id                          = Input::get('id');
+                    // Get all match users ID
+                    $match_users_id                   = Input::get('match_users_id');
+
+                    // Determin user match if empty
+                    if ($match_users_id != "") {
+                        // Retrieve user profile
+                        $profile                      =  Profile::where('user_id', $user_id)->first();
+
+                        if (is_null($profile->match_users)) {
+                            $profile->match_users     = $match_users_id;
+                        } else {
+                            if ($match_users_id != "") {
+                                $profile->match_users = $profile->match_users . ',' . $match_users_id;
+                            }
+                        }
+
+                        $profile->match               = $profile->match + count(explode(',', $match_users_id));
+                        // Update last match time
+                        $profile->match_at            = Carbon::now();
+
+                        if ($profile->save()) {
+                            // Add points
+                            if ($profile->match = 3) {
+                                User::find($user_id)->increment('points', 1);
+                            }
+
+                            return Response::json(
+                                array(
+                                    'status'    => 1 // Success
+                                )
+                            );
+                        } else {
+                            return Response::json(
+                                array(
+                                    'status'    => 0 // Throw exception
+                                )
+                            );
+                        }
+                    } else {
+                        return Response::json(
+                            array(
+                                'status'        => 1 // Success
+                            )
+                        );
+                    }
+
+                    break;
+
+                // Market
+                case 'market' :
+
+                    // Get user id from App client
+                    $user_id            = Input::get('userid');
+
+                    // Post last user id from App client
+                    $last_id            = Input::get('lastid');
+
+                    // Post count per query from App client
+                    $per_page           = Input::get('perpage');
+
+                    // Post university filter from App client
+                    $university_filter  = Input::get('university');
+
+                    // Grade filter
+                    $grade              = Input::get('grade');
+
+                    if ($user_id) {
+                        // Retrieve user
+                        $user               = User::find($user_id);
+
+                        // Updated user active date
+                        $user->updated_at   = Carbon::now();
+
+                        // Update reveiver_updated_at in like table
+                        DB::table('like')->where('receiver_id', $user->id)->update(array('receiver_updated_at' => Carbon::now()));
+                        $user->save();
+
+                        switch ($user->sex) {
+                            case 'M':
+                                // Male user show female user information
+                                $sex_filter = 'F';
+                                break;
+
+                            case 'F':
+                                // Female user show male user information
+                                $sex_filter = 'M';
+                                break;
+
+                            default:
+                                unset($sex_filter);
+                                break;
+                        }
+
+                        $profile = Profile::where('user_id', $user->id)->first();
+                    }
+
+                    if ($last_id) {
+                        // User last signin at time
+                        $last_updated_at    = User::find($last_id)->updated_at;
+
+                        // App client have post last user id, retrieve and skip profile not completed user
+                        $query              = User::whereNotNull('portrait')
+                                                    ->whereNotNull('nickname')
+                                                    ->whereNotNull('bio')
+                                                    ->whereNotNull('school');
+                        // Ruled out not set tags and select has correct format constellation user
+                        // $query->whereHas('hasOneProfile', function($hasTagStr) {
+                        //  $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+                        // });
+
+                        // Sex filter
+                        if ($sex_filter) {
+                            isset($sex_filter) AND $query->where('sex', $sex_filter);
+                        }
+
+                        // University filter
+                        if ($university_filter) {
+                            if ($university_filter == '其他') {
+                                $universities_list = University::where('status', 2)->select('university')->get()->toArray();
+                                isset($university_filter) AND $query->whereNotIn('school', $universities_list);
+                            } else {
+                                isset($university_filter) AND $query->where('school', $university_filter);
+                            }
+                        }
+
+                        $users = $query
+                            ->orderBy('updated_at', 'desc')
+                            ->where('block', 0)
+                            ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
+                            ->where('updated_at', '<', $last_updated_at)
+                            ->take($per_page)
+                            ->get()
+                            ->toArray();
+
+                        // Replace receiver ID to receiver portrait
+                        foreach ($users as $key => $field) {
+
+                            if(Cache::has('api_user_' . $users[$key]['id'])) {
+                                $profile                    = Cache::get('api_user_' . $users[$key]['id']);
+
+                                // User renew status
+                                $users[$key]['crenew']      = Cache::get('api_user_' . $users[$key]['id'] . '_crenew');
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = Cache::get('api_user_' . $users[$key]['id'] . '_sex');
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = Cache::get('api_user_' . $users[$key]['id'] . '_nickname');
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = Cache::get('api_user_' . $users[$key]['id'] . '_tag_str');
+
+                            } else {
+                                // Retrieve user profile
+                                $profile    = Profile::where('user_id', $users[$key]['id'])->first();
+
+                                Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+
+                                // Determine user renew status
+                                if ($profile->crenew >= 30) {
+                                    $users[$key]['crenew'] = 1;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
+                                } else {
+                                    $users[$key]['crenew'] = 0;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+                                }
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = e($users[$key]['sex']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_sex', e($users[$key]['sex']), 60);
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = app_out_filter($users[$key]['nickname']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_nickname', app_out_filter($users[$key]['nickname']), 60);
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = e($users[$key]['school']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
+                            }
+
+                        }
+
+                        // If get query success
+                        if ($users) {
+                            // Build Json format
+                            return Response::json(
+                                array(
+                                    'status'    => 1,
+                                    'data'      => $users
+                                )
+                            );
+                        } else {
+                            // Get query fail
+                            return Response::json(
+                                array(
+                                    'status'    => 0
+                                )
+                            );
+                        }
+                    } else {
+
+                        //  First get data from App client, retrieve and skip profile not completed user
+                        $query      = User::whereNotNull('portrait')
+                                            ->whereNotNull('nickname')
+                                            ->whereNotNull('bio')
+                                            ->whereNotNull('school');
+
+                        // Ruled out not set tags and select has correct format constellation user
+                        // $query->whereHas('hasOneProfile', function($hasTagStr) {
+                        //  $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+                        // });
+
+                        // Sex filter
+                        if ($sex_filter) {
+                            isset($sex_filter) AND $query->where('sex', $sex_filter);
+                        }
+
+                        // University filter
+                        if ($university_filter) {
+                            if ($university_filter == '其他') {
+                                $universities_list = University::where('status', 2)->select('university')->get()->toArray();
+                                isset($university_filter) AND $query->whereNotIn('school', $universities_list);
+                            } else {
+                                isset($university_filter) AND $query->where('school', $university_filter);
+                            }
+                        }
+
+                        // Query last user id in database
+                        $lastRecord = User::orderBy('updated_at', 'desc')->first()->updated_at;
+
+                        $users      = $query
+                                        ->orderBy('updated_at', 'desc')
+                                        ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
+                                        ->where('block', 0)
+                                        ->where('updated_at', '<=', $lastRecord)
+                                        ->take($per_page)
+                                        ->get()
+                                        ->toArray();
+
+                        // Replace receiver ID to receiver portrait
+                        foreach ($users as $key => $field) {
+
+                            if (Cache::has('api_user_' . $users[$key]['id'])) {
+                                $profile                    = Cache::get('api_user_' . $users[$key]['id']);
+
+                                // User renew status
+                                $users[$key]['crenew']      = Cache::get('api_user_' . $users[$key]['id'] . '_crenew');
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = Cache::get('api_user_' . $users[$key]['id'] . '_sex');
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = Cache::get('api_user_' . $users[$key]['id'] . '_nickname');
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = Cache::get('api_user_' . $users[$key]['id'] . '_tag_str');
+
+                            } else {
+                                // Retrieve user profile
+                                $profile    = Profile::where('user_id', $users[$key]['id'])->first();
+
+                                Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+
+                                // Determine user renew status
+                                if ($profile->crenew >= 30) {
+                                    $users[$key]['crenew'] = 1;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
+                                } else {
+                                    $users[$key]['crenew'] = 0;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+                                }
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = e($users[$key]['sex']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_sex', e($users[$key]['sex']), 60);
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = app_out_filter($users[$key]['nickname']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_nickname', app_out_filter($users[$key]['nickname']), 60);
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = e($users[$key]['school']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
+                            }
+                        }
+
+                        if ($users) {
+                            return Response::json(
+                                array(
+                                    'status'    => 1,
+                                    'data'      => $users
+                                )
+                            );
+                        } else {
+                            return Response::json(
+                                array(
+                                    'status'    => 0
+                                )
+                            );
+                        }
+                    }
+
+                    break;
+
+                // Members rank
+                case 'members_rank' :
+
+                    // Get user id from App client
+                    $user_id            = Input::get('userid');
+
+                    // Post last user id from App client
+                    $last_id            = Input::get('lastid');
+
+                    // Post count per query from App client
+                    $per_page           = Input::get('perpage');
+
+                    // Post university filter from App client
+                    $university_filter  = Input::get('university');
+
+                    // Grade filter
+                    $grade              = Input::get('grade');
+
+                    if ($user_id) {
+                        // Retrieve user
+                        $user               = User::find($user_id);
+
+                        // Updated user active date
+                        $user->updated_at   = Carbon::now();
+
+                        // Update reveiver_updated_at in like table
+                        DB::table('like')->where('receiver_id', $user->id)->update(array('receiver_updated_at' => Carbon::now()));
+                        $user->save();
+
+                        $profile = Profile::where('user_id', $user->id)->first();
+                    }
+
+                    if ($last_id) {
+                        // User last signin at time
+                        $last_updated_at    = User::find($last_id)->updated_at;
+
+                        // App client have post last user id, retrieve and skip profile not completed user
+                        $query              = User::whereNotNull('portrait')
+                                                    ->whereNotNull('nickname')
+                                                    ->whereNotNull('bio')
+                                                    ->whereNotNull('school');
+
+                        // University filter
+                        if ($university_filter) {
+                            if ($university_filter == '其他') {
+                                $universities_list = University::where('status', 2)->select('university')->get()->toArray();
+                                isset($university_filter) AND $query->whereNotIn('school', $universities_list);
+                            } else {
+                                isset($university_filter) AND $query->where('school', $university_filter);
+                            }
+                        }
+
+                        $users = $query
+                            ->orderBy('points', 'desc')
+                            ->where('block', 0)
+                            ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
+                            ->where('updated_at', '<', $last_updated_at)
+                            ->take($per_page)
+                            ->get()
+                            ->toArray();
+
+                        // Replace receiver ID to receiver portrait
+                        foreach ($users as $key => $field) {
+
+                            if(Cache::has('api_user_' . $users[$key]['id'])) {
+                                $profile                    = Cache::get('api_user_' . $users[$key]['id']);
+
+                                // User renew status
+                                $users[$key]['crenew']      = Cache::get('api_user_' . $users[$key]['id'] . '_crenew');
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = Cache::get('api_user_' . $users[$key]['id'] . '_sex');
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = Cache::get('api_user_' . $users[$key]['id'] . '_nickname');
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = Cache::get('api_user_' . $users[$key]['id'] . '_tag_str');
+
+                            } else {
+                                // Retrieve user profile
+                                $profile    = Profile::where('user_id', $users[$key]['id'])->first();
+
+                                Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+
+                                // Determine user renew status
+                                if ($profile->crenew >= 30) {
+                                    $users[$key]['crenew'] = 1;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
+                                } else {
+                                    $users[$key]['crenew'] = 0;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+                                }
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = e($users[$key]['sex']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_sex', e($users[$key]['sex']), 60);
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = app_out_filter($users[$key]['nickname']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_nickname', app_out_filter($users[$key]['nickname']), 60);
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = e($users[$key]['school']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
+                            }
+
+                        }
+
+                        // If get query success
+                        if ($users) {
+                            // Build Json format
+                            return Response::json(
+                                array(
+                                    'status'    => 1,
+                                    'data'      => $users
+                                )
+                            );
+                        } else {
+                            // Get query fail
+                            return Response::json(
+                                array(
+                                    'status'    => 0
+                                )
+                            );
+                        }
+                    } else {
+
+                        //  First get data from App client, retrieve and skip profile not completed user
+                        $query      = User::whereNotNull('portrait')
+                                            ->whereNotNull('nickname')
+                                            ->whereNotNull('bio')
+                                            ->whereNotNull('school');
+
+                        // University filter
+                        if ($university_filter) {
+                            if ($university_filter == '其他') {
+                                $universities_list = University::where('status', 2)->select('university')->get()->toArray();
+                                isset($university_filter) AND $query->whereNotIn('school', $universities_list);
+                            } else {
+                                isset($university_filter) AND $query->where('school', $university_filter);
+                            }
+                        }
+
+                        // Query last user id in database
+                        $lastRecord = User::orderBy('points', 'desc')->first()->updated_at;
+
+                        $users      = $query
+                                        ->orderBy('points', 'desc')
+                                        ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
+                                        ->where('block', 0)
+                                        ->where('updated_at', '<=', $lastRecord)
+                                        ->take($per_page)
+                                        ->get()
+                                        ->toArray();
+
+                        // Replace receiver ID to receiver portrait
+                        foreach ($users as $key => $field) {
+
+                            if (Cache::has('api_user_' . $users[$key]['id'])) {
+                                $profile                    = Cache::get('api_user_' . $users[$key]['id']);
+
+                                // User renew status
+                                $users[$key]['crenew']      = Cache::get('api_user_' . $users[$key]['id'] . '_crenew');
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = Cache::get('api_user_' . $users[$key]['id'] . '_sex');
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = Cache::get('api_user_' . $users[$key]['id'] . '_nickname');
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = Cache::get('api_user_' . $users[$key]['id'] . '_tag_str');
+
+                            } else {
+                                // Retrieve user profile
+                                $profile    = Profile::where('user_id', $users[$key]['id'])->first();
+
+                                Cache::put('api_user_' . $users[$key]['id'], $profile, 60);
+
+                                // Determine user renew status
+                                if ($profile->crenew >= 30) {
+                                    $users[$key]['crenew'] = 1;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 1, 60);
+                                } else {
+                                    $users[$key]['crenew'] = 0;
+                                    Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+                                }
+
+                                // Convert to real storage path
+                                $users[$key]['portrait']    = route('home') . '/' . 'portrait/' . $users[$key]['portrait'];
+
+                                // Retrieve sex with UTF8 encode
+                                $users[$key]['sex']         = e($users[$key]['sex']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_sex', e($users[$key]['sex']), 60);
+
+                                // Retrieve nickname with UTF8 encode
+                                $users[$key]['nickname']    = app_out_filter($users[$key]['nickname']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_nickname', app_out_filter($users[$key]['nickname']), 60);
+
+                                // Retrieve school with UTF8 encode
+                                $users[$key]['school']      = e($users[$key]['school']);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
+
+                                // Retrieve tag_str with UTF8 encode
+                                $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
+                            }
+                        }
+
+                        if ($users) {
+                            return Response::json(
+                                array(
+                                    'status'    => 1,
+                                    'rank'      => $user->rank,
+                                    'data'      => $users
+                                )
+                            );
+                        } else {
+                            return Response::json(
+                                array(
+                                    'status'    => 0
+                                )
+                            );
+                        }
                     }
 
                     break;

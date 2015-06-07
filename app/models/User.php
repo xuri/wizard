@@ -24,16 +24,28 @@ use Illuminate\Database\Eloquent\SoftDeletingTrait;
 
 class User extends BaseModel implements UserInterface, RemindableInterface
 {
+    /**
+     * getRememberToken
+     * @return void
+     */
     public function getRememberToken()
     {
         return $this->remember_token;
     }
 
+    /**
+     * setRememberToken
+     * @param string $value token
+     */
     public function setRememberToken($value)
     {
         $this->remember_token = $value;
     }
 
+    /**
+     * getRememberTokenName
+     * @return void
+     */
     public function getRememberTokenName()
     {
         return 'remember_token';
@@ -51,6 +63,10 @@ class User extends BaseModel implements UserInterface, RemindableInterface
      */
     use SoftDeletingTrait;
 
+    /**
+     * softDelete
+     * @var array
+     */
     protected $softDelete = ['deleted_at'];
 
     /**
@@ -149,9 +165,21 @@ class User extends BaseModel implements UserInterface, RemindableInterface
         $this->attributes['password'] = Hash::needsRehash($value) ? Hash::make($value) : $value;
     }
 
+    /**
+     * hasOneProfile
+     * @return boolean
+     */
     public function hasOneProfile()
     {
         return $this->hasOne('Profile', 'user_id', 'id', 'grade');
     }
 
+    /**
+     * getRankAttribute
+     * @return void
+     */
+    public function getRankAttribute()
+    {
+        return $this->newQuery()->where('points', '>=', $this->points)->count();
+    }
 }
