@@ -11,6 +11,7 @@
     <meta property="og:url" content="{{ route('home') }}"/>
     <meta property="og:image" content="{{ route('home') }}/assets/images/icons/apple-touch-icon-180x180-precomposed.png"/>
     <meta property="og:description" content="聘爱是全国首个大学生恋爱平台。用心，寻找真爱。"/>
+    <meta name="norton-safeweb-site-verification" content="d6d4-sry5eru2ap-71g3qgsr4mafm4tji8emhl6k87lwtpqjsimugo7i-8zf7y9q3kdp3rexaqcj0qghdhpcpdffvgys-pkdz82eazn8hkp7yp2zgnvbzhvqcgxcqk29" />
     <link rel="dns-prefetch" href="//www.pinai521.com">
     <link href="http://www.pinai521.com/" rel="prefetch" /> <!– IE9+ –>
     <link rel="dns-prefetch" href="//c.cnzz.com">
