@@ -4136,9 +4136,6 @@ class AndroidController extends BaseController
                                 // Retrieve school with UTF8 encode
                                 $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
 
-                                // Retrieve tag_str with UTF8 encode
-                                $users[$key]['tag_str']     = e(Cache::get('api_user_' . $users[$key]['id'] . '_tag_str'));
-
                             } else {
                                 // Retrieve user profile
                                 $profile    = Profile::where('user_id', $users[$key]['id'])->first();
@@ -4171,9 +4168,6 @@ class AndroidController extends BaseController
                                 $users[$key]['school']      = e($users[$key]['school']);
 
                                 Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
-
-                                // Retrieve tag_str with UTF8 encode
-                                $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
 
                                 Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
                             }
@@ -4248,9 +4242,6 @@ class AndroidController extends BaseController
                                 // Retrieve school with UTF8 encode
                                 $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
 
-                                // Retrieve tag_str with UTF8 encode
-                                $users[$key]['tag_str']     = e(Cache::get('api_user_' . $users[$key]['id'] . '_tag_str'));
-
                             } else {
                                 // Retrieve user profile
                                 $profile    = Profile::where('user_id', $users[$key]['id'])->first();
@@ -4283,9 +4274,6 @@ class AndroidController extends BaseController
                                 $users[$key]['school']      = e($users[$key]['school']);
 
                                 Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
-
-                                // Retrieve tag_str with UTF8 encode
-                                $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
 
                                 Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
                             }
