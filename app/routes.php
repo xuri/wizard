@@ -330,7 +330,7 @@ Route::group(array('domain' => $root_domain, 'prefix' => 'ios'), function () {
     $controller = 'AppleController@';
     # iOS API
     Route::post('api',  $controller . 'postApple');
-    // Route::get('api',    $controller . 'postApple');
+    Route::get('api',    $controller . 'postApple');
 });
 
 /*
