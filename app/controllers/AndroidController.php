@@ -750,6 +750,7 @@ class AndroidController extends BaseController
                                 'is_admin'      => e($data->is_admin),
                                 'is_verify'     => e($data->is_verify),
                                 'portrait'      => route('home') . '/' . 'portrait/' . $data->portrait,
+                                'points'		=> e($data->points),
                                 'constellation' => $constellationInfo['name'],
                                 'tag_str'       => $tag_str,
                                 'hobbies'       => app_out_filter($profile->hobbies),
@@ -811,7 +812,8 @@ class AndroidController extends BaseController
                                 'grade'         => e($profile->grade),
                                 'question'      => app_out_filter($profile->question),
                                 'self_intro'    => app_out_filter($profile->self_intro),
-                                'is_verify'     => e($user->is_verify)
+                                'is_verify'     => e($user->is_verify),
+                                'points'        => $user->points
                             );
                         return Response::json($data);
                     } else {
@@ -3170,6 +3172,7 @@ class AndroidController extends BaseController
                                 'status'    => 1,
                                 'nickname'  => app_out_filter($user->nickname),
                                 'portrait'  => route('home') . '/' . 'portrait/' . $user->portrait,
+                                'points'	=> $user->points,
                                 'is_verify' => e($user->is_verify)
                             )
                         );
@@ -3485,7 +3488,7 @@ class AndroidController extends BaseController
 
                     break;
 
-                // Match user
+                // Match Users
                 case 'match_users':
 
                     // Get user ID
@@ -3823,7 +3826,7 @@ class AndroidController extends BaseController
                                                     ->whereNotNull('school');
                         // Ruled out not set tags and select has correct format constellation user
                         // $query->whereHas('hasOneProfile', function($hasTagStr) {
-                        //  $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+                        // $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
                         // });
 
                         // Sex filter
@@ -3934,7 +3937,7 @@ class AndroidController extends BaseController
                         }
                     } else {
 
-                        //  First get data from App client, retrieve and skip profile not completed user
+                        // First get data from App client, retrieve and skip profile not completed user
                         $query      = User::whereNotNull('portrait')
                                             ->whereNotNull('nickname')
                                             ->whereNotNull('bio')
@@ -3942,7 +3945,7 @@ class AndroidController extends BaseController
 
                         // Ruled out not set tags and select has correct format constellation user
                         // $query->whereHas('hasOneProfile', function($hasTagStr) {
-                        //  $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+                        // $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
                         // });
 
                         // Sex filter
@@ -4193,7 +4196,7 @@ class AndroidController extends BaseController
                         }
                     } else {
 
-                        //  First get data from App client, retrieve and skip profile not completed user
+                        // First get data from App client, retrieve and skip profile not completed user
                         $query      = User::whereNotNull('portrait')
                                             ->whereNotNull('nickname')
                                             ->whereNotNull('bio')
@@ -4296,6 +4299,191 @@ class AndroidController extends BaseController
                         }
                     }
 
+                    break;
+
+                // Post Like Job
+                case 'post_like_job' :
+                    // Get user id from App client
+                    $user_id            = Input::get('userid');
+                    // Job's title
+                    $title              = Input::get('title');
+                    // Job's content
+                    $content            = Input::get('content');
+                    // Job's first rule (require)
+                    $rule_1             = Input::get('rule_1');
+                    // Job's second rule (require)
+                    $rule_2             = Input::get('rule_2');
+                    // Job's third rule (optional)
+                    $rule_3             = Input::get('rule_3');
+                    // Job's forth rule (optional)
+                    $rule_4             = Input::get('rule_4');
+                    // Job's fifth rule (optional)
+                    $rule_5             = Input::get('rule_5');
+                    // Create new like jobs
+                    $like_jobs          = new LikeJobs;
+                    $like_jobs->user_id = $user_id;
+                    $like_jobs->title   = $title;
+                    $like_jobs->content = $content;
+                    $like_jobs->rule_1  = $rule_1;
+                    $like_jobs->rule_2  = $rule_2;
+
+                    if (!is_null($rule_3)) {
+                        $like_jobs->rule_3 = $rule_3;
+                    }
+
+                    if (!is_null($rule_4)) {
+                        $like_jobs->rule_4 = $rule_4;
+                    }
+
+                    if (!is_null($rule_5)) {
+                        $like_jobs->rule_5 = $rule_5;
+                    }
+                    // Determin create like jobs if successful
+                    if ($like_jobs->save()) {
+                        return Response::json(
+                                array(
+                                    'status'    => 1 // Success
+                                )
+                            );
+                    } else {
+                        return Response::json(
+                                array(
+                                    'status'    => 0 // Throw exception
+                                )
+                            );
+                    }
+                    break;
+
+                // Like Jobs
+                case 'like_jobs' :
+                    // Post last user id from App client
+                    $last_id           = Input::get('lastid');
+                    // Post count per query from App client
+                    $per_page          = Input::get('perpage');
+
+                    if ($last_id) {
+                        // App client have post last like job id, retrieve like jobs
+                        $query         = LikeJobs::select('id', 'title')
+                                            ->orderBy('id', 'desc')
+                                            ->where('id', '<', $last_id)
+                                            ->take($per_page)
+                                            ->get()
+                                            ->toArray();
+
+                        // Convert like job title in array
+                        foreach ($query as $key => $value) {
+                            // User ID
+                            $user_id = $query[$key]['id'];
+                            // Retrieve user
+                            $user    = User::find($user_id);
+                            switch ($user->sex) {
+                                case 'M':
+                                    // Male user
+                                    $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
+                                    break;
+
+                                default:
+                                    // Female user
+                                    $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
+                                    break;
+                            }
+                        }
+
+                        return Response::json(
+                                array(
+                                    'status' => 1, // Success
+                                    'data'   => $query
+                                )
+                            );
+
+                    } else {
+                        // First get data from App client, retrieve like jobs
+                        $query         = LikeJobs::select('id', 'title')
+                                            ->orderBy('id', 'desc')
+                                            ->take($per_page)
+                                            ->get()
+                                            ->toArray();
+
+                        // Convert like job title in array
+                        foreach ($query as $key => $value) {
+                            // User ID
+                            $user_id = $query[$key]['id'];
+                            // Retrieve user
+                            $user    = User::find($user_id);
+                            switch ($user->sex) {
+                                case 'M':
+                                    // Male user
+                                    $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
+                                    break;
+
+                                default:
+                                    // Female user
+                                    $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
+                                    break;
+                            }
+                        }
+
+                        return Response::json(
+                                array(
+                                    'status' => 1, // Success
+                                    'data'   => $query
+                                )
+                            );
+                    }
+
+                    break;
+
+                // Get Like Job
+                case 'get_like_job':
+
+                    // Retrieve like job ID
+                    $like_job_id = Input::get('id');
+
+                    // Retrieve like job
+                    $like_job    = LikeJobs::find($like_job_id);
+
+                    // Determin if like job exists
+                    if ($like_job) {
+                        // Retrieve user
+                        $user     = User::find($like_job->user_id);
+                        // Get user portrait
+                        $portrait = route('home') . '/' . 'portrait/' . $user->portrait;
+
+                        if (!is_null($like_job->rule_3)) {
+                            $rule_3 = '\\n 3. ' .  $like_job->rule_3;
+                        } else {
+                            $rule_3 = null;
+                        }
+
+                        if (!is_null($like_job->rule_4)) {
+                            $rule_4 = '\\n 4. ' .  $like_job->rule_4;
+                        } else {
+                            $rule_4 = null;
+                        }
+
+                        if (!is_null($like_job->rule_5)) {
+                            $rule_5 = '\\n 5. ' .  $like_job->rule_5;
+                        } else {
+                            $rule_5 = null;
+                        }
+
+                        return Response::json(
+                                array(
+                                    'status'   => 1, // Success
+                                    'user_id'  => $user->id,
+                                    'sex'      => $user->sex,
+                                    'portrait' => $portrait,
+                                    'title'    => e($like_job->title),
+                                    'content'  => e($like_job->content . '\\n 要求 \\n 1. ' . $like_job->rule_1 . '\\n 2. ' . $like_job->rule_2 . $rule_3 . $rule_4 . $rule_5),
+                                )
+                            );
+                    } else {
+                        return Response::json(
+                                array(
+                                    'status'    => 0 // Throw exception
+                                )
+                            );
+                    }
                     break;
             }
         } else {

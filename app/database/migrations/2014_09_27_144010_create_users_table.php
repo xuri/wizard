@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration {
 			$table->string('password');
 	        $table->string('nickname', 60)->nullable();
 	        $table->string('sex',4)->nullable();
-	        $table->text('bio')->nullable();
+	        $table->string('bio', 255)->nullable();
 	        $table->tinyInteger('age')->nullable(); // User age
 	        $table->string('born_year', 10)->nullable(); // User born year
 	        $table->string('school', 100)->nullable(); // University name
