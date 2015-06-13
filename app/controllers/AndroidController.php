@@ -537,6 +537,8 @@ class AndroidController extends BaseController
                                 $users[$key]['school']      = e($users[$key]['school']);
 
                                 Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
                             }
 
                         }
@@ -660,6 +662,8 @@ class AndroidController extends BaseController
                                 $users[$key]['school']      = e($users[$key]['school']);
 
                                 Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
+
+                                Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
                             }
                         }
 
@@ -2894,100 +2898,83 @@ class AndroidController extends BaseController
                     // Get user ID from App client
                     $id                 = Input::get('id');
 
-                    // Retrieve notifications
-                    $check_null         = Notification::get()->first();
+                    // Retrieve all user's notifications
+                    $notifications = Notification::where('receiver_id', $id)
+                                        ->whereIn('category', array(6, 7))
+                                        ->where('status', 0) // Unread flag
+                                        ->select('id', 'category', 'sender_id', 'receiver_id', 'category_id', 'post_id', 'comment_id', 'reply_id', 'created_at')
+                                        ->orderBy('created_at' , 'desc')
+                                        ->get()
+                                        ->toArray();
 
-                    // Determine notifications exist
-                    if (is_null($check_null)) {
+                    // Build format
+                    foreach ($notifications as $key => $notification) {
 
-                        // Build Json format
-                        return Response::json(
-                            array(
-                                'status'    => 1,
-                                'data'      => array()
-                            )
-                        );
+                        // Retrieve sender
+                        $sender                     = User::where('id', $notifications[$key]['sender_id'])->first();
 
-                    } else {
+                        // Determine user set portrait
+                        if ($sender->portrait) {
 
-                        // Retrieve all user's notifications
-                        $notifications = Notification::where('receiver_id', $id)
-                                            ->whereIn('category', array(6, 7))
-                                            ->where('status', 0) // Unread flag
-                                            ->select('id', 'category', 'sender_id', 'receiver_id', 'category_id', 'post_id', 'comment_id', 'reply_id', 'created_at')
-                                            ->orderBy('created_at' , 'desc')
-                                            ->get()
-                                            ->toArray();
+                            // Get user portrait
+                            $notifications[$key]['portrait']    = route('home') . '/' . 'portrait/' . $sender->portrait;
+                        } else {
 
-                        // Build format
-                        foreach ($notifications as $key => $notification) {
-
-                            // Retrieve sender
-                            $sender                     = User::where('id', $notifications[$key]['sender_id'])->first();
-
-                            // Determine user set portrait
-                            if ($sender->portrait) {
-
-                                // Get user portrait
-                                $notifications[$key]['portrait']    = route('home') . '/' . 'portrait/' . $sender->portrait;
-                            } else {
-
-                                // Return null
-                                $notifications[$key]['portrait']    = null;
-                            }
-
-                            // Determine user set nuckname
-                            if ($sender->nickname) {
-
-                                // Get user nickname
-                                $notifications[$key]['nickname']    = app_out_filter($sender->nickname);
-                            } else {
-
-                                // Return null
-                                $notifications[$key]['nickname']    = null;
-                            }
-
-                            // Determine category
-                            if ($notifications[$key]['category'] == 6) {
-
-                                // Comment
-                                $post                                       = ForumPost::where('id', $notifications[$key]['post_id'])->first();
-
-                                // Retrieve comment
-                                $comment                                    = ForumComments::where('id', $notifications[$key]['comment_id'])->first();
-
-                                // Add comment content summary to content key
-                                $notifications[$key]['content']             = app_out_filter(getplaintextintrofromhtml($comment->content, $numchars));
-
-                                // Add post content summary to original_content key
-                                $notifications[$key]['original_content']    = app_out_filter(getplaintextintrofromhtml($post->content, $numchars));
-
-                            } else {
-
-                                // Reply
-                                $comment                                    = ForumComments::where('id', $notifications[$key]['comment_id'])->first();
-
-                                // Retrieve reply
-                                $reply                                      = ForumReply::where('id', $notifications[$key]['reply_id'])->first();
-
-                                // Add reply content summary to content key
-                                $notifications[$key]['content']             = app_out_filter(getplaintextintrofromhtml($reply->content, $numchars));
-
-                                // Add post content summary to original_content key
-                                $notifications[$key]['original_content']    = app_out_filter(getplaintextintrofromhtml($comment->content, $original_numchars));
-                            }
+                            // Return null
+                            $notifications[$key]['portrait']    = null;
                         }
 
-                        Notification::where('receiver_id', $id)->whereIn('category', array(6, 7))->update(array('status' => 1));
+                        // Determine user set nuckname
+                        if ($sender->nickname) {
 
-                        // Build Json format
-                        return Response::json(
-                            array(
-                                'status'    => 1,
-                                'data'      => $notifications
-                            )
-                        );
+                            // Get user nickname
+                            $notifications[$key]['nickname']    = app_out_filter($sender->nickname);
+                        } else {
+
+                            // Return null
+                            $notifications[$key]['nickname']    = null;
+                        }
+
+                        // Determine category
+                        if ($notifications[$key]['category'] == 6) {
+
+                            // Comment
+                            $post                                       = ForumPost::where('id', $notifications[$key]['post_id'])->first();
+
+                            // Retrieve comment
+                            $comment                                    = ForumComments::where('id', $notifications[$key]['comment_id'])->first();
+
+                            // Add comment content summary to content key
+                            $notifications[$key]['content']             = app_out_filter(getplaintextintrofromhtml($comment->content, $numchars));
+
+                            // Add post content summary to original_content key
+                            $notifications[$key]['original_content']    = app_out_filter(getplaintextintrofromhtml($post->content, $numchars));
+
+                        } else {
+
+                            // Reply
+                            $comment                                    = ForumComments::where('id', $notifications[$key]['comment_id'])->first();
+
+                            // Retrieve reply
+                            $reply                                      = ForumReply::where('id', $notifications[$key]['reply_id'])->first();
+
+                            // Add reply content summary to content key
+                            $notifications[$key]['content']             = app_out_filter(getplaintextintrofromhtml($reply->content, $numchars));
+
+                            // Add post content summary to original_content key
+                            $notifications[$key]['original_content']    = app_out_filter(getplaintextintrofromhtml($comment->content, $original_numchars));
+                        }
                     }
+
+                    Notification::where('receiver_id', $id)->whereIn('category', array(6, 7))->update(array('status' => 1));
+
+                    // Build Json format
+                    return Response::json(
+                        array(
+                            'status'    => 1,
+                            'data'      => $notifications
+                        )
+                    );
 
                     break;
 
@@ -4091,7 +4078,7 @@ class AndroidController extends BaseController
 
                     if ($last_id) {
                         // User last signin at time
-                        $last_updated_at    = User::find($last_id)->updated_at;
+                        $last_updated_at    = User::find($last_id)->points;
 
                         // App client have post last user id, retrieve and skip profile not completed user
                         $query              = User::whereNotNull('portrait')
@@ -4113,7 +4100,7 @@ class AndroidController extends BaseController
                             ->orderBy('points', 'desc')
                             ->where('block', 0)
                             ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
-                            ->where('updated_at', '<', $last_updated_at)
+                            ->where('points', '<', $last_updated_at)
                             ->take($per_page)
                             ->get()
                             ->toArray();
@@ -4213,13 +4200,13 @@ class AndroidController extends BaseController
                         }
 
                         // Query last user id in database
-                        $lastRecord = User::orderBy('points', 'desc')->first()->updated_at;
+                        $lastRecord = User::orderBy('points', 'desc')->first()->points;
 
                         $users      = $query
                                         ->orderBy('points', 'desc')
                                         ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
                                         ->where('block', 0)
-                                        ->where('updated_at', '<=', $lastRecord)
+                                        ->where('points', '<=', $lastRecord)
                                         ->take($per_page)
                                         ->get()
                                         ->toArray();
@@ -4450,19 +4437,19 @@ class AndroidController extends BaseController
                         $portrait = route('home') . '/' . 'portrait/' . $user->portrait;
 
                         if (!is_null($like_job->rule_3)) {
-                            $rule_3 = '\\n 3. ' .  $like_job->rule_3;
+                            $rule_3 = '\n3. ' .  $like_job->rule_3;
                         } else {
                             $rule_3 = null;
                         }
 
                         if (!is_null($like_job->rule_4)) {
-                            $rule_4 = '\\n 4. ' .  $like_job->rule_4;
+                            $rule_4 = '\n4. ' .  $like_job->rule_4;
                         } else {
                             $rule_4 = null;
                         }
 
                         if (!is_null($like_job->rule_5)) {
-                            $rule_5 = '\\n 5. ' .  $like_job->rule_5;
+                            $rule_5 = '\n5. ' .  $like_job->rule_5;
                         } else {
                             $rule_5 = null;
                         }
@@ -4474,7 +4461,7 @@ class AndroidController extends BaseController
                                     'sex'      => $user->sex,
                                     'portrait' => $portrait,
                                     'title'    => e($like_job->title),
-                                    'content'  => e($like_job->content . '\\n 要求 \\n 1. ' . $like_job->rule_1 . '\\n 2. ' . $like_job->rule_2 . $rule_3 . $rule_4 . $rule_5),
+                                    'content'  => e($like_job->content . '\n\n 要求:\n1. ' . $like_job->rule_1 . '\n2. ' . $like_job->rule_2 . $rule_3 . $rule_4 . $rule_5),
                                 )
                             );
                     } else {
