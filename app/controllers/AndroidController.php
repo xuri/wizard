@@ -4344,78 +4344,90 @@ class AndroidController extends BaseController
                 // Like Jobs
                 case 'like_jobs' :
                     // Post last user id from App client
-                    $last_id           = Input::get('lastid');
+                    $last_id  = Input::get('lastid');
                     // Post count per query from App client
-                    $per_page          = Input::get('perpage');
+                    $per_page = Input::get('perpage');
+                    // Get user ID
+                    $user_id  = Input::get('userid');
+                    // Retrieve user
+                    $user     = User::find($user_id);
+                    // Determin user profile if complete
+                    if (isset($user->nickname) && isset($user->school) && isset($user->bio) && isset($user->sex)) {
+                        if ($last_id) {
+                            // App client have post last like job id, retrieve like jobs
+                            $query         = LikeJobs::select('id', 'title')
+                                                ->orderBy('id', 'desc')
+                                                ->where('id', '<', $last_id)
+                                                ->take($per_page)
+                                                ->get()
+                                                ->toArray();
 
-                    if ($last_id) {
-                        // App client have post last like job id, retrieve like jobs
-                        $query         = LikeJobs::select('id', 'title')
-                                            ->orderBy('id', 'desc')
-                                            ->where('id', '<', $last_id)
-                                            ->take($per_page)
-                                            ->get()
-                                            ->toArray();
+                            // Convert like job title in array
+                            foreach ($query as $key => $value) {
+                                // User ID
+                                $user_id = $query[$key]['id'];
+                                // Retrieve user
+                                $user    = User::find($user_id);
+                                switch ($user->sex) {
+                                    case 'M':
+                                        // Male user
+                                        $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
+                                        break;
 
-                        // Convert like job title in array
-                        foreach ($query as $key => $value) {
-                            // User ID
-                            $user_id = $query[$key]['id'];
-                            // Retrieve user
-                            $user    = User::find($user_id);
-                            switch ($user->sex) {
-                                case 'M':
-                                    // Male user
-                                    $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
-                                    break;
-
-                                default:
-                                    // Female user
-                                    $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
-                                    break;
+                                    default:
+                                        // Female user
+                                        $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
+                                        break;
+                                }
                             }
-                        }
 
-                        return Response::json(
+                            return Response::json(
                                 array(
                                     'status' => 1, // Success
                                     'data'   => $query
                                 )
                             );
 
+                        } else {
+                            // First get data from App client, retrieve like jobs
+                            $query         = LikeJobs::select('id', 'title')
+                                                ->orderBy('id', 'desc')
+                                                ->take($per_page)
+                                                ->get()
+                                                ->toArray();
+
+                            // Convert like job title in array
+                            foreach ($query as $key => $value) {
+                                // User ID
+                                $user_id = $query[$key]['id'];
+                                // Retrieve user
+                                $user    = User::find($user_id);
+                                switch ($user->sex) {
+                                    case 'M':
+                                        // Male user
+                                        $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
+                                        break;
+
+                                    default:
+                                        // Female user
+                                        $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
+                                        break;
+                                }
+                            }
+
+                            return Response::json(
+                                array(
+                                    'status' => 1, // Success
+                                    'data'   => $query
+                                )
+                            );
+                        }
                     } else {
-                        // First get data from App client, retrieve like jobs
-                        $query         = LikeJobs::select('id', 'title')
-                                            ->orderBy('id', 'desc')
-                                            ->take($per_page)
-                                            ->get()
-                                            ->toArray();
-
-                        // Convert like job title in array
-                        foreach ($query as $key => $value) {
-                            // User ID
-                            $user_id = $query[$key]['id'];
-                            // Retrieve user
-                            $user    = User::find($user_id);
-                            switch ($user->sex) {
-                                case 'M':
-                                    // Male user
-                                    $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
-                                    break;
-
-                                default:
-                                    // Female user
-                                    $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
-                                    break;
-                            }
-                        }
-
                         return Response::json(
-                                array(
-                                    'status' => 1, // Success
-                                    'data'   => $query
-                                )
-                            );
+                            array(
+                                'status' => 2
+                            )
+                        );
                     }
 
                     break;
