@@ -4427,20 +4427,20 @@ class AppleController extends BaseController
                         // Get user portrait
                         $portrait = route('home') . '/' . 'portrait/' . $user->portrait;
 
-                        if (!is_null($like_job->rule_3)) {
-                            $rule_3 = '\n3. ' .  $like_job->rule_3;
+                        if ($like_job->rule_3 = "") {
+                            $rule_3 = "\n3. " .  $like_job->rule_3;
                         } else {
                             $rule_3 = null;
                         }
 
-                        if (!is_null($like_job->rule_4)) {
-                            $rule_4 = '\n4. ' .  $like_job->rule_4;
+                        if ($like_job->rule_4 = "") {
+                            $rule_4 = "\n4. " .  $like_job->rule_4;
                         } else {
                             $rule_4 = null;
                         }
 
-                        if (!is_null($like_job->rule_5)) {
-                            $rule_5 = '\n5. ' .  $like_job->rule_5;
+                        if ($like_job->rule_5 = "") {
+                            $rule_5 = "\n5. " .  $like_job->rule_5;
                         } else {
                             $rule_5 = null;
                         }
@@ -4452,7 +4452,7 @@ class AppleController extends BaseController
                                     'sex'      => $user->sex,
                                     'portrait' => $portrait,
                                     'title'    => e($like_job->title),
-                                    'content'  => e($like_job->content . '\n\n 要求:\n1. ' . $like_job->rule_1 . '\n2. ' . $like_job->rule_2 . $rule_3 . $rule_4 . $rule_5),
+                                    'content'  => e($like_job->content . "\n\n 要求:\n1. " . $like_job->rule_1 . "\n2. " . $like_job->rule_2 . $rule_3 . $rule_4 . $rule_5),
                                 )
                             );
                     } else {
