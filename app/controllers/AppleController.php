@@ -4430,11 +4430,75 @@ class AppleController extends BaseController
                             );
                         }
                     } else {
-                        return Response::json(
-                            array(
-                                'status' => 2
-                            )
-                        );
+                        if ($last_id) {
+                            // App client have post last like job id, retrieve like jobs
+                            $query         = LikeJobs::select('id', 'title')
+                                                ->orderBy('id', 'desc')
+                                                ->where('id', '<', $last_id)
+                                                ->take($per_page)
+                                                ->get()
+                                                ->toArray();
+
+                            // Convert like job title in array
+                            foreach ($query as $key => $value) {
+                                // User ID
+                                $user_id = $query[$key]['id'];
+                                // Retrieve user
+                                $user    = User::find($user_id);
+                                switch ($user->sex) {
+                                    case 'M':
+                                        // Male user
+                                        $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
+                                        break;
+
+                                    default:
+                                        // Female user
+                                        $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
+                                        break;
+                                }
+                            }
+
+                            return Response::json(
+                                array(
+                                    'status' => 2, // Success
+                                    'data'   => $query
+                                )
+                            );
+
+                        } else {
+                            // First get data from App client, retrieve like jobs
+                            $query         = LikeJobs::select('id', 'title')
+                                                ->orderBy('id', 'desc')
+                                                ->take($per_page)
+                                                ->get()
+                                                ->toArray();
+
+                            // Convert like job title in array
+                            foreach ($query as $key => $value) {
+                                // User ID
+                                $user_id = $query[$key]['id'];
+                                // Retrieve user
+                                $user    = User::find($user_id);
+                                switch ($user->sex) {
+                                    case 'M':
+                                        // Male user
+                                        $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
+                                        break;
+
+                                    default:
+                                        // Female user
+                                        $query[$key]['title'] = '聘夫: ' . $query[$key]['title'];
+                                        break;
+                                }
+                            }
+
+                            return Response::json(
+                                array(
+                                    'status' => 2, // Success
+                                    'data'   => $query
+                                )
+                            );
+                        }
                     }
 
                     break;
