@@ -1398,8 +1398,14 @@ class AppleController extends BaseController
                 case 'block' :
                     $id             = Input::get('senderid');
                     $receiver_id    = Input::get('id');
-                    $like           = Like::where('sender_id', $id)->where('receiver_id', $receiver_id)->first();
-
+                    $like           = Like::where('sender_id', $id)
+                                                ->where('receiver_id', $receiver_id)
+                                                ->first();
+                    if ($like === null) {
+                        $like           = Like::where('receiver_id', $id)
+                                                ->where('sender_id', $receiver_id)
+                                                ->first();
+                    }
                     // Receiver block user, remove friend relationship in chat system
                     $like->status   = 3;
 
