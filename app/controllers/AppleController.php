@@ -1467,7 +1467,7 @@ class AppleController extends BaseController
                             return Response::json(
                                 array(
                                     'status'        => 1,
-                                    'renewdays'     => $user->renew
+                                    'renewdays'     => e($user->renew)
                                 )
                             );
                         } elseif ($today >= $user->renew_at) {
@@ -1491,7 +1491,7 @@ class AppleController extends BaseController
                             return Response::json(
                                 array(
                                     'status'        => 1,
-                                    'renewdays'     => $user->renew
+                                    'renewdays'     => e($user->renew)
                                 )
                             );
                         } else {
@@ -1506,7 +1506,7 @@ class AppleController extends BaseController
                         return Response::json(
                             array(
                                 'status'    => 1,
-                                'renewdays' => Profile::where('user_id', Input::get('id'))->first()->renew
+                                'renewdays' => e(Profile::where('user_id', Input::get('id'))->first()->renew)
                             )
                         );
                     }
