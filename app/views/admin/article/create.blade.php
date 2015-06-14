@@ -122,9 +122,6 @@
 	</div>
 	{{-- /#wrapper --}}
 
-	{{-- jQuery Version 1.11.0 --}}
-	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
-
 	{{-- Bootstrap Core JavaScript --}}
 	{{ HTML::script('assets/bootstrap-3.3.0/js/bootstrap.min.js') }}
 
