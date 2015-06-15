@@ -788,7 +788,7 @@ class AppleController extends BaseController
 
                         // Get user's tag
                         if (is_null($profile->tag_str)) {
-                            $tag_str = e(null);
+                            $tag_str = [];
                         } else {
                             // Convert string to array and remove duplicate tags code
                             $tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
