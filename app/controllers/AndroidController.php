@@ -739,7 +739,7 @@ class AndroidController extends BaseController
                             $tag_str = [];
                         } else {
                             // Convert string to array and remove duplicate tags code
-                            $tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
+                            $tag_str = array_merge(array_unique(explode(',', substr($profile->tag_str, 1))));
                         }
 
                         return Response::json(
@@ -799,7 +799,7 @@ class AndroidController extends BaseController
                             $tag_str = [];
                         } else {
                             // Convert string to array and remove duplicate tags code
-                            $tag_str = array_unique(explode(',', substr($profile->tag_str, 1)));
+                            $tag_str = array_merge(array_unique(explode(',', substr($profile->tag_str, 1))));
                         }
 
                         $data = array(
