@@ -33,7 +33,7 @@
                     break;
             }
         ?>
-        <li><a href="{{ route('wap.show_like_job', $id) }}?job_id={{ $data->id }}">{{ $title . $data->title }}</a></li>
+        <li><a href="{{ route('wap.show_like_job', $id) }}?job_id={{ $data->id }}">{{ $title . badWordsFilter(Str::limit($data->title, 13)) }}</a></li>
         @endforeach
 
     </ul>
