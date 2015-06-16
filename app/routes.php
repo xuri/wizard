@@ -57,33 +57,32 @@ Route::group(array('domain' => $root_domain), function () {
 |--------------------------------------------------------------------------
 |
 */
-// Route::group(array('domain' => $root_domain, 'prefix' => 'wap', 'before' => 'is.mobile'), function () {
-Route::group(array('domain' => $root_domain, 'prefix' => 'wap'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'wap', 'before' => 'is.mobile'), function () {
     $controller = 'WapController@';
     # Index
-    Route::get(             '/auth', array('as' => 'wap.auth'   , 'uses' => $controller.'getWechatAuth' ));
-    Route::get('/set_province/{id}', array('as' => 'wap.set_province'   , 'uses' => $controller.'getSetProvince' ));
-    Route::get('/set_university/{id}', array('as' => 'wap.set_university'   , 'uses' => $controller.'getSetUniversity' ));
-    Route::get('/set_tag/{id}', array('as' => 'wap.set_tag'   , 'uses' => $controller.'getSetTag' ));
-    Route::get('/set_data/{id}', array('as' => 'wap.set_data'   , 'uses' => $controller.'getSetData' ));
+    Route::get(                  '/auth', array('as' => 'wap.auth'              , 'uses' => $controller.'getWechatAuth'     ));
+    Route::get(     '/set_province/{id}', array('as' => 'wap.set_province'      , 'uses' => $controller.'getSetProvince'    ));
+    Route::get(   '/set_university/{id}', array('as' => 'wap.set_university'    , 'uses' => $controller.'getSetUniversity'  ));
+    Route::get(          '/set_tag/{id}', array('as' => 'wap.set_tag'           , 'uses' => $controller.'getSetTag'         ));
+    Route::get(         '/set_data/{id}', array('as' => 'wap.set_data'          , 'uses' => $controller.'getSetData'        ));
 
-    Route::get(          '/get_like_jobs/{id}', array('as' => 'wap.get_like_jobs' , 'uses' => $controller.'getLikeJobs'   ));
-    Route::get(          '/show_like_job/{id}', array('as' => 'wap.show_like_job' , 'uses' => $controller.'getShowLikeJob'   ));
+    Route::get(    '/get_like_jobs/{id}', array('as' => 'wap.get_like_jobs'     , 'uses' => $controller.'getLikeJobs'       ));
+    Route::get(    '/show_like_job/{id}', array('as' => 'wap.show_like_job'     , 'uses' => $controller.'getShowLikeJob'    ));
 
-    Route::get(          '/get_members_index/{id}', array('as' => 'wap.get_members_index' , 'uses' => $controller.'getMembersIndex'   ));
-    Route::get(          '/get_members_show/{id}', array('as' => 'wap.get_members_show' , 'uses' => $controller.'getMembersShow'   ));
-    Route::get(          '/get_download_app/{id}', array('as' => 'wap.get_download_app' , 'uses' => $controller.'getDownloadApp'   ));
+    Route::get('/get_members_index/{id}', array('as' => 'wap.get_members_index' , 'uses' => $controller.'getMembersIndex'   ));
+    Route::get( '/get_members_show/{id}', array('as' => 'wap.get_members_show'  , 'uses' => $controller.'getMembersShow'    ));
+    Route::get( '/get_download_app/{id}', array('as' => 'wap.get_download_app'  , 'uses' => $controller.'getDownloadApp'    ));
 
 
-    Route::get(                 '/office/{id}', array('as' => 'wap.office'   , 'uses' => $controller.'getOffice'     ));
-    Route::get(                 '/fate/{id}', array('as' => 'wap.fate'   , 'uses' => $controller.'getFate'     ));
-    Route::get(                 '/', array('as' => 'wap.index'   , 'uses' => $controller.'getIndex'     ));
-    Route::get(          '/members', array('as' => 'wap.members' , 'uses' => $controller.'getMembers'   ));
+    Route::get(           '/office/{id}', array('as' => 'wap.office'            , 'uses' => $controller.'getOffice'         ));
+    Route::get(             '/fate/{id}', array('as' => 'wap.fate'              , 'uses' => $controller.'getFate'           ));
+    Route::get(                      '/', array('as' => 'wap.index'             , 'uses' => $controller.'getIndex'          ));
+    Route::get(               '/members', array('as' => 'wap.members'           , 'uses' => $controller.'getMembers'        ));
 
-    Route::get(     '/members/{id}', array('as' => 'wap.show'    , 'uses' => $controller.'getShow'      ));
-    Route::get(             '/more', array('as' => 'wap.more'    , 'uses' => $controller.'getMore'      ));
-    Route::get(          '/success', array('as' => 'wap.success' , 'uses' => $controller.'getSuccess'   ));
-    Route::get(         '/redirect', array('as' => 'wap.redirect', 'uses' => $controller.'getRedirect'  ));
+    Route::get(          '/members/{id}', array('as' => 'wap.show'              , 'uses' => $controller.'getShow'           ));
+    Route::get(                  '/more', array('as' => 'wap.more'              , 'uses' => $controller.'getMore'           ));
+    Route::get(               '/success', array('as' => 'wap.success'           , 'uses' => $controller.'getSuccess'        ));
+    Route::get(              '/redirect', array('as' => 'wap.redirect'          , 'uses' => $controller.'getRedirect'       ));
 });
 
 
@@ -348,7 +347,7 @@ Route::group(array('domain' => $root_domain, 'prefix' => 'ios'), function () {
     $controller = 'AppleController@';
     # iOS API
     Route::post('api',  $controller . 'postApple');
-    Route::get('api',    $controller . 'postApple');
+    // Route::get('api',    $controller . 'postApple');
 });
 
 /*

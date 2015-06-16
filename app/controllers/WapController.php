@@ -21,6 +21,10 @@
 
 class WapController extends BaseController
 {
+    /**
+     * Sign-up use WeChat ID with OAuth
+     * @return resopnse
+     */
     public function getWechatAuth()
     {
         // Initial WeChat Application
@@ -37,158 +41,174 @@ class WapController extends BaseController
         if (!is_null($code)) {
             // Send cURL
             $auth_response   = cURL::newRequest('get', 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $app_id . '&secret=' . $app_secret . '&code=' . $code . '&grant_type=authorization_code')->send();
-
             // Json decode response body
             $auth_response   = json_decode($auth_response->body, true);
             $access_token    = $auth_response['access_token'];
             $openid          = $auth_response['openid'];
-
             // Send cURL
             $signup_response = cURL::newRequest('get', 'https://api.weixin.qq.com/sns/userinfo?access_token=' . $access_token . '&openid=' . $openid . '&lang=zh_CN')->send();
             // Json decode response body
             $signup_response = json_decode($signup_response->body, true);
-
+            // User Open ID
             $openid          = $signup_response['openid'];
+            // User nickname
             $nickname        = $signup_response['nickname'];
+            // User sex 1 - male 2 - female 0 - no set
             $sex             = $signup_response['sex'];
+            // User language preference
             $language        = $signup_response['language'];
+            // User avatar URL
             $headimgurl      = urldecode($signup_response['headimgurl']);
-
+            // Retrieve user
+            $user_exist      = User::where('openid', $openid)->first();
+            // Cookie control
+            Cookie::queue('openid', $openid, 60);
             // Determin user already exist
-            $user_exist  = User::where('openid', $openid)->first();
-
-            Cookie::queue('openid', 'oeHsPt3eVCmYDoYIJ81poMq9', 60);
-
             if (is_null($user_exist)) {
                 switch ($sex) {
                     case '1':
-                        // Male user
-                        // Generate w_id and password
-                            $w_id       = rand(100000,999999);
-                            $password   = rand(100000,999999);
-                            // Determin male user phone number exists
-                            while (User::where('w_id', $w_id)->first()) {
-                                // Generate w_id
-                                $w_id = rand(100000,999999);
-                            }
+                        // Male user generate w_id and password
+                        $w_id       = rand(100000, 999999);
+                        $password   = rand(100000, 999999);
+                        // Determin male user phone number exists
+                        while (User::where('w_id', $w_id)->first()) {
+                            // Generate w_id
+                            $w_id   = rand(100000, 999999);
+                        }
 
-                            // Verification success, add user
-                            $user               = new User;
-                            $user->w_id         = $w_id;
-                            $user->openid       = $openid;
-                            $user->nickname     = $nickname;
-                            $user->passcode     = $password;
-                            $user->password     = md5($password);
-                            $user->portrait     = uniqid();
-                            $user->sex          = 'M';
-                            $user->from         = 0; // Signup from website
-                            $user->activated_at = date('Y-m-d H:m:s');
-                            $user->save();
+                        // Verification success, add user
+                        $user               = new User;
+                        $user->w_id         = $w_id;
+                        $user->openid       = $openid;
+                        $user->nickname     = $nickname;
+                        $user->passcode     = $password;
+                        $user->password     = md5($password);
+                        $user->portrait     = uniqid();
+                        $user->sex          = 'M';
+                        $user->from         = 0; // Signup from website
+                        $user->activated_at = date('Y-m-d H:m:s');
+                        $user->save();
+                        // Create user's profile
+                        $profile            = new Profile;
+                        $profile->user_id   = $user->id;
+                        $profile->save();
+                        // Storage remote images to local server
+                        Image::make($headimgurl)->save(public_path('portrait/') . $user->portrait);
+                        // Register Easemob IM system
+                        Queue::push('AddUserQueue', [
+                                        'username'  => $user->id,
+                                        'password'  => $user->password,
+                                    ]);
 
-                            $profile            = new Profile;
-                            $profile->user_id   = $user->id;
-                            $profile->save();
-
-                            Image::make($headimgurl)->save(public_path('portrait/') . $user->portrait);
-
-                            Queue::push('AddUserQueue', [
-                                            'username'  => $user->id,
-                                            'password'  => $user->password,
-                                        ]);
-
-                            // Create floder to store chat record
-                            File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
-                        break;
+                        // Create floder to store chat record
+                        File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+                    break;
 
                     default:
-                        // Female user
-                        // Generate w_id and password
-                            $w_id       = rand(100000,999999);
-                            $password   = rand(100000,999999);
-                            // Determin male user w_id number exists
-                            while (User::where('w_id', $w_id)->first()) {
-                                // Generate w_id
-                                $w_id = rand(100000,999999);
-                            }
+                        // Female user generate w_id and password
+                        $w_id       = rand(100000, 999999);
+                        $password   = rand(100000, 999999);
+                        // Determin male user w_id number exists
+                        while (User::where('w_id', $w_id)->first()) {
+                            // Generate w_id
+                            $w_id = rand(100000,999999);
+                        }
 
-                            // Verification success, add user
-                            $user               = new User;
-                            $user->w_id         = $w_id;
-                            $user->openid       = $openid;
-                            $user->nickname     = $nickname;
-                            $user->passcode     = $password;
-                            $user->password     = md5($password);
-                            $user->portrait     = uniqid() . '.jpg';
-                            $user->sex          = 'M';
-                            $user->from         = 0; // Signup from website
-                            $user->activated_at = date('Y-m-d H:m:s');
-                            $user->save();
+                        // Verification success, add user
+                        $user               = new User;
+                        $user->w_id         = $w_id;
+                        $user->openid       = $openid;
+                        $user->nickname     = $nickname;
+                        $user->passcode     = $password;
+                        $user->password     = md5($password);
+                        $user->portrait     = uniqid() . '.jpg';
+                        $user->sex          = 'M';
+                        $user->from         = 0; // Signup from website
+                        $user->activated_at = date('Y-m-d H:m:s');
+                        $user->save();
+                        // Create user's profile
+                        $profile            = new Profile;
+                        $profile->user_id   = $user->id;
+                        $profile->save();
+                        // Storage remote images to local server
+                        Image::make($headimgurl)->save(public_path('portrait/') . $user->portrait);
+                        // Register Easemob IM system
+                        Queue::push('AddUserQueue', [
+                                        'username'  => $user->id,
+                                        'password'  => $user->password,
+                                    ]);
 
-                            $profile            = new Profile;
-                            $profile->user_id   = $user->id;
-                            $profile->save();
-
-                            Image::make($headimgurl)->save(public_path('portrait/') . $user->portrait);
-
-                            Queue::push('AddUserQueue', [
-                                            'username'  => $user->id,
-                                            'password'  => $user->password,
-                                        ]);
-
-                            // Create floder to store chat record
-                            File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
-                        break;
+                        // Create floder to store chat record
+                        File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+                    break;
                 }
-                $id   = $user->id;
-                $provinces = Province::select('id', 'province')->get();
+                // User ID
+                $id         = $user->id;
+                $provinces  = Province::select('id', 'province')->get();
                 return View::make('wap.set_province')->with(compact('provinces', 'id'));
             } else {
-                $profile = Profile::where('id', $user_exist->id)->first();
-                $id = $user_exist->id;
-                if (is_null($user_exist->school)) {
+                Cookie::queue('openid', $user_exist->openid, 60);
+                $profile    = Profile::where('id', $user_exist->id)->first();
+                $id         = $user_exist->id;
 
-                    $universities = University::where('province_id', $province_id)->get();
-                    return View::make('wap.set_university')->with(compact('universities', 'id'));
-                } elseif (is_null($profile->tag_str)) {
+                // Determin user if complete school information
+                if ($user_exist->school == "") {
+                    $provinces = Province::select('id', 'province')->get();
+                    return View::make('wap.set_province')->with(compact('provinces', 'id'));
+                } elseif ($profile->tag_str == "") {
+                    // Determin user if complete tags information
                     return View::make('wap.set_tag')->with(compact('id'));
-                } elseif (is_null($profile->grade)) {
+                } elseif ($profile->grade == "") {
+                    // Determin user if complete grade information
                     return View::make('wap.data')->with(compact('id'));
                 } else {
+                    // All information complete
                     return Redirect::route('wap.get_like_jobs', $id)->with(compact('id'));
                 }
 
             }
         } else {
-            return Redirect::url($auth_url);
+            // WeChat sharing URL
+            return Redirect::to($auth_url);
         }
 
     }
 
+    /**
+     * User select province step
+     * @param  int $id User ID
+     * @return response
+     */
     public function getSetProvince($id)
     {
         // Determin cookie
-        if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
-            $user = User::find($id);
+        if (Cookie::has('openid')) {
+            $user        = User::find($id);
             $province_id = Input::get('province_id');
+            // Determin user exists
             if (!is_null($user)) {
                 $universities = University::where('province_id', $province_id)->get();
                 return View::make('wap.set_university')->with(compact('universities', 'id'));
             }
+        } else {
+            // Need to re-authority
+            return Redirect::route('wap.auth');
         }
     }
 
+    /**
+     * User set university step
+     * @param  int $id User ID
+     * @return response     redirect
+     */
     public function getSetUniversity($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-            } else {
             $university_id = Input::get('university_id');
-            $user = User::find($id);
+            $user          = User::find($id);
             if (!is_null($user)) {
-
+                // Determin user if set school
                 if (is_null($user->school)) {
                     // First set school
                     University::find($university_id)->increment('count');
@@ -201,45 +221,56 @@ class WapController extends BaseController
 
                 $user->school = University::find($university_id)->university;
                 $user->save();
-
                 return View::make('wap.set_tag')->with(compact('id'));
             }
+
+        } else {
+            return Redirect::route('wap.auth');
         }
     }
 
+    /**
+     * User select tags step
+     * @param  int $id User ID
+     * @return response
+     */
     public function getSetTag($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-            } else {
             $user = User::find($id);
+            // Determin user exists
             if (!is_null($user)) {
-                $profile = Profile::where('user_id', $id)->first();
+                $profile          = Profile::where('user_id', $id)->first();
                 $profile->tag_str = e(Input::get('tag_str'));
                 $profile->save();
                 return View::make('wap.data')->with(compact('id'));
             }
+        } else {
+            return Redirect::route('wap.auth');
         }
     }
 
+    /**
+     * User set other information include grade, constellation and bio
+     * @param  int $id User IS
+     * @return response
+     */
     public function getSetData($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
             $user = User::find($id);
             if (!is_null($user)) {
-                $born_year       = e(Input::get('born_year'));
-                $grade           = e(Input::get('grade'));
-                $bio             = e(app_input_filter(Input::get('bio')));
-                $constellation   = e(Input::get('constellation'));
-
-                $user->born_year = $born_year;
-                $user->bio       = $bio;
+                $born_year              = e(Input::get('born_year'));
+                $grade                  = e(Input::get('grade'));
+                $bio                    = e(app_input_filter(Input::get('bio')));
+                $constellation          = e(Input::get('constellation'));
+                // Set user's information
+                $user->born_year        = $born_year;
+                $user->bio              = $bio;
                 $user->save();
-
+                // Set user's profile
                 $profile                = Profile::where('user_id', $id)->first();
                 $profile->grade         = $grade;
                 $profile->constellation = $constellation;
@@ -247,6 +278,8 @@ class WapController extends BaseController
 
                 return Redirect::route('wap.get_like_jobs', $id)->with(compact('id'));
             }
+        } else {
+            return Redirect::route('wap.auth');
         }
     }
 
@@ -265,7 +298,8 @@ class WapController extends BaseController
             if ($sex) {
                 switch ($sex) {
                     case 'M':
-                        Cookie::queue('sex', 'M'); // Male
+                        // Male
+                        Cookie::queue('sex', 'M');
                         // Generate w_id and password
                         $w_id       = rand(100000,999999);
                         $password   = rand(100000,999999);
@@ -283,7 +317,7 @@ class WapController extends BaseController
                         $user->from         = 0; // Signup from website
                         $user->activated_at = date('Y-m-d H:m:s');
                         $user->save();
-
+                        // Create user's profile
                         $profile            = new Profile;
                         $profile->user_id   = $user->id;
                         $profile->save();
@@ -301,11 +335,12 @@ class WapController extends BaseController
 
                        break;
 
-                    default:
-                        $cookie = Cookie::queue('sex', 'F'); // Female
+                    default :
+                        // Female
+                        $cookie   = Cookie::queue('sex', 'F');
                         // Generate w_id and password
-                        $w_id       = rand(100000,999999);
-                        $password   = rand(100000,999999);
+                        $w_id     = rand(100000,999999);
+                        $password = rand(100000,999999);
                         // Determin male user phone number exists
                         while (User::where('w_id', $w_id)->first()) {
                             // Generate w_id
@@ -360,39 +395,53 @@ class WapController extends BaseController
         }
     }
 
+    /**
+     * Like jobs list
+     * @param  int $id User ID
+     * @return response
+     */
     public function getLikeJobs($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
             $query      = LikeJobs::select('id', 'title', 'user_id')
                         ->orderBy('id', 'desc');
             $datas      = $query->paginate(20);
             return View::make('wap.jobs')->with(compact('datas', 'id'));
+        } else {
+            return Redirect::route('wap.auth');
         }
     }
 
+    /**
+     * Show like job
+     * @param  int $id USer ID
+     * @return response
+     */
     public function getShowLikeJob($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
-
             $job_id = Input::get('job_id');
             $job    = LikeJobs::find($job_id);
             $user   = User::find($job->user_id);
             return View::make('wap.re_detail')->with(compact('id', 'job', 'user'));
+
+        } else {
+            return Redirect::route('wap.auth');
+
         }
     }
 
+    /**
+     * Members index
+     * @param  int $id User ID
+     * @return response
+     */
     public function getMembersIndex($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
             $user = User::find($id);
             switch ($user->sex) {
                 case 'M':
@@ -401,7 +450,7 @@ class WapController extends BaseController
                                 ->where('block', 0)
                                 ->whereNotNull('nickname')
                                 ->orderBy('updated_at', 'desc');
-                    $datas = $query->paginate(20);
+                    $datas  = $query->paginate(20);
                     break;
 
                 default:
@@ -410,42 +459,46 @@ class WapController extends BaseController
                                 ->where('block', 0)
                                 ->whereNotNull('nickname')
                                 ->orderBy('updated_at', 'desc');
-                    $datas = $query->paginate(20);
+                    $datas  = $query->paginate(20);
                     break;
             }
             return View::make('wap.members_index')->with(compact('id', 'datas'));
+        } else {
+            return Redirect::route('wap.auth');
         }
     }
 
     /**
      * Show members profile
-     * @param  int $id user ID
+     * @param  int $id User ID
      * @return response view
      */
     public function getMembersShow($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
-            $user_id = Input::get('user_id');
+            $user_id           = Input::get('user_id');
             $data              = User::find($user_id);
             $profile           = Profile::where('user_id', $user_id)->first();
-
             // Get user's constellation
             $constellationInfo = getConstellation($profile->constellation);
             $tag_str           = array_unique(explode(',', substr($profile->tag_str, 1)));
             return View::make('wap.show')->with(compact('id', 'data', 'profile', 'constellationInfo', 'tag_str'));
+        } else {
+            return Redirect::route('wap.auth');
+
         }
     }
 
+    /**
+     * Download mobile client application
+     * @param  int $id User ID
+     * @return response     view
+     */
     public function getDownloadApp($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
-
             $type = Input::get('type');
             switch ($type) {
                 case 'recruit':
@@ -455,18 +508,19 @@ class WapController extends BaseController
 
                 case 'tab':
                     $user = User::find($id);
-
                     return View::make('wap.download_tab')->with(compact('id', 'user'));
                     break;
 
                 default:
-                    $user = User::find($id);
+                    $user      = User::find($id);
                     $friend_id = Input::get('friend_id');
-                    $friend = User::find($friend_id);
-
+                    $friend    = User::find($friend_id);
                     return View::make('wap.download_default')->with(compact('id', 'user', 'friend'));
                     break;
             }
+        } else {
+            return Redirect::route('wap.auth');
+
         }
 
     }
@@ -480,29 +534,30 @@ class WapController extends BaseController
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-        } else {
             $user = User::find($id);
-
             return View::make('wap.office')->with(compact('id', 'user'));
+        } else {
+            return Redirect::route('wap.auth');
+
         }
     }
 
+    /**
+     * Match user dairy
+     * @param  int $id User ID
+     * @return response     view
+     */
     public function getFate($id)
     {
         // Determin cookie
         if (Cookie::get('openid')) {
-            return Redirect::route('wap.auth');
-            } else {
-            $user = User::find($id);
+            $user    = User::find($id);
             // Retrieve user sex
             $sex     = $user->sex;
             // Retrieve user profile
             $profile =  Profile::where('user_id', $id)->first();
-
             switch ($sex) {
                 case 'M':
-
                     if (is_null($profile->match_users)) {
                         // Male user, match female user
                         $match_users = User::where('sex', 'F')
@@ -526,13 +581,10 @@ class WapController extends BaseController
                                             ->take(6)
                                             ->get();
                     }
-
                     return View::make('wap.fate')->with(compact('id', 'match_users', 'user'));
-
                     break;
 
-                default:
-
+                default :
                     if (is_null($profile->match_users)) {
                         // Female user, match male user
                         $match_users = User::where('sex', 'M')
@@ -556,12 +608,13 @@ class WapController extends BaseController
                                             ->take(6)
                                             ->get();
                     }
-
                     return View::make('wap.fate')->with(compact('id', 'match_users', 'user'));
-
                     break;
             }
             return View::make('wap.fate')->with(compact('id', 'job', 'user'));
+        } else {
+            return Redirect::route('wap.auth');
+
         }
     }
 
@@ -577,7 +630,6 @@ class WapController extends BaseController
         if ($cookie) {
             $data              = User::where('id', $id)->first();
             $profile           = Profile::where('user_id', $id)->first();
-
             // Get user's constellation
             $constellationInfo = getConstellation($profile->constellation);
             $tag_str           = array_unique(explode(',', substr($profile->tag_str, 1)));

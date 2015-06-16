@@ -18,7 +18,7 @@
 <body>
 
     <header class="single-default-top">
-              <a href="{{ URL::previous() }}"> 返回</a>
+              <a href="{{ URL::previous() }}"> </a>
         投递成功
     </header>
 
