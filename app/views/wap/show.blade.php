@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
     <title>{{ Lang::get('navigation.pinai') }}丨全国首个大学生恋爱APP</title>
+    {{ HTML::style('assets/css/wap/public.css') }}
+
 </head>
 <style type="text/css">
 body, h2, p{margin:0; padding:0;}
@@ -154,12 +156,19 @@ body{
         <span class="line"></span>
         <p class="introduce">{{ $profile->bio }}</p>
         <div class="center">
-            <a id="download" href="{{ route('wap.success') }}">追Ta</a>
+            <a id="download" href="{{ route('wap.get_download_app', $id) }}?type=default&friend_id={{ $data->id }}">投递简历</a>
         </div>
     </div>
 
     @include('layout.analytics')
     @yield('content')
+
+    <footer class="common-foot">
+        <a href="{{ route('wap.get_like_jobs', $id) }}"><p>招聘会</p></a>
+        <a href="{{ route('wap.get_members_index', $id) }}" class="active"><p>淘简历</p></a>
+        <a href="{{ route('wap.office', $id) }}"><p>办公室</p></a>
+        <a href="{{ route('wap.get_download_app', $id) }}?type=tab"><p>下载聘爱</p></a>
+    </footer>
 
 </body>
 </html>

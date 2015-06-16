@@ -1,5 +1,5 @@
 <?php
-    include_once( app_path('api/wechat/jssdk.php') );
+    include_once(app_path('api/wechat/jssdk.php'));
     $jssdk          = new JSSDK("wx85a303018cc9100b", "be2909ec1f4f590feb25aa6638a63d5f");
     $signPackage    = $jssdk->GetSignPackage();
 ?>

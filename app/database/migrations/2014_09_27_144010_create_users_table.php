@@ -18,13 +18,15 @@ class CreateUsersTable extends Migration {
 			$table->string('email')->nullable();
 			$table->string('password');
 	        $table->string('nickname', 60)->nullable();
-	        $table->string('sex',4)->nullable();
+	        $table->string('sex', 4)->nullable();
 	        $table->string('bio', 255)->nullable();
+	        $table->string('openid', 40)->nullable(); // WeChat Open ID
+	        $table->string('passcode', 6)->nullable();
 	        $table->tinyInteger('age')->nullable(); // User age
 	        $table->string('born_year', 10)->nullable(); // User born year
 	        $table->string('school', 100)->nullable(); // University name
-	        $table->integer('points')->default('10'); // Points
-	        $table->integer('w_id')->nullable(); // WAP register user ID
+	        $table->integer('points', 10)->default('10'); // Points
+	        $table->integer('w_id', 6)->nullable(); // WAP register user ID
 	        $table->string('phone')->nullable(); // Mobile phone number
 	        $table->string('portrait')->nullable(); // Avatar file name
 	        $table->string('remember_token')->nullable();

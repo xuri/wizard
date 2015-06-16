@@ -1,0 +1,64 @@
+html, body{
+	background: #76d3fb;
+}
+.data-top{
+	font-size: 18px;
+	color: #fff;
+	text-align: center;
+	padding-top: 24px;
+	font-weight: normal;
+}
+.data-top img{
+	width: 29px;
+	height: 34px;
+	vertical-align: bottom;
+	margin-right: 8px;
+}
+.intr-title{
+	color: #fff;
+	text-align: center;
+	line-height: 24px;
+	font-size: 14px;
+}
+.tag-list{
+	padding: 0 5%;
+	margin-top: 38px;
+}
+.tag-list li{
+	float: left;
+	width: 30%;
+	margin-right: 5%;
+	text-align: center;
+	height: 26px;
+	line-height: 26px;
+	color: #aaaaaa;
+	background: #fff;
+	margin-bottom: 15px;
+	-webkit-border-radius: 13px;
+	-moz-border-radius: 13px;
+	-o-border-radius: 13px;
+	-ms-border-radius: 13px;
+	border-radius: 13px;
+}
+.tag-list li:nth-of-type(3n){
+	margin-right: 0;
+}
+.tag-list li.selectting{
+	background: #fff100;
+}
+.submit-data{
+	display: block;
+	width: 118px;
+	height: 38px;
+	color: #76d3fb;
+	line-height: 38px;
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	outline: none;
+	border: none;
+	margin: 20px auto;
+}
+.submit-data:active, .per-tag:active{
+	box-shadow: 0 0 4px #fff;
+}

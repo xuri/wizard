@@ -1,0 +1,70 @@
+html, body{
+	background: #76d3fb;
+}
+.data-top{
+	font-size: 18px;
+	color: #fff;
+	text-align: center;
+	padding-top: 24px;
+	font-weight: normal;
+}
+.data-top img{
+	width: 29px;
+	height: 34px;
+	vertical-align: bottom;
+	margin-right: 8px;
+}
+#form-wrap{
+	padding: 0 8%;
+	margin: 38px auto 0;
+	color: #fff;
+}
+.per-input:first-of-type{
+	margin-top: 0;
+}
+.per-input{
+	min-height: 26px;
+	margin-top: 26px;
+}
+.input-title{
+	font-size: 16px;
+	line-height: 26px;
+}
+.select-span{
+	height: 26px;
+	width: 66px;
+	background: #fff;
+	display: inline-block;
+	color: #aaaaaa;
+	text-align: center;
+	line-height: 26px;
+	margin-left: 10px;
+	font-size: 14px;
+}
+.peo-intr{
+	display: block;
+	width: 90%;
+	padding: 5%;
+	height: 135px;
+	margin-top: 14px;
+	background: #fff;
+	outline: none;
+	border: none;
+	color: #aaaaaa;
+}
+.submit-data{
+	display: block;
+	width: 118px;
+	height: 38px;
+	color: #76d3fb;
+	line-height: 38px;
+	text-align: center;
+	font-size: 18px;
+	background: #fff;
+	outline: none;
+	border: none;
+	margin: 50px auto 0;
+}
+.submit-data:active, .select-span:active{
+	box-shadow: 0 0 4px #fff;
+}

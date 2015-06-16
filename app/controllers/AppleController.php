@@ -858,14 +858,14 @@ class AppleController extends BaseController
                                 $user           = User::find(Input::get('id'));
                                 $receiver_id    = Input::get('receiverid');
 
-                                if ($user->points > 0) {
+                                if ($user->points >= 0) {
                                     $have_like = Like::where('sender_id', $user->id)->where('receiver_id', $receiver_id)->first();
 
                                     // This user already sent like
                                     if ($have_like) {
                                         $have_like->answer  = app_input_filter(Input::get('answer'));
                                         $have_like->count   = $have_like->count + 1;
-                                        $user->points       = $user->points - 1;
+                                        // $user->points       = $user->points - 1;
 
                                         if ($have_like->save() && $user->save()) {
 
@@ -900,7 +900,7 @@ class AppleController extends BaseController
                                         $like->status       = 0; // User send like, pending accept
                                         $like->answer       = app_input_filter(Input::get('answer'));
                                         $like->count        = 1;
-                                        $user->points       = $user->points - 1;
+                                        // $user->points       = $user->points - 1;
 
                                         // Determin repeat add points
                                         $points_exist = Like::where('receiver_id', $receiver_id)
@@ -4573,7 +4573,7 @@ class AppleController extends BaseController
                     if (isset($user->nickname) && isset($user->school) && isset($user->bio) && isset($user->sex)) {
                         if ($last_id) {
                             // App client have post last like job id, retrieve like jobs
-                            $query         = LikeJobs::select('id', 'title')
+                            $query         = LikeJobs::select('id', 'title', 'user_id')
                                                 ->orderBy('id', 'desc')
                                                 ->where('id', '<', $last_id)
                                                 ->take($per_page)
@@ -4583,10 +4583,10 @@ class AppleController extends BaseController
                             // Convert like job title in array
                             foreach ($query as $key => $value) {
                                 // User ID
-                                $user_id = $query[$key]['id'];
+                                $query_user_id = $query[$key]['user_id'];
                                 // Retrieve user
-                                $user    = User::find($user_id);
-                                switch ($user->sex) {
+                                $query_user    = User::find($query_user_id);
+                                switch ($query_user->sex) {
                                     case 'M':
                                         // Male user
                                         $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
@@ -4608,7 +4608,7 @@ class AppleController extends BaseController
 
                         } else {
                             // First get data from App client, retrieve like jobs
-                            $query         = LikeJobs::select('id', 'title')
+                            $query         = LikeJobs::select('id', 'title', 'user_id')
                                                 ->orderBy('id', 'desc')
                                                 ->take($per_page)
                                                 ->get()
@@ -4617,10 +4617,10 @@ class AppleController extends BaseController
                             // Convert like job title in array
                             foreach ($query as $key => $value) {
                                 // User ID
-                                $user_id = $query[$key]['id'];
+                                $query_user_id = $query[$key]['user_id'];
                                 // Retrieve user
-                                $user    = User::find($user_id);
-                                switch ($user->sex) {
+                                $query_user    = User::find($query_user_id);
+                                switch ($query_user->sex) {
                                     case 'M':
                                         // Male user
                                         $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
@@ -4643,7 +4643,7 @@ class AppleController extends BaseController
                     } else {
                         if ($last_id) {
                             // App client have post last like job id, retrieve like jobs
-                            $query         = LikeJobs::select('id', 'title')
+                            $query         = LikeJobs::select('id', 'title', 'user_id')
                                                 ->orderBy('id', 'desc')
                                                 ->where('id', '<', $last_id)
                                                 ->take($per_page)
@@ -4653,10 +4653,10 @@ class AppleController extends BaseController
                             // Convert like job title in array
                             foreach ($query as $key => $value) {
                                 // User ID
-                                $user_id = $query[$key]['id'];
+                                $query_user_id = $query[$key]['user_id'];
                                 // Retrieve user
-                                $user    = User::find($user_id);
-                                switch ($user->sex) {
+                                $query_user    = User::find($query_user_id);
+                                switch ($query_user->sex) {
                                     case 'M':
                                         // Male user
                                         $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];
@@ -4678,7 +4678,7 @@ class AppleController extends BaseController
 
                         } else {
                             // First get data from App client, retrieve like jobs
-                            $query         = LikeJobs::select('id', 'title')
+                            $query         = LikeJobs::select('id', 'title', 'user_id')
                                                 ->orderBy('id', 'desc')
                                                 ->take($per_page)
                                                 ->get()
@@ -4687,10 +4687,10 @@ class AppleController extends BaseController
                             // Convert like job title in array
                             foreach ($query as $key => $value) {
                                 // User ID
-                                $user_id = $query[$key]['id'];
+                                $query_user_id = $query[$key]['user_id'];
                                 // Retrieve user
-                                $user    = User::find($user_id);
-                                switch ($user->sex) {
+                                $query_user    = User::find($query_user_id);
+                                switch ($query_user->sex) {
                                     case 'M':
                                         // Male user
                                         $query[$key]['title'] = '聘妻: ' . $query[$key]['title'];

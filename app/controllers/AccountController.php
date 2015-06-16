@@ -299,7 +299,7 @@ class AccountController extends BaseController
                 $portraitData       = base64_decode($portrait); // Decode string
                 $portraitPath       = public_path('portrait/');
                 $portraitFile       = uniqid() . '.png'; // Portrait file name
-                $successPortrait    = file_put_contents($portraitPath.$portraitFile, $portraitData); // Store file
+                $successPortrait    = file_put_contents($portraitPath . $portraitFile, $portraitData); // Store file
                 $user->portrait     = $portraitFile; // Save file name to database
             }
 

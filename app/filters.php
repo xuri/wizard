@@ -99,6 +99,7 @@ Route::filter('is.mobile', function($route) {
         if (Agent::isDesktop())
         return Redirect::route('home');
     });
+
 /*
 |--------------------------------------------------------------------------
 | [Rear] Filters
