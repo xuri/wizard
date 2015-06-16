@@ -122,8 +122,8 @@ return array(
     |
     */
 
-    // 'domain' => 'pinai521.com',
-    'domain' => 'pinaidev.com',
+    'domain' => 'pinai521.com',
+    // 'domain' => 'pinaidev.com',
 
     /*
     |--------------------------------------------------------------------------
