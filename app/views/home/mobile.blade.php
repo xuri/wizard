@@ -9,7 +9,7 @@
 
     {{-- The Stylesheets --}}
     {{ HTML::style('assets/css/mobile.css') }}
-    {{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
+    {{ HTML::style('assets/font-awesome-4.3.0/css/font-awesome.min.css') }}
 </head>
 <body>
     <div class="nav">

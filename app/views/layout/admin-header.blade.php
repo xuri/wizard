@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ Session::get('language', Config::get('app.locale')) }}">
 
 <head>
-    <title>控制面板 | 聘爱 哈尔滨精灵科技有限公司</title>
+    <title>{{ Lang::get('navigation.dashboard') }} | {{ Lang::get('navigation.pinai') }} · {{ Lang::get('footer.company') }}</title>
 
     @include('layout.meta')
     @yield('content')
@@ -17,7 +17,7 @@
     {{ HTML::style('assets/css/plugins/morris.css') }}
 
     {{-- Custom Fonts --}}
-    {{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
+    {{ HTML::style('assets/font-awesome-4.3.0/css/font-awesome.min.css') }}
 
     {{-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries --}}
     {{-- WARNING: Respond.js doesn't work if you view the page via file:// --}}

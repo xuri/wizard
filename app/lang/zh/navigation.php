@@ -99,4 +99,7 @@ return array(
 
     "admin_promotion_management"    => "推广分析",
 
+    "admin_jobs_management"         => "招聘管理",
+
+
 );

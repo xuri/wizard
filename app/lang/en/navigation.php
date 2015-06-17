@@ -99,4 +99,6 @@ return array(
 
     "admin_promotion_management"    => "Promotion Management",
 
+    "admin_jobs_management"         => "Jobs Management",
+
 );

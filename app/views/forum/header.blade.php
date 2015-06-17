@@ -7,7 +7,7 @@
     @yield('content')
 
 
-    {{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
+    {{ HTML::style('assets/font-awesome-4.3.0/css/font-awesome.min.css') }}
 
     {{ HTML::style('assets/fancybox-2.1.5/jquery.fancybox.css') }}
 

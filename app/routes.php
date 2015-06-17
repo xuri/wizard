@@ -319,6 +319,14 @@ Route::group(array('domain' => $admin_domain, 'before' => 'is.desktop|auth|auth.
         Route::get(    '/close/{id}', array('as' => $resource.'.close'   , 'uses' => $controller.'close'  ));
     });
 
+    # Jobs Management
+    Route::group(array('prefix' => 'jobs'), function () {
+        $resource   = 'admin.jobs';
+        $controller = 'Admin_JobsResource@';
+        Route::get(              '/', array('as' => $resource.'.index'   , 'uses' => $controller.'index'  ));
+        Route::delete(        '{id}', array('as' => $resource.'.destroy' , 'uses' => $controller.'destroy'));
+    });
+
 });
 
 /*

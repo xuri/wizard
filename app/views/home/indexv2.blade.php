@@ -13,7 +13,7 @@
 
     {{-- The Stylesheets --}}
 
-    {{ HTML::style('assets/font-awesome-4.2.0/css/font-awesome.min.css') }}
+    {{ HTML::style('assets/font-awesome-4.3.0/css/font-awesome.min.css') }}
 
     {{ Minify::stylesheet(array(
         '/assets/css/bootstrap.css',

@@ -13,10 +13,10 @@
 
 ClassLoader::addDirectories(array(
 
-	app_path().'/commands',
-	app_path().'/controllers',
-	app_path().'/models',
-	app_path().'/database/seeds',
+    app_path().'/commands',
+    app_path().'/controllers',
+    app_path().'/models',
+    app_path().'/database/seeds',
 
 ));
 
@@ -48,22 +48,22 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
-	// Log::error($exception);
+    // Log::error($exception);
 
-	switch ($code)
-	{
-		case 403:
-			return Response::view('system.forbidden', array(), 403);
+    switch ($code)
+    {
+     case 403:
+         return Response::view('system.forbidden', array(), 403);
 
-		case 404:
-			return Response::view('system.missing', array(), 404);
+     case 404:
+         return Response::view('system.missing', array(), 404);
 
-		case 500:
-			return Response::view('system.error', array(), 500);
+     case 500:
+         return Response::view('system.error', array(), 500);
 
-		default:
-			return Response::view('system.missing', array(), $code);
-	}
+     default:
+         return Response::view('system.missing', array(), $code);
+    }
 });
 
 /*
@@ -79,7 +79,7 @@ App::error(function(Exception $exception, $code)
 
 App::down(function()
 {
-	return View::make('system.maintenance');
+    return View::make('system.maintenance');
 });
 
 /*
