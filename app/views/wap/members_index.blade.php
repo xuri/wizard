@@ -289,9 +289,6 @@ body{
                     @if(isset($tag_str[1]))
                         <span>{{ getTagName($tag_str[1]) }}</span>
                     @endif
-                    @if(isset($tag_str[2]))
-                        <span>{{ getTagName($tag_str[2]) }}</span>
-                    @endif
                 </div>
             </li>
         </a>
