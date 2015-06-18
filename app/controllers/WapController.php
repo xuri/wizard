@@ -487,7 +487,7 @@ class WapController extends BaseController
                     $datas  = $query->paginate(20);
                     break;
             }
-            return View::make('wap.members_index')->with(compact('id', 'datas'));
+            return View::make('wap.members_index')->with(compact('id', 'datas', 'user'));
         } else {
             return Redirect::route('wap.auth');
         }

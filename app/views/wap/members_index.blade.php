@@ -91,56 +91,80 @@ body{
     padding-bottom:9px;
     padding-left:13px;
     background:#ffffff;
-    font-weight:bold;
 }
 .list_head{
     float:left;
     display:block;
-    width:38px;
-    height:38px;
-    border-radius:19px;
+    width:6em;
+    height:6em;
+    border-radius:6em;
     overflow:hidden;
 }
-.list_head img{ width:38px; }
+.list_head img{
+    width:6.5em;
+    height: 6.5em;
+}
 .list_introduction{
     float:left;
-    margin-left:11px;
+    margin-left:2em;
     margin-top:4px;
     color: #333;
 }
 .list_introduction img{
-    width:12px;
-    margin-right:4px;
+    width: 2.2em;
+    margin: 0.1em 0 0 1.5em;
     float:left;
 }
 .list_introduction span{
-    display:block;
-    height:16px;
-    line-height:14px;
-    font-size:1.4em;
+    display: block;
+    height: 1.4em;
+    line-height: 1.4em;
+    font-size: 1.6em;
+    color: #777;
     float: left;
 }
+.list_introduction span.nickname {
+    color: #333;
+    font-size: 1.8em;
+}
 .list_lable{
-    margin-top:40px;
-    margin-left:50px;
+    margin-top:5.8em;
+    margin-left:8em;
 }
 .list_lable span{
     float:left;
-    width:75px;
-    height:27px;
-    line-height:27px;
+    width:8em;
+    height:1.7em;
+    line-height:1.7em;
     margin-right:10px;
     margin-bottom:4px;
     text-align:center;
     background:#ffa6a6;
     border-radius:10px;
-    font-size:1.6em;
+    font-size:12px;
     color:#ffffff;
 }
 
-.list_lable span:nth-of-type(1){ background:#febe4d; }
-.list_lable span:nth-of-type(2){ background:#fbe539; }
-.list_lable span:nth-of-type(3){ background:#3c92e9; }
+.small_icon_approve {
+    background-image: url(../../assets/images/sex/verified-20x20.png);
+    background-repeat: no-repeat;
+    background-color: #FFF;
+    max-width: 20px;
+    width: 20px;
+    height: 20px;
+    max-height: 20px;
+    overflow: hidden;
+    margin-top: -10px;
+    position: relative;
+    display: inherit;
+    left: 4.4em;
+    top: 2em;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    vertical-align: -2px;
+}
+.list_lable span:nth-of-type(2){ background:#76d2fb; }
+.list_lable span:nth-of-type(3){ background:#ffa3e6; }
 .list_lable span:nth-of-type(4){ background:#4aed3a; }
 .list_lable span:nth-of-type(5){ background:#ffa6a6; }
 .list_lable span:nth-of-type(6){ background:#76d2fb; }
@@ -175,7 +199,6 @@ body{
     line-height:24px;
     text-align:center;
     font-size:1.4em;
-    font-weight:bold;
     color:#ffffff;
     background:#f76c6c;
     border-radius:3px;
@@ -196,7 +219,6 @@ body{
     line-height:24px;
     text-align:center;
     font-size:1.4em;
-    font-weight:bold;
     color:#ffffff;
     background:#f76c6c;
     border-radius:6px;
@@ -204,6 +226,16 @@ body{
 
 
 </style>
+
+@if($user->sex == 'M')
+    <style type="text/css">
+        .list_lable span:nth-of-type(1){ background:#ffab50; }
+    </style>
+@else
+    <style type="text/css">
+        .list_lable span:nth-of-type(1){ background:#fe949e; }
+    </style>
+@endif
 <body>
     <div id="top">
         {{ HTML::image('assets/images/wechat/logo.png', '', array('id' => 'top_logo')) }}
@@ -222,6 +254,10 @@ body{
         ?>
         <a href="{{ route('wap.get_members_show', $id) }}?user_id={{ $data->id }}">
             <li class="clear">
+                @if($data->is_verify == 1)
+                    <span class="small_icon_approve"></span>
+                @else
+                @endif
                 <span class="list_head">
                     @if($data->portrait)
                         @if (File::exists('portrait/'.$data->portrait) && File::size('portrait/' . $data->portrait) > 0)
@@ -234,21 +270,28 @@ body{
                     @endif
                 </span>
                 <div class="list_introduction">
+                    <span class="nickname">{{ $data->nickname }}</span>
                     @if($data->sex == 'M')
-                    {{ HTML::image('assets/images/sex/male_icon.png') }}
+                    {{ HTML::image('assets/images/sex/boy.png') }}
                     @elseif($data->sex == 'F')
-                    {{ HTML::image('assets/images/sex/female_icon.png') }}
+                    {{ HTML::image('assets/images/sex/girl.png') }}
                     @else
                     {{ HTML::image('assets/images/sex/no_icon.png') }}
                     @endif
-                    <span>{{ $data->nickname }}</span>
+
                     <br />
                     <span>{{ $data->school }}</span>
                 </div>
                 <div class="list_lable">
-                    @foreach($tag_str as $tag)
-                        <span>{{ getTagName($tag) }}</span>
-                    @endforeach
+                    @if(isset($tag_str[0]))
+                        <span>{{ getTagName($tag_str[0]) }}</span>
+                    @endif
+                    @if(isset($tag_str[1]))
+                        <span>{{ getTagName($tag_str[1]) }}</span>
+                    @endif
+                    @if(isset($tag_str[2]))
+                        <span>{{ getTagName($tag_str[2]) }}</span>
+                    @endif
                 </div>
             </li>
         </a>

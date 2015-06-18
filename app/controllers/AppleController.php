@@ -3488,7 +3488,7 @@ class AppleController extends BaseController
                         $profile =  Profile::where('user_id', $user_id)->first();
                         // Check user profile complete
                         if (is_null(Profile::where('user_id', $user->id)->first()->tag_str)) {
-                            // Calculate how long user last match time from now (more than 3 days)
+                            // Calculate how long user last match time from now (more than one days)
                             if (strtotime(Carbon::now()) - strtotime($profile->match_at) >= 86400) {
                                 // Rest match count
                                 $profile->match = 0;
