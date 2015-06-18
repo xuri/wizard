@@ -69,13 +69,6 @@
 
     <p class="pai-tip">今日还剩  <em class="pai-nums">3</em> 次翻牌机会</p>
 
-    <footer class="common-foot">
-        <a href="{{ route('wap.get_like_jobs', $id) }}"><p>招聘会</p></a>
-        <a href="{{ route('wap.get_members_index', $id) }}"><p>淘简历</p></a>
-        <a href="{{ route('wap.office', $id) }}" class="active"><p>办公室</p></a>
-        <a href="{{ route('wap.get_download_app', $id) }}?type=tab"><p>下载聘爱</p></a>
-    </footer>
-
     {{ HTML::script('assets/js/wap/zepto.min.js') }}
     {{ HTML::script('assets/js/wap/swiper.min.js') }}
     {{ HTML::script('assets/js/wap/fate.js') }}

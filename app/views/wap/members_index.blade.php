@@ -133,7 +133,7 @@ body{
 }
 .list_lable span{
     float:left;
-    width:8em;
+    width: 6em;
     height:1.7em;
     line-height:1.7em;
     margin-right:10px;
@@ -163,6 +163,7 @@ body{
     -webkit-border-radius: 50%;
     vertical-align: -2px;
 }
+
 .list_lable span:nth-of-type(2){ background:#76d2fb; }
 .list_lable span:nth-of-type(3){ background:#ffa3e6; }
 .list_lable span:nth-of-type(4){ background:#4aed3a; }
