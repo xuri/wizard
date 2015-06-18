@@ -292,16 +292,23 @@ class WapController extends BaseController
      */
     public function getIndex()
     {
-        // Initial WeChat Application
-        $wechat_app = System::where('name', 'wechat')->first();
-        // App ID
-        $app_id     = $wechat_app->sid;
-        // App Secret
-        $app_secret = $wechat_app->secret;
-        // Authority URL
-        $auth_url   = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode(route('wap.auth')) . '&response_type=code&scope=snsapi_userinfo&state=' . time() . '#wechat_redirect';
+        // Determin cookie
+        if (Cookie::get('openid')) {
+            // Retrieve user
+            $user = User::where('openid', Cookie::get('openid'))->first();
+            return Redirect::route('wap.get_like_jobs', $user->id);
+        } else {
+            // Initial WeChat Application
+            $wechat_app = System::where('name', 'wechat')->first();
+            // App ID
+            $app_id     = $wechat_app->sid;
+            // App Secret
+            $app_secret = $wechat_app->secret;
+            // Authority URL
+            $auth_url   = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode(route('wap.auth')) . '&response_type=code&scope=snsapi_userinfo&state=' . time() . '#wechat_redirect';
+            return Redirect::to($auth_url);
+        }
 
-        return Redirect::to($auth_url);
         // // Determin cookie
         // if (Cookie::get('sex')) {
         //     return Redirect::route('wap.members');
