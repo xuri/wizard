@@ -24,6 +24,12 @@
 
     <a href="{{ URL::previous() }}" class="submit-data borR-4">上一步</a>
 
+    @include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
+
 </body>
 
 </html>

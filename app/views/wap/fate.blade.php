@@ -15,7 +15,7 @@
 <body>
 
     <header class="common-top boxSha">
-        <a href="#">返回</a>
+        <a href="{{ URL::previous() }}">返回</a>
         简历缘
     </header>
 
@@ -79,6 +79,13 @@
     {{ HTML::script('assets/js/wap/zepto.min.js') }}
     {{ HTML::script('assets/js/wap/swiper.min.js') }}
     {{ HTML::script('assets/js/wap/fate.js') }}
+
+    @include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
+
 </body>
 
 </html>

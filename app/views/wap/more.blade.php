@@ -229,6 +229,9 @@ body{
 
     {{ pagination($datas->appends(Input::except('page')), 'layout.paginator') }}
 
+    @include('wap.wechat_share')
+    @yield('content')
+
     @include('layout.analytics')
     @yield('content')
 

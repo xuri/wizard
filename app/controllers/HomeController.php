@@ -44,7 +44,8 @@ class HomeController extends BaseController {
             if(Agent::isAndroidOS()) {
                 return Redirect::to('http://fir.im/pinai');
             } elseif (Agent::isiOS()) {
-                return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
+                // return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
+                return Redirect::to('https://fir.im/piniosr');
             } else {
                 return View::make('home.mobilev2');
             }

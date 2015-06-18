@@ -22,6 +22,12 @@
         @endforeach
     </ul>
 
+    @include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
+
 </body>
 
 </html>

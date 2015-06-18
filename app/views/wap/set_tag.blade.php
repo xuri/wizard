@@ -32,6 +32,12 @@
     {{ HTML::script('assets/js/wap/zepto.min.js') }}
     {{ HTML::script('assets/js/wap/tag.js') }}
 
+    @include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
+
 </body>
 
 </html>

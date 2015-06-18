@@ -78,6 +78,12 @@
     {{ HTML::script('assets/js/wap/Hselect.js') }}
     {{ HTML::script('assets/js/wap/data.js') }}
 
+    @include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
+
 </body>
 
 </html>

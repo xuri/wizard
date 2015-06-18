@@ -229,8 +229,11 @@ body{
 	</ul>
 	<div class="lu_paging"><a href="{{ route('wap.more') }}">查看更多</a></div>
 
-	@include('layout.analytics')
-	@yield('content')
+	@include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
 
 </body>
 </html>

@@ -1,9 +1,3 @@
-<?php
-    include_once(app_path('api/wechat/jssdk.php'));
-    $jssdk          = new JSSDK("wx85a303018cc9100b", "be2909ec1f4f590feb25aa6638a63d5f");
-    $signPackage    = $jssdk->GetSignPackage();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,39 +63,9 @@ body{
         <a href="{{ route('wap.index') }}/?sex=F">{{ HTML::image('assets/images/wap/female.png', '', array('class' => 'sex_btn')) }}</a>
     </div>
     <div class="agree">使用聘爱即代表您已同意<a href="{{ route('home') }}/article/privacy.html">《服务条款》</a></div>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script type="text/javascript">
-      wx.config({
-        debug: false,
-        appId: '<?php echo $signPackage["appId"];?>',
-        timestamp: <?php echo $signPackage["timestamp"];?>,
-        nonceStr: '<?php echo $signPackage["nonceStr"];?>',
-        signature: '<?php echo $signPackage["signature"];?>',
-        jsApiList: [
-          // 所有要调用的 API 都要加到这个列表中
-        'onMenuShareTimeline'
-        ]
-      });
 
-     wx.ready(function () {
-            // 在这里调用 API
-            wx.onMenuShareTimeline({
-            title: '黑工程大三学生创办聘爱', // 分享标题
-            link: 'http://www.pinai521.com/wap', // 分享链接
-            imgUrl: "http://www.pinai521.com/assets/images/wechat/boy.jpg", // 分享图标
-            success: function () {
-            },
-            cancel: function () {
-            },
-            fail: function (res) {
-            alert('wx.onMenuShareTimeline:fail: '+JSON.stringify(res));
-            }
-            });
-      });
-     wx.error(function (res) {
-            alert('wx.error: '+JSON.stringify(res));
-      });
-    </script>
+    @include('wap.wechat_share')
+    @yield('content')
 
     @include('layout.analytics')
     @yield('content')

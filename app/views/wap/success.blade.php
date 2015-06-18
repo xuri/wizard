@@ -51,8 +51,6 @@ h2 {
     <h2>账号：{{ Cookie::get('w_id') }}</h2>
     <h2 class="password">密码：{{ Cookie::get('password') }}</h2>
     <a href="{{ route('wap.redirect') }}" class="download">下载{{ Lang::get('navigation.pinai') }}</a>
-    @include('layout.analytics')
-    @yield('content')
 
     <footer class="common-foot">
         <a href="{{ route('wap.get_like_jobs', $id) }}" class="active"><p>招聘会</p></a>
@@ -60,6 +58,12 @@ h2 {
         <a href="{{ route('wap.office', $id) }}"><p>办公室</p></a>
         <a href="{{ route('wap.get_download_app', $id) }}?type=tab"><p>下载聘爱</p></a>
     </footer>
+
+    @include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
 
 </body>
 </html>

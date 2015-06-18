@@ -58,6 +58,12 @@
         <a href="{{ route('wap.get_download_app', $id) }}?type=tab" class="active"><p>下载聘爱</p></a>
     </footer>
 
+    @include('wap.wechat_share')
+    @yield('content')
+
+    @include('layout.analytics')
+    @yield('content')
+
 </body>
 
 </html>
