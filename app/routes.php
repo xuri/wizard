@@ -341,7 +341,7 @@ Route::group(array('domain' => $root_domain, 'prefix' => 'android'), function ()
     # Android API
     // Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
     Route::post('api'              , $controller.'postAndroid');
-    Route::get('api'              , $controller.'postAndroid');
+    // Route::get('api'              , $controller.'postAndroid');
 
 });
 
@@ -356,7 +356,7 @@ Route::group(array('domain' => $root_domain, 'prefix' => 'ios'), function () {
     $controller = 'AppleController@';
     # iOS API
     Route::post('api',  $controller . 'postApple');
-    Route::get('api',    $controller . 'postApple');
+    // Route::get('api',    $controller . 'postApple');
 });
 
 /*
