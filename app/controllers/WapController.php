@@ -102,7 +102,7 @@ class WapController extends BaseController
                                     ]);
 
                         // Create floder to store chat record
-                        File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+                        // File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
                     break;
 
                     default:
@@ -140,7 +140,7 @@ class WapController extends BaseController
                                     ]);
 
                         // Create floder to store chat record
-                        File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+                        // File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
                     break;
                 }
                 // User ID

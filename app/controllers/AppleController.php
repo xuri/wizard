@@ -173,7 +173,7 @@ class AppleController extends BaseController
                                 //
                                 if ($result['entities']['0']['activated'] == true) {
                                     // Create floder to store chat record
-                                    File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+                                    // File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 
                                     // Redirect to a registration page, prompts user to activate
                                     // Signin success, redirect to the previous page that was blocked
