@@ -26,18 +26,43 @@ if ($user_id) {
     DB::table('like')->where('receiver_id', $user->id)->update(array('receiver_updated_at' => Carbon::now()));
     $user->save();
 
+    switch ($user->sex) {
+        case 'M':
+            // Male user show female user information
+            $sex_filter = 'F';
+            break;
+
+        case 'F':
+            // Female user show male user information
+            $sex_filter = 'M';
+            break;
+
+        default:
+            unset($sex_filter);
+            break;
+    }
+
     $profile = Profile::where('user_id', $user->id)->first();
 }
 
 if ($last_id) {
     // User last signin at time
-    $last_updated_at    = User::find($last_id)->points;
+    $last_updated_at    = User::find($last_id)->updated_at;
 
     // App client have post last user id, retrieve and skip profile not completed user
     $query              = User::whereNotNull('portrait')
                                 ->whereNotNull('nickname')
                                 ->whereNotNull('bio')
                                 ->whereNotNull('school');
+    // Ruled out not set tags and select has correct format constellation user
+    // $query->whereHas('hasOneProfile', function($hasTagStr) {
+    // $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+    // });
+
+    // Sex filter
+    if ($sex_filter) {
+        isset($sex_filter) AND $query->where('sex', $sex_filter);
+    }
 
     // University filter
     if ($university_filter) {
@@ -50,10 +75,10 @@ if ($last_id) {
     }
 
     $users = $query
-        ->orderBy('points', 'desc')
+        ->orderBy('updated_at', 'desc')
         ->where('block', 0)
         ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
-        ->where('points', '<', $last_updated_at)
+        ->where('updated_at', '<', $last_updated_at)
         ->take($per_page)
         ->get()
         ->toArray();
@@ -78,6 +103,9 @@ if ($last_id) {
 
             // Retrieve school with UTF8 encode
             $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
+            // Retrieve tag_str with UTF8 encode
+            $users[$key]['tag_str']     = e(Cache::get('api_user_' . $users[$key]['id'] . '_tag_str'));
 
         } else {
             // Retrieve user profile
@@ -111,6 +139,9 @@ if ($last_id) {
             $users[$key]['school']      = e($users[$key]['school']);
 
             Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
+
+            // Retrieve tag_str with UTF8 encode
+            $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
 
             Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
         }
@@ -142,6 +173,16 @@ if ($last_id) {
                         ->whereNotNull('bio')
                         ->whereNotNull('school');
 
+    // Ruled out not set tags and select has correct format constellation user
+    // $query->whereHas('hasOneProfile', function($hasTagStr) {
+    // $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
+    // });
+
+    // Sex filter
+    if ($sex_filter) {
+        isset($sex_filter) AND $query->where('sex', $sex_filter);
+    }
+
     // University filter
     if ($university_filter) {
         if ($university_filter == '其他') {
@@ -153,13 +194,13 @@ if ($last_id) {
     }
 
     // Query last user id in database
-    $lastRecord = User::orderBy('points', 'desc')->first()->points;
+    $lastRecord = User::orderBy('updated_at', 'desc')->first()->updated_at;
 
     $users      = $query
-                    ->orderBy('points', 'desc')
+                    ->orderBy('updated_at', 'desc')
                     ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify', 'points')
                     ->where('block', 0)
-                    ->where('points', '<=', $lastRecord)
+                    ->where('updated_at', '<=', $lastRecord)
                     ->take($per_page)
                     ->get()
                     ->toArray();
@@ -184,6 +225,9 @@ if ($last_id) {
 
             // Retrieve school with UTF8 encode
             $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
+
+            // Retrieve tag_str with UTF8 encode
+            $users[$key]['tag_str']     = e(Cache::get('api_user_' . $users[$key]['id'] . '_tag_str'));
 
         } else {
             // Retrieve user profile
@@ -218,6 +262,9 @@ if ($last_id) {
 
             Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
 
+            // Retrieve tag_str with UTF8 encode
+            $users[$key]['tag_str']     = e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2)));
+
             Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
         }
     }
@@ -226,7 +273,6 @@ if ($last_id) {
         return Response::json(
             array(
                 'status'    => 1,
-                'rank'      => $user->rank,
                 'data'      => $users
             )
         );
