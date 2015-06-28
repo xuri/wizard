@@ -78,9 +78,8 @@ class AccountController extends BaseController
     public function postUniversity()
     {
         $province    = Province::where('province', Input::get('province'))->first();
-
         $universites = University::where('province_id', $province->id)->get();
-        $school = array();
+        $school      = array();
         foreach ($universites as $university) {
             $elements = explode(':', $university->university);
             $school[] = $elements[0];
@@ -319,8 +318,9 @@ class AccountController extends BaseController
                     University::where('university', $user->school)->decrement('count');
                 }
             }
-            $user->school           = $school;
 
+            $user->school           = $school;
+            $user->province_id      = University::where('university', $school)->first()->province_id;
             // Update profile information
             $profile                = Profile::where('user_id', Auth::user()->id)->first();
             $profile->tag_str       = htmlentities(Input::get('tag_str'));

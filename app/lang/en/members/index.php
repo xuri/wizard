@@ -11,11 +11,15 @@ return array(
 
 	"all_school"		=> "School",
 
+	"all_province"		=> "All Province",
+
 	"other_school"		=> "Others",
 
 	"sex"				=> "Sex",
 
 	"select_grade"		=> "Grade",
+
+	"select_born_year"  => "Born Year",
 
 	"search"			=> "Search",
 

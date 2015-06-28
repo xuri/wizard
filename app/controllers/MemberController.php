@@ -88,11 +88,18 @@ class MemberController extends BaseController {
 
         $university             = Input::get('university');
         $grade                  = Input::get('grade');
+        $born_year              = Input::get('born_year');
+        $province               = Input::get('province');
         $sex                    = Input::get('sex');
 
         $session_university     = Session::get('university');
         $session_grade          = Session::get('grade');
         $session_sex            = Session::get('sex');
+        $session_born_year      = Session::get('born_year');
+        $session_province       = Session::get('province ');
+
+        // Retrieve all province
+        $provinces              = Province::get();
 
         // University filter
         if ($university) {
@@ -138,6 +145,42 @@ class MemberController extends BaseController {
             }
         }
 
+        // Province filter
+        if ($province) {
+            if ($province == 'all') {
+                Session::forget('province');
+            } else {
+                Session::put('province', $province);
+                isset($province) AND $query->where('province_id', $province);
+            }
+        } elseif ($session_province) {
+
+            // Session province filter
+            if ($session_province == 'all') {
+                Session::forget('province');
+            } else {
+                isset($session_province) AND $query->where('province_id', $session_province);
+            }
+        }
+
+        // Born year filter
+        if ($born_year) {
+            if ($born_year == 'all') {
+                Session::forget('born_year');
+            } else {
+                Session::put('born_year', $born_year);
+                isset($born_year) AND $query->where('born_year', $born_year);
+            }
+        } elseif ($session_born_year) {
+
+            // Session born_year filter
+            if ($session_born_year == 'all') {
+                Session::forget('born_year');
+            } else {
+                isset($session_born_year) AND $query->where('born_year', $session_born_year);
+            }
+        }
+
         // Grade filter
         if ($grade) {
             if ($grade == 'all') {
@@ -167,7 +210,7 @@ class MemberController extends BaseController {
             return Response::json(View::make($this->resource.'.load-ajax')->with(compact('datas', 'pending_universities', 'open_universities'))->render());
         }
 
-        return View::make($this->resource.'.index')->with(compact('datas', 'pending_universities', 'open_universities'));
+        return View::make($this->resource.'.index')->with(compact('datas', 'pending_universities', 'open_universities', 'provinces'));
     }
 
     /**

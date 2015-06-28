@@ -11,11 +11,15 @@ return array(
 
 	"all_school"		=> "所有学校",
 
+	"all_province"		=> "所有省份",
+
 	"other_school"		=> "其他学校",
 
 	"sex"				=> "性别",
 
 	"select_grade"		=> "入学年份",
+
+	"select_born_year"  => "出生年份",
 
 	"search"			=> "搜索",
 

@@ -15,7 +15,7 @@
         <div class="lu_content_box clear">
             <div class="lu_content_main clear">
                 {{ Form::open(array('method' => 'get', 'class' => 'lu_content_main_tab')) }}
-                    <select class="lu_school lu_public" name="university" id="university_select" rel="{{ Session::get('university') }}">
+                    <!-- <select class="lu_school lu_public" name="university" id="university_select" rel="{{ Session::get('university') }}">
                         <option value="all">{{ Lang::get('members/index.all_school') }}</option>
                         @foreach($open_universities as $open_university)
                         <option value="{{ $open_university->university }}">{{ $open_university->university }}</option>
@@ -24,7 +24,15 @@
                         @foreach($pending_universities as $pending_university)∂
                         <option vlaue="">{{ $pending_university->university }} ({{ date('m月d日', strtotime($pending_university->open_at)) }} {{ Lang::get('members/index.open') }})</option>
                         @endforeach
+                    </select> -->
+
+                    <select class="lu_school lu_public" name="province" id="university_select" rel="{{ Session::get('province') }}">
+                        <option value="all">{{ Lang::get('members/index.all_province') }}</option>
+                        @foreach($provinces as $province)
+                        <option value="{{ $province->id }}">{{ $province->province }}</option>
+                        @endforeach
                     </select>
+
                     {{
                         Form::select(
                             'target',
@@ -33,7 +41,7 @@
                             array('class' => 'lu_sex lu_public', 'name' => 'sex', 'id' => 'sex_select', 'rel' => Session::get('sex'))
                         )
                     }}
-                    {{
+                    {{--
                         Form::select(
                             'target',
                             array('all' => Lang::get('members/index.select_grade'),
@@ -47,7 +55,28 @@
                             Input::get('target', 'grade'),
                             array('class' => 'lu_school lu_public', 'name' => 'grade', 'id' => 'grade_select', 'rel' => Session::get('grade'))
                         )
+                    --}}
+
+                    {{
+                        Form::select(
+                            'target',
+                            array('all' => Lang::get('members/index.select_born_year'),
+                                    '1997' => '1997' . Lang::get('members/index.year'),
+                                    '1996' => '1996' . Lang::get('members/index.year'),
+                                    '1995' => '1995' . Lang::get('members/index.year'),
+                                    '1994' => '1994' . Lang::get('members/index.year'),
+                                    '1993' => '1993' . Lang::get('members/index.year'),
+                                    '1992' => '1992' . Lang::get('members/index.year'),
+                                    '1991' => '1991' . Lang::get('members/index.year'),
+                                    '1990' => '1990' . Lang::get('members/index.year'),
+                                    '1989' => '1989' . Lang::get('members/index.year'),
+                                    '1988' => '1988' . Lang::get('members/index.year'),
+                                ),
+                            Input::get('target', 'born_year'),
+                            array('class' => 'lu_school lu_public', 'name' => 'born_year', 'id' => 'grade_select', 'rel' => Session::get('born_year'))
+                        )
                     }}
+
                     <button type="submit" class="lu_search lu_public">{{ Lang::get('members/index.search') }}</button>
                     <a href="{{ route('account') }}" class="lu_release lu_public">{{ Lang::get('members/index.profile') }}</a>
                 {{ Form::close() }}
