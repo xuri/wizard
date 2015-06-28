@@ -97,6 +97,8 @@ return array(
 
     "admin_feedback_management"     => "Feedback Management",
 
+    "admin_report_management"       => "Report Management",
+
     "admin_promotion_management"    => "Promotion Management",
 
     "admin_jobs_management"         => "Jobs Management",

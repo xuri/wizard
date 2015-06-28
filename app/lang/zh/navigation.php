@@ -97,6 +97,8 @@ return array(
 
     "admin_feedback_management"     => "反馈管理",
 
+    "admin_report_management"       => "举报管理",
+
     "admin_promotion_management"    => "推广分析",
 
     "admin_jobs_management"         => "招聘管理",

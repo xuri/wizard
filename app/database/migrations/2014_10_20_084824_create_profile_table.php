@@ -25,6 +25,7 @@ class CreateProfileTable extends Migration {
 			$table->string('language', 10)->nullable();
 			$table->tinyInteger('match')->default(0);
 			$table->string('match_users')->nullable();
+			$table->integer('salary')->nullable();
 			$table->integer('renew')->nullable();
 			$table->integer('crenew')->nullable();
 			$table->timestamp('match_at')->nullable();

@@ -16,6 +16,7 @@ class CreateSupportTable extends Migration {
 		{
 			$table->increments('id');
 			$table->integer('user_id');
+			$table->integer('report_user_id');
 			$table->integer('category')->nullable();
 			$table->string('title')->nullable();
 			$table->string('content')->nullable();

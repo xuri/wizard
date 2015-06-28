@@ -274,6 +274,7 @@ Route::group(array('domain' => $admin_domain, 'before' => 'is.desktop|auth|auth.
         $resource   = 'admin.support';
         $controller = 'Admin_SupportResource@';
         Route::get(              '/', array('as' => $resource.'.index'      , 'uses' => $controller.'index'      ));
+        Route::get(        '/report', array('as' => $resource.'.report'     , 'uses' => $controller.'report'     ));
         Route::get(     '/promotion', array('as' => $resource.'.promotion'  , 'uses' => $controller.'promotion'  ));
         Route::get(     '/show/{id}', array('as' => $resource.'.show'       , 'uses' => $controller.'show'       ));
         Route::get(     '/read/{id}', array('as' => $resource.'.read'       , 'uses' => $controller.'read'       ));

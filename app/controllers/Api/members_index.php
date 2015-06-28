@@ -18,6 +18,9 @@ $university_filter  = Input::get('university');
 // Grade filter
 $grade              = Input::get('grade');
 
+// Province filter
+$province_id        = Input::get('province_id');
+
 if ($user_id) {
     // Retrieve user
     $user               = User::find($user_id);
@@ -68,10 +71,15 @@ if ($last_id) {
         // });
     }
 
+    // Province filter
+    if ($province_id) {
+        isset($province_id) AND $query->where('province_id', $province_id);
+    }
+
     $users = $query
         ->orderBy('updated_at', 'desc')
         ->where('block', 0)
-        ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify')
+        ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify')
         ->where('updated_at', '<', $last_updated_at)
         ->take($per_page)
         ->get()
@@ -98,6 +106,12 @@ if ($last_id) {
             // Retrieve school with UTF8 encode
             $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
 
+            // Retrieve location province with UTF8 encode
+            $users[$key]['province']    = Cache::get('api_user_' . $users[$key]['id'] . '_province');
+
+            // Retrieve user salary with UTF8 encode
+            $users[$key]['salary']      = Cache::get('api_user_' . $users[$key]['id'] . '_salary');
+
         } else {
             // Retrieve user profile
             $profile    = Profile::where('user_id', $users[$key]['id'])->first();
@@ -111,6 +125,41 @@ if ($last_id) {
             } else {
                 $users[$key]['crenew'] = 0;
                 Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+            }
+
+            // Determine user location province
+            if ($users[$key]['province_id'] != "") {
+                $province = Province::find($users[$key]['province_id'])->province;
+            } else {
+                $province = '未设置所在地';
+            }
+
+            // Determine user salary selection
+            switch ($profile->salary) {
+
+                case '0':
+                    $salary = '在校学生';
+                    break;
+
+                case '1':
+                    $salary = '0-2000';
+                    break;
+
+                case '2':
+                    $salary = '2000-5000';
+                    break;
+
+                case '3':
+                    $salary = '5000-9000';
+                    break;
+
+                case '4':
+                    $salary = '9000以上';
+                    break;
+
+                default:
+                    $salary = '在校学生';
+                    break;
             }
 
             // Convert to real storage path
@@ -132,6 +181,17 @@ if ($last_id) {
             Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
 
             Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
+
+            // Retrieve location province with UTF8 encode
+            $users[$key]['province']    = e($province);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_province', e($province), 60);
+
+            // Retrieve user salary with UTF8 encode
+            $users[$key]['salary']      = e($salary);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_salary', e($salary), 60);
+
         }
 
     }
@@ -191,12 +251,17 @@ if ($last_id) {
         // });
     }
 
+    // Province filter
+    if ($province_id) {
+        isset($province_id) AND $query->where('province_id', $province_id);
+    }
+
     // Query last user id in database
     $lastRecord = User::orderBy('updated_at', 'desc')->first()->updated_at;
 
     $users      = $query
                     ->orderBy('updated_at', 'desc')
-                    ->select('id', 'nickname', 'school', 'sex', 'portrait', 'is_admin', 'is_verify')
+                    ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify')
                     ->where('block', 0)
                     ->where('updated_at', '<=', $lastRecord)
                     ->take($per_page)
@@ -224,6 +289,12 @@ if ($last_id) {
             // Retrieve school with UTF8 encode
             $users[$key]['school']      = Cache::get('api_user_' . $users[$key]['id'] . '_school');
 
+            // Retrieve location province with UTF8 encode
+            $users[$key]['province']    = Cache::get('api_user_' . $users[$key]['id'] . '_province');
+
+            // Retrieve user salary with UTF8 encode
+            $users[$key]['salary']      = Cache::get('api_user_' . $users[$key]['id'] . '_salary');
+
         } else {
             // Retrieve user profile
             $profile    = Profile::where('user_id', $users[$key]['id'])->first();
@@ -237,6 +308,41 @@ if ($last_id) {
             } else {
                 $users[$key]['crenew'] = 0;
                 Cache::put('api_user_' . $users[$key]['id'] . '_crenew', 0, 60);
+            }
+
+            // Determine user location province
+            if ($users[$key]['province_id'] != "") {
+                $province = Province::find($users[$key]['province_id'])->province;
+            } else {
+                $province = '未设置所在地';
+            }
+
+            // Determine user salary selection
+            switch ($profile->salary) {
+
+                case '0':
+                    $salary = '在校学生';
+                    break;
+
+                case '1':
+                    $salary = '0-2000';
+                    break;
+
+                case '2':
+                    $salary = '2000-5000';
+                    break;
+
+                case '3':
+                    $salary = '5000-9000';
+                    break;
+
+                case '4':
+                    $salary = '9000以上';
+                    break;
+
+                default:
+                    $salary = '在校学生';
+                    break;
             }
 
             // Convert to real storage path
@@ -258,6 +364,17 @@ if ($last_id) {
             Cache::put('api_user_' . $users[$key]['id'] . '_school', e($users[$key]['school']), 60);
 
             Cache::put('api_user_' . $users[$key]['id'] . '_tag_str', e(implode(',', array_slice(explode(',', trim($profile->tag_str,',')), 0, 2))), 60);
+
+            // Retrieve location province with UTF8 encode
+            $users[$key]['province']    = e($province);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_province', e($province), 60);
+
+            // Retrieve user salary with UTF8 encode
+            $users[$key]['salary']      = e($salary);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_salary', e($salary), 60);
+
         }
     }
 

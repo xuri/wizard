@@ -22,8 +22,8 @@ class CreateUsersTable extends Migration {
 	        $table->string('bio', 255)->nullable();
 	        $table->string('openid', 40)->nullable(); // WeChat Open ID
 	        $table->string('passcode', 6)->nullable();
-	        $table->tinyInteger('age')->nullable(); // User age
-	        $table->string('born_year', 10)->nullable(); // User born year
+	        $table->integer('province_id', 4)->nullable(); // User location province ID
+	        $table->integer('born_year', 4)->nullable(); // User born year
 	        $table->string('school', 100)->nullable(); // University name
 	        $table->integer('points', 10)->default('10'); // Points
 	        $table->integer('w_id', 6)->nullable(); // WAP register user ID

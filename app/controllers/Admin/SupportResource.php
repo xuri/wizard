@@ -63,10 +63,10 @@ class Admin_SupportResource extends BaseResource
         $direction      = Input::get('sort_up') ? 'asc' : 'desc' ;
 
         // Construct query statement
-        $query          = $this->model->orderBy($orderColumn, $direction);
+        $query          = $this->model->orderBy($orderColumn, $direction)->whereNull('report_user_id');
 
         // Promotions ID query
-        $promotions     = $this->model->whereRaw("content regexp '^[0-9]{3,4}$'")->select('id')->get()->toArray();
+        $promotions     = $this->model->whereNull('report_user_id')->whereRaw("content regexp '^[0-9]{3,4}$'")->select('id')->get()->toArray();
 
         // Get status filter conditions
         switch (Input::get('status', 0)) {
@@ -99,6 +99,43 @@ class Admin_SupportResource extends BaseResource
         isset($filter) AND $query->where('content', 'like', "%{$filter}%");
         $datas = $query->paginate(10);
         return View::make($this->resourceView.'.index')->with(compact('datas'));
+    }
+
+    /**
+     * Report list view
+     * GET         /resource
+     * @return Response
+     */
+    public function report()
+    {
+        // Get sort conditions
+        $orderColumn    = Input::get('sort_up', Input::get('sort_down', 'created_at'));
+        $direction      = Input::get('sort_up') ? 'asc' : 'desc' ;
+
+        // Construct query statement
+        $query          = $this->model->orderBy($orderColumn, $direction)->whereNotNull('report_user_id');
+
+        // Get status filter conditions
+        switch (Input::get('status', 0)) {
+            case '1':
+                $status = 1;
+                break;
+
+            default:
+                $status = 0;
+                break;
+        }
+
+        // Fuzzy search conditions
+        if (Input::get('like')) {
+            $filter     = Input::get('like');
+        }
+
+        isset($status) AND $query->where('status', $status);
+        isset($filter) AND $query->where('content', 'like', "%{$filter}%");
+        $datas    = $query->paginate(10);
+        $resource = 'admin.support';
+        return View::make($this->resourceView.'.report')->with(compact('datas', 'resource'));
     }
 
     /**
@@ -158,10 +195,10 @@ class Admin_SupportResource extends BaseResource
         $resourceName = $this->resourceName;
 
         // Retrieve support ticket
-        $data           = $this->model->find($id);
+        $data         = $this->model->find($id);
 
         // Retrieve user
-        $user           = User::find($data->user_id);
+        $user         = User::find($data->user_id);
         return View::make($this->resourceView.'.show')->with(compact('resourceName', 'data', 'user'));
     }
 

@@ -14,7 +14,7 @@ if ($info) {
     // Sender user ID
     $sender_id  = Input::get('senderid');
     $user_id    = Input::get('userid');
-    $data       = User::where('id', $user_id)->first();
+    $data       = User::find($user_id);
     $profile    = Profile::where('user_id', $user_id)->first();
     $like       = Like::where('sender_id', $sender_id)->where('receiver_id', $user_id)->first();
     $like_me    = Like::where('sender_id', $user_id)->where('receiver_id', $sender_id)->first();
@@ -53,6 +53,39 @@ if ($info) {
         $tag_str = array_merge(array_unique(explode(',', substr($profile->tag_str, 1))));
     }
 
+    switch ($profile->salary) {
+
+        case '0':
+            $salary = '在校学生';
+            break;
+
+        case '1':
+            $salary = '0-2000';
+            break;
+
+        case '2':
+            $salary = '2000-5000';
+            break;
+
+        case '3':
+            $salary = '5000-9000';
+            break;
+
+        case '4':
+            $salary = '9000以上';
+            break;
+
+        default:
+            $salary = '在校学生';
+            break;
+    }
+
+    if ($data->province_id != "") {
+        $province = Province::find($data->province_id)->province;
+    } else {
+        $province = '未设置所在地';
+    }
+
     return Response::json(
         array(
             'status'        => 1,
@@ -76,6 +109,8 @@ if ($info) {
             'user_like_me'  => e($user_like_me),
             'answer'        => app_out_filter($answer),
             'crenew'        => e($crenew),
+            'salary'        => e($salary),
+            'province'      => e($province),
         )
     );
 } else {

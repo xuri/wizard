@@ -56,6 +56,8 @@ if ($validator->passes()) {
 
     // Protrait section
     $portrait               = Input::get('portrait');
+    $province_id            = Input::get('province_id');
+    $salary                 = Input::get('salary');
 
     if ($portrait == null) {
         $user->portrait     = $oldPortrait;  // User not update avatar
@@ -87,6 +89,13 @@ if ($validator->passes()) {
     }
     $user->school           = $school;
 
+    // Set user location province
+    if ($province_id != "") {
+        $user->province_id  = $province_id;
+    } else {
+        $user->province_id  = University::where('university', $school)->first()->province_id;
+    }
+
     // Update profile information
     $profile                = Profile::where('user_id', $user->id)->first();
     $profile->tag_str       = implode(',', array_unique(explode(',', Input::get('tag_str'))));
@@ -98,6 +107,10 @@ if ($validator->passes()) {
     // User's constellation filter
     if (Input::get('constellation') != 0) {
         $profile->constellation = e(Input::get('constellation'), NULL);
+    }
+
+    if ($salary != "") {
+        $profile->salary    = $salary;
     }
 
     if ($user->save() && $profile->save()) {

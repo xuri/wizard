@@ -9,7 +9,7 @@
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">{{ Lang::get('navigation.admin_feedback_management') }}</h1>
+					<h1 class="page-header">{{ Lang::get('navigation.admin_report_management') }}</h1>
 				</div>
 				{{-- /.col-lg-12 --}}
 			</div>
@@ -22,7 +22,7 @@
 				<div class="col-lg-12">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							{{ Lang::get('admin/support/index.feedback_table') }}
+							{{ Lang::get('admin/support/report.report_table') }}
 						</div>
 						{{-- /.panel-heading --}}
 						<div class="panel-body">
@@ -43,21 +43,7 @@
 										}}
 									</span>
 
-									<span class="input-group-btn" style="width: 15%; padding: 0 10px 0 0;">
-										{{
-											Form::select(
-												'promotion',
-												array(
-													'0'	=> Lang::get('admin/support/index.select_feedback'),
-													'1'	=> Lang::get('admin/support/index.select_promotion')
-												),
-												Input::get('promotion'),
-												array('class' => 'form-control input-sm')
-											)
-										}}
-									</span>
-
-									<input type="text" class="form-control input-sm" name="like" placeholder="{{ Lang::get('admin/support/index.select_input') }}" value="{{ Input::get('like') }}">
+									<input type="text" class="form-control input-sm" name="like" placeholder="{{ Lang::get('admin/support/report.select_input') }}" value="{{ Input::get('like') }}">
 									<span class="input-group-btn">
 											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">{{ Lang::get('admin/users/index.select') }}</button>
 									</span>
@@ -70,10 +56,11 @@
 										<tr>
 											<th>ID {{ order_by('id', 'desc') }}</th>
 											<th style="text-align:center;">{{ Lang::get('admin/support/index.category') }} {{ order_by('category') }}</th>
-											<th>{{ Lang::get('admin/support/index.user') }} {{ order_by('user_id') }}</th>
+											<th>{{ Lang::get('admin/support/report.user') }} {{ order_by('user_id') }}</th>
+											<th>{{ Lang::get('admin/support/report.report_user') }} {{ order_by('report_user_id') }}</th>
 											<th>{{ Lang::get('admin/support/index.title') }} {{ order_by('title') }}</th>
 											<th>{{ Lang::get('admin/support/index.summary') }}</th>
-											<th>{{ Lang::get('admin/support/index.created_at') }} {{ order_by('created_at') }}</th>
+											<th>{{ Lang::get('admin/support/report.created_at') }} {{ order_by('created_at') }}</th>
 											<th style="width:6em;text-align:center;">{{ Lang::get('admin/support/index.status') }} {{ order_by('status') }}</th>
 											<th style="width:7.5em;text-align:center;">{{ Lang::get('admin/support/index.operating') }}</th>
 										</tr>
@@ -82,7 +69,8 @@
 										@foreach ($datas as $data)
 										<tr class="odd gradeX">
 											<?php
-												$user = User::where('id', $data->user_id)->first();
+												$user			= User::find($data->user_id);
+												$report_user	= User::find($data->report_user_id);
 											?>
 											<td>{{ $data->id }}</td>
 											<td style="text-align:center;"><a href="{{ route('forum.index') }}">{{ $data->category }}</a></td>
@@ -95,6 +83,17 @@
 											@else
 											<td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->id }}</a></td>
 											@endif
+
+											@if($report_user->nickname)
+											<td>{{ Lang::get('admin/support/index.nickname') }}: <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->nickname }}<a></td>
+											@elseif($data->email)
+											<td>{{ Lang::get('admin/support/index.email') }}: <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->email }}</a></td>
+											@elseif($data->phone)
+											<td>{{ Lang::get('admin/support/index.phone') }}： <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->phone }}</a></td>
+											@else
+											<td>ID：<a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->id }}</a></td>
+											@endif
+
 											<td class="center">{{ $data->title }}</td>
 											<td class="center">{{ Str::limit($data->content, 10) }}</td>
 											<td class="center">{{ $data->created_at }}</td>
