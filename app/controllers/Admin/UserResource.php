@@ -78,7 +78,7 @@ class Admin_UserResource extends BaseResource
      */
     public function index()
     {
-        $provinces  = Province::get();
+        $provinces      = Province::get();
 
         // Get sort conditions
         $orderColumn    = Input::get('sort_up', Input::get('sort_down', 'created_at'));
@@ -123,7 +123,8 @@ class Admin_UserResource extends BaseResource
      */
     public function create() {
         $universities = University::get();
-        return View::make($this->resourceView . '.create')->with(compact('universities'));
+        $provinces    = Province::get();
+        return View::make($this->resourceView . '.create')->with(compact('universities', 'provinces'));
     }
 
     /**
@@ -218,7 +219,10 @@ class Admin_UserResource extends BaseResource
             if ("" !== Input::get('bio')) {
                 $user->bio              = Input::get('bio');
             }
-
+            // Set user location province
+            if ("" != Input::get('province')) {
+                $user->province_id      = Input::get('province');
+            }
             if ($user->save()) {
                 $profile                = new Profile;
                 $profile->user_id       = (int)$user->id;
@@ -246,6 +250,9 @@ class Admin_UserResource extends BaseResource
                 if ("" !== Input::get('renew')) {
                     $profile->renew         = (int)Input::get('renew');
                 }
+                if ("" != Input::get('salary')) {
+                    $profile->salary        = Input::get('salary');
+                }
                 $profile->save();
 
                 // Register user in easemob IM system
@@ -255,7 +262,7 @@ class Admin_UserResource extends BaseResource
                             ]);
 
                 // Create floder to store chat record
-                File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+                // File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 
                 // Add success
                 return Redirect::back()
@@ -280,10 +287,11 @@ class Admin_UserResource extends BaseResource
      * @return Response     View
      */
     public function edit($id) {
-        $data       = $this->model->where('id', $id)->first();
-        $profile    = Profile::where('user_id', $id)->first();
+        $data         = $this->model->find($id);
+        $profile      = Profile::where('user_id', $id)->first();
         $universities = University::get();
-        return View::make($this->resourceView . '.edit')->with(compact('data', 'profile', 'universities'));
+        $provinces    = Province::get();
+        return View::make($this->resourceView . '.edit')->with(compact('data', 'profile', 'provinces', 'universities'));
     }
 
     /**
@@ -360,6 +368,11 @@ class Admin_UserResource extends BaseResource
                 $model->bio             = Input::get('bio');
             }
 
+            // Set user location province
+            if ("" != Input::get('province')) {
+                $model->province_id     = Input::get('province');
+            }
+
             // Update user profile
             $profile                    = Profile::where('user_id', $id)->first();
             if ("" !== Input::get('grade')) {
@@ -386,7 +399,9 @@ class Admin_UserResource extends BaseResource
             if ("" !== Input::get('renew')) {
                 $profile->renew         = (int)Input::get('renew');
             }
-
+            if ("" !== Input::get('salary')) {
+                $profile->salary        = Input::get('salary');
+            }
             if ($model->save() && $profile->save()) {
                 // Update success
                 return Redirect::back()
@@ -805,7 +820,7 @@ class Admin_UserResource extends BaseResource
                             ]);
 
                 // Create floder to store chat record
-                File::makeDirectory(app_path('chatrecord/user_' . $m_user->id, 0777, true));
+                // File::makeDirectory(app_path('chatrecord/user_' . $m_user->id, 0777, true));
 
             }
 
@@ -874,7 +889,7 @@ class Admin_UserResource extends BaseResource
                             ]);
 
                 // Create floder to store chat record
-                File::makeDirectory(app_path('chatrecord/user_' . $f_user->id, 0777, true));
+                // File::makeDirectory(app_path('chatrecord/user_' . $f_user->id, 0777, true));
             }
 
             // Update success

@@ -223,7 +223,10 @@ class WapController extends BaseController
                     }
                 }
 
-                $user->school = University::find($university_id)->university;
+                // Save user school
+                $user->school      = University::find($university_id)->university;
+                // Save user location province ID
+                $user->province_id = University::find($university_id)->province_id;
                 $user->save();
                 return View::make('wap.set_tag')->with(compact('id'));
             }

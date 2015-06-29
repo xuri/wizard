@@ -93,6 +93,7 @@ if ($validator->passes()) {
     if ($province_id != "") {
         $user->province_id  = $province_id;
     } else {
+        // Save user location province ID
         $user->province_id  = University::where('university', $school)->first()->province_id;
     }
 

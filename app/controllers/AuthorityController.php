@@ -72,10 +72,14 @@ class AuthorityController extends BaseController
             'phone'     => Input::get('username'),
             'password'  => md5(Input::get('password')
         ));
+        $wap_credentials = array(
+            'w_id'      => Input::get('username'),
+            'password'  => md5(Input::get('password')
+        ));
         // Remember login status
         $remember    = Input::get('remember-me', 1);
         // Verify signin
-        if (Auth::attempt($credentials) || Auth::attempt($phone_credentials)) {
+        if (Auth::attempt($credentials) || Auth::attempt($phone_credentials) || Auth::attempt($wap_credentials)) {
 
             // Update receiver_updated_at in like table
             DB::table('like')->where('receiver_id', Auth::user()->id)->update(array('receiver_updated_at' => Carbon::now()));
@@ -349,7 +353,7 @@ class AuthorityController extends BaseController
                                     ]);
 
                     // Create floder to store chat record
-                    File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
+                    // File::makeDirectory(app_path('chatrecord/user_' . $user->id, 0777, true));
 
                     // Send activation mail
                     $with = array('activationCode' => $activation->token);

@@ -9,6 +9,7 @@
 
 	{{-- Bootstrap Core CSS --}}
 	{{ HTML::style('assets/bootstrap-3.3.0/css/bootstrap.min.css') }}
+	{{ HTML::style('assets/bootstrap-select-1.7.3/css/bootstrap-select.min.css') }}
 
 	{{ Minify::stylesheet(array(
 		'/assets/css/admin/plugins/metisMenu/metisMenu.min.css',
@@ -34,6 +35,7 @@
 
 	{{-- jQuery Version 1.11.0 --}}
 	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
+	{{ HTML::script('assets/bootstrap-select-1.7.3/js/bootstrap-select.min.js') }}
 
 	<script>
 		var homeuri = "{{ route('home') }}";

@@ -92,10 +92,7 @@
 												<a class="btn btn-default" id="random_created_at">{{ Lang::get('admin/users/create.generate') }}</a>
 											</span>
 										</div>
-										<div class="form-group">
-											<button type="submit" class="btn btn-success">创 建</button>
-											<button type="reset" class="btn btn-default">重 置</button>
-										</div>
+
 										<div class="form-group input-group">
 											<label>上传头像</label>
 											<p class="form-control-static">暂不可用</p>
@@ -105,6 +102,7 @@
 											<label>出生年份</label>
 											<select class="form-control" id="born_year" name="born_year">
 												<option value="">请选择</option>
+												<option value="1996">1997</option>
 												<option value="1996">1996</option>
 												<option value="1995">1995</option>
 												<option value="1994">1994</option>
@@ -119,7 +117,7 @@
 										</div>
 										<div class="form-group">
 											<label>所在高校</label>
-											<select class="form-control" id="school" name="school">
+											<select class="form-control selectpicker input-light brad" data-live-search="true" id="school" name="school">
 												<option value="">请选择</option>
 												@foreach($universities as $university)
 												<option value="{{ $university->university }}">{{ $university->university }}</option>
@@ -158,6 +156,26 @@
 												<option value="12">摩羯座</option>
 											</select>
 										</div>
+										<div class="form-group">
+                                            <label>薪资范围</label>
+                                            <select class="form-control" id="salary" name="salary">
+                                                <option value="">未设置薪资范围</option>
+                                                <option value="0">在校学生</option>
+                                                <option value="1">0-2000</option>
+                                                <option value="2">2000-5000</option>
+                                                <option value="3">5000-9000</option>
+                                                <option value="4">9000以上</option>
+                                            </select>
+                                        </div>
+										<div class="form-group">
+                                            <label>所在省份</label>
+                                            <select class="form-control" id="province" name="province">
+                                                <option value="">请选择</option>
+                                                @foreach($provinces as $province)
+                                                <option value="{{ $province->id }}">{{ $province->province }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
 										<div class="form-group">
 											<label>首选语言</label>
 											<select class="form-control" id="language" name="language">
@@ -213,6 +231,10 @@
 										<div class="form-group">
 											<label>爱情考验问题</label>
 											<textarea class="form-control" rows="3" name="question">{{ Input::old('question') }}</textarea>
+										</div>
+										<div class="form-group">
+											<button type="submit" class="btn btn-outline btn-success">创 建</button>
+											<button type="reset" class="btn btn-default">重 置</button>
 										</div>
 									{{-- /.col-lg-6 (nested) --}}
 
