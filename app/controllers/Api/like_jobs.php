@@ -1,21 +1,35 @@
 <?php
 
 // Post last user id from App client
-$last_id  = Input::get('lastid');
+$last_id         = Input::get('lastid');
+
 // Post count per query from App client
-$per_page = Input::get('perpage');
+$per_page        = Input::get('perpage');
+
 // Get user ID
-$user_id  = Input::get('userid');
+$user_id         = Input::get('userid');
+
+// User location province filter
+$province_filter = Input::get('province_id');
+
 // Retrieve user
-$user     = User::find($user_id);
+$user            = User::find($user_id);
+
 // Determin user profile if complete
 if (isset($user->nickname) && isset($user->school) && isset($user->bio) && isset($user->sex)) {
     if ($last_id) {
         // App client have post last like job id, retrieve like jobs
         $query         = LikeJobs::select('id', 'title', 'user_id')
                             ->orderBy('id', 'desc')
-                            ->where('id', '<', $last_id)
-                            ->take($per_page)
+                            ->where('id', '<', $last_id);
+
+        // User location province filter
+        if ($province_filter) {
+            $_id       = User::where('province_id', $province_filter)->select('id')->get()->toArray();
+            isset($province_filter) AND $query->whereIn('user_id', $_id);
+        }
+
+        $query         = $query->take($per_page)
                             ->get()
                             ->toArray();
 
@@ -48,8 +62,15 @@ if (isset($user->nickname) && isset($user->school) && isset($user->bio) && isset
     } else {
         // First get data from App client, retrieve like jobs
         $query         = LikeJobs::select('id', 'title', 'user_id')
-                            ->orderBy('id', 'desc')
-                            ->take($per_page)
+                            ->orderBy('id', 'desc');
+
+        // User location province filter
+        if ($province_filter) {
+            $_id       = User::where('province_id', $province_filter)->select('id')->get()->toArray();
+            isset($province_filter) AND $query->whereIn('user_id', $_id);
+        }
+
+        $query         = $query->take($per_page)
                             ->get()
                             ->toArray();
 
@@ -84,8 +105,15 @@ if (isset($user->nickname) && isset($user->school) && isset($user->bio) && isset
         // App client have post last like job id, retrieve like jobs
         $query         = LikeJobs::select('id', 'title', 'user_id')
                             ->orderBy('id', 'desc')
-                            ->where('id', '<', $last_id)
-                            ->take($per_page)
+                            ->where('id', '<', $last_id);
+
+        // User location province filter
+        if ($province_filter) {
+            $_id       = User::where('province_id', $province_filter)->select('id')->get()->toArray();
+            isset($province_filter) AND $query->whereIn('user_id', $_id);
+        }
+
+        $query         = $query->take($per_page)
                             ->get()
                             ->toArray();
 
@@ -118,8 +146,15 @@ if (isset($user->nickname) && isset($user->school) && isset($user->bio) && isset
     } else {
         // First get data from App client, retrieve like jobs
         $query         = LikeJobs::select('id', 'title', 'user_id')
-                            ->orderBy('id', 'desc')
-                            ->take($per_page)
+                            ->orderBy('id', 'desc');
+
+        // User location province filter
+        if ($province_filter) {
+            $_id       = User::where('province_id', $province_filter)->select('id')->get()->toArray();
+            isset($province_filter) AND $query->whereIn('user_id', $_id);
+        }
+
+        $query         = $query->take($per_page)
                             ->get()
                             ->toArray();
 

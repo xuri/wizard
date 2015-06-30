@@ -9,6 +9,9 @@ $last_id            = Input::get('lastid');
 // Post count per query from App client
 $per_page           = Input::get('perpage');
 
+// User born year filter
+$born_year_filter   = Input::get('born_year');
+
 // Post university filter from App client
 $university_filter  = Input::get('university');
 
@@ -54,6 +57,7 @@ if ($last_id) {
                                 ->whereNotNull('nickname')
                                 ->whereNotNull('bio')
                                 ->whereNotNull('school');
+
     // Ruled out not set tags and select has correct format constellation user
     // $query->whereHas('hasOneProfile', function($hasTagStr) {
     // $hasTagStr->where('tag_str', '!=', ',')->whereNotNull('constellation')->where('constellation', '!=', 0);
@@ -62,6 +66,11 @@ if ($last_id) {
     // Sex filter
     if ($sex_filter) {
         isset($sex_filter) AND $query->where('sex', $sex_filter);
+    }
+
+    // User born year filter
+    if ($born_year_filter) {
+        isset($born_year_filter) AND $query->where('born_year', $born_year_filter);
     }
 
     // University filter
@@ -82,7 +91,7 @@ if ($last_id) {
     $users = $query
         ->orderBy('updated_at', 'desc')
         ->where('block', 0)
-        ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify', 'points')
+        ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify', 'points', 'born_year')
         ->where('updated_at', '<', $last_updated_at)
         ->take($per_page)
         ->get()
@@ -117,6 +126,9 @@ if ($last_id) {
 
             // Retrieve user salary with UTF8 encode
             $users[$key]['salary']      = Cache::get('api_user_' . $users[$key]['id'] . '_salary');
+
+            // Retrieve user born year with UTF8 encode
+            $users[$key]['born_year']   = Cache::get('api_user_' . $users[$key]['id'] . '_born_year');
 
         } else {
             // Retrieve user profile
@@ -200,6 +212,11 @@ if ($last_id) {
             $users[$key]['salary']      = e($salary);
 
             Cache::put('api_user_' . $users[$key]['id'] . '_salary', e($salary), 60);
+
+            // Retrieve user born_year with UTF8 encode
+            $users[$key]['born_year']   = e($users[$key]['born_year']);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_born_year', e($users[$key]['born_year']), 60);
 
         }
 
@@ -240,6 +257,11 @@ if ($last_id) {
         isset($sex_filter) AND $query->where('sex', $sex_filter);
     }
 
+    // User born year filter
+    if ($born_year_filter) {
+        isset($born_year_filter) AND $query->where('born_year', $born_year_filter);
+    }
+
     // University filter
     if ($university_filter) {
         if ($university_filter == '其他') {
@@ -260,7 +282,7 @@ if ($last_id) {
 
     $users      = $query
                     ->orderBy('updated_at', 'desc')
-                    ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify', 'points')
+                    ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify', 'points', 'born_year')
                     ->where('block', 0)
                     ->where('updated_at', '<=', $lastRecord)
                     ->take($per_page)
@@ -296,6 +318,9 @@ if ($last_id) {
 
             // Retrieve user salary with UTF8 encode
             $users[$key]['salary']      = Cache::get('api_user_' . $users[$key]['id'] . '_salary');
+
+            // Retrieve user born year with UTF8 encode
+            $users[$key]['born_year']   = Cache::get('api_user_' . $users[$key]['id'] . '_born_year');
 
         } else {
             // Retrieve user profile
@@ -379,6 +404,11 @@ if ($last_id) {
             $users[$key]['salary']      = e($salary);
 
             Cache::put('api_user_' . $users[$key]['id'] . '_salary', e($salary), 60);
+
+            // Retrieve user born_year with UTF8 encode
+            $users[$key]['born_year']   = e($users[$key]['born_year']);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_born_year', e($users[$key]['born_year']), 60);
 
         }
     }

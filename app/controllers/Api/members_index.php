@@ -79,7 +79,7 @@ if ($last_id) {
     $users = $query
         ->orderBy('updated_at', 'desc')
         ->where('block', 0)
-        ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify')
+        ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify', 'born_year')
         ->where('updated_at', '<', $last_updated_at)
         ->take($per_page)
         ->get()
@@ -111,6 +111,9 @@ if ($last_id) {
 
             // Retrieve user salary with UTF8 encode
             $users[$key]['salary']      = Cache::get('api_user_' . $users[$key]['id'] . '_salary');
+
+            // Retrieve user born year with UTF8 encode
+            $users[$key]['born_year']   = Cache::get('api_user_' . $users[$key]['id'] . '_born_year');
 
         } else {
             // Retrieve user profile
@@ -191,6 +194,11 @@ if ($last_id) {
             $users[$key]['salary']      = e($salary);
 
             Cache::put('api_user_' . $users[$key]['id'] . '_salary', e($salary), 60);
+
+            // Retrieve user born_year with UTF8 encode
+            $users[$key]['born_year']   = e($users[$key]['born_year']);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_born_year', e($users[$key]['born_year']), 60);
 
         }
 
@@ -261,7 +269,7 @@ if ($last_id) {
 
     $users      = $query
                     ->orderBy('updated_at', 'desc')
-                    ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify')
+                    ->select('id', 'nickname', 'school', 'sex', 'province_id', 'portrait', 'is_admin', 'is_verify', 'born_year')
                     ->where('block', 0)
                     ->where('updated_at', '<=', $lastRecord)
                     ->take($per_page)
@@ -294,6 +302,9 @@ if ($last_id) {
 
             // Retrieve user salary with UTF8 encode
             $users[$key]['salary']      = Cache::get('api_user_' . $users[$key]['id'] . '_salary');
+
+            // Retrieve user born year with UTF8 encode
+            $users[$key]['born_year']   = Cache::get('api_user_' . $users[$key]['id'] . '_born_year');
 
         } else {
             // Retrieve user profile
@@ -375,6 +386,10 @@ if ($last_id) {
 
             Cache::put('api_user_' . $users[$key]['id'] . '_salary', e($salary), 60);
 
+            // Retrieve user born_year with UTF8 encode
+            $users[$key]['born_year']   = e($users[$key]['born_year']);
+
+            Cache::put('api_user_' . $users[$key]['id'] . '_born_year', e($users[$key]['born_year']), 60);
         }
     }
 
