@@ -60,12 +60,7 @@
                                         @foreach ($datas as $data)
                                         <tr>
                                             <td>{{ $data->id }}</td>
-                                            <td>
-                                                <a href="{{ route('show', $data->slug) }}" target="_blank">
-                                                    <i class="glyphicon glyphicon-share" style="font-size: 0.8em;"></i>
-                                                </a>
-                                                {{ $data->title }}
-                                            </td>
+                                            <td>{{ $data->title }}</td>
                                             <td>
                                                 <a href="{{ route('members.show', $data->user_id) }}" target="_blank">
                                                     <i class="glyphicon glyphicon-share" style="font-size: 0.8em;"></i>
