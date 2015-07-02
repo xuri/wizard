@@ -24,15 +24,15 @@ $like_jobs->content = $content;
 $like_jobs->rule_1  = $rule_1;
 $like_jobs->rule_2  = $rule_2;
 
-if (!is_null($rule_3)) {
+if ($rule_3 != "") {
     $like_jobs->rule_3 = $rule_3;
 }
 
-if (!is_null($rule_4)) {
+if ($rule_4 != "") {
     $like_jobs->rule_4 = $rule_4;
 }
 
-if (!is_null($rule_5)) {
+if ($rule_5 != "") {
     $like_jobs->rule_5 = $rule_5;
 }
 // Determin create like jobs if successful
