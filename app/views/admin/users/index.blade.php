@@ -142,7 +142,7 @@
                                                         <a href="javascript:void(0);" class="btn btn-xs btn-success" disabled="true">{{ Lang::get('admin/users/index.unlock') }}</a>
                                                     </td>
                                                     <td class="center" style="text-align:center;">
-                                                        <a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
+                                                        <a href="javascript:void(0);" class="btn btn-xs btn-info" disabled="true">{{ Lang::get('admin/users/index.edit') }}</a>
                                                         <a href="javascript:void(0);" class="btn btn-xs btn-danger" disabled="true">{{ Lang::get('admin/users/index.delete') }}</a>
                                                     </td>
                                                     @endif

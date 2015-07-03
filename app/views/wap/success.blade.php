@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>{{ Lang::get('navigation.pinai') }}丨全国首个大学生恋爱APP</title>
+    <title>{{ Lang::get('navigation.pinai') }} | {{ Lang::get('index.title') }}</title>
     {{ HTML::style('assets/css/wap/public.css') }}
 </head>
 <style type="text/css">
