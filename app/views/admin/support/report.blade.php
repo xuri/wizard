@@ -1,178 +1,178 @@
 @include('admin.header')
 @yield('content')
 
-	<div id="wrapper">
+    <div id="wrapper">
 
-		@include('admin.navigation')
-		@yield('content')
+        @include('admin.navigation')
+        @yield('content')
 
-		<div id="page-wrapper">
-			<div class="row">
-				<div class="col-lg-12">
-					<h1 class="page-header">{{ Lang::get('navigation.admin_report_management') }}</h1>
-				</div>
-				{{-- /.col-lg-12 --}}
-			</div>
-			{{-- /.row --}}
-			<div class="row">
-				<div class="col-lg-12">
-					@include('layout.notification')
-				</div>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ Lang::get('navigation.admin_report_management') }}</h1>
+                </div>
+                {{-- /.col-lg-12 --}}
+            </div>
+            {{-- /.row --}}
+            <div class="row">
+                <div class="col-lg-12">
+                    @include('layout.notification')
+                </div>
 
-				<div class="col-lg-12">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							{{ Lang::get('admin/support/report.report_table') }}
-						</div>
-						{{-- /.panel-heading --}}
-						<div class="panel-body">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            {{ Lang::get('admin/support/report.report_table') }}
+                        </div>
+                        {{-- /.panel-heading --}}
+                        <div class="panel-body">
 
-							{{ Form::open(array('method' => 'get')) }}
-								<div class="input-group col-md-12" style="margin:0 0 1em 0">
-									<span class="input-group-btn" style="width: 12%; padding: 0 10px 0 0;">
-										{{
-											Form::select(
-												'status',
-												array(
-													'0'	=> Lang::get('admin/support/index.unread'),
-													'1'	=> Lang::get('admin/support/index.processed')
-												),
-												Input::get('status'),
-												array('class' => 'form-control input-sm')
-											)
-										}}
-									</span>
+                            {{ Form::open(array('method' => 'get')) }}
+                                <div class="input-group col-md-12" style="margin:0 0 1em 0">
+                                    <span class="input-group-btn" style="width: 12%; padding: 0 10px 0 0;">
+                                        {{
+                                            Form::select(
+                                                'status',
+                                                array(
+                                                    '0' => Lang::get('admin/support/index.unread'),
+                                                    '1' => Lang::get('admin/support/index.processed')
+                                                ),
+                                                Input::get('status'),
+                                                array('class' => 'form-control input-sm')
+                                            )
+                                        }}
+                                    </span>
 
-									<input type="text" class="form-control input-sm" name="like" placeholder="{{ Lang::get('admin/support/report.select_input') }}" value="{{ Input::get('like') }}">
-									<span class="input-group-btn">
-											<button class="btn btn-sm btn-default" type="submit" style="width:5em;">{{ Lang::get('admin/users/index.select') }}</button>
-									</span>
-								</div>
-							{{ Form::close() }}
+                                    <input type="text" class="form-control input-sm" name="like" placeholder="{{ Lang::get('admin/support/report.select_input') }}" value="{{ Input::get('like') }}">
+                                    <span class="input-group-btn">
+                                            <button class="btn btn-sm btn-default" type="submit" style="width:5em;">{{ Lang::get('admin/users/index.select') }}</button>
+                                    </span>
+                                </div>
+                            {{ Form::close() }}
 
-							<div class="table-responsive">
-								<table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
-									<thead>
-										<tr>
-											<th>ID {{ order_by('id', 'desc') }}</th>
-											<th style="text-align:center;">{{ Lang::get('admin/support/index.category') }} {{ order_by('category') }}</th>
-											<th>{{ Lang::get('admin/support/report.user') }} {{ order_by('user_id') }}</th>
-											<th>{{ Lang::get('admin/support/report.report_user') }} {{ order_by('report_user_id') }}</th>
-											<th>{{ Lang::get('admin/support/index.title') }} {{ order_by('title') }}</th>
-											<th>{{ Lang::get('admin/support/index.summary') }}</th>
-											<th>{{ Lang::get('admin/support/report.created_at') }} {{ order_by('created_at') }}</th>
-											<th style="width:6em;text-align:center;">{{ Lang::get('admin/support/index.status') }} {{ order_by('status') }}</th>
-											<th style="width:7.5em;text-align:center;">{{ Lang::get('admin/support/index.operating') }}</th>
-										</tr>
-									</thead>
-									<tbody>
-										@foreach ($datas as $data)
-										<tr class="odd gradeX">
-											<?php
-												$user			= User::find($data->user_id);
-												$report_user	= User::find($data->report_user_id);
-											?>
-											<td>{{ $data->id }}</td>
-											<td style="text-align:center;"><a href="{{ route('forum.index') }}">{{ $data->category }}</a></td>
-											@if($user->nickname)
-											<td>{{ Lang::get('admin/support/index.nickname') }}: <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->nickname }}<a></td>
-											@elseif($data->email)
-											<td>{{ Lang::get('admin/support/index.email') }}: <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->email }}</a></td>
-											@elseif($data->phone)
-											<td>{{ Lang::get('admin/support/index.phone') }}： <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->phone }}</a></td>
-											@else
-											<td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->id }}</a></td>
-											@endif
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover" id="{{-- dataTables-example --}}">
+                                    <thead>
+                                        <tr>
+                                            <th>ID {{ order_by('id', 'desc') }}</th>
+                                            <th style="text-align:center;">{{ Lang::get('admin/support/index.category') }} {{ order_by('category') }}</th>
+                                            <th>{{ Lang::get('admin/support/report.user') }} {{ order_by('user_id') }}</th>
+                                            <th>{{ Lang::get('admin/support/report.report_user') }} {{ order_by('report_user_id') }}</th>
+                                            <th>{{ Lang::get('admin/support/index.title') }} {{ order_by('title') }}</th>
+                                            <th>{{ Lang::get('admin/support/index.summary') }}</th>
+                                            <th>{{ Lang::get('admin/support/report.created_at') }} {{ order_by('created_at') }}</th>
+                                            <th style="width:6em;text-align:center;">{{ Lang::get('admin/support/index.status') }} {{ order_by('status') }}</th>
+                                            <th style="width:7.5em;text-align:center;">{{ Lang::get('admin/support/index.operating') }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($datas as $data)
+                                        <tr class="odd gradeX">
+                                            <?php
+                                                $user           = User::find($data->user_id);
+                                                $report_user    = User::find($data->report_user_id);
+                                            ?>
+                                            <td>{{ $data->id }}</td>
+                                            <td style="text-align:center;"><a href="{{ route('forum.index') }}">{{ $data->category }}</a></td>
+                                            @if($user->nickname)
+                                            <td>{{ Lang::get('admin/support/index.nickname') }}: <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->nickname }}<a></td>
+                                            @elseif($data->email)
+                                            <td>{{ Lang::get('admin/support/index.email') }}: <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->email }}</a></td>
+                                            @elseif($data->phone)
+                                            <td>{{ Lang::get('admin/support/index.phone') }}： <a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->phone }}</a></td>
+                                            @else
+                                            <td>ID：<a href="{{ route('users.edit', $user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $user->id }}</a></td>
+                                            @endif
 
-											@if($report_user->nickname)
-											<td>{{ Lang::get('admin/support/index.nickname') }}: <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->nickname }}<a></td>
-											@elseif($data->email)
-											<td>{{ Lang::get('admin/support/index.email') }}: <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->email }}</a></td>
-											@elseif($data->phone)
-											<td>{{ Lang::get('admin/support/index.phone') }}： <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->phone }}</a></td>
-											@else
-											<td>ID：<a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->id }}</a></td>
-											@endif
+                                            @if($report_user->nickname)
+                                            <td>{{ Lang::get('admin/support/index.nickname') }}: <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->nickname }}<a></td>
+                                            @elseif($data->email)
+                                            <td>{{ Lang::get('admin/support/index.email') }}: <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->email }}</a></td>
+                                            @elseif($data->phone)
+                                            <td>{{ Lang::get('admin/support/index.phone') }}： <a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->phone }}</a></td>
+                                            @else
+                                            <td>ID：<a href="{{ route('users.edit', $report_user->id) }}" target="_blank" title="{{ Lang::get('admin/support/index.profile') }}" alt="{{ Lang::get('admin/support/index.profile') }}">{{ $report_user->id }}</a></td>
+                                            @endif
 
-											<td class="center">{{ $data->title }}</td>
-											<td class="center">{{ Str::limit($data->content, 10) }}</td>
-											<td class="center">{{ $data->created_at }}</td>
-											<td class="center" style="text-align:center;">
-												@if($data->status)
-												<a href="{{ route($resource.'.unread', $data->id) }}" class="btn btn-xs btn-success">{{ Lang::get('admin/support/index.processed') }}</a>
-												@else
-												<a href="{{ route($resource.'.read', $data->id) }}" class="btn btn-xs btn-warning">{{ Lang::get('admin/support/index.unread') }}</a>
-												@endif
-											</td>
-											<td class="center" style="text-align:center;">
-												<a href="{{ route($resource.'.show', $data->id) }}" class="btn btn-xs btn-info" target="_blank">{{ Lang::get('admin/support/index.see') }}</a>
-												<a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/support/index.delete') }}</a>
-											</td>
-										</tr>
-										@endforeach
-									</tbody>
-								</table>
+                                            <td class="center">{{ $data->title }}</td>
+                                            <td class="center">{{ Str::limit($data->content, 10) }}</td>
+                                            <td class="center">{{ $data->created_at }}</td>
+                                            <td class="center" style="text-align:center;">
+                                                @if($data->status)
+                                                <a href="{{ route($resource.'.unread', $data->id) }}" class="btn btn-xs btn-success">{{ Lang::get('admin/support/index.processed') }}</a>
+                                                @else
+                                                <a href="{{ route($resource.'.read', $data->id) }}" class="btn btn-xs btn-warning">{{ Lang::get('admin/support/index.unread') }}</a>
+                                                @endif
+                                            </td>
+                                            <td class="center" style="text-align:center;">
+                                                <a href="{{ route($resource.'.show', $data->id) }}" class="btn btn-xs btn-info" target="_blank">{{ Lang::get('admin/support/index.see') }}</a>
+                                                <a href="javascript:void(0)" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/support/index.delete') }}</a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
 
-								{{ pagination($datas->appends(Input::except('page')), 'admin.paginator') }}
+                                {{ pagination($datas->appends(Input::except('page')), 'admin.paginator') }}
 
-							</div>
-							{{-- /.table-responsive --}}
-						</div>
-						{{-- /.panel-body --}}
-					</div>
-					{{-- /.panel --}}
-				</div>
-				{{-- /.col-lg-12 --}}
-			</div>
-		</div>
-		{{-- /#page-wrapper --}}
+                            </div>
+                            {{-- /.table-responsive --}}
+                        </div>
+                        {{-- /.panel-body --}}
+                    </div>
+                    {{-- /.panel --}}
+                </div>
+                {{-- /.col-lg-12 --}}
+            </div>
+        </div>
+        {{-- /#page-wrapper --}}
 
-	</div>
-	{{-- /#wrapper --}}
+    </div>
+    {{-- /#wrapper --}}
 
-	{{-- jQuery Version 1.11.0 --}}
-	{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
+    {{-- jQuery Version 1.11.0 --}}
+    {{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
 
-	{{-- Bootstrap Core JavaScript --}}
-	{{ HTML::script('assets/bootstrap-3.3.0/js/bootstrap.min.js') }}
+    {{-- Bootstrap Core JavaScript --}}
+    {{ HTML::script('assets/bootstrap-3.3.0/js/bootstrap.min.js') }}
 
-	{{-- Metis Menu Plugin JavaScript --}}
-	{{ HTML::script('assets/js/admin/plugins/metisMenu/metisMenu.min.js') }}
+    {{-- Metis Menu Plugin JavaScript --}}
+    {{ HTML::script('assets/js/admin/plugins/metisMenu/metisMenu.min.js') }}
 
-	{{-- DataTables JavaScript --}}
-	{{ HTML::script('assets/js/admin/plugins/dataTables/jquery.dataTables.js') }}
-	{{ HTML::script('assets/js/admin/plugins/dataTables/dataTables.bootstrap.js') }}
+    {{-- DataTables JavaScript --}}
+    {{ HTML::script('assets/js/admin/plugins/dataTables/jquery.dataTables.js') }}
+    {{ HTML::script('assets/js/admin/plugins/dataTables/dataTables.bootstrap.js') }}
 
-	{{-- Custom Theme JavaScript --}}
-	{{ HTML::script('assets/js/admin/admin.js') }}
+    {{-- Custom Theme JavaScript --}}
+    {{ HTML::script('assets/js/admin/admin.js') }}
 
-	{{-- Page-Level Demo Scripts - Tables - Use for reference --}}
-	<script>
-	$(document).ready(function() {
-		$('#dataTables-example').dataTable();
-	});
-	</script>
+    {{-- Page-Level Demo Scripts - Tables - Use for reference --}}
+    <script>
+    $(document).ready(function() {
+        $('#dataTables-example').dataTable();
+    });
+    </script>
 
-	<?php
-		$modalData['modal'] = array(
-			'id'      => 'myModal',
-			'title'   => Lang::get('system.system_prompt'),
-			'message' => Lang::get('system.delete_confirm') . Lang::get('admin/support/index.resourceName') . '?',
-			'footer'  =>
-				Form::open(array('id' => 'real-delete', 'method' => 'delete')).'
-					<button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">' . Lang::get('system.cancel') . '</button>
-					<button type="submit" class="btn btn-sm btn-danger">' . Lang::get('system.delete_confirm') . '</button>'.
-				Form::close(),
-		);
-	?>
+    <?php
+        $modalData['modal'] = array(
+            'id'      => 'myModal',
+            'title'   => Lang::get('system.system_prompt'),
+            'message' => Lang::get('system.delete_confirm') . Lang::get('admin/support/index.resourceName') . '?',
+            'footer'  =>
+                Form::open(array('id' => 'real-delete', 'method' => 'delete')).'
+                    <button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">' . Lang::get('system.cancel') . '</button>
+                    <button type="submit" class="btn btn-sm btn-danger">' . Lang::get('system.delete_confirm') . '</button>'.
+                Form::close(),
+        );
+    ?>
 
-	@include('layout.modal', $modalData)
-	<script>
-		function modal(href) {
-			$('#real-delete').attr('action', href);
-			$('#myModal').modal();
-		}
-	</script>
+    @include('layout.modal', $modalData)
+    <script>
+        function modal(href) {
+            $('#real-delete').attr('action', href);
+            $('#myModal').modal();
+        }
+    </script>
 </body>
 
 </html>
