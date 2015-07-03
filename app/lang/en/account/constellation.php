@@ -2,37 +2,37 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Constellation Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Constellation Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"aquarius"		=> "Aquarius",
+    "aquarius"      => "Aquarius",
 
-	"pisces"		=> "Pisces",
+    "pisces"        => "Pisces",
 
-	"aries"			=> "Aries",
+    "aries"         => "Aries",
 
-	"taurus"		=> "Taurus",
+    "taurus"        => "Taurus",
 
-	"gemini"		=> "Gemini",
+    "gemini"        => "Gemini",
 
-	"cancer"		=> "Cancer",
+    "cancer"        => "Cancer",
 
-	"leo"			=> "Leo",
+    "leo"           => "Leo",
 
-	"virgo"			=> "Virgo",
+    "virgo"         => "Virgo",
 
-	"libra"			=> "Libra",
+    "libra"         => "Libra",
 
-	"scorpio"		=> "Scorpio",
+    "scorpio"       => "Scorpio",
 
-	"sagittarius"	=> "Sagittarius",
+    "sagittarius"   => "Sagittarius",
 
-	"capricorn"		=> "Capricorn",
+    "capricorn"     => "Capricorn",
 
-	"unset"			=> "Unset",
+    "unset"         => "Unset",
 
 );

@@ -2,56 +2,57 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Admin University Index Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Admin University Index Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"resourceName"		=> "University",
+    "resourceName"      => "University",
 
-	"school_table"		=> "University Table",
+    "school_table"      => "University Table",
 
-	"all_province"		=> "All Province",
+    "all_province"      => "All Province",
 
-	"status"			=> "Status",
+    "status"            => "Status",
 
-	"all_school"		=> "All School",
+    "all_school"        => "All School",
 
-	"select_input"		=> "Please input search conditions",
+    "select_input"      => "Please input search conditions",
 
-	"select"			=> "Select",
+    "select"            => "Select",
 
-	"school"			=> "School",
+    "school"            => "School",
 
-	"users"				=> "Register User",
+    "users"             => "Register User",
 
-	"date"				=> "Created Time (Open Date)",
+    "date"              => "Created Time (Open Date)",
 
-	"operating"			=> "Operating",
+    "operating"         => "Operating",
 
-	"opening"			=> "Opening",
+    "opening"           => "Opening",
 
-	"pending"			=> "Pending",
+    "pending"           => "Pending",
 
-	"closed"			=> "Closed",
+    "closed"            => "Closed",
 
-	"edit"				=> "Edit",
+    "edit"              => "Edit",
 
-	"delete"			=> "Delete",
+    "delete"            => "Delete",
 
-	"the"				=> "The ",
+    "the"               => "The ",
 
-	"page"				=> " Page",
+    "page"              => " Page",
 
-	"total"				=> "Total ",
+    "total"             => "Total ",
 
-	"next"				=> "Next",
+    "next"              => "Next",
 
-	"last"				=> "Last &raquo;",
+    "last"              => "Last &raquo;",
 
-	"previous"			=> "Previous",
+    "previous"          => "Previous",
 
-	"first"				=> "&laquo; First",
+    "first"             => "&laquo; First",
+
 );

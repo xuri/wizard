@@ -2,59 +2,59 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Complete Profile Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Complete Profile Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"edit_profile"			=> "Edit Profile",
+    "edit_profile"          => "Edit Profile",
 
-	"avatar"				=> "Set Avatar",
+    "avatar"                => "Set Avatar",
 
-	"cancel"				=> "Cancel",
+    "cancel"                => "Cancel",
 
-	"save"					=> "Save",
+    "save"                  => "Save",
 
-	"incomplete"			=> "Incomplete",
+    "incomplete"            => "Incomplete",
 
-	"pinai_avatar"			=> "PINAI Avatar",
+    "pinai_avatar"          => "PINAI Avatar",
 
-	"custom_avatar"			=> "Upload",
+    "custom_avatar"         => "Upload",
 
-	"crop_avatar"			=> "Crop Avatar",
+    "crop_avatar"           => "Crop Avatar",
 
-	"constellation_input"	=> "Choose Constellation",
+    "constellation_input"   => "Choose Constellation",
 
-	"sex_isset"				=> "Can't be modified after registration",
+    "sex_isset"             => "Can't be modified after registration",
 
-	"birth_isset"			=> "Can't be modified after set",
+    "birth_isset"           => "Can't be modified after set",
 
-	"nickname_input"		=> "Please set your nickname",
+    "nickname_input"        => "Please set your nickname",
 
-	"sex_notify"			=> "Note: Can't modify after first set",
+    "sex_notify"            => "Note: Can't modify after first set",
 
-	"birth_notify"			=> "Note: Can't modify after first set",
+    "birth_notify"          => "Note: Can't modify after first set",
 
-	"sex_input"				=> "Please Choose",
+    "sex_input"             => "Please Choose",
 
-	"school_input"			=> "Please choose school",
+    "school_input"          => "Please choose school",
 
-	"tags_input"			=> "Please Choose Tags",
+    "tags_input"            => "Please Choose Tags",
 
-	"male"					=> "Boy",
+    "male"                  => "Boy",
 
-	"female"				=> "Girl",
+    "female"                => "Girl",
 
-	"hobbies_input"			=> "Tell us your hobby",
+    "hobbies_input"         => "Tell us your hobby",
 
-	"intro_input"			=> "This is a good opportunity to introduction yourself",
+    "intro_input"           => "This is a good opportunity to introduction yourself",
 
-	"bio_input"				=> "Your interpretation of love",
+    "bio_input"             => "Your interpretation of love",
 
-	"question_input"		=> "Your question for HE or SHE to make friends.",
+    "question_input"        => "Your question for HE or SHE to make friends.",
 
-	"has_renew"				=> "You already got point today",
+    "has_renew"             => "You already got point today",
 
 );

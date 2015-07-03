@@ -2,51 +2,51 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Dashboard Feedback Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Feedback Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"resourceName"		=> "User Feedback",
+    "resourceName"      => "User Feedback",
 
-	"feedback_table"	=> "User Feedback Table",
+    "feedback_table"    => "User Feedback Table",
 
-	"category"			=> "Category",
+    "category"          => "Category",
 
-	"user"				=> "Feedback User",
+    "user"              => "Feedback User",
 
-	"title"				=> "Title",
+    "title"             => "Title",
 
-	"created_at"		=> "Created Time",
+    "created_at"        => "Created Time",
 
-	"status"			=> "Status",
+    "status"            => "Status",
 
-	"unread"			=> "Unread",
+    "unread"            => "Unread",
 
-	"processed"			=> "Processed",
+    "processed"         => "Processed",
 
-	"see"				=> "See",
+    "see"               => "See",
 
-	"delete"			=> "Delete",
+    "delete"            => "Delete",
 
-	"operating"			=> "Operating",
+    "operating"         => "Operating",
 
-	"nickname"			=> "Nickname",
+    "nickname"          => "Nickname",
 
-	"profile"			=> "See or edit user profile",
+    "profile"           => "See or edit user profile",
 
-	"email"				=> "E-mail",
+    "email"             => "E-mail",
 
-	"phone"				=> "Phone",
+    "phone"             => "Phone",
 
-	"summary"			=> "Summary",
+    "summary"           => "Summary",
 
-	"select_input"		=> "Fuzzy search in feedback content",
+    "select_input"      => "Fuzzy search in feedback content",
 
-	"select_feedback"	=> "User Feedback",
+    "select_feedback"   => "User Feedback",
 
-	"select_promotion"	=> "Promotion Code",
+    "select_promotion"  => "Promotion Code",
 
 );

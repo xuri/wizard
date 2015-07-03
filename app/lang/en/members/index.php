@@ -2,63 +2,63 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Members Index Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Members Index Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"all_school"		=> "School",
+    "all_school"        => "School",
 
-	"all_province"		=> "All Province",
+    "all_province"      => "All Province",
 
-	"other_school"		=> "Others",
+    "other_school"      => "Others",
 
-	"sex"				=> "Sex",
+    "sex"               => "Sex",
 
-	"select_grade"		=> "Grade",
+    "select_grade"      => "Grade",
 
-	"select_born_year"  => "Born Year",
+    "select_born_year"  => "Born Year",
 
-	"search"			=> "Search",
+    "search"            => "Search",
 
-	"profile"			=> "Join",
+    "profile"           => "Join",
 
-	"grade"				=> " Grade",
+    "grade"             => " Grade",
 
-	"open"				=> "Open",
+    "open"              => "Open",
 
-	"year"				=> "",
+    "year"              => "",
 
-	"month"				=> " month",
+    "month"             => " month",
 
-	"day"				=> " day",
+    "day"               => " day",
 
-	"male"				=> "Boy",
+    "male"              => "Boy",
 
-	"female"			=> "Girl",
+    "female"            => "Girl",
 
-	"detail"			=> "Detail",
+    "detail"            => "Detail",
 
-	"verify"			=> "Verified Account",
+    "verify"            => "Verified Account",
 
-	"error"				=> "System Error",
+    "error"             => "System Error",
 
-	"reject_success"	=> "You have reject add friend request",
+    "reject_success"    => "You have reject add friend request",
 
-	"points_require"	=> "You points is not enough, earn points everyday.",
+    "points_require"    => "You points is not enough, earn points everyday.",
 
-	"accept_success"	=> "Add friends success!",
+    "accept_success"    => "Add friends success!",
 
-	"accept_error"		=> "Add friend fail, please try again.",
+    "accept_error"      => "Add friend fail, please try again.",
 
-	"lock_success"		=> "Lock friend success!",
+    "lock_success"      => "Lock friend success!",
 
-	"lock_error"		=> "Lock friend fail, please try again.",
+    "lock_error"        => "Lock friend fail, please try again.",
 
-	"unlock_success"	=> "Unlock success!",
+    "unlock_success"    => "Unlock success!",
 
-	"unclock_error"		=> "Unlock fail, please try again.",
+    "unclock_error"     => "Unlock fail, please try again.",
 
 );

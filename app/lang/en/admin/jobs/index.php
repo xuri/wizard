@@ -19,5 +19,4 @@ return array(
 
     "resourceName"       => "Job Offers",
 
-
 );

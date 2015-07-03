@@ -2,21 +2,21 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Account Notifications Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Account Notifications Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"friend_notifications"	=> "Friends",
+    "friend_notifications"  => "Friends",
 
-	"forum_notifications"	=> "Forum",
+    "forum_notifications"   => "Forum",
 
-	"system_notifications"	=> "System",
+    "system_notifications"  => "System",
 
-	"see"					=> "See",
+    "see"                   => "See",
 
-	"delete"				=> "Delete",
+    "delete"                => "Delete",
 
 );

@@ -2,37 +2,37 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Dashboard Article Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Article Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"resourceName"	=> "Article",
+    "resourceName"  => "Article",
 
-	"new"			=> "Create New Article",
+    "new"           => "Create New Article",
 
-	"article_table"	=> "Article Table",
+    "article_table" => "Article Table",
 
-	"title"			=> "Title",
+    "title"         => "Title",
 
-	"created_at"	=> "Created Time",
+    "created_at"    => "Created Time",
 
-	"status"		=> "Status",
+    "status"        => "Status",
 
-	"publish"		=> "Publish",
+    "publish"       => "Publish",
 
-	"draft"			=> "Draft",
+    "draft"         => "Draft",
 
-	"edit"			=> "Edit",
+    "edit"          => "Edit",
 
-	"operating"		=> "Operating",
+    "operating"     => "Operating",
 
-	"delete"		=> "Delete",
+    "delete"        => "Delete",
 
-	"select"		=> "Select",
+    "select"        => "Select",
 
-	"select_input"	=> "Please fill in search condition",
+    "select_input"  => "Please fill in search condition",
 
 );

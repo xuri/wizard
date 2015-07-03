@@ -2,37 +2,37 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Chat Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Chat Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"friend_request"	=> "Send ",
+    "friend_request"    => "Send ",
 
-	"count"				=> " times",
+    "count"             => " times",
 
-	"days"				=> " days",
+    "days"              => " days",
 
-	"lock_you"			=> "Blocked You",
+    "lock_you"          => "Blocked You",
 
-	"unlock"			=> "UnBlock",
+    "unlock"            => "UnBlock",
 
-	"lock_he"			=> "Set Blocked",
+    "lock_he"           => "Set Blocked",
 
-	"lock_she"			=> "Set Blocked",
+    "lock_she"          => "Set Blocked",
 
-	"pending"			=> "Pending",
+    "pending"           => "Pending",
 
-	"waiting"			=> "Waiting",
+    "waiting"           => "Waiting",
 
-	"request_again"		=> "Add Again",
+    "request_again"     => "Add Again",
 
-	"start_chat"		=> "Start Chat",
+    "start_chat"        => "Start Chat",
 
-	"is_reject"			=> "Reject",
+    "is_reject"         => "Reject",
 
-	"is_lock"			=> "Blocked",
+    "is_lock"           => "Blocked",
 
 );

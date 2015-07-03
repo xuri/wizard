@@ -2,51 +2,51 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Dashboard Feedback Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Feedback Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"resourceName"		=> "用户反馈",
+    "resourceName"      => "用户反馈",
 
-	"feedback_table"	=> "用户反馈列表",
+    "feedback_table"    => "用户反馈列表",
 
-	"category"			=> "分类",
+    "category"          => "分类",
 
-	"user"				=> "来自用户",
+    "user"              => "来自用户",
 
-	"title"				=> "标题",
+    "title"             => "标题",
 
-	"created_at"		=> "创建时间",
+    "created_at"        => "创建时间",
 
-	"status"			=> "状态",
+    "status"            => "状态",
 
-	"unread"			=> "未处理",
+    "unread"            => "未处理",
 
-	"processed"			=> "已处理",
+    "processed"         => "已处理",
 
-	"see"				=> "查看",
+    "see"               => "查看",
 
-	"delete"			=> "删除",
+    "delete"            => "删除",
 
-	"operating"			=> "操作",
+    "operating"         => "操作",
 
-	"nickname"			=> "昵称",
+    "nickname"          => "昵称",
 
-	"profile"			=> "编辑或查看此用户资料",
+    "profile"           => "编辑或查看此用户资料",
 
-	"email"				=> "E-mail",
+    "email"             => "E-mail",
 
-	"phone"				=> "手机",
+    "phone"             => "手机",
 
-	"summary"			=> "摘要",
+    "summary"           => "摘要",
 
-	"select_input"		=> "模糊搜索反馈内容",
+    "select_input"      => "模糊搜索反馈内容",
 
-	"select_feedback"	=> "用户反馈",
+    "select_feedback"   => "用户反馈",
 
-	"select_promotion"	=> "代理统计",
+    "select_promotion"  => "代理统计",
 
 );

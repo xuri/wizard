@@ -2,65 +2,65 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Members Show Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Members Show Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"users_profile"		=> "'s Profile",
+    "users_profile"     => "'s Profile",
 
-	"self_intro"		=> "Self Introduction",
+    "self_intro"        => "Self Introduction",
 
-	"birthday"			=> "Birthday",
+    "birthday"          => "Birthday",
 
-	"school"			=> "School",
+    "school"            => "School",
 
-	"grade"				=> "Grade",
+    "grade"             => "Grade",
 
-	"constellation"		=> "Constellation",
+    "constellation"     => "Constellation",
 
-	"tags"				=> "Tags",
+    "tags"              => "Tags",
 
-	"bio"				=> "Bio",
+    "bio"               => "Bio",
 
-	"hobbies"			=> "Hobbies",
+    "hobbies"           => "Hobbies",
 
-	"question"			=> " question",
+    "question"          => " question",
 
-	"answer_input"		=> "Please input your answer.",
+    "answer_input"      => "Please input your answer.",
 
-	"answer_warning"	=> "Please input your answer.",
+    "answer_warning"    => "Please input your answer.",
 
-	"my_question"		=> "My question",
+    "my_question"       => "My question",
 
-	"s_question"		=> " set an question",
+    "s_question"        => " set an question",
 
-	"his"				=> "His",
+    "his"               => "His",
 
-	"her"				=> "Her",
+    "her"               => "Her",
 
-	"he"				=> "He",
+    "he"                => "He",
 
-	"she"				=> "She",
+    "she"               => "She",
 
-	"friend_request"	=> "Add Friend Request for ",
+    "friend_request"    => "Add Friend Request for ",
 
-	"send_success"		=> "Sent success!",
+    "send_success"      => "Sent success!",
 
-	"accept"			=> "Accept",
+    "accept"            => "Accept",
 
-	"reject"			=> "Reject",
+    "reject"            => "Reject",
 
-	"answer_for_me"		=> " answer for my question",
+    "answer_for_me"     => " answer for my question",
 
-	"verify"			=> "Verified Account",
+    "verify"            => "Verified Account",
 
-	"blocked_you"		=> " blocked you",
+    "blocked_you"       => " blocked you",
 
-	"you_accepted"		=> "You Accepted ",
+    "you_accepted"      => "You Accepted ",
 
-	"s_request"			=> " Add Friend Request",
+    "s_request"         => " Add Friend Request",
 
 );

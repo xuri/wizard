@@ -2,52 +2,53 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Admin Forum Management Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Admin Forum Management Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"category"					=> "Category",
+    "category"                  => "Category",
 
-	"user"						=> "User of Post",
+    "user"                      => "User of Post",
 
-	"nickname"					=> "Nickname",
+    "nickname"                  => "Nickname",
 
-	"profile"					=> "Show user profile",
+    "profile"                   => "Show user profile",
 
-	"phone"						=> "Phone number",
+    "phone"                     => "Phone number",
 
-	"title"						=> "Title",
+    "title"                     => "Title",
 
-	"edit"						=> "Edit",
+    "edit"                      => "Edit",
 
-	"lock"						=> "Lock",
+    "lock"                      => "Lock",
 
-	"unlock"					=> "Unlock",
+    "unlock"                    => "Unlock",
 
-	"delete"					=> "Delete",
+    "delete"                    => "Delete",
 
-	"fix_top"					=> "Top",
+    "fix_top"                   => "Top",
 
-	"unfix_top"					=> "UnTop",
+    "unfix_top"                 => "UnTop",
 
-	"block"						=> "Block",
+    "block"                     => "Block",
 
-	"table_of_posts_in_forum"	=> "Table of posts in forum",
+    "table_of_posts_in_forum"   => "Table of posts in forum",
 
-	"comments"					=> "Comments",
+    "comments"                  => "Comments",
 
-	"operating"					=> "Operating",
+    "operating"                 => "Operating",
 
-	"created_at"				=> "Created Time",
+    "created_at"                => "Created Time",
 
-	"show"						=> "Show",
+    "show"                      => "Show",
 
-	"forum_cat"					=> "Forum Categories",
+    "forum_cat"                 => "Forum Categories",
 
-	"select"					=> "Select",
+    "select"                    => "Select",
 
-	"select_input"				=> "Fuzzy search title and content in posts",
+    "select_input"              => "Fuzzy search title and content in posts",
+
 );

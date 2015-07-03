@@ -2,22 +2,23 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Forum Post Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Forum Post Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"verify"		=> "Verified Account",
+    "verify"        => "Verified Account",
 
-	"reply"			=> "Reply",
+    "reply"         => "Reply",
 
-	"post"			=> "Post",
+    "post"          => "Post",
 
-	"create"		=> "Create Reply",
+    "create"        => "Create Reply",
 
-	"report"		=> "Report",
+    "report"        => "Report",
 
-	"floor"			=> " Floor",
+    "floor"         => " Floor",
+
 );

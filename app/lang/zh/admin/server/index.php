@@ -2,79 +2,79 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Dashboard Server Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Server Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"domain_ip"			=> "域名/IP地址",
+    "domain_ip"         => "域名/IP地址",
 
-	"your_ip"			=> "你的IP地址是:",
+    "your_ip"           => "你的IP地址是:",
 
-	"admin_email"		=> "管理员邮箱",
+    "admin_email"       => "管理员邮箱",
 
-	"server_os"			=> "操作系统",
+    "server_os"         => "操作系统",
 
-	"kernel_version"	=> "内核版本",
+    "kernel_version"    => "内核版本",
 
-	"web_service"		=> "解析引擎",
+    "web_service"       => "解析引擎",
 
-	"local_time"		=> "本地时间",
+    "local_time"        => "本地时间",
 
-	"real_time"			=> "实时数据",
+    "real_time"         => "实时数据",
 
-	"run_time"			=> "运行时间",
+    "run_time"          => "运行时间",
 
-	"cpu_model"			=> "CPU型号",
+    "cpu_model"         => "CPU型号",
 
-	"core"				=> "核",
+    "core"              => "核",
 
-	"cpu_usage"			=> "CPU负载",
+    "cpu_usage"         => "CPU负载",
 
-	"cpu_frequency"		=> "频率",
+    "cpu_frequency"     => "频率",
 
-	"cpu_l2_cache"		=> "二级缓存",
+    "cpu_l2_cache"      => "二级缓存",
 
-	"hdd_usage"			=> "存储系统概览",
+    "hdd_usage"         => "存储系统概览",
 
-	"hdd_used"			=> "已用",
+    "hdd_used"          => "已用",
 
-	"hdd_total"			=> "总空间",
+    "hdd_total"         => "总空间",
 
-	"hdd_free"			=> "空闲",
+    "hdd_free"          => "空闲",
 
-	"hdd_percent"		=> "使用率",
+    "hdd_percent"       => "使用率",
 
-	"memory_usage"		=> "内存使用状况",
+    "memory_usage"      => "内存使用状况",
 
-	"memory_total"		=> "物理内存: 共",
+    "memory_total"      => "物理内存: 共",
 
-	"memory_used"		=> "已用",
+    "memory_used"       => "已用",
 
-	"memory_free"		=> "空闲",
+    "memory_free"       => "空闲",
 
-	"memory_percent"	=> "使用率",
+    "memory_percent"    => "使用率",
 
-	"memory_cached"		=> "Cache 化内存为",
+    "memory_cached"     => "Cache 化内存为",
 
-	"memory_buffers"	=> "Buffers 缓冲为",
+    "memory_buffers"    => "Buffers 缓冲为",
 
-	"network_usage"		=> "网络使用状况",
+    "network_usage"     => "网络使用状况",
 
-	"network_received"	=> "入网",
+    "network_received"  => "入网",
 
-	"network_sent"		=> "出网",
+    "network_sent"      => "出网",
 
-	"network_real_time"	=> "实时",
+    "network_real_time" => "实时",
 
-	"linux_support"		=> "暂时只支持Linux系统",
+    "linux_support"     => "暂时只支持Linux系统",
 
-	"day"				=> "天",
+    "day"               => "天",
 
-	"hour"				=> "小时",
+    "hour"              => "小时",
 
-	"minute"			=> "分钟",
+    "minute"            => "分钟",
 
 );

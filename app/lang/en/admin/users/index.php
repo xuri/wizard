@@ -2,65 +2,65 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Dashboard Users Management Index Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Dashboard Users Management Index Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"admin"			=> "Administrator",
+    "admin"         => "Administrator",
 
-	"common_user"	=> "Common User",
+    "common_user"   => "Common User",
 
-	"verified_user"	=> "Verified User",
+    "verified_user" => "Verified User",
 
-	"all_users"		=> "All Users",
+    "all_users"     => "All Users",
 
-	"user"			=> "User",
+    "user"          => "User",
 
-	"identity"		=> "Identity",
+    "identity"      => "Identity",
 
-	"portrait"		=> "Portrait",
+    "portrait"      => "Portrait",
 
-	"account"		=> "E-mail or Phone",
+    "account"       => "E-mail or Phone",
 
-	"nickname"		=> "Nickname",
+    "nickname"      => "Nickname",
 
-	"select_input"	=> "Fuzzy search ID, E-mail, phone number and nickname",
+    "select_input"  => "Fuzzy search ID, E-mail, phone number and nickname",
 
-	"select"		=> "Select",
+    "select"        => "Select",
 
-	"created_at"	=> "Created Time",
+    "created_at"    => "Created Time",
 
-	"signin_at"		=> "Last Signin",
+    "signin_at"     => "Last Signin",
 
-	"operating"		=> "Operating",
+    "operating"     => "Operating",
 
-	"users"			=> "Users",
+    "users"         => "Users",
 
-	"table"			=> "List",
+    "table"         => "List",
 
-	"edit"			=> "Edit",
+    "edit"          => "Edit",
 
-	"lock"			=> "Lock",
+    "lock"          => "Lock",
 
-	"unlock"		=> "Unlock",
+    "unlock"        => "Unlock",
 
-	"delete"		=> "Delete",
+    "delete"        => "Delete",
 
-	"all_province"	=> "All Province",
+    "all_province"  => "All Province",
 
-	"sex"			=> "Sex",
+    "sex"           => "Sex",
 
-	"male"			=> "Male",
+    "male"          => "Male",
 
-	"female"		=> "Female",
+    "female"        => "Female",
 
-	"status"		=> "Status",
+    "status"        => "Status",
 
-	"new"			=> "Add New User",
+    "new"           => "Add New User",
 
-	"generate"		=> "Generate",
+    "generate"      => "Generate",
 
 );

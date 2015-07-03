@@ -96,7 +96,9 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+
                                         <?php $currentId = Auth::user()->id; ?>
+
                                         @foreach ($datas as $data)
                                         <tr class="odd gradeX">
                                             <td>{{ $data->id }}</td>
@@ -134,6 +136,14 @@
                                                     <td class="center" style="text-align:center;">
                                                         <a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
                                                         <a href="javascript:void(0);" class="btn btn-xs btn-danger" onclick="modal('{{ route($resource.'.destroy', $data->id) }}')">{{ Lang::get('admin/users/index.delete') }}</a>
+                                                    </td>
+                                                    @else
+                                                    <td class="center" style="text-align:center;">
+                                                        <a href="javascript:void(0);" class="btn btn-xs btn-success" disabled="true">{{ Lang::get('admin/users/index.unlock') }}</a>
+                                                    </td>
+                                                    <td class="center" style="text-align:center;">
+                                                        <a href="{{ route($resource.'.edit', $data->id) }}" class="btn btn-xs btn-info">{{ Lang::get('admin/users/index.edit') }}</a>
+                                                        <a href="javascript:void(0);" class="btn btn-xs btn-danger" disabled="true">{{ Lang::get('admin/users/index.delete') }}</a>
                                                     </td>
                                                     @endif
                                                 @else
@@ -202,6 +212,7 @@
     </script>
 
     <?php
+
         $modalData['modal'] = array(
             'id'      => 'myModal',
             'title'   => Lang::get('system.system_prompt'),
@@ -212,6 +223,7 @@
                     <button type="submit" class="btn btn-sm btn-danger">' . Lang::get('system.delete_confirm') . '</button>'.
                 Form::close(),
         );
+
     ?>
     @include('layout.modal', $modalData)
     <script>

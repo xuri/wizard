@@ -2,34 +2,35 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Profile Index Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Index Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"edit_profile"	=> "Edit",
+    "edit_profile"  => "Edit",
 
-	"nickname"		=> "Nickname",
+    "nickname"      => "Nickname",
 
-	"sex"			=> "Sex",
+    "sex"           => "Sex",
 
-	"birth"			=> "Born Year",
+    "birth"         => "Born Year",
 
-	"school"		=> "School",
+    "school"        => "School",
 
-	"grade"			=> "Grade",
+    "grade"         => "Grade",
 
-	"constellation"	=> "Constellation",
+    "constellation" => "Constellation",
 
-	"tags"			=> "Tags",
+    "tags"          => "Tags",
 
-	"hobbies"		=> "Hobbies",
+    "hobbies"       => "Hobbies",
 
-	"intro"			=> "Self Intro",
+    "intro"         => "Self Intro",
 
-	"bio"			=> "Bio",
+    "bio"           => "Bio",
 
-	"question"		=> "Question",
+    "question"      => "Question",
+
 );

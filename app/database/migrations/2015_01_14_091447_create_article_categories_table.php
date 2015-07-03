@@ -5,31 +5,31 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateArticleCategoriesTable extends Migration {
 
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
-	public function up()
-	{
-		Schema::create('article_categories', function(Blueprint $table)
-		{
-	        $table->increments('id');
-	        $table->string('name');
-	        $table->integer('sort_order')->nullable();
-	        $table->timestamp('deleted_at')->nullable();
-	        $table->timestamps();
-	    });
-	}
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('article_categories', function(Blueprint $table)
+        {
+            $table->increments('id');
+            $table->string('name');
+            $table->integer('sort_order')->nullable();
+            $table->timestamp('deleted_at')->nullable();
+            $table->timestamps();
+        });
+    }
 
-	/**
-	 * Reverse the migrations.
-	 *
-	 * @return void
-	 */
-	public function down()
-	{
-		Schema::drop('article_categories');
-	}
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('article_categories');
+    }
 
 }

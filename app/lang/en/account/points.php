@@ -2,29 +2,29 @@
 
 return array(
 
-	/*
-	|--------------------------------------------------------------------------
-	| Profile Points Language Lines
-	|--------------------------------------------------------------------------
-	|
-	*/
+    /*
+    |--------------------------------------------------------------------------
+    | Profile Points Language Lines
+    |--------------------------------------------------------------------------
+    |
+    */
 
-	"welcome"		=> "Welcome",
+    "welcome"       => "Welcome",
 
-	"nickname"		=> "Nickname",
+    "nickname"      => "Nickname",
 
-	"points"		=> "Points",
+    "points"        => "Points",
 
-	"renew_input"	=> "More points, more privileged",
+    "renew_input"   => "More points, more privileged",
 
-	"renew_title"	=> "Come on!",
+    "renew_title"   => "Come on!",
 
-	"days"			=> "Days",
+    "days"          => "Days",
 
-	"crenew"		=> "Active Days",
+    "crenew"        => "Active Days",
 
-	"has_renew"		=> "Active:",
+    "has_renew"     => "Active:",
 
-	"earn"			=> "Earn",
+    "earn"          => "Earn",
 
 );
