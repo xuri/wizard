@@ -66,6 +66,27 @@ class WapController extends BaseController
             Cookie::queue('openid', $openid, 60);
             // Determin user already exist
             if (is_null($user_exist)) {
+
+                // Get user IP address
+                if (!empty($_SERVER['HTTP_CLIENT_IP'])) {
+                    $user_ip = $_SERVER['HTTP_CLIENT_IP'];
+                } elseif (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+                    $user_ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+                } else {
+                    $user_ip = $_SERVER['REMOTE_ADDR'];
+                }
+
+                // Query user location by Baidu LBS API
+                $location = cURL::newJsonRequest('post', 'http://api.map.baidu.com/location/ip?ak=93479f831fe61720e0cf735ab266566c&ip=' . $user_ip . '&coor=bd09ll', [
+                 ])
+                     ->setHeader('content-type', 'application/json')
+                     ->setHeader('Accept', 'json')
+                     ->setOptions([CURLOPT_VERBOSE => true])
+                     ->send();
+
+                // Get user province
+                $user_province =  mb_substr(json_decode($location->body)->content->address_detail->province, 0, -1);
+
                 switch ($sex) {
                     case '1':
                         // Male user generate w_id and password
@@ -76,6 +97,8 @@ class WapController extends BaseController
                             // Generate w_id
                             $w_id   = rand(100000, 999999);
                         }
+
+                        // Retrieve user location province ID
 
                         // Verification success, add user
                         $user               = new User;
@@ -88,6 +111,7 @@ class WapController extends BaseController
                         $user->sex          = 'M';
                         $user->from         = 0; // Signup from website
                         $user->activated_at = date('Y-m-d H:m:s');
+                        $user->province_id  = Province::where('province', $user_province)->first()->id;
                         $user->save();
                         // Create user's profile
                         $profile            = new Profile;
@@ -126,6 +150,7 @@ class WapController extends BaseController
                         $user->sex          = 'M';
                         $user->from         = 0; // Signup from website
                         $user->activated_at = date('Y-m-d H:m:s');
+                        $user->province_id  = Province::where('province', $user_province)->first()->id;
                         $user->save();
                         // Create user's profile
                         $profile            = new Profile;
@@ -226,7 +251,7 @@ class WapController extends BaseController
                 // Save user school
                 $user->school      = University::find($university_id)->university;
                 // Save user location province ID
-                $user->province_id = University::find($university_id)->province_id;
+                // $user->province_id = University::find($university_id)->province_id;
                 $user->save();
                 return View::make('wap.set_tag')->with(compact('id'));
             }
@@ -272,6 +297,8 @@ class WapController extends BaseController
                 $grade                  = e(Input::get('grade'));
                 $bio                    = e(app_input_filter(Input::get('bio')));
                 $constellation          = e(Input::get('constellation'));
+                $salary                 = e(Input::get('salary'));
+                $hobbies                = e(Input::get('hobbies'));
                 // Set user's information
                 $user->born_year        = $born_year;
                 $user->bio              = $bio;
@@ -280,6 +307,8 @@ class WapController extends BaseController
                 $profile                = Profile::where('user_id', $id)->first();
                 $profile->grade         = $grade;
                 $profile->constellation = $constellation;
+                $profile->hobbies       = $hobbies;
+                $profile->salary        = $salary;
                 $profile->save();
 
                 return Redirect::route('wap.get_like_jobs', $id)->with(compact('id'));
@@ -429,8 +458,17 @@ class WapController extends BaseController
         $user = User::find($id);
         // Determin cookie
         if (Cookie::get('openid') == $user->openid) {
+            // Determin user location if not set
+            if ($user->province_id != "") {
+                $province_filter = $user->province_id;
+            }
             $query      = LikeJobs::select('id', 'title', 'user_id')
                         ->orderBy('id', 'desc');
+            // User location province filter
+            if ($province_filter) {
+                $_id    = User::where('province_id', $province_filter)->select('id')->get()->toArray();
+                isset($province_filter) AND $query->whereIn('user_id', $_id);
+            }
             $datas      = $query->paginate(20);
             return View::make('wap.jobs')->with(compact('datas', 'id'));
         } else {
@@ -471,29 +509,70 @@ class WapController extends BaseController
         $user = User::find($id);
         // Determin cookie
         if (Cookie::get('openid') == $user->openid) {
+            // Get current page number
+            $page     = Input::get('page', 1);
             switch ($user->sex) {
+
                 case 'M':
+
+                    // Determin user location if not set
+                    if ($user->province_id != "") {
+                        $province_filter = $user->province_id;
+                    }
+                    // Query user same with current user location province
                     $query  = User::whereNotNull('portrait')
                                 ->where('sex', 'F')
                                 ->where('block', 0)
                                 ->whereNotNull('nickname')
                                 ->orderBy('updated_at', 'desc');
+                    // Query user not same with current user location province
+                    $query_2  = User::whereNotNull('portrait')
+                                ->where('sex', 'F')
+                                ->where('block', 0)
+                                ->whereNotNull('nickname')
+                                ->orderBy('updated_at', 'desc');
+                    isset($province_filter) AND $query->where('province_id', $province_filter);
+
                     $datas  = $query->paginate(20);
                     break;
 
                 default:
+
+                    // Determin user location if not set
+                    if ($user->province_id != "") {
+                        $province_filter = $user->province_id;
+                    }
+                    // Query user same with current user location province
                     $query  = User::whereNotNull('portrait')
-                                ->where('sex', 'F')
+                                ->where('sex', 'M')
                                 ->where('block', 0)
                                 ->whereNotNull('nickname')
                                 ->orderBy('updated_at', 'desc');
-                    $datas  = $query->paginate(20);
+                    // Query user not same with current user location province
+                    $query_2  = User::whereNotNull('portrait')
+                                ->where('sex', 'M')
+                                ->where('block', 0)
+                                ->whereNotNull('nickname')
+                                ->orderBy('updated_at', 'desc');
+
                     break;
             }
-            return View::make('wap.members_index')->with(compact('id', 'datas', 'user'));
+
+            isset($province_filter) AND $query->where('province_id', $province_filter);
+            isset($province_filter) AND $query_2->where('province_id', '!=', $province_filter);
+            // Paginate marks
+            $all_paginate           = $query->select('id')->paginate(20);
+            $same_province_users    = $query->select('id')->get()->toArray();
+            $no_same_province_users = $query_2->select('id')->get()->toArray();
+            // Combine user ID to new array
+            $id_list                = array_merge(array_slice($same_province_users, $page, 16), array_slice($no_same_province_users, $page, 4));
+            $datas                  = User::whereIn('id', $id_list)->get();
+
+            return View::make('wap.members_index')->with(compact('id', 'datas', 'user', 'all_paginate'));
         } else {
             return Redirect::route('wap.auth');
         }
+
     }
 
     /**
@@ -513,11 +592,44 @@ class WapController extends BaseController
             // Get user's constellation
             $constellationInfo = getConstellation($profile->constellation);
             $tag_str           = array_unique(explode(',', substr($profile->tag_str, 1)));
-            return View::make('wap.show')->with(compact('id', 'data', 'profile', 'constellationInfo', 'tag_str'));
+            switch ($data->salary) {
+
+                case '0':
+                    $salary = '在校学生';
+                    break;
+
+                case '1':
+                    $salary = '0-2000';
+                    break;
+
+                case '2':
+                    $salary = '2000-5000';
+                    break;
+
+                case '3':
+                    $salary = '5000-9000';
+                    break;
+
+                case '4':
+                    $salary = '9000以上';
+                    break;
+
+                default:
+                    $salary = '在校学生';
+                    break;
+            }
+
+            if ($data->province_id != "") {
+                $province = Province::find($data->province_id)->province;
+            } else {
+                $province = '未设置所在地';
+            }
+            return View::make('wap.show')->with(compact('id', 'data', 'profile', 'constellationInfo', 'tag_str', 'salary', 'province'));
         } else {
             return Redirect::route('wap.auth');
 
         }
+
     }
 
     /**

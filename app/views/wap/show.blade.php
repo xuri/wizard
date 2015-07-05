@@ -15,11 +15,11 @@ a{ text-decoration:none; }
 body{
     font-size:8px;
     color:#ffffff;
-    font-weight:bold;
+    font-weight:normal;
     font-family:Microsoft YaHei,SimHei,Arial,Pro LiHei Pro Medium;
 }
 #top{
-    height:260px;
+    height:310px;
     padding-top:50px;
     background:#fe959e;
 }
@@ -113,17 +113,46 @@ body{
     font-size:1.5em;
     border-radius:8px;
 }
-#back, #back a {
-    position: fixed;
-    top: 1.5em;
-    left: 1.5em;
+
+#back {
+    float: left;
+    margin: 5.3% 0 0 5.5%;
     font-size: 1.4em;
-    border-radius: 3px;
+    width: 5em;
     color: #FFF;
+
+}
+#back a {
+    font-size: 1.4em;
+    color: #FFF;
+}
+.information {
+    float:left;
+    line-height: 2em;
+    width:50%;
+    text-align:left;
+    font-size:1.7em;
+    margin-top: 0;
+}
+.information_box {
+    margin: auto;
+    width:60%;
+    margin-left:20%;
+    margin-top: 2em;
+}
+.points {
+    float: right;
+    font-size: 1.8em;
+    margin: 5.5% 5.5% 0 0;
+}
+
+.points_num {
+    color: #fb3a3d;
 }
 </style>
 <body>
     <span id="back"><a href="{{ URL::previous() }}">← 返回</a></span>
+    <div class="points">聘爱指数: <span class="points_num">{{ $data->points }}</span></div>
     <div id="top">
         <div class="center">
             <span id="head">
@@ -140,9 +169,14 @@ body{
         </div>
         <h2 id="name">{{ $data->nickname }}</h2>
         <span class="line"></span>
-        <p class="information">{{ $data->born_year }}</p>
-        <p class="information" id="school">{{ $data->school }} {{ $data->grade }}</p>
-        <p class="information">{{ $constellationInfo['name'] }}</p>
+        <div class="information_box">
+            <p class="information">出生年: {{ $data->born_year }}</p>
+            <p class="information">所在地: {{ $province }}</p>
+            <p class="information">星 &nbsp; 座: {{ $constellationInfo['name'] }}</p>
+            <p class="information">月 &nbsp; 薪: {{ $salary }}</p>
+            <p class="information">学 &nbsp; 校: {{ $data->school }} {{ $data->grade }}</p>
+            <p class="information">入学年: {{ $profile->grade }}</p>
+        </div>
     </div>
     <div id="down">
         <div class="center clear">

@@ -2,7 +2,7 @@
 <html>
 <head>
 
-    <title>聘爱 | 填写资料</title>
+    <title>{{ Lang::get('navigation.pinai') }} | 填写资料</title>
 
     @include('wap.meta')
     @yield('content')
@@ -21,15 +21,23 @@
             <span class="input-title">出生年 :</span><span class="select-span select-birth borR-4">1993</span>
         </div>
         <div class="per-input">
-            <span class="input-title">星　座 :</span><span class="select-span select-constellation borR-4">摩羯座</span>
+            <span class="input-title">星 &nbsp; 座 :</span><span class="select-span select-constellation borR-4">摩羯座</span>
         </div>
         <div class="per-input">
             <span class="input-title">入学年 :</span><span class="select-span select-school-year borR-4">2012</span>
         </div>
         <div class="per-input">
+            <span class="input-title">月 &nbsp; 薪 :</span><span class="select-span select-salary borR-4">在校学生</span>
+        </div>
+        <div class="per-input">
             <span class="input-title">个人简介 :</span>
             <textarea class="peo-intr borR-4" placeholder="你是一个怎样的人呢？"></textarea>
         </div>
+        <div class="per-input">
+            <span class="input-title">我的爱好 :</span>
+            <textarea class="hobbies-intr borR-4" placeholder="你有哪些爱好？"></textarea>
+        </div>
+
     </section>
 
     <button class="submit-data borR-4">去找对象</button>
@@ -69,6 +77,14 @@
         <li class="H-effective">2013</li>
         <li class="H-effective">2014</li>
         <li class="H-effective">2015</li>
+    </div>
+
+    <div hidden id="salary-box" data-HprevSelect="-1">
+        <li class="H-effective">在校学生</li>
+        <li class="H-effective">0-2000</li>
+        <li class="H-effective">2000-5000</li>
+        <li class="H-effective">5000-9000</li>
+        <li class="H-effective">9000以上</li>
     </div>
 
     <script type="text/javascript">

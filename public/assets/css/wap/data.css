@@ -41,11 +41,11 @@ html, body{
 	margin-left: 10px;
 	font-size: 14px;
 }
-.peo-intr{
+.peo-intr, .hobbies-intr {
 	display: block;
 	width: 90%;
-	padding: 5%;
-	height: 135px;
+	padding: 1.5%;
+	height: 50px;
 	margin-top: 14px;
 	background: #fff;
 	outline: none;

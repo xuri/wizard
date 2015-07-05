@@ -340,7 +340,7 @@ Route::group(array('domain' => $admin_domain, 'before' => 'is.desktop|auth|auth.
 Route::group(array('domain' => $root_domain, 'prefix' => 'android'), function () {
     $controller = 'AndroidController@';
     # Android API
-    // Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
+    Route::get('debug'               , array('as' => 'debug'         , 'uses' => $controller.'getDebug'));
     Route::post('api'              , $controller.'postAndroid');
     // Route::get('api'              , $controller.'postAndroid');
 

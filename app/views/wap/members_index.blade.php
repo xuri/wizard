@@ -240,7 +240,7 @@ body{
 <body>
     <div id="top">
         {{ HTML::image('assets/images/wechat/logo.png', '', array('id' => 'top_logo')) }}
-        <span id="top_slogans"><h3>{{ Lang::get('navigation.pinai') }}</h3>让你的大学不留白</span>
+        <span id="top_slogans"><h3>{{ Lang::get('navigation.pinai') }}</h3>{{ Lang::get('index.title') }}</span>
         <a id="top_download" href="{{ route('wap.redirect') }}">下载{{ Lang::get('navigation.pinai') }}</a>
     </div>
     <ul id="list">
@@ -296,7 +296,7 @@ body{
         @endforeach
     </ul>
 
-    {{ pagination($datas->appends(Input::except('page')), 'layout.paginator') }}
+    {{ pagination($all_paginate->appends(Input::except('page')), 'layout.paginator') }}
 
     <footer class="common-foot">
         <a href="{{ route('wap.get_like_jobs', $id) }}"><p>招聘会</p></a>
