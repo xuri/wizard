@@ -72,7 +72,8 @@ if ($info) {
             'points'        => $user->points,
             'salary'        => e($salary),
             'province'      => e($province),
-            'province_id'   => e($user->province_id)
+            'province_id'   => e($user->province_id),
+            'salary_code'   => e($profile->salary)
         );
     return Response::json($data);
 } else {
