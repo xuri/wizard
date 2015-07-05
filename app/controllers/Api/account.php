@@ -71,7 +71,8 @@ if ($info) {
             'is_verify'     => e($user->is_verify),
             'points'        => $user->points,
             'salary'        => e($salary),
-            'province'      => e($province)
+            'province'      => e($province),
+            'province_id'   => e($user->province_id)
         );
     return Response::json($data);
 } else {
