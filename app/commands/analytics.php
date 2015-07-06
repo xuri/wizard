@@ -202,127 +202,133 @@ class analytics extends ScheduledCommand {
         |
         */
 
-        // Daily likes
-        $dailyLike          = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
+        // // Daily likes
+        // $dailyLike          = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->count();
 
-        // Weekly Like
-        $weeklyLike         = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
+        // // Weekly Like
+        // $weeklyLike         = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->count();
 
-        // Monthly Like
-        $monthlyLike        = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
+        // // Monthly Like
+        // $monthlyLike        = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->count();
 
-        // All male like female
-        $allMaleLikeArray   = Like::select('sender_id')->get()->toArray();
-        $allMaleLike        = 0;
-        foreach ($allMaleLikeArray as $key => $value) {
-            $user = User::where('id', $allMaleLikeArray[$key]['sender_id'])->first();
-            if($user->sex == 'M')
-            {
-                $allMaleLike = $allMaleLike + 1;
-            }
-        }
+        // // All male like female
+        // $allMaleLikeArray   = Like::select('sender_id')->get()->toArray();
+        // $allMaleLike        = 0;
+        // foreach ($allMaleLikeArray as $key => $value) {
+        //     $user = User::find($allMaleLikeArray[$key]['sender_id']);
+        //     if ($user) {
+        //        if ($user->sex == 'M') {
+        //             $allMaleLike = $allMaleLike + 1;
+        //         }
+        //     }
+        // }
 
-        // All female like female
-        $allFemaleLikeArray = Like::select('sender_id')->get()->toArray();
-        $allFemaleLike      = 0;
-        foreach ($allFemaleLikeArray as $key => $value) {
-            $user = User::where('id', $allFemaleLikeArray[$key]['sender_id'])->first();
-            if($user->sex == 'F')
-            {
-                $allFemaleLike = $allFemaleLike + 1;
-            }
-        }
+        // // All female like female
+        // $allFemaleLikeArray = Like::select('sender_id')->get()->toArray();
+        // $allFemaleLike      = 0;
+        // foreach ($allFemaleLikeArray as $key => $value) {
+        //     $user = User::find($allFemaleLikeArray[$key]['sender_id']);
+        //     if ($user) {
+        //         if ($user->sex == 'F') {
+        //             $allFemaleLike = $allFemaleLike + 1;
+        //         }
+        //     }
+        // }
 
-        // Daily male like female
-        $dailyMaleLikeArray = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->select('sender_id')->get()->toArray();
-        $dailyMaleLike = 0;
-        foreach ($dailyMaleLikeArray as $key => $value) {
-            $user = User::where('id', $dailyMaleLikeArray[$key]['sender_id'])->first();
-            if($user->sex == 'M')
-            {
-                $dailyMaleLike = $dailyMaleLike + 1;
-            }
-        }
+        // // Daily male like female
+        // $dailyMaleLikeArray = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-1 days")))->select('sender_id')->get()->toArray();
+        // $dailyMaleLike = 0;
+        // foreach ($dailyMaleLikeArray as $key => $value) {
+        //     $user = User::find($dailyMaleLikeArray[$key]['sender_id']);
+        //     if ($user) {
+        //         if ($user->sex == 'M') {
+        //             $dailyMaleLike = $dailyMaleLike + 1;
+        //         }
+        //     }
+        // }
 
-        // Weekly male like female
-        $weeklyMaleLikeArray    = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->select('sender_id')->get()->toArray();
-        $weeklyMaleLike = 0;
-        foreach ($weeklyMaleLikeArray as $key => $value) {
-            $user = User::where('id', $weeklyMaleLikeArray[$key]['sender_id'])->first();
-            if($user->sex == 'M')
-            {
-                $weeklyMaleLike = $weeklyMaleLike + 1;
-            }
-        }
+        // // Weekly male like female
+        // $weeklyMaleLikeArray    = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-8 days")))->select('sender_id')->get()->toArray();
+        // $weeklyMaleLike = 0;
+        // foreach ($weeklyMaleLikeArray as $key => $value) {
+        //     $user = User::find($weeklyMaleLikeArray[$key]['sender_id']);
+        //     if ($user) {
+        //         if ($user->sex == 'M') {
+        //             $weeklyMaleLike = $weeklyMaleLike + 1;
+        //         }
+        //     }
+        // }
 
-        // Monthly male like female
-        $monthlyMaleLikeArray   = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->select('sender_id')->get()->toArray();
-        $monthlyMaleLike = 0;
-        foreach ($monthlyMaleLikeArray as $key => $value) {
-            $user = User::where('id', $monthlyMaleLikeArray[$key]['sender_id'])->first();
-            if($user->sex == 'M')
-            {
-                $monthlyMaleLike = $monthlyMaleLike + 1;
-            }
-        }
+        // // Monthly male like female
+        // $monthlyMaleLikeArray   = Like::where('created_at', '>', date('Y-m-d H:m:s', strtotime("-32 days")))->select('sender_id')->get()->toArray();
+        // $monthlyMaleLike = 0;
+        // foreach ($monthlyMaleLikeArray as $key => $value) {
+        //     $user = User::find($monthlyMaleLikeArray[$key]['sender_id']);
+        //     if ($user) {
+        //         if ($user->sex == 'M') {
+        //             $monthlyMaleLike = $monthlyMaleLike + 1;
+        //         }
+        //     }
+        // }
 
-        // Daily female like male
-        $dailyFemaleLike    = $dailyLike - $dailyMaleLike;
+        // // Daily female like male
+        // $dailyFemaleLike    = $dailyLike - $dailyMaleLike;
 
-        // Weekly female like male
-        $weeklyFemaleLike   = $weeklyLike - $weeklyMaleLike;
+        // // Weekly female like male
+        // $weeklyFemaleLike   = $weeklyLike - $weeklyMaleLike;
 
-        // Monthly female like male
-        $monthlyFemaleLike  = $monthlyLike - $monthlyMaleLike;
+        // // Monthly female like male
+        // $monthlyFemaleLike  = $monthlyLike - $monthlyMaleLike;
 
-        // Male accept ratio (Female like male)
-        $allAccept          = Like::where('status', 1)->count();
-        $allMaleAcceptArray = Like::where('status', 1)->select('receiver_id')->get()->toArray();
-        $allMaleAccept      = 0;
-        foreach ($allMaleAcceptArray as $key => $value) {
-            $user = User::where('id', $allMaleAcceptArray[$key]['receiver_id'])->first();
-            if($user->sex == 'M')
-            {
-                $allMaleAccept = $allMaleAccept + 1;
-            }
-        }
-        $allMaleAcceptRatio     = number_format(($allMaleAccept / $allAccept) * 100, 2);
+        // // Male accept ratio (Female like male)
+        // $allAccept          = Like::where('status', 1)->count();
+        // $allMaleAcceptArray = Like::where('status', 1)->select('receiver_id')->get()->toArray();
+        // $allMaleAccept      = 0;
+        // foreach ($allMaleAcceptArray as $key => $value) {
+        //     $user = User::find($allMaleAcceptArray[$key]['receiver_id']);
+        //     if ($user) {
+        //         if ($user->sex == 'M') {
+        //             $allMaleAccept = $allMaleAccept + 1;
+        //         }
+        //     }
+        // }
+        // $allMaleAcceptRatio     = number_format(($allMaleAccept / $allAccept) * 100, 2);
 
-        // Female accept ratio
-        $allFemaleAccept        = $allAccept - $allMaleAccept;
-        $allFemaleAcceptRatio   = number_format(($allFemaleAccept / $allAccept) * 100, 2);
+        // // Female accept ratio
+        // $allFemaleAccept        = $allAccept - $allMaleAccept;
+        // $allFemaleAcceptRatio   = number_format(($allFemaleAccept / $allAccept) * 100, 2);
 
 
-        // Average like duration
-        $likeDurationArray      = Like::where('status', 1)->select('created_at', 'updated_at')->get()->toArray(); // Retrieve all accept like as an array
-        foreach($likeDurationArray as $key => $field){
+        // // Average like duration
+        // $likeDurationArray      = Like::where('status', 1)->select('created_at', 'updated_at')->get()->toArray(); // Retrieve all accept like as an array
+        // foreach($likeDurationArray as $key => $field){
 
-            // Calculate duration days
-            $likeDurationArray[$key]['duration']    = diffBetweenTwoDays(date("Y-m-d",strtotime($likeDurationArray[$key]['updated_at'])), date("Y-m-d",strtotime($likeDurationArray[$key]['created_at'])));
+        //     // Calculate duration days
+        //     $likeDurationArray[$key]['duration']    = diffBetweenTwoDays(date("Y-m-d",strtotime($likeDurationArray[$key]['updated_at'])), date("Y-m-d",strtotime($likeDurationArray[$key]['created_at'])));
 
-            // Summary like duration to a new array
-            $sumLikeDurationArray[]                 = $likeDurationArray[$key]['duration'];
-        }
+        //     // Summary like duration to a new array
+        //     $sumLikeDurationArray[]                 = $likeDurationArray[$key]['duration'];
+        // }
 
-        $averageLikeDuration                    = number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray), 2);
+        // $averageLikeDuration                    = number_format(array_sum($sumLikeDurationArray) / count($sumLikeDurationArray), 2);
 
-        // Store analytics data
-        $analyticsLike                          = new AnalyticsLike;
-        $analyticsLike->daily_like              = $dailyLike;
-        $analyticsLike->weekly_like             = $weeklyLike;
-        $analyticsLike->monthly_like            = $monthlyLike;
-        $analyticsLike->all_male_like           = $allMaleLike;
-        $analyticsLike->all_female_like         = $allFemaleLike;
-        $analyticsLike->daily_male_like         = $dailyMaleLike;
-        $analyticsLike->weekly_male_like        = $weeklyMaleLike;
-        $analyticsLike->monthly_male_like       = $monthlyMaleLike;
-        $analyticsLike->daily_female_like       = $dailyFemaleLike;
-        $analyticsLike->weekly_female_like      = $weeklyFemaleLike;
-        $analyticsLike->monthly_female_like     = $monthlyFemaleLike;
-        $analyticsLike->all_male_accept_ratio   = $allMaleAcceptRatio;
-        $analyticsLike->all_female_accept_ratio = $allFemaleAcceptRatio;
-        $analyticsLike->average_like_duration   = $averageLikeDuration;
-        $analyticsLike->save();
+        // // Store analytics data
+        // $analyticsLike                          = new AnalyticsLike;
+        // $analyticsLike->daily_like              = $dailyLike;
+        // $analyticsLike->weekly_like             = $weeklyLike;
+        // $analyticsLike->monthly_like            = $monthlyLike;
+        // $analyticsLike->all_male_like           = $allMaleLike;
+        // $analyticsLike->all_female_like         = $allFemaleLike;
+        // $analyticsLike->daily_male_like         = $dailyMaleLike;
+        // $analyticsLike->weekly_male_like        = $weeklyMaleLike;
+        // $analyticsLike->monthly_male_like       = $monthlyMaleLike;
+        // $analyticsLike->daily_female_like       = $dailyFemaleLike;
+        // $analyticsLike->weekly_female_like      = $weeklyFemaleLike;
+        // $analyticsLike->monthly_female_like     = $monthlyFemaleLike;
+        // $analyticsLike->all_male_accept_ratio   = $allMaleAcceptRatio;
+        // $analyticsLike->all_female_accept_ratio = $allFemaleAcceptRatio;
+        // $analyticsLike->average_like_duration   = $averageLikeDuration;
+        // $analyticsLike->save();
     }
 
 }

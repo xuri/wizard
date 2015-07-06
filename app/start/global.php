@@ -64,6 +64,7 @@ App::error(function(Exception $exception, $code)
      default:
          return Response::view('system.missing', array(), $code);
     }
+
 });
 
 /*
