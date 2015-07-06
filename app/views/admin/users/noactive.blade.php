@@ -61,6 +61,7 @@
                                                 $receiver   = User::find($data->receiver_id);
                                                 $sender     = User::find($data->sender_id);
                                             ?>
+                                            @if($receiver && $sender)
                                             <tr>
                                                 <td>{{ $data->id }}</td>
                                                 <td><a href="{{ route('users.edit', $sender->id) }}" alt="{{ Lang::get('navigation.admin_user_management') }}" title="{{ Lang::get('navigation.admin_user_management') }}" target="_blank"><i class="fa fa-pencil-square-o"></i>&nbsp;{{ $sender->id }}</a></td>
@@ -94,6 +95,7 @@
                                                     <td><a href="{{ route('users.sms_notify', $receiver->id) }}" class="btn btn-xs btn-warning">{{ Lang::get('admin/users/noactive.sms_notify') }}</a></td>
                                                 @endif
                                             </tr>
+                                            @endif
                                         @endforeach
                                     </tbody>
                                 </table>
