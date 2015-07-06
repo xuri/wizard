@@ -22,7 +22,7 @@
 	margin-top: 60px;
 	width: 83.125%;
 	margin-left: 8.4325%;
-	margin-bottom: 70px;
+	margin-bottom: 30px;
 }
 #list li{
 	width: 100%;
@@ -76,7 +76,7 @@
     display: none;
 }
 .lu_paging a[rel=next], .lu_paging a[rel=prev] {
-    margin: 2em auto;
+    margin: 0 auto 4em auto;
     display: block;
     padding: 0.2em 0.5em;
     top:14px;

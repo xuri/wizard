@@ -21,7 +21,7 @@
  wx.ready(function () {
         // 在这里调用 API
         wx.onMenuShareTimeline({
-        title: '大三学生研发脱单神器，朋友圈福利！', // 分享标题
+        title: '只属于90后的单身福利~', // 分享标题
         link: 'http://www.pinai521.com/wap', // 分享链接
         imgUrl: "http://www.pinai521.com/assets/images/wechat/boy.jpg", // 分享图标
         success: function () {
