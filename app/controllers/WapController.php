@@ -84,8 +84,14 @@ class WapController extends BaseController
                      ->setOptions([CURLOPT_VERBOSE => true])
                      ->send();
 
-                // Get user province
-                $user_province =  mb_substr(json_decode($location->body)->content->address_detail->province, 0, -1);
+                // Determin location query if success
+                if (json_decode($location->body)->status == 0) {
+                    // Get user province
+                    $user_province = mb_substr(json_decode($location->body)->content->address_detail->province, 0, -1);
+                } else {
+                    // Set default location
+                    $user_province = '北京';
+                }
 
                 switch ($sex) {
                     case '1':
@@ -211,7 +217,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             $province_id = Input::get('province_id');
             // Determin user exists
             if (!is_null($user)) {
@@ -234,7 +240,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             $university_id = Input::get('university_id');
             if (!is_null($user)) {
                 // Determin user if set school
@@ -271,7 +277,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             $profile          = Profile::where('user_id', $id)->first();
             $profile->tag_str = e(Input::get('tag_str'));
             $profile->save();
@@ -283,7 +289,7 @@ class WapController extends BaseController
 
     /**
      * User set other information include grade, constellation and bio
-     * @param  int $id User IS
+     * @param  int $id User ID
      * @return response
      */
     public function getSetData($id)
@@ -291,7 +297,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             if (!is_null($user)) {
                 $born_year              = e(Input::get('born_year'));
                 $grade                  = e(Input::get('grade'));
@@ -457,7 +463,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             // Determin user location if not set
             if ($user->province_id != "") {
                 $province_filter = $user->province_id;
@@ -486,7 +492,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             $job_id = Input::get('job_id');
             $job    = LikeJobs::find($job_id);
             $user   = User::find($job->user_id);
@@ -508,7 +514,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             // Get current page number
             $page     = Input::get('page', 1);
             switch ($user->sex) {
@@ -585,7 +591,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             $user_id           = Input::get('user_id');
             $data              = User::find($user_id);
             $profile           = Profile::where('user_id', $user_id)->first();
@@ -642,7 +648,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid) {
+        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
             $type = Input::get('type');
             switch ($type) {
                 case 'recruit':
