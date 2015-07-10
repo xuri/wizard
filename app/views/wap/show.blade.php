@@ -105,7 +105,7 @@ body{
     height:30px;
     line-height:30px;
     margin-top:20px;
-    margin-bottom:22px;
+    margin-bottom: 70px;
     margin-left:-66px;
     text-align:center;
     background:#fe959e;
@@ -129,15 +129,23 @@ body{
 .information {
     float:left;
     line-height: 2em;
-    width:50%;
     text-align:left;
     font-size:1.7em;
     margin-top: 0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
 }
+.info_left {
+    width: 60%;
+}
+
+.info_right {
+    width: 40%;
+}
+
 .information_box {
-    margin: auto;
-    width:60%;
-    margin-left:20%;
+    margin-left:5%;
     margin-top: 2em;
 }
 .points {
@@ -170,12 +178,12 @@ body{
         <h2 id="name">{{ $data->nickname }}</h2>
         <span class="line"></span>
         <div class="information_box">
-            <p class="information">出生年: {{ $data->born_year }}</p>
-            <p class="information">所在地: {{ $province }}</p>
-            <p class="information">星 &nbsp; 座: {{ $constellationInfo['name'] }}</p>
-            <p class="information">月 &nbsp; 薪: {{ $salary }}</p>
-            <p class="information">学 &nbsp; 校: {{ $data->school }} {{ $data->grade }}</p>
-            <p class="information">入学年: {{ $profile->grade }}</p>
+            <p class="information info_left">出生年: {{ $data->born_year }}</p>
+            <p class="information info_right">所在地: {{ $province }}</p>
+            <p class="information info_left">星 &nbsp; 座: {{ $constellationInfo['name'] }}</p>
+            <p class="information info_right">月 &nbsp; 薪: {{ $salary }}</p>
+            <p class="information info_left">学 &nbsp; 校: {{ $data->school }}</p>
+            <p class="information info_right">入学年: {{ $profile->grade }}</p>
         </div>
     </div>
     <div id="down">

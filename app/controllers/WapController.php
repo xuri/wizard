@@ -76,6 +76,8 @@ class WapController extends BaseController
                     $user_ip = $_SERVER['REMOTE_ADDR'];
                 }
 
+                // Retrieve user location province ID
+                //
                 // Query user location by Baidu LBS API
                 $location = cURL::newJsonRequest('post', 'http://api.map.baidu.com/location/ip?ak=93479f831fe61720e0cf735ab266566c&ip=' . $user_ip . '&coor=bd09ll', [
                  ])
@@ -103,8 +105,6 @@ class WapController extends BaseController
                             // Generate w_id
                             $w_id   = rand(100000, 999999);
                         }
-
-                        // Retrieve user location province ID
 
                         // Verification success, add user
                         $user               = new User;
@@ -334,17 +334,14 @@ class WapController extends BaseController
         if (Cookie::get('openid')) {
             // Retrieve user
             $user = User::where('openid', Cookie::get('openid'))->first();
-            return Redirect::route('wap.get_like_jobs', $user->id);
+            if ($user) {
+                return Redirect::route('wap.get_like_jobs', $user->id);
+            } else {
+                return Redirect::route('wap.auth');
+            }
+
         } else {
-            // Initial WeChat Application
-            $wechat_app = System::where('name', 'wechat')->first();
-            // App ID
-            $app_id     = $wechat_app->sid;
-            // App Secret
-            $app_secret = $wechat_app->secret;
-            // Authority URL
-            $auth_url   = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode(route('wap.auth')) . '&response_type=code&scope=snsapi_userinfo&state=' . time() . '#wechat_redirect';
-            return Redirect::to($auth_url);
+            return Redirect::route('wap.auth');
         }
 
         // // Determin cookie
