@@ -57,7 +57,7 @@ Route::group(array('domain' => $root_domain), function () {
 |--------------------------------------------------------------------------
 |
 */
-Route::group(array('domain' => $root_domain, 'prefix' => 'wap'), function () {
+Route::group(array('domain' => $root_domain, 'prefix' => 'wap', 'before' => 'is.mobile'), function () {
     $controller = 'WapController@';
     # Index
     Route::get(                  '/auth', array('as' => 'wap.auth'              , 'uses' => $controller.'getWechatAuth'     ));
