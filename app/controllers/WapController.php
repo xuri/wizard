@@ -43,6 +43,12 @@ class WapController extends BaseController
             $auth_response   = cURL::newRequest('get', 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' . $app_id . '&secret=' . $app_secret . '&code=' . $code . '&grant_type=authorization_code')->send();
             // Json decode response body
             $auth_response   = json_decode($auth_response->body, true);
+            if (!array_key_exists('access_token', $auth_response)) {
+                // echo '<h1>您刚才拒绝了授权，请重新打开<a href="' . $auth_url .'">分享链接</a>，点击确定体验聘爱</h1>';
+                // die();
+                // WeChat sharing URL
+                return Redirect::to($auth_url);
+            }
             $access_token    = $auth_response['access_token'];
             $openid          = $auth_response['openid'];
             // Send cURL
@@ -76,8 +82,6 @@ class WapController extends BaseController
                     $user_ip = $_SERVER['REMOTE_ADDR'];
                 }
 
-                // Retrieve user location province ID
-                //
                 // Query user location by Baidu LBS API
                 $location = cURL::newJsonRequest('post', 'http://api.map.baidu.com/location/ip?ak=93479f831fe61720e0cf735ab266566c&ip=' . $user_ip . '&coor=bd09ll', [
                  ])
@@ -86,14 +90,8 @@ class WapController extends BaseController
                      ->setOptions([CURLOPT_VERBOSE => true])
                      ->send();
 
-                // Determin location query if success
-                if (json_decode($location->body)->status == 0) {
-                    // Get user province
-                    $user_province = mb_substr(json_decode($location->body)->content->address_detail->province, 0, -1);
-                } else {
-                    // Set default location
-                    $user_province = '北京';
-                }
+                // Get user province
+                $user_province =  mb_substr(json_decode($location->body)->content->address_detail->province, 0, -1);
 
                 switch ($sex) {
                     case '1':
@@ -105,6 +103,8 @@ class WapController extends BaseController
                             // Generate w_id
                             $w_id   = rand(100000, 999999);
                         }
+
+                        // Retrieve user location province ID
 
                         // Verification success, add user
                         $user               = new User;
@@ -217,7 +217,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             $province_id = Input::get('province_id');
             // Determin user exists
             if (!is_null($user)) {
@@ -240,7 +240,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             $university_id = Input::get('university_id');
             if (!is_null($user)) {
                 // Determin user if set school
@@ -277,7 +277,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             $profile          = Profile::where('user_id', $id)->first();
             $profile->tag_str = e(Input::get('tag_str'));
             $profile->save();
@@ -289,7 +289,7 @@ class WapController extends BaseController
 
     /**
      * User set other information include grade, constellation and bio
-     * @param  int $id User ID
+     * @param  int $id User IS
      * @return response
      */
     public function getSetData($id)
@@ -297,7 +297,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             if (!is_null($user)) {
                 $born_year              = e(Input::get('born_year'));
                 $grade                  = e(Input::get('grade'));
@@ -330,6 +330,14 @@ class WapController extends BaseController
      */
     public function getIndex()
     {
+        // Initial WeChat Application
+        $wechat_app = System::where('name', 'wechat')->first();
+        // App ID
+        $app_id     = $wechat_app->sid;
+        // App Secret
+        $app_secret = $wechat_app->secret;
+        // Authority URL
+        $auth_url   = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' . $app_id . '&redirect_uri=' . urlencode(route('wap.auth')) . '&response_type=code&scope=snsapi_userinfo&state=' . time() . '#wechat_redirect';
         // Determin cookie
         if (Cookie::get('openid')) {
             // Retrieve user
@@ -337,11 +345,11 @@ class WapController extends BaseController
             if ($user) {
                 return Redirect::route('wap.get_like_jobs', $user->id);
             } else {
-                return Redirect::route('wap.auth');
+                return Redirect::to($auth_url);
             }
 
         } else {
-            return Redirect::route('wap.auth');
+            return Redirect::to($auth_url);
         }
 
         // // Determin cookie
@@ -460,7 +468,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             // Determin user location if not set
             if ($user->province_id != "") {
                 $province_filter = $user->province_id;
@@ -489,7 +497,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             $job_id = Input::get('job_id');
             $job    = LikeJobs::find($job_id);
             $user   = User::find($job->user_id);
@@ -511,7 +519,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             // Get current page number
             $page     = Input::get('page', 1);
             switch ($user->sex) {
@@ -588,7 +596,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             $user_id           = Input::get('user_id');
             $data              = User::find($user_id);
             $profile           = Profile::where('user_id', $user_id)->first();
@@ -645,7 +653,7 @@ class WapController extends BaseController
         // Retrieve user
         $user = User::find($id);
         // Determin cookie
-        if (Cookie::get('openid') == $user->openid && $user->openid != null) {
+        if (Cookie::get('openid') == $user->openid) {
             $type = Input::get('type');
             switch ($type) {
                 case 'recruit':
