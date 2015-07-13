@@ -41,15 +41,8 @@ class HomeController extends BaseController {
     {
         // Mobile Detect
         if (Agent::isMobile()) {
-            // if(Agent::isAndroidOS()) {
-            //     return Redirect::to('http://fir.im/pinai');
-            // } elseif (Agent::isiOS()) {
-            //     return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
-            //     // return Redirect::to('https://fir.im/piniosr');
-            // } else {
-            //     return View::make('home.mobilev2');
-            // }
-            Redirect::route('wap.redirect');
+            // WeChat prevent redirect, go to a special testing page
+            return Redirect::route('wap.redirect');
         } else {
 
             if (Auth::guest()) {
@@ -130,11 +123,13 @@ class HomeController extends BaseController {
         // Mobile Detect
         if (Agent::isMobile()) {
             if(Agent::isAndroidOS()) {
+                // Download Android client from FIR
                 return Redirect::to('http://fir.im/pinai');
             } elseif (Agent::isiOS()) {
+                // Download iOS client from App Store
                 return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
-                // return Redirect::to('https://fir.im/piniosr');
             } else {
+                // Web version
                 return View::make('home.mobilev2');
             }
         } else {
