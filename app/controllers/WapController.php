@@ -181,7 +181,7 @@ class WapController extends BaseController
             } else {
                 Cookie::forget('openid');
                 Cookie::queue('openid', $user_exist->openid, 60);
-                $profile    = Profile::where('id', $user_exist->id)->first();
+                $profile    = Profile::where('user_id', $user_exist->id)->first();
                 $id         = $user_exist->id;
 
                 // Determin user if complete school information
@@ -344,7 +344,7 @@ class WapController extends BaseController
             $user = User::where('openid', Cookie::get('openid'))->first();
             if ($user) {
                 $id      = $user->id;
-                $profile = Profile::where('id', $id)->first();
+                $profile = Profile::where('user_id', $id)->first();
                 // Determin user if complete school information
                 if ($user->school == "") {
                     $provinces = Province::select('id', 'province')->get();
