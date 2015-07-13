@@ -36,7 +36,7 @@
     <span class="s_title" >聘爱</span>
     <span class="instruct">全国首个大学生恋爱平台，为恋爱营造一个良好的氛围，相同的年纪更多的话题，让你的大学不留白。</span>
     <a id="android" class="but" href="http://fir.im/pinai">安卓客户端下载</a>
-    <a href="http://fir.im/pinios" class="but">iOS客户端下载</a>
+    <a href="https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8" class="but">iOS客户端下载</a>
     <span class="but" >PC端：百度搜索聘爱</span>
     </center>
     {{-- Analytics Code --}}
