@@ -41,15 +41,15 @@ class HomeController extends BaseController {
     {
         // Mobile Detect
         if (Agent::isMobile()) {
-            if(Agent::isAndroidOS()) {
-                return Redirect::to('http://fir.im/pinai');
-            } elseif (Agent::isiOS()) {
-                return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
-                // return Redirect::to('https://fir.im/piniosr');
-            } else {
-                return View::make('home.mobilev2');
-            }
-
+            // if(Agent::isAndroidOS()) {
+            //     return Redirect::to('http://fir.im/pinai');
+            // } elseif (Agent::isiOS()) {
+            //     return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
+            //     // return Redirect::to('https://fir.im/piniosr');
+            // } else {
+            //     return View::make('home.mobilev2');
+            // }
+            Redirect::route('wap.redirect');
         } else {
 
             if (Auth::guest()) {
@@ -119,6 +119,68 @@ class HomeController extends BaseController {
         is_null($article) AND App::abort(404);
         $categories = Category::orderBy('sort_order')->get();
         return View::make('home.show')->with(compact('article', 'categories'));
+    }
+
+    /**
+     * Download client application page
+     * @return response
+     */
+    public function getDownload()
+    {
+        // Mobile Detect
+        if (Agent::isMobile()) {
+            if(Agent::isAndroidOS()) {
+                return Redirect::to('http://fir.im/pinai');
+            } elseif (Agent::isiOS()) {
+                return Redirect::to('https://itunes.apple.com/cn/app/pin-ai/id985554599?l=en&mt=8');
+                // return Redirect::to('https://fir.im/piniosr');
+            } else {
+                return View::make('home.mobilev2');
+            }
+        } else {
+
+            if (Auth::guest()) {
+                // Language select
+                $language   = Input::get('lang');
+
+                // User change language
+                if ($language) {
+                    // Set language
+                    Session::put('language', $language);
+                }
+
+                $language   = Session::get('language', Config::get('app.locale'));
+                App::setlocale($language);
+                return View::make('home.indexv2')->with(compact('language'));
+            } else {
+
+                // Language select
+                $language   = Input::get('lang');
+
+                // Retrieve user profile
+                $profile    = Profile::find(Auth::user()->id);
+
+                // User change language
+                if ($language) {
+                    $profile->language  = e($language);
+                    $profile->save();
+
+                    // Set language
+                    Session::put('language', $language);
+                } else {
+                    // Get user language profile
+                    if (isset($profile->language)) {
+                        Session::put('language', $profile->language);
+                    } else {
+                        Session::put('language', Config::get('app.locale'));
+                    }
+                }
+
+                $language   = Session::get('language', Config::get('app.locale'));
+                App::setlocale($language);
+                return View::make('home.indexv2')->with(compact('language'));
+            }
+        }
     }
 
 }

@@ -35,7 +35,7 @@
                 $(".weixin-tip").css("height",winHeight);
                 $(".weixin-tip").show();
             } else {
-                window.location.href = "{{ route('home') }}";
+                window.location.href = "{{ route('download') }}";
             }
         })
     </script>
