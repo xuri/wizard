@@ -59,9 +59,8 @@ if ($validator->passes()) {
     }
 
     if ($user->save()) {
-        $profile            = new Profile;
-        $profile->user_id   = $user->id;
-        $profile->tag_str   = ',40';
+        $profile                = new Profile;
+        $profile->user_id       = $user->id;
 
         /*
         |--------------------------------------------------------------------------
@@ -70,6 +69,7 @@ if ($validator->passes()) {
         |
         */
 
+        $profile->tag_str       = ',40';
         $profile->grade         = 2010;
         $profile->constellation = 3;
         $profile->salary        = 1;

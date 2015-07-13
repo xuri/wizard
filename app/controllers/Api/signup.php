@@ -32,14 +32,58 @@ if ($validator->passes()) {
     $user->activated_at = date('Y-m-d G:i:s');
     $user->password     = md5(Input::get('password'));
 
+    /*
+    |--------------------------------------------------------------------------
+    | Temp fix iOS Bugs - Start
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    $user->born_year   = 1990;
+    $user->school      = '北京现代职业技术学院';
+    $user->bio         = '未填';
+    $user->nickname    = '未填写';
+    $user->province_id = 1;
+    University::find(1069)->increment('count');
+
+    /*
+    |--------------------------------------------------------------------------
+    | Temp fix iOS Bugs - End
+    |--------------------------------------------------------------------------
+    |
+    */
+
     // Client set sex
     if (null !== Input::get('sex')) {
         $user->sex          = e(Input::get('sex'));
     }
 
     if ($user->save()) {
-        $profile            = new Profile;
-        $profile->user_id   = $user->id;
+        $profile                = new Profile;
+        $profile->user_id       = $user->id;
+
+        /*
+        |--------------------------------------------------------------------------
+        | Temp fix iOS Bugs - Start
+        |--------------------------------------------------------------------------
+        |
+        */
+
+        $profile->tag_str       = ',40';
+        $profile->grade         = 2010;
+        $profile->constellation = 3;
+        $profile->salary        = 1;
+        $profile->self_intro    = '未填';
+        $profile->hobbies       = '未填';
+        $profile->question      = '未填';
+
+        /*
+        |--------------------------------------------------------------------------
+        | Temp fix iOS Bugs - End
+        |--------------------------------------------------------------------------
+        |
+        */
+
         $profile->save();
 
         // Add user success and chat Register

@@ -343,7 +343,22 @@ class WapController extends BaseController
             // Retrieve user
             $user = User::where('openid', Cookie::get('openid'))->first();
             if ($user) {
-                return Redirect::route('wap.get_like_jobs', $user->id);
+                $id      = $user->id;
+                $profile = Profile::where('id', $id)->first();
+                // Determin user if complete school information
+                if ($user->school == "") {
+                    $provinces = Province::select('id', 'province')->get();
+                    return View::make('wap.set_province')->with(compact('provinces', 'id'));
+                } elseif ($profile->tag_str == "") {
+                    // Determin user if complete tags information
+                    return View::make('wap.set_tag')->with(compact('id'));
+                } elseif ($profile->grade == "") {
+                    // Determin user if complete grade information
+                    return View::make('wap.data')->with(compact('id'));
+                } else {
+                    // All information complete
+                    return Redirect::route('wap.get_like_jobs', $id)->with(compact('id'));
+                }
             } else {
                 return Redirect::to($auth_url);
             }
