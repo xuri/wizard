@@ -56,6 +56,7 @@ if ($last_id) {
     $query              = User::whereNotNull('portrait')
                                 ->whereNotNull('nickname')
                                 ->whereNotNull('bio')
+                                ->where('province_id', '!=', 0)
                                 ->whereNotNull('school');
 
     // Ruled out not set tags and select has correct format constellation user
@@ -245,6 +246,7 @@ if ($last_id) {
     $query      = User::whereNotNull('portrait')
                         ->whereNotNull('nickname')
                         ->whereNotNull('bio')
+                        ->where('province_id', '!=', 0)
                         ->whereNotNull('school');
 
     // Ruled out not set tags and select has correct format constellation user
