@@ -7,21 +7,41 @@
         {{ HTML::image('assets/images/us_flag.svg', '', array('style' => 'max-width:100%; margin: 0 0 0.2em 0.5em;', 'width' => '22', 'height' => '15')) }}
     </a>
 </div>
+
+{{-- jQuery --}}
+{{ HTML::script('assets/js/jquery-1.11.1/jquery.min.js') }}
+
 <script>
 
     var csrfToken = '{{ csrf_token() }}';
     var homeRoute = '{{ route("home") }}';
 
     $('.set_lang_zh').click(function(e) {
-        $.post(homeRoute, { _token: csrfToken, lang: "zh" } );
-        e.preventDefault();
-        window.location.href = homeRoute;
+        var formData = {
+            _token: csrfToken, // CSRF token
+            lang: 'zh',
+        };
+        $.ajax({
+            url: homeRoute, // the url where we want to POST
+            type: "POST", // define the type of HTTP verb we want to use (POST for our form)
+            data: formData
+        }).done(function(data) {
+            location.reload();
+        });
     });
 
     $('.set_lang_en').click(function(e) {
-        $.post(homeRoute, { _token: csrfToken, lang: "en" } );
-        e.preventDefault();
-        window.location.href = homeRoute;
+        var formData = {
+            _token: csrfToken, // CSRF token
+            lang: 'en',
+        };
+        $.ajax({
+            url: homeRoute, // the url where we want to POST
+            type: "POST", // define the type of HTTP verb we want to use (POST for our form)
+            data: formData
+        }).done(function(data) {
+            location.reload();
+        });
     });
 
 </script>
