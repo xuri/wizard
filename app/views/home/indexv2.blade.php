@@ -223,11 +223,13 @@
         $('.set_lang_zh').click(function(e) {
             $.post(homeRoute, { _token: csrfToken, lang: "zh" } );
             e.preventDefault();
+            window.location.href = homeRoute;
         });
 
         $('.set_lang_en').click(function(e) {
             $.post(homeRoute, { _token: csrfToken, lang: "en" } );
             e.preventDefault();
+            window.location.href = homeRoute;
         });
 
     </script>

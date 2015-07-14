@@ -38,7 +38,7 @@ Route::group(array('domain' => $root_domain), function () {
     $controller = 'HomeController@';
     # Homepage
     Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'                 ));
-    Route::post(           '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'                 ));
+    Route::get(            '/', array('as' => 'home'     , 'uses' => $controller.'getIndex'                 ));
     Route::get(     'download', array('as' => 'download' , 'uses' => $controller.'getDownload'              ));
     Route::get(    'promotion', array('as' => 'promotion', 'uses' => 'Admin_SupportResource@promotionPublic'));
 
