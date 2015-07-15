@@ -26,7 +26,7 @@
             type: "POST", // define the type of HTTP verb we want to use (POST for our form)
             data: formData
         }).done(function(data) {
-            window.location.replace(homeRoute);
+            location.reload();
         });
     });
 
@@ -40,7 +40,7 @@
             type: "POST", // define the type of HTTP verb we want to use (POST for our form)
             data: formData
         }).done(function(data) {
-            window.location.replace(homeRoute);
+            location.reload();
         });
     });
 
