@@ -15,3 +15,6 @@ public/js/builds/*
 # Config
 app/config/database.php
 app/config/mail.php
+.idea/.name
+.idea/misc.xml
+.idea/workspace.xml
