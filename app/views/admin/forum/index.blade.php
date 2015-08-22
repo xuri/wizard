@@ -147,16 +147,16 @@
     </script>
 
     <?php
-    $modalData['modal'] = array(
-        'id'      => 'myModal',
-        'title'   => '系统提示',
-        'message' => '确认删除此'.$resourceName.'？',
-        'footer'  =>
-            Form::open(array('id' => 'real-delete', 'method' => 'delete')).'
-                <button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">取消</button>
-                <button type="submit" class="btn btn-sm btn-danger">确认删除</button>'.
-            Form::close(),
-    );
+        $modalData['modal'] = array(
+            'id'      => 'myModal',
+            'title'   => '系统提示',
+            'message' => '确认删除此'.$resourceName.'？',
+            'footer'  =>
+                Form::open(array('id' => 'real-delete', 'method' => 'delete')).'
+                    <button type="button" class="btn btn-sm btn-default btn-bordered" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-sm btn-danger">确认删除</button>'.
+                Form::close(),
+        );
     ?>
     @include('layout.modal', $modalData)
     <script>
