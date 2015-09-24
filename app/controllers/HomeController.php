@@ -84,7 +84,7 @@ class HomeController extends BaseController {
 
                 $language   = Session::get('language', Config::get('app.locale'));
                 App::setlocale($language);
-                return View::make('home.indexv3')->with(compact('language'));
+                return View::make('home.indexv2')->with(compact('language'));
             }
         }
     }
