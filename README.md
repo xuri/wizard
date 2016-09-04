@@ -1,6 +1,6 @@
 ## PINAI ![Chinese version](https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Flag_of_the_People%27s_Republic_of_China.svg/22px-Flag_of_the_People%27s_Republic_of_China.svg.png)
 
-[![Build Status](https://travis-ci.org/Luxurioust/wizard.svg?branch=master)](https://travis-ci.org/Luxurioust/wizard) [![Stories in Ready](https://badge.waffle.io/Luxurioust/wizard.svg?label=ready&title=Ready)](http://waffle.io/Luxurioust/wizard)
+[![Build Status](https://travis-ci.org/Luxurioust/wizard.svg?branch=master)](https://travis-ci.org/Luxurioust/wizard) [![AUR](https://img.shields.io/aur/license/yaourt.svg?maxAge=2592000)]()
 
 > **Attention:** This repository only for learning to share, not for commercial use.
 
