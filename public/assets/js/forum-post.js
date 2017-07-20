@@ -1,4 +1,4 @@
-// By luxurioust use jQuery
+// By Ri Xu use jQuery
 
 
 // Ajax pagination

@@ -1,7 +1,7 @@
 <div class="remodal" data-remodal-id="modal">
     <div class="chat gen">
         <div class="title">
-            <span class="contact_name button" id="cont_title">和Luxurioust聊天中</span>
+            <span class="contact_name button" id="cont_title">和用户聊天中</span>
         </div>
 
         <div id="contractlist" style="display: block;">

@@ -19,7 +19,7 @@
     <div class="container">
         <div class="jumbotron">
             <h2>Database Migrate Script</h2>
-            <p>This script only use for new pinai521.com database migrate. Written by luxurioust.</p>
+            <p>This script only use for new pinai521.com (2015.03.01 - 2016.12.26) database migrate. Written by Ri Xu.</p>
             <p><a class="btn btn-success btn-lg" role="button">Migration Success!</a></p>
         </div>
 
@@ -30,8 +30,9 @@
         | Database Migrate Script Info
         |--------------------------------------------------------------------------
         |
-        | This script only use for new pinai521.com database migrate.
-        | Create by luxurioust.
+        | This script only use for new pinai521.com (2015.03.01 - 2016.12.26)
+        | database migrate.
+        | Create by Ri Xu.
         | Visit https://xuri.me
         |
         */
@@ -107,8 +108,8 @@
                //   if ($mResume['portrait'] == '__PUBLIC__/Images/default/head_pic.png') {
                //       $mResume['portrait'] = NULL;
                //   } else {
-               //       // $portrait = preg_replace('[\__ROOT\__]','/home/luxurioust/pinai521/Public', $mResume['portrait']);
-               //       $mPortrait = preg_replace('[\__ROOT\__]','/Users/luxurioust/Sites/test', $mResume['portrait']);
+               //       // $portrait = preg_replace('[\__ROOT\__]','/home/xuri/pinai521/Public', $mResume['portrait']);
+               //       $mPortrait = preg_replace('[\__ROOT\__]','/Users/xuri/Sites/test', $mResume['portrait']);
 
                         // $portraitInfo     = pathinfo($mPortrait);
                         // $portraitExt      = $portraitInfo['extension'];
